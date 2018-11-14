@@ -1,0 +1,48 @@
+using System;
+using System.IO;
+
+namespace pkNX.Structures
+{
+    public class EvolutionSet7 : EvolutionSet
+    {
+        private const int ENTRY_SIZE = 8;
+        private const int ENTRY_COUNT = 8;
+        public const int SIZE = ENTRY_COUNT * ENTRY_SIZE;
+
+        public EvolutionSet7(byte[] data)
+        {
+            if (data.Length != SIZE)
+                return;
+            PossibleEvolutions = data.GetArray(GetEvo, SIZE);
+        }
+
+        private static EvolutionMethod GetEvo(byte[] data, int offset)
+        {
+            return new EvolutionMethod
+            {
+                Method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0),
+                Argument = BitConverter.ToUInt16(data, offset + 2),
+                Species = BitConverter.ToUInt16(data, offset + 4),
+                Form = (sbyte)data[offset + 6],
+                Level = data[offset + 7],
+            };
+        }
+
+        public override byte[] Write()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bw = new BinaryWriter(ms))
+            {
+                foreach (EvolutionMethod evo in PossibleEvolutions)
+                {
+                    bw.Write((ushort)evo.Method);
+                    bw.Write((ushort)evo.Argument);
+                    bw.Write((ushort)evo.Species);
+                    bw.Write((sbyte)evo.Form);
+                    bw.Write((byte)evo.Level);
+                }
+                return ms.ToArray();
+            }
+        }
+    }
+}

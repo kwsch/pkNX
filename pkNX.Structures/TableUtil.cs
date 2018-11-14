@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace pkNX.Structures
+{
+    public static class TableUtil
+    {
+        /// <summary>
+        /// Converts an enumerable list of <see cref="T"/> to a tab separated sheet.
+        /// </summary>
+        /// <typeparam name="T">Object Type</typeparam>
+        /// <param name="arr">Array of type T</param>
+        /// <returns>2 dimensional sheet of cells</returns>
+        public static string GetTable<T>(IEnumerable<T> arr) where T : new() => string.Join(Environment.NewLine, GetTableRaw(arr));
+
+        private const string sep = "\t";
+        private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr) => Table(arr).Select(row => string.Join(sep, row));
+
+        public static string GetNamedTable<T>(IEnumerable<T> arr, IList<string> names, string name = null)
+        {
+            var list = GetTableRaw(arr).ToArray();
+
+            // slap in name to column header
+            list[0] = $"Index{sep}{name ?? typeof(T).Name}{sep}{list[0]}";
+
+            // slap in row name to row
+            for (int i = 1; i < list.Length; i++)
+                list[i] = $"{i - 1}{sep}{names[i - 1]}{sep}{list[i]}";
+
+            return string.Join(Environment.NewLine, list);
+        }
+
+        private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr)
+        {
+            var type = typeof(T);
+            yield return GetNames(type);
+            foreach (var z in arr)
+                yield return GetValues(z, type);
+        }
+
+        private static IEnumerable<string> GetNames(Type type)
+        {
+            foreach (var z in type.GetProperties())
+                yield return z.Name;
+            foreach (var z in type.GetFields())
+                yield return z.Name;
+        }
+
+        private static IEnumerable<string> GetValues(object obj, Type type)
+        {
+            foreach (var z in type.GetProperties())
+                yield return z.GetValue(obj, null)?.ToString() ?? "";
+            foreach (var z in type.GetFields())
+                yield return z.GetValue(obj)?.ToString() ?? "";
+        }
+    }
+}

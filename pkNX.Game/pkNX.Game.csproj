@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <Description>Game Data Manager</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj" />
+    <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj" />
+    <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
+  </ItemGroup>
+
+</Project>
