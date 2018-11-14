@@ -7,5 +7,6 @@
         SARC,
         Folder,
         SingleFile,
+        GFPack,
     }
 }

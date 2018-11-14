@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,9 +26,9 @@ namespace pkNX.Containers
         public bool Modified { get; set; }
         public int Count => Files.Length;
 
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(()=>Files[file]);
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => Files[file] = value);
-        public Task<byte[][]> GetFiles() => new Task<byte[][]>(() => Files);
+        public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(Files[file]);
+        public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(Files[file] = value);
+        public Task<byte[][]> GetFiles() => Task.FromResult(Files);
 
         public Task SaveAs(string path, ContainerHandler handler, CancellationToken token)
         {
@@ -37,7 +36,7 @@ namespace pkNX.Containers
             {
                 byte[] data = MiniUtil.PackMini(Files, Identifier);
                 File.WriteAllBytes(path, data);
-            });
+            }, token);
         }
 
         public void Dump(string path, ContainerHandler handler)

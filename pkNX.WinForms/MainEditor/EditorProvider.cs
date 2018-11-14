@@ -14,6 +14,7 @@ namespace pkNX.WinForms.Controls
         public int Language { get => ROM.Language; set => ROM.Language = value; }
 
         protected EditorBase(GameManager rom) => ROM = rom;
+        public string Location { get; internal set; }
 
         public IEnumerable<Button> GetControls(int width, int height)
         {
@@ -21,11 +22,17 @@ namespace pkNX.WinForms.Controls
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
             foreach (var m in methods)
             {
-                Button b = new Button
+                const string prefix = "Edit";
+                if (!m.Name.StartsWith(prefix))
+                    continue;
+
+                var name = m.Name.Substring(prefix.Length);
+                var b = new Button
                 {
                     Width = width,
                     Height = height,
-                    Name = m.Name,
+                    Name = $"B_{name}",
+                    Text = m.Name.Substring(prefix.Length),
                 };
                 b.Click += (s, e) => m.Invoke(this, null);
                 yield return b;
@@ -51,7 +58,9 @@ namespace pkNX.WinForms.Controls
         {
             var gl = GameLocation.GetGame(loc);
             var gm = new GameManager(gl, language);
-            return GetEditor(gm);
+            EditorBase editor = GetEditor(gm);
+            editor.Location = loc;
+            return editor;
         }
     }
 }

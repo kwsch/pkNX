@@ -1,4 +1,6 @@
-﻿using pkNX.Containers;
+﻿using System.Linq;
+
+using pkNX.Containers;
 using pkNX.Structures;
 
 namespace pkNX.Game
@@ -84,7 +86,11 @@ namespace pkNX.Game
         {
             Data = new GameData
             {
-                MoveData = this[GameFile.MoveStats].GetFiles().GetArray(z => (Move)new Move6(z)),
+                MoveData = this[GameFile.MoveStats].GetFiles().GetArray(z => (Move)new Move7(z)),
+                EvolutionData = this[GameFile.Evolutions].GetFiles().GetArray(z => (EvolutionSet)new EvolutionSet7(z)),
+                LevelUpData = this[GameFile.Evolutions].GetFiles().GetArray(z => (Learnset)new Learnset6(z)),
+                PersonalData = new PersonalTable(this[GameFile.PersonalStats].GetFiles().Result.OrderBy(z => z.Length).First(), Game),
+                MegaEvolutionData = new MegaEvolutionTable(this[GameFile.MegaEvolutions].GetFiles().Result),
             };
         }
     }

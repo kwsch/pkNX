@@ -142,5 +142,6 @@
 
         /// <summary> UI Sprites for pretty in-game move descriptors. </summary>
         MoveSprites,
+        EncounterTrade
     }
 }

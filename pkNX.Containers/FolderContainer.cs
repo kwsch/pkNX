@@ -64,10 +64,10 @@ namespace pkNX.Containers
         public bool Modified => TrackModify.Count != 0;
         public int Count => Paths.Count;
 
-        public Task<byte[][]> GetFiles() => new Task<byte[][]>(() => Paths.Select(File.ReadAllBytes).ToArray());
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(() => this[file]);
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => this[file] = value);
-        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(SaveAll);
+        public Task<byte[][]> GetFiles() => Task.FromResult(Paths.Select(File.ReadAllBytes).ToArray());
+        public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
+        public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(this[file] = value);
+        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(SaveAll, token);
 
         private void SaveAll()
         {

@@ -29,7 +29,11 @@ namespace pkNX.Structures
             return data;
         }
 
-        public static T[] GetArray<T>(this Task<byte[][]> task, Func<byte[], T> del) => GetArray(task.Result, del);
+        public static T[] GetArray<T>(this Task<byte[][]> task, Func<byte[], T> del)
+        {
+            return GetArray(task.Result, del);
+        }
+
         public static T[] GetArray<T>(this Task<byte[]> task, Func<byte[], int, T> del, int size) => GetArray(task.Result, del, size);
 
         public static string[] GetHexLines(byte[] data, int count = 4)

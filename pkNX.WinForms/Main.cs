@@ -132,6 +132,7 @@ namespace pkNX.WinForms
                 FLP_Controls.Controls.Add(c);
 
             Text = $"{nameof(pkNX)} - {Editor.Game}";
+            TB_Path.Text = Editor.Location;
             System.Media.SystemSounds.Asterisk.Play();
         }
     }

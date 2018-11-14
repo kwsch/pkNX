@@ -28,6 +28,8 @@ namespace pkNX.Game
         /// </summary>
         public bool LanguageVariant { get; }
 
+        public int Language { get; }
+
         /// <summary>
         /// Indicates the parent of the data.
         /// </summary>
@@ -51,6 +53,32 @@ namespace pkNX.Game
             LanguageVariant = variant;
 
             RelativePath = relPath;
+        }
+
+        internal GameFileReference(GameFile ident, int lang, params string[] relPath)
+        {
+            File = ident;
+            Type = ContainerType.Folder;
+            LanguageVariant = true;
+            Language = lang;
+
+            RelativePath = Path.Combine(relPath);
+        }
+
+        internal GameFileReference(GameFile ident, params string[] relPath)
+        {
+            File = ident;
+            Type = ContainerType.Folder;
+
+            RelativePath = Path.Combine(relPath);
+        }
+
+        internal GameFileReference(GameFile ident, ContainerType t, params string[] relPath)
+        {
+            File = ident;
+            Type = t;
+
+            RelativePath = Path.Combine(relPath);
         }
 
         public IFileContainer Get(string basePath)

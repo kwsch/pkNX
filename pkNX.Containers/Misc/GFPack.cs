@@ -266,19 +266,22 @@ namespace pkNX.Containers
 
         public string FilePath { get; set; }
         public bool Modified { get; set; }
-        public Task<byte[][]> GetFiles() => new Task<byte[][]>(() => DecompressedFiles);
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(Write);
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => this[file] = value);
-        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => Dump(path, handler));
+        public Task<byte[][]> GetFiles() => Task.FromResult(DecompressedFiles);
+        public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
+        public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(this[file] = value);
+        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => Dump(path, handler), token);
 
         public void Dump(string path, ContainerHandler handler)
         {
+            handler.Initialize(FileTable.Length);
             for (var i = 0; i < FileTable.Length; i++)
             {
                 var hashFull = HashPaths[i].HashFnv1aPathFull;
-                var loc = Path.Combine(path ?? FilePath, $"{i:000} {hashFull:X16}");
+                var fn = $"{i:000} {hashFull:X16}.bin";
+                var loc = Path.Combine(path ?? FilePath, fn);
                 var data = DecompressedFiles[i];
                 File.WriteAllBytes(loc, data);
+                handler.StepFile(i, fileName: fn);
             }
         }
     }

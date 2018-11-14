@@ -295,7 +295,46 @@ namespace pkNX.Game
         /// </summary>
         private static readonly GameFileReference[] GG =
         {
+            new GameFileReference(GameFile.TrainerData, "bin", "trainer", "trainer_data"),
+            new GameFileReference(GameFile.TrainerPoke, "bin", "trainer", "trainer_poke"),
+            new GameFileReference(GameFile.TrainerClass, "bin", "trainer", "trainer_type"),
 
+            new GameFileReference(GameFile.GameText0, 0, "bin", "message", "JPN", "common"),
+            new GameFileReference(GameFile.GameText1, 1, "bin", "message", "JPN_KANJI", "common"),
+            new GameFileReference(GameFile.GameText2, 2, "bin", "message", "English", "common"),
+            new GameFileReference(GameFile.GameText3, 3, "bin", "message", "French", "common"),
+            new GameFileReference(GameFile.GameText4, 4, "bin", "message", "Italian", "common"),
+            new GameFileReference(GameFile.GameText5, 5, "bin", "message", "German", "common"),
+            // 6 unused lang
+            new GameFileReference(GameFile.GameText6, 7, "bin", "message", "Spanish", "common"),
+            new GameFileReference(GameFile.GameText7, 8, "bin", "message", "Korean", "common"),
+            new GameFileReference(GameFile.GameText8, 9, "bin", "message", "Simp_Chinese", "common"),
+            new GameFileReference(GameFile.GameText9, 10, "bin", "message", "Trad_Chinese", "common"),
+
+            new GameFileReference(GameFile.StoryText0, 0, "bin", "message", "JPN", "script"),
+            new GameFileReference(GameFile.StoryText1, 1, "bin", "message", "JPN_KANJI", "script"),
+            new GameFileReference(GameFile.StoryText2, 2, "bin", "message", "English", "script"),
+            new GameFileReference(GameFile.StoryText3, 3, "bin", "message", "French", "script"),
+            new GameFileReference(GameFile.StoryText4, 4, "bin", "message", "Italian", "script"),
+            new GameFileReference(GameFile.StoryText5, 5, "bin", "message", "German", "script"),
+            // 6 unused lang
+            new GameFileReference(GameFile.StoryText6, 7, "bin", "message", "Spanish", "script"),
+            new GameFileReference(GameFile.StoryText7, 8, "bin", "message", "Korean", "script"),
+            new GameFileReference(GameFile.StoryText8, 9, "bin", "message", "Simp_Chinese", "script"),
+            new GameFileReference(GameFile.StoryText9, 10, "bin", "message", "Trad_Chinese", "script"),
+
+            new GameFileReference(GameFile.ItemStats, "bin", "pokelib", "item"),
+            new GameFileReference(GameFile.Evolutions, "bin", "pokelib", "evolution"),
+            new GameFileReference(GameFile.PersonalStats, "bin", "pokelib", "personal"),
+            new GameFileReference(GameFile.MegaEvolutions, "bin", "pokelib", "mega_evolution"),
+            new GameFileReference(GameFile.MoveStats, ContainerType.Mini, "bin", "pokelib", "waza", "waza_data.bin"),
+            new GameFileReference(GameFile.EncounterStatic, ContainerType.SingleFile, "bin", "script_event_data", "event_encount.bin"),
+            new GameFileReference(GameFile.EncounterTrade, ContainerType.SingleFile, "bin", "script_event_data", "field_trade_data"),
+            new GameFileReference(GameFile.Learnsets, ContainerType.GFPack, "bin", "archive", "waza_oboe.gfpak"),
+
+            // Cutscenes    bin\demo
+            // Models       bin\archive\pokemon
+            // pretty much everything is obviously named :)
         };
         #endregion
 
