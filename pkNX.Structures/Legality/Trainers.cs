@@ -303,6 +303,42 @@ namespace pkNX.Structures
             #endregion
         };
 
+        public static readonly int[] SpecialClasses_GG =
+        {
+            #region Classes
+            000, // Pokémon Trainer
+            001, // Gym Leader
+            002, // Gym Leader
+            003, // Gym Leader
+            004, // Gym Leader
+            005, // Gym Leader
+            006, // Gym Leader
+            007, // Gym Leader
+            008, // Pokémon Trainer
+            009, // Pokémon Trainer
+            010, // Pokémon Trainer
+            011, // Pokémon Trainer
+            012, // Team Rocket Boss
+            013, // Team Rocket Admin
+            014, // Team Rocket
+            017, // Elite Four
+            018, // Elite Four
+            019, // Elite Four
+            020, // Elite Four
+            027, // Team Rocket
+            032, // Pokémon Trainer
+            033, // Pokémon Trainer
+            053, // Coach Trainer
+            054, // Coach Trainer
+            057, // Gym Leader
+            058, // Pokémon Trainer
+            059, // Coach Trainer
+            060, // Coach Trainer
+            061, // Champion
+            383, // Pokémon Trainer
+            #endregion
+        };
+
         public static readonly int[] Model_XY =
         {
             018, 019, 020, 021, 022, 055, 056, 057, 077, 078, 079, 080, 081, 102, 103, 104, 105, 107, 108, 173, 174, 175
@@ -332,6 +368,13 @@ namespace pkNX.Structures
             241, 350, 351, 352, 356, 358, 359, 396, 398, 401, 405, 409, 410, 412, 415, 416, 417, 418, 419, 438, 439, 440, 441, 447, 448, 449, 450, 451, 452, 477, 478, 479, 480, 489, 490, 494, 495,
             496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 541, 542, 543, 555, 556, 557, 558, 559, 560, 561, 562, 572, 573, 578, 580, 582, 583, 623, 630, 644, 645, 647, 648, 649,
             650, 651, 652
+        };
+
+        public static readonly int[] ImportantTrainers_GG =
+        {
+            005, 007, 008, 009, 010, 011, 013, 014, 015, 016, 017, 018, 020, 021, 022, 023, 024, 025, 027, 028, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046,
+            048, 049, 050, 051, 052, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447,
+            448, 597, 601
         };
     }
 }
