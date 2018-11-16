@@ -30,14 +30,14 @@ namespace pkNX.Structures
 
         public override int Nature { get => Data[0x01]; set => Data[0x01] = (byte)value; }
 
-        public override int EV_HP { get => Data[0x02]; set => Data[0x02] = (byte)value; }
+        public override int EV_HP  { get => Data[0x02]; set => Data[0x02] = (byte)value; }
         public override int EV_ATK { get => Data[0x03]; set => Data[0x03] = (byte)value; }
         public override int EV_DEF { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int EV_SPA { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int EV_SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
         public override int EV_SPE { get => Data[0x07]; set => Data[0x07] = (byte)value; }
 
-        public override int AV_HP { get => Data[0x08]; set => Data[0x08] = (byte)value; }
+        public override int AV_HP  { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public override int AV_ATK { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public override int AV_DEF { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
         public override int AV_SPA { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
@@ -47,8 +47,8 @@ namespace pkNX.Structures
         public override int Friendship { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Rank { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
 
-        public override uint IV32 { get => Data[0x10]; set => Data[0x10] = (byte)value; }
-        public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
+        public override uint IV32  { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+        public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
         public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
         public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
@@ -62,8 +62,7 @@ namespace pkNX.Structures
             set => IV32 = (IV32 & ~(1 << 31)) | (uint)((value ? 1 : 0) << 31);
         }
 
-        // 14-15 unused
-
+        public int MegaFormChoice { get => BitConverter.ToUInt16(Data, 0x14); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); }
         public override int Level { get => BitConverter.ToUInt16(Data, 0x16); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public override int Species { get => BitConverter.ToUInt16(Data, 0x18); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
         public override int Form { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
