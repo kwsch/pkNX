@@ -8,9 +8,6 @@
         /// <summary> Contains the game text that is commonly re-used, not related to the storyline or general overworld content. </summary>
         GameText,
 
-        /// <summary> Contains the story text that is used to tell the story via overworld events and interactions. </summary>
-        StoryText,
-
         /// <summary> Localized Game Text for <see cref="GameLanguage.カタカナ"/>. </summary>
         GameText0,
 
@@ -40,6 +37,9 @@
 
         /// <summary> Localized Game Text for <see cref="GameLanguage.漢字簡化方案"/>. </summary>
         GameText9,
+
+        /// <summary> Contains the story text that is used to tell the story via overworld events and interactions. </summary>
+        StoryText,
 
         /// <summary> Localized Story Text for <see cref="GameLanguage.カタカナ"/>. </summary>
         StoryText0,

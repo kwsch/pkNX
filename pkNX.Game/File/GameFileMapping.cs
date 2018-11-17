@@ -24,7 +24,7 @@ namespace pkNX.Game
         internal IFileContainer GetFile(GameFile file, int language)
         {
             if (file == GameFile.GameText || file == GameFile.StoryText)
-                file += language; // shift to localized language
+                file += language + 1; // shift to localized language
 
             if (Cache.TryGetValue(file, out var container))
                 return container;
