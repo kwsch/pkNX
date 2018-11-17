@@ -1,5 +1,5 @@
-﻿using System.Linq;
-
+﻿using System;
+using System.IO;
 using pkNX.Containers;
 using pkNX.Structures;
 
@@ -84,14 +84,29 @@ namespace pkNX.Game
 
         private void Initialize()
         {
+            if (ROM.Game == GameVersion.GG)
+                InitializeDataGG();
+        }
+
+        private void InitializeDataGG()
+        {
             Data = new GameData
             {
-                MoveData = this[GameFile.MoveStats].GetFiles().GetArray(z => (Move)new Move7(z)),
-                EvolutionData = this[GameFile.Evolutions].GetFiles().GetArray(z => (EvolutionSet)new EvolutionSet7(z)),
-                LevelUpData = this[GameFile.Evolutions].GetFiles().GetArray(z => (Learnset)new Learnset6(z)),
-                PersonalData = new PersonalTable(this[GameFile.PersonalStats].GetFiles().Result.OrderBy(z => z.Length).First(), Game),
-                MegaEvolutionData = new MegaEvolutionTable(this[GameFile.MegaEvolutions].GetFiles().Result),
+                MoveData = this[GameFile.MoveStats].GetFiles().GetArray(z => (Move)new Move7(z)), // mini
+                LevelUpData = this[GameFile.Learnsets].GetFiles().GetArray(z => (Learnset)new Learnset6(z)), // gfpak
+
+                // folders
+                PersonalData = new PersonalTable(GetFilteredFolder(GameFile.PersonalStats, z => Path.GetFileNameWithoutExtension(z) == "personal_total").GetFiles().Result[0], Game),
+                MegaEvolutionData = new MegaEvolutionTable(GetFilteredFolder(GameFile.MegaEvolutions).GetFiles().Result),
+                EvolutionData = GetFilteredFolder(GameFile.Evolutions).GetFiles().GetArray(z => (EvolutionSet)new EvolutionSet7(z)),
             };
+        }
+
+        public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool> filter = null)
+        {
+            var c = (FolderContainer)this[type];
+            c.Initialize(filter);
+            return c;
         }
     }
 }
