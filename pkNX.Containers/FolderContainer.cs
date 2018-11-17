@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -15,10 +16,15 @@ namespace pkNX.Containers
         public FolderContainer() { }
         public FolderContainer(IEnumerable<string> files) => AddFiles(files);
 
-        public FolderContainer(string path)
+        public FolderContainer(string path) => FilePath = path;
+        public FolderContainer(string path, Func<string, bool> filter) : this(path) => Initialize(filter);
+
+        public void Initialize(Func<string, bool> filter = null)
         {
-            FilePath = path;
-            AddFiles(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
+            IEnumerable<string> files = Directory.GetFiles(FilePath, "*", SearchOption.AllDirectories);
+            if (filter != null)
+                files = files.Where(filter);
+            AddFiles(files);
         }
 
         public void AddFile(string file, byte[] data = null)
@@ -44,7 +50,7 @@ namespace pkNX.Containers
 
         public byte[] GetFileData(int index)
         {
-            if (index < 0 || Data.Count >= index)
+            if (index < 0 || (uint)index >= Data.Count)
                 return null;
             return Data[index] ?? (Data[index] = File.ReadAllBytes(Paths[index]));
         }
@@ -59,6 +65,8 @@ namespace pkNX.Containers
                 Data[index] = value;
             }
         }
+
+        public string GetFileName(int index) => Paths[index];
 
         public string FilePath { get; set; }
         public bool Modified => TrackModify.Count != 0;

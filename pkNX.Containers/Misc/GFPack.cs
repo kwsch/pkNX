@@ -22,7 +22,7 @@ namespace pkNX.Containers
         public byte[][] CompressedFiles { get; set; }
         public byte[][] DecompressedFiles { get; set; }
 
-        public GFPack(string directory, string parent = @"\bin") => LoadFiles(Directory.GetFiles(directory), parent);
+        public GFPack(string path) : this(File.ReadAllBytes(path)) => FilePath = path;
         public GFPack(string[] directories, string parent = @"\bin") => LoadFiles(directories, parent);
 
         /// <summary>

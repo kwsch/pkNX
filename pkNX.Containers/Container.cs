@@ -19,6 +19,7 @@ namespace pkNX.Containers
                 case ContainerType.SARC: return new SARC(path);
                 case ContainerType.Folder: return new FolderContainer(path);
                 case ContainerType.SingleFile: return new SingleFileContainer(path);
+                case ContainerType.GFPack: return new GFPack(path);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(t), t, null);
             }
