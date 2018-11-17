@@ -21,6 +21,8 @@ namespace pkNX.Containers
 
         public void Initialize(Func<string, bool> filter = null)
         {
+            if (Paths.Count > 0)
+                return; // already initialized
             IEnumerable<string> files = Directory.GetFiles(FilePath, "*", SearchOption.AllDirectories);
             if (filter != null)
                 files = files.Where(filter);
