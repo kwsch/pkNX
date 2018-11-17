@@ -17,7 +17,7 @@ namespace pkNX.Containers
         /// <summary>
         /// Indication if the contents of the <see cref="IFileContainer"/> have been modified.
         /// </summary>
-        bool Modified { get; }
+        bool Modified { get; set; }
 
         /// <summary>
         /// Count of files inside the <see cref="IFileContainer"/>.
@@ -37,6 +37,7 @@ namespace pkNX.Containers
         Task SaveAs(string path, ContainerHandler handler, CancellationToken token);
 
         void Dump(string path, ContainerHandler handler);
+        void CancelEdits();
     }
 
     public static partial class Extensions

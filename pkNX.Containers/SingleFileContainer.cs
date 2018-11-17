@@ -11,13 +11,17 @@ namespace pkNX.Containers
         public int Count => 1;
 
         public byte[] Data;
-        public SingleFileContainer(byte[] data) => Data = data;
-        public SingleFileContainer(BinaryReader br) => Data = br.ReadBytes((int) br.BaseStream.Length);
+        private byte[] Backup;
+        public SingleFileContainer(byte[] data) => LoadData(data);
+        public SingleFileContainer(BinaryReader br) => LoadData(br.ReadBytes((int) br.BaseStream.Length));
+        public SingleFileContainer(string path) => LoadData(File.ReadAllBytes(FilePath = path));
 
-        public SingleFileContainer(string path)
+        private void LoadData(byte[] data) => Backup = (byte[]) (Data = data).Clone();
+
+        public void CancelEdits()
         {
-            FilePath = path;
-            Data = File.ReadAllBytes(path);
+            Modified = false;
+            Data = (byte[]) Backup.Clone();
         }
 
         public byte[] this[int index] { get => Data; set => Data = value; }

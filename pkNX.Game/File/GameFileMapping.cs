@@ -44,9 +44,12 @@ namespace pkNX.Game
             foreach (var container in Cache)
             {
                 var c = container.Value;
-                c.SaveAs(c.FilePath, ProgressTracker, TokenSource.Token);
-                Cache.Remove(container.Key);
+                if (c.Modified)
+                    c.SaveAs(c.FilePath, ProgressTracker, TokenSource.Token);
             }
+            var modified = Cache.Where(z => z.Value.Modified).ToArray();
+            foreach (var m in modified)
+                Cache.Remove(m.Key);
         }
 
         public static IReadOnlyCollection<GameFileReference> GetMapping(GameVersion game)

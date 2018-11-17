@@ -253,6 +253,13 @@ namespace pkNX.Containers
             }
         }
 
+        public void CancelEdits()
+        {
+            for (int i = 0; i < DecompressedFiles.Length; i++)
+                DecompressedFiles[i] = Decompress(CompressedFiles[i], FileTable[i].SizeDecompressed, FileTable[i].Type);
+            Modified = false;
+        }
+
         private void WriteHeaderTableList(BinaryWriter bw)
         {
             bw.Write(Header.ToBytesClass());
@@ -274,10 +281,11 @@ namespace pkNX.Containers
         public void Dump(string path, ContainerHandler handler)
         {
             handler.Initialize(FileTable.Length);
+            string format = this.GetFileFormatString();
             for (var i = 0; i < FileTable.Length; i++)
             {
                 var hashFull = HashPaths[i].HashFnv1aPathFull;
-                var fn = $"{i:000} {hashFull:X16}.bin";
+                var fn = $"{i.ToString(format)} {hashFull:X16}.bin";
                 var loc = Path.Combine(path ?? FilePath, fn);
                 var data = DecompressedFiles[i];
                 File.WriteAllBytes(loc, data);

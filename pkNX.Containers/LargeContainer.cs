@@ -17,10 +17,10 @@ namespace pkNX
         public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(() => GetEntry(file, subFile));
         public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => SetEntry(file, value, subFile));
 
-        public string Extension => FilePath == null ? null : Path.GetExtension(FilePath);
-        public string FileName => FilePath == null ? null : Path.GetFileName(FilePath);
+        public string Extension => Path.GetExtension(FilePath);
+        public string FileName => Path.GetFileName(FilePath);
         public string FilePath { get; set; }
-        public bool Modified { get; private set; }
+        public bool Modified { get; set; }
 
         protected byte[][] Files { get; set; }
 
@@ -98,7 +98,7 @@ namespace pkNX
             Stream.Close();
         }
 
-        public void Reset()
+        public void CancelEdits()
         {
             if (Reader == null)
                 throw new ArgumentNullException(nameof(Reader));
