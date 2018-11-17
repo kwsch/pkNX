@@ -45,7 +45,7 @@ namespace pkNX.Game
             {
                 var c = container.Value;
                 if (c.Modified)
-                    c.SaveAs(c.FilePath, ProgressTracker, TokenSource.Token);
+                    c.SaveAs(c.FilePath, ProgressTracker, TokenSource.Token).RunSynchronously();
             }
             var modified = Cache.Where(z => z.Value.Modified).ToArray();
             foreach (var m in modified)

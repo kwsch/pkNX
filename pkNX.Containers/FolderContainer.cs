@@ -63,7 +63,7 @@ namespace pkNX.Containers
             set
             {
                 if (value != null && Data[index] != null)
-                    TrackModify[index] = value.SequenceEqual(Data[index]);
+                    TrackModify[index] = !value.SequenceEqual(Data[index]);
                 Data[index] = value;
             }
         }
