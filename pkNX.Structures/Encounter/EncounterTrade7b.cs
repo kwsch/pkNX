@@ -66,6 +66,5 @@ namespace pkNX.Structures
         public sbyte UV_SPA { get => (sbyte)Data[0x49]; set => Data[0x49] = (byte)value; }
         public sbyte UV_SPD { get => (sbyte)Data[0x4A]; set => Data[0x4A] = (byte)value; }
         public sbyte UV_SPE { get => (sbyte)Data[0x4B]; set => Data[0x4B] = (byte)value; }
-
     }
 }
