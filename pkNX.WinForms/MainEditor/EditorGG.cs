@@ -22,6 +22,8 @@ namespace pkNX.WinForms.Controls
             var tc = new TextContainer(text, config);
             var editor = new TextEditor(tc, TextEditor.TextEditorMode.Common);
             editor.ShowDialog();
+            if (!editor.Modified)
+                text.CancelEdits();
         }
 
         public void EditScript()
@@ -32,6 +34,8 @@ namespace pkNX.WinForms.Controls
             var tc = new TextContainer(text, config);
             var editor = new TextEditor(tc, TextEditor.TextEditorMode.Script);
             editor.ShowDialog();
+            if (!editor.Modified)
+                text.CancelEdits();
         }
     }
 }

@@ -251,7 +251,7 @@ namespace pkNX.WinForms
                 dgv.Rows[i].Cells[0].Value = i.ToString();
         }
 
-        private void TextEditor_FormClosing(object sender, FormClosingEventArgs e)
+        private void SaveCurrentFile()
         {
             // Save any pending edits
             dgv.EndEdit();
@@ -325,5 +325,15 @@ namespace pkNX.WinForms
 
             WinFormsUtil.Alert("Strings randomized!");
         }
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            Modified = true;
+            SaveCurrentFile();
+            TextData.Save();
+            Close();
+        }
+
+        public bool Modified { get; set; }
     }
 }

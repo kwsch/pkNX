@@ -36,5 +36,15 @@ namespace pkNX.WinForms
                 return Path.GetFileNameWithoutExtension(f.GetFileName(i));
             return i.ToString();
         }
+
+        public void Save()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (Cache[i] == null)
+                    continue;
+                Container[i] = TextFile.GetBytes(Cache[i], Config, Remap);
+            }
+        }
     }
 }
