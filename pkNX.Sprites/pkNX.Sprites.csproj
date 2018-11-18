@@ -34,12 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,10 +47,6 @@
     <Compile Include="SpriteBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj">
-      <Project>{3c4af1ed-7c81-4af8-a6db-1d397650da0a}</Project>
-      <Name>pkNX.Game</Name>
-    </ProjectReference>
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj">
       <Project>{01447516-8382-4e9b-8b6c-92ff0a2d0cbf}</Project>
       <Name>pkNX.Structures</Name>
@@ -68,8 +58,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Sprites\" />
+    <None Include="Sprites\slotDel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotView.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
