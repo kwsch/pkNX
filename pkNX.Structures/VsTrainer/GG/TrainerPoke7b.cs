@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace pkNX.Structures
 {
     public class TrainerPoke7b : TrainerPoke
     {
-        internal const int SIZE = 0x28;
+        public const int SIZE = 0x28;
         public override TrainerPoke Clone() => new TrainerPoke7b(Write());
         public TrainerPoke7b(byte[] data = null) => Data = data ?? new byte[SIZE];
+
+        public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((x, offset) => new TrainerPoke7b(offset, x), SIZE);
+        public static byte[] WriteTeam(IList<TrainerPoke7b> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
 
         public TrainerPoke7b(int index, byte[] data = null)
         {

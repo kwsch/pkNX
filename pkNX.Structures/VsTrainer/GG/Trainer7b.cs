@@ -6,14 +6,14 @@ namespace pkNX.Structures
     {
         public Trainer7b(byte[] tr = null, byte[] tp = null)
         {
-            Trainer = new TrainerData7b(tr);
+            Self = new TrainerData7b(tr);
             LoadTeam(tp);
         }
 
         private void LoadTeam(byte[] tp)
         {
-            var pokes = tp.GetArray((data, offset) => new TrainerPoke7b(offset, data), TrainerPoke7b.SIZE);
-            Debug.Assert(pokes.Length == Trainer.NumPokemon);
+            var pokes = TrainerPoke7b.ReadTeam(tp, Self);
+            Debug.Assert(pokes.Length == Self.NumPokemon);
             Team.AddRange(pokes);
         }
     }

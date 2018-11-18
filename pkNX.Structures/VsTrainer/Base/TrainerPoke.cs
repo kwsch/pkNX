@@ -1,16 +1,9 @@
 ﻿namespace pkNX.Structures
 {
-    public abstract class TrainerPoke
+    public abstract class TrainerPoke : StatPKM, IMoveset, IAwakened
     {
         protected byte[] Data;
 
-        public abstract int Species { get; set; }
-        public abstract int Form { get; set; }
-        public abstract int Level { get; set; }
-        public abstract int HeldItem { get; set; }
-        public abstract int Nature { get; set; }
-        public abstract int Gender { get; set; }
-        public abstract int Ability { get; set; }
         public abstract int Friendship { get; set; }
 
         public abstract bool Shiny { get; set; }
@@ -22,19 +15,6 @@
         public abstract int Move4 { get; set; }
 
         public abstract uint IV32 { get; set; }
-        public abstract int IV_HP { get; set; }
-        public abstract int IV_ATK { get; set; }
-        public abstract int IV_DEF { get; set; }
-        public abstract int IV_SPE { get; set; }
-        public abstract int IV_SPA { get; set; }
-        public abstract int IV_SPD { get; set; }
-
-        public abstract int EV_HP { get; set; }
-        public abstract int EV_ATK { get; set; }
-        public abstract int EV_DEF { get; set; }
-        public abstract int EV_SPA { get; set; }
-        public abstract int EV_SPD { get; set; }
-        public abstract int EV_SPE { get; set; }
 
         public abstract int AV_HP { get; set; }
         public abstract int AV_ATK { get; set; }
