@@ -34,7 +34,13 @@ namespace pkNX.Game
             if (info == null)
                 throw new ArgumentException($"Unknown {nameof(TextName)} provided.", file.ToString());
 
-            var data = textFile[info.Index];
+            byte[] data;
+            string path = info.FileName;
+            if (!string.IsNullOrWhiteSpace(path) && textFile is FolderContainer c)
+                data = c.GetFileData(info.FileName);
+            else
+                data = textFile[info.Index];
+
             var lines = GetStrings(data, remap);
             Cache.Add(file, lines);
             return lines;
