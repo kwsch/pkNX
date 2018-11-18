@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using pkNX.Structures;
 using pkNX.Sprites.Properties;
 
 namespace pkNX.Sprites
@@ -18,8 +17,6 @@ namespace pkNX.Sprites
         public static bool AllowShinySprite { get; set; }
 
         public const int Generation = 7;
-
-        public static GameVersion Game;
 
         /// <summary>
         /// Species that show their default Species sprite regardless of current form
@@ -59,7 +56,7 @@ namespace pkNX.Sprites
 
             if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
                 sb.Append(ResourcePikachuCosplay);
-            else if (GameVersion.GG.Contains(Game) && (species == 25 || species == 133) && form != 0)
+            else if ((species == 25 && form == 8) || (species == 133 && form == 1))
                 sb.Append(ResourceGGStarter);
 
             if (shiny && AllowShinySprite)
