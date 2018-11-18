@@ -20,9 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.WinForms", "pkNX.WinFo
 		{77E3FEBB-9C86-4F8D-B4E0-66B7504080D5} = {77E3FEBB-9C86-4F8D-B4E0-66B7504080D5}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Tests", "pkNX.Tests\pkNX.Tests.csproj", "{6CF919B7-BA0F-4A04-899B-6C8CAB343B86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests", "pkNX.Tests\pkNX.Tests.csproj", "{6CF919B7-BA0F-4A04-899B-6C8CAB343B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Game", "pkNX.Game\pkNX.Game.csproj", "{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Game", "pkNX.Game\pkNX.Game.csproj", "{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Sprites", "pkNX.Sprites\pkNX.Sprites.csproj", "{55D82546-3DDA-42E1-9A24-F6A08EE231B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,10 @@ Global
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
