@@ -228,5 +228,16 @@ namespace pkNX.Sprites
             byte b = (byte)((color.B * amount) + (backColor.B * (1 - amount)));
             return Color.FromArgb(r, g, b);
         }
+
+        public static Bitmap ScaleImage(Bitmap rawImg, int s)
+        {
+            var bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
+            for (int x = 0; x < bigImg.Width; x++)
+            {
+                for (int y = 0; y < bigImg.Height; y++)
+                    bigImg.SetPixel(x, y, rawImg.GetPixel(x / s, y / s));
+            }
+            return bigImg;
+        }
     }
 }
