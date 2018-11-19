@@ -74,7 +74,7 @@
             this.FLP_StatsTotal = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Total = new System.Windows.Forms.Label();
             this.TB_IVTotal = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TB_AVTotal = new System.Windows.Forms.TextBox();
             this.TB_EVTotal = new System.Windows.Forms.TextBox();
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
@@ -615,8 +615,8 @@
             this.FLP_StatsTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_StatsTotal.Controls.Add(this.Label_Total);
             this.FLP_StatsTotal.Controls.Add(this.TB_IVTotal);
-            this.FLP_StatsTotal.Controls.Add(this.textBox1);
             this.FLP_StatsTotal.Controls.Add(this.TB_EVTotal);
+            this.FLP_StatsTotal.Controls.Add(this.TB_AVTotal);
             this.FLP_StatsTotal.Location = new System.Drawing.Point(0, 148);
             this.FLP_StatsTotal.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_StatsTotal.Name = "FLP_StatsTotal";
@@ -645,23 +645,23 @@
             this.TB_IVTotal.TabIndex = 44;
             this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             //
-            // textBox1
+            // TB_AVTotal
             //
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(93, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.textBox1.MaxLength = 3;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(28, 20);
-            this.textBox1.TabIndex = 45;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVTotal.Enabled = false;
+            this.TB_AVTotal.Location = new System.Drawing.Point(127, 0);
+            this.TB_AVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVTotal.MaxLength = 3;
+            this.TB_AVTotal.Name = "TB_AVTotal";
+            this.TB_AVTotal.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVTotal.TabIndex = 45;
+            this.TB_AVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             //
             // TB_EVTotal
             //
             this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EVTotal.Enabled = false;
-            this.TB_EVTotal.Location = new System.Drawing.Point(127, 0);
+            this.TB_EVTotal.Location = new System.Drawing.Point(93, 0);
             this.TB_EVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_EVTotal.MaxLength = 3;
             this.TB_EVTotal.Name = "TB_EVTotal";
@@ -784,6 +784,6 @@
         private System.Windows.Forms.MaskedTextBox TB_SPAAV;
         private System.Windows.Forms.MaskedTextBox TB_SPDAV;
         private System.Windows.Forms.MaskedTextBox TB_SPEAV;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TB_AVTotal;
     }
 }

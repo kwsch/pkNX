@@ -265,6 +265,9 @@ namespace pkNX.WinForms
             for (int i = 0; i < 256; i++)
             { CB_Money.Items.Add(i.ToString()); }
 
+            CHK_CanMega.CheckedChanged += (s, e) => NUD_MegaForm.Visible = CHK_CanMega.Checked;
+            NUD_MegaForm.Visible = false;
+
             CB_TrainerID.SelectedIndex = 0;
             entry = 0;
             pkm = new TrainerPoke7b();
@@ -331,6 +334,16 @@ namespace pkNX.WinForms
             CB_Move3.SelectedIndex = pkm.Move3;
             CB_Move4.SelectedIndex = pkm.Move4;
 
+            if (pk is TrainerPoke7b b)
+            {
+                CHK_CanMega.Checked = b.CanMegaEvolve;
+                NUD_MegaForm.Value = b.MegaFormChoice;
+            }
+            else
+            {
+                flowLayoutPanel8.Visible = flowLayoutPanel9.Visible = false;
+            }
+
             Stats.LoadStats(pk);
         }
 
@@ -350,6 +363,12 @@ namespace pkNX.WinForms
             pk.Move2 = CB_Move2.SelectedIndex;
             pk.Move3 = CB_Move3.SelectedIndex;
             pk.Move4 = CB_Move4.SelectedIndex;
+
+            if (pk is TrainerPoke7b b)
+            {
+                b.CanMegaEvolve = CHK_CanMega.Checked;
+                b.MegaFormChoice = (int) NUD_MegaForm.Value;
+            }
 
             return pk;
         }
@@ -436,6 +455,8 @@ namespace pkNX.WinForms
                 pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
             else if (sender == NUD_Level)
                 pkm.Level = (int) NUD_Level.Value;
+            else if (sender == NUD_Friendship)
+                pkm.Friendship = (int) NUD_Friendship.Value;
 
             Stats.UpdateStats();
         }

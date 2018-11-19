@@ -40,17 +40,17 @@ namespace pkNX.WinForms.Controls
             if (UpdatingFields)
                 return;
 
+            UpdatingFields = true;
             for (int i = 0; i < 6; i++)
             {
-                UpdatingFields = true;
                 if (Util.ToInt32(tb_iv[i].Text) > 31)
                     tb_iv[i].Text = "31";
                 if (Util.ToInt32(tb_ev[i].Text) > 255)
                     tb_ev[i].Text = "255";
                 if (Util.ToInt32(tb_av[i].Text) > 200)
                     tb_av[i].Text = "200";
-                UpdatingFields = false;
             }
+            UpdatingFields = false;
 
             var pi = Personal.GetFormeEntry(PKM.Species, PKM.Form);
             var stats = PKM.GetStats(pi);
@@ -65,7 +65,7 @@ namespace pkNX.WinForms.Controls
             TB_IVTotal.Text = tb_iv.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
             TB_EVTotal.Text = tb_ev.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
             if (PKM is IAwakened s)
-                textBox1.Text = s.AwakeningSum().ToString();
+                TB_AVTotal.Text = s.AwakeningSum().ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             RecolorStatLabels();
@@ -143,7 +143,7 @@ namespace pkNX.WinForms.Controls
             var index = Array.IndexOf(tb_av, t);
             if (index < 0)
                 return;
-            int value = Math.Min(252, Util.ToInt32(t.Text));
+            int value = Math.Min(200, Util.ToInt32(t.Text));
             a.SetAV(index, value);
             UpdateStats();
         }
