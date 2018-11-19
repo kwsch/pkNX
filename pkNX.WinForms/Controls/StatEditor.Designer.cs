@@ -33,40 +33,48 @@
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_IVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
+            this.Label_AVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HP = new System.Windows.Forms.Label();
             this.TB_HPIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_HPEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_HPAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_HP = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Atk = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_ATK = new System.Windows.Forms.Label();
             this.TB_ATKIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_ATKEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_ATKAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_ATK = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Def = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_DEF = new System.Windows.Forms.Label();
             this.TB_DEFIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_DEFEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_DEFAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_DEF = new System.Windows.Forms.MaskedTextBox();
             this.FLP_SpA = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPA = new System.Windows.Forms.Label();
             this.TB_SPAIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPAEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_SPAAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPA = new System.Windows.Forms.MaskedTextBox();
             this.FLP_SpD = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPD = new System.Windows.Forms.Label();
             this.TB_SPDIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPDEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_SPDAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPD = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Spe = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPE = new System.Windows.Forms.Label();
             this.TB_SPEIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPEEV = new System.Windows.Forms.MaskedTextBox();
+            this.TB_SPEAV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPE = new System.Windows.Forms.MaskedTextBox();
             this.FLP_StatsTotal = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Total = new System.Windows.Forms.Label();
             this.TB_IVTotal = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.TB_EVTotal = new System.Windows.Forms.TextBox();
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
@@ -95,9 +103,10 @@
             this.FLP_Stats.Controls.Add(this.FLP_Spe);
             this.FLP_Stats.Controls.Add(this.FLP_StatsTotal);
             this.FLP_Stats.Controls.Add(this.FLP_HPType);
-            this.FLP_Stats.Location = new System.Drawing.Point(-14, 0);
+            this.FLP_Stats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_Stats.Location = new System.Drawing.Point(0, 0);
             this.FLP_Stats.Name = "FLP_Stats";
-            this.FLP_Stats.Size = new System.Drawing.Size(178, 209);
+            this.FLP_Stats.Size = new System.Drawing.Size(230, 212);
             this.FLP_Stats.TabIndex = 451;
             //
             // FLP_StatHeader
@@ -107,7 +116,7 @@
             this.FLP_StatHeader.Location = new System.Drawing.Point(0, 0);
             this.FLP_StatHeader.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_StatHeader.Name = "FLP_StatHeader";
-            this.FLP_StatHeader.Size = new System.Drawing.Size(172, 22);
+            this.FLP_StatHeader.Size = new System.Drawing.Size(230, 22);
             this.FLP_StatHeader.TabIndex = 122;
             //
             // FLP_StatsHeaderRight
@@ -115,11 +124,12 @@
             this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
+            this.FLP_StatsHeaderRight.Controls.Add(this.Label_AVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
             this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(62, 0);
             this.FLP_StatsHeaderRight.Margin = new System.Windows.Forms.Padding(62, 0, 0, 0);
             this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
-            this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(112, 21);
+            this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(138, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
             //
             // Label_IVs
@@ -137,14 +147,24 @@
             this.Label_EVs.Location = new System.Drawing.Point(30, 0);
             this.Label_EVs.Margin = new System.Windows.Forms.Padding(0);
             this.Label_EVs.Name = "Label_EVs";
-            this.Label_EVs.Size = new System.Drawing.Size(35, 21);
+            this.Label_EVs.Size = new System.Drawing.Size(32, 21);
             this.Label_EVs.TabIndex = 27;
             this.Label_EVs.Text = "EVs";
             this.Label_EVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
+            // Label_AVs
+            //
+            this.Label_AVs.Location = new System.Drawing.Point(62, 0);
+            this.Label_AVs.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_AVs.Name = "Label_AVs";
+            this.Label_AVs.Size = new System.Drawing.Size(35, 21);
+            this.Label_AVs.TabIndex = 30;
+            this.Label_AVs.Text = "AVs";
+            this.Label_AVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
             // Label_Stats
             //
-            this.Label_Stats.Location = new System.Drawing.Point(65, 0);
+            this.Label_Stats.Location = new System.Drawing.Point(97, 0);
             this.Label_Stats.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Stats.Name = "Label_Stats";
             this.Label_Stats.Size = new System.Drawing.Size(35, 21);
@@ -158,11 +178,12 @@
             this.FLP_HP.Controls.Add(this.Label_HP);
             this.FLP_HP.Controls.Add(this.TB_HPIV);
             this.FLP_HP.Controls.Add(this.TB_HPEV);
+            this.FLP_HP.Controls.Add(this.TB_HPAV);
             this.FLP_HP.Controls.Add(this.Stat_HP);
             this.FLP_HP.Location = new System.Drawing.Point(0, 22);
             this.FLP_HP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HP.Name = "FLP_HP";
-            this.FLP_HP.Size = new System.Drawing.Size(172, 21);
+            this.FLP_HP.Size = new System.Drawing.Size(230, 21);
             this.FLP_HP.TabIndex = 123;
             //
             // Label_HP
@@ -199,11 +220,23 @@
             this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_HPEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_HPAV
+            //
+            this.TB_HPAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_HPAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_HPAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_HPAV.Mask = "000";
+            this.TB_HPAV.Name = "TB_HPAV";
+            this.TB_HPAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_HPAV.TabIndex = 49;
+            this.TB_HPAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_HP
             //
             this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_HP.Enabled = false;
-            this.Stat_HP.Location = new System.Drawing.Point(127, 0);
+            this.Stat_HP.Location = new System.Drawing.Point(161, 0);
             this.Stat_HP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_HP.Mask = "00000";
             this.Stat_HP.Name = "Stat_HP";
@@ -218,11 +251,12 @@
             this.FLP_Atk.Controls.Add(this.Label_ATK);
             this.FLP_Atk.Controls.Add(this.TB_ATKIV);
             this.FLP_Atk.Controls.Add(this.TB_ATKEV);
+            this.FLP_Atk.Controls.Add(this.TB_ATKAV);
             this.FLP_Atk.Controls.Add(this.Stat_ATK);
             this.FLP_Atk.Location = new System.Drawing.Point(0, 43);
             this.FLP_Atk.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Atk.Name = "FLP_Atk";
-            this.FLP_Atk.Size = new System.Drawing.Size(172, 21);
+            this.FLP_Atk.Size = new System.Drawing.Size(230, 21);
             this.FLP_Atk.TabIndex = 124;
             //
             // Label_ATK
@@ -259,11 +293,23 @@
             this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_ATKEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_ATKAV
+            //
+            this.TB_ATKAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_ATKAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_ATKAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_ATKAV.Mask = "000";
+            this.TB_ATKAV.Name = "TB_ATKAV";
+            this.TB_ATKAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_ATKAV.TabIndex = 50;
+            this.TB_ATKAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_ATKAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_ATK
             //
             this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_ATK.Enabled = false;
-            this.Stat_ATK.Location = new System.Drawing.Point(127, 0);
+            this.Stat_ATK.Location = new System.Drawing.Point(161, 0);
             this.Stat_ATK.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_ATK.Mask = "00000";
             this.Stat_ATK.Name = "Stat_ATK";
@@ -278,11 +324,12 @@
             this.FLP_Def.Controls.Add(this.Label_DEF);
             this.FLP_Def.Controls.Add(this.TB_DEFIV);
             this.FLP_Def.Controls.Add(this.TB_DEFEV);
+            this.FLP_Def.Controls.Add(this.TB_DEFAV);
             this.FLP_Def.Controls.Add(this.Stat_DEF);
             this.FLP_Def.Location = new System.Drawing.Point(0, 64);
             this.FLP_Def.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Def.Name = "FLP_Def";
-            this.FLP_Def.Size = new System.Drawing.Size(172, 21);
+            this.FLP_Def.Size = new System.Drawing.Size(230, 21);
             this.FLP_Def.TabIndex = 125;
             //
             // Label_DEF
@@ -319,11 +366,23 @@
             this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_DEFEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_DEFAV
+            //
+            this.TB_DEFAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_DEFAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_DEFAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_DEFAV.Mask = "000";
+            this.TB_DEFAV.Name = "TB_DEFAV";
+            this.TB_DEFAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_DEFAV.TabIndex = 51;
+            this.TB_DEFAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_DEFAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_DEF
             //
             this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_DEF.Enabled = false;
-            this.Stat_DEF.Location = new System.Drawing.Point(127, 0);
+            this.Stat_DEF.Location = new System.Drawing.Point(161, 0);
             this.Stat_DEF.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_DEF.Mask = "00000";
             this.Stat_DEF.Name = "Stat_DEF";
@@ -338,11 +397,12 @@
             this.FLP_SpA.Controls.Add(this.Label_SPA);
             this.FLP_SpA.Controls.Add(this.TB_SPAIV);
             this.FLP_SpA.Controls.Add(this.TB_SPAEV);
+            this.FLP_SpA.Controls.Add(this.TB_SPAAV);
             this.FLP_SpA.Controls.Add(this.Stat_SPA);
             this.FLP_SpA.Location = new System.Drawing.Point(0, 85);
             this.FLP_SpA.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpA.Name = "FLP_SpA";
-            this.FLP_SpA.Size = new System.Drawing.Size(172, 21);
+            this.FLP_SpA.Size = new System.Drawing.Size(230, 21);
             this.FLP_SpA.TabIndex = 126;
             //
             // Label_SPA
@@ -379,11 +439,23 @@
             this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SPAEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_SPAAV
+            //
+            this.TB_SPAAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPAAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_SPAAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_SPAAV.Mask = "000";
+            this.TB_SPAAV.Name = "TB_SPAAV";
+            this.TB_SPAAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPAAV.TabIndex = 53;
+            this.TB_SPAAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPAAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_SPA
             //
             this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPA.Enabled = false;
-            this.Stat_SPA.Location = new System.Drawing.Point(127, 0);
+            this.Stat_SPA.Location = new System.Drawing.Point(161, 0);
             this.Stat_SPA.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPA.Mask = "00000";
             this.Stat_SPA.Name = "Stat_SPA";
@@ -398,11 +470,12 @@
             this.FLP_SpD.Controls.Add(this.Label_SPD);
             this.FLP_SpD.Controls.Add(this.TB_SPDIV);
             this.FLP_SpD.Controls.Add(this.TB_SPDEV);
+            this.FLP_SpD.Controls.Add(this.TB_SPDAV);
             this.FLP_SpD.Controls.Add(this.Stat_SPD);
             this.FLP_SpD.Location = new System.Drawing.Point(0, 106);
             this.FLP_SpD.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpD.Name = "FLP_SpD";
-            this.FLP_SpD.Size = new System.Drawing.Size(172, 21);
+            this.FLP_SpD.Size = new System.Drawing.Size(230, 21);
             this.FLP_SpD.TabIndex = 127;
             //
             // Label_SPD
@@ -439,11 +512,23 @@
             this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SPDEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_SPDAV
+            //
+            this.TB_SPDAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPDAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_SPDAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_SPDAV.Mask = "000";
+            this.TB_SPDAV.Name = "TB_SPDAV";
+            this.TB_SPDAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPDAV.TabIndex = 50;
+            this.TB_SPDAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPDAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_SPD
             //
             this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPD.Enabled = false;
-            this.Stat_SPD.Location = new System.Drawing.Point(127, 0);
+            this.Stat_SPD.Location = new System.Drawing.Point(161, 0);
             this.Stat_SPD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPD.Mask = "00000";
             this.Stat_SPD.Name = "Stat_SPD";
@@ -458,11 +543,12 @@
             this.FLP_Spe.Controls.Add(this.Label_SPE);
             this.FLP_Spe.Controls.Add(this.TB_SPEIV);
             this.FLP_Spe.Controls.Add(this.TB_SPEEV);
+            this.FLP_Spe.Controls.Add(this.TB_SPEAV);
             this.FLP_Spe.Controls.Add(this.Stat_SPE);
             this.FLP_Spe.Location = new System.Drawing.Point(0, 127);
             this.FLP_Spe.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Spe.Name = "FLP_Spe";
-            this.FLP_Spe.Size = new System.Drawing.Size(172, 21);
+            this.FLP_Spe.Size = new System.Drawing.Size(230, 21);
             this.FLP_Spe.TabIndex = 128;
             //
             // Label_SPE
@@ -499,11 +585,23 @@
             this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SPEEV.TextChanged += new System.EventHandler(this.UpdateEV);
             //
+            // TB_SPEAV
+            //
+            this.TB_SPEAV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPEAV.Location = new System.Drawing.Point(127, 0);
+            this.TB_SPEAV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_SPEAV.Mask = "000";
+            this.TB_SPEAV.Name = "TB_SPEAV";
+            this.TB_SPEAV.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPEAV.TabIndex = 54;
+            this.TB_SPEAV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPEAV.TextChanged += new System.EventHandler(this.UpdateAV);
+            //
             // Stat_SPE
             //
             this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPE.Enabled = false;
-            this.Stat_SPE.Location = new System.Drawing.Point(127, 0);
+            this.Stat_SPE.Location = new System.Drawing.Point(161, 0);
             this.Stat_SPE.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPE.Mask = "00000";
             this.Stat_SPE.Name = "Stat_SPE";
@@ -517,6 +615,7 @@
             this.FLP_StatsTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_StatsTotal.Controls.Add(this.Label_Total);
             this.FLP_StatsTotal.Controls.Add(this.TB_IVTotal);
+            this.FLP_StatsTotal.Controls.Add(this.textBox1);
             this.FLP_StatsTotal.Controls.Add(this.TB_EVTotal);
             this.FLP_StatsTotal.Location = new System.Drawing.Point(0, 148);
             this.FLP_StatsTotal.Margin = new System.Windows.Forms.Padding(0);
@@ -546,11 +645,23 @@
             this.TB_IVTotal.TabIndex = 44;
             this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             //
+            // textBox1
+            //
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(93, 0);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.textBox1.MaxLength = 3;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(28, 20);
+            this.textBox1.TabIndex = 45;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
             // TB_EVTotal
             //
             this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EVTotal.Enabled = false;
-            this.TB_EVTotal.Location = new System.Drawing.Point(93, 0);
+            this.TB_EVTotal.Location = new System.Drawing.Point(127, 0);
             this.TB_EVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_EVTotal.MaxLength = 3;
             this.TB_EVTotal.Name = "TB_EVTotal";
@@ -598,7 +709,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.FLP_Stats);
             this.Name = "StatEditor";
-            this.Size = new System.Drawing.Size(165, 212);
+            this.Size = new System.Drawing.Size(230, 212);
             this.FLP_Stats.ResumeLayout(false);
             this.FLP_StatHeader.ResumeLayout(false);
             this.FLP_StatsHeaderRight.ResumeLayout(false);
@@ -666,5 +777,13 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_HPType;
         private System.Windows.Forms.Label Label_HiddenPowerPrefix;
         private System.Windows.Forms.ComboBox CB_HPType;
+        private System.Windows.Forms.Label Label_AVs;
+        private System.Windows.Forms.MaskedTextBox TB_HPAV;
+        private System.Windows.Forms.MaskedTextBox TB_ATKAV;
+        private System.Windows.Forms.MaskedTextBox TB_DEFAV;
+        private System.Windows.Forms.MaskedTextBox TB_SPAAV;
+        private System.Windows.Forms.MaskedTextBox TB_SPDAV;
+        private System.Windows.Forms.MaskedTextBox TB_SPEAV;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

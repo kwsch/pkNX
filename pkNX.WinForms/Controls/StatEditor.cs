@@ -14,6 +14,7 @@ namespace pkNX.WinForms.Controls
             InitializeComponent();
             tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
             tb_ev = new[] { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPAEV, TB_SPDEV };
+            tb_av = new[] { TB_HPAV, TB_ATKAV, TB_DEFAV, TB_SPEAV, TB_SPAAV, TB_SPDAV };
             labarray = new[] { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
         }
 
@@ -31,6 +32,7 @@ namespace pkNX.WinForms.Controls
 
         private readonly MaskedTextBox[] tb_iv;
         private readonly MaskedTextBox[] tb_ev;
+        private readonly MaskedTextBox[] tb_av;
         private readonly Label[] labarray;
 
         public void UpdateStats()
@@ -45,6 +47,8 @@ namespace pkNX.WinForms.Controls
                     tb_iv[i].Text = "31";
                 if (Util.ToInt32(tb_ev[i].Text) > 255)
                     tb_ev[i].Text = "255";
+                if (Util.ToInt32(tb_av[i].Text) > 200)
+                    tb_av[i].Text = "200";
                 UpdatingFields = false;
             }
 
@@ -60,6 +64,8 @@ namespace pkNX.WinForms.Controls
 
             TB_IVTotal.Text = tb_iv.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
             TB_EVTotal.Text = tb_ev.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
+            if (PKM is IAwakened s)
+                textBox1.Text = s.AwakeningSum().ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             RecolorStatLabels();
@@ -93,6 +99,11 @@ namespace pkNX.WinForms.Controls
                 tb_iv[i].Text = pkm.GetIV(i).ToString("00");
             for (int i = 0; i < 6; i++)
                 tb_ev[i].Text = pkm.GetEV(i).ToString("00");
+            if (PKM is IAwakened a)
+            {
+                for (int i = 0; i < 6; i++)
+                    tb_av[i].Text = a.GetAV(i).ToString("00");
+            }
             CB_HPType.SelectedIndex = PKM.HiddenPowerType;
             UpdatingFields = false;
             UpdateStats();
@@ -117,11 +128,23 @@ namespace pkNX.WinForms.Controls
         {
             if (UpdatingFields || !(sender is MaskedTextBox t))
                 return;
-            var index = Array.IndexOf(tb_iv, t);
+            var index = Array.IndexOf(tb_ev, t);
             if (index < 0)
                 return;
             int value = Math.Min(252, Util.ToInt32(t.Text));
             PKM.SetEV(index, value);
+            UpdateStats();
+        }
+
+        private void UpdateAV(object sender, EventArgs e)
+        {
+            if (UpdatingFields || !(sender is MaskedTextBox t) || !(PKM is IAwakened a))
+                return;
+            var index = Array.IndexOf(tb_av, t);
+            if (index < 0)
+                return;
+            int value = Math.Min(252, Util.ToInt32(t.Text));
+            a.SetAV(index, value);
             UpdateStats();
         }
 

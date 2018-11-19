@@ -678,10 +678,10 @@
             //
             // Stats
             //
-            this.Stats.Location = new System.Drawing.Point(17, 1);
+            this.Stats.Location = new System.Drawing.Point(1, 1);
             this.Stats.Name = "Stats";
             this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(192, 195);
+            this.Stats.Size = new System.Drawing.Size(222, 195);
             this.Stats.TabIndex = 0;
             //
             // Tab_Moves
@@ -877,7 +877,7 @@
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
             //
-            // SMTE
+            // BTTE
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
