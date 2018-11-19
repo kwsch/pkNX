@@ -39,9 +39,8 @@ namespace pkNX.Game
             ROM = rom;
             Language = language;
             FileMap = new GameFileMapping(rom);
-            Text = new TextManager(Game);
-
             Initialize();
+            Text = new TextManager(Game);
         }
 
         /// <summary>
@@ -90,6 +89,10 @@ namespace pkNX.Game
 
         private void InitializeDataGG()
         {
+            // initialize gametext
+            GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
+
+            // initialize common structures
             Data = new GameData
             {
                 MoveData = this[GameFile.MoveStats].GetFiles().GetArray(z => (Move)new Move7(z)), // mini

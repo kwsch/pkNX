@@ -13,12 +13,12 @@ namespace pkNX.Structures
         public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((x, offset) => new TrainerPoke7b(offset, x), SIZE);
         public static byte[] WriteTeam(IList<TrainerPoke7b> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
 
-        public TrainerPoke7b(int index, byte[] data = null)
+        public TrainerPoke7b(int offset, byte[] data = null)
         {
             Data = new byte[SIZE];
-            if (data == null || data.Length < (index + 1) * SIZE)
+            if (data == null || offset + SIZE > data.Length)
                 return;
-            Array.Copy(data, index * SIZE, Data, 0, SIZE);
+            Array.Copy(data, offset, Data, 0, SIZE);
         }
 
         public override int Gender
@@ -52,7 +52,7 @@ namespace pkNX.Structures
         public override int Friendship { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Rank { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
 
-        public override uint IV32  { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+        public override uint IV32  { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
         public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
         public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }

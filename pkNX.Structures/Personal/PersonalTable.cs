@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace pkNX.Structures
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> table (array).
+    /// </summary>
+    /// <remarks>
+    /// Serves as the main object that is accessed for stat data in a particular generation/game format.
+    /// </remarks>
     public class PersonalTable
     {
         private static byte[][] SplitBytes(byte[] data, int size)
@@ -15,88 +22,127 @@ namespace pkNX.Structures
             return r;
         }
 
-        public PersonalTable(byte[] data, GameVersion format)
+        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
-            int size = 0;
             switch (format)
             {
-                case GameVersion.XY: size = PersonalInfoXY.SIZE; break;
-                case GameVersion.ORASDEMO:
-                case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
-                case GameVersion.SMDEMO:
-                case GameVersion.SM:
-                case GameVersion.USUM: size = PersonalInfoSM.SIZE; break;
-            }
-
-            if (size == 0)
-            { Table = null; return; }
-
-            byte[][] entries = SplitBytes(data, size);
-            PersonalInfo[] d = new PersonalInfo[data.Length / size];
-
-            switch (format)
-            {
+                case GameVersion.BW:
+                    return z => new PersonalInfoBW(z);
+                case GameVersion.B2W2:
+                    return z => new PersonalInfoB2W2(z);
                 case GameVersion.XY:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoXY(entries[i]);
-                    break;
-                case GameVersion.ORASDEMO:
+                    return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoORAS(entries[i]);
-                    break;
-                case GameVersion.SMDEMO:
+                    return z => new PersonalInfoORAS(z);
+                case GameVersion.GG:
+                    return z => new PersonalInfoGG(z);
+                default:
+                    return z => new PersonalInfoSM(z);
+            }
+        }
+
+        private static int GetEntrySize(GameVersion format)
+        {
+            switch (format)
+            {
+                case GameVersion.BW: return PersonalInfoBW.SIZE;
+                case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
+                case GameVersion.XY: return PersonalInfoXY.SIZE;
+                case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
                 case GameVersion.SM:
                 case GameVersion.USUM:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoSM(entries[i]);
-                    break;
+                case GameVersion.GG: return PersonalInfoSM.SIZE;
+
+                default: return -1;
             }
-            Table = d;
+        }
+
+        public PersonalTable(byte[] data, GameVersion format)
+        {
+            var get = GetConstructor(format);
+            int size = GetEntrySize(format);
+            byte[][] entries = SplitBytes(data, size);
+            Table = new PersonalInfo[data.Length / size];
+            for (int i = 0; i < Table.Length; i++)
+                Table[i] = get(entries[i]);
+
+            MaxSpeciesID = format.GetMaxSpeciesID();
         }
 
         public readonly PersonalInfo[] Table;
 
+        /// <summary>
+        /// Gets an index from the inner <see cref="Table"/> array.
+        /// </summary>
+        /// <remarks>Has built in length checks; returns empty (0) entry if out of range.</remarks>
+        /// <param name="index">Index to retrieve</param>
+        /// <returns>Requested index entry</returns>
         public PersonalInfo this[int index]
         {
             get
             {
-                if (index < Table.Length)
+                if (0 <= index && index < Table.Length)
                     return Table[index];
                 return Table[0];
             }
             set
             {
-                if (index < Table.Length)
+                if (index < 0 || index >= Table.Length)
                     return;
                 Table[index] = value;
             }
         }
 
+        /// <summary>
+        /// Gets the abilities possible for a given Species ID and AltForm ID.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="forme">AltForm ID</param>
+        /// <returns>Array of possible abilities</returns>
         public int[] GetAbilities(int species, int forme)
         {
-            if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[GetFormeIndex(species, forme)].Abilities;
+            return GetFormeEntry(species, forme).Abilities;
         }
 
+        /// <summary>
+        /// Gets the <see cref="PersonalInfo"/> entry index for a given Species ID and AltForm ID.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="forme">AltForm ID</param>
+        /// <returns>Entry index for the input criteria</returns>
         public int GetFormeIndex(int species, int forme)
         {
-            if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
+            if (species > MaxSpeciesID)
+            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
             return this[species].FormeIndex(species, forme);
         }
 
+        /// <summary>
+        /// Gets the <see cref="PersonalInfo"/> entry for a given Species ID and AltForm ID.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="forme">AltForm ID</param>
+        /// <returns>Entry for the input criteria</returns>
         public PersonalInfo GetFormeEntry(int species, int forme)
         {
             return this[GetFormeIndex(species, forme)];
         }
 
         /// <summary>
+        /// Count of entries in the table, which includes default species entries and their separate AltForm ID entreis.
+        /// </summary>
+        public int TableLength => Table.Length;
+
+        /// <summary>
+        /// Maximum Species ID for the Table.
+        /// </summary>
+        public readonly int MaxSpeciesID;
+
+        /// <summary>
         /// Gets form names for every species.
         /// </summary>
         /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
-        /// <param name="MaxSpecies">Max Species ID</param>
+        /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
         /// <returns>Array of species containing an array of form names for that species.</returns>
         public string[][] GetFormList(string[] species, int MaxSpecies)
         {
@@ -114,6 +160,15 @@ namespace pkNX.Structures
             return FormList;
         }
 
+        /// <summary>
+        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> AltForm ID values.
+        /// </summary>
+        /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
+        /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
+        /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
+        /// <param name="baseForm">Pointers for base form IDs</param>
+        /// <param name="formVal">Pointers for table indexes for each form</param>
+        /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>
         public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
@@ -136,18 +191,23 @@ namespace pkNX.Structures
             return result;
         }
 
-        public int[] GetSpeciesForm(int PersonalEntry, int MaxSpeciesID)
-        {
-            if (PersonalEntry < MaxSpeciesID) return new[] { PersonalEntry, 0 };
+        public int[] GetSpeciesForm(int entry) => GetSpeciesForm(entry, MaxSpeciesID);
 
-            for (int i = 0; i < MaxSpeciesID; i++)
+        public int[] GetSpeciesForm(int entry, int maxSpecies)
+        {
+            if (entry < maxSpecies)
+                return new[] { entry, 0 };
+
+            for (int i = 0; i < maxSpecies; i++)
             {
                 var altformpointer = this[i].FormStatsIndex;
-                if (altformpointer <= 0) continue;
-                int FormCount = this[i].FormeCount - 1; // Mons with no alt forms have a FormCount of 1.
-                for (int j = 0; j < FormCount; j++)
+                if (altformpointer <= 0)
+                    continue;
+
+                int formes = this[i].FormeCount - 1; // Mons with no alt forms have a FormCount of 1.
+                for (int j = 0; j < formes; j++)
                 {
-                    if (altformpointer + j == PersonalEntry)
+                    if (altformpointer + j == entry)
                         return new[] { i, j };
                 }
             }

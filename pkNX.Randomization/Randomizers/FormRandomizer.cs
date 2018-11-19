@@ -5,11 +5,11 @@ namespace pkNX.Randomization
 {
     public class FormRandomizer
     {
-        private readonly PersonalTable Table;
+        private readonly PersonalTable Personal;
 
         public FormRandomizer(PersonalTable t)
         {
-            Table = t;
+            Personal = t;
         }
 
         public bool AllowMega { get; set; } = false;
@@ -18,7 +18,7 @@ namespace pkNX.Randomization
         public int GetRandomForme(int species, PersonalInfo[] stats = null)
         {
             if (stats == null)
-                stats = Table.Table;
+                stats = Personal.Table;
             if (stats[species].FormeCount <= 1)
                 return 0;
 

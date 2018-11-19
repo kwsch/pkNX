@@ -51,7 +51,7 @@ namespace pkNX.Randomization
 
         private void RandomizeChains()
         {
-            processed = new bool[Table.Table.Length];
+            processed = new bool[Table.TableLength];
             for (var species = 0; species <= Game.MaxSpeciesID; species++)
             {
                 for (int f = 0; f <= Table[species].FormeCount; f++)

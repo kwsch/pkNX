@@ -44,10 +44,11 @@ namespace pkNX.Containers
 
         public byte[] GetFileData(string file)
         {
-            var index = Paths.IndexOf(file);
+            var index = Paths.FindIndex(z => Path.GetFileName(z) == file);
             if (index < 0)
                 return null;
-            return Data[index] ?? (Data[index] = File.ReadAllBytes(file));
+            string path = Paths[index];
+            return Data[index] ?? (Data[index] = File.ReadAllBytes(path));
         }
 
         public byte[] GetFileData(int index)

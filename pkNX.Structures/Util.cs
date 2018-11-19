@@ -32,8 +32,8 @@ namespace pkNX.Structures
                 return Array.Empty<T>();
 
             var data = new T[entries.Length/size];
-            for (int i = 0; i < data.Length; i+= size)
-                data[i] = del(entries, i);
+            for (int i = 0; i < entries.Length; i+= size)
+                data[i/size] = del(entries, i);
             return data;
         }
 
