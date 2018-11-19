@@ -30,5 +30,11 @@ namespace pkNX.WinForms
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
+
+        /// <summary>
+        /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
+        /// </summary>
+        /// <param name="cb">ComboBox to retrieve value for.</param>
+        internal static int GetIndex(ComboBox cb) => (int)(cb?.SelectedValue ?? 0);
     }
 }

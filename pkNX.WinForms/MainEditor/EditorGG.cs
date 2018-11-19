@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
 
@@ -9,33 +8,46 @@ namespace pkNX.WinForms.Controls
     {
         protected internal EditorGG(GameManager rom) : base(rom) { }
 
-        public void EditTrainers()
-        {
-            WinFormsUtil.Alert("Not implemented yet.");
-        }
-
         public void EditCommon()
         {
-            var text = ROM.GetFile(GameFile.GameText);
-            ((FolderContainer) text).Initialize(z => Path.GetExtension(z) == ".dat");
+            var text = ROM.GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
             var config = new TextConfig(ROM.Game);
             var tc = new TextContainer(text, config);
-            var editor = new TextEditor(tc, TextEditor.TextEditorMode.Common);
-            editor.ShowDialog();
-            if (!editor.Modified)
+            var form = new TextEditor(tc, TextEditor.TextEditorMode.Common);
+            form.ShowDialog();
+            if (!form.Modified)
                 text.CancelEdits();
         }
 
         public void EditScript()
         {
-            var text = ROM.GetFile(GameFile.StoryText);
-            ((FolderContainer)text).Initialize(z => Path.GetExtension(z) == ".dat");
+            var text = ROM.GetFilteredFolder(GameFile.StoryText, z => Path.GetExtension(z) == ".dat");
             var config = new TextConfig(ROM.Game);
             var tc = new TextContainer(text, config);
-            var editor = new TextEditor(tc, TextEditor.TextEditorMode.Script);
-            editor.ShowDialog();
-            if (!editor.Modified)
+            var form = new TextEditor(tc, TextEditor.TextEditorMode.Script);
+            form.ShowDialog();
+            if (!form.Modified)
                 text.CancelEdits();
+        }
+
+        public void EditTrainers()
+        {
+            var editor = new TrainerEditor
+            {
+                ReadClass = data => new TrainerClass7b(data),
+                ReadPoke = data => new TrainerPoke7b(data),
+                ReadTrainer = data => new TrainerData7b(data),
+                ReadTeam = TrainerPoke7b.ReadTeam,
+                WriteTeam = TrainerPoke7b.WriteTeam,
+                TrainerData = ROM.GetFilteredFolder(GameFile.TrainerData),
+                TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerPoke),
+                TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
+            };
+            editor.Initialize();
+            var form = new BTTE(ROM, editor);
+            form.ShowDialog();
+            if (!form.Modified)
+                editor.CancelEdits();
         }
     }
 }

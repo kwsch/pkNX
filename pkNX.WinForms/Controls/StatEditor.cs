@@ -1,0 +1,136 @@
+﻿using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using pkNX.Structures;
+using Util = pkNX.Randomization.Util;
+
+namespace pkNX.WinForms.Controls
+{
+   public partial class StatEditor : UserControl
+    {
+        public StatEditor()
+        {
+            InitializeComponent();
+            tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
+            tb_ev = new[] { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPAEV, TB_SPDEV };
+            labarray = new[] { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
+        }
+
+        public void Initialize(string[] types)
+        {
+            UpdatingFields = true;
+            foreach (var t in types.Skip(1))
+                CB_HPType.Items.Add(t);
+            UpdatingFields = false;
+        }
+
+        public PersonalTable Personal { private get; set; }
+        public bool UpdatingFields;
+        public StatPKM PKM { get; set; }
+
+        private readonly MaskedTextBox[] tb_iv;
+        private readonly MaskedTextBox[] tb_ev;
+        private readonly Label[] labarray;
+
+        public void UpdateStats()
+        {
+            if (UpdatingFields)
+                return;
+
+            for (int i = 0; i < 6; i++)
+            {
+                UpdatingFields = true;
+                if (Util.ToInt32(tb_iv[i].Text) > 31)
+                    tb_iv[i].Text = "31";
+                if (Util.ToInt32(tb_ev[i].Text) > 255)
+                    tb_ev[i].Text = "255";
+                UpdatingFields = false;
+            }
+
+            var pi = Personal.GetFormeEntry(PKM.Species, PKM.Form);
+            var stats = PKM.GetStats(pi);
+
+            Stat_HP.Text = stats[0].ToString();
+            Stat_ATK.Text = stats[1].ToString();
+            Stat_DEF.Text = stats[2].ToString();
+            Stat_SPA.Text = stats[4].ToString();
+            Stat_SPD.Text = stats[5].ToString();
+            Stat_SPE.Text = stats[3].ToString();
+
+            TB_IVTotal.Text = tb_iv.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
+            TB_EVTotal.Text = tb_ev.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
+
+            // Recolor the Stat Labels based on boosted stats.
+            RecolorStatLabels();
+            UpdatingFields = true;
+            CB_HPType.SelectedIndex = PKM.HiddenPowerType;
+            UpdatingFields = false;
+        }
+
+        private void RecolorStatLabels()
+        {
+            int incr = (PKM.Nature / 5);
+            int decr = (PKM.Nature % 5);
+            // Reset Label Colors
+            foreach (Label label in labarray)
+                label.ResetForeColor();
+
+            // Set Colored StatLabels only if Nature isn't Neutral
+            if (incr != decr)
+            {
+                labarray[incr].ForeColor = Color.Red;
+                labarray[decr].ForeColor = Color.Blue;
+            }
+        }
+
+        public void LoadStats(StatPKM pkm)
+        {
+            PKM = pkm;
+
+            UpdatingFields = true;
+            for (int i = 0; i < 6; i++)
+                tb_iv[i].Text = pkm.GetIV(i).ToString("00");
+            for (int i = 0; i < 6; i++)
+                tb_ev[i].Text = pkm.GetEV(i).ToString("00");
+            CB_HPType.SelectedIndex = PKM.HiddenPowerType;
+            UpdatingFields = false;
+            UpdateStats();
+        }
+
+        private void UpdateIV(object sender, EventArgs e)
+        {
+            if (UpdatingFields || !(sender is MaskedTextBox t))
+                return;
+            var index = Array.IndexOf(tb_iv, t);
+            if (index < 0)
+                return;
+            int value = Math.Min(31, Util.ToInt32(t.Text));
+            PKM.SetIV(index, value);
+            UpdatingFields = true;
+            CB_HPType.SelectedIndex = PKM.HiddenPowerType;
+            UpdatingFields = false;
+            UpdateStats();
+        }
+
+        private void UpdateEV(object sender, EventArgs e)
+        {
+            if (UpdatingFields || !(sender is MaskedTextBox t))
+                return;
+            var index = Array.IndexOf(tb_iv, t);
+            if (index < 0)
+                return;
+            int value = Math.Min(252, Util.ToInt32(t.Text));
+            PKM.SetEV(index, value);
+            UpdateStats();
+        }
+
+        private void ChangeHPType(object sender, EventArgs e)
+        {
+            if (UpdatingFields)
+                return;
+            PKM.SetHPIVs(CB_HPType.SelectedIndex);
+            UpdateStats();
+        }
+    }
+}
