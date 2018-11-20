@@ -464,7 +464,7 @@ namespace pkNX.WinForms
 
                 if (pk is IAwakened a)
                 {
-                    var avs = Enumerable.Range(0, 6).Select(a.GetAV).ToArray();
+                    var avs = a.AVs();
                     if (avs.Any(z => z != 0))
                         sb.Append(" AVs: ").Append(string.Join("/", avs));
                 }

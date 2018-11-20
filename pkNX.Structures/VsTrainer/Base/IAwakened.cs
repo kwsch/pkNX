@@ -114,5 +114,7 @@ namespace pkNX.Structures
                     a.SetAV(i, 200);
             }
         }
+
+        public static int[] AVs(this IAwakened a) => new[] {a.AV_HP, a.AV_ATK, a.AV_DEF, a.AV_SPA, a.AV_SPD, a.AV_SPE};
     }
 }
