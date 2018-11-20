@@ -466,7 +466,7 @@ namespace pkNX.WinForms
                 {
                     var avs = Enumerable.Range(0, 6).Select(a.GetAV).ToArray();
                     if (avs.Any(z => z != 0))
-                        sb.Append(" AVs: ").Append(string.Join("/", pk.EVs));
+                        sb.Append(" AVs: ").Append(string.Join("/", avs));
                 }
                 sb.AppendLine();
             }
