@@ -114,6 +114,7 @@
             this.L_Gift = new System.Windows.Forms.Label();
             this.CB_Gift = new System.Windows.Forms.ComboBox();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
+            this.B_Save = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -155,7 +156,7 @@
             this.CB_TrainerID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_TrainerID.DropDownWidth = 200;
             this.CB_TrainerID.FormattingEnabled = true;
-            this.CB_TrainerID.Location = new System.Drawing.Point(429, 7);
+            this.CB_TrainerID.Location = new System.Drawing.Point(191, 6);
             this.CB_TrainerID.MaxDropDownItems = 12;
             this.CB_TrainerID.Name = "CB_TrainerID";
             this.CB_TrainerID.Size = new System.Drawing.Size(140, 21);
@@ -397,7 +398,7 @@
             this.TC_trpoke.Controls.Add(this.Tab_Main);
             this.TC_trpoke.Controls.Add(this.Tab_Stats);
             this.TC_trpoke.Controls.Add(this.Tab_Moves);
-            this.TC_trpoke.Location = new System.Drawing.Point(12, 12);
+            this.TC_trpoke.Location = new System.Drawing.Point(340, 12);
             this.TC_trpoke.Name = "TC_trpoke";
             this.TC_trpoke.SelectedIndex = 0;
             this.TC_trpoke.Size = new System.Drawing.Size(232, 273);
@@ -887,7 +888,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_trdata.Controls.Add(this.Tab_Trainer);
             this.TC_trdata.Controls.Add(this.Tab_Rand);
-            this.TC_trdata.Location = new System.Drawing.Point(250, 13);
+            this.TC_trdata.Location = new System.Drawing.Point(12, 12);
             this.TC_trdata.Name = "TC_trdata";
             this.TC_trdata.SelectedIndex = 0;
             this.TC_trdata.Size = new System.Drawing.Size(322, 273);
@@ -1071,11 +1072,22 @@
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
             // 
+            // B_Save
+            // 
+            this.B_Save.Location = new System.Drawing.Point(493, 7);
+            this.B_Save.Name = "B_Save";
+            this.B_Save.Size = new System.Drawing.Size(75, 23);
+            this.B_Save.TabIndex = 451;
+            this.B_Save.Text = "Save";
+            this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            // 
             // BTTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 363);
+            this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_trpoke);
             this.Controls.Add(this.L_Team);
             this.Controls.Add(this.PB_Team1);
@@ -1216,6 +1228,7 @@
         private System.Windows.Forms.ComboBox CB_Gift;
         private System.Windows.Forms.GroupBox GB_AIBits;
         private System.Windows.Forms.GroupBox GB_Items;
+        private System.Windows.Forms.Button B_Save;
     }
 }
 

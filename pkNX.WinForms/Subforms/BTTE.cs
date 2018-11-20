@@ -194,11 +194,12 @@ namespace pkNX.WinForms
             int formnum = CB_Forme.SelectedIndex;
             int index = Personal[species].FormeIndex(species, formnum);
 
+            var abilities = Personal[index].Abilities;
             CB_Ability.Items.Clear();
             CB_Ability.Items.Add("Any (1 or 2)");
-            CB_Ability.Items.Add(abilitylist[Personal[index].Abilities[0]] + " (1)");
-            CB_Ability.Items.Add(abilitylist[Personal[index].Abilities[1]] + " (2)");
-            CB_Ability.Items.Add(abilitylist[Personal[index].Abilities[2]] + " (H)");
+            CB_Ability.Items.Add(abilitylist[abilities[0]] + " (1)");
+            CB_Ability.Items.Add(abilitylist[abilities[1]] + " (2)");
+            CB_Ability.Items.Add(abilitylist[abilities[2]] + " (H)");
 
             CB_Ability.SelectedIndex = previousAbilityIndex;
         }
@@ -420,7 +421,11 @@ namespace pkNX.WinForms
                     return;
                 var sb = new StringBuilder();
                 for (int i = 0; i < Trainers.Length; i++)
-                    sb.Append(GetTrainerString(Trainers[i]));
+                {
+                    var tr = Trainers[i];
+                    tr.Name = trName[i];
+                    sb.Append(GetTrainerString(tr));
+                }
                 File.WriteAllText(sfd.FileName, sb.ToString());
             }
         }
@@ -438,19 +443,31 @@ namespace pkNX.WinForms
             sb.Append("Pokemon: ").Append(tr.NumPokemon).AppendLine();
             for (int i = 0; i < tr.NumPokemon; i++)
             {
-                if (team[i].Shiny)
+                var pk = team[i];
+                if (pk.Shiny)
                     sb.Append("Shiny ");
-                sb.Append(specieslist[team[i].Species]);
-                sb.Append(" (Lv. ").Append(team[i].Level).Append(") ");
-                if (team[i].HeldItem > 0)
-                    sb.Append("@").Append(itemlist[team[i].HeldItem]);
+                sb.Append(specieslist[pk.Species]);
+                sb.Append(" (Lv. ").Append(pk.Level).Append(") ");
+                if (pk.HeldItem > 0)
+                    sb.Append("@").Append(itemlist[pk.HeldItem]);
 
-                if (team[i].Nature != 0)
-                    sb.Append(" (Nature: ").Append(natures[team[i].Nature]).Append(")");
+                if (pk.Nature != 0)
+                    sb.Append(" (Nature: ").Append(natures[pk.Nature]).Append(")");
 
-                sb.Append(" (Moves: ").Append(string.Join("/", team[i].Moves.Select(m => m == 0 ? "(None)" : movelist[m]))).Append(")");
-                sb.Append(" IVs: ").Append(string.Join("/", team[i].IVs));
-                sb.Append(" EVs: ").Append(string.Join("/", team[i].EVs));
+                sb.Append(" (Moves: ").Append(string.Join("/", pk.Moves.Select(m => m == 0 ? "(None)" : movelist[m]))).Append(")");
+
+                var ivs = pk.IVs;
+                sb.Append(" IVs: ").Append(string.Join("/", ivs));
+                var evs = pk.EVs;
+                if (evs.Any(z => z != 0))
+                    sb.Append(" EVs: ").Append(string.Join("/", pk.EVs));
+
+                if (pk is IAwakened a)
+                {
+                    var avs = Enumerable.Range(1, 6).Select(a.GetAV).ToArray();
+                    if (avs.Any(z => z != 0))
+                        sb.Append(" AVs: ").Append(string.Join("/", pk.EVs));
+                }
                 sb.AppendLine();
             }
             return sb.ToString();
@@ -495,6 +512,12 @@ namespace pkNX.WinForms
             var mcb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             for (int i = 0; i < mcb.Length; i++)
                 mcb[i].SelectedIndex = moves[i];
+        }
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            Modified = true;
+            Close();
         }
     }
 
