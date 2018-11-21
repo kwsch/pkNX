@@ -1,5 +1,4 @@
-﻿using System;
-using pkNX.Structures;
+﻿using pkNX.Structures;
 
 namespace pkNX.Game
 {
@@ -12,17 +11,18 @@ namespace pkNX.Game
 
         public void CancelEdits()
         {
-            throw new NotImplementedException();
+            Learn.CancelEdits();
+            Evolve.CancelEdits();
+            Mega.CancelEdits();
         }
 
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
+        public void Initialize() { }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            Learn.Save();
+            Evolve.Save();
+            Mega.Save();
         }
     }
 }

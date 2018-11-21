@@ -1038,7 +1038,7 @@
             this.CLB_TM.FormattingEnabled = true;
             this.CLB_TM.Location = new System.Drawing.Point(284, 34);
             this.CLB_TM.Name = "CLB_TM";
-            this.CLB_TM.Size = new System.Drawing.Size(147, 379);
+            this.CLB_TM.Size = new System.Drawing.Size(147, 469);
             this.CLB_TM.TabIndex = 6;
             //
             // L_LevelUp
@@ -1059,7 +1059,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(0, 34);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(282, 379);
+            this.dgv.Size = new System.Drawing.Size(282, 469);
             this.dgv.TabIndex = 1;
             //
             // Tab_Evo

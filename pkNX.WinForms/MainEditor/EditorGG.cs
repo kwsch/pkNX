@@ -48,6 +48,8 @@ namespace pkNX.WinForms.Controls
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
+            else
+                editor.Save();
         }
 
         public void EditPokémon()
@@ -64,6 +66,8 @@ namespace pkNX.WinForms.Controls
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
+            else
+                editor.Save();
         }
     }
 }
