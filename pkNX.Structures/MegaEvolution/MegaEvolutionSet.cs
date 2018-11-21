@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace pkNX.Structures
 {
@@ -9,13 +10,28 @@ namespace pkNX.Structures
         private const int OFS_FORM = 0;
         private const int OFS_METHOD = 2;
         private const int OFS_ARGUMENT = 4;
-        internal const int SIZE = 8;
+        public const int SIZE = 8;
 
         public MegaEvolutionSet(byte[] data, int index)
         {
             Debug.Assert(data.Length % SIZE == 0);
             Data = new byte[SIZE];
             Array.Copy(data, index*SIZE, Data, 0, SIZE);
+        }
+
+        public static MegaEvolutionSet[] ReadArray(byte[] data)
+        {
+            var count = data.Length / SIZE;
+            var result = new MegaEvolutionSet[count];
+            for (int i = 0; i < count; i++)
+                result[i] = new MegaEvolutionSet(data, i);
+            return result;
+        }
+
+
+        public static byte[] WriteArray(MegaEvolutionSet[] data)
+        {
+            return data.SelectMany(z => z.Write()).ToArray();
         }
 
         public int ToForm
@@ -41,6 +57,8 @@ namespace pkNX.Structures
             for (int i = 0; i < Data.Length; i++)
                 Data[i] = 0;
         }
+
+        public byte[] Write() => (byte[])Data.Clone();
 
         public void Write(byte[] data, int index) => Data.CopyTo(data, index * SIZE);
 

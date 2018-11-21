@@ -18,7 +18,7 @@
         LevelUpECgeq5,
         LevelUpNinjask,
         LevelUpShedinja,
-        LevelUpBauty,
+        LevelUpBeauty,
         UseItemMale,
         UseItemFemale,
         LevelUpHeldItemDay,
@@ -32,7 +32,7 @@
         LevelUpCold,
         LevelUpInverted,
         LevelUpAffection50MoveType,
-        LevelUpFairy,
+        LevelUpMoveType,
         LevelUpWeather,
         LevelUpMorning,
         LevelUpNight,
@@ -42,5 +42,20 @@
         LevelUpVersionDay,
         LevelUpVersionNight,
         LevelUpSummit,
+        LevelUpDusk,
+        LevelUpWormhole,
+        UseItemWormhole,
+    }
+
+    public enum EvolutionTypeArgumentType
+    {
+        NoArg,
+        Level,
+        Items,
+        Moves,
+        Species,
+        Stat,
+        Type,
+        Version,
     }
 }

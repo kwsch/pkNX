@@ -78,5 +78,12 @@ namespace pkNX.Structures
             int index = Array.IndexOf(Moves, move);
             return index < 0 ? index : Levels[index];
         }
+
+        public void Update(int[] moves, int[] levels)
+        {
+            Moves = moves;
+            Levels = levels;
+            Count = Moves.Length;
+        }
     }
 }
