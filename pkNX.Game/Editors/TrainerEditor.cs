@@ -3,9 +3,9 @@ using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
 
-namespace pkNX.WinForms
+namespace pkNX.Game
 {
-    public class TrainerEditor
+    public class TrainerEditor : IDataEditor
     {
         public IFileContainer TrainerData;
         public IFileContainer TrainerPoke;
