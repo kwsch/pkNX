@@ -33,6 +33,14 @@ namespace pkNX.Game
 
         public void Initialize() { }
 
+        public T[] LoadAll()
+        {
+            for (int i = 0; i < Length; i++)
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = this[i]; // force load cache
+            return Cache;
+        }
+
         /// <summary>
         /// Pushes changes back to the <see cref="IFileContainer"/>.
         /// </summary>

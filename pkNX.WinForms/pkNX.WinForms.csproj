@@ -35,10 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\MegaEvoEntry.cs">
@@ -82,6 +80,12 @@
     <Compile Include="Subforms\BTTE.designer.cs">
       <DependentUpon>BTTE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\GenericEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\GenericEditor.Designer.cs">
+      <DependentUpon>GenericEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\PokeDataUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +124,9 @@
     </Compile>
     <EmbeddedResource Include="Subforms\BTTE.resx">
       <DependentUpon>BTTE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\GenericEditor.resx">
+      <DependentUpon>GenericEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PokeDataUI.resx">
       <DependentUpon>PokeDataUI.cs</DependentUpon>

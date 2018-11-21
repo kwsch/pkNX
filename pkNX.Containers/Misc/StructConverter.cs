@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace pkNX.Containers
 {
-    public static class StructConverter
+    internal static class StructConverter
     {
         public static T ToStructure<T>(this byte[] bytes) where T : struct
         {

@@ -4,10 +4,11 @@ using System.Runtime.InteropServices;
 namespace pkNX.Structures
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Item
+    public class Item
     {
-        public Item(byte[] data) => this = data.ToStructure<Item>();
-        public byte[] Write() => this.ToBytes();
+        public byte[] Write() => this.ToBytesClass();
+        public static Item FromBytes(byte[] data) => data.ToClass<Item>();
+
         private const string Battle = "Battle";
         private const string Field = "Field";
         private const string Mart = "Mart";
