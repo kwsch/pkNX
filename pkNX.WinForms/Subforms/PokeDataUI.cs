@@ -418,6 +418,14 @@ namespace pkNX.WinForms
                 row.SaveEvolution();
         }
 
+        private void B_PDumpTable_Click(object sender, EventArgs e)
+        {
+            var arr = Editor.Personal.Table;
+            var result = TableUtil.GetNamedTypeTable(arr, entryNames, "Species");
+            Clipboard.SetText(result);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             Modified = true;

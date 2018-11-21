@@ -16,6 +16,7 @@ namespace pkNX.Structures
 
         private const string sep = "\t";
         private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr) => Table(arr).Select(row => string.Join(sep, row));
+        private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr, Type t) => Table(arr, t).Select(row => string.Join(sep, row));
 
         public static string GetNamedTable<T>(IEnumerable<T> arr, IList<string> names, string name = null)
         {
@@ -31,9 +32,31 @@ namespace pkNX.Structures
             return string.Join(Environment.NewLine, list);
         }
 
+        public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string name = null)
+        {
+            var t = arr[0].GetType();
+            var list = GetTableRaw(arr, t).ToArray();
+
+            // slap in name to column header
+            list[0] = $"Index{sep}{name ?? t.Name}{sep}{list[0]}";
+
+            // slap in row name to row
+            for (int i = 1; i < list.Length; i++)
+                list[i] = $"{i - 1}{sep}{names[i - 1]}{sep}{list[i]}";
+
+            return string.Join(Environment.NewLine, list);
+        }
+
         private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr)
         {
             var type = typeof(T);
+            yield return GetNames(type);
+            foreach (var z in arr)
+                yield return GetValues(z, type);
+        }
+
+        private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr, Type type)
+        {
             yield return GetNames(type);
             foreach (var z in arr)
                 yield return GetValues(z, type);

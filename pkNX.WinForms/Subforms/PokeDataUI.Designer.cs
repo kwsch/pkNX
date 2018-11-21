@@ -121,6 +121,7 @@
             this.Tab_Extra = new System.Windows.Forms.TabPage();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
+            this.B_PDumpTable = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             this.Tab_Learn.SuspendLayout();
@@ -155,6 +156,7 @@
             //
             // Tab_Personal
             //
+            this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(this.L_GoID);
             this.Tab_Personal.Controls.Add(this.MT_GoID);
             this.Tab_Personal.Controls.Add(this.TB_RawColor);
@@ -1109,6 +1111,16 @@
             this.PB_MonSprite.TabIndex = 91;
             this.PB_MonSprite.TabStop = false;
             //
+            // B_PDumpTable
+            //
+            this.B_PDumpTable.Location = new System.Drawing.Point(451, 492);
+            this.B_PDumpTable.Name = "B_PDumpTable";
+            this.B_PDumpTable.Size = new System.Drawing.Size(75, 23);
+            this.B_PDumpTable.TabIndex = 502;
+            this.B_PDumpTable.Text = "Dump Table";
+            this.B_PDumpTable.UseVisualStyleBackColor = true;
+            this.B_PDumpTable.Click += new System.EventHandler(this.B_PDumpTable_Click);
+            //
             // PokeDataUI
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1228,5 +1240,6 @@
         private System.Windows.Forms.CheckedListBox CLB_TM;
         private System.Windows.Forms.PictureBox PB_MonSprite;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button B_PDumpTable;
     }
 }

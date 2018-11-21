@@ -36,7 +36,7 @@ namespace pkNX.WinForms
         private void B_Dump_Click(object sender, EventArgs e)
         {
             var arr = Cache.LoadAll();
-            var result = TableUtil.GetNamedTable(arr, Names, Text.Split(' ')[0]);
+            var result = TableUtil.GetNamedTypeTable(arr, Names, Text.Split(' ')[0]);
             Clipboard.SetText(result);
             System.Media.SystemSounds.Asterisk.Play();
         }
