@@ -49,5 +49,21 @@ namespace pkNX.WinForms.Controls
             if (!form.Modified)
                 editor.CancelEdits();
         }
+
+        public void EditPokémon()
+        {
+            var editor = new PokeEditor
+            {
+                Evolve = ROM.Data.EvolutionData,
+                Learn = ROM.Data.LevelUpData,
+                Mega = ROM.Data.MegaEvolutionData,
+                Personal = ROM.Data.PersonalData,
+
+            };
+            var form = new PokeDataUI(editor, ROM);
+            form.ShowDialog();
+            if (!form.Modified)
+                editor.CancelEdits();
+        }
     }
 }

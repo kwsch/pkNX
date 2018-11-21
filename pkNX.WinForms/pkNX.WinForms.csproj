@@ -35,10 +35,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\MegaEvoEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MegaEvoEntry.Designer.cs">
+      <DependentUpon>MegaEvoEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EvolutionRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EvolutionRow.Designer.cs">
+      <DependentUpon>EvolutionRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StatEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -68,6 +82,12 @@
     <Compile Include="Subforms\BTTE.designer.cs">
       <DependentUpon>BTTE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\PokeDataUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PokeDataUI.Designer.cs">
+      <DependentUpon>PokeDataUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\TextContainer.cs" />
     <Compile Include="Subforms\TextEditor.cs">
       <SubType>Form</SubType>
@@ -75,8 +95,13 @@
     <Compile Include="Subforms\TextEditor.designer.cs">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\TrainerEditor.cs" />
     <Compile Include="WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\MegaEvoEntry.resx">
+      <DependentUpon>MegaEvoEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EvolutionRow.resx">
+      <DependentUpon>EvolutionRow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatEditor.resx">
       <DependentUpon>StatEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +121,9 @@
     <EmbeddedResource Include="Subforms\BTTE.resx">
       <DependentUpon>BTTE.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PokeDataUI.resx">
+      <DependentUpon>PokeDataUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\TextEditor.resx">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,7 +142,6 @@
     <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj">
       <Project>{2a909229-c9c0-42ce-88e0-72d9af84afe3}</Project>
       <Name>pkNX.Containers</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj">
       <Project>{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}</Project>
