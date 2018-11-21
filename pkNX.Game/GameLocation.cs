@@ -42,8 +42,8 @@ namespace pkNX.Game
                 return null;
 
             var dirs = Directory.GetDirectories(dir);
-            var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom"));
-            var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe"));
+            var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom", StringComparison.CurrentCultureIgnoreCase));
+            var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe", StringComparison.CurrentCultureIgnoreCase));
 
             if (romfs == null || exefs == null)
                 return null;
