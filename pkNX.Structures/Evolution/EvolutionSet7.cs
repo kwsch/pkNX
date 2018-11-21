@@ -13,7 +13,7 @@ namespace pkNX.Structures
         {
             if (data.Length != SIZE)
                 return;
-            PossibleEvolutions = data.GetArray(GetEvo, SIZE);
+            PossibleEvolutions = data.GetArray(GetEvo, ENTRY_SIZE);
         }
 
         private static EvolutionMethod GetEvo(byte[] data, int offset)

@@ -126,7 +126,7 @@ namespace pkNX.WinForms
         private void LoadROM(EditorBase editor)
         {
             Editor = editor;
-            var ctrl = Editor.GetControls(80, 20);
+            var ctrl = Editor.GetControls(100, 30);
             FLP_Controls.Controls.Clear();
             foreach (var c in ctrl)
                 FLP_Controls.Controls.Add(c);

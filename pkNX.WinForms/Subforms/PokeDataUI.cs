@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
@@ -75,12 +76,12 @@ namespace pkNX.WinForms
             var TMs = GetTMList();
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
-                for (int i = 0; i < TMs.Length; i++)
+                for (int i = 0; i < 100; i++)
                     CLB_TM.Items.Add($"TM{i+1:00}");
             }
             else // Use TM moves.
             {
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < TMs.Length; i++)
                     CLB_TM.Items.Add($"TM{i+1:00} {movelist[TMs[i]]}");
             }
 
@@ -185,19 +186,24 @@ namespace pkNX.WinForms
 
         public void UpdateIndex(object sender, EventArgs e)
         {
-            SaveCurrent();
+            if (cPersonal != null)
+                SaveCurrent();
             LoadIndex(CB_Species.SelectedIndex);
         }
 
         private void LoadIndex(int index)
         {
             int spec = baseForms[index];
+            if (spec == 0)
+                spec = index;
             var form = formVal[index];
             LoadPersonal(Editor.Personal[index]);
             LoadLearnset(Editor.Learn[index]);
             LoadEvolutions(Editor.Evolve[index]);
             LoadMegas(Editor.Mega[index], spec);
-            PB_MonSprite.Image = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false);
+            var img = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false);
+            img = ImageUtil.ScaleImage((Bitmap)img, 2);
+            PB_MonSprite.Image = img;
         }
 
         private void SaveCurrent()
@@ -337,11 +343,13 @@ namespace pkNX.WinForms
         public void LoadLearnset(Learnset pkm)
         {
             cLearnset = pkm;
-            while (pkm.Count < dgv.Rows.Count)
-                dgv.Rows.RemoveAt(dgv.Rows.Count - 1);
-            int diff = pkm.Count - dgv.Rows.Count;
-            if (diff != 0)
-                dgv.Rows.Add(diff);
+            dgv.Rows.Clear();
+            if (pkm.Count == 0)
+            {
+                dgv.CancelEdit();
+                return;
+            }
+            dgv.Rows.Add(pkm.Count);
 
             // Fill Entries
             for (int i = 0; i < pkm.Count; i++)
@@ -395,7 +403,7 @@ namespace pkNX.WinForms
         {
             cMega = m;
             Debug.Assert(Megas.Length == m.Length);
-            for (int i = 0; i < EvoRows.Length; i++)
+            for (int i = 0; i < Megas.Length; i++)
             {
                 var entry = Megas[i];
                 entry.LoadEvolution(m[i], spec);
@@ -408,6 +416,12 @@ namespace pkNX.WinForms
             Debug.Assert(Megas.Length == m.Length);
             foreach (var row in Megas)
                 row.SaveEvolution();
+        }
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            Modified = true;
+            Close();
         }
     }
 }

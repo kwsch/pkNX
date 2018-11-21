@@ -18,6 +18,7 @@ namespace pkNX.WinForms
             CB_Species.SelectedIndexChanged += (_, __) => ChangeSpecies(CB_Species.SelectedIndex, (int)NUD_Form.Value);
             NUD_Form.ValueChanged += (_, __) => ChangeSpecies(CB_Species.SelectedIndex, (int)NUD_Form.Value);
 
+            CB_Arg.Items.AddRange(None);
             CB_Method.SelectedIndexChanged += (s, e) =>
             {
                 var index = (EvolutionType)CB_Method.SelectedIndex;
@@ -33,14 +34,14 @@ namespace pkNX.WinForms
 
                 CB_Arg.Visible = true;
                 oldMethod = type;
-                CB_Method.Items.Clear();
+                CB_Arg.Items.Clear();
                 var vals = GetArgs(type);
-                CB_Method.Items.AddRange(vals);
+                CB_Arg.Items.AddRange(vals);
                 CB_Arg.SelectedIndex = 0;
             };
         }
 
-        private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false, 7);
+        private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false);
 
         private EvolutionMethod current;
         private EvolutionTypeArgumentType oldMethod;
@@ -70,7 +71,7 @@ namespace pkNX.WinForms
         public static string[] species;
         public static string[] types;
 
-        private static readonly string[] EvoMethods = Enum.GetNames(typeof(EvolutionMethod));
+        private static readonly string[] EvoMethods = Enum.GetNames(typeof(EvolutionType));
         private static readonly string[] Levels = Enumerable.Range(0, 100 + 1).Select(z => z.ToString()).ToArray();
         private static readonly string[] Stats = Enumerable.Range(0, 255 + 1).Select(z => z.ToString()).ToArray();
         private static readonly string[] None = { "" };
