@@ -1,0 +1,280 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using pkNX.Containers;
+using pkNX.Game;
+using pkNX.Structures;
+
+namespace pkNX.WinForms
+{
+    public partial class GGWE : Form
+    {
+        private EncounterArchive Tables;
+        private int entry = -1;
+
+        public GGWE(GameManager ROM, string json)
+        {
+            InitializeComponent();
+            EncounterArchive obj = EncounterArchive.ReadJson(json);
+
+            var spec = ROM.GetStrings(TextName.SpeciesNames);
+            var species = (string[]) spec.Clone();
+            species[0] = "";
+            EncounterList.species = species;
+            var locs = ROM.GetStrings(TextName.metlist_000000);
+
+            EL_Ground.Initialize();
+            EL_Water.Initialize();
+            EL_Old.Initialize();
+            EL_Good.Initialize();
+            EL_Super.Initialize();
+            EL_Sky.Initialize();
+
+            TC_Tables.Controls.Remove(Tab_Old);
+            TC_Tables.Controls.Remove(Tab_Good);
+            TC_Tables.Controls.Remove(Tab_Super);
+            EL_Old.OverworldSpawn = EL_Good.OverworldSpawn = EL_Super.OverworldSpawn = false;
+            L_Rank.Visible = NUD_RankMin.Visible = NUD_RankMax.Visible = false;
+
+            LoadFile(obj, locs);
+            CB_Location.SelectedIndex = 0;
+        }
+
+        public void LoadFile(EncounterArchive arc, string[] locationNames)
+        {
+            Tables = arc;
+            var locs = arc.EncounterTables.Select(z => z.ZoneID);
+            var names = GetNames(locs, locationNames);
+            var dupeNamed = GetScreenedNames(names);
+
+            CB_Location.Items.Clear();
+            CB_Location.Items.AddRange(dupeNamed.ToArray());
+        }
+
+        private static IEnumerable<string> GetNames(IEnumerable<ulong> locs, string[] locationNames)
+        {
+            return locs
+                .Select(z => DictHash[z]) // loc internal name
+                .Select(z => LocIDTable[z]) // loc ID
+                .Select(z => locationNames[z]); // loc external name (pkmdata)
+        }
+
+        private static IEnumerable<string> GetScreenedNames(IEnumerable<string> names)
+        {
+            int ctr = 0;
+            string prev = null;
+            foreach (var name in names)
+            {
+                if (name != prev)
+                {
+                    ctr = 1;
+                    yield return name;
+                }
+                else
+                {
+                    ctr++;
+                    yield return $"{name} ({ctr})";
+                }
+                prev = name;
+            }
+        }
+
+        private static readonly Dictionary<string, int> LocIDTable = new Dictionary<string, int>
+        {
+            ["forest001"] = 39,
+            ["r004d0101"] = 40,
+            ["r004d0102"] = 40,
+            ["r004d0103"] = 40,
+            ["r010d0101"] = 41,
+            ["r010d0102"] = 41,
+            ["r010r0101"] = 42,
+            ["r011d0101"] = 43,
+
+            ["r020d0101"] = 44,
+            ["r020d0102"] = 44,
+            ["r020d0103"] = 44,
+            ["r020d0104_1"] = 44,
+            ["r020d0104_2"] = 44,
+            ["r020d0105_1"] = 44,
+            ["r020d0105_2"] = 44,
+            ["r023d0101"] = 45,
+            ["r023d0102"] = 45,
+            ["r023d0103"] = 45,
+            ["road001"] = 3,
+            ["road002_1"] = 4,
+            ["road002_2"] = 4,
+            ["road003"] = 5,
+            ["road004_1"] = 6,
+            ["road004_2"] = 6,
+            ["road005"] = 7,
+            ["road006"] = 8,
+            ["road007"] = 9,
+            ["road008"] = 10,
+            ["road009"] = 11,
+            ["road010_1"] = 12,
+            ["road010_2"] = 12,
+            ["road011_1"] = 13,
+            ["road011_2"] = 13,
+            ["road012"] = 14,
+            ["road013"] = 15,
+            ["road014"] = 16,
+            ["road015_1"] = 17,
+            ["road015_2"] = 17,
+            ["road016_1"] = 18,
+            ["road016_2"] = 18,
+            ["road017"] = 19,
+            ["road018_1"] = 20,
+            ["road018_2"] = 20,
+            ["road019"] = 21,
+            ["road020"] = 22,
+            ["road020_2"] = 22,
+            ["road021"] = 23,
+            ["road022"] = 24,
+            ["road023"] = 25,
+            ["road024"] = 26,
+            ["road025"] = 27,
+            ["t004d0101"] = 46,
+            ["t004d0102"] = 46,
+            ["t004d0103"] = 46,
+            ["t005r0303"] = 47,
+            ["t005r0304"] = 47,
+            ["t005r0305"] = 47,
+            ["t005r0306"] = 47,
+            ["t009r0201"] = 51,
+            ["t009r0202"] = 51,
+            ["t009r0203"] = 51,
+            ["t009r0204"] = 51,
+            ["town001"] = 28,
+            ["town002"] = 29,
+            ["town003"] = 30,
+            ["town004"] = 31,
+            ["town005"] = 32,
+            ["town006"] = 33,
+            ["town007"] = 34,
+            ["town008"] = 35,
+            ["town009"] = 36,
+        };
+
+        private static readonly Dictionary<ulong, string> DictHash = LocIDTable
+            .Select(z => new KeyValuePair<ulong, string>(FnvHash.HashFnv1a_64(z.Key), z.Key))
+            .ToDictionary(z => z.Key, z => z.Value);
+
+        private void CB_Location_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SaveEntry(entry);
+            entry = CB_Location.SelectedIndex;
+            var id = Tables.EncounterTables[entry].ZoneID;
+            var iname = LocIDTable.First(z => FnvHash.HashFnv1a_64(z.Key) == id).Key;
+            L_Hash.Text = Tables.EncounterTables[entry].ZoneID.ToString("X16") + " " + iname;
+            LoadEntry(entry);
+        }
+
+        private void LoadEntry(int i)
+        {
+            var arr = Tables.EncounterTables[i];
+
+            NUD_RankMin.Value = arr.TrainerRankMin;
+            NUD_RankMax.Value = arr.TrainerRankMax;
+
+            EL_Ground.LoadSlots(arr.GroundTable);
+            EL_Water.LoadSlots(arr.WaterTable);
+            EL_Old.LoadSlots(arr.OldRodTable);
+            EL_Good.LoadSlots(arr.GoodRodTable);
+            EL_Super.LoadSlots(arr.SuperRodTable);
+
+            EL_Ground.NUD_Min.Value = arr.GroundTableLevelMin;
+            EL_Ground.NUD_Max.Value = arr.GroundTableLevelMax;
+            EL_Ground.NUD_SpawnRate.Value = arr.GroundTableEncounterRate;
+            EL_Ground.NUD_Count.Value = arr.GroundSpawnCountMax;
+            EL_Ground.NUD_Duration.Value = arr.GroundSpawnDuration;
+
+            EL_Water.NUD_Min.Value = arr.WaterTableLevelMin;
+            EL_Water.NUD_Max.Value = arr.WaterTableLevelMax;
+            EL_Water.NUD_SpawnRate.Value = arr.WaterTableEncounterRate;
+            EL_Water.NUD_Count.Value = arr.WaterSpawnCountMax;
+            EL_Water.NUD_Duration.Value = arr.WaterSpawnDuration;
+
+            EL_Old.NUD_Min.Value = arr.OldRodTableLevelMin;
+            EL_Old.NUD_Max.Value = arr.OldRodTableLevelMax;
+            EL_Old.NUD_SpawnRate.Value = arr.OldRodTableEncounterRate;
+
+            EL_Good.NUD_Min.Value = arr.GoodRodTableLevelMin;
+            EL_Good.NUD_Max.Value = arr.GoodRodTableLevelMax;
+            EL_Good.NUD_SpawnRate.Value = arr.GoodRodTableEncounterRate;
+
+            EL_Super.NUD_Min.Value = arr.SuperRodTableLevelMin;
+            EL_Super.NUD_Max.Value = arr.SuperRodTableLevelMax;
+            EL_Super.NUD_SpawnRate.Value = arr.SuperRodTableEncounterRate;
+
+            EL_Sky.NUD_Min.Value = arr.SkyTableLevelMin;
+            EL_Sky.NUD_Max.Value = arr.SkyTableLevelMax;
+            EL_Sky.NUD_SpawnRate.Value = arr.SkyTableEncounterRate;
+            EL_Sky.NUD_Count.Value = arr.SkySpawnCountMax;
+            EL_Sky.NUD_Duration.Value = arr.SkySpawnDuration;
+
+            EL_Sky.LoadSlots(arr.SkyTable);
+        }
+
+        private void SaveEntry(int i)
+        {
+            if (i < 0)
+                return;
+            var arr = Tables.EncounterTables[i];
+
+            arr.TrainerRankMin = (int)NUD_RankMin.Value;
+            arr.TrainerRankMax = (int)NUD_RankMax.Value;
+
+            arr.GroundTableLevelMin = (int)EL_Ground.NUD_Min.Value;
+            arr.GroundTableLevelMax = (int)EL_Ground.NUD_Max.Value;
+            arr.GroundTableEncounterRate = (int)EL_Ground.NUD_SpawnRate.Value;
+            arr.GroundSpawnCountMax = (int)EL_Ground.NUD_Count.Value;
+            arr.GroundSpawnDuration = (int)EL_Ground.NUD_Duration.Value;
+
+            arr.WaterTableLevelMin = (int)EL_Water.NUD_Min.Value;
+            arr.WaterTableLevelMax = (int)EL_Water.NUD_Max.Value;
+            arr.WaterTableEncounterRate = (int)EL_Water.NUD_SpawnRate.Value;
+            arr.WaterSpawnCountMax = (int)EL_Water.NUD_Count.Value;
+            arr.WaterSpawnDuration = (int)EL_Water.NUD_Duration.Value;
+
+            arr.OldRodTableLevelMin = (int)EL_Old.NUD_Min.Value;
+            arr.OldRodTableLevelMax = (int)EL_Old.NUD_Max.Value;
+            arr.OldRodTableEncounterRate = (int)EL_Old.NUD_SpawnRate.Value;
+
+            arr.GoodRodTableLevelMin = (int)EL_Good.NUD_Min.Value;
+            arr.GoodRodTableLevelMax = (int)EL_Good.NUD_Max.Value;
+            arr.GoodRodTableEncounterRate = (int)EL_Good.NUD_SpawnRate.Value;
+
+            arr.SuperRodTableLevelMin = (int)EL_Super.NUD_Min.Value;
+            arr.SuperRodTableLevelMax = (int)EL_Super.NUD_Max.Value;
+            arr.SuperRodTableEncounterRate = (int)EL_Super.NUD_SpawnRate.Value;
+
+            arr.SkyTableLevelMin = (int)EL_Sky.NUD_Min.Value;
+            arr.SkyTableLevelMax = (int)EL_Sky.NUD_Max.Value;
+            arr.SkyTableEncounterRate = (int)EL_Sky.NUD_SpawnRate.Value;
+            arr.SkySpawnCountMax = (int)EL_Sky.NUD_Count.Value;
+            arr.SkySpawnDuration = (int)EL_Sky.NUD_Duration.Value;
+
+            EL_Ground.LoadSlots(arr.GroundTable);
+            EL_Water.LoadSlots(arr.WaterTable);
+            EL_Old.LoadSlots(arr.OldRodTable);
+            EL_Good.LoadSlots(arr.GoodRodTable);
+            EL_Super.LoadSlots(arr.SuperRodTable);
+        }
+
+        public string Result { get; set; }
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            EL_Ground.SaveCurrent();
+            EL_Water.SaveCurrent();
+            EL_Old.SaveCurrent();
+            EL_Good.SaveCurrent();
+            EL_Super.SaveCurrent();
+
+            Result = Tables.WriteJson();
+            // Clipboard.SetText(Result);
+            Close();
+        }
+    }
+}

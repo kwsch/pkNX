@@ -35,10 +35,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\EncounterList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EncounterList.Designer.cs">
+      <DependentUpon>EncounterList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MegaEvoEntry.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +94,12 @@
     <Compile Include="Subforms\GenericEditor.Designer.cs">
       <DependentUpon>GenericEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\GGWE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\GGWE.Designer.cs">
+      <DependentUpon>GGWE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\PokeDataUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +114,9 @@
       <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\EncounterList.resx">
+      <DependentUpon>EncounterList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MegaEvoEntry.resx">
       <DependentUpon>MegaEvoEntry.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\GenericEditor.resx">
       <DependentUpon>GenericEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\GGWE.resx">
+      <DependentUpon>GGWE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PokeDataUI.resx">
       <DependentUpon>PokeDataUI.cs</DependentUpon>

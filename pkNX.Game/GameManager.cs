@@ -14,6 +14,9 @@ namespace pkNX.Game
         private readonly TextManager Text; // GameText
         private readonly GameFileMapping FileMap;
 
+        public string ROMPath => ROM.RomFS;
+        public string EXEPath => ROM.ExeFS;
+
         /// <summary>
         /// Language to use when fetching string &amp; graphic assets.
         /// </summary>

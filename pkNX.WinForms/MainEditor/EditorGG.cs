@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Structures;
 
@@ -100,6 +101,34 @@ namespace pkNX.WinForms.Controls
                 cache.CancelEdits();
             else
                 cache.Save();
+        }
+
+        public void EditWild()
+        {
+            var ofd = new OpenFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+            var path = ofd.FileName;
+            if (!File.Exists(path))
+                return;
+
+            if (Path.GetExtension(path) != ".json" || new FileInfo(path).Length > 350_000)
+            {
+                WinFormsUtil.Alert("Not an expected json file.");
+                return;
+            }
+            var json = File.ReadAllText(path);
+            var form = new GGWE(ROM, json);
+            form.ShowDialog();
+            var result = form.Result;
+            if (string.IsNullOrWhiteSpace(result))
+                return; // no save
+
+            var sfd = new SaveFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            path = sfd.FileName;
+            File.WriteAllText(path, result);
         }
     }
 }
