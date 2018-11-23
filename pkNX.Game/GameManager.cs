@@ -13,6 +13,7 @@ namespace pkNX.Game
         private readonly GameLocation ROM;
         private readonly TextManager Text; // GameText
         private readonly GameFileMapping FileMap;
+        public readonly GameInfo Info;
 
         public string ROMPath => ROM.RomFS;
         public string EXEPath => ROM.ExeFS;
@@ -44,6 +45,7 @@ namespace pkNX.Game
             FileMap = new GameFileMapping(rom);
             Initialize();
             Text = new TextManager(Game);
+            Info = new GameInfo(Game);
         }
 
         /// <summary>

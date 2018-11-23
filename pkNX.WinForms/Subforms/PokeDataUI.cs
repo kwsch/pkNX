@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Sprites;
 using pkNX.Structures;
 using Util = pkNX.Randomization.Util;
@@ -13,8 +14,9 @@ namespace pkNX.WinForms
 {
     public partial class PokeDataUI : Form
     {
-        public PokeDataUI(PokeEditor editor, GameManager ROM)
+        public PokeDataUI(PokeEditor editor, GameManager rom)
         {
+            ROM = rom;
             Editor = editor;
             InitializeComponent();
 
@@ -47,8 +49,11 @@ namespace pkNX.WinForms
             InitMega(2);
 
             CB_Species.SelectedIndex = 1;
+
+            PG_Personal.SelectedObject = new PersonalRandSettings();
         }
 
+        public GameManager ROM { get; set; }
         public PokeEditor Editor { get; set; }
         public bool Modified { get; set; }
 
@@ -423,6 +428,16 @@ namespace pkNX.WinForms
             var arr = Editor.Personal.Table;
             var result = TableUtil.GetNamedTypeTable(arr, entryNames, "Species");
             Clipboard.SetText(result);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_RandPersonal_Click(object sender, EventArgs e)
+        {
+            SaveCurrent();
+            var settings = (PersonalRandSettings) PG_Personal.SelectedObject;
+            var rand = new PersonalRandomizer(Editor.Personal, ROM.Info, Editor.Evolve.LoadAll()) {Settings = settings};
+            rand.Execute();
+            LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
         }
 

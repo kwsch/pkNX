@@ -159,7 +159,7 @@ namespace pkNX.Randomization
         public bool InheritType { get; set; } = true;
 
         /// <summary>Maximum amount of Types that can be different from the pre-evolution.</summary>
-        [Category(Evolutions), Description("Maximum amount of Types that can be different from the pre-evolutionn.")]
+        [Category(Evolutions), Description("Maximum amount of Types that can be different from the pre-evolution.")]
         public ModifyState InheritTypeSetting { get; set; } = ModifyState.One;
 
         /// <summary>Percentage chance that only one type will be inherited, and a new random one will replace the other.</summary>
