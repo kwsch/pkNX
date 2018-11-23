@@ -186,7 +186,7 @@ namespace pkNX.Randomization
 
         private void AddGGEvents(List<int> list)
         {
-            list.AddRange(Enumerable.Range(808, Legal.MaxSpeciesID_7_GG - Legal.MaxAbilityID_7_USUM)); // *
+            list.AddRange(Enumerable.Range(808, Legal.MaxSpeciesID_7_GG - Legal.MaxSpeciesID_7_USUM)); // *
         }
     }
 }

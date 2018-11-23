@@ -51,6 +51,8 @@ namespace pkNX.WinForms
             CB_Species.SelectedIndex = 1;
 
             PG_Personal.SelectedObject = new PersonalRandSettings();
+            PG_Evolution.SelectedObject = new SpeciesSettings();
+            PG_Learn.SelectedObject = null;
         }
 
         public GameManager ROM { get; set; }
@@ -439,6 +441,35 @@ namespace pkNX.WinForms
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_RandEvo_Click(object sender, EventArgs e)
+        {
+            SaveCurrent();
+            var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+            settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
+            var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
+            rand.Randomizer.Initialize(settings);
+            rand.Execute();
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_TradeEvo_Click(object sender, EventArgs e)
+        {
+            SaveCurrent();
+            var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+            settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
+            var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
+            rand.Randomizer.Initialize(settings);
+            rand.ExecuteTrade();
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_RandLearn_Click(object sender, EventArgs e)
+        {
+            WinFormsUtil.Alert("Not implemented yet.");
         }
 
         private void B_Save_Click(object sender, EventArgs e)
