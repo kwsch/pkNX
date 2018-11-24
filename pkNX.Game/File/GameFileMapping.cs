@@ -333,6 +333,7 @@ namespace pkNX.Game
             new GameFileReference(GameFile.MoveStats, ContainerType.Mini, "bin", "pokelib", "waza", "waza_data.bin"),
             new GameFileReference(GameFile.EncounterStatic, ContainerType.SingleFile, "bin", "script_event_data", "event_encount.bin"),
             new GameFileReference(GameFile.EncounterTrade, ContainerType.SingleFile, "bin", "script_event_data", "field_trade_data"),
+            new GameFileReference(GameFile.EncounterGift, ContainerType.SingleFile, "bin", "script_event_data", "add_poke.bin"),
             new GameFileReference(GameFile.Learnsets, ContainerType.GFPack, "bin", "archive", "waza_oboe.gfpak"),
 
             // Cutscenes    bin\demo

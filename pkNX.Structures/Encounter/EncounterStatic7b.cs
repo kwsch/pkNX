@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace pkNX.Structures.Encounter
+namespace pkNX.Structures
 {
     public sealed class EncounterStatic7b : EncounterStatic
     {
-        private const int SIZE = 0x40;
+        public const int SIZE = 0x40;
         public EncounterStatic7b(byte[] data) => Data = data ?? new byte[SIZE];
 
         public ulong Hash => BitConverter.ToUInt64(Data, 0);

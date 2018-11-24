@@ -37,6 +37,21 @@ namespace pkNX.Structures
             return data;
         }
 
+        public static T[] GetArray<T>(this byte[] entries, Func<byte[], T> del, int size)
+        {
+            if (entries == null || entries.Length < size)
+                return Array.Empty<T>();
+
+            var data = new T[entries.Length / size];
+            for (int i = 0; i < entries.Length; i += size)
+            {
+                byte[] arr = new byte[size];
+                Array.Copy(entries, i, arr, 0, size);
+                data[i / size] = del(arr);
+            }
+            return data;
+        }
+
         public static T[] GetArray<T>(this Task<byte[][]> task, Func<byte[], T> del)
         {
             return GetArray(task.Result, del);

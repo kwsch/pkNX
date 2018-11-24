@@ -25,9 +25,9 @@ namespace pkNX.Containers
         }
 
         public byte[] this[int index] { get => Data; set => Data = value; }
-        public Task<byte[][]> GetFiles() => new Task<byte[][]>(() => new[] {Data});
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(() => Data);
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => Data = value);
+        public Task<byte[][]> GetFiles() => Task.FromResult(new[] {Data});
+        public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(Data);
+        public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(Data = value);
         public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => Dump(path, handler), token);
         public void Dump(string path, ContainerHandler handler) => File.WriteAllBytes(path ?? FilePath, Data);
     }

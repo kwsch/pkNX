@@ -9,15 +9,12 @@ namespace pkNX.Game
         public Func<byte[], T> Create { private get; set; }
         public Func<T, byte[]> Write { protected get; set; }
 
-        public DataCache(IFileContainer f)
-        {
-            Data = f;
-            Cache = new T[f.Count];
-        }
+        protected DataCache(T[] cache) => Cache = cache;
+        public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
-        private readonly T[] Cache;
+        protected readonly T[] Cache;
 
-        public int Length => Data.Count;
+        public int Length => Cache.Length;
 
         public T this[int index]
         {
@@ -44,7 +41,7 @@ namespace pkNX.Game
         /// <summary>
         /// Pushes changes back to the <see cref="IFileContainer"/>.
         /// </summary>
-        public void Save()
+        public virtual void Save()
         {
             for (int i = 0; i < Cache.Length; i++)
             {
@@ -54,5 +51,15 @@ namespace pkNX.Game
                 Data[i] = Write(val);
             }
         }
+    }
+
+    /// <summary>
+    /// Data with already known contents.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DirectCache<T> : DataCache<T> where T : class
+    {
+        public DirectCache(T[] cache) : base(cache) { }
+        public override void Save() { }
     }
 }

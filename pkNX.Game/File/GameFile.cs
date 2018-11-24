@@ -142,6 +142,11 @@
 
         /// <summary> UI Sprites for pretty in-game move descriptors. </summary>
         MoveSprites,
-        EncounterTrade
+
+        /// <summary> Traded Pokémon swap data. </summary>
+        EncounterTrade,
+
+        /// <summary> Gift Pokémon data. </summary>
+        EncounterGift,
     }
 }

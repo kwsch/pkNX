@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Structures;
@@ -61,7 +62,6 @@ namespace pkNX.WinForms.Controls
                 Learn = ROM.Data.LevelUpData,
                 Mega = ROM.Data.MegaEvolutionData,
                 Personal = ROM.Data.PersonalData,
-
             };
             var form = new PokeDataUI(editor, ROM);
             form.ShowDialog();
@@ -101,6 +101,36 @@ namespace pkNX.WinForms.Controls
                 cache.CancelEdits();
             else
                 cache.Save();
+        }
+
+        public void EditGift()
+        {
+            var file = ROM[GameFile.EncounterGift];
+            var data = file.GetFiles().Result[0];
+            var objs = data.GetArray(z => new EncounterGift7b(z), EncounterGift7b.SIZE); // binary
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var cache = new DirectCache<EncounterGift7b>(objs);
+            var form = new GenericEditor<EncounterGift7b>(cache, names, "Gift Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+                file.CancelEdits();
+            else
+                file[0] = objs.SelectMany(z => z.Write()).ToArray();
+        }
+
+        public void EditStatic()
+        {
+            var file = ROM[GameFile.EncounterStatic];
+            var data = file.GetFiles().Result[0];
+            var objs = data.GetArray(z => new EncounterStatic7b(z), EncounterStatic7b.SIZE); // binary
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var cache = new DirectCache<EncounterStatic7b>(objs);
+            var form = new GenericEditor<EncounterStatic7b>(cache, names, "Static Encounter Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+                file.CancelEdits();
+            else
+                file[0] = objs.SelectMany(z => z.Write()).ToArray();
         }
 
         public void EditWild()
