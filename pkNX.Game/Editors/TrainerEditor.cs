@@ -63,6 +63,14 @@ namespace pkNX.Game
             }
         }
 
+        public VsTrainer[] LoadAll()
+        {
+            for (int i = 0; i < Length; i++)
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = this[i]; // force load cache
+            return Cache;
+        }
+
         public void CancelEdits()
         {
             TrainerData.CancelEdits();

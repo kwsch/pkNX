@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace pkNX.Structures
@@ -164,5 +165,17 @@ namespace pkNX.Structures
             {018, new[] {762}}, // Pidgeot @ Pidgeotite
             {080, new[] {760}}, // Slowbro @ Slowbronite
         };
+
+        public static int[] GetBannedMoves(GameVersion infoGame, IEnumerable<Move> moves)
+        {
+            if (!GameVersion.GG.Contains(infoGame))
+                return Array.Empty<int>();
+
+            var banned = moves
+                .Select((z, i) => new { Index = i, Move = (Move7)z })
+                .Where(z => (z.Move.Flags & MoveFlag7.F18) == 0) // no "allowed" flag
+                .Select(z => z.Index).ToArray();
+            return banned;
+        }
     }
 }

@@ -53,7 +53,6 @@
             this.PB_Team4 = new System.Windows.Forms.PictureBox();
             this.PB_Team5 = new System.Windows.Forms.PictureBox();
             this.PB_Team6 = new System.Windows.Forms.PictureBox();
-            this.B_Dump = new System.Windows.Forms.Button();
             this.TC_trpoke = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -86,7 +85,6 @@
             this.CHK_CanMega = new System.Windows.Forms.CheckBox();
             this.NUD_MegaForm = new System.Windows.Forms.NumericUpDown();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.Stats = new pkNX.WinForms.Controls.StatEditor();
             this.Tab_Moves = new System.Windows.Forms.TabPage();
             this.B_Clear = new System.Windows.Forms.Button();
             this.B_CurrentAttack = new System.Windows.Forms.Button();
@@ -115,6 +113,16 @@
             this.CB_Gift = new System.Windows.Forms.ComboBox();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
             this.B_Save = new System.Windows.Forms.Button();
+            this.TC_RandSettings = new System.Windows.Forms.TabControl();
+            this.Tab_RSpecies = new System.Windows.Forms.TabPage();
+            this.Tab_RMoves = new System.Windows.Forms.TabPage();
+            this.Tab_RTrainer = new System.Windows.Forms.TabPage();
+            this.B_Randomize = new System.Windows.Forms.Button();
+            this.PG_RTrainer = new System.Windows.Forms.PropertyGrid();
+            this.PG_Species = new System.Windows.Forms.PropertyGrid();
+            this.PG_Moves = new System.Windows.Forms.PropertyGrid();
+            this.B_Dump = new System.Windows.Forms.Button();
+            this.Stats = new pkNX.WinForms.Controls.StatEditor();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -146,6 +154,10 @@
             this.GB_AIBits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftCount)).BeginInit();
             this.Tab_Rand.SuspendLayout();
+            this.TC_RandSettings.SuspendLayout();
+            this.Tab_RSpecies.SuspendLayout();
+            this.Tab_RMoves.SuspendLayout();
+            this.Tab_RTrainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TrainerID
@@ -159,7 +171,7 @@
             this.CB_TrainerID.Location = new System.Drawing.Point(191, 6);
             this.CB_TrainerID.MaxDropDownItems = 12;
             this.CB_TrainerID.Name = "CB_TrainerID";
-            this.CB_TrainerID.Size = new System.Drawing.Size(140, 21);
+            this.CB_TrainerID.Size = new System.Drawing.Size(144, 21);
             this.CB_TrainerID.TabIndex = 64;
             this.CB_TrainerID.SelectedIndexChanged += new System.EventHandler(this.ChangeTrainerIndex);
             // 
@@ -281,7 +293,7 @@
             // L_Team
             // 
             this.L_Team.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Team.Location = new System.Drawing.Point(-19, 315);
+            this.L_Team.Location = new System.Drawing.Point(-19, 353);
             this.L_Team.Name = "L_Team";
             this.L_Team.Size = new System.Drawing.Size(66, 15);
             this.L_Team.TabIndex = 445;
@@ -293,7 +305,7 @@
             this.PB_Team1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team1.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team1.Location = new System.Drawing.Point(53, 292);
+            this.PB_Team1.Location = new System.Drawing.Point(53, 330);
             this.PB_Team1.Name = "PB_Team1";
             this.PB_Team1.Size = new System.Drawing.Size(82, 62);
             this.PB_Team1.TabIndex = 444;
@@ -331,7 +343,7 @@
             this.PB_Team2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team2.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team2.Location = new System.Drawing.Point(139, 292);
+            this.PB_Team2.Location = new System.Drawing.Point(139, 330);
             this.PB_Team2.Name = "PB_Team2";
             this.PB_Team2.Size = new System.Drawing.Size(82, 62);
             this.PB_Team2.TabIndex = 443;
@@ -342,7 +354,7 @@
             this.PB_Team3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team3.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team3.Location = new System.Drawing.Point(225, 292);
+            this.PB_Team3.Location = new System.Drawing.Point(225, 330);
             this.PB_Team3.Name = "PB_Team3";
             this.PB_Team3.Size = new System.Drawing.Size(82, 62);
             this.PB_Team3.TabIndex = 442;
@@ -353,7 +365,7 @@
             this.PB_Team4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team4.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team4.Location = new System.Drawing.Point(311, 292);
+            this.PB_Team4.Location = new System.Drawing.Point(311, 330);
             this.PB_Team4.Name = "PB_Team4";
             this.PB_Team4.Size = new System.Drawing.Size(82, 62);
             this.PB_Team4.TabIndex = 441;
@@ -364,7 +376,7 @@
             this.PB_Team5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team5.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team5.Location = new System.Drawing.Point(397, 292);
+            this.PB_Team5.Location = new System.Drawing.Point(397, 330);
             this.PB_Team5.Name = "PB_Team5";
             this.PB_Team5.Size = new System.Drawing.Size(82, 62);
             this.PB_Team5.TabIndex = 440;
@@ -375,33 +387,23 @@
             this.PB_Team6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team6.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team6.Location = new System.Drawing.Point(483, 292);
+            this.PB_Team6.Location = new System.Drawing.Point(483, 330);
             this.PB_Team6.Name = "PB_Team6";
             this.PB_Team6.Size = new System.Drawing.Size(82, 62);
             this.PB_Team6.TabIndex = 439;
             this.PB_Team6.TabStop = false;
             // 
-            // B_Dump
-            // 
-            this.B_Dump.Location = new System.Drawing.Point(160, 3);
-            this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(93, 23);
-            this.B_Dump.TabIndex = 446;
-            this.B_Dump.Text = "Dump to .TXT";
-            this.B_Dump.UseVisualStyleBackColor = true;
-            this.B_Dump.Click += new System.EventHandler(this.DumpTxt);
-            // 
             // TC_trpoke
             // 
             this.TC_trpoke.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_trpoke.Controls.Add(this.Tab_Main);
             this.TC_trpoke.Controls.Add(this.Tab_Stats);
             this.TC_trpoke.Controls.Add(this.Tab_Moves);
-            this.TC_trpoke.Location = new System.Drawing.Point(340, 12);
+            this.TC_trpoke.Location = new System.Drawing.Point(344, 12);
             this.TC_trpoke.Name = "TC_trpoke";
             this.TC_trpoke.SelectedIndex = 0;
-            this.TC_trpoke.Size = new System.Drawing.Size(232, 273);
+            this.TC_trpoke.Size = new System.Drawing.Size(232, 311);
             this.TC_trpoke.TabIndex = 448;
             // 
             // Tab_Main
@@ -410,7 +412,7 @@
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Main.Size = new System.Drawing.Size(224, 247);
+            this.Tab_Main.Size = new System.Drawing.Size(224, 285);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
@@ -429,7 +431,7 @@
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(218, 241);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(218, 279);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // FLP_Species
@@ -751,14 +753,6 @@
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
-            // Stats
-            // 
-            this.Stats.Location = new System.Drawing.Point(1, 1);
-            this.Stats.Name = "Stats";
-            this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(222, 195);
-            this.Stats.TabIndex = 0;
-            // 
             // Tab_Moves
             // 
             this.Tab_Moves.Controls.Add(this.B_Clear);
@@ -888,10 +882,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_trdata.Controls.Add(this.Tab_Trainer);
             this.TC_trdata.Controls.Add(this.Tab_Rand);
-            this.TC_trdata.Location = new System.Drawing.Point(12, 12);
+            this.TC_trdata.Location = new System.Drawing.Point(16, 12);
             this.TC_trdata.Name = "TC_trdata";
             this.TC_trdata.SelectedIndex = 0;
-            this.TC_trdata.Size = new System.Drawing.Size(322, 273);
+            this.TC_trdata.Size = new System.Drawing.Size(322, 311);
             this.TC_trdata.TabIndex = 450;
             // 
             // Tab_Trainer
@@ -910,7 +904,7 @@
             this.Tab_Trainer.Location = new System.Drawing.Point(4, 22);
             this.Tab_Trainer.Name = "Tab_Trainer";
             this.Tab_Trainer.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Trainer.Size = new System.Drawing.Size(314, 247);
+            this.Tab_Trainer.Size = new System.Drawing.Size(314, 285);
             this.Tab_Trainer.TabIndex = 0;
             this.Tab_Trainer.Text = "Trainer";
             this.Tab_Trainer.UseVisualStyleBackColor = true;
@@ -1065,6 +1059,8 @@
             // Tab_Rand
             // 
             this.Tab_Rand.Controls.Add(this.B_Dump);
+            this.Tab_Rand.Controls.Add(this.B_Randomize);
+            this.Tab_Rand.Controls.Add(this.TC_RandSettings);
             this.Tab_Rand.Location = new System.Drawing.Point(4, 22);
             this.Tab_Rand.Name = "Tab_Rand";
             this.Tab_Rand.Size = new System.Drawing.Size(314, 247);
@@ -1074,7 +1070,8 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(493, 7);
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Location = new System.Drawing.Point(497, 7);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 451;
@@ -1082,11 +1079,107 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
+            // TC_RandSettings
+            // 
+            this.TC_RandSettings.Controls.Add(this.Tab_RTrainer);
+            this.TC_RandSettings.Controls.Add(this.Tab_RSpecies);
+            this.TC_RandSettings.Controls.Add(this.Tab_RMoves);
+            this.TC_RandSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TC_RandSettings.Location = new System.Drawing.Point(0, 0);
+            this.TC_RandSettings.Name = "TC_RandSettings";
+            this.TC_RandSettings.SelectedIndex = 0;
+            this.TC_RandSettings.Size = new System.Drawing.Size(314, 247);
+            this.TC_RandSettings.TabIndex = 447;
+            // 
+            // Tab_RSpecies
+            // 
+            this.Tab_RSpecies.Controls.Add(this.PG_Species);
+            this.Tab_RSpecies.Location = new System.Drawing.Point(4, 22);
+            this.Tab_RSpecies.Name = "Tab_RSpecies";
+            this.Tab_RSpecies.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RSpecies.TabIndex = 0;
+            this.Tab_RSpecies.Text = "Species";
+            this.Tab_RSpecies.UseVisualStyleBackColor = true;
+            // 
+            // Tab_RMoves
+            // 
+            this.Tab_RMoves.Controls.Add(this.PG_Moves);
+            this.Tab_RMoves.Location = new System.Drawing.Point(4, 22);
+            this.Tab_RMoves.Name = "Tab_RMoves";
+            this.Tab_RMoves.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RMoves.TabIndex = 1;
+            this.Tab_RMoves.Text = "Moves";
+            this.Tab_RMoves.UseVisualStyleBackColor = true;
+            // 
+            // Tab_RTrainer
+            // 
+            this.Tab_RTrainer.Controls.Add(this.PG_RTrainer);
+            this.Tab_RTrainer.Location = new System.Drawing.Point(4, 22);
+            this.Tab_RTrainer.Name = "Tab_RTrainer";
+            this.Tab_RTrainer.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RTrainer.TabIndex = 3;
+            this.Tab_RTrainer.Text = "Trainer";
+            this.Tab_RTrainer.UseVisualStyleBackColor = true;
+            // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Location = new System.Drawing.Point(243, 0);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(70, 20);
+            this.B_Randomize.TabIndex = 448;
+            this.B_Randomize.Text = "Randomize";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
+            // PG_RTrainer
+            // 
+            this.PG_RTrainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_RTrainer.Location = new System.Drawing.Point(0, 0);
+            this.PG_RTrainer.Name = "PG_RTrainer";
+            this.PG_RTrainer.Size = new System.Drawing.Size(306, 221);
+            this.PG_RTrainer.TabIndex = 0;
+            this.PG_RTrainer.ToolbarVisible = false;
+            // 
+            // PG_Species
+            // 
+            this.PG_Species.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Species.Location = new System.Drawing.Point(0, 0);
+            this.PG_Species.Name = "PG_Species";
+            this.PG_Species.Size = new System.Drawing.Size(306, 221);
+            this.PG_Species.TabIndex = 1;
+            this.PG_Species.ToolbarVisible = false;
+            // 
+            // PG_Moves
+            // 
+            this.PG_Moves.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Moves.Location = new System.Drawing.Point(0, 0);
+            this.PG_Moves.Name = "PG_Moves";
+            this.PG_Moves.Size = new System.Drawing.Size(306, 221);
+            this.PG_Moves.TabIndex = 1;
+            this.PG_Moves.ToolbarVisible = false;
+            // 
+            // B_Dump
+            // 
+            this.B_Dump.Location = new System.Drawing.Point(174, 0);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(70, 20);
+            this.B_Dump.TabIndex = 449;
+            this.B_Dump.Text = "Dump .TXT";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            // 
+            // Stats
+            // 
+            this.Stats.Location = new System.Drawing.Point(1, 1);
+            this.Stats.Name = "Stats";
+            this.Stats.PKM = null;
+            this.Stats.Size = new System.Drawing.Size(222, 195);
+            this.Stats.TabIndex = 0;
+            // 
             // BTTE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 363);
+            this.ClientSize = new System.Drawing.Size(584, 401);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_trpoke);
             this.Controls.Add(this.L_Team);
@@ -1138,6 +1231,10 @@
             this.GB_AIBits.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_GiftCount)).EndInit();
             this.Tab_Rand.ResumeLayout(false);
+            this.TC_RandSettings.ResumeLayout(false);
+            this.Tab_RSpecies.ResumeLayout(false);
+            this.Tab_RMoves.ResumeLayout(false);
+            this.Tab_RTrainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1163,7 +1260,6 @@
         private System.Windows.Forms.PictureBox PB_Team4;
         private System.Windows.Forms.PictureBox PB_Team5;
         private System.Windows.Forms.PictureBox PB_Team6;
-        private System.Windows.Forms.Button B_Dump;
         private System.Windows.Forms.TabControl TC_trpoke;
         private System.Windows.Forms.TabPage Tab_Main;
         private System.Windows.Forms.TabPage Tab_Moves;
@@ -1229,6 +1325,15 @@
         private System.Windows.Forms.GroupBox GB_AIBits;
         private System.Windows.Forms.GroupBox GB_Items;
         private System.Windows.Forms.Button B_Save;
+        private System.Windows.Forms.TabControl TC_RandSettings;
+        private System.Windows.Forms.TabPage Tab_RSpecies;
+        private System.Windows.Forms.TabPage Tab_RMoves;
+        private System.Windows.Forms.TabPage Tab_RTrainer;
+        private System.Windows.Forms.Button B_Randomize;
+        private System.Windows.Forms.PropertyGrid PG_RTrainer;
+        private System.Windows.Forms.PropertyGrid PG_Species;
+        private System.Windows.Forms.PropertyGrid PG_Moves;
+        private System.Windows.Forms.Button B_Dump;
     }
 }
 

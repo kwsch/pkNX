@@ -473,10 +473,7 @@ namespace pkNX.WinForms
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
             var moves = ROM.Data.MoveData.LoadAll();
-            var banned = moves
-                .Select((z, i) => new {Index = i, Move = (Move7) z})
-                .Where(z => (z.Move.Flags & MoveFlag7.F18) == 0) // no "allowed" flag
-                .Select(z => z.Index).ToArray();
+            int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves);
             rand.Initialize(moves, settings, banned);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);

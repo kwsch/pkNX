@@ -66,6 +66,18 @@ namespace pkNX.WinForms
                 pb.Click += ClickSlot;
 
             CB_TrainerID.SelectedIndex = 0;
+
+            PG_Moves.SelectedObject = new MovesetRandSettings();
+            PG_RTrainer.SelectedObject = new TrainerRandSettings();
+            PG_Species.SelectedObject = new SpeciesSettings
+            {
+                Gen2 = false,
+                Gen3 = false,
+                Gen4 = false,
+                Gen5 = false,
+                Gen6 = false,
+                Gen7 = false,
+            };
         }
 
         public bool Modified { get; set; }
@@ -521,6 +533,24 @@ namespace pkNX.WinForms
         {
             Modified = true;
             Close();
+        }
+
+        private void B_Randomize_Click(object sender, EventArgs e)
+        {
+            var moves = Game.Data.MoveData.LoadAll();
+            var rmove = new MoveRandomizer(Game.Info, moves, Personal);
+            int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves);
+            rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
+            var rspec = new SpeciesRandomizer(Game.Info, Personal);
+            rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject);
+            var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll())
+            {
+                ClassCount = CB_Trainer_Class.Items.Count,
+                Learn = learn,
+                RandMove = rmove,
+                RandSpec = rspec,
+            };
+            trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject);
         }
     }
 

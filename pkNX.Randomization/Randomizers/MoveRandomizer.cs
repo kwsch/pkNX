@@ -12,6 +12,7 @@ namespace pkNX.Randomization
         private readonly GameInfo Config;
 
         private GenericRandomizer RandMove;
+        internal MovesetRandSettings Settings = new MovesetRandSettings();
 
         public MoveRandomizer(GameInfo config, Move[] moves, PersonalTable t)
         {
@@ -24,19 +25,14 @@ namespace pkNX.Randomization
 
         public override void Execute() => throw new Exception("Shouldn't be called.");
 
-        public bool DMG = true;
-        public int DMGCount = 2;
-        public bool STAB = true;
-        public int STABCount = 2;
-        public decimal STABPercent = 100;
-        public IList<int> BannedMoves = new int[0];
         public static readonly int[] FixedDamageMoves = { 49, 82 };
 
-        public void Initialize(int[] bannedMoves)
+        public void Initialize(MovesetRandSettings settings, int[] bannedMoves)
         {
+            Settings = settings;
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
             var moves = all.Except(bannedMoves);
-            BannedMoves = bannedMoves;
+            Settings.BannedMoves = bannedMoves;
             RandMove = new GenericRandomizer(moves.ToArray());
         }
 
@@ -44,10 +40,10 @@ namespace pkNX.Randomization
 
         public int[] GetRandomLearnset(int[] Types, int movecount)
         {
-            var oldSTABCount = STABCount;
-            STABCount = (int)(STABPercent * movecount / 100);
+            var oldSTABCount = Settings.STABCount;
+            Settings.STABCount = (int)(Settings.STABPercent * movecount / 100);
             int[] moves = GetRandomMoveset(Types, movecount);
-            STABCount = oldSTABCount;
+            Settings.STABCount = oldSTABCount;
             return moves;
         }
 
@@ -68,9 +64,9 @@ namespace pkNX.Randomization
         private int[] GetRandomMoves(int[] Types, int movecount = 4)
         {
             int[] moves = new int[movecount];
-            if (STAB)
+            if (Settings.STAB)
             {
-                for (int i = 0; i < STABCount; i++)
+                for (int i = 0; i < Settings.STABCount; i++)
                     moves[i] = GetRandomSTABMove(Types);
             }
 
@@ -89,10 +85,10 @@ namespace pkNX.Randomization
 
         private bool IsMovesetMeetingRequirements(int[] moves, int count)
         {
-            if (DMG && DMGCount > moves.Count(move => MoveData[move].Category != 0))
+            if (Settings.DMG && Settings.DMGCount > moves.Count(move => MoveData[move].Category != 0))
                 return false;
 
-            if (moves.Any(BannedMoves.Contains))
+            if (moves.Any(Settings.BannedMoves.Contains))
                 return false;
 
             return moves.Distinct().Count() == count;
@@ -152,7 +148,7 @@ namespace pkNX.Randomization
             bool updated = false;
             for (int m = 0; m < moves.Length; m++)
             {
-                if (!BannedMoves.Contains(moves[m]))
+                if (!Settings.BannedMoves.Contains(moves[m]))
                     continue;
                 updated = true;
                 moves[m] = GetRandomFirstMove(index);
