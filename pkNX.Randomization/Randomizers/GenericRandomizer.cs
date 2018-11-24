@@ -14,6 +14,7 @@
 
         private readonly int[] RandomValues;
         private int ctr;
+        public int Count => RandomValues.Length;
 
         public void Reset()
         {

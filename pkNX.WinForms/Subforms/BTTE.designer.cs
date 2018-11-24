@@ -748,7 +748,7 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(224, 247);
+            this.Tab_Stats.Size = new System.Drawing.Size(224, 285);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
@@ -762,7 +762,7 @@
             this.Tab_Moves.Location = new System.Drawing.Point(4, 22);
             this.Tab_Moves.Name = "Tab_Moves";
             this.Tab_Moves.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Moves.Size = new System.Drawing.Size(224, 247);
+            this.Tab_Moves.Size = new System.Drawing.Size(224, 285);
             this.Tab_Moves.TabIndex = 1;
             this.Tab_Moves.Text = "Moves";
             this.Tab_Moves.UseVisualStyleBackColor = true;
@@ -1063,7 +1063,7 @@
             this.Tab_Rand.Controls.Add(this.TC_RandSettings);
             this.Tab_Rand.Location = new System.Drawing.Point(4, 22);
             this.Tab_Rand.Name = "Tab_Rand";
-            this.Tab_Rand.Size = new System.Drawing.Size(314, 247);
+            this.Tab_Rand.Size = new System.Drawing.Size(314, 285);
             this.Tab_Rand.TabIndex = 2;
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
@@ -1088,7 +1088,7 @@
             this.TC_RandSettings.Location = new System.Drawing.Point(0, 0);
             this.TC_RandSettings.Name = "TC_RandSettings";
             this.TC_RandSettings.SelectedIndex = 0;
-            this.TC_RandSettings.Size = new System.Drawing.Size(314, 247);
+            this.TC_RandSettings.Size = new System.Drawing.Size(314, 285);
             this.TC_RandSettings.TabIndex = 447;
             // 
             // Tab_RSpecies
@@ -1096,7 +1096,7 @@
             this.Tab_RSpecies.Controls.Add(this.PG_Species);
             this.Tab_RSpecies.Location = new System.Drawing.Point(4, 22);
             this.Tab_RSpecies.Name = "Tab_RSpecies";
-            this.Tab_RSpecies.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RSpecies.Size = new System.Drawing.Size(306, 259);
             this.Tab_RSpecies.TabIndex = 0;
             this.Tab_RSpecies.Text = "Species";
             this.Tab_RSpecies.UseVisualStyleBackColor = true;
@@ -1106,7 +1106,7 @@
             this.Tab_RMoves.Controls.Add(this.PG_Moves);
             this.Tab_RMoves.Location = new System.Drawing.Point(4, 22);
             this.Tab_RMoves.Name = "Tab_RMoves";
-            this.Tab_RMoves.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RMoves.Size = new System.Drawing.Size(306, 259);
             this.Tab_RMoves.TabIndex = 1;
             this.Tab_RMoves.Text = "Moves";
             this.Tab_RMoves.UseVisualStyleBackColor = true;
@@ -1116,7 +1116,7 @@
             this.Tab_RTrainer.Controls.Add(this.PG_RTrainer);
             this.Tab_RTrainer.Location = new System.Drawing.Point(4, 22);
             this.Tab_RTrainer.Name = "Tab_RTrainer";
-            this.Tab_RTrainer.Size = new System.Drawing.Size(306, 221);
+            this.Tab_RTrainer.Size = new System.Drawing.Size(306, 259);
             this.Tab_RTrainer.TabIndex = 3;
             this.Tab_RTrainer.Text = "Trainer";
             this.Tab_RTrainer.UseVisualStyleBackColor = true;
@@ -1136,7 +1136,7 @@
             this.PG_RTrainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_RTrainer.Location = new System.Drawing.Point(0, 0);
             this.PG_RTrainer.Name = "PG_RTrainer";
-            this.PG_RTrainer.Size = new System.Drawing.Size(306, 221);
+            this.PG_RTrainer.Size = new System.Drawing.Size(306, 259);
             this.PG_RTrainer.TabIndex = 0;
             this.PG_RTrainer.ToolbarVisible = false;
             // 
@@ -1145,7 +1145,7 @@
             this.PG_Species.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_Species.Location = new System.Drawing.Point(0, 0);
             this.PG_Species.Name = "PG_Species";
-            this.PG_Species.Size = new System.Drawing.Size(306, 221);
+            this.PG_Species.Size = new System.Drawing.Size(306, 259);
             this.PG_Species.TabIndex = 1;
             this.PG_Species.ToolbarVisible = false;
             // 
@@ -1154,7 +1154,7 @@
             this.PG_Moves.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_Moves.Location = new System.Drawing.Point(0, 0);
             this.PG_Moves.Name = "PG_Moves";
-            this.PG_Moves.Size = new System.Drawing.Size(306, 221);
+            this.PG_Moves.Size = new System.Drawing.Size(306, 259);
             this.PG_Moves.TabIndex = 1;
             this.PG_Moves.ToolbarVisible = false;
             // 
@@ -1166,6 +1166,7 @@
             this.B_Dump.TabIndex = 449;
             this.B_Dump.Text = "Dump .TXT";
             this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.DumpTxt);
             // 
             // Stats
             // 

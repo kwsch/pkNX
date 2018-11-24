@@ -537,6 +537,7 @@ namespace pkNX.WinForms
 
         private void B_Randomize_Click(object sender, EventArgs e)
         {
+            SaveEntry();
             var moves = Game.Data.MoveData.LoadAll();
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
             int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves);
@@ -549,8 +550,12 @@ namespace pkNX.WinForms
                 Learn = learn,
                 RandMove = rmove,
                 RandSpec = rspec,
+                GetBlank = () => new TrainerPoke7b(), // this should probably be less specific
             };
             trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject);
+            trand.Execute();
+            LoadEntry();
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 

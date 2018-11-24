@@ -20,7 +20,7 @@ namespace pkNX.Randomization
         public MoveRandomizer RandMove { get; set; }
         public int ClassCount { get; set; }
         public IList<int> BannedMoves { get; set; }
-        public static Func<TrainerPoke> GetBlank { get; set; }
+        public Func<TrainerPoke> GetBlank { get; set; }
         public IList<int> FinalEvo { get; set; } = Array.Empty<int>();
 
         private TrainerRandSettings Settings;
@@ -65,6 +65,8 @@ namespace pkNX.Randomization
                 // Team
                 foreach (var pk in tr.Team)
                 {
+                    if (pk.Species == 0)
+                        continue;
                     DetermineSpecies(pk);
                     UpdatePKMFromSettings(pk);
                 }
@@ -155,7 +157,8 @@ namespace pkNX.Randomization
             if (Settings.ForceFullyEvolved && pk.Level >= Settings.ForceFullyEvolvedAtLevel && !FinalEvo.Contains(pk.Species))
             {
                 int randFinalEvo() => Util.Random.Next(FinalEvo.Count);
-                pk.Species = FinalEvo[randFinalEvo()];
+                if (FinalEvo.Count != 0)
+                    pk.Species = FinalEvo[randFinalEvo()];
                 pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal.Table);
             }
         }

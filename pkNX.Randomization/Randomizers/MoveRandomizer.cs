@@ -78,8 +78,9 @@ namespace pkNX.Randomization
         private int GetRandomSTABMove(int[] types)
         {
             int move;
+            int ctr = 0;
             do { move = RandMove.Next(); }
-            while (!types.Contains(MoveData[move].Type));
+            while (!types.Contains(MoveData[move].Type) && ctr++ < RandMove.Count);
             return move;
         }
 
