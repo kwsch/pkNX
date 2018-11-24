@@ -60,7 +60,7 @@ namespace pkNX.Randomization
                     SetRandomClass(tr);
                 SetupTeamCount(tr);
                 if (Settings.TrainerMaxAI)
-                    tr.Self.AI |= 7;
+                    tr.Self.AI |= (int)(TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
 
                 // Team
                 foreach (var pk in tr.Team)
