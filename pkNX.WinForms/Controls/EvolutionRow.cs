@@ -23,14 +23,12 @@ namespace pkNX.WinForms
             {
                 var index = (EvolutionType)CB_Method.SelectedIndex;
                 var type = index.GetArgType();
+                CB_Arg.Visible = type >= EvolutionTypeArgumentType.Items;
                 if (type == oldMethod)
                     return;
 
                 if (type < EvolutionTypeArgumentType.Items)
-                {
-                    CB_Arg.Visible = false;
                     return;
-                }
 
                 CB_Arg.Visible = true;
                 oldMethod = type;

@@ -100,6 +100,7 @@
             this.CB_Arg.Name = "CB_Arg";
             this.CB_Arg.Size = new System.Drawing.Size(82, 21);
             this.CB_Arg.TabIndex = 69;
+            this.CB_Arg.Visible = false;
             // 
             // CB_Species
             // 
