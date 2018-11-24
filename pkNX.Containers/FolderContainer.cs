@@ -49,14 +49,16 @@ namespace pkNX.Containers
             if (index < 0)
                 return null;
             string path = Paths[index];
-            return Data[index] ?? (Data[index] = File.ReadAllBytes(path));
+            var data = Data[index] ?? (Data[index] = File.ReadAllBytes(path));
+            return (byte[])data.Clone();
         }
 
         public byte[] GetFileData(int index)
         {
             if (index < 0 || (uint)index >= Data.Count)
                 return null;
-            return Data[index] ?? (Data[index] = File.ReadAllBytes(Paths[index]));
+            var data = Data[index] ?? (Data[index] = File.ReadAllBytes(Paths[index]));
+            return (byte[])data.Clone();
         }
 
         public byte[] this[int index]

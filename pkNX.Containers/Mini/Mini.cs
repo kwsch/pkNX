@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,11 +21,11 @@ namespace pkNX.Containers
 
         public byte[] this[int index]
         {
-            get => Files[index];
+            get => (byte[])Files[index].Clone();
             set
             {
+                Modified |= !Files[index].SequenceEqual(value);
                 Files[index] = value;
-                Modified = true;
             }
         }
 

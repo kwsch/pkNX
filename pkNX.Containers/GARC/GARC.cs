@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,6 +49,7 @@ namespace pkNX.Containers
 
         public override void SetEntry(int index, byte[] value, int subFile)
         {
+            Modified |= value != null && !GetEntry(index, subFile).SequenceEqual(value);
             var f = FATB[index].SubEntries[subFile];
             f.File = value;
         }

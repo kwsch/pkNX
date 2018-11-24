@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using pkNX.Containers;
@@ -68,7 +69,7 @@ namespace pkNX
         public virtual void SetEntry(int index, byte[] value, int subFile)
         {
             Files[index] = value;
-            Modified |= value != null;
+            Modified |= value != null && !this[index].SequenceEqual(value);
         }
 
         private byte[] GetCachedValue(int i, int subFile)
@@ -80,7 +81,7 @@ namespace pkNX
 
         public byte[] this[int index]
         {
-            get => GetCachedValue(index, 0);
+            get => (byte[]) GetCachedValue(index, 0).Clone();
             set => SetEntry(index, value, 0);
         }
 

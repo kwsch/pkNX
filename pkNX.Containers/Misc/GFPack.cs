@@ -162,10 +162,10 @@ namespace pkNX.Containers
 
         public byte[] this[int index]
         {
-            get => DecompressedFiles[index];
+            get => (byte[])DecompressedFiles[index].Clone();
             set
             {
-                Modified = true;
+                Modified |= !DecompressedFiles[index].SequenceEqual(value);
                 DecompressedFiles[index] = value;
             }
         }
