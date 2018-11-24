@@ -171,7 +171,7 @@ namespace pkNX.Randomization
         public decimal InheritTypeNeitherChance { get; set; } = 30;
 
         /// <summary>Toggles  chance that neither one type will be inherited, and new random ones will replace the others.</summary>
-        [Category(Evolutions), Description("Percentage chance that neither type will be inherited, and new random ones will replace the others.")]
+        [Category(Evolutions), Description("Amount of abilities that will be inherited, and new random ones will replace the others.")]
         public ModifyState InheritAbilitySetting { get; set; } = ModifyState.One;
 
         /// <summary>Toggles inheriting abilities from the pre-evolution that evolves into this species/form.</summary>

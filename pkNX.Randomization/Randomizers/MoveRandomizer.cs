@@ -30,9 +30,17 @@ namespace pkNX.Randomization
         public void Initialize(MovesetRandSettings settings, int[] bannedMoves)
         {
             Settings = settings;
+
+            var nanned = new List<int>();
+            nanned.AddRange(new[] { 165, 621, 464 }.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            if (Settings.BanFixedDamageMoves)
+                nanned.AddRange(FixedDamageMoves);
+            nanned.AddRange(bannedMoves);
+
+            Settings.BannedMoves = nanned.ToArray();
+
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
-            var moves = all.Except(bannedMoves);
-            Settings.BannedMoves = bannedMoves;
+            var moves = all.Except(nanned);
             RandMove = new GenericRandomizer(moves.ToArray());
         }
 

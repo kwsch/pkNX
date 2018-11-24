@@ -73,9 +73,6 @@ namespace pkNX.Randomization
         #endregion
 
         #region Moves
-        [Category(Moves), Description("Prevents Pokémon movesets from containing fixed damage moves.")]
-        public bool BanFixedDamageMoves { get; set; } = true;
-
         [Category(Moves), Description("How movesets are randomized/chosen for each Pokémon.")]
         public MoveRandType MoveRandType { get; set; } = MoveRandType.Random;
         #endregion

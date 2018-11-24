@@ -1157,7 +1157,7 @@
             //
             // B_RandPersonal
             //
-            this.B_RandPersonal.Location = new System.Drawing.Point(6, 80);
+            this.B_RandPersonal.Location = new System.Drawing.Point(6, 6);
             this.B_RandPersonal.Name = "B_RandPersonal";
             this.B_RandPersonal.Size = new System.Drawing.Size(75, 23);
             this.B_RandPersonal.TabIndex = 1;
@@ -1170,10 +1170,11 @@
             this.PG_Personal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Personal.Location = new System.Drawing.Point(6, 109);
+            this.PG_Personal.Location = new System.Drawing.Point(6, 35);
             this.PG_Personal.Name = "PG_Personal";
-            this.PG_Personal.Size = new System.Drawing.Size(411, 350);
+            this.PG_Personal.Size = new System.Drawing.Size(411, 424);
             this.PG_Personal.TabIndex = 0;
+            this.PG_Personal.ToolbarVisible = false;
             //
             // Tab_RLearn
             //
@@ -1190,7 +1191,7 @@
             //
             // B_LearnMetronome
             //
-            this.B_LearnMetronome.Location = new System.Drawing.Point(228, 80);
+            this.B_LearnMetronome.Location = new System.Drawing.Point(228, 3);
             this.B_LearnMetronome.Name = "B_LearnMetronome";
             this.B_LearnMetronome.Size = new System.Drawing.Size(135, 23);
             this.B_LearnMetronome.TabIndex = 5;
@@ -1200,7 +1201,7 @@
             //
             // B_LearnExpand
             //
-            this.B_LearnExpand.Location = new System.Drawing.Point(87, 80);
+            this.B_LearnExpand.Location = new System.Drawing.Point(87, 3);
             this.B_LearnExpand.Name = "B_LearnExpand";
             this.B_LearnExpand.Size = new System.Drawing.Size(135, 23);
             this.B_LearnExpand.TabIndex = 4;
@@ -1210,7 +1211,7 @@
             //
             // B_RandLearn
             //
-            this.B_RandLearn.Location = new System.Drawing.Point(6, 80);
+            this.B_RandLearn.Location = new System.Drawing.Point(6, 3);
             this.B_RandLearn.Name = "B_RandLearn";
             this.B_RandLearn.Size = new System.Drawing.Size(75, 23);
             this.B_RandLearn.TabIndex = 3;
@@ -1223,10 +1224,11 @@
             this.PG_Learn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Learn.Location = new System.Drawing.Point(6, 109);
+            this.PG_Learn.Location = new System.Drawing.Point(6, 32);
             this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(411, 350);
+            this.PG_Learn.Size = new System.Drawing.Size(411, 427);
             this.PG_Learn.TabIndex = 2;
+            this.PG_Learn.ToolbarVisible = false;
             //
             // Tab_REvo
             //
@@ -1242,7 +1244,7 @@
             //
             // B_TradeEvo
             //
-            this.B_TradeEvo.Location = new System.Drawing.Point(87, 80);
+            this.B_TradeEvo.Location = new System.Drawing.Point(87, 3);
             this.B_TradeEvo.Name = "B_TradeEvo";
             this.B_TradeEvo.Size = new System.Drawing.Size(180, 23);
             this.B_TradeEvo.TabIndex = 4;
@@ -1252,7 +1254,7 @@
             //
             // B_RandEvo
             //
-            this.B_RandEvo.Location = new System.Drawing.Point(6, 80);
+            this.B_RandEvo.Location = new System.Drawing.Point(6, 3);
             this.B_RandEvo.Name = "B_RandEvo";
             this.B_RandEvo.Size = new System.Drawing.Size(75, 23);
             this.B_RandEvo.TabIndex = 3;
@@ -1265,10 +1267,11 @@
             this.PG_Evolution.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Evolution.Location = new System.Drawing.Point(6, 109);
+            this.PG_Evolution.Location = new System.Drawing.Point(6, 32);
             this.PG_Evolution.Name = "PG_Evolution";
-            this.PG_Evolution.Size = new System.Drawing.Size(411, 350);
+            this.PG_Evolution.Size = new System.Drawing.Size(411, 427);
             this.PG_Evolution.TabIndex = 2;
+            this.PG_Evolution.ToolbarVisible = false;
             //
             // CB_Species
             //
