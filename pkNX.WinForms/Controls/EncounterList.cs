@@ -80,7 +80,6 @@ namespace pkNX.WinForms
 
         public void LoadSlots(EncounterSlot[] slots)
         {
-            SaveCurrent();
             Slots = slots;
 
             dgv.Rows.Clear();

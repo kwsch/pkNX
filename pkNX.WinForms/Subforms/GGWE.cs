@@ -4,25 +4,28 @@ using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Structures;
 
 namespace pkNX.WinForms
 {
     public partial class GGWE : Form
     {
-        private EncounterArchive Tables;
+        private readonly EncounterArchive Tables;
+        private readonly GameManager ROM;
         private int entry = -1;
 
-        public GGWE(GameManager ROM, string json)
+        public GGWE(GameManager rom, string json)
         {
             InitializeComponent();
             EncounterArchive obj = EncounterArchive.ReadJson(json);
+            ROM = rom;
 
-            var spec = ROM.GetStrings(TextName.SpeciesNames);
+            var spec = rom.GetStrings(TextName.SpeciesNames);
             var species = (string[]) spec.Clone();
             species[0] = "";
             EncounterList.species = species;
-            var locs = ROM.GetStrings(TextName.metlist_000000);
+            var locs = rom.GetStrings(TextName.metlist_000000);
 
             EL_Ground.Initialize();
             EL_Water.Initialize();
@@ -37,14 +40,24 @@ namespace pkNX.WinForms
             EL_Old.OverworldSpawn = EL_Good.OverworldSpawn = EL_Super.OverworldSpawn = false;
             L_Rank.Visible = NUD_RankMin.Visible = NUD_RankMax.Visible = false;
 
-            LoadFile(obj, locs);
+            PG_Species.SelectedObject = new SpeciesSettings
+            {
+                Gen2 = false,
+                Gen3 = false,
+                Gen4 = false,
+                Gen5 = false,
+                Gen6 = false,
+                Gen7 = false,
+            };
+
+            Tables = obj;
+            LoadFile(locs);
             CB_Location.SelectedIndex = 0;
         }
 
-        public void LoadFile(EncounterArchive arc, string[] locationNames)
+        public void LoadFile(string[] locationNames)
         {
-            Tables = arc;
-            var locs = arc.EncounterTables.Select(z => z.ZoneID);
+            var locs = Tables.EncounterTables.Select(z => z.ZoneID);
             var names = GetNames(locs, locationNames);
             var dupeNamed = GetScreenedNames(names);
 
@@ -182,6 +195,7 @@ namespace pkNX.WinForms
             EL_Old.LoadSlots(arr.OldRodTable);
             EL_Good.LoadSlots(arr.GoodRodTable);
             EL_Super.LoadSlots(arr.SuperRodTable);
+            EL_Sky.LoadSlots(arr.SkyTable);
 
             EL_Ground.NUD_Min.Value = arr.GroundTableLevelMin;
             EL_Ground.NUD_Max.Value = arr.GroundTableLevelMax;
@@ -212,8 +226,6 @@ namespace pkNX.WinForms
             EL_Sky.NUD_SpawnRate.Value = arr.SkyTableEncounterRate;
             EL_Sky.NUD_Count.Value = arr.SkySpawnCountMax;
             EL_Sky.NUD_Duration.Value = arr.SkySpawnDuration;
-
-            EL_Sky.LoadSlots(arr.SkyTable);
         }
 
         private void SaveEntry(int i)
@@ -255,17 +267,18 @@ namespace pkNX.WinForms
             arr.SkySpawnCountMax = (int)EL_Sky.NUD_Count.Value;
             arr.SkySpawnDuration = (int)EL_Sky.NUD_Duration.Value;
 
-            EL_Ground.LoadSlots(arr.GroundTable);
-            EL_Water.LoadSlots(arr.WaterTable);
-            EL_Old.LoadSlots(arr.OldRodTable);
-            EL_Good.LoadSlots(arr.GoodRodTable);
-            EL_Super.LoadSlots(arr.SuperRodTable);
+            EL_Ground.SaveCurrent();
+            EL_Water.SaveCurrent();
+            EL_Old.SaveCurrent();
+            EL_Good.SaveCurrent();
+            EL_Super.SaveCurrent();
         }
 
         public string Result { get; set; }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
+            SaveEntry(entry);
             EL_Ground.SaveCurrent();
             EL_Water.SaveCurrent();
             EL_Old.SaveCurrent();
@@ -275,6 +288,86 @@ namespace pkNX.WinForms
             Result = Tables.WriteJson();
             // Clipboard.SetText(Result);
             Close();
+        }
+
+        private void B_ModCount_Click(object sender, EventArgs e)
+        {
+            SaveEntry(entry);
+            foreach (var area in Tables.EncounterTables)
+            {
+                if (area.GroundSpawnCountMax != 0)
+                    area.GroundSpawnCountMax = (int)NUD_ModCount.Value;
+                if (area.WaterSpawnCountMax != 0)
+                    area.WaterSpawnCountMax = (int)NUD_ModCount.Value;
+                if (area.SkySpawnCountMax != 0)
+                    area.SkySpawnCountMax = (int)NUD_ModCount.Value;
+            }
+            LoadEntry(entry);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_ModRate_Click(object sender, EventArgs e)
+        {
+            SaveEntry(entry);
+            foreach (var area in Tables.EncounterTables)
+            {
+                if (area.GroundTableEncounterRate != 0)
+                    area.GroundTableEncounterRate = (int)NUD_ModCount.Value;
+                if (area.WaterTableEncounterRate != 0)
+                    area.WaterTableEncounterRate = (int)NUD_ModCount.Value;
+                if (area.SkyTableEncounterRate != 0)
+                    area.SkyTableEncounterRate = (int)NUD_ModCount.Value;
+            }
+            LoadEntry(entry);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_ModDuration_Click(object sender, EventArgs e)
+        {
+            SaveEntry(entry);
+            foreach (var area in Tables.EncounterTables)
+            {
+                if (area.GroundSpawnDuration != 0)
+                    area.GroundSpawnDuration = (int)NUD_ModDuration.Value;
+                if (area.WaterSpawnDuration != 0)
+                    area.WaterSpawnDuration = (int)NUD_ModDuration.Value;
+                if (area.SkySpawnDuration != 0)
+                    area.SkySpawnDuration = (int)NUD_ModDuration.Value;
+            }
+            LoadEntry(entry);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_RandAll_Click(object sender, EventArgs e)
+        {
+            SaveEntry(entry);
+            var settings = (SpeciesSettings) PG_Species.SelectedObject;
+            var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+            rand.Initialize(settings);
+            foreach (var area in Tables.EncounterTables)
+            {
+                ApplyRand(area.GroundTable);
+                ApplyRand(area.WaterTable);
+                ApplyRand(area.SkyTable);
+
+                ApplyRand(area.OldRodTable);
+                ApplyRand(area.GoodRodTable);
+                ApplyRand(area.SuperRodTable);
+
+                void ApplyRand(IEnumerable<EncounterSlot> slots)
+                {
+                    foreach (var s in slots)
+                    {
+                        if (s.Species == 0)
+                            continue;
+
+                        s.Species = rand.GetRandomSpecies(s.Species);
+                        // meh form
+                    }
+                }
+            }
+            LoadEntry(entry);
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }
