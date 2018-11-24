@@ -84,6 +84,14 @@ namespace pkNX.Randomization
             var pinfo = Personal.Table.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
             int avgSpec = Array.IndexOf(Personal.Table, pinfo);
 
+            if (Settings.ForceDoubles && !(special && count % 2 == 1))
+            {
+                if (tr.Team.Count % 2 != 0)
+                    tr.Team.Add(GetBlankPKM(avgLevel, avgSpec));
+                tr.Self.AI |= (int)TrainerAI.Doubles;
+                tr.Self.Mode = BattleMode.Doubles;
+            }
+
             if (Settings.ForceSpecialTeamCount6 && special && count == 6)
             {
                 for (int g = tr.Team.Count; g < 6; g++)

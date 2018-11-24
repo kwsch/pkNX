@@ -25,9 +25,12 @@ namespace pkNX.Randomization
 
         [Category(General), Description("Force special strong battles to have a full team of 6 Pokémon.")]
         public bool ForceSpecialTeamCount6 { get; set; } = true;
+
+        [Category(General), Description("Force all battles to be a Double Battle with an even (not odd) amount of Pokémon.")]
+        public bool ForceDoubles { get; set; }
         #endregion
 
-        #region General
+        #region Classes
         [Category(Classes), Description("Change Trainer Class to another random Trainer Class.")]
         public bool RandomTrainerClass { get; set; } = false;
 
