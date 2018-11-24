@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.IO;
+using Newtonsoft.Json;
 
 namespace pkNX.Structures
 {
@@ -7,7 +8,23 @@ namespace pkNX.Structures
         public EncounterTable[] EncounterTables { get; set; }
 
         public static EncounterArchive ReadJson(string json) => JsonConvert.DeserializeObject<EncounterArchive>(json);
-        public string WriteJson() => JsonConvert.SerializeObject(this);
+
+        public string WriteJson()
+        {
+            var serializer = new JsonSerializer();
+            using (var stringWriter = new StringWriter())
+            {
+                using (var writer = new JsonTextWriter(stringWriter))
+                {
+                    writer.QuoteName = false;
+                    writer.Formatting = Formatting.Indented;
+                    writer.IndentChar = '\t';
+                    writer.Indentation = 1;
+                    serializer.Serialize(writer, this);
+                }
+                return stringWriter.ToString();
+            }
+        }
     }
 
     public class EncounterTable

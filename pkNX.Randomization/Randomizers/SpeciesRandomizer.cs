@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using pkNX.Structures;
 
 namespace pkNX.Randomization
@@ -61,6 +62,8 @@ namespace pkNX.Randomization
         }
 
         private bool GetIsTypeMatch(int newSpecies, int type) => type == -1 || SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
+
+        public int GetRandomSpecies() => RandSpec.Next();
 
         public int GetRandomSpecies(int oldSpecies)
         {

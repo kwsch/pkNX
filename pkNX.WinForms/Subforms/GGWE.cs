@@ -344,12 +344,12 @@ namespace pkNX.WinForms
             var settings = (SpeciesSettings)PG_Species.SelectedObject;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
             rand.Initialize(settings);
-            RandomizeWild(rand, CHK_FillEmpty.Checked);
+            RandomizeWild(rand, CHK_FillEmpty.Checked, CHK_WildMega.Checked);
             LoadEntry(entry);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void RandomizeWild(SpeciesRandomizer rand, bool fill)
+        private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool wildMega)
         {
             foreach (var area in Tables.EncounterTables)
             {
@@ -362,15 +362,19 @@ namespace pkNX.WinForms
                 //ApplyRand(area.SuperRodTable);
             }
 
-            void ApplyRand(IEnumerable<EncounterSlot> slots)
+            void ApplyRand(IList<EncounterSlot> slots)
             {
                 foreach (var s in slots)
                 {
-                    if (s.Species == 0 && !fill)
-                        continue;
+                    if (s.Species == 0)
+                    {
+                        if (!fill)
+                            continue;
+                        s.Species = slots.FirstOrDefault(z => z.Species != 0)?.Species ?? rand.GetRandomSpecies();
+                    }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    // meh form
+                    s.Form = Legal.GetRandomForme(s.Species, wildMega, true, ROM.Data.PersonalData);
                 }
             }
         }
