@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Sprites;
 
@@ -14,6 +15,7 @@ namespace pkNX.WinForms
 {
     public partial class BTTE : Form
     {
+        private readonly LearnsetRandomizer learn;
         private string[][] AltForms;
         private int entry = -1;
         private PictureBox[] pba;
@@ -40,6 +42,7 @@ namespace pkNX.WinForms
             Stats.Personal = Personal = game.Data.PersonalData;
             Game = game;
             Trainers = editor;
+            learn = new LearnsetRandomizer(game.Info, game.Data.LevelUpData.LoadAll(), Personal);
 
             trClass = Game.GetStrings(TextName.TrainerClasses);
             trName = Game.GetStrings(TextName.TrainerClasses);
@@ -492,8 +495,8 @@ namespace pkNX.WinForms
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            //var moves = learn.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
-            //SetMoves(moves);
+            var moves = learn.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
+            SetMoves(moves);
         }
 
         private void B_CurrentAttack_Click(object sender, EventArgs e)
@@ -501,8 +504,8 @@ namespace pkNX.WinForms
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            //var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, pkm.Level, 4);
-            //SetMoves(moves);
+            var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, pkm.Level, 4);
+            SetMoves(moves);
         }
 
         private void B_Clear_Click(object sender, EventArgs e) => SetMoves(new int[4]);
