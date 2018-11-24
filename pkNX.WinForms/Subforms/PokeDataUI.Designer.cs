@@ -126,14 +126,16 @@
             this.B_RandPersonal = new System.Windows.Forms.Button();
             this.PG_Personal = new System.Windows.Forms.PropertyGrid();
             this.Tab_RLearn = new System.Windows.Forms.TabPage();
+            this.B_LearnMetronome = new System.Windows.Forms.Button();
+            this.B_LearnExpand = new System.Windows.Forms.Button();
+            this.B_RandLearn = new System.Windows.Forms.Button();
+            this.PG_Learn = new System.Windows.Forms.PropertyGrid();
             this.Tab_REvo = new System.Windows.Forms.TabPage();
             this.B_TradeEvo = new System.Windows.Forms.Button();
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
-            this.B_RandLearn = new System.Windows.Forms.Button();
-            this.PG_Learn = new System.Windows.Forms.PropertyGrid();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             this.Tab_Learn.SuspendLayout();
@@ -1175,6 +1177,8 @@
             //
             // Tab_RLearn
             //
+            this.Tab_RLearn.Controls.Add(this.B_LearnMetronome);
+            this.Tab_RLearn.Controls.Add(this.B_LearnExpand);
             this.Tab_RLearn.Controls.Add(this.B_RandLearn);
             this.Tab_RLearn.Controls.Add(this.PG_Learn);
             this.Tab_RLearn.Location = new System.Drawing.Point(4, 22);
@@ -1183,6 +1187,46 @@
             this.Tab_RLearn.TabIndex = 2;
             this.Tab_RLearn.Text = "Randomize Learn";
             this.Tab_RLearn.UseVisualStyleBackColor = true;
+            //
+            // B_LearnMetronome
+            //
+            this.B_LearnMetronome.Location = new System.Drawing.Point(228, 80);
+            this.B_LearnMetronome.Name = "B_LearnMetronome";
+            this.B_LearnMetronome.Size = new System.Drawing.Size(135, 23);
+            this.B_LearnMetronome.TabIndex = 5;
+            this.B_LearnMetronome.Text = "Metronome Mode";
+            this.B_LearnMetronome.UseVisualStyleBackColor = true;
+            this.B_LearnMetronome.Click += new System.EventHandler(this.B_LearnMetronome_Click);
+            //
+            // B_LearnExpand
+            //
+            this.B_LearnExpand.Location = new System.Drawing.Point(87, 80);
+            this.B_LearnExpand.Name = "B_LearnExpand";
+            this.B_LearnExpand.Size = new System.Drawing.Size(135, 23);
+            this.B_LearnExpand.TabIndex = 4;
+            this.B_LearnExpand.Text = "Expand Movepools";
+            this.B_LearnExpand.UseVisualStyleBackColor = true;
+            this.B_LearnExpand.Click += new System.EventHandler(this.B_LearnExpand_Click);
+            //
+            // B_RandLearn
+            //
+            this.B_RandLearn.Location = new System.Drawing.Point(6, 80);
+            this.B_RandLearn.Name = "B_RandLearn";
+            this.B_RandLearn.Size = new System.Drawing.Size(75, 23);
+            this.B_RandLearn.TabIndex = 3;
+            this.B_RandLearn.Text = "Randomize";
+            this.B_RandLearn.UseVisualStyleBackColor = true;
+            this.B_RandLearn.Click += new System.EventHandler(this.B_RandLearn_Click);
+            //
+            // PG_Learn
+            //
+            this.PG_Learn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PG_Learn.Location = new System.Drawing.Point(6, 109);
+            this.PG_Learn.Name = "PG_Learn";
+            this.PG_Learn.Size = new System.Drawing.Size(411, 350);
+            this.PG_Learn.TabIndex = 2;
             //
             // Tab_REvo
             //
@@ -1244,26 +1288,6 @@
             this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
             this.PB_MonSprite.TabIndex = 91;
             this.PB_MonSprite.TabStop = false;
-            //
-            // B_RandLearn
-            //
-            this.B_RandLearn.Location = new System.Drawing.Point(6, 80);
-            this.B_RandLearn.Name = "B_RandLearn";
-            this.B_RandLearn.Size = new System.Drawing.Size(75, 23);
-            this.B_RandLearn.TabIndex = 3;
-            this.B_RandLearn.Text = "Randomize";
-            this.B_RandLearn.UseVisualStyleBackColor = true;
-            this.B_RandLearn.Click += new System.EventHandler(this.B_RandLearn_Click);
-            //
-            // PG_Learn
-            //
-            this.PG_Learn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Learn.Location = new System.Drawing.Point(6, 109);
-            this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(411, 350);
-            this.PG_Learn.TabIndex = 2;
             //
             // PokeDataUI
             //
@@ -1403,5 +1427,7 @@
         private System.Windows.Forms.Button B_TradeEvo;
         private System.Windows.Forms.Button B_RandLearn;
         private System.Windows.Forms.PropertyGrid PG_Learn;
+        private System.Windows.Forms.Button B_LearnExpand;
+        private System.Windows.Forms.Button B_LearnMetronome;
     }
 }

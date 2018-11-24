@@ -52,7 +52,7 @@ namespace pkNX.WinForms
 
             PG_Personal.SelectedObject = new PersonalRandSettings();
             PG_Evolution.SelectedObject = new SpeciesSettings();
-            PG_Learn.SelectedObject = null;
+            PG_Learn.SelectedObject = new LearnSettings();
         }
 
         public GameManager ROM { get; set; }
@@ -469,7 +469,39 @@ namespace pkNX.WinForms
 
         private void B_RandLearn_Click(object sender, EventArgs e)
         {
-            WinFormsUtil.Alert("Not implemented yet.");
+            SaveCurrent();
+            var settings = (LearnSettings)PG_Learn.SelectedObject;
+            var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            rand.Execute();
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_LearnExpand_Click(object sender, EventArgs e)
+        {
+            var settings = (LearnSettings)PG_Learn.SelectedObject;
+            if (!settings.Expand)
+            {
+                WinFormsUtil.Error("Expand moves not selected. Please double check settings.",
+                    "Not expanding learnsets.");
+                return;
+            }
+            var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            rand.ExecuteExpandOnly();
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_LearnMetronome_Click(object sender, EventArgs e)
+        {
+            var settings = (LearnSettings)PG_Learn.SelectedObject;
+            var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            rand.ExecuteMetronome();
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
