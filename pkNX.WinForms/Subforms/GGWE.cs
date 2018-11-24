@@ -341,33 +341,38 @@ namespace pkNX.WinForms
         private void B_RandAll_Click(object sender, EventArgs e)
         {
             SaveEntry(entry);
-            var settings = (SpeciesSettings) PG_Species.SelectedObject;
+            var settings = (SpeciesSettings)PG_Species.SelectedObject;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
             rand.Initialize(settings);
+            RandomizeWild(rand, CHK_FillEmpty.Checked);
+            LoadEntry(entry);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void RandomizeWild(SpeciesRandomizer rand, bool fill)
+        {
             foreach (var area in Tables.EncounterTables)
             {
                 ApplyRand(area.GroundTable);
                 ApplyRand(area.WaterTable);
                 ApplyRand(area.SkyTable);
 
-                ApplyRand(area.OldRodTable);
-                ApplyRand(area.GoodRodTable);
-                ApplyRand(area.SuperRodTable);
+                //ApplyRand(area.OldRodTable);
+                //ApplyRand(area.GoodRodTable);
+                //ApplyRand(area.SuperRodTable);
+            }
 
-                void ApplyRand(IEnumerable<EncounterSlot> slots)
+            void ApplyRand(IEnumerable<EncounterSlot> slots)
+            {
+                foreach (var s in slots)
                 {
-                    foreach (var s in slots)
-                    {
-                        if (s.Species == 0)
-                            continue;
+                    if (s.Species == 0 && !fill)
+                        continue;
 
-                        s.Species = rand.GetRandomSpecies(s.Species);
-                        // meh form
-                    }
+                    s.Species = rand.GetRandomSpecies(s.Species);
+                    // meh form
                 }
             }
-            LoadEntry(entry);
-            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }

@@ -46,6 +46,7 @@
             this.Tab_Sky = new System.Windows.Forms.TabPage();
             this.EL_Sky = new pkNX.WinForms.EncounterList();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
+            this.CHK_FillEmpty = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
             this.NUD_ModDuration = new System.Windows.Forms.NumericUpDown();
@@ -56,6 +57,9 @@
             this.B_ModSpawn = new System.Windows.Forms.Button();
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
+            this.L_SpawnRate = new System.Windows.Forms.Label();
+            this.L_SpawnCount = new System.Windows.Forms.Label();
+            this.L_SpawnDuration = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -233,6 +237,10 @@
             //
             // Tab_Rand
             //
+            this.Tab_Rand.Controls.Add(this.L_SpawnDuration);
+            this.Tab_Rand.Controls.Add(this.L_SpawnCount);
+            this.Tab_Rand.Controls.Add(this.L_SpawnRate);
+            this.Tab_Rand.Controls.Add(this.CHK_FillEmpty);
             this.Tab_Rand.Controls.Add(this.B_RandAll);
             this.Tab_Rand.Controls.Add(this.PG_Species);
             this.Tab_Rand.Controls.Add(this.NUD_ModDuration);
@@ -249,6 +257,16 @@
             this.Tab_Rand.Text = "Rand";
             this.Tab_Rand.UseVisualStyleBackColor = true;
             //
+            // CHK_FillEmpty
+            //
+            this.CHK_FillEmpty.AutoSize = true;
+            this.CHK_FillEmpty.Location = new System.Drawing.Point(154, 116);
+            this.CHK_FillEmpty.Name = "CHK_FillEmpty";
+            this.CHK_FillEmpty.Size = new System.Drawing.Size(96, 17);
+            this.CHK_FillEmpty.TabIndex = 8;
+            this.CHK_FillEmpty.Text = "Fill Empty Slots";
+            this.CHK_FillEmpty.UseVisualStyleBackColor = true;
+            //
             // B_RandAll
             //
             this.B_RandAll.Location = new System.Drawing.Point(6, 110);
@@ -259,7 +277,7 @@
             this.B_RandAll.UseVisualStyleBackColor = true;
             this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             //
-            // propertyGrid1
+            // PG_Species
             //
             this.PG_Species.Location = new System.Drawing.Point(0, 142);
             this.PG_Species.Name = "PG_Species";
@@ -278,6 +296,11 @@
             this.NUD_ModDuration.Name = "NUD_ModDuration";
             this.NUD_ModDuration.Size = new System.Drawing.Size(47, 20);
             this.NUD_ModDuration.TabIndex = 5;
+            this.NUD_ModDuration.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             //
             // NUD_ModRate
             //
@@ -359,6 +382,33 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             //
+            // L_SpawnRate
+            //
+            this.L_SpawnRate.AutoSize = true;
+            this.L_SpawnRate.Location = new System.Drawing.Point(202, 45);
+            this.L_SpawnRate.Name = "L_SpawnRate";
+            this.L_SpawnRate.Size = new System.Drawing.Size(15, 13);
+            this.L_SpawnRate.TabIndex = 9;
+            this.L_SpawnRate.Text = "%";
+            //
+            // L_SpawnCount
+            //
+            this.L_SpawnCount.AutoSize = true;
+            this.L_SpawnCount.Location = new System.Drawing.Point(202, 13);
+            this.L_SpawnCount.Name = "L_SpawnCount";
+            this.L_SpawnCount.Size = new System.Drawing.Size(112, 13);
+            this.L_SpawnCount.TabIndex = 10;
+            this.L_SpawnCount.Text = "Max overworld models";
+            //
+            // L_SpawnDuration
+            //
+            this.L_SpawnDuration.AutoSize = true;
+            this.L_SpawnDuration.Location = new System.Drawing.Point(202, 77);
+            this.L_SpawnDuration.Name = "L_SpawnDuration";
+            this.L_SpawnDuration.Size = new System.Drawing.Size(47, 13);
+            this.L_SpawnDuration.TabIndex = 11;
+            this.L_SpawnDuration.Text = "seconds";
+            //
             // GGWE
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -384,6 +434,7 @@
             this.Tab_Super.ResumeLayout(false);
             this.Tab_Sky.ResumeLayout(false);
             this.Tab_Rand.ResumeLayout(false);
+            this.Tab_Rand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).EndInit();
@@ -421,5 +472,9 @@
         private System.Windows.Forms.Button B_ModDuration;
         private System.Windows.Forms.Button B_ModRate;
         private System.Windows.Forms.Button B_ModSpawn;
+        private System.Windows.Forms.CheckBox CHK_FillEmpty;
+        private System.Windows.Forms.Label L_SpawnDuration;
+        private System.Windows.Forms.Label L_SpawnCount;
+        private System.Windows.Forms.Label L_SpawnRate;
     }
 }
