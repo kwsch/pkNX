@@ -12,69 +12,69 @@ namespace pkNX.Randomization
 
         #region General
         [Category(General), Description("Minimum count of Pokémon the Trainer has. New Pokémon will be added to the team if less are currently present.")]
-        public int TeamCountMin { get; set; }
+        public int TeamCountMin { get; set; } = 1;
 
         [Category(General), Description("Maximum count of Pokémon the Trainer has. Pokémon will be removed from the team if more are currently present.")]
-        public int TeamCountMax { get; set; }
+        public int TeamCountMax { get; set; } = 6;
 
         [Category(General), Description("Chooses a random type for the Trainer, and requires each Pokémon to have that type.")]
-        public bool TeamTypeThemed { get; set; }
+        public bool TeamTypeThemed { get; set; } = false;
 
         [Category(General), Description("Maxes out the Trainer AI value to use its team and moves most effectively.")]
-        public bool TrainerMaxAI { get; set; }
+        public bool TrainerMaxAI { get; set; } = true;
 
         [Category(General), Description("Force special strong battles to have a full team of 6 Pokémon.")]
-        public bool ForceSpecialTeamCount6 { get; set; }
+        public bool ForceSpecialTeamCount6 { get; set; } = true;
         #endregion
 
         #region General
         [Category(Classes), Description("Change Trainer Class to another random Trainer Class.")]
-        public bool RandomTrainerClass { get; set; }
+        public bool RandomTrainerClass { get; set; } = false;
 
         [Category(Classes), Description("Skip changing Trainer Classes that are considered special (avoiding crashes).")]
-        public bool SkipSpecialClasses { get; set; }
+        public bool SkipSpecialClasses { get; set; } = true;
         #endregion
 
         #region Pokémon
         [Category(Pokémon), Description("Randomizes the Species and basic stat details of all Team members.")]
-        public bool RandomizeTeam { get; set; }
+        public bool RandomizeTeam { get; set; } = true;
 
         [Category(Pokémon), Description("Allows random Mega Forms when randomizing species.")]
-        public bool AllowRandomMegaForms { get; set; }
+        public bool AllowRandomMegaForms { get; set; } = false;
 
         [Category(Pokémon), Description("Forces all Pokémon above the specified level setting to be fully evolved.")]
-        public bool ForceFullyEvolved { get; set; }
+        public bool ForceFullyEvolved { get; set; } = true;
 
         [Category(Pokémon), Description("Forces all Pokémon above this level to be fully evolved if the " + nameof(ForceFullyEvolved) + " setting is set.")]
-        public int ForceFullyEvolvedAtLevel { get; set; }
+        public int ForceFullyEvolvedAtLevel { get; set; } = 36;
 
         [Category(Pokémon), Description("Causes all Pokémon levels to be boosted by the specified ratio multiplier.")]
-        public bool BoostLevel { get; set; }
+        public bool BoostLevel { get; set; } = true;
 
         [Category(Pokémon), Description("Boosts levels of all Pokémon by this ratio if the " + nameof(BoostLevel) + "setting is set.")]
-        public decimal LevelBoostRatio { get; set; }
+        public decimal LevelBoostRatio { get; set; } = 1.1m;
         #endregion
 
         #region Stats
         [Category(Stats), Description("Makes random Trainer Pokémon shiny.")]
-        public bool RandomShinies { get; set; }
+        public bool RandomShinies { get; set; } = true;
 
-        [Category(Stats), Description("Makes random Trainer Pokémon shiny at this rate.")]
-        public decimal ShinyChance { get; set; }
+        [Category(Stats), Description("Makes random Trainer Pokémon shiny at this rate (percent).")]
+        public decimal ShinyChance { get; set; } = 2.5m;
 
         [Category(Stats), Description("Maximizes all IVs.")]
-        public bool MaxIVs { get; set; }
+        public bool MaxIVs { get; set; } = true;
 
         [Category(Stats), Description("Picks a random valid ability for each Pokémon.")]
-        public bool RandomAbilities { get; set; }
+        public bool RandomAbilities { get; set; } = true;
         #endregion
 
         #region Moves
         [Category(Moves), Description("Prevents Pokémon movesets from containing fixed damage moves.")]
-        public bool BanFixedDamageMoves { get; set; }
+        public bool BanFixedDamageMoves { get; set; } = true;
 
         [Category(Moves), Description("How movesets are randomized/chosen for each Pokémon.")]
-        public MoveRandType MoveRandType { get; set; }
+        public MoveRandType MoveRandType { get; set; } = MoveRandType.Random;
         #endregion
     }
 }
