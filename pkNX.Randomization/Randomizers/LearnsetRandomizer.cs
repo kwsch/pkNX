@@ -16,7 +16,8 @@ namespace pkNX.Randomization
         private MoveRandomizer moverand;
         private Move[] Moves;
 
-        public LearnSettings Settings { get; set; }
+        public LearnSettings Settings { get; private set; }
+        public IList<int> BannedMoves { set => moverand.BannedMoves = value; }
 
         public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, PersonalTable t)
         {
@@ -58,7 +59,7 @@ namespace pkNX.Randomization
             }
         }
 
-        public void Initialize(Move[] moves, LearnSettings settings)
+        public void Initialize(Move[] moves, LearnSettings settings, int[] bannedMoves = null)
         {
             Moves = moves;
             Settings = settings;
@@ -68,9 +69,8 @@ namespace pkNX.Randomization
                 STAB = settings.STAB,
                 STABPercent = settings.STABPercent
             };
+            moverand.Initialize(bannedMoves ?? Array.Empty<int>());
         }
-
-        public IList<int> BannedMoves { set => moverand.BannedMoves = value; }
 
         public override void Execute()
         {

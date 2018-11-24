@@ -9,11 +9,13 @@ namespace pkNX.Randomization
     {
         private readonly Move[] MoveData;
         private readonly PersonalTable SpeciesStat;
+        private readonly GameInfo Config;
 
-        private readonly GenericRandomizer RandMove;
+        private GenericRandomizer RandMove;
 
         public MoveRandomizer(GameInfo config, Move[] moves, PersonalTable t)
         {
+            Config = config;
             var maxMoveId = config.MaxMoveID;
             MoveData = moves;
             SpeciesStat = t;
@@ -29,6 +31,14 @@ namespace pkNX.Randomization
         public decimal STABPercent = 100;
         public IList<int> BannedMoves = new int[0];
         public static readonly int[] FixedDamageMoves = { 49, 82 };
+
+        public void Initialize(int[] bannedMoves)
+        {
+            var all = Enumerable.Range(1, Config.MaxMoveID - 1);
+            var moves = all.Except(bannedMoves);
+            BannedMoves = bannedMoves;
+            RandMove = new GenericRandomizer(moves.ToArray());
+        }
 
         public int[] GetRandomLearnset(int index, int movecount) => GetRandomLearnset(SpeciesStat[index].Types, movecount);
 

@@ -472,7 +472,12 @@ namespace pkNX.WinForms
             SaveCurrent();
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            var moves = ROM.Data.MoveData.LoadAll();
+            var banned = moves
+                .Select((z, i) => new {Index = i, Move = (Move7) z})
+                .Where(z => (z.Move.Flags & MoveFlag7.F18) == 0) // no "allowed" flag
+                .Select(z => z.Index).ToArray();
+            rand.Initialize(moves, settings, banned);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
