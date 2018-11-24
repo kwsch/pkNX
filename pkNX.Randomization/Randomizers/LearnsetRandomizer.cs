@@ -12,9 +12,9 @@ namespace pkNX.Randomization
     {
         private readonly Learnset[] Learnsets;
         private readonly GameInfo Game;
-        public readonly MoveRandomizer moverand;
-        public PersonalTable Personal;
-        public Move[] Moves;
+        private readonly PersonalTable Personal;
+        private MoveRandomizer moverand;
+        private Move[] Moves;
 
         public LearnSettings Settings { get; set; }
 
@@ -63,15 +63,11 @@ namespace pkNX.Randomization
             Moves = moves;
             Settings = settings;
 
-            moverand.STAB = settings.STAB;
-            moverand.STABPercent = settings.STABPercent;
-        }
-
-        public LearnsetRandomizer(Learnset[] sets)
-        {
-            moverand = new MoveRandomizer(Game, Moves, Personal);
-            Learnsets = sets;
-            Settings.STABPercent = 52.3m;
+            moverand = new MoveRandomizer(Game, Moves, Personal)
+            {
+                STAB = settings.STAB,
+                STABPercent = settings.STABPercent
+            };
         }
 
         public IList<int> BannedMoves { set => moverand.BannedMoves = value; }
