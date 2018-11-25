@@ -32,12 +32,25 @@ namespace pkNX.Structures
             set => Data[0x0D] = (byte)((Data[0x0D] & ~3) | ((byte)value & 3));
         }
 
-        public override int IV_HP  { get => BitConverter.ToInt16(Data, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x0E); }
-        public override int IV_ATK { get => BitConverter.ToInt16(Data, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x10); }
-        public override int IV_DEF { get => BitConverter.ToInt16(Data, 0x12); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x12); }
-        public override int IV_SPA { get => BitConverter.ToInt16(Data, 0x14); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x14); }
-        public override int IV_SPD { get => BitConverter.ToInt16(Data, 0x16); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x16); }
-        public override int IV_SPE { get => BitConverter.ToInt16(Data, 0x18); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x18); }
+        private int GetIV(int index)
+        {
+            var val = BitConverter.ToUInt16(Data, 0xE + (2 * index));
+            return val == 0x8000 ? -1 : val;
+        }
+
+        private void SetIV(int index, int value)
+        {
+            if ((uint) value > 31)
+                value = 0x8000;
+            BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xE + (2 * index));
+        }
+
+        public override int IV_HP  { get => GetIV(0); set => SetIV(0, value); }
+        public override int IV_ATK { get => GetIV(1); set => SetIV(1, value); }
+        public override int IV_DEF { get => GetIV(2); set => SetIV(2, value); }
+        public override int IV_SPA { get => GetIV(3); set => SetIV(3, value); }
+        public override int IV_SPD { get => GetIV(4); set => SetIV(4, value); }
+        public override int IV_SPE { get => GetIV(5); set => SetIV(5, value); }
 
         // AV randomness
         public int AV_HP  { get => Data[0x1A]; set => Data[0x1A] = (byte)value; }
