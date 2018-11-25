@@ -46,6 +46,8 @@
             this.Tab_Sky = new System.Windows.Forms.TabPage();
             this.EL_Sky = new pkNX.WinForms.EncounterList();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
+            this.CHK_ForceType = new System.Windows.Forms.CheckBox();
+            this.CHK_WildMega = new System.Windows.Forms.CheckBox();
             this.L_SpawnDuration = new System.Windows.Forms.Label();
             this.L_SpawnCount = new System.Windows.Forms.Label();
             this.L_SpawnRate = new System.Windows.Forms.Label();
@@ -60,7 +62,6 @@
             this.B_ModSpawn = new System.Windows.Forms.Button();
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
-            this.CHK_WildMega = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -238,6 +239,7 @@
             //
             // Tab_Rand
             //
+            this.Tab_Rand.Controls.Add(this.CHK_ForceType);
             this.Tab_Rand.Controls.Add(this.CHK_WildMega);
             this.Tab_Rand.Controls.Add(this.L_SpawnDuration);
             this.Tab_Rand.Controls.Add(this.L_SpawnCount);
@@ -258,6 +260,27 @@
             this.Tab_Rand.TabIndex = 6;
             this.Tab_Rand.Text = "Rand";
             this.Tab_Rand.UseVisualStyleBackColor = true;
+            //
+            // checkBox1
+            //
+            this.CHK_ForceType.Checked = true;
+            this.CHK_ForceType.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_ForceType.Location = new System.Drawing.Point(182, 105);
+            this.CHK_ForceType.Name = "CHK_ForceType";
+            this.CHK_ForceType.Size = new System.Drawing.Size(125, 31);
+            this.CHK_ForceType.TabIndex = 13;
+            this.CHK_ForceType.Text = "Force At Least 1 Water/Grass Viridian";
+            this.CHK_ForceType.UseVisualStyleBackColor = true;
+            //
+            // CHK_WildMega
+            //
+            this.CHK_WildMega.AutoSize = true;
+            this.CHK_WildMega.Location = new System.Drawing.Point(80, 119);
+            this.CHK_WildMega.Name = "CHK_WildMega";
+            this.CHK_WildMega.Size = new System.Drawing.Size(82, 17);
+            this.CHK_WildMega.TabIndex = 12;
+            this.CHK_WildMega.Text = "Wild Megas";
+            this.CHK_WildMega.UseVisualStyleBackColor = true;
             //
             // L_SpawnDuration
             //
@@ -289,7 +312,7 @@
             // CHK_FillEmpty
             //
             this.CHK_FillEmpty.AutoSize = true;
-            this.CHK_FillEmpty.Location = new System.Drawing.Point(154, 108);
+            this.CHK_FillEmpty.Location = new System.Drawing.Point(80, 105);
             this.CHK_FillEmpty.Name = "CHK_FillEmpty";
             this.CHK_FillEmpty.Size = new System.Drawing.Size(96, 17);
             this.CHK_FillEmpty.TabIndex = 8;
@@ -298,9 +321,9 @@
             //
             // B_RandAll
             //
-            this.B_RandAll.Location = new System.Drawing.Point(6, 110);
+            this.B_RandAll.Location = new System.Drawing.Point(6, 102);
             this.B_RandAll.Name = "B_RandAll";
-            this.B_RandAll.Size = new System.Drawing.Size(142, 26);
+            this.B_RandAll.Size = new System.Drawing.Size(68, 34);
             this.B_RandAll.TabIndex = 7;
             this.B_RandAll.Text = "Randomize All Species";
             this.B_RandAll.UseVisualStyleBackColor = true;
@@ -411,16 +434,6 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             //
-            // CHK_WildMega
-            //
-            this.CHK_WildMega.AutoSize = true;
-            this.CHK_WildMega.Location = new System.Drawing.Point(154, 122);
-            this.CHK_WildMega.Name = "CHK_WildMega";
-            this.CHK_WildMega.Size = new System.Drawing.Size(82, 17);
-            this.CHK_WildMega.TabIndex = 12;
-            this.CHK_WildMega.Text = "Wild Megas";
-            this.CHK_WildMega.UseVisualStyleBackColor = true;
-            //
             // GGWE
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,5 +502,6 @@
         private System.Windows.Forms.Label L_SpawnCount;
         private System.Windows.Forms.Label L_SpawnRate;
         private System.Windows.Forms.CheckBox CHK_WildMega;
+        private System.Windows.Forms.CheckBox CHK_ForceType;
     }
 }

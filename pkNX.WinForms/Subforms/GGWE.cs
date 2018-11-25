@@ -351,6 +351,9 @@ namespace pkNX.WinForms
 
         private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool wildMega)
         {
+            var pt = ROM.Data.PersonalData;
+            bool IsGrassOrWater(int s) => pt[s].IsType((int)Types.Water) || pt[s].IsType((int)Types.Grass);
+
             foreach (var area in Tables.EncounterTables)
             {
                 ApplyRand(area.GroundTable);
@@ -374,8 +377,16 @@ namespace pkNX.WinForms
                     }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    s.Form = Legal.GetRandomForme(s.Species, wildMega, true, ROM.Data.PersonalData);
+                    s.Form = Legal.GetRandomForme(s.Species, wildMega, true, pt);
                 }
+            }
+
+            if (CHK_ForceType.Checked)
+            {
+                var table = Tables.EncounterTables[0];
+                var slots = table.GroundTable;
+                while (!slots.Any(z => IsGrassOrWater(z.Species)))
+                    ApplyRand(slots);
             }
         }
     }
