@@ -4,7 +4,7 @@ namespace pkNX.Structures
 {
     public class EncounterTrade7b : EncounterTrade
     {
-        private const int SIZE = 0x58;
+        public const int SIZE = 0x58;
         public EncounterTrade7b(byte[] data) => Data = data ?? new byte[SIZE];
 
         public ulong Hash1 => BitConverter.ToUInt64(Data, 0x00);

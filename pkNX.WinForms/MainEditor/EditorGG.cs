@@ -118,6 +118,21 @@ namespace pkNX.WinForms.Controls
                 file[0] = objs.SelectMany(z => z.Write()).ToArray();
         }
 
+        public void EditTrade()
+        {
+            var file = ROM[GameFile.EncounterTrade];
+            var data = file.GetFiles().Result[0];
+            var objs = data.GetArray(z => new EncounterTrade7b(z), EncounterTrade7b.SIZE); // binary
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var cache = new DirectCache<EncounterTrade7b>(objs);
+            var form = new GenericEditor<EncounterTrade7b>(cache, names, "Trade Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+                file.CancelEdits();
+            else
+                file[0] = objs.SelectMany(z => z.Write()).ToArray();
+        }
+
         public void EditStatic()
         {
             var file = ROM[GameFile.EncounterStatic];
