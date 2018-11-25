@@ -79,6 +79,7 @@
     <Compile Include="MainEditor\EditorSMDEMO.cs" />
     <Compile Include="MainEditor\EditorUU.cs" />
     <Compile Include="MainEditor\EditorXY.cs" />
+    <Compile Include="MainEditor\EditUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ripper\FileRipper.cs" />
