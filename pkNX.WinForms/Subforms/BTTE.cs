@@ -67,9 +67,9 @@ namespace pkNX.WinForms
 
             CB_TrainerID.SelectedIndex = 0;
 
-            PG_Moves.SelectedObject = EditUtil.Move;
-            PG_RTrainer.SelectedObject = EditUtil.Trainer;
-            PG_Species.SelectedObject = EditUtil.Species;
+            PG_Moves.SelectedObject = EditUtil.Settings.Move;
+            PG_RTrainer.SelectedObject = EditUtil.Settings.Trainer;
+            PG_Species.SelectedObject = EditUtil.Settings.Species;
         }
 
         public bool Modified { get; set; }

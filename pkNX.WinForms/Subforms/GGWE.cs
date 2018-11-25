@@ -40,7 +40,7 @@ namespace pkNX.WinForms
             EL_Old.OverworldSpawn = EL_Good.OverworldSpawn = EL_Super.OverworldSpawn = false;
             L_Rank.Visible = NUD_RankMin.Visible = NUD_RankMax.Visible = false;
 
-            PG_Species.SelectedObject = EditUtil.Species;
+            PG_Species.SelectedObject = EditUtil.Settings.Species;
 
             Tables = obj;
             LoadFile(locs);
@@ -334,6 +334,7 @@ namespace pkNX.WinForms
         {
             SaveEntry(entry);
             var settings = (SpeciesSettings)PG_Species.SelectedObject;
+            settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
             rand.Initialize(settings);
             RandomizeWild(rand, CHK_FillEmpty.Checked, CHK_WildMega.Checked);

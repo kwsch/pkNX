@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using pkNX.Structures;
@@ -8,6 +9,7 @@ namespace pkNX.Randomization
     /// <summary>
     /// Settings for what Species are permitted during randomization.
     /// </summary>
+    [Serializable]
     public class SpeciesSettings : RandSettings
     {
         private const string General = nameof(General);

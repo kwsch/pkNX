@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using pkNX.Structures;
 
 namespace pkNX.Randomization
@@ -6,6 +7,7 @@ namespace pkNX.Randomization
     /// <summary>
     /// Randomization settings when randomizing a <see cref="PersonalInfo"/>.
     /// </summary>
+    [Serializable]
     public class PersonalRandSettings : RandSettings
     {
         private const string Moves = nameof(Moves);

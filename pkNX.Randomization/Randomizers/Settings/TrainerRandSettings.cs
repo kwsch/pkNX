@@ -1,7 +1,9 @@
+using System;
 using System.ComponentModel;
 
 namespace pkNX.Randomization
 {
+    [Serializable]
     public class TrainerRandSettings
     {
         private const string General = nameof(General);

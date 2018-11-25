@@ -67,6 +67,7 @@ namespace pkNX.WinForms
                 return;
 
             Editor.Close();
+            EditUtil.SaveSettings(Editor.Game);
             Settings.Default.Language = CB_Lang.SelectedIndex;
             Settings.Default.GamePath = TB_Path.Text;
             Settings.Default.Save();
@@ -133,6 +134,8 @@ namespace pkNX.WinForms
 
             Text = $"{nameof(pkNX)} - {Editor.Game}";
             TB_Path.Text = Editor.Location;
+            EditUtil.LoadSettings(Editor.Game);
+            EditUtil.SaveSettings(Editor.Game);
             System.Media.SystemSounds.Asterisk.Play();
         }
     }

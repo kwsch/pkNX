@@ -1,7 +1,9 @@
+using System;
 using System.ComponentModel;
 
 namespace pkNX.Randomization
 {
+    [Serializable]
     public class LearnSettings
     {
         private const string General = nameof(General);
@@ -9,11 +11,13 @@ namespace pkNX.Randomization
 
         [Category(General), Description("Expands the learnset to the specified count.")]
         public bool Expand { get; set; } = true;
+
         [Category(General), Description("Count to expand the learnset to.")]
         public int ExpandTo { get; set; } = 25;
 
         [Category(General), Description("Evenly spreads learned moves out from level 1 to the specified end level.")]
         public bool Spread { get; set; } = true;
+
         [Category(General), Description("Level to end learning level up moves.")]
         public int SpreadTo { get; set; } = 75;
 
