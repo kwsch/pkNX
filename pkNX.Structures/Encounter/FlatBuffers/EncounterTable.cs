@@ -18,8 +18,8 @@ namespace pkNX.Structures
                 {
                     writer.QuoteName = false;
                     writer.Formatting = Formatting.Indented;
-                    writer.IndentChar = '\t';
-                    writer.Indentation = 1;
+                    writer.IndentChar = ' ';
+                    writer.Indentation = 2;
                     serializer.Serialize(writer, this);
                 }
                 return stringWriter.ToString();
