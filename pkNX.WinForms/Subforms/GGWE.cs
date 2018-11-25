@@ -367,8 +367,9 @@ namespace pkNX.WinForms
 
             void ApplyRand(IList<EncounterSlot> slots)
             {
-                foreach (var s in slots)
+                for (int i = 0; i < slots.Count; i++)
                 {
+                    var s = slots[i];
                     if (s.Species == 0)
                     {
                         if (!fill)
@@ -378,6 +379,8 @@ namespace pkNX.WinForms
 
                     s.Species = rand.GetRandomSpecies(s.Species);
                     s.Form = Legal.GetRandomForme(s.Species, wildMega, true, pt);
+                    if (fill)
+                        s.Probability = RandomScaledRates[slots.Count][i];
                 }
             }
 
@@ -389,5 +392,13 @@ namespace pkNX.WinForms
                     ApplyRand(slots);
             }
         }
+
+        public static readonly Dictionary<int, int[]> RandomScaledRates = new Dictionary<int, int[]>
+        {
+            [01] = new[] {100},
+            [04] = new[] {60, 30, 7, 3},
+            [05] = new[] {40, 30, 18, 10, 2},
+            [10] = new[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
+        };
     }
 }
