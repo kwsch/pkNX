@@ -353,7 +353,7 @@ namespace pkNX.WinForms
             var pk = pkm.Clone();
             pk.Species = CB_Species.SelectedIndex;
             pk.Form = CB_Forme.SelectedIndex;
-            pk.Level = (byte)NUD_Level.Value;
+            pk.Level = (int)NUD_Level.Value;
             pk.Ability = CB_Ability.SelectedIndex;
             pk.HeldItem = CB_Item.SelectedIndex;
             pk.Shiny = CHK_Shiny.Checked;
@@ -393,7 +393,7 @@ namespace pkNX.WinForms
 
         private void PrepareTrainer(TrainerData tr)
         {
-            tr.Class = (byte)CB_Trainer_Class.SelectedIndex;
+            tr.Class = CB_Trainer_Class.SelectedIndex;
             tr.Item1 = CB_Item_1.SelectedIndex;
             tr.Item2 = CB_Item_2.SelectedIndex;
             tr.Item3 = CB_Item_3.SelectedIndex;
