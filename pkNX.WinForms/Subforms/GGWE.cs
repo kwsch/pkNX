@@ -360,13 +360,16 @@ namespace pkNX.WinForms
                 ApplyRand(area.WaterTable);
                 ApplyRand(area.SkyTable);
 
-                //ApplyRand(area.OldRodTable);
-                //ApplyRand(area.GoodRodTable);
-                //ApplyRand(area.SuperRodTable);
+                ApplyRand(area.OldRodTable);
+                ApplyRand(area.GoodRodTable);
+                ApplyRand(area.SuperRodTable);
             }
 
             void ApplyRand(IList<EncounterSlot> slots)
             {
+                if (slots[0].Species == 0)
+                    return;
+
                 for (int i = 0; i < slots.Count; i++)
                 {
                     var s = slots[i];
