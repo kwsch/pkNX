@@ -7,7 +7,7 @@ namespace pkNX.WinForms
 {
     public sealed partial class GenericEditor<T> : Form where T : class
     {
-        public GenericEditor(DataCache<T> cache, string[] names, string title)
+        public GenericEditor(DataCache<T> cache, string[] names, string title, Action randomize = null)
         {
             InitializeComponent();
             Cache = cache;
@@ -16,6 +16,11 @@ namespace pkNX.WinForms
 
             CB_EntryName.Items.AddRange(names);
             CB_EntryName.SelectedIndex = 0;
+
+            if (randomize == null)
+                B_Rand.Visible = false;
+            else
+                B_Rand.Click += (_, __) => randomize();
         }
 
         private readonly string[] Names;

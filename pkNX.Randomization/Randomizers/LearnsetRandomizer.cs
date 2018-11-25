@@ -59,17 +59,12 @@ namespace pkNX.Randomization
             }
         }
 
-        public void Initialize(Move[] moves, LearnSettings settings, int[] bannedMoves = null)
+        public void Initialize(Move[] moves, LearnSettings settings, MovesetRandSettings moverandset, int[] bannedMoves = null)
         {
             Moves = moves;
             Settings = settings;
 
             moverand = new MoveRandomizer(Game, Moves, Personal);
-            var moverandset = new MovesetRandSettings
-            {
-                STAB = settings.STAB,
-                STABPercent = settings.STABPercent,
-            };
             moverand.Initialize(moverandset, bannedMoves ?? Array.Empty<int>());
         }
 

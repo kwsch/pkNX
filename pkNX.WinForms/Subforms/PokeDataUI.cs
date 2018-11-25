@@ -50,9 +50,9 @@ namespace pkNX.WinForms
 
             CB_Species.SelectedIndex = 1;
 
-            PG_Personal.SelectedObject = new PersonalRandSettings();
-            PG_Evolution.SelectedObject = new SpeciesSettings();
-            PG_Learn.SelectedObject = new LearnSettings();
+            PG_Personal.SelectedObject = EditUtil.Personal;
+            PG_Evolution.SelectedObject = EditUtil.Species;
+            PG_Learn.SelectedObject = EditUtil.Learn;
         }
 
         public GameManager ROM { get; set; }
@@ -474,7 +474,7 @@ namespace pkNX.WinForms
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
             var moves = ROM.Data.MoveData.LoadAll();
             int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves);
-            rand.Initialize(moves, settings, banned);
+            rand.Initialize(moves, settings, EditUtil.Move, banned);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -490,7 +490,7 @@ namespace pkNX.WinForms
                 return;
             }
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, EditUtil.Move);
             rand.ExecuteExpandOnly();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -500,7 +500,7 @@ namespace pkNX.WinForms
         {
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, EditUtil.Move);
             rand.ExecuteMetronome();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();

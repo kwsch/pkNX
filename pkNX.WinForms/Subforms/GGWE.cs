@@ -40,15 +40,7 @@ namespace pkNX.WinForms
             EL_Old.OverworldSpawn = EL_Good.OverworldSpawn = EL_Super.OverworldSpawn = false;
             L_Rank.Visible = NUD_RankMin.Visible = NUD_RankMax.Visible = false;
 
-            PG_Species.SelectedObject = new SpeciesSettings
-            {
-                Gen2 = false,
-                Gen3 = false,
-                Gen4 = false,
-                Gen5 = false,
-                Gen6 = false,
-                Gen7 = false,
-            };
+            PG_Species.SelectedObject = EditUtil.Species;
 
             Tables = obj;
             LoadFile(locs);
