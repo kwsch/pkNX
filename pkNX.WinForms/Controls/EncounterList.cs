@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using pkNX.Sprites;
 using pkNX.Structures;
@@ -24,7 +25,8 @@ namespace pkNX.WinForms
                 HeaderText = "Sprite",
                 DisplayIndex = 0,
                 Width = 42,
-                DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter }
+                DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
+                ReadOnly = true,
             };
             var dgvSpecies = new DataGridViewComboBoxColumn
             {
@@ -61,6 +63,7 @@ namespace pkNX.WinForms
                     return;
                 UpdateRowImage(e.RowIndex);
             };
+            dgv.Columns[0].DefaultCellStyle.SelectionBackColor = Color.Transparent;
         }
 
         private void UpdateRowImage(int row)
