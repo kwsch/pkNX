@@ -14,7 +14,7 @@ namespace pkNX.Sprites
         private const string ResourcePikachuCosplay = "c"; // osplay
         private const string ResourceShiny = "s"; // hiny
         private const string ResourceGGStarter = "p"; //artner
-        public static bool AllowShinySprite { get; set; }
+        public static bool AllowShinySprite { get; set; } = true;
 
         public const int Generation = 7;
 
