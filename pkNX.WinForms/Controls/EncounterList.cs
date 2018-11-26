@@ -63,7 +63,7 @@ namespace pkNX.WinForms
                     return;
                 UpdateRowImage(e.RowIndex);
             };
-            dgv.Columns[0].DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dgv.Columns[0].DefaultCellStyle.SelectionBackColor = dgv.DefaultCellStyle.BackColor;
         }
 
         private void UpdateRowImage(int row)
