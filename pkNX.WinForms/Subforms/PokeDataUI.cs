@@ -508,6 +508,7 @@ namespace pkNX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
+            SaveCurrent();
             Modified = true;
             Close();
         }

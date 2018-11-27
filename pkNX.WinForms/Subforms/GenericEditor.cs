@@ -44,6 +44,7 @@ namespace pkNX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
+            LoadIndex(0);
             Modified = true;
             Close();
         }
