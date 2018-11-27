@@ -276,7 +276,7 @@ namespace pkNX.Containers
         public Task<byte[][]> GetFiles() => Task.FromResult(DecompressedFiles);
         public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
         public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(this[file] = value);
-        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => Dump(path, handler), token);
+        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => FileMitm.WriteAllBytes(path, Write()), token);
 
         public void Dump(string path, ContainerHandler handler)
         {
