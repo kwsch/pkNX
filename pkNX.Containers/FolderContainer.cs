@@ -49,7 +49,7 @@ namespace pkNX.Containers
             if (index < 0)
                 return null;
             string path = Paths[index];
-            var data = Data[index] ?? (Data[index] = File.ReadAllBytes(path));
+            var data = Data[index] ?? (Data[index] = FileMitm.ReadAllBytes(path));
             return (byte[])data.Clone();
         }
 
@@ -57,7 +57,7 @@ namespace pkNX.Containers
         {
             if (index < 0 || (uint)index >= Data.Count)
                 return null;
-            var data = Data[index] ?? (Data[index] = File.ReadAllBytes(Paths[index]));
+            var data = Data[index] ?? (Data[index] = FileMitm.ReadAllBytes(Paths[index]));
             return (byte[])data.Clone();
         }
 
@@ -84,7 +84,7 @@ namespace pkNX.Containers
 
         public int Count => Paths.Count;
 
-        public Task<byte[][]> GetFiles() => Task.FromResult(Paths.Select(File.ReadAllBytes).ToArray());
+        public Task<byte[][]> GetFiles() => Task.FromResult(Paths.Select(FileMitm.ReadAllBytes).ToArray());
         public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
         public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(this[file] = value);
         public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(SaveAll, token);
@@ -98,7 +98,7 @@ namespace pkNX.Containers
                 var data = Data[i];
                 if (data == null)
                     continue;
-                File.WriteAllBytes(Paths[i], data);
+                FileMitm.WriteAllBytes(Paths[i], data);
             }
         }
 

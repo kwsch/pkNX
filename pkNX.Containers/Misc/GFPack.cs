@@ -22,7 +22,7 @@ namespace pkNX.Containers
         public byte[][] CompressedFiles { get; set; }
         public byte[][] DecompressedFiles { get; set; }
 
-        public GFPack(string path) : this(File.ReadAllBytes(path)) => FilePath = path;
+        public GFPack(string path) : this(FileMitm.ReadAllBytes(path)) => FilePath = path;
         public GFPack(string[] directories, string parent = @"\bin") => LoadFiles(directories, parent);
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace pkNX.Containers
                 HashPaths[i] = new FileHashPath {HashFnv1aPathFull = hashFull};
                 HashIndexes[i] = new FileHashIndex {HashFnv1aPathFileName = hashShort, Index = i};
                 FileTable[i] = new FileData {Type = type};
-                DecompressedFiles[i] = File.ReadAllBytes(file);
+                DecompressedFiles[i] = FileMitm.ReadAllBytes(file);
             }
             Modified = true;
         }
@@ -288,7 +288,7 @@ namespace pkNX.Containers
                 var fn = $"{i.ToString(format)} {hashFull:X16}.bin";
                 var loc = Path.Combine(path ?? FilePath, fn);
                 var data = DecompressedFiles[i];
-                File.WriteAllBytes(loc, data);
+                FileMitm.WriteAllBytes(loc, data);
                 handler.StepFile(i, fileName: fn);
             }
         }

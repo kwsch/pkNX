@@ -15,7 +15,7 @@ namespace pkNX.Containers
         private byte[] Backup;
         public SingleFileContainer(byte[] data) => LoadData(data);
         public SingleFileContainer(BinaryReader br) => LoadData(br.ReadBytes((int) br.BaseStream.Length));
-        public SingleFileContainer(string path) => LoadData(File.ReadAllBytes(FilePath = path));
+        public SingleFileContainer(string path) => LoadData(FileMitm.ReadAllBytes(FilePath = path));
 
         private void LoadData(byte[] data) => Backup = (byte[]) (Data = data).Clone();
 
@@ -39,6 +39,6 @@ namespace pkNX.Containers
         public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[0]);
         public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(Data = value);
         public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(() => Dump(path, handler), token);
-        public void Dump(string path, ContainerHandler handler) => File.WriteAllBytes(path ?? FilePath, Data);
+        public void Dump(string path, ContainerHandler handler) => FileMitm.WriteAllBytes(path ?? FilePath, Data);
     }
 }

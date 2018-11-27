@@ -14,7 +14,7 @@ namespace pkNX.Containers
         {
             byte[][] fileData = new byte[files.Length][];
             for (int i = 0; i < fileData.Length; i++)
-                fileData[i] = File.ReadAllBytes(files[i]);
+                fileData[i] = FileMitm.ReadAllBytes(files[i]);
             return PackMini(fileData, identifier);
         }
 
@@ -66,7 +66,7 @@ namespace pkNX.Containers
 
         public static byte[][] UnpackMini(string file, string identifier = null)
         {
-            byte[] fileData = File.ReadAllBytes(file);
+            byte[] fileData = FileMitm.ReadAllBytes(file);
             return UnpackMini(fileData, identifier);
         }
 
@@ -98,6 +98,7 @@ namespace pkNX.Containers
 
         public static Mini GetMini(string path)
         {
+            path = FileMitm.GetRedirectedPath(path);
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             using (var br = new BinaryReader(fs))
                 return GetMini(br);
@@ -137,6 +138,7 @@ namespace pkNX.Containers
         {
             try
             {
+                path = FileMitm.GetRedirectedPath(path);
                 using (var fs = new FileStream(path, FileMode.Open))
                 using (var br = new BinaryReader(fs))
                     return GetIsMini(br);
