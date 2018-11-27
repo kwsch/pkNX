@@ -108,7 +108,7 @@ namespace pkNX.Randomization
                 do
                 {
                     rv = randClass();
-                } while (SpecialClasses.Contains(rv)); // don't allow disallowed classes
+                } while (SpecialClasses.Contains(rv) || rv >= 072 && rv <= 381); // don't allow disallowed classes
                 tr.Self.Class = rv;
             }
 
@@ -120,7 +120,7 @@ namespace pkNX.Randomization
                 do
                 {
                     rv = randClass();
-                } while (rv == 082); // Lusamine 2 can crash multi battles, skip
+                } while (rv >= 072 && rv <= 381); // Master Trainers are unused and can crash
                 tr.Self.Class = rv;
             }
         }

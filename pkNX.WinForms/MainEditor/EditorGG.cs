@@ -177,8 +177,9 @@ namespace pkNX.WinForms.Controls
                 spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
                 var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
                 srand.Initialize(spec);
-                foreach (var t in objs)
+                for (int i = 2; i < objs.Length; i++) // skip starters
                 {
+                    var t = objs[i];
                     t.Species = srand.GetRandomSpecies(t.Species);
                     t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
                 }
