@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using pkNX.Containers;
 using pkNX.Structures;
 
@@ -8,15 +7,12 @@ namespace pkNX.Game
     /// <summary>
     /// Manages fetching of game data.
     /// </summary>
-    public sealed class GameManager
+    public abstract class GameManager
     {
         private readonly GameLocation ROM;
         private readonly TextManager Text; // GameText
         private readonly GameFileMapping FileMap;
         public readonly GameInfo Info;
-
-        public string ROMPath => ROM.RomFS;
-        public string EXEPath => ROM.ExeFS;
 
         /// <summary>
         /// Language to use when fetching string &amp; graphic assets.
@@ -31,14 +27,14 @@ namespace pkNX.Game
         /// <summary>
         /// Generally useful game data that can be used by multiple editors.
         /// </summary>
-        public GameData Data { get; private set; }
+        public GameData Data { get; protected set; }
 
         /// <summary>
         /// Initializes a new <see cref="GameManager"/> for the input <see cref="GameLocation"/> with initial <see cref="Language"/>.
         /// </summary>
         /// <param name="rom"></param>
         /// <param name="language"></param>
-        public GameManager(GameLocation rom, int language)
+        protected GameManager(GameLocation rom, int language)
         {
             ROM = rom;
             Language = language;
@@ -86,51 +82,24 @@ namespace pkNX.Game
                 Initialize();
         }
 
-        private void Initialize()
-        {
-            if (ROM.Game == GameVersion.GG)
-                InitializeDataGG();
-        }
-
-        private void InitializeDataGG()
-        {
-            // initialize gametext
-            GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
-
-            // initialize common structures
-            Data = new GameData
-            {
-                MoveData = new DataCache<Move>(this[GameFile.MoveStats]) // mini
-                {
-                    Create = z => new Move7(z),
-                    Write = z => z.Write(),
-                },
-                LevelUpData = new DataCache<Learnset>(this[GameFile.Learnsets]) // gfpak
-                {
-                    Create = z => new Learnset6(z),
-                    Write = z => z.Write(),
-                },
-
-                // folders
-                PersonalData = new PersonalTable(GetFilteredFolder(GameFile.PersonalStats, z => Path.GetFileNameWithoutExtension(z) == "personal_total").GetFiles().Result[0], Game),
-                MegaEvolutionData = new DataCache<MegaEvolutionSet[]>(GetFilteredFolder(GameFile.MegaEvolutions))
-                {
-                    Create = MegaEvolutionSet.ReadArray,
-                    Write = MegaEvolutionSet.WriteArray,
-                },
-                EvolutionData = new DataCache<EvolutionSet>(GetFilteredFolder(GameFile.Evolutions))
-                {
-                    Create = (data) => new EvolutionSet7(data),
-                    Write = evo => evo.Write(),
-                },
-            };
-        }
+        protected abstract void Initialize();
 
         public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool> filter = null)
         {
             var c = (FolderContainer)this[type];
             c.Initialize(filter);
             return c;
+        }
+
+        public static GameManager GetManager(GameLocation loc, int language)
+        {
+            switch (loc.Game)
+            {
+                case GameVersion.GG:
+                    return new GameManagerGG(loc, language);
+                default:
+                    throw new ArgumentException(nameof(loc.Game));
+            }
         }
     }
 }
