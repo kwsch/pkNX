@@ -6,17 +6,46 @@ namespace pkNX.Containers
     {
         public static byte[] ReadAllBytes(string path)
         {
+            path = GetRedirectedReadPath(path);
             return File.ReadAllBytes(path);
         }
 
         public static void WriteAllBytes(string path, byte[] data)
         {
+            path = GetRedirectedWritePath(path);
             File.WriteAllBytes(path, data);
         }
 
-        public static string GetRedirectedPath(string path)
+        public static string GetRedirectedReadPath(string path)
         {
-            return path;
+            if (!Enabled)
+                return path;
+            var newDest = path.Replace(PathOriginal, PathRedirect);
+            if (!File.Exists(newDest))
+                return path;
+            return newDest;
         }
+
+        public static string GetRedirectedWritePath(string path)
+        {
+            if (!Enabled)
+                return path;
+            var newDest = path.Replace(PathOriginal, PathRedirect);
+            var parent = Path.GetDirectoryName(newDest);
+            Directory.CreateDirectory(parent);
+            return newDest;
+        }
+
+        public static void SetRedirect(string original, string dest)
+        {
+            PathOriginal = original;
+            PathRedirect = dest;
+            Enabled = true;
+        }
+
+        public static bool Enabled { get; set; }
+
+        private static string PathOriginal;
+        private static string PathRedirect;
     }
 }
