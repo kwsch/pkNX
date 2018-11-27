@@ -264,11 +264,14 @@ namespace pkNX.Containers
         {
             bw.Write(Header.ToBytesClass());
             Header.PtrHashPaths = bw.BaseStream.Position;
-            bw.Write(HashPaths.ToBytesClass());
+            foreach (var hp in HashPaths)
+                bw.Write(hp.ToBytesClass());
             Header.PtrHashIndexes = bw.BaseStream.Position;
-            bw.Write(HashIndexes.ToBytesClass());
+            foreach (var hi in HashIndexes)
+                bw.Write(hi.ToBytesClass());
             Header.PtrFileTable = bw.BaseStream.Position;
-            bw.Write(FileTable.ToBytesClass());
+            foreach (var ft in FileTable)
+                bw.Write(ft.ToBytesClass());
         }
 
         public string FilePath { get; set; }
