@@ -203,6 +203,7 @@ namespace pkNX.Structures
             165, // Pokémon Professor
             183, // Battle Legend
             184, // Battle Legend
+            185, // Aether Foundation
             #endregion
         };
 
@@ -279,6 +280,7 @@ namespace pkNX.Structures
             165, // Pokémon Professor
             183, // Battle Legend
             184, // Battle Legend
+            185, // Aether Foundation
             186, // Pokémon Trainer
             187, // Pokémon Trainer
             188, // Pokémon Trainer
@@ -326,6 +328,7 @@ namespace pkNX.Structures
             019, // Elite Four
             020, // Elite Four
             027, // Team Rocket
+            028, // Gym Leader
             032, // Pokémon Trainer
             033, // Pokémon Trainer
             053, // Coach Trainer
@@ -341,12 +344,41 @@ namespace pkNX.Structures
 
         public static readonly int[] Model_XY =
         {
-            018, 019, 020, 021, 022, 055, 056, 057, 077, 078, 079, 080, 081, 102, 103, 104, 105, 107, 108, 173, 174, 175
+            #region Models
+            018, // Aliana
+            019, // Bryony
+            020, // Celosia
+            021, // Mable
+            022, // Xerosic
+            055, // Shauna
+            056, // Tierno
+            057, // Trevor
+            081, // Lysandre
+            102, // AZ
+            103, // Calem
+            104, // Serena
+            105, // Sycamore
+            175, // Lysandre (Mega Ring)
+            #endregion
         };
 
         public static readonly int[] Model_AO =
         {
-            127, 128, 174, 178, 192, 198, 219, 221, 267, 272, 277, 278, 279
+            #region Models
+            127, // Brendan
+            128, // May
+            174, // Archie
+            178, // Maxie
+            192, // Wally
+            198, // Steven
+            219, // Steven (Multi Battle)
+            221, // Zinnia (Lorekeeper)
+            267, // Zinnia
+            272, // Wally (Mega Pendant)
+            277, // Steven (Rematch)
+            278, // Brendan (Mega Bracelet)
+            279, // May (Mega Bracelet)
+            #endregion
         };
 
         public static readonly int[] Z_Moves =
@@ -373,8 +405,7 @@ namespace pkNX.Structures
         public static readonly int[] ImportantTrainers_GG =
         {
             005, 007, 008, 009, 010, 011, 013, 014, 015, 016, 017, 018, 020, 021, 022, 023, 024, 025, 027, 028, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046,
-            048, 049, 050, 051, 052, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447,
-            448, 597, 601
+            048, 049, 050, 051, 052, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 437, 439, 597, 601
         };
     }
 }
