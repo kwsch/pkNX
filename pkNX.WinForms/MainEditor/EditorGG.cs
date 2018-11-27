@@ -151,6 +151,7 @@ namespace pkNX.WinForms.Controls
                 {
                     t.Species = srand.GetRandomSpecies(t.Species);
                     t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                    t.RequiredSpecies = Legal.GetRandomForme(t.RequiredSpecies, false, true, ROM.Data.PersonalData);
                 }
             }
 
