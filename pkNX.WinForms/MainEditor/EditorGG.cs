@@ -107,7 +107,7 @@ namespace pkNX.WinForms.Controls
         public void EditGift()
         {
             var file = ROM[GameFile.EncounterGift];
-            var data = file.GetFiles().Result[0];
+            var data = file[0];
             var objs = data.GetArray(z => new EncounterGift7b(z), EncounterGift7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterGift7b>(objs);
@@ -136,7 +136,7 @@ namespace pkNX.WinForms.Controls
         public void EditTrade()
         {
             var file = ROM[GameFile.EncounterTrade];
-            var data = file.GetFiles().Result[0];
+            var data = file[0];
             var objs = data.GetArray(z => new EncounterTrade7b(z), EncounterTrade7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterTrade7b>(objs);
@@ -166,7 +166,7 @@ namespace pkNX.WinForms.Controls
         public void EditStatic()
         {
             var file = ROM[GameFile.EncounterStatic];
-            var data = file.GetFiles().Result[0];
+            var data = file[0];
             var objs = data.GetArray(z => new EncounterStatic7b(z), EncounterStatic7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterStatic7b>(objs);
