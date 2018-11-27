@@ -43,7 +43,10 @@ namespace pkNX.Containers
             Enabled = true;
         }
 
-        public static bool Enabled { get; set; }
+        public static bool Enabled { get; private set; }
+
+        public static void EnableIfSetup() => Enabled = PathOriginal != null;
+        public static void Disable() => Enabled = false;
 
         private static string PathOriginal;
         private static string PathRedirect;
