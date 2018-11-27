@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Structures;
 
 namespace pkNX.WinForms.Controls
@@ -110,7 +111,21 @@ namespace pkNX.WinForms.Controls
             var objs = data.GetArray(z => new EncounterGift7b(z), EncounterGift7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterGift7b>(objs);
-            var form = new GenericEditor<EncounterGift7b>(cache, names, "Gift Editor");
+
+            void Randomize()
+            {
+                var spec = EditUtil.Settings.Species;
+                spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec);
+                foreach (var t in objs)
+                {
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                }
+            }
+
+            var form = new GenericEditor<EncounterGift7b>(cache, names, "Gift Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();
@@ -125,7 +140,21 @@ namespace pkNX.WinForms.Controls
             var objs = data.GetArray(z => new EncounterTrade7b(z), EncounterTrade7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterTrade7b>(objs);
-            var form = new GenericEditor<EncounterTrade7b>(cache, names, "Trade Editor");
+
+            void Randomize()
+            {
+                var spec = EditUtil.Settings.Species;
+                spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec);
+                foreach (var t in objs)
+                {
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                }
+            }
+
+            var form = new GenericEditor<EncounterTrade7b>(cache, names, "Trade Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();
@@ -140,7 +169,21 @@ namespace pkNX.WinForms.Controls
             var objs = data.GetArray(z => new EncounterStatic7b(z), EncounterStatic7b.SIZE); // binary
             var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
             var cache = new DirectCache<EncounterStatic7b>(objs);
-            var form = new GenericEditor<EncounterStatic7b>(cache, names, "Static Encounter Editor");
+
+            void Randomize()
+            {
+                var spec = EditUtil.Settings.Species;
+                spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec);
+                foreach (var t in objs)
+                {
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                }
+            }
+
+            var form = new GenericEditor<EncounterStatic7b>(cache, names, "Static Encounter Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();

@@ -18,9 +18,16 @@ namespace pkNX.WinForms
             CB_EntryName.SelectedIndex = 0;
 
             if (randomize == null)
+            {
                 B_Rand.Visible = false;
-            else
-                B_Rand.Click += (_, __) => randomize();
+                return;
+            }
+            B_Rand.Click += (_, __) =>
+            {
+                randomize();
+                LoadIndex(0);
+                System.Media.SystemSounds.Asterisk.Play();
+            };
         }
 
         private readonly string[] Names;
@@ -29,8 +36,11 @@ namespace pkNX.WinForms
 
         private void CB_EntryName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Grid.SelectedObject = Cache[CB_EntryName.SelectedIndex];
+            var index = CB_EntryName.SelectedIndex;
+            LoadIndex(index);
         }
+
+        private void LoadIndex(int index) => Grid.SelectedObject = Cache[index];
 
         private void B_Save_Click(object sender, EventArgs e)
         {
