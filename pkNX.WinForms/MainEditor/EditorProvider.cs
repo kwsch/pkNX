@@ -57,6 +57,8 @@ namespace pkNX.WinForms.Controls
         public static EditorBase GetEditor(string loc, int language)
         {
             var gl = GameLocation.GetGame(loc);
+            if (gl == null)
+                return null;
             GameManager gm = GameManager.GetManager(gl, language);
             EditorBase editor = GetEditor(gm);
             editor.Location = loc;
