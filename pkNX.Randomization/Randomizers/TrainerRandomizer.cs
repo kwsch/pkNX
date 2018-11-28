@@ -227,7 +227,7 @@ namespace pkNX.Randomization
         private static int[] GetSpecialClasses(GameVersion game)
         {
             if (GameVersion.GG.Contains(game))
-                return MasterTrainerGG;
+                return Legal.SpecialClasses_GG;
             if (GameVersion.SM.Contains(game))
                 return Legal.SpecialClasses_SM;
             if (GameVersion.USUM.Contains(game))
