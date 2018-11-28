@@ -34,17 +34,11 @@
             this.L_Rank = new System.Windows.Forms.Label();
             this.TC_Tables = new System.Windows.Forms.TabControl();
             this.Tab_Ground = new System.Windows.Forms.TabPage();
-            this.EL_Ground = new pkNX.WinForms.EncounterList();
             this.Tab_Water = new System.Windows.Forms.TabPage();
-            this.EL_Water = new pkNX.WinForms.EncounterList();
             this.Tab_Old = new System.Windows.Forms.TabPage();
-            this.EL_Old = new pkNX.WinForms.EncounterList();
             this.Tab_Good = new System.Windows.Forms.TabPage();
-            this.EL_Good = new pkNX.WinForms.EncounterList();
             this.Tab_Super = new System.Windows.Forms.TabPage();
-            this.EL_Super = new pkNX.WinForms.EncounterList();
             this.Tab_Sky = new System.Windows.Forms.TabPage();
-            this.EL_Sky = new pkNX.WinForms.EncounterList();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
             this.CHK_ForceType = new System.Windows.Forms.CheckBox();
             this.L_SpawnDuration = new System.Windows.Forms.Label();
@@ -61,7 +55,12 @@
             this.B_ModSpawn = new System.Windows.Forms.Button();
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
-            this.CHK_WildAlola = new System.Windows.Forms.CheckBox();
+            this.EL_Ground = new pkNX.WinForms.EncounterList();
+            this.EL_Water = new pkNX.WinForms.EncounterList();
+            this.EL_Old = new pkNX.WinForms.EncounterList();
+            this.EL_Good = new pkNX.WinForms.EncounterList();
+            this.EL_Super = new pkNX.WinForms.EncounterList();
+            this.EL_Sky = new pkNX.WinForms.EncounterList();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -139,14 +138,6 @@
             this.Tab_Ground.Text = "Ground";
             this.Tab_Ground.UseVisualStyleBackColor = true;
             // 
-            // EL_Ground
-            // 
-            this.EL_Ground.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Ground.Location = new System.Drawing.Point(0, 0);
-            this.EL_Ground.Name = "EL_Ground";
-            this.EL_Ground.Size = new System.Drawing.Size(313, 400);
-            this.EL_Ground.TabIndex = 14;
-            // 
             // Tab_Water
             // 
             this.Tab_Water.Controls.Add(this.EL_Water);
@@ -156,14 +147,6 @@
             this.Tab_Water.TabIndex = 1;
             this.Tab_Water.Text = "Water";
             this.Tab_Water.UseVisualStyleBackColor = true;
-            // 
-            // EL_Water
-            // 
-            this.EL_Water.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Water.Location = new System.Drawing.Point(0, 0);
-            this.EL_Water.Name = "EL_Water";
-            this.EL_Water.Size = new System.Drawing.Size(313, 400);
-            this.EL_Water.TabIndex = 13;
             // 
             // Tab_Old
             // 
@@ -175,14 +158,6 @@
             this.Tab_Old.Text = "Old";
             this.Tab_Old.UseVisualStyleBackColor = true;
             // 
-            // EL_Old
-            // 
-            this.EL_Old.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Old.Location = new System.Drawing.Point(0, 0);
-            this.EL_Old.Name = "EL_Old";
-            this.EL_Old.Size = new System.Drawing.Size(313, 400);
-            this.EL_Old.TabIndex = 13;
-            // 
             // Tab_Good
             // 
             this.Tab_Good.Controls.Add(this.EL_Good);
@@ -192,14 +167,6 @@
             this.Tab_Good.TabIndex = 3;
             this.Tab_Good.Text = "Good";
             this.Tab_Good.UseVisualStyleBackColor = true;
-            // 
-            // EL_Good
-            // 
-            this.EL_Good.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Good.Location = new System.Drawing.Point(0, 0);
-            this.EL_Good.Name = "EL_Good";
-            this.EL_Good.Size = new System.Drawing.Size(313, 400);
-            this.EL_Good.TabIndex = 13;
             // 
             // Tab_Super
             // 
@@ -211,14 +178,6 @@
             this.Tab_Super.Text = "Super";
             this.Tab_Super.UseVisualStyleBackColor = true;
             // 
-            // EL_Super
-            // 
-            this.EL_Super.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Super.Location = new System.Drawing.Point(0, 0);
-            this.EL_Super.Name = "EL_Super";
-            this.EL_Super.Size = new System.Drawing.Size(313, 400);
-            this.EL_Super.TabIndex = 12;
-            // 
             // Tab_Sky
             // 
             this.Tab_Sky.Controls.Add(this.EL_Sky);
@@ -229,18 +188,9 @@
             this.Tab_Sky.Text = "Sky";
             this.Tab_Sky.UseVisualStyleBackColor = true;
             // 
-            // EL_Sky
-            // 
-            this.EL_Sky.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Sky.Location = new System.Drawing.Point(0, 0);
-            this.EL_Sky.Name = "EL_Sky";
-            this.EL_Sky.Size = new System.Drawing.Size(313, 400);
-            this.EL_Sky.TabIndex = 12;
-            // 
             // Tab_Rand
             // 
             this.Tab_Rand.Controls.Add(this.CHK_ForceType);
-            this.Tab_Rand.Controls.Add(this.CHK_WildAlola);
             this.Tab_Rand.Controls.Add(this.L_SpawnDuration);
             this.Tab_Rand.Controls.Add(this.L_SpawnCount);
             this.Tab_Rand.Controls.Add(this.L_SpawnRate);
@@ -301,12 +251,11 @@
             // 
             // CHK_FillEmpty
             // 
-            this.CHK_FillEmpty.AutoSize = true;
             this.CHK_FillEmpty.Location = new System.Drawing.Point(80, 105);
             this.CHK_FillEmpty.Name = "CHK_FillEmpty";
-            this.CHK_FillEmpty.Size = new System.Drawing.Size(96, 17);
+            this.CHK_FillEmpty.Size = new System.Drawing.Size(83, 31);
             this.CHK_FillEmpty.TabIndex = 8;
-            this.CHK_FillEmpty.Text = "Fill Empty Slots";
+            this.CHK_FillEmpty.Text = "Fill All Empty Slots";
             this.CHK_FillEmpty.UseVisualStyleBackColor = true;
             // 
             // B_RandAll
@@ -424,15 +373,53 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // CHK_WildAlola
+            // EL_Ground
             // 
-            this.CHK_WildAlola.AutoSize = true;
-            this.CHK_WildAlola.Location = new System.Drawing.Point(80, 119);
-            this.CHK_WildAlola.Name = "CHK_WildAlola";
-            this.CHK_WildAlola.Size = new System.Drawing.Size(84, 17);
-            this.CHK_WildAlola.TabIndex = 12;
-            this.CHK_WildAlola.Text = "Wild Alolans";
-            this.CHK_WildAlola.UseVisualStyleBackColor = true;
+            this.EL_Ground.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Ground.Location = new System.Drawing.Point(0, 0);
+            this.EL_Ground.Name = "EL_Ground";
+            this.EL_Ground.Size = new System.Drawing.Size(313, 400);
+            this.EL_Ground.TabIndex = 14;
+            // 
+            // EL_Water
+            // 
+            this.EL_Water.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Water.Location = new System.Drawing.Point(0, 0);
+            this.EL_Water.Name = "EL_Water";
+            this.EL_Water.Size = new System.Drawing.Size(313, 400);
+            this.EL_Water.TabIndex = 13;
+            // 
+            // EL_Old
+            // 
+            this.EL_Old.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Old.Location = new System.Drawing.Point(0, 0);
+            this.EL_Old.Name = "EL_Old";
+            this.EL_Old.Size = new System.Drawing.Size(313, 400);
+            this.EL_Old.TabIndex = 13;
+            // 
+            // EL_Good
+            // 
+            this.EL_Good.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Good.Location = new System.Drawing.Point(0, 0);
+            this.EL_Good.Name = "EL_Good";
+            this.EL_Good.Size = new System.Drawing.Size(313, 400);
+            this.EL_Good.TabIndex = 13;
+            // 
+            // EL_Super
+            // 
+            this.EL_Super.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Super.Location = new System.Drawing.Point(0, 0);
+            this.EL_Super.Name = "EL_Super";
+            this.EL_Super.Size = new System.Drawing.Size(313, 400);
+            this.EL_Super.TabIndex = 12;
+            // 
+            // EL_Sky
+            // 
+            this.EL_Sky.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Sky.Location = new System.Drawing.Point(0, 0);
+            this.EL_Sky.Name = "EL_Sky";
+            this.EL_Sky.Size = new System.Drawing.Size(313, 400);
+            this.EL_Sky.TabIndex = 12;
             // 
             // GGWE
             // 
@@ -502,6 +489,5 @@
         private System.Windows.Forms.Label L_SpawnCount;
         private System.Windows.Forms.Label L_SpawnRate;
         private System.Windows.Forms.CheckBox CHK_ForceType;
-        private System.Windows.Forms.CheckBox CHK_WildAlola;
     }
 }

@@ -18,6 +18,13 @@ namespace pkNX.WinForms
             set => NUD_Count.Visible = NUD_Duration.Visible = L_Count.Visible = L_Duration.Visible = value;
         }
 
+        public bool ShowForm
+        {
+            set => dgv.Columns[FormColumn].Visible = value;
+        }
+
+        private const string FormColumn = nameof(FormColumn);
+
         public void Initialize()
         {
             var dgvPicture = new DataGridViewImageColumn
@@ -37,6 +44,7 @@ namespace pkNX.WinForms
             };
             var dgvForm = new DataGridViewTextBoxColumn
             {
+                Name = FormColumn,
                 HeaderText = "Form",
                 DisplayIndex = 2,
                 Width = 45,

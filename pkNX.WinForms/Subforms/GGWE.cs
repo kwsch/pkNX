@@ -44,6 +44,14 @@ namespace pkNX.WinForms
 
             Tables = obj;
             LoadFile(locs);
+
+
+            EL_Ground.ShowForm = false;
+            EL_Water.ShowForm = false;
+            EL_Old.ShowForm = false;
+            EL_Good.ShowForm = false;
+            EL_Super.ShowForm = false;
+            EL_Sky.ShowForm = false;
             CB_Location.SelectedIndex = 0;
         }
 
@@ -337,12 +345,12 @@ namespace pkNX.WinForms
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
             rand.Initialize(settings);
-            RandomizeWild(rand, CHK_FillEmpty.Checked, CHK_WildAlola.Checked);
+            RandomizeWild(rand, CHK_FillEmpty.Checked);
             LoadEntry(entry);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool wildAlola)
+        private void RandomizeWild(SpeciesRandomizer rand, bool fill)
         {
             var pt = ROM.Data.PersonalData;
             bool IsGrassOrWater(int s) => pt[s].IsType((int)Types.Water) || pt[s].IsType((int)Types.Grass);
@@ -374,7 +382,7 @@ namespace pkNX.WinForms
                     }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    s.Form = Legal.GetRandomForme(s.Species, false, wildAlola, pt);
+                    s.Form = Legal.GetRandomForme(s.Species, false, false, pt); // mega & alolan forms don't spawn :(
                     if (fill)
                         s.Probability = RandomScaledRates[slots.Count][i];
                 }
