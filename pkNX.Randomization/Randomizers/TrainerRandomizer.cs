@@ -14,7 +14,9 @@ namespace pkNX.Randomization
         private readonly Dictionary<int, int[]> MegaDictionary;
         private readonly Dictionary<int, int> IndexFixedCount;
         private readonly IList<int> SpecialClasses;
+        private readonly IList<int> CrashClasses;
 
+        public GenericRandomizer Class { get; set; }
         public LearnsetRandomizer Learn { get; set; }
         public SpeciesRandomizer RandSpec { get; set; }
         public MoveRandomizer RandMove { get; set; }
@@ -34,9 +36,18 @@ namespace pkNX.Randomization
             MegaDictionary = Legal.GetMegaDictionary(Info.Game);
             IndexFixedCount = GetFixedCountIndexes(Info.Game);
             SpecialClasses = GetSpecialClasses(Info.Game);
+            CrashClasses = GetCrashClasses(Info.Game);
         }
 
-        public void Initialize(TrainerRandSettings settings) => Settings = settings;
+        public void Initialize(TrainerRandSettings settings)
+        {
+            Settings = settings;
+
+            IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
+            if (Settings.SkipSpecialClasses)
+                classes = classes.Except(SpecialClasses);
+            Class = new GenericRandomizer(classes.ToArray());
+        }
 
         public override void Execute()
         {
@@ -101,28 +112,13 @@ namespace pkNX.Randomization
         private void SetRandomClass(VsTrainer tr)
         {
             // ignore special classes
-            if (Settings.SkipSpecialClasses && !SpecialClasses.Contains(tr.Self.Class))
-            {
-                int randClass() => Util.Random.Next(ClassCount);
-                int rv;
-                do
-                {
-                    rv = randClass();
-                } while (SpecialClasses.Contains(rv) || rv >= 072 && rv <= 381); // don't allow disallowed classes
-                tr.Self.Class = rv;
-            }
+            if (Settings.SkipSpecialClasses && SpecialClasses.Contains(tr.Self.Class))
+                return;
 
-            // all classes
-            else if (!Settings.SkipSpecialClasses)
-            {
-                int randClass() => Util.Random.Next(ClassCount);
-                int rv;
-                do
-                {
-                    rv = randClass();
-                } while (rv >= 072 && rv <= 381); // Master Trainers are unused and can crash
-                tr.Self.Class = rv;
-            }
+            if (CrashClasses.Contains(tr.Self.Class))
+                return; // keep as is
+
+            tr.Self.Class = Class.Next();
         }
 
         private void DetermineSpecies(IPokeData pk)
@@ -226,8 +222,27 @@ namespace pkNX.Randomization
             return new Dictionary<int, int>();
         }
 
+        private static readonly int[] MasterTrainerGG = Enumerable.Range(72, 381 - 72 + 1).ToArray();
+
         private static int[] GetSpecialClasses(GameVersion game)
         {
+            if (GameVersion.GG.Contains(game))
+                return MasterTrainerGG;
+            if (GameVersion.SM.Contains(game))
+                return Legal.SpecialClasses_SM;
+            if (GameVersion.USUM.Contains(game))
+                return Legal.SpecialClasses_USUM;
+            if (GameVersion.ORAS.Contains(game))
+                return Legal.SpecialClasses_ORAS;
+            if (GameVersion.XY.Contains(game))
+                return Legal.SpecialClasses_XY;
+            return Array.Empty<int>();
+        }
+
+        private static int[] GetCrashClasses(GameVersion game)
+        {
+            if (GameVersion.GG.Contains(game))
+                return MasterTrainerGG;
             return Array.Empty<int>();
         }
     }
