@@ -443,6 +443,15 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
+        private void B_AmpExperience_Click(object sender, EventArgs e)
+        {
+            decimal rate = NUD_AmpEXP.Value;
+            foreach (var p in Editor.Personal.Table)
+                p.BaseEXP = (int)Math.Max(0, Math.Min(byte.MaxValue, p.BaseEXP * rate));
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_RandEvo_Click(object sender, EventArgs e)
         {
             SaveCurrent();
