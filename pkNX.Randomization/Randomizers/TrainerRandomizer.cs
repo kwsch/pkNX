@@ -213,12 +213,19 @@ namespace pkNX.Randomization
         }
 
         private static readonly int[] royal = { 081, 082, 083, 084, 185 };
-        private static readonly Dictionary<int, int> FixedSM = royal.ToDictionary(z => z, _ => 1);
 
         private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
         {
-            if (GameVersion.SM.Contains(game) || GameVersion.USUM.Contains(game))
-                return FixedSM;
+            if (GameVersion.XY.Contains(game))
+                return Legal.ImportantTrainers_XY.ToDictionary(z => z, _ => 6);
+            if (GameVersion.ORAS.Contains(game))
+                return Legal.ImportantTrainers_ORAS.ToDictionary(z => z, _ => 6);
+            if (GameVersion.SM.Contains(game))
+                return Legal.ImportantTrainers_SM.Concat(royal).ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
+            if (GameVersion.USUM.Contains(game))
+                return Legal.ImportantTrainers_USUM.Concat(royal).ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
+            if (GameVersion.GG.Contains(game))
+                return Legal.ImportantTrainers_GG.ToDictionary(z => z, _ => 6);
             return new Dictionary<int, int>();
         }
 
