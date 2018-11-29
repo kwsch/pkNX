@@ -30,7 +30,7 @@ namespace pkNX.Containers
             get => (byte[])Data.Clone();
             set
             {
-                Modified |= Data.SequenceEqual(value);
+                Modified |= !Data.SequenceEqual(value);
                 Data = value;
             }
         }
