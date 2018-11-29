@@ -20,10 +20,10 @@ namespace pkNX.Structures
             if (species == 774) // minior
                 return Util.Rand.Next(7);
 
-            if (alola && EvolveToAlolanForms.Contains(species))
-                return Util.Rand.Next(2);
             if (stats.TableLength == 980 && (species == 25 || species == 133)) // gg tableB -- no starters, they crash trainer battles.
                 return 0; // Pikachu
+            if (EvolveToAlolanForms.Contains(species))
+                return alola ? Util.Rand.Next(2) : 0;
             if (!BattleExclusiveForms.Contains(species) || mega)
                 return Util.Rand.Next(stats[species].FormeCount); // Slot-Random
             return 0;

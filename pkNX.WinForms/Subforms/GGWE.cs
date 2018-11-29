@@ -382,7 +382,7 @@ namespace pkNX.WinForms
                     }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    s.Form = Legal.GetRandomForme(s.Species, false, false, pt); // mega & alolan forms don't spawn :(
+                    s.Form = 0; // mega & alolan forms don't spawn :(
                     if (fill)
                         s.Probability = RandomScaledRates[slots.Count][i];
                 }
