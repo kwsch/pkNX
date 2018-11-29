@@ -45,7 +45,6 @@ namespace pkNX.WinForms
             Tables = obj;
             LoadFile(locs);
 
-
             EL_Ground.ShowForm = false;
             EL_Water.ShowForm = false;
             EL_Old.ShowForm = false;
@@ -343,8 +342,9 @@ namespace pkNX.WinForms
             SaveEntry(entry);
             var settings = (SpeciesSettings)PG_Species.SelectedObject;
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
+            settings.Events = false;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-            rand.Initialize(settings);
+            rand.Initialize(settings, new[] {808, 809});
             RandomizeWild(rand, CHK_FillEmpty.Checked);
             LoadEntry(entry);
             System.Media.SystemSounds.Asterisk.Play();

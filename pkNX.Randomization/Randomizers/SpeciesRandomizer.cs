@@ -22,12 +22,13 @@ namespace pkNX.Randomization
         /// <summary>
         /// Initializes the <see cref="RandSpec"/> according to the provided settings.
         /// </summary>
-        /// <param name="settings"></param>
-        public void Initialize(SpeciesSettings settings)
+        /// <param name="settings">General settings</param>
+        /// <param name="banlist">Optional extra: banned species</param>
+        public void Initialize(SpeciesSettings settings, params int[] banlist)
         {
             s = settings;
-            var list = s.GetSpecies(Game.MaxSpeciesID, Game.Generation);
-            RandSpec = new GenericRandomizer(list);
+            var list = s.GetSpecies(Game.MaxSpeciesID, Game.Generation).Except(banlist);
+            RandSpec = new GenericRandomizer(list.ToArray());
         }
 
         #region Random Species Filtering Parameters
