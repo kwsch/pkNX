@@ -126,23 +126,7 @@ namespace pkNX.Randomization
             if (Settings.RandomizeTeam)
             {
                 int Type = Settings.TeamTypeThemed ? Util.Random.Next(17) : -1;
-
-                // replaces Megas with another Mega (Dexio and Lysandre in USUM)
-                if (MegaDictionary.Any(z => z.Value.Contains(pk.HeldItem)))
-                {
-                    int[] mega = GetRandomMega(MegaDictionary, out int species);
-                    pk.Species = species;
-                    pk.HeldItem = mega[Util.Random.Next(mega.Length)];
-                    pk.Form = 0; // allow it to Mega Evolve naturally
-                }
-
-                // every other pkm
-                else
-                {
-                    pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
-                    pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
-                    pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
-                }
+                RandomizeSpecFormItem(pk, Type);
 
                 pk.Gender = 0; // random
                 pk.Nature = Util.Random.Next(25); // random
@@ -155,6 +139,49 @@ namespace pkNX.Randomization
                     pk.Species = FinalEvo[randFinalEvo()];
                 pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
             }
+        }
+
+        private void RandomizeSpecFormItem(IPokeData pk, int Type)
+        {
+            if (pk is TrainerPoke7b p7b)
+            {
+                RandomizeSpecForm(p7b, Type);
+                return;
+            }
+
+            // replaces Megas with another Mega (Dexio and Lysandre in USUM)
+            if (MegaDictionary.Any(z => z.Value.Contains(pk.HeldItem)))
+            {
+                int[] mega = GetRandomMega(MegaDictionary, out int species);
+                pk.Species = species;
+                int index = Util.Random.Next(mega.Length);
+                pk.HeldItem = mega[index];
+                pk.Form = 0; // allow it to Mega Evolve naturally
+            }
+            else // every other pkm
+            {
+                pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
+                pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
+                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+            }
+        }
+
+        private void RandomizeSpecForm(TrainerPoke7b pk, int type)
+        {
+            bool isMega = pk.MegaFormChoice != 0;
+            if (isMega)
+            {
+                int[] mega = GetRandomMega(MegaDictionary, out int species);
+                pk.Species = species;
+                pk.MegaFormChoice = Util.Random.Next(mega.Length);
+                pk.CanMegaEvolve = true;
+                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+                return;
+            }
+
+            pk.MegaFormChoice = 0;
+            pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
+            pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
         }
 
         private void UpdatePKMFromSettings(TrainerPoke pk)
