@@ -152,6 +152,7 @@
             0,
             0,
             0});
+            this.NUD_Duration.Visible = false;
             // 
             // L_Duration
             // 
@@ -161,6 +162,7 @@
             this.L_Duration.Size = new System.Drawing.Size(47, 13);
             this.L_Duration.TabIndex = 15;
             this.L_Duration.Text = "Duration";
+            this.L_Duration.Visible = false;
             // 
             // L_Count
             // 

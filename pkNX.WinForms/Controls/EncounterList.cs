@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using pkNX.Sprites;
 using pkNX.Structures;
@@ -15,7 +14,7 @@ namespace pkNX.WinForms
 
         public bool OverworldSpawn
         {
-            set => NUD_Count.Visible = NUD_Duration.Visible = L_Count.Visible = L_Duration.Visible = value;
+            set => NUD_Count.Visible = L_Count.Visible = value;
         }
 
         public bool ShowForm

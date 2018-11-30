@@ -41,16 +41,13 @@
             this.Tab_Sky = new System.Windows.Forms.TabPage();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
             this.CHK_ForceType = new System.Windows.Forms.CheckBox();
-            this.L_SpawnDuration = new System.Windows.Forms.Label();
             this.L_SpawnCount = new System.Windows.Forms.Label();
             this.L_SpawnRate = new System.Windows.Forms.Label();
             this.CHK_FillEmpty = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
-            this.NUD_ModDuration = new System.Windows.Forms.NumericUpDown();
             this.NUD_ModRate = new System.Windows.Forms.NumericUpDown();
             this.NUD_ModCount = new System.Windows.Forms.NumericUpDown();
-            this.B_ModDuration = new System.Windows.Forms.Button();
             this.B_ModRate = new System.Windows.Forms.Button();
             this.B_ModSpawn = new System.Windows.Forms.Button();
             this.L_Hash = new System.Windows.Forms.Label();
@@ -61,6 +58,9 @@
             this.EL_Good = new pkNX.WinForms.EncounterList();
             this.EL_Super = new pkNX.WinForms.EncounterList();
             this.EL_Sky = new pkNX.WinForms.EncounterList();
+            this.L_SpawnDuration = new System.Windows.Forms.Label();
+            this.NUD_ModDuration = new System.Windows.Forms.NumericUpDown();
+            this.B_ModDuration = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -71,9 +71,9 @@
             this.Tab_Super.SuspendLayout();
             this.Tab_Sky.SuspendLayout();
             this.Tab_Rand.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Location
@@ -222,15 +222,6 @@
             this.CHK_ForceType.Text = "Force At Least 1 Water/Grass Viridian";
             this.CHK_ForceType.UseVisualStyleBackColor = true;
             // 
-            // L_SpawnDuration
-            // 
-            this.L_SpawnDuration.AutoSize = true;
-            this.L_SpawnDuration.Location = new System.Drawing.Point(202, 77);
-            this.L_SpawnDuration.Name = "L_SpawnDuration";
-            this.L_SpawnDuration.Size = new System.Drawing.Size(47, 13);
-            this.L_SpawnDuration.TabIndex = 11;
-            this.L_SpawnDuration.Text = "seconds";
-            // 
             // L_SpawnCount
             // 
             this.L_SpawnCount.AutoSize = true;
@@ -276,23 +267,6 @@
             this.PG_Species.TabIndex = 6;
             this.PG_Species.ToolbarVisible = false;
             // 
-            // NUD_ModDuration
-            // 
-            this.NUD_ModDuration.Location = new System.Drawing.Point(149, 75);
-            this.NUD_ModDuration.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.NUD_ModDuration.Name = "NUD_ModDuration";
-            this.NUD_ModDuration.Size = new System.Drawing.Size(47, 20);
-            this.NUD_ModDuration.TabIndex = 5;
-            this.NUD_ModDuration.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
             // NUD_ModRate
             // 
             this.NUD_ModRate.Location = new System.Drawing.Point(149, 43);
@@ -321,16 +295,6 @@
             0,
             0,
             0});
-            // 
-            // B_ModDuration
-            // 
-            this.B_ModDuration.Location = new System.Drawing.Point(6, 70);
-            this.B_ModDuration.Name = "B_ModDuration";
-            this.B_ModDuration.Size = new System.Drawing.Size(142, 26);
-            this.B_ModDuration.TabIndex = 2;
-            this.B_ModDuration.Text = "Modify All Spawn Duration";
-            this.B_ModDuration.UseVisualStyleBackColor = true;
-            this.B_ModDuration.Click += new System.EventHandler(this.B_ModDuration_Click);
             // 
             // B_ModRate
             // 
@@ -421,6 +385,45 @@
             this.EL_Sky.Size = new System.Drawing.Size(313, 400);
             this.EL_Sky.TabIndex = 12;
             // 
+            // L_SpawnDuration
+            // 
+            this.L_SpawnDuration.AutoSize = true;
+            this.L_SpawnDuration.Location = new System.Drawing.Point(202, 77);
+            this.L_SpawnDuration.Name = "L_SpawnDuration";
+            this.L_SpawnDuration.Size = new System.Drawing.Size(47, 13);
+            this.L_SpawnDuration.TabIndex = 11;
+            this.L_SpawnDuration.Text = "seconds";
+            this.L_SpawnDuration.Visible = false;
+            // 
+            // NUD_ModDuration
+            // 
+            this.NUD_ModDuration.Location = new System.Drawing.Point(149, 75);
+            this.NUD_ModDuration.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.NUD_ModDuration.Name = "NUD_ModDuration";
+            this.NUD_ModDuration.Size = new System.Drawing.Size(47, 20);
+            this.NUD_ModDuration.TabIndex = 5;
+            this.NUD_ModDuration.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.NUD_ModDuration.Visible = false;
+            // 
+            // B_ModDuration
+            // 
+            this.B_ModDuration.Location = new System.Drawing.Point(6, 70);
+            this.B_ModDuration.Name = "B_ModDuration";
+            this.B_ModDuration.Size = new System.Drawing.Size(142, 26);
+            this.B_ModDuration.TabIndex = 2;
+            this.B_ModDuration.Text = "Modify All Spawn Duration";
+            this.B_ModDuration.UseVisualStyleBackColor = true;
+            this.B_ModDuration.Visible = false;
+            this.B_ModDuration.Click += new System.EventHandler(this.B_ModDuration_Click);
+            // 
             // GGWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -447,9 +450,9 @@
             this.Tab_Sky.ResumeLayout(false);
             this.Tab_Rand.ResumeLayout(false);
             this.Tab_Rand.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -478,16 +481,16 @@
         private System.Windows.Forms.TabPage Tab_Rand;
         private System.Windows.Forms.Button B_RandAll;
         private System.Windows.Forms.PropertyGrid PG_Species;
-        private System.Windows.Forms.NumericUpDown NUD_ModDuration;
         private System.Windows.Forms.NumericUpDown NUD_ModRate;
         private System.Windows.Forms.NumericUpDown NUD_ModCount;
-        private System.Windows.Forms.Button B_ModDuration;
         private System.Windows.Forms.Button B_ModRate;
         private System.Windows.Forms.Button B_ModSpawn;
         private System.Windows.Forms.CheckBox CHK_FillEmpty;
-        private System.Windows.Forms.Label L_SpawnDuration;
         private System.Windows.Forms.Label L_SpawnCount;
         private System.Windows.Forms.Label L_SpawnRate;
         private System.Windows.Forms.CheckBox CHK_ForceType;
+        private System.Windows.Forms.Label L_SpawnDuration;
+        private System.Windows.Forms.NumericUpDown NUD_ModDuration;
+        private System.Windows.Forms.Button B_ModDuration;
     }
 }
