@@ -55,6 +55,7 @@ namespace pkNX.WinForms
             natures = Game.GetStrings(TextName.Natures);
             trName = Game.GetStrings(TextName.TrainerNames);
             trClass = Game.GetStrings(TextName.TrainerClasses);
+            movelist = EditorUtil.SanitizeMoveList(movelist);
 
             AIBits = new[] {CHK_AI0, CHK_AI1, CHK_AI2, CHK_AI3, CHK_AI4, CHK_AI5, CHK_AI6, CHK_AI7};
 

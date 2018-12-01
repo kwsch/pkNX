@@ -30,10 +30,7 @@ namespace pkNX.WinForms
             species = ROM.GetStrings(TextName.SpeciesNames);
             abilities = ROM.GetStrings(TextName.AbilityNames);
             types = ROM.GetStrings(TextName.Types);
-
-            string[] ps = { "P", "S" }; // Distinguish Physical/Special Z Moves
-            for (int i = 622; i < 658; i++)
-                movelist[i] += $" ({ps[i % 2]})";
+            movelist = EditorUtil.SanitizeMoveList(movelist);
 
             species[0] = "---";
             abilities[0] = items[0] = movelist[0] = "";
