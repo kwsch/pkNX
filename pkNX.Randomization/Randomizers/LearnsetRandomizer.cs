@@ -131,12 +131,7 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        public int[] GetHighPoweredMoves(int species, int form, int count = 4)
-        {
-            int index = Personal.GetFormeIndex(species, form);
-            var learn = Learnsets[index];
-            return learn.GetHighPoweredMoves(count, Moves);
-        }
+        internal int[] GetHighPoweredMoves(int species, int form, int count = 4) => GetHighPoweredMoves(Moves, species, form, count);
 
         public int[] GetCurrentMoves(int species, int form, int level, int count = 4)
         {
@@ -144,6 +139,13 @@ namespace pkNX.Randomization
             var moves = Learnsets[i].GetEncounterMoves(level);
             Array.Resize(ref moves, count);
             return moves;
+        }
+
+        public int[] GetHighPoweredMoves(Move[] movedata, int species, int form, int count = 4)
+        {
+            int index = Personal.GetFormeIndex(species, form);
+            var learn = Learnsets[index];
+            return learn.GetHighPoweredMoves(count, movedata);
         }
     }
 }

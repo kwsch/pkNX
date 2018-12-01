@@ -499,7 +499,8 @@ namespace pkNX.WinForms
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = learn.GetHighPoweredMoves(pkm.Species, pkm.Form, 4);
+            var movedata = Game.Data.MoveData.LoadAll();
+            var moves = learn.GetHighPoweredMoves(movedata, pkm.Species, pkm.Form, 4);
             SetMoves(moves);
         }
 
