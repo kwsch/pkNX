@@ -13,6 +13,7 @@ namespace pkNX.Game
         public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
         protected readonly T[] Cache;
+        private bool Cached;
 
         public int Length => Cache.Length;
 
@@ -32,9 +33,12 @@ namespace pkNX.Game
 
         public T[] LoadAll()
         {
+            if (Cached)
+                return Cache;
             for (int i = 0; i < Length; i++)
                 // ReSharper disable once AssignmentIsFullyDiscarded
                 _ = this[i]; // force load cache
+            Cached = true;
             return Cache;
         }
 
