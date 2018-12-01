@@ -82,21 +82,21 @@ namespace pkNX.Containers
         {
             CompressedText = Header.Flags.HasFlagFast(NSOFlag.CompressedText)
                 ? LZ4.Encode(DecompressedText)
-                : CompressedText;
+                : DecompressedText;
             Header.SizeCompressedText = CompressedText.Length;
             Header.HeaderText.DecompressedSize = DecompressedText.Length;
             Header.HashText = Hash(DecompressedText);
 
             CompressedRO = Header.Flags.HasFlagFast(NSOFlag.CompressedRO)
                 ? LZ4.Encode(DecompressedRO)
-                : CompressedRO;
+                : DecompressedRO;
             Header.SizeCompressedRO = CompressedRO.Length;
             Header.HeaderRO.DecompressedSize = DecompressedRO.Length;
             Header.HashRO = Hash(DecompressedRO);
 
             CompressedData = Header.Flags.HasFlagFast(NSOFlag.CompressedData)
                 ? LZ4.Encode(DecompressedData)
-                : CompressedData;
+                : DecompressedData;
             Header.SizeCompressedData = CompressedData.Length;
             Header.HeaderData.DecompressedSize = DecompressedData.Length;
             Header.HashData = Hash(DecompressedData);
