@@ -16,7 +16,7 @@ namespace pkNX.Randomization
         private readonly IList<int> SpecialClasses;
         private readonly IList<int> CrashClasses;
 
-        public GenericRandomizer Class { get; set; }
+        public GenericRandomizer<int> Class { get; set; }
         public LearnsetRandomizer Learn { get; set; }
         public SpeciesRandomizer RandSpec { get; set; }
         public MoveRandomizer RandMove { get; set; }
@@ -46,7 +46,7 @@ namespace pkNX.Randomization
             IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
             if (Settings.SkipSpecialClasses)
                 classes = classes.Except(SpecialClasses);
-            Class = new GenericRandomizer(classes.ToArray());
+            Class = new GenericRandomizer<int>(classes.ToArray());
         }
 
         public override void Execute()

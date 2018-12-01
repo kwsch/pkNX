@@ -11,7 +11,7 @@ namespace pkNX.Randomization
         private readonly PersonalTable SpeciesStat;
         private readonly GameInfo Config;
 
-        private GenericRandomizer RandMove;
+        private GenericRandomizer<int> RandMove;
         internal MovesetRandSettings Settings;
 
         public MoveRandomizer(GameInfo config, Move[] moves, PersonalTable t)
@@ -20,7 +20,7 @@ namespace pkNX.Randomization
             var maxMoveId = config.MaxMoveID;
             MoveData = moves;
             SpeciesStat = t;
-            RandMove = new GenericRandomizer(Enumerable.Range(1, maxMoveId - 1).ToArray());
+            RandMove = new GenericRandomizer<int>(Enumerable.Range(1, maxMoveId - 1).ToArray());
         }
 
         public override void Execute() => throw new Exception("Shouldn't be called.");
@@ -41,7 +41,7 @@ namespace pkNX.Randomization
 
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
             var moves = all.Except(nanned);
-            RandMove = new GenericRandomizer(moves.ToArray());
+            RandMove = new GenericRandomizer<int>(moves.ToArray());
         }
 
         public int[] GetRandomLearnset(int index, int movecount) => GetRandomLearnset(SpeciesStat[index].Types, movecount);
@@ -128,7 +128,7 @@ namespace pkNX.Randomization
             141, // Leech Life
         };
 
-        private static readonly GenericRandomizer first = new GenericRandomizer(firstMoves);
+        private static readonly GenericRandomizer<int> first = new GenericRandomizer<int>(firstMoves);
 
         public int GetRandomFirstMoveAny()
         {
