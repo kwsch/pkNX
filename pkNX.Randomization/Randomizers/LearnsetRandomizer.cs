@@ -14,7 +14,7 @@ namespace pkNX.Randomization
         private readonly GameInfo Game;
         private readonly PersonalTable Personal;
         private MoveRandomizer moverand;
-        private Move[] Moves;
+        public Move[] Moves { private get; set; }
 
         public LearnSettings Settings { get; private set; }
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }

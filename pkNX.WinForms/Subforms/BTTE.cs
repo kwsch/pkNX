@@ -538,6 +538,7 @@ namespace pkNX.WinForms
             rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
             var rspec = new SpeciesRandomizer(Game.Info, Personal);
             rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject);
+            learn.Moves = moves;
             var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll())
             {
                 ClassCount = CB_Trainer_Class.Items.Count,
