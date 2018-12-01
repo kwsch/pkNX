@@ -77,6 +77,7 @@ namespace pkNX.Randomization
         private void SetupTeamCount(VsTrainer tr)
         {
             bool special = IndexFixedCount.TryGetValue(tr.ID, out var count);
+            special &= (count != 6 || Settings.ForceSpecialTeamCount6);
             int min = special ? count : Settings.TeamCountMin;
             int max = special ? count : Settings.TeamCountMax;
 
@@ -93,12 +94,7 @@ namespace pkNX.Randomization
                 tr.Self.Mode = BattleMode.Doubles;
             }
 
-            if (Settings.ForceSpecialTeamCount6 && special && count == 6)
-            {
-                for (int g = tr.Team.Count; g < 6; g++)
-                    tr.Team.Add(GetBlankPKM(avgLevel, avgSpec));
-            }
-            else if (tr.Team.Count < min)
+            if (tr.Team.Count < min)
             {
                 for (int p = tr.Team.Count; p < min; p++)
                     tr.Team.Add(GetBlankPKM(avgLevel, avgSpec));
