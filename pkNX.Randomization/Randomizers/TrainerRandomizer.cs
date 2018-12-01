@@ -235,7 +235,11 @@ namespace pkNX.Randomization
             return megas.Values.ElementAt(rnd);
         }
 
+        // 1 poke max
         private static readonly int[] royal = { 081, 082, 083, 084, 185 };
+
+        // 3 poke max
+        private static readonly int[] meowth = { 007, 008, 020, 021, 024, 025, 028, 029, 032, 033, 050, 051 };
 
         private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
         {
@@ -248,7 +252,7 @@ namespace pkNX.Randomization
             if (GameVersion.USUM.Contains(game))
                 return Legal.ImportantTrainers_USUM.Concat(royal).ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
             if (GameVersion.GG.Contains(game))
-                return Legal.ImportantTrainers_GG.ToDictionary(z => z, _ => 6);
+                return Legal.ImportantTrainers_GG.ToDictionary(z => z, index => meowth.Contains(index) ? 3 : 6);
             return new Dictionary<int, int>();
         }
 
