@@ -7,6 +7,7 @@ namespace pkNX.WinForms
     public sealed partial class ShinyRate : Form
     {
         private readonly ShinyRateInfo Data;
+        private readonly bool Loaded;
 
         public ShinyRate(ShinyRateInfo info)
         {
@@ -26,6 +27,7 @@ namespace pkNX.WinForms
             // force update labels
             ChangePercent(null, null);
             ChangeRerollCount(null, null);
+            Loaded = true;
         }
 
         public bool Modified { get; set; }
@@ -39,6 +41,8 @@ namespace pkNX.WinForms
         private void ChangeSelection(object sender, EventArgs e)
         {
             GB_Rerolls.Enabled = GB_RerollHelper.Enabled = sender == RB_Fixed;
+            if (!Loaded)
+                return;
             if (sender == RB_Default)
                 Data.SetDefault();
             else if (sender == RB_Always)
@@ -49,7 +53,7 @@ namespace pkNX.WinForms
 
         private void ChangeRerollCount(object sender, EventArgs e)
         {
-            if (RB_Fixed.Checked)
+            if (Loaded && RB_Fixed.Checked)
                 Data.SetFixedRate((int)NUD_Rerolls.Value);
 
             int count = (int)NUD_Rerolls.Value;
