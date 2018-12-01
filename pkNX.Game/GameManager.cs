@@ -77,12 +77,14 @@ namespace pkNX.Game
         /// <param name="closing">Skip re-initialization of game data.</param>
         public void SaveAll(bool closing)
         {
+            Terminate();
             FileMap.SaveAll();
             if (!closing)
                 Initialize();
         }
 
         protected abstract void Initialize();
+        protected abstract void Terminate();
 
         public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool> filter = null)
         {

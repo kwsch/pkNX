@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
 
@@ -30,6 +31,7 @@ namespace pkNX.Game
             GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
 
             // initialize common structures
+            var personal = GetFilteredFolder(GameFile.PersonalStats, z => Path.GetFileNameWithoutExtension(z) == "personal_total");
             Data = new GameData
             {
                 MoveData = new DataCache<Move>(this[GameFile.MoveStats]) // mini
@@ -43,8 +45,8 @@ namespace pkNX.Game
                     Write = z => z.Write(),
                 },
 
-                // folders
-                PersonalData = new PersonalTable(GetFilteredFolder(GameFile.PersonalStats, z => Path.GetFileNameWithoutExtension(z) == "personal_total").GetFiles().Result[0], Game),
+                // folders;
+                PersonalData = new PersonalTable(personal[0], Game),
                 MegaEvolutionData = new DataCache<MegaEvolutionSet[]>(GetFilteredFolder(GameFile.MegaEvolutions))
                 {
                     Create = MegaEvolutionSet.ReadArray,
@@ -56,6 +58,13 @@ namespace pkNX.Game
                     Write = evo => evo.Write(),
                 },
             };
+        }
+
+        protected override void Terminate()
+        {
+            // Store Personal Data back in the file. Let the container detect if it is modified.
+            var personal = this[GameFile.PersonalStats];
+            personal[0] = Data.PersonalData.Table.SelectMany(z => z.Write()).ToArray();
         }
     }
 }
