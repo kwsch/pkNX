@@ -14,6 +14,7 @@ namespace pkNX.WinForms
             InitializeComponent();
             Data = info;
             // load initial state
+            RB_Always.Enabled = Data.AllowAlways;
             if (Data.IsFixed)
             {
                 RB_Fixed.Checked = true;

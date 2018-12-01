@@ -46,6 +46,8 @@ namespace pkNX.Game
         public override bool IsFixed => !IsAlways && !IsDefault;
         public override bool IsAlways => IsPresent(Data, Always12, CodeOffset + 12);
 
+        public override bool AllowAlways => false;
+
         public override int GetFixedRate() // "CMP W20, {val}" instruction
         {
             if (!IsFixed)

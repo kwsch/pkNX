@@ -10,6 +10,7 @@
         public abstract bool IsDefault { get; }
         public abstract bool IsFixed { get; }
         public abstract bool IsAlways { get; }
+        public abstract bool AllowAlways { get; }
 
         public abstract int GetFixedRate();
         public abstract void SetDefault();
