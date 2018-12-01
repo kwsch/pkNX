@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
@@ -219,6 +220,28 @@ namespace pkNX.WinForms.Controls
                 return;
             path = sfd.FileName;
             File.WriteAllText(path, result);
+        }
+
+        public void EditShinyRate()
+        {
+            var path = Path.Combine(ROM.PathExeFS, "main");
+            var data = FileMitm.ReadAllBytes(path);
+            var nso = new NSO(data);
+
+            var shiny = new ShinyRateGG(nso.DecompressedText);
+            if (!shiny.IsEditable)
+            {
+                WinFormsUtil.Alert("Not able to find shiny rate logic in exefs.");
+                return;
+            }
+
+            var editor = new ShinyRate(shiny);
+            editor.ShowDialog();
+            if (!editor.Modified)
+                return;
+
+            nso.DecompressedText = shiny.Data;
+            FileMitm.WriteAllBytes(path, nso.Write());
         }
     }
 }
