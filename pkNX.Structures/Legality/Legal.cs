@@ -168,12 +168,20 @@ namespace pkNX.Structures
             {080, new[] {760}}, // Slowbro @ Slowbronite
         };
 
-        public static int[] GetBannedMoves(GameVersion infoGame, IEnumerable<Move> moves)
+        public static int[] GetBannedMoves(GameVersion infoGame, int moveCount)
         {
             if (!GameVersion.GG.Contains(infoGame))
                 return Array.Empty<int>();
 
-            return Enumerable.Range(0, moves.Count()).Except(AllowedMovesGG).ToArray();
+            return Enumerable.Range(0, moveCount).Except(AllowedMovesGG).ToArray();
+        }
+
+        public static int[] GetAllowedMoves(GameVersion infoGame, int moveCount)
+        {
+            if (GameVersion.GG.Contains(infoGame))
+                return AllowedMovesGG;
+
+            return Enumerable.Range(0, moveCount).ToArray();
         }
 
         private static readonly int[] AllowedMovesGG =

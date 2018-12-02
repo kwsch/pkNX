@@ -479,7 +479,7 @@ namespace pkNX.WinForms
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
             var moves = ROM.Data.MoveData.LoadAll();
-            int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves);
+            int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves.Length);
             rand.Initialize(moves, settings, EditUtil.Settings.Move, banned);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);

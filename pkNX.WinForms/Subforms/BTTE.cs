@@ -535,7 +535,7 @@ namespace pkNX.WinForms
             SaveEntry();
             var moves = Game.Data.MoveData.LoadAll();
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
-            int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves);
+            int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
             rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
             var rspec = new SpeciesRandomizer(Game.Info, Personal);
             rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject);

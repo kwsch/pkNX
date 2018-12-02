@@ -243,5 +243,29 @@ namespace pkNX.WinForms.Controls
             nso.DecompressedText = shiny.Data;
             FileMitm.WriteAllBytes(path, nso.Write());
         }
+
+        public void EditTM()
+        {
+            var path = Path.Combine(ROM.PathExeFS, "main");
+            var data = FileMitm.ReadAllBytes(path);
+            var list = new TMEditorGG(data);
+            if (!list.Valid)
+            {
+                WinFormsUtil.Alert("Not able to find tm data in exefs.");
+                return;
+            }
+
+            var moves = list.GetMoves();
+            var allowed = Legal.GetAllowedMoves(ROM.Game, ROM.Data.MoveData.Length);
+            var names = ROM.GetStrings(TextName.MoveNames);
+            var editor = new TMList(moves, allowed, names);
+            editor.ShowDialog();
+            if (!editor.Modified)
+                return;
+
+            list.SetMoves(editor.FinalMoves);
+            data = list.Write();
+            FileMitm.WriteAllBytes(path, data);
+        }
     }
 }
