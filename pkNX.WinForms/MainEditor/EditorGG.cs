@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
@@ -265,6 +266,35 @@ namespace pkNX.WinForms.Controls
 
             list.SetMoves(editor.FinalMoves);
             data = list.Write();
+            FileMitm.WriteAllBytes(path, data);
+        }
+
+        public void EditTypeChart()
+        {
+            var path = Path.Combine(ROM.PathExeFS, "main");
+            var data = FileMitm.ReadAllBytes(path);
+            var nso = new NSO(data);
+
+            byte[] pattern = {0x84, 0x5A, 0xA4, 0xFF};
+            int ofs = CodePattern.IndexOfBytes(nso.DecompressedRO, pattern);
+            if (ofs < 0)
+            {
+                WinFormsUtil.Alert("Not able to find type chart data in exefs.");
+                return;
+            }
+            ofs += pattern.Length;
+
+            var cdata = new byte[18 * 18];
+            var types = ROM.GetStrings(TextName.Types);
+            Array.Copy(nso.DecompressedRO, ofs, cdata, 0, cdata.Length);
+            var chart = new TypeChartEditor(cdata);
+            var editor = new TypeChart(chart, types);
+            editor.ShowDialog();
+            if (!editor.Modified)
+                return;
+
+            chart.Data.CopyTo(nso.DecompressedRO, ofs);
+            data = nso.Write();
             FileMitm.WriteAllBytes(path, data);
         }
     }
