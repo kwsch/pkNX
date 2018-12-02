@@ -71,7 +71,7 @@
             this.dgv.ShowRowErrors = false;
             this.dgv.Size = new System.Drawing.Size(300, 267);
             this.dgv.TabIndex = 2;
-            this.dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_CurrentCellDirtyStateChanged);
+            this.dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.CurrentCellDirtyStateChanged);
             // 
             // NUD_Min
             // 

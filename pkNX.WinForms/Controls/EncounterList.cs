@@ -136,7 +136,7 @@ namespace pkNX.WinForms
             s.Probability = prob;
         }
 
-        private void dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (dgv.IsCurrentCellDirty)
                 dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);

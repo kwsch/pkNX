@@ -36,8 +36,11 @@ namespace pkNX.Game
             if (Cached)
                 return Cache;
             for (int i = 0; i < Length; i++)
+            {
                 // ReSharper disable once AssignmentIsFullyDiscarded
                 _ = this[i]; // force load cache
+            }
+
             Cached = true;
             return Cache;
         }
