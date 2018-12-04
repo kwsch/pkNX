@@ -114,9 +114,20 @@ namespace pkNX.WinForms
                 string[] brokenLine = fileText[i++ + 1].Split(new[] { " : " }, StringSplitOptions.None);
                 if (brokenLine.Length != 2)
                 { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
-                int file = Util.ToInt32(brokenLine[1]);
-                if (file != ctr)
-                { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
+
+                var file = brokenLine[1];
+                if (int.TryParse(file, out var fnum))
+                {
+                    if (fnum != ctr)
+                    {
+                        WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}");
+                        return false;
+                    }
+                }
+                else
+                {
+                    // pray that the filename index lines up
+                }
                 i += 2; // Skip over the other header line
                 List<string> Lines = new List<string>();
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
