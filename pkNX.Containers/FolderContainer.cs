@@ -66,8 +66,11 @@ namespace pkNX.Containers
             get => GetFileData(index);
             set
             {
-                if (value != null && Data[index] != null)
-                    TrackModify[index] = !value.SequenceEqual(Data[index]);
+                if (value != null)
+                {
+                    var current = Data[index] ?? (Data[index] = GetFileData(index));
+                    TrackModify[index] = !value.SequenceEqual(current);
+                }
                 Data[index] = value;
             }
         }
