@@ -64,7 +64,7 @@ namespace pkNX.Randomization
 
             int[] moves;
             do { moves = GetRandomMoves(Types, movecount); }
-            while (!IsMovesetMeetingRequirements(moves, movecount) && loopctr++ <= maxLoop);
+            while (!IsMovesetMeetingRequirements(moves, Types, movecount) && loopctr++ <= maxLoop);
 
             return moves;
         }
@@ -92,9 +92,12 @@ namespace pkNX.Randomization
             return move;
         }
 
-        private bool IsMovesetMeetingRequirements(int[] moves, int count)
+        private bool IsMovesetMeetingRequirements(int[] moves, int[] types, int count)
         {
             if (Settings.DMG && Settings.DMGCount > moves.Count(move => MoveData[move].Category != 0))
+                return false;
+
+            if (Settings.STAB && Settings.STABCount > moves.Count(move => types.Contains(MoveData[move].Type)))
                 return false;
 
             if (moves.Any(Settings.BannedMoves.Contains))
