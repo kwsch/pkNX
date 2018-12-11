@@ -123,6 +123,8 @@
             this.L_RandEnhance = new System.Windows.Forms.Label();
             this.TC_Rand = new System.Windows.Forms.TabControl();
             this.Tab_RStats = new System.Windows.Forms.TabPage();
+            this.NUD_AmpEXP = new System.Windows.Forms.NumericUpDown();
+            this.B_AmpExperience = new System.Windows.Forms.Button();
             this.B_RandPersonal = new System.Windows.Forms.Button();
             this.PG_Personal = new System.Windows.Forms.PropertyGrid();
             this.Tab_RLearn = new System.Windows.Forms.TabPage();
@@ -136,8 +138,6 @@
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
-            this.B_AmpExperience = new System.Windows.Forms.Button();
-            this.NUD_AmpEXP = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             this.Tab_Learn.SuspendLayout();
@@ -146,10 +146,10 @@
             this.Tab_Extra.SuspendLayout();
             this.TC_Rand.SuspendLayout();
             this.Tab_RStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).BeginInit();
             this.Tab_RLearn.SuspendLayout();
             this.Tab_REvo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
@@ -1160,6 +1160,44 @@
             this.Tab_RStats.Text = "Randomize Personal";
             this.Tab_RStats.UseVisualStyleBackColor = true;
             // 
+            // NUD_AmpEXP
+            // 
+            this.NUD_AmpEXP.DecimalPlaces = 2;
+            this.NUD_AmpEXP.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_AmpEXP.Location = new System.Drawing.Point(237, 8);
+            this.NUD_AmpEXP.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUD_AmpEXP.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.NUD_AmpEXP.Name = "NUD_AmpEXP";
+            this.NUD_AmpEXP.Size = new System.Drawing.Size(42, 20);
+            this.NUD_AmpEXP.TabIndex = 3;
+            this.NUD_AmpEXP.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            65536});
+            // 
+            // B_AmpExperience
+            // 
+            this.B_AmpExperience.Location = new System.Drawing.Point(121, 6);
+            this.B_AmpExperience.Name = "B_AmpExperience";
+            this.B_AmpExperience.Size = new System.Drawing.Size(110, 23);
+            this.B_AmpExperience.TabIndex = 2;
+            this.B_AmpExperience.Text = "Modify all EXP Gain";
+            this.B_AmpExperience.UseVisualStyleBackColor = true;
+            this.B_AmpExperience.Click += new System.EventHandler(this.B_AmpExperience_Click);
+            // 
             // B_RandPersonal
             // 
             this.B_RandPersonal.Location = new System.Drawing.Point(6, 6);
@@ -1297,44 +1335,6 @@
             this.PB_MonSprite.TabIndex = 91;
             this.PB_MonSprite.TabStop = false;
             // 
-            // B_AmpExperience
-            // 
-            this.B_AmpExperience.Location = new System.Drawing.Point(121, 6);
-            this.B_AmpExperience.Name = "B_AmpExperience";
-            this.B_AmpExperience.Size = new System.Drawing.Size(110, 23);
-            this.B_AmpExperience.TabIndex = 2;
-            this.B_AmpExperience.Text = "Modify all EXP Gain";
-            this.B_AmpExperience.UseVisualStyleBackColor = true;
-            this.B_AmpExperience.Click += new System.EventHandler(this.B_AmpExperience_Click);
-            // 
-            // NUD_AmpEXP
-            // 
-            this.NUD_AmpEXP.DecimalPlaces = 2;
-            this.NUD_AmpEXP.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.NUD_AmpEXP.Location = new System.Drawing.Point(237, 8);
-            this.NUD_AmpEXP.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.NUD_AmpEXP.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.NUD_AmpEXP.Name = "NUD_AmpEXP";
-            this.NUD_AmpEXP.Size = new System.Drawing.Size(42, 20);
-            this.NUD_AmpEXP.TabIndex = 3;
-            this.NUD_AmpEXP.Value = new decimal(new int[] {
-            7,
-            0,
-            0,
-            65536});
-            // 
             // PokeDataUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1346,6 +1346,7 @@
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.Name = "PokeDataUI";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokémon Editor";
             this.tabControl1.ResumeLayout(false);
             this.Tab_Personal.ResumeLayout(false);
@@ -1358,10 +1359,10 @@
             this.Tab_Extra.PerformLayout();
             this.TC_Rand.ResumeLayout(false);
             this.Tab_RStats.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).EndInit();
             this.Tab_RLearn.ResumeLayout(false);
             this.Tab_REvo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).EndInit();
             this.ResumeLayout(false);
 
         }

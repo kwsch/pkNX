@@ -106,9 +106,11 @@ namespace pkNX.Randomization
             return moves.Distinct().Count() == count;
         }
 
-        public void ReorderMovesPower(IList<int> moves)
+        public void ReorderMovesPower(IList<int> moves) => ReorderMovesPower(moves, MoveData);
+
+        private static void ReorderMovesPower(IList<int> moves, IList<Move> movedata)
         {
-            var data = moves.Select((Move, Index) => new { Index, Move, Data = MoveData[Move] });
+            var data = moves.Select((Move, Index) => new { Index, Move, Data = movedata[Move] });
             var powered = data.Where(z => z.Data.Power > 1).ToList();
             var indexes = powered.Select(z => z.Index).ToList();
             var order = powered.OrderBy(z => z.Data.Power * Math.Max(1, (z.Data.HitMin + z.Data.HitMax) / 2m)).ToList();

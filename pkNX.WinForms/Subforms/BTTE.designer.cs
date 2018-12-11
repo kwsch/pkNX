@@ -1193,6 +1193,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "BTTE";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trainer Editor";
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).EndInit();
             this.mnuVSD.ResumeLayout(false);

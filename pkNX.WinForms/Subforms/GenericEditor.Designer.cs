@@ -92,6 +92,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.Grid);
             this.Name = "GenericEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GenericEditor";
             this.ResumeLayout(false);
 

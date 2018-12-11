@@ -167,6 +167,7 @@
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.menuStrip1);
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pkNX";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.menuStrip1.ResumeLayout(false);

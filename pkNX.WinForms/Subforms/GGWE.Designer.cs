@@ -34,33 +34,33 @@
             this.L_Rank = new System.Windows.Forms.Label();
             this.TC_Tables = new System.Windows.Forms.TabControl();
             this.Tab_Ground = new System.Windows.Forms.TabPage();
+            this.EL_Ground = new pkNX.WinForms.EncounterList();
             this.Tab_Water = new System.Windows.Forms.TabPage();
+            this.EL_Water = new pkNX.WinForms.EncounterList();
             this.Tab_Old = new System.Windows.Forms.TabPage();
+            this.EL_Old = new pkNX.WinForms.EncounterList();
             this.Tab_Good = new System.Windows.Forms.TabPage();
+            this.EL_Good = new pkNX.WinForms.EncounterList();
             this.Tab_Super = new System.Windows.Forms.TabPage();
+            this.EL_Super = new pkNX.WinForms.EncounterList();
             this.Tab_Sky = new System.Windows.Forms.TabPage();
+            this.EL_Sky = new pkNX.WinForms.EncounterList();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
             this.CHK_ForceType = new System.Windows.Forms.CheckBox();
+            this.L_SpawnDuration = new System.Windows.Forms.Label();
             this.L_SpawnCount = new System.Windows.Forms.Label();
             this.L_SpawnRate = new System.Windows.Forms.Label();
             this.CHK_FillEmpty = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
+            this.NUD_ModDuration = new System.Windows.Forms.NumericUpDown();
             this.NUD_ModRate = new System.Windows.Forms.NumericUpDown();
             this.NUD_ModCount = new System.Windows.Forms.NumericUpDown();
+            this.B_ModDuration = new System.Windows.Forms.Button();
             this.B_ModRate = new System.Windows.Forms.Button();
             this.B_ModSpawn = new System.Windows.Forms.Button();
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
-            this.EL_Ground = new pkNX.WinForms.EncounterList();
-            this.EL_Water = new pkNX.WinForms.EncounterList();
-            this.EL_Old = new pkNX.WinForms.EncounterList();
-            this.EL_Good = new pkNX.WinForms.EncounterList();
-            this.EL_Super = new pkNX.WinForms.EncounterList();
-            this.EL_Sky = new pkNX.WinForms.EncounterList();
-            this.L_SpawnDuration = new System.Windows.Forms.Label();
-            this.NUD_ModDuration = new System.Windows.Forms.NumericUpDown();
-            this.B_ModDuration = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -71,9 +71,9 @@
             this.Tab_Super.SuspendLayout();
             this.Tab_Sky.SuspendLayout();
             this.Tab_Rand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Location
@@ -138,6 +138,14 @@
             this.Tab_Ground.Text = "Ground";
             this.Tab_Ground.UseVisualStyleBackColor = true;
             // 
+            // EL_Ground
+            // 
+            this.EL_Ground.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Ground.Location = new System.Drawing.Point(0, 0);
+            this.EL_Ground.Name = "EL_Ground";
+            this.EL_Ground.Size = new System.Drawing.Size(313, 400);
+            this.EL_Ground.TabIndex = 14;
+            // 
             // Tab_Water
             // 
             this.Tab_Water.Controls.Add(this.EL_Water);
@@ -147,6 +155,14 @@
             this.Tab_Water.TabIndex = 1;
             this.Tab_Water.Text = "Water";
             this.Tab_Water.UseVisualStyleBackColor = true;
+            // 
+            // EL_Water
+            // 
+            this.EL_Water.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Water.Location = new System.Drawing.Point(0, 0);
+            this.EL_Water.Name = "EL_Water";
+            this.EL_Water.Size = new System.Drawing.Size(313, 400);
+            this.EL_Water.TabIndex = 13;
             // 
             // Tab_Old
             // 
@@ -158,6 +174,14 @@
             this.Tab_Old.Text = "Old";
             this.Tab_Old.UseVisualStyleBackColor = true;
             // 
+            // EL_Old
+            // 
+            this.EL_Old.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Old.Location = new System.Drawing.Point(0, 0);
+            this.EL_Old.Name = "EL_Old";
+            this.EL_Old.Size = new System.Drawing.Size(313, 400);
+            this.EL_Old.TabIndex = 13;
+            // 
             // Tab_Good
             // 
             this.Tab_Good.Controls.Add(this.EL_Good);
@@ -167,6 +191,14 @@
             this.Tab_Good.TabIndex = 3;
             this.Tab_Good.Text = "Good";
             this.Tab_Good.UseVisualStyleBackColor = true;
+            // 
+            // EL_Good
+            // 
+            this.EL_Good.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Good.Location = new System.Drawing.Point(0, 0);
+            this.EL_Good.Name = "EL_Good";
+            this.EL_Good.Size = new System.Drawing.Size(313, 400);
+            this.EL_Good.TabIndex = 13;
             // 
             // Tab_Super
             // 
@@ -178,6 +210,14 @@
             this.Tab_Super.Text = "Super";
             this.Tab_Super.UseVisualStyleBackColor = true;
             // 
+            // EL_Super
+            // 
+            this.EL_Super.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Super.Location = new System.Drawing.Point(0, 0);
+            this.EL_Super.Name = "EL_Super";
+            this.EL_Super.Size = new System.Drawing.Size(313, 400);
+            this.EL_Super.TabIndex = 12;
+            // 
             // Tab_Sky
             // 
             this.Tab_Sky.Controls.Add(this.EL_Sky);
@@ -187,6 +227,14 @@
             this.Tab_Sky.TabIndex = 5;
             this.Tab_Sky.Text = "Sky";
             this.Tab_Sky.UseVisualStyleBackColor = true;
+            // 
+            // EL_Sky
+            // 
+            this.EL_Sky.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EL_Sky.Location = new System.Drawing.Point(0, 0);
+            this.EL_Sky.Name = "EL_Sky";
+            this.EL_Sky.Size = new System.Drawing.Size(313, 400);
+            this.EL_Sky.TabIndex = 12;
             // 
             // Tab_Rand
             // 
@@ -221,6 +269,16 @@
             this.CHK_ForceType.TabIndex = 13;
             this.CHK_ForceType.Text = "Force At Least 1 Water/Grass Viridian";
             this.CHK_ForceType.UseVisualStyleBackColor = true;
+            // 
+            // L_SpawnDuration
+            // 
+            this.L_SpawnDuration.AutoSize = true;
+            this.L_SpawnDuration.Location = new System.Drawing.Point(202, 77);
+            this.L_SpawnDuration.Name = "L_SpawnDuration";
+            this.L_SpawnDuration.Size = new System.Drawing.Size(47, 13);
+            this.L_SpawnDuration.TabIndex = 11;
+            this.L_SpawnDuration.Text = "seconds";
+            this.L_SpawnDuration.Visible = false;
             // 
             // L_SpawnCount
             // 
@@ -267,6 +325,24 @@
             this.PG_Species.TabIndex = 6;
             this.PG_Species.ToolbarVisible = false;
             // 
+            // NUD_ModDuration
+            // 
+            this.NUD_ModDuration.Location = new System.Drawing.Point(149, 75);
+            this.NUD_ModDuration.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.NUD_ModDuration.Name = "NUD_ModDuration";
+            this.NUD_ModDuration.Size = new System.Drawing.Size(47, 20);
+            this.NUD_ModDuration.TabIndex = 5;
+            this.NUD_ModDuration.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.NUD_ModDuration.Visible = false;
+            // 
             // NUD_ModRate
             // 
             this.NUD_ModRate.Location = new System.Drawing.Point(149, 43);
@@ -295,6 +371,17 @@
             0,
             0,
             0});
+            // 
+            // B_ModDuration
+            // 
+            this.B_ModDuration.Location = new System.Drawing.Point(6, 70);
+            this.B_ModDuration.Name = "B_ModDuration";
+            this.B_ModDuration.Size = new System.Drawing.Size(142, 26);
+            this.B_ModDuration.TabIndex = 2;
+            this.B_ModDuration.Text = "Modify All Spawn Duration";
+            this.B_ModDuration.UseVisualStyleBackColor = true;
+            this.B_ModDuration.Visible = false;
+            this.B_ModDuration.Click += new System.EventHandler(this.B_ModDuration_Click);
             // 
             // B_ModRate
             // 
@@ -337,93 +424,6 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // EL_Ground
-            // 
-            this.EL_Ground.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Ground.Location = new System.Drawing.Point(0, 0);
-            this.EL_Ground.Name = "EL_Ground";
-            this.EL_Ground.Size = new System.Drawing.Size(313, 400);
-            this.EL_Ground.TabIndex = 14;
-            // 
-            // EL_Water
-            // 
-            this.EL_Water.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Water.Location = new System.Drawing.Point(0, 0);
-            this.EL_Water.Name = "EL_Water";
-            this.EL_Water.Size = new System.Drawing.Size(313, 400);
-            this.EL_Water.TabIndex = 13;
-            // 
-            // EL_Old
-            // 
-            this.EL_Old.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Old.Location = new System.Drawing.Point(0, 0);
-            this.EL_Old.Name = "EL_Old";
-            this.EL_Old.Size = new System.Drawing.Size(313, 400);
-            this.EL_Old.TabIndex = 13;
-            // 
-            // EL_Good
-            // 
-            this.EL_Good.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Good.Location = new System.Drawing.Point(0, 0);
-            this.EL_Good.Name = "EL_Good";
-            this.EL_Good.Size = new System.Drawing.Size(313, 400);
-            this.EL_Good.TabIndex = 13;
-            // 
-            // EL_Super
-            // 
-            this.EL_Super.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Super.Location = new System.Drawing.Point(0, 0);
-            this.EL_Super.Name = "EL_Super";
-            this.EL_Super.Size = new System.Drawing.Size(313, 400);
-            this.EL_Super.TabIndex = 12;
-            // 
-            // EL_Sky
-            // 
-            this.EL_Sky.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EL_Sky.Location = new System.Drawing.Point(0, 0);
-            this.EL_Sky.Name = "EL_Sky";
-            this.EL_Sky.Size = new System.Drawing.Size(313, 400);
-            this.EL_Sky.TabIndex = 12;
-            // 
-            // L_SpawnDuration
-            // 
-            this.L_SpawnDuration.AutoSize = true;
-            this.L_SpawnDuration.Location = new System.Drawing.Point(202, 77);
-            this.L_SpawnDuration.Name = "L_SpawnDuration";
-            this.L_SpawnDuration.Size = new System.Drawing.Size(47, 13);
-            this.L_SpawnDuration.TabIndex = 11;
-            this.L_SpawnDuration.Text = "seconds";
-            this.L_SpawnDuration.Visible = false;
-            // 
-            // NUD_ModDuration
-            // 
-            this.NUD_ModDuration.Location = new System.Drawing.Point(149, 75);
-            this.NUD_ModDuration.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.NUD_ModDuration.Name = "NUD_ModDuration";
-            this.NUD_ModDuration.Size = new System.Drawing.Size(47, 20);
-            this.NUD_ModDuration.TabIndex = 5;
-            this.NUD_ModDuration.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.NUD_ModDuration.Visible = false;
-            // 
-            // B_ModDuration
-            // 
-            this.B_ModDuration.Location = new System.Drawing.Point(6, 70);
-            this.B_ModDuration.Name = "B_ModDuration";
-            this.B_ModDuration.Size = new System.Drawing.Size(142, 26);
-            this.B_ModDuration.TabIndex = 2;
-            this.B_ModDuration.Text = "Modify All Spawn Duration";
-            this.B_ModDuration.UseVisualStyleBackColor = true;
-            this.B_ModDuration.Visible = false;
-            this.B_ModDuration.Click += new System.EventHandler(this.B_ModDuration_Click);
-            // 
             // GGWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -438,6 +438,7 @@
             this.Controls.Add(this.CB_Location);
             this.MaximizeBox = false;
             this.Name = "GGWE";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wild Editor";
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).EndInit();
@@ -450,9 +451,9 @@
             this.Tab_Sky.ResumeLayout(false);
             this.Tab_Rand.ResumeLayout(false);
             this.Tab_Rand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

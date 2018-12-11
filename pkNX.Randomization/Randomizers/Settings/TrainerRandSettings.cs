@@ -56,7 +56,7 @@ namespace pkNX.Randomization
         [Category(PKM), Description("Causes all PKM levels to be boosted by the specified ratio multiplier.")]
         public bool BoostLevel { get; set; } = true;
 
-        [Category(PKM), Description("Boosts levels of all PKM by this ratio if the " + nameof(BoostLevel) + "setting is set.")]
+        [Category(PKM), Description("Boosts levels of all PKM by this ratio if the " + nameof(BoostLevel) + " setting is set.")]
         public decimal LevelBoostRatio { get; set; } = 1.1m;
         #endregion
 
