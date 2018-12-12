@@ -9,9 +9,9 @@ namespace pkNX.Game
     /// </summary>
     public abstract class GameManager
     {
-        private readonly GameLocation ROM;
-        private readonly TextManager Text; // GameText
-        private readonly GameFileMapping FileMap;
+        protected readonly GameLocation ROM;
+        protected readonly TextManager Text; // GameText
+        protected readonly GameFileMapping FileMap;
         public readonly GameInfo Info;
 
         public string PathExeFS => ROM.ExeFS;
@@ -42,6 +42,7 @@ namespace pkNX.Game
             ROM = rom;
             Language = language;
             FileMap = new GameFileMapping(rom);
+            SetMitm();
             Initialize();
             Text = new TextManager(Game);
             Info = new GameInfo(Game);
@@ -88,6 +89,7 @@ namespace pkNX.Game
 
         protected abstract void Initialize();
         protected abstract void Terminate();
+        protected abstract void SetMitm();
 
         public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool> filter = null)
         {
