@@ -40,6 +40,7 @@
             this.Menu_SetRNGSeed = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.FLP_Controls = new System.Windows.Forms.FlowLayoutPanel();
+            this.Menu_Current = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,7 +80,7 @@
             // 
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.Menu_Open.Size = new System.Drawing.Size(155, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(180, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.Menu_Open_Click);
             // 
@@ -87,7 +88,7 @@
             // 
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.Menu_Exit.Size = new System.Drawing.Size(155, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(180, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -96,7 +97,8 @@
             this.Menu_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Language,
             this.randomizationToolStripMenuItem,
-            this.Menu_Restore});
+            this.Menu_Restore,
+            this.Menu_Current});
             this.Menu_Options.Name = "Menu_Options";
             this.Menu_Options.Size = new System.Drawing.Size(61, 20);
             this.Menu_Options.Text = "Options";
@@ -157,6 +159,15 @@
             this.FLP_Controls.Size = new System.Drawing.Size(413, 238);
             this.FLP_Controls.TabIndex = 13;
             // 
+            // Menu_Current
+            // 
+            this.Menu_Current.Enabled = false;
+            this.Menu_Current.Name = "Menu_Current";
+            this.Menu_Current.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.Menu_Current.Size = new System.Drawing.Size(222, 22);
+            this.Menu_Current.Text = "Open Current Folder";
+            this.Menu_Current.Click += new System.EventHandler(this.Menu_Current_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -190,6 +201,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_SetRNGSeed;
         private System.Windows.Forms.ToolStripMenuItem Menu_Restore;
         private System.Windows.Forms.FlowLayoutPanel FLP_Controls;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Current;
     }
 }
 

@@ -73,7 +73,15 @@ namespace pkNX.WinForms
             Settings.Default.Save();
         }
 
-        private void Menu_Exit_Click(object sender, EventArgs e) => Close();
+        private void Menu_Exit_Click(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control) // triggered via hotkey
+            {
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Quit {nameof(pkNX)}?"))
+                    return;
+            }
+            Close();
+        }
 
         private void Menu_SetRNGSeed_Click(object sender, EventArgs e)
         {
@@ -134,9 +142,16 @@ namespace pkNX.WinForms
 
             Text = $"{nameof(pkNX)} - {Editor.Game}";
             TB_Path.Text = Editor.Location;
+            Menu_Current.Enabled = true;
             EditUtil.LoadSettings(Editor.Game);
             EditUtil.SaveSettings(Editor.Game);
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void Menu_Current_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(TB_Path.Text))
+                Process.Start("explorer.exe", TB_Path.Text);
         }
     }
 }
