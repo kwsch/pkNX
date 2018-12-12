@@ -1344,6 +1344,7 @@
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "PokeDataUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -9,7 +9,7 @@ using pkNX.Structures;
 
 namespace pkNX.WinForms
 {
-    public partial class GGWE : Form
+    public sealed partial class GGWE : Form
     {
         private readonly EncounterArchive Tables;
         private readonly GameManager ROM;
@@ -19,6 +19,12 @@ namespace pkNX.WinForms
         {
             InitializeComponent();
             EncounterArchive obj = EncounterArchive.ReadJson(json);
+            if (obj?.EncounterTables?[0]?.GroundTable == null)
+            {
+                WinFormsUtil.Error("Bad json data provided.", $"Unable to parse to {nameof(EncounterArchive)} data.");
+                Close();
+            }
+
             ROM = rom;
 
             var spec = rom.GetStrings(TextName.SpeciesNames);

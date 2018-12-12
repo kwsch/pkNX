@@ -85,7 +85,6 @@
             this.CHK_CanMega = new System.Windows.Forms.CheckBox();
             this.NUD_MegaForm = new System.Windows.Forms.NumericUpDown();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.Stats = new pkNX.WinForms.Controls.StatEditor();
             this.Tab_Moves = new System.Windows.Forms.TabPage();
             this.B_Clear = new System.Windows.Forms.Button();
             this.B_CurrentAttack = new System.Windows.Forms.Button();
@@ -123,6 +122,7 @@
             this.Tab_RMoves = new System.Windows.Forms.TabPage();
             this.PG_Moves = new System.Windows.Forms.PropertyGrid();
             this.B_Save = new System.Windows.Forms.Button();
+            this.Stats = new pkNX.WinForms.Controls.StatEditor();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -753,14 +753,6 @@
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
-            // Stats
-            // 
-            this.Stats.Location = new System.Drawing.Point(1, 1);
-            this.Stats.Name = "Stats";
-            this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(222, 195);
-            this.Stats.TabIndex = 0;
-            // 
             // Tab_Moves
             // 
             this.Tab_Moves.Controls.Add(this.B_Clear);
@@ -1173,6 +1165,14 @@
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            // 
+            // Stats
+            // 
+            this.Stats.Location = new System.Drawing.Point(1, 1);
+            this.Stats.Name = "Stats";
+            this.Stats.PKM = null;
+            this.Stats.Size = new System.Drawing.Size(222, 195);
+            this.Stats.TabIndex = 0;
             // 
             // BTTE
             // 

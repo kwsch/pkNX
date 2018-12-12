@@ -39,23 +39,23 @@
             this.B_Save = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // CB_Entry
-            //
+            // 
             this.CB_Entry.FormattingEnabled = true;
             this.CB_Entry.Location = new System.Drawing.Point(68, 7);
             this.CB_Entry.Name = "CB_Entry";
             this.CB_Entry.Size = new System.Drawing.Size(152, 21);
             this.CB_Entry.TabIndex = 5;
             this.CB_Entry.SelectedIndexChanged += new System.EventHandler(this.ChangeEntry);
-            //
+            // 
             // dgv
-            //
+            // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
             this.dgv.AllowUserToResizeRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -65,33 +65,33 @@
             this.dgv.RowHeadersVisible = false;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv.ShowEditingIcon = false;
-            this.dgv.Size = new System.Drawing.Size(854, 367);
+            this.dgv.Size = new System.Drawing.Size(790, 366);
             this.dgv.TabIndex = 0;
-            //
+            // 
             // B_AddLine
-            //
+            // 
             this.B_AddLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_AddLine.Location = new System.Drawing.Point(598, 5);
+            this.B_AddLine.Location = new System.Drawing.Point(534, 7);
             this.B_AddLine.Name = "B_AddLine";
             this.B_AddLine.Size = new System.Drawing.Size(90, 23);
             this.B_AddLine.TabIndex = 6;
             this.B_AddLine.Text = "Add Line After";
             this.B_AddLine.UseVisualStyleBackColor = true;
             this.B_AddLine.Click += new System.EventHandler(this.B_AddLine_Click);
-            //
+            // 
             // B_RemoveLine
-            //
+            // 
             this.B_RemoveLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_RemoveLine.Location = new System.Drawing.Point(694, 5);
+            this.B_RemoveLine.Location = new System.Drawing.Point(630, 7);
             this.B_RemoveLine.Name = "B_RemoveLine";
             this.B_RemoveLine.Size = new System.Drawing.Size(90, 23);
             this.B_RemoveLine.TabIndex = 7;
             this.B_RemoveLine.Text = "Remove Line";
             this.B_RemoveLine.UseVisualStyleBackColor = true;
             this.B_RemoveLine.Click += new System.EventHandler(this.B_RemoveLine_Click);
-            //
+            // 
             // B_Export
-            //
+            // 
             this.B_Export.Location = new System.Drawing.Point(226, 7);
             this.B_Export.Name = "B_Export";
             this.B_Export.Size = new System.Drawing.Size(90, 23);
@@ -99,18 +99,18 @@
             this.B_Export.Text = "Export All (.txt)";
             this.B_Export.UseVisualStyleBackColor = true;
             this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
-            //
+            // 
             // label1
-            //
+            // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Text File:";
-            //
+            // 
             // B_Import
-            //
+            // 
             this.B_Import.Location = new System.Drawing.Point(317, 7);
             this.B_Import.Name = "B_Import";
             this.B_Import.Size = new System.Drawing.Size(90, 23);
@@ -118,9 +118,9 @@
             this.B_Import.Text = "Import All (.txt)";
             this.B_Import.UseVisualStyleBackColor = true;
             this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
-            //
+            // 
             // B_Randomize
-            //
+            // 
             this.B_Randomize.Location = new System.Drawing.Point(413, 7);
             this.B_Randomize.Name = "B_Randomize";
             this.B_Randomize.Size = new System.Drawing.Size(70, 23);
@@ -128,23 +128,23 @@
             this.B_Randomize.Text = "Randomize";
             this.B_Randomize.UseVisualStyleBackColor = true;
             this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
-            //
+            // 
             // B_Save
-            //
+            // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(790, 5);
+            this.B_Save.Location = new System.Drawing.Point(726, 7);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(76, 23);
             this.B_Save.TabIndex = 12;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            //
+            // 
             // TextEditor
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 412);
+            this.ClientSize = new System.Drawing.Size(814, 411);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Randomize);
             this.Controls.Add(this.B_Import);
@@ -154,7 +154,7 @@
             this.Controls.Add(this.B_AddLine);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.CB_Entry);
-            this.MinimumSize = new System.Drawing.Size(650, 300);
+            this.MinimumSize = new System.Drawing.Size(785, 300);
             this.Name = "TextEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Text Editor";
