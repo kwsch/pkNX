@@ -241,8 +241,8 @@ namespace pkNX.Randomization
         // 3 poke max
         private static readonly int[] doubleTrainer =
         {
-            007, 008, 020, 021, 024, 025, 028, 029, 032, 033, 050, 051, // jesse&james
-            30, 31, // rival vs archer
+            007, 008, 020, 021, 024, 025, 032, 033, 050, 051, // Jessie & James
+            028, 029, 030, 031, // Rival vs Archer & Grunt
         };
 
         private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
@@ -252,15 +252,15 @@ namespace pkNX.Randomization
             if (GameVersion.ORAS.Contains(game))
                 return Legal.ImportantTrainers_ORAS.ToDictionary(z => z, _ => 6);
             if (GameVersion.SM.Contains(game))
-                return Legal.ImportantTrainers_SM.Concat(royal).ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
+                return Legal.ImportantTrainers_SM.ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
             if (GameVersion.USUM.Contains(game))
-                return Legal.ImportantTrainers_USUM.Concat(royal).ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
+                return Legal.ImportantTrainers_USUM.ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
             if (GameVersion.GG.Contains(game))
                 return Legal.ImportantTrainers_GG.ToDictionary(z => z, index => doubleTrainer.Contains(index) ? 3 : 6);
             return new Dictionary<int, int>();
         }
 
-        private static readonly int[] MasterTrainerGG = Enumerable.Range(72, 381 - 72 + 1).ToArray();
+        private static readonly int[] MasterTrainerGG = Enumerable.Range(72, 382 - 72 + 1).ToArray();
 
         private static int[] GetSpecialClasses(GameVersion game)
         {

@@ -331,12 +331,8 @@ namespace pkNX.Structures
             028, // Gym Leader
             032, // Pokémon Trainer
             033, // Pokémon Trainer
-            053, // Coach Trainer
-            054, // Coach Trainer
             057, // Gym Leader
             058, // Pokémon Trainer
-            059, // Coach Trainer
-            060, // Coach Trainer
             061, // Champion
             383, // Pokémon Trainer
             #endregion
