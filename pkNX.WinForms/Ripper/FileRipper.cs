@@ -22,8 +22,32 @@ namespace pkNX.WinForms
         public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, RipResult>> Loaders =
             new List<Func<BinaryReader, uint, string, ContainerHandler, RipResult>>
             {
-                GFPackDump
+                GFPackDump,
+                NSODump,
             };
+
+        private static RipResult NSODump(BinaryReader br, uint header, string path, ContainerHandler handler)
+        {
+            if (header != NSOHeader.ExpectedMagic)
+                return new RipResult(RipResultCode.UnknownFormat);
+
+            br.BaseStream.Position = 0;
+            var nso = new NSO(br);
+
+            var dir = Path.GetDirectoryName(path);
+            var folder = Path.GetFileNameWithoutExtension(path);
+            var resultPath = Path.Combine(dir, folder);
+
+            if (resultPath == path)
+                resultPath += "_nso";
+            Directory.CreateDirectory(resultPath);
+
+            File.WriteAllBytes(Path.Combine(resultPath, "text.bin"), nso.DecompressedText);
+            File.WriteAllBytes(Path.Combine(resultPath, "data.bin"), nso.DecompressedData);
+            File.WriteAllBytes(Path.Combine(resultPath, "ro.bin"), nso.DecompressedRO);
+
+            return new RipResult(RipResultCode.Success) { ResultPath = resultPath };
+        }
 
         private static RipResult GFPackDump(BinaryReader br, uint header, string path, ContainerHandler handler)
         {

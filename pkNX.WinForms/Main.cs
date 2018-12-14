@@ -115,7 +115,7 @@ namespace pkNX.WinForms
             var result = FileRipper.TryOpenFile(path);
             if (result.Code != RipResultCode.Success)
             {
-                WinFormsUtil.Alert("Invalid file loaded." + Environment.NewLine + $"Unable to recognize data: ${result}.", path);
+                WinFormsUtil.Alert("Invalid file loaded." + Environment.NewLine + $"Unable to recognize data: {result.Code}.", path);
                 return;
             }
 
