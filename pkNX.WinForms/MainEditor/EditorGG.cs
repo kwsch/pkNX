@@ -275,14 +275,19 @@ namespace pkNX.WinForms.Controls
             var data = FileMitm.ReadAllBytes(path);
             var nso = new NSO(data);
 
-            byte[] pattern = {0x84, 0x5A, 0xA4, 0xFF};
+            byte[] pattern = // N2nn3pia9transport18UnreliableProtocolE
+            {
+                0x4E, 0x32, 0x6E, 0x6E, 0x33, 0x70, 0x69, 0x61, 0x39, 0x74, 0x72, 0x61, 0x6E, 0x73, 0x70, 0x6F, 0x72,
+                0x74, 0x31, 0x38, 0x55, 0x6E, 0x72, 0x65, 0x6C, 0x69, 0x61, 0x62, 0x6C, 0x65, 0x50, 0x72, 0x6F, 0x74,
+                0x6F, 0x63, 0x6F, 0x6C, 0x45, 0x00
+            };
             int ofs = CodePattern.IndexOfBytes(nso.DecompressedRO, pattern);
             if (ofs < 0)
             {
                 WinFormsUtil.Alert("Not able to find type chart data in exefs.");
                 return;
             }
-            ofs += pattern.Length;
+            ofs += pattern.Length + 0x24; // 0x5B4C0C in lgpe 1.0 RO
 
             var cdata = new byte[18 * 18];
             var types = ROM.GetStrings(TextName.Types);
