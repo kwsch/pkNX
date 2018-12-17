@@ -22,15 +22,16 @@ namespace pkNX.Randomization
         public MoveRandomizer RandMove { get; set; }
         public int ClassCount { get; set; }
         public Func<TrainerPoke> GetBlank { get; set; }
-        public IList<int> FinalEvo { get; set; } = Array.Empty<int>();
+        public EvolutionSet[] Evos { get; set; }
 
         private TrainerRandSettings Settings;
 
-        public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers)
+        public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
         {
             Trainers = trainers;
             Info = info;
             Personal = t;
+            Evos = evos;
 
             PossibleHeldItems = Legal.GetRandomItemList(Info.Game);
             MegaDictionary = Legal.GetMegaDictionary(Info.Game);
@@ -127,14 +128,6 @@ namespace pkNX.Randomization
                 pk.Gender = 0; // random
                 pk.Nature = Util.Random.Next(25); // random
             }
-
-            if (Settings.ForceFullyEvolved && pk.Level >= Settings.ForceFullyEvolvedAtLevel && !FinalEvo.Contains(pk.Species))
-            {
-                int randFinalEvo() => Util.Random.Next(FinalEvo.Count);
-                if (FinalEvo.Count != 0)
-                    pk.Species = FinalEvo[randFinalEvo()];
-                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
-            }
         }
 
         private void RandomizeSpecFormItem(IPokeData pk, int Type)
@@ -157,6 +150,7 @@ namespace pkNX.Randomization
             else // every other pkm
             {
                 pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
+                TryForceEvolve(pk);
                 pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
                 pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
             }
@@ -177,7 +171,44 @@ namespace pkNX.Randomization
 
             pk.MegaFormChoice = 0;
             pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
+            TryForceEvolve(pk);
             pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+        }
+
+        private void TryForceEvolve(IPokeData pk)
+        {
+            if (!Settings.ForceFullyEvolved || pk.Level < Settings.ForceFullyEvolvedAtLevel)
+                return;
+
+            var evos = Evos;
+            int species = pk.Species;
+            int form = pk.Form;
+
+            int timesEvolved = TryForceEvolve(evos, ref species, ref form);
+            if (timesEvolved == 0)
+                return;
+            pk.Species = species;
+            pk.Form = form;
+        }
+
+        private int TryForceEvolve(IReadOnlyList<EvolutionSet> evos, ref int species, ref int form)
+        {
+            int timesEvolved = 0;
+            do
+            {
+                var index = Personal.GetFormeIndex(species, form);
+                var eSet = evos[index].PossibleEvolutions;
+                int evoCount = eSet.Count(z => z.HasData);
+                if (evoCount == 0)
+                    break;
+                ++timesEvolved;
+                var next = Util.Random.Next(evoCount);
+                var nextEvo = eSet[next];
+                species = nextEvo.Species;
+                form = nextEvo.Form >= 0 ? nextEvo.Form : form;
+            }
+            while (timesEvolved < 3); // prevent randomized evos from looping excessively
+            return timesEvolved;
         }
 
         private void UpdatePKMFromSettings(TrainerPoke pk)

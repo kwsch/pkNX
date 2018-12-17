@@ -540,7 +540,8 @@ namespace pkNX.WinForms
             var rspec = new SpeciesRandomizer(Game.Info, Personal);
             rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject);
             learn.Moves = moves;
-            var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll())
+            var evos = Game.Data.EvolutionData;
+            var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll(), evos.LoadAll())
             {
                 ClassCount = CB_Trainer_Class.Items.Count,
                 Learn = learn,

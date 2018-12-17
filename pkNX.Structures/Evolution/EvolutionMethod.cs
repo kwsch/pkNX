@@ -24,5 +24,7 @@
                 Level = Level
             };
         }
+
+        public bool HasData => Species != 0;
     }
 }
