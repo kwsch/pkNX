@@ -277,6 +277,7 @@ namespace pkNX.WinForms
             EL_Old.SaveCurrent();
             EL_Good.SaveCurrent();
             EL_Super.SaveCurrent();
+            EL_Sky.SaveCurrent();
         }
 
         public string Result { get; set; }
@@ -289,6 +290,7 @@ namespace pkNX.WinForms
             EL_Old.SaveCurrent();
             EL_Good.SaveCurrent();
             EL_Super.SaveCurrent();
+            EL_Sky.SaveCurrent();
 
             Result = Tables.WriteJson();
             // Clipboard.SetText(Result);
