@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.TB_Path = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,8 +40,8 @@
             this.randomizationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SetRNGSeed = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Restore = new System.Windows.Forms.ToolStripMenuItem();
-            this.FLP_Controls = new System.Windows.Forms.FlowLayoutPanel();
             this.Menu_Current = new System.Windows.Forms.ToolStripMenuItem();
+            this.FLP_Controls = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +81,7 @@
             // 
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.Menu_Open.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(155, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.Menu_Open_Click);
             // 
@@ -88,7 +89,7 @@
             // 
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.Menu_Exit.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(155, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -108,7 +109,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(184, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(222, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -134,7 +135,7 @@
             this.randomizationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SetRNGSeed});
             this.randomizationToolStripMenuItem.Name = "randomizationToolStripMenuItem";
-            this.randomizationToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.randomizationToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.randomizationToolStripMenuItem.Text = "Randomization";
             // 
             // Menu_SetRNGSeed
@@ -148,16 +149,8 @@
             // 
             this.Menu_Restore.Enabled = false;
             this.Menu_Restore.Name = "Menu_Restore";
-            this.Menu_Restore.Size = new System.Drawing.Size(184, 22);
+            this.Menu_Restore.Size = new System.Drawing.Size(222, 22);
             this.Menu_Restore.Text = "Restore Original Files";
-            // 
-            // FLP_Controls
-            // 
-            this.FLP_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FLP_Controls.Location = new System.Drawing.Point(0, 24);
-            this.FLP_Controls.Name = "FLP_Controls";
-            this.FLP_Controls.Size = new System.Drawing.Size(413, 238);
-            this.FLP_Controls.TabIndex = 13;
             // 
             // Menu_Current
             // 
@@ -168,6 +161,14 @@
             this.Menu_Current.Text = "Open Current Folder";
             this.Menu_Current.Click += new System.EventHandler(this.Menu_Current_Click);
             // 
+            // FLP_Controls
+            // 
+            this.FLP_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_Controls.Location = new System.Drawing.Point(0, 24);
+            this.FLP_Controls.Name = "FLP_Controls";
+            this.FLP_Controls.Size = new System.Drawing.Size(413, 238);
+            this.FLP_Controls.TabIndex = 13;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -177,6 +178,7 @@
             this.Controls.Add(this.FLP_Controls);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pkNX";
