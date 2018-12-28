@@ -7,7 +7,7 @@
     <ProjectGuid>{3CF3FA3E-B38E-4774-BA77-924A391DDC9D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>pkNX.WinForms</RootNamespace>
-    <AssemblyName>pkNX.WinForms</AssemblyName>
+    <AssemblyName>pkNX</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
