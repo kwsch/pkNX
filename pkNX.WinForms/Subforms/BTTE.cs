@@ -376,6 +376,7 @@ namespace pkNX.WinForms
             CB_Item_3.SelectedIndex = tr.Item3;
             CB_Item_4.SelectedIndex = tr.Item4;
             CB_Money.SelectedIndex = tr.Money;
+            CB_Mode.SelectedIndex = (int)tr.Mode;
             LoadAIBits(tr.AI);
             if (tr is TrainerData7b b)
             {
@@ -392,6 +393,7 @@ namespace pkNX.WinForms
             tr.Item3 = CB_Item_3.SelectedIndex;
             tr.Item4 = CB_Item_4.SelectedIndex;
             tr.Money = CB_Money.SelectedIndex;
+            tr.Mode = (BattleMode)CB_Mode.SelectedIndex;
             tr.AI = SaveAIBits();
             if (tr is TrainerData7b b)
             {
