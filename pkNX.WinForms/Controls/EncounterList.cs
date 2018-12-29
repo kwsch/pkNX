@@ -119,7 +119,7 @@ namespace pkNX.WinForms
 
         private void SaveRow(int row, EncounterSlot s)
         {
-            int sp = Array.IndexOf(species, dgv.Rows[row].Cells[1].Value);
+            int sp = Array.IndexOf(species, dgv.Rows[row].Cells[1].Value ?? species[0]);
             string formstr = (dgv.Rows[row].Cells[2].Value ?? 0).ToString();
             int.TryParse(formstr, out var form);
             string probstr = (dgv.Rows[row].Cells[3].Value ?? 0).ToString();
