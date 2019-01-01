@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace pkNX.Structures
@@ -9,56 +10,49 @@ namespace pkNX.Structures
     /// <remarks>https://github.com/compuphase/pawn</remarks>
     public class Script
     {
-        public AmxHeader Header;
-        public int Length => Header.Size;
-        public uint Magic => Header.Magic;
-        // case 0x0A0AF1E0: code = read_code_block(f); break;
-        // case 0x0A0AF1EF: debug = read_debug_block(f); break;
-        public bool Debug => Header.Flags.HasFlagFast(AmxFlags.DEBUG);
+        public readonly byte[] Data;
+        public readonly AmxHeader Header;
+        public readonly int CellSize;
 
-        public ushort PtrOffset => BitConverter.ToUInt16(Raw, 0x08);
-        public ushort PtrCount => BitConverter.ToUInt16(Raw, 0x0A);
-
-        public int ScriptInstructionStart => BitConverter.ToInt32(Raw, 0x0C);
-        public int ScriptMovementStart => BitConverter.ToInt32(Raw, 0x10);
-        public int FinalOffset => BitConverter.ToInt32(Raw, 0x14);
-        public int AllocatedMemory => BitConverter.ToInt32(Raw, 0x18);
-
-        // Generated Attributes
-        public int CompressedLength => Length - ScriptInstructionStart;
-        public byte[] CompressedBytes => Raw.Skip(ScriptInstructionStart).ToArray();
-        public int DecompressedLength => FinalOffset - ScriptInstructionStart;
-        public uint[] DecompressedInstructions => PawnUtil.QuickDecompress(CompressedBytes, DecompressedLength / 4);
-
-        public uint[] ScriptCommands => DecompressedInstructions.Take((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray();
-        public uint[] MoveCommands => DecompressedInstructions.Skip((ScriptMovementStart - ScriptInstructionStart) / 4).ToArray();
-        public string[] ParseScript => PawnUtil.ParseScript(ScriptCommands);
-        public string[] ParseMoves => PawnUtil.ParseMovement(MoveCommands);
-
-        public string Info => "Data Start: 0x" + ScriptInstructionStart.ToString("X4")
-                              + Environment.NewLine + "Movement Offset: 0x" + ScriptMovementStart.ToString("X4")
-                              + Environment.NewLine + "Total Used Size: 0x" + FinalOffset.ToString("X4")
-                              + Environment.NewLine + "Reserved Size: 0x" + AllocatedMemory.ToString("X4")
-                              + Environment.NewLine + "Compressed Len: 0x" + CompressedLength.ToString("X4")
-                              + Environment.NewLine + "Decompressed Len: 0x" + DecompressedLength.ToString("X4")
-                              + Environment.NewLine + "Compression Ratio: " +
-                              ((DecompressedLength - CompressedLength) / (decimal)DecompressedLength).ToString("p1");
-
-        public byte[] Raw;
-
-        public Script(byte[] data = null)
+        public Script(byte[] data)
         {
-            Raw = data ?? Array.Empty<byte>();
+            Data = data;
             Header = data.ToClass<AmxHeader>();
+            CellSize = Header.CellSize;
 
-            // sub_51AAFC
             if (Header.Flags.HasFlagFast(AmxFlags.OVERLAY))
                 throw new ArgumentException("Multi-environment script!?");
         }
 
-        public byte[] Write()
+        public byte[] Write() => Data;
+        public bool Debug => Header.Flags.HasFlagFast(AmxFlags.DEBUG);
+
+        // Generated Attributes
+        public int CodeLength => Header.Data - Header.COD;
+        public int CompressedLength => Header.Size - Header.COD;
+        public byte[] CompressedBytes => Data.Skip(Header.COD).ToArray();
+        public int DecompressedLength => Header.Heap - Header.COD;
+        public uint[] DecompressedInstructions => PawnUtil.QuickDecompress(CompressedBytes, DecompressedLength / sizeof(uint));
+
+        public uint[] ScriptCommands => DecompressedInstructions.Take(CodeLength / sizeof(uint)).ToArray(); // Code
+        public uint[] DataPayload => DecompressedInstructions.Skip(CodeLength / sizeof(uint)).ToArray(); // Data
+        public string[] ParseScript => PawnUtil.ParseScript(ScriptCommands);
+        public string[] DataChunk => PawnUtil.ParseMovement(DataPayload);
+
+        public string Info => string.Join(Environment.NewLine, SummaryLines);
+
+        public IEnumerable<string> SummaryLines
         {
-            return Raw;
+            get
+            {
+                yield return $"Code Start: 0x{Header.COD:X4}";
+                yield return $"Data Start: 0x{Header.Data:X4}";
+                yield return $"Total Used Size: 0x{Header.Heap:X4}";
+                yield return $"Reserved Size: 0x{Header.StackTop:X4}";
+                yield return $"Compressed Len: 0x{CompressedLength:X4}";
+                yield return $"Decompressed Len: 0x{DecompressedLength:X4}";
+                yield return $"Compression Ratio: {(DecompressedLength - CompressedLength) / (decimal) DecompressedLength:p1}";
+            }
         }
     }
 }

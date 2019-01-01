@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace pkNX.Structures
 {
@@ -63,6 +64,21 @@ namespace pkNX.Structures
 
         /// <summary> Offset to the overlay table </summary>
         public int Overlays; // 0x3C
+
+        public int CellSize
+        {
+            get
+            {
+                switch (Magic)
+                {
+                    case MAGIC_16: return 16;
+                    case MAGIC_32: return 32;
+                    case MAGIC_64: return 64;
+                    default:
+                        throw new ArgumentException("Invalid Magic identifier.");
+                }
+            }
+        }
     }
 
 /* File format version
