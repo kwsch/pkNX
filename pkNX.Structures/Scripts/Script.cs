@@ -9,11 +9,12 @@ namespace pkNX.Structures
     /// <remarks>https://github.com/compuphase/pawn</remarks>
     public class Script
     {
-        public int Length => BitConverter.ToInt32(Raw, 0x00);
-        public uint Magic => BitConverter.ToUInt32(Raw, 0x04);
+        public AmxHeader Header;
+        public int Length => Header.Size;
+        public uint Magic => Header.Magic;
         // case 0x0A0AF1E0: code = read_code_block(f); break;
         // case 0x0A0AF1EF: debug = read_debug_block(f); break;
-        public bool Debug => Magic == 0x0A0AF1EF;
+        public bool Debug => Header.Flags.HasFlagFast(AmxFlags.DEBUG);
 
         public ushort PtrOffset => BitConverter.ToUInt16(Raw, 0x08);
         public ushort PtrCount => BitConverter.ToUInt16(Raw, 0x0A);
@@ -48,9 +49,10 @@ namespace pkNX.Structures
         public Script(byte[] data = null)
         {
             Raw = data ?? Array.Empty<byte>();
+            Header = data.ToClass<AmxHeader>();
 
             // sub_51AAFC
-            if ((Raw[8] & 1) != 0)
+            if (Header.Flags.HasFlagFast(AmxFlags.OVERLAY))
                 throw new ArgumentException("Multi-environment script!?");
         }
 
