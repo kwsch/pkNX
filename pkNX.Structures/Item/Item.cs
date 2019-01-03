@@ -35,7 +35,7 @@ namespace pkNX.Structures
 
         public byte _0xC { get; set; } // 0 or 1
         public byte _0xD { get; set; } // Classification (0-3 Battle, 4 Balls, 5 Mail)
-        public byte Consumable { get; set; }
+        private byte Consumable { get; set; }
         public byte SortIndex { get; set; }
         public BattleStatusFlags CureInflict { get; set; } // Bitflags
         private byte Boost0; // Revive 1, Sacred Ash 3, Rare Candy 5, EvoStone 8, upper4 for BoostAtk
@@ -132,5 +132,11 @@ namespace pkNX.Structures
             get => (int)HealAmount;
             set => HealAmount = (Heal)value;
         }
+
+        [Category(Heal), Description("Item is consumed when used."), RefreshProperties(RefreshProperties.All)]
+        public bool UseConsume { get => (Consumable & 0xF) != 0; set => Consumable = (byte)((Consumable & 0xF0) | (value ? 1 : 0)); }
+
+        [Category(Heal), Description("Item is not consumed when used."), RefreshProperties(RefreshProperties.All)]
+        public bool UseKeep { get => (Consumable & 0xF0) != 0; set => Consumable = (byte)((Consumable & 0x0F) | (value ? 0x10 : 0)); }
     }
 }
