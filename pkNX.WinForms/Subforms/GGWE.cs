@@ -411,5 +411,24 @@ namespace pkNX.WinForms
             [05] = new[] {40, 30, 18, 10, 2},
             [10] = new[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
         };
+
+        private void B_Dump_Click(object sender, EventArgs e)
+        {
+            var strings = GetEncounterTableSummary(ROM, Tables);
+            var result = string.Join(Environment.NewLine, strings);
+            Clipboard.SetText(result);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private static IEnumerable<string> GetEncounterTableSummary(GameManager rom, EncounterArchive table)
+        {
+            var locationNames = rom.GetStrings(TextName.metlist_000000);
+            var specs = rom.GetStrings(TextName.SpeciesNames);
+
+            var locs = table.EncounterTables.Select(z => z.ZoneID);
+            var names = GetNames(locs, locationNames);
+            var dupeNamed = GetScreenedNames(names).ToArray();
+            return EncounterTableUtil.GetLines(table, dupeNamed, specs);
+        }
     }
 }

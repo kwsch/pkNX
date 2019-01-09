@@ -61,6 +61,7 @@
             this.EL_Good = new pkNX.WinForms.EncounterList();
             this.EL_Super = new pkNX.WinForms.EncounterList();
             this.EL_Sky = new pkNX.WinForms.EncounterList();
+            this.B_Dump = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -83,7 +84,7 @@
             this.CB_Location.FormattingEnabled = true;
             this.CB_Location.Location = new System.Drawing.Point(12, 12);
             this.CB_Location.Name = "CB_Location";
-            this.CB_Location.Size = new System.Drawing.Size(207, 21);
+            this.CB_Location.Size = new System.Drawing.Size(152, 21);
             this.CB_Location.TabIndex = 3;
             this.CB_Location.SelectedIndexChanged += new System.EventHandler(this.CB_Location_SelectedIndexChanged);
             // 
@@ -424,11 +425,23 @@
             this.EL_Sky.Size = new System.Drawing.Size(313, 400);
             this.EL_Sky.TabIndex = 12;
             // 
+            // B_Dump
+            // 
+            this.B_Dump.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Dump.Location = new System.Drawing.Point(187, 0);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(75, 23);
+            this.B_Dump.TabIndex = 13;
+            this.B_Dump.Text = "Dump";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            // 
             // GGWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(346, 516);
+            this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.L_Hash);
             this.Controls.Add(this.TC_Tables);
@@ -494,5 +507,6 @@
         private System.Windows.Forms.Label L_SpawnDuration;
         private System.Windows.Forms.NumericUpDown NUD_ModDuration;
         private System.Windows.Forms.Button B_ModDuration;
+        private System.Windows.Forms.Button B_Dump;
     }
 }
