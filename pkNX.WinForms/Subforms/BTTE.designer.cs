@@ -85,6 +85,7 @@
             this.CHK_CanMega = new System.Windows.Forms.CheckBox();
             this.NUD_MegaForm = new System.Windows.Forms.NumericUpDown();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
+            this.Stats = new pkNX.WinForms.Controls.StatEditor();
             this.Tab_Moves = new System.Windows.Forms.TabPage();
             this.B_Clear = new System.Windows.Forms.Button();
             this.B_CurrentAttack = new System.Windows.Forms.Button();
@@ -98,6 +99,8 @@
             this.TB_TrainerName = new System.Windows.Forms.TextBox();
             this.TC_trdata = new System.Windows.Forms.TabControl();
             this.Tab_Trainer = new System.Windows.Forms.TabPage();
+            this.L_Mode = new System.Windows.Forms.Label();
+            this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.GB_Items = new System.Windows.Forms.GroupBox();
             this.GB_AIBits = new System.Windows.Forms.GroupBox();
             this.CHK_AI7 = new System.Windows.Forms.CheckBox();
@@ -112,7 +115,6 @@
             this.L_Gift = new System.Windows.Forms.Label();
             this.CB_Gift = new System.Windows.Forms.ComboBox();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
-            this.B_Dump = new System.Windows.Forms.Button();
             this.B_Randomize = new System.Windows.Forms.Button();
             this.TC_RandSettings = new System.Windows.Forms.TabControl();
             this.Tab_RTrainer = new System.Windows.Forms.TabPage();
@@ -121,10 +123,11 @@
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
             this.Tab_RMoves = new System.Windows.Forms.TabPage();
             this.PG_Moves = new System.Windows.Forms.PropertyGrid();
+            this.Tab_Mods = new System.Windows.Forms.TabPage();
+            this.B_MaxAI = new System.Windows.Forms.Button();
+            this.B_Boost = new System.Windows.Forms.Button();
+            this.B_Dump = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
-            this.Stats = new pkNX.WinForms.Controls.StatEditor();
-            this.L_Mode = new System.Windows.Forms.Label();
-            this.CB_Mode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team1)).BeginInit();
             this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Team2)).BeginInit();
@@ -160,6 +163,7 @@
             this.Tab_RTrainer.SuspendLayout();
             this.Tab_RSpecies.SuspendLayout();
             this.Tab_RMoves.SuspendLayout();
+            this.Tab_Mods.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TrainerID
@@ -755,6 +759,14 @@
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
+            // Stats
+            // 
+            this.Stats.Location = new System.Drawing.Point(1, 1);
+            this.Stats.Name = "Stats";
+            this.Stats.PKM = null;
+            this.Stats.Size = new System.Drawing.Size(222, 195);
+            this.Stats.TabIndex = 0;
+            // 
             // Tab_Moves
             // 
             this.Tab_Moves.Controls.Add(this.B_Clear);
@@ -911,6 +923,32 @@
             this.Tab_Trainer.Text = "Trainer";
             this.Tab_Trainer.UseVisualStyleBackColor = true;
             // 
+            // L_Mode
+            // 
+            this.L_Mode.AutoSize = true;
+            this.L_Mode.Location = new System.Drawing.Point(163, 54);
+            this.L_Mode.Name = "L_Mode";
+            this.L_Mode.Size = new System.Drawing.Size(37, 13);
+            this.L_Mode.TabIndex = 466;
+            this.L_Mode.Text = "Mode:";
+            // 
+            // CB_Mode
+            // 
+            this.CB_Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Mode.FormattingEnabled = true;
+            this.CB_Mode.Items.AddRange(new object[] {
+            "Single",
+            "Double",
+            "Multi",
+            "3",
+            "4"});
+            this.CB_Mode.Location = new System.Drawing.Point(208, 51);
+            this.CB_Mode.Name = "CB_Mode";
+            this.CB_Mode.Size = new System.Drawing.Size(94, 21);
+            this.CB_Mode.TabIndex = 465;
+            // 
             // GB_Items
             // 
             this.GB_Items.Controls.Add(this.L_Item_1);
@@ -1060,7 +1098,6 @@
             // 
             // Tab_Rand
             // 
-            this.Tab_Rand.Controls.Add(this.B_Dump);
             this.Tab_Rand.Controls.Add(this.B_Randomize);
             this.Tab_Rand.Controls.Add(this.TC_RandSettings);
             this.Tab_Rand.Location = new System.Drawing.Point(4, 22);
@@ -1069,16 +1106,6 @@
             this.Tab_Rand.TabIndex = 2;
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
-            // 
-            // B_Dump
-            // 
-            this.B_Dump.Location = new System.Drawing.Point(174, 0);
-            this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(70, 20);
-            this.B_Dump.TabIndex = 449;
-            this.B_Dump.Text = "Dump .TXT";
-            this.B_Dump.UseVisualStyleBackColor = true;
-            this.B_Dump.Click += new System.EventHandler(this.DumpTxt);
             // 
             // B_Randomize
             // 
@@ -1095,6 +1122,7 @@
             this.TC_RandSettings.Controls.Add(this.Tab_RTrainer);
             this.TC_RandSettings.Controls.Add(this.Tab_RSpecies);
             this.TC_RandSettings.Controls.Add(this.Tab_RMoves);
+            this.TC_RandSettings.Controls.Add(this.Tab_Mods);
             this.TC_RandSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TC_RandSettings.Location = new System.Drawing.Point(0, 0);
             this.TC_RandSettings.Name = "TC_RandSettings";
@@ -1159,6 +1187,49 @@
             this.PG_Moves.TabIndex = 1;
             this.PG_Moves.ToolbarVisible = false;
             // 
+            // Tab_Mods
+            // 
+            this.Tab_Mods.Controls.Add(this.B_MaxAI);
+            this.Tab_Mods.Controls.Add(this.B_Boost);
+            this.Tab_Mods.Controls.Add(this.B_Dump);
+            this.Tab_Mods.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Mods.Name = "Tab_Mods";
+            this.Tab_Mods.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Mods.Size = new System.Drawing.Size(306, 259);
+            this.Tab_Mods.TabIndex = 4;
+            this.Tab_Mods.Text = "Bulk Mods";
+            this.Tab_Mods.UseVisualStyleBackColor = true;
+            // 
+            // B_MaxAI
+            // 
+            this.B_MaxAI.Location = new System.Drawing.Point(3, 59);
+            this.B_MaxAI.Name = "B_MaxAI";
+            this.B_MaxAI.Size = new System.Drawing.Size(100, 23);
+            this.B_MaxAI.TabIndex = 451;
+            this.B_MaxAI.Text = "Max AI";
+            this.B_MaxAI.UseVisualStyleBackColor = true;
+            this.B_MaxAI.Click += new System.EventHandler(this.B_MaxAI_Click);
+            // 
+            // B_Boost
+            // 
+            this.B_Boost.Location = new System.Drawing.Point(3, 30);
+            this.B_Boost.Name = "B_Boost";
+            this.B_Boost.Size = new System.Drawing.Size(100, 23);
+            this.B_Boost.TabIndex = 450;
+            this.B_Boost.Text = "Boost Levels";
+            this.B_Boost.UseVisualStyleBackColor = true;
+            this.B_Boost.Click += new System.EventHandler(this.B_Boost_Click);
+            // 
+            // B_Dump
+            // 
+            this.B_Dump.Location = new System.Drawing.Point(3, 3);
+            this.B_Dump.Name = "B_Dump";
+            this.B_Dump.Size = new System.Drawing.Size(100, 23);
+            this.B_Dump.TabIndex = 449;
+            this.B_Dump.Text = "Dump .TXT";
+            this.B_Dump.UseVisualStyleBackColor = true;
+            this.B_Dump.Click += new System.EventHandler(this.DumpTxt);
+            // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1169,40 +1240,6 @@
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            // 
-            // Stats
-            // 
-            this.Stats.Location = new System.Drawing.Point(1, 1);
-            this.Stats.Name = "Stats";
-            this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(222, 195);
-            this.Stats.TabIndex = 0;
-            // 
-            // L_Mode
-            // 
-            this.L_Mode.AutoSize = true;
-            this.L_Mode.Location = new System.Drawing.Point(163, 54);
-            this.L_Mode.Name = "L_Mode";
-            this.L_Mode.Size = new System.Drawing.Size(37, 13);
-            this.L_Mode.TabIndex = 466;
-            this.L_Mode.Text = "Mode:";
-            // 
-            // CB_Mode
-            // 
-            this.CB_Mode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Mode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Mode.FormattingEnabled = true;
-            this.CB_Mode.Items.AddRange(new object[] {
-            "Single",
-            "Double",
-            "Multi",
-            "3",
-            "4"});
-            this.CB_Mode.Location = new System.Drawing.Point(208, 51);
-            this.CB_Mode.Name = "CB_Mode";
-            this.CB_Mode.Size = new System.Drawing.Size(94, 21);
-            this.CB_Mode.TabIndex = 465;
             // 
             // BTTE
             // 
@@ -1265,6 +1302,7 @@
             this.Tab_RTrainer.ResumeLayout(false);
             this.Tab_RSpecies.ResumeLayout(false);
             this.Tab_RMoves.ResumeLayout(false);
+            this.Tab_Mods.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1366,6 +1404,9 @@
         private System.Windows.Forms.Button B_Dump;
         private System.Windows.Forms.Label L_Mode;
         private System.Windows.Forms.ComboBox CB_Mode;
+        private System.Windows.Forms.TabPage Tab_Mods;
+        private System.Windows.Forms.Button B_Boost;
+        private System.Windows.Forms.Button B_MaxAI;
     }
 }
 

@@ -13,6 +13,9 @@ namespace pkNX.Randomization
         private const string Moves = nameof(Moves);
 
         #region General
+        [Category(General), Description("Modifies the team count per specifications, and forces fixed counts for some trainers.")]
+        public bool ModifyTeamCount { get; set; } = true;
+
         [Category(General), Description("Minimum count of PKM the Trainer has. New PKM will be added to the team if less are currently present.")]
         public int TeamCountMin { get; set; } = 1;
 

@@ -60,9 +60,10 @@ namespace pkNX.Randomization
                 // Trainer
                 if (Settings.RandomTrainerClass)
                     SetRandomClass(tr);
-                SetupTeamCount(tr);
+                if (Settings.ModifyTeamCount)
+                    SetupTeamCount(tr);
                 if (Settings.TrainerMaxAI)
-                    tr.Self.AI |= (int)(TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
+                    MaximizeAIFlags(tr);
 
                 // Team
                 foreach (var pk in tr.Team)
@@ -73,6 +74,11 @@ namespace pkNX.Randomization
                     UpdatePKMFromSettings(pk);
                 }
             }
+        }
+
+        public static void MaximizeAIFlags(VsTrainer tr)
+        {
+            tr.Self.AI |= (int) (TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
         }
 
         private void SetupTeamCount(VsTrainer tr)
@@ -214,7 +220,7 @@ namespace pkNX.Randomization
         private void UpdatePKMFromSettings(TrainerPoke pk)
         {
             if (Settings.BoostLevel)
-                pk.Level = Legal.GetModifiedLevel(pk.Level, Settings.LevelBoostRatio);
+                BoostLevel(pk, Settings.LevelBoostRatio);
             if (Settings.RandomShinies)
                 pk.Shiny = Util.Random.Next(0, 100 + 1) < Settings.ShinyChance;
             if (Settings.RandomAbilities)
@@ -223,6 +229,37 @@ namespace pkNX.Randomization
                 pk.IVs = new[] { 31, 31, 31, 31, 31, 31 };
 
             RandomizeEntryMoves(pk);
+        }
+
+        public static void BoostLevel(IPokeData pk, decimal ratio)
+        {
+            pk.Level = Legal.GetModifiedLevel(pk.Level, ratio);
+        }
+
+        public void ModifyAllPokemon(Action<IPokeData> act)
+        {
+            if (act == null)
+                throw new ArgumentException(nameof(act));
+
+            foreach (var tr in Trainers.Where(z => z.Team.Count != 0))
+            {
+                foreach (var pk in tr.Team)
+                {
+                    if (pk.Species != 0)
+                        act(pk);
+                }
+            }
+        }
+
+        public void ModifyAllTrainers(Action<VsTrainer> act)
+        {
+            if (act == null)
+                throw new ArgumentException(nameof(act));
+
+            foreach (var tr in Trainers.Where(z => z.Team.Count != 0))
+            {
+                act(tr);
+            }
         }
 
         private void RandomizeEntryMoves(TrainerPoke pk)
