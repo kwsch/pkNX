@@ -147,18 +147,15 @@ namespace pkNX.Structures
             return FormStatsIndex + forme - 1;
         }
 
-        public int RandomGender
+        public int RandomGender()
         {
-            get
-            {
-                if (Genderless)
-                    return 2;
-                if (OnlyFemale)
-                    return 1;
-                if (OnlyMale)
-                    return 0;
-                return Util.Rand.Next(2);
-            }
+            if (Genderless)
+                return 2;
+            if (OnlyFemale)
+                return 1;
+            if (OnlyMale)
+                return 0;
+            return Util.Rand.Next(2);
         }
 
         public bool Genderless => Gender == 255;
