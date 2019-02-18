@@ -175,8 +175,10 @@ namespace pkNX.WinForms
         {
             if (entry < 0)
                 return;
-            pkm.Form = CB_Forme.SelectedIndex;
             RefreshPKMSlotAbility();
+            if (loadingPKM)
+                return;
+            pkm.Form = CB_Forme.SelectedIndex;
 
             if (!Stats.UpdatingFields)
                 Stats.UpdateStats();
@@ -186,8 +188,10 @@ namespace pkNX.WinForms
         {
             if (entry < 0)
                 return;
-            pkm.Species = (ushort)CB_Species.SelectedIndex;
             FormUtil.SetForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
+            if (loadingPKM)
+                return;
+            pkm.Species = (ushort)CB_Species.SelectedIndex;
             RefreshPKMSlotAbility();
 
             if (!Stats.UpdatingFields)
@@ -305,11 +309,13 @@ namespace pkNX.WinForms
 
         private TrainerPoke pkm;
 
+        private bool loadingPKM;
+
         private void PopulateFields(TrainerPoke pk)
         {
             pkm = pk.Clone();
 
-            Stats.UpdatingFields = true;
+            Stats.UpdatingFields = loadingPKM = true;
 
             CB_Species.SelectedIndex = pkm.Species;
             CB_Forme.SelectedIndex = pkm.Form;
@@ -339,6 +345,7 @@ namespace pkNX.WinForms
             }
 
             Stats.LoadStats(pk);
+            loadingPKM = false;
         }
 
         private TrainerPoke PreparePKM()
