@@ -542,6 +542,14 @@ namespace pkNX.WinForms
         private void B_Randomize_Click(object sender, EventArgs e)
         {
             SaveEntry();
+            var trand = GetRandomizer();
+            trand.Execute();
+            LoadEntry();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private TrainerRandomizer GetRandomizer()
+        {
             var moves = Game.Data.MoveData.LoadAll();
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
             int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
@@ -559,7 +567,24 @@ namespace pkNX.WinForms
                 GetBlank = () => new TrainerPoke7b(), // this should probably be less specific
             };
             trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject);
-            trand.Execute();
+            return trand;
+        }
+
+        private void B_Boost_Click(object sender, EventArgs e)
+        {
+            SaveEntry();
+            var trand = GetRandomizer();
+            var settings = (TrainerRandSettings)PG_RTrainer.SelectedObject;
+            trand.ModifyAllPokemon(pk => TrainerRandomizer.BoostLevel(pk, settings.LevelBoostRatio));
+            LoadEntry();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_MaxAI_Click(object sender, EventArgs e)
+        {
+            SaveEntry();
+            var trand = GetRandomizer();
+            trand.ModifyAllTrainers(TrainerRandomizer.MaximizeAIFlags);
             LoadEntry();
             System.Media.SystemSounds.Asterisk.Play();
         }
