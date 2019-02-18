@@ -147,15 +147,29 @@ namespace pkNX.Structures
             return FormStatsIndex + forme - 1;
         }
 
+        /// <summary>
+        /// Gets a random valid gender for the entry.
+        /// </summary>
         public int RandomGender()
         {
-            if (Genderless)
-                return 2;
-            if (OnlyFemale)
-                return 1;
-            if (OnlyMale)
-                return 0;
-            return Util.Rand.Next(2);
+            var fix = FixedGender;
+            return fix >= 0 ? fix : Util.Rand.Next(2);
+        }
+
+        public bool IsDualGender => FixedGender < 0;
+
+        public int FixedGender
+        {
+            get
+            {
+                if (Genderless)
+                    return 2;
+                if (OnlyFemale)
+                    return 1;
+                if (OnlyMale)
+                    return 0;
+                return -1;
+            }
         }
 
         public bool Genderless => Gender == 255;
