@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace pkNX.Structures
@@ -81,18 +83,192 @@ namespace pkNX.Structures
         }
     }
 
-/* File format version
- *   0 original version
- *   1 opcodes JUMP.pri, SWITCH and CASETBL
- *   2 compressed files
- *   3 public variables
- *   4 opcodes SWAP.pri/alt and PUSHADDR
- *   5 tagnames table
- *   6 reformatted header
- *   7 name table, opcodes SYMTAG & SYSREQ.D
- *   8 opcode BREAK, renewed debug interface
- *   9 macro opcodes
- *  10 position-independent code, overlays, packed instructions
- *  11 relocating instructions for the native interface, reorganized instruction set
- */
+    /* File format version
+     *   0 original version
+     *   1 opcodes JUMP.pri, SWITCH and CASETBL
+     *   2 compressed files
+     *   3 public variables
+     *   4 opcodes SWAP.pri/alt and PUSHADDR
+     *   5 tagnames table
+     *   6 reformatted header
+     *   7 name table, opcodes SYMTAG & SYSREQ.D
+     *   8 opcode BREAK, renewed debug interface
+     *   9 macro opcodes
+     *  10 position-independent code, overlays, packed instructions
+     *  11 relocating instructions for the native interface, reorganized instruction set
+     */
+
+    /// <summary>
+    /// Debug data at the end of an amx
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public class AmxDebugHeader
+    {
+        public const ushort MAGIC_DEBUG = 0xf1ef;
+
+        public int Size;
+        public ushort Magic;
+        public byte FileVersion;
+        public byte AMXVersion;
+        public AmxFlags Flags;
+        public short Files;
+        public short Lines;
+        public short Symbols;
+        public short Tags;
+        public short Automatons;
+        public short States;
+
+        public const int SIZE = 36;
+    }
+
+    public class Public
+    {
+        public Public(string name, uint address)
+        {
+            Name = name;
+            Address = address;
+        }
+
+        public string Name { get; }
+        public uint Address { get; }
+    }
+
+    public class Tag
+    {
+        public Tag(string name, uint tagID)
+        {
+            TagID = tagID;
+            Name = name;
+        }
+
+        public uint TagID { get; }
+        public string Name { get; }
+    }
+
+    public class Dimension
+    {
+        public Dimension(int tagID, Tag tag, int size)
+        {
+            TagID = tagID;
+            Tag = tag;
+            Size = size;
+        }
+
+        public int TagID { get; }
+        public Tag Tag { get; }
+        public int Size { get; }
+    }
+
+    public class Argument
+    {
+        public Argument(VariableType type, string name, int tagID, Tag tag, Dimension[] dims)
+        {
+            Type = type;
+            Name = name;
+            TagID = tagID;
+            Tag = tag;
+            Dimensions = dims;
+        }
+
+        public int TagID { get; }
+        public VariableType Type { get; }
+        public string Name { get; }
+        public Tag Tag { get; }
+        public Dimension[] Dimensions { get; }
+    }
+
+    public enum Register : uint
+    {
+        Pri,
+        Alt
+    }
+
+    public enum Scope : uint
+    {
+        Global,
+        Local,
+        Static
+    }
+
+    public class Variable
+    {
+        public Variable(int addr, int tagID, Tag tag, uint codeStart,
+            uint codeEnd, VariableType type, Scope scope,
+            string name, Dimension[] dims = null)
+        {
+            Address = addr;
+            TagID = (uint)tagID;
+            Tag = tag;
+            CodeStart = codeStart;
+            CodeEnd = codeEnd;
+            Type = type;
+            Scope = scope;
+            Name = name;
+            Dims = dims;
+        }
+
+        public int Address { get; }
+        public uint CodeStart { get; }
+        public uint CodeEnd { get; }
+        public string Name { get; }
+        public VariableType Type { get; }
+        public Scope Scope { get; }
+        public Tag Tag { get; set; }
+        public uint TagID { get; }
+        public Dimension[] Dims { get; }
+    }
+
+    public class Signature
+    {
+        public Signature(string name) => Name = name;
+
+        public Tag ReturnType { get; set; }
+        public uint TagID { get; protected set; }
+        public string Name { get; }
+
+        public Argument[] Args { get; protected set; }
+    }
+
+    public class Native : Signature
+    {
+        public Native(string name, int index) : base(name) => Index = index;
+
+        public int Index { get; }
+
+        public void SetDebugInfo(int tagID, Tag tag, Argument[] args)
+        {
+            TagID = (uint)tagID;
+            ReturnType = tag;
+            Args = args;
+        }
+    }
+
+    public class Function : Signature
+    {
+        public Function(uint addr, uint codeStart, uint codeEnd, string name, Tag tag)
+            : base(name)
+        {
+            Address = addr;
+            CodeStart = codeStart;
+            CodeEnd = codeEnd;
+            ReturnType = tag;
+        }
+
+        public Function(uint addr, uint codeStart, uint codeEnd, string name, uint tagID)
+            : base(name)
+        {
+            Address = addr;
+            CodeStart = codeStart;
+            CodeEnd = codeEnd;
+            TagID = tagID;
+        }
+
+        public void SetArguments(List<Argument> from) => Args = from.ToArray();
+
+        public uint Address { get; }
+        public uint CodeStart { get; }
+        public uint CodeEnd { get; }
+
+        public bool Within(uint pc) => pc >= CodeStart && pc < CodeEnd;
+    }
 }

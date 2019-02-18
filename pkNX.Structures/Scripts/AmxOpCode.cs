@@ -1,4 +1,6 @@
-﻿namespace pkNX.Structures
+﻿using System.Diagnostics;
+
+namespace pkNX.Structures
 {
     // https://github.com/gameswop/mtasa-resources/blob/d557a72fefef57ac34780a76edf16383d3dff0e8/%5Bgamemodes%5D/%5Bamx%5D/amx-deps/src/amx/amx.c#L143
     public enum AmxOpCode
@@ -45,8 +47,8 @@
         PUSH_C,
         PUSH,
         PUSH_S,
-        PPRI,
-        PALT,
+        POP_PRI,
+        POP_ALT,
         STACK,
         HEAP,
         PROC,
@@ -222,5 +224,46 @@
         SYSREQ_D,
         SYSREQ_ND,   /* ----- */
         NUM_OPCODES
+    }
+
+    public static class AmxOpCodeExtensions
+    {
+        public static AmxOpCode Invert(this AmxOpCode spop)
+        {
+            switch (spop)
+            {
+                case AmxOpCode.JSLEQ:
+                    return AmxOpCode.JSGRTR;
+                case AmxOpCode.JSLESS:
+                    return AmxOpCode.JSGEQ;
+                case AmxOpCode.JSGRTR:
+                    return AmxOpCode.JSLEQ;
+                case AmxOpCode.JSGEQ:
+                    return AmxOpCode.JSLESS;
+                case AmxOpCode.JEQ:
+                    return AmxOpCode.JNEQ;
+                case AmxOpCode.JNEQ:
+                    return AmxOpCode.JEQ;
+                case AmxOpCode.JNZ:
+                    return AmxOpCode.JZER;
+                case AmxOpCode.JZER:
+                    return AmxOpCode.JNZ;
+                case AmxOpCode.SLEQ:
+                    return AmxOpCode.SGRTR;
+                case AmxOpCode.SLESS:
+                    return AmxOpCode.SGEQ;
+                case AmxOpCode.SGRTR:
+                    return AmxOpCode.SLEQ;
+                case AmxOpCode.SGEQ:
+                    return AmxOpCode.SLESS;
+                case AmxOpCode.EQ:
+                    return AmxOpCode.NEQ;
+                case AmxOpCode.NEQ:
+                    return AmxOpCode.EQ;
+                default:
+                    Trace.Fail(nameof(spop));
+                    return spop;
+            }
+        }
     }
 }
