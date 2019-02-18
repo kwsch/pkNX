@@ -331,7 +331,7 @@ namespace pkNX.WinForms
             CB_Move3.SelectedIndex = pkm.Move3;
             CB_Move4.SelectedIndex = pkm.Move4;
 
-            if (pk is TrainerPoke7b b)
+            if (pkm is TrainerPoke7b b)
             {
                 CHK_CanMega.Checked = b.CanMegaEvolve;
                 NUD_MegaForm.Value = b.MegaFormChoice;
@@ -344,7 +344,7 @@ namespace pkNX.WinForms
                 FLP_HeldItem.Visible = FLP_Ability.Visible = true;
             }
 
-            Stats.LoadStats(pk);
+            Stats.LoadStats(pkm);
             loadingPKM = false;
         }
 
