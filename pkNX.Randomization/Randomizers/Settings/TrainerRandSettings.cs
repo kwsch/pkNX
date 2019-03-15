@@ -79,7 +79,7 @@ namespace pkNX.Randomization
 
         #region Moves
         [Category(Moves), Description("How movesets are randomized/chosen for each PKM.")]
-        public MoveRandType MoveRandType { get; set; } = MoveRandType.Random;
+        public MoveRandType MoveRandType { get; set; } = MoveRandType.RandomMoves;
         #endregion
     }
 }

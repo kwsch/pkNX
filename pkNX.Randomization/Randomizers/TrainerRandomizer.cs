@@ -266,10 +266,10 @@ namespace pkNX.Randomization
         {
             switch (Settings.MoveRandType)
             {
-                case MoveRandType.Random: // Random
+                case MoveRandType.RandomMoves: // Random
                     pk.Moves = RandMove.GetRandomMoveset(pk.Species);
                     break;
-                case MoveRandType.CurrentMoves:
+                case MoveRandType.LevelUpMoves:
                     pk.Moves = Learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level);
                     break;
                 case MoveRandType.HighPowered:
