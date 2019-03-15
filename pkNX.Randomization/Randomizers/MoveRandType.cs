@@ -3,8 +3,8 @@ namespace pkNX.Randomization
     public enum MoveRandType
     {
         None,
-        Random,
-        CurrentMoves,
+        RandomMoves,
+        LevelUpMoves,
         HighPowered,
         MetronomeOnly,
     }
