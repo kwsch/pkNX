@@ -47,7 +47,7 @@ namespace pkNX.Containers
             Decompress();
         }
 
-        public byte[] GetCompressedSegment(BinaryReader br, SegmentHeader h, int sizeCompressed)
+        public static byte[] GetCompressedSegment(BinaryReader br, SegmentHeader h, int sizeCompressed)
         {
             br.BaseStream.Position = h.FileOffset;
             return br.ReadBytes(sizeCompressed);
@@ -59,7 +59,7 @@ namespace pkNX.Containers
             return LZ4.Decode(data, h.DecompressedSize);
         }
 
-        public byte[] Hash(byte[] data)
+        public static byte[] Hash(byte[] data)
         {
             using (var method = SHA256.Create())
                 return method.ComputeHash(data);

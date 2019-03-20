@@ -2,8 +2,19 @@
 
 namespace pkNX.Containers
 {
+    /// <summary>
+    /// Man in the middle redirection of file r/w requests
+    /// </summary>
     public static class FileMitm
     {
+        public static bool Enabled { get; private set; }
+
+        public static void EnableIfSetup() => Enabled = PathOriginal != null;
+        public static void Disable() => Enabled = false;
+
+        private static string PathOriginal;
+        private static string PathRedirect;
+
         public static byte[] ReadAllBytes(string path)
         {
             path = GetRedirectedReadPath(path);
@@ -42,13 +53,5 @@ namespace pkNX.Containers
             PathRedirect = dest;
             Enabled = true;
         }
-
-        public static bool Enabled { get; private set; }
-
-        public static void EnableIfSetup() => Enabled = PathOriginal != null;
-        public static void Disable() => Enabled = false;
-
-        private static string PathOriginal;
-        private static string PathRedirect;
     }
 }

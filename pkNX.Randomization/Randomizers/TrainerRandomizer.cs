@@ -78,7 +78,8 @@ namespace pkNX.Randomization
 
         public static void MaximizeAIFlags(VsTrainer tr)
         {
-            tr.Self.AI |= (int) (TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
+            const TrainerAI max = (TrainerAI.Basic | TrainerAI.Strong | TrainerAI.Expert | TrainerAI.PokeChange);
+            tr.Self.AI |= (int)max;
         }
 
         private void SetupTeamCount(VsTrainer tr)

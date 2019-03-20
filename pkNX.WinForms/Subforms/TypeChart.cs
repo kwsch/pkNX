@@ -42,7 +42,7 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void LoadChart() => PB_Chart.Image = GetGrid(TypeWidth, TypeCount, Chart);
+        private void LoadChart() => PB_Chart.Image = GetGrid(Chart, TypeWidth, TypeCount);
 
         // gui logic below
 
@@ -110,14 +110,18 @@ namespace pkNX.WinForms
             return vals[newIndex];
         }
 
-        public Bitmap GetGrid(int itemsize, int itemsPerRow, byte[] vals)
+        public static Bitmap GetGrid(byte[] vals, int itemsize, int itemsPerRow)
         {
             // set up image
-            byte[] bmpData = Editor.GetTypeChartImageData(itemsize, itemsPerRow, vals, out int width, out int height);
+            var bmpData = TypeChartEditor.GetTypeChartImageData(itemsize, itemsPerRow, vals, out int width, out int height);
+            return CreateImage(width, height, bmpData);
+        }
 
+        private static Bitmap CreateImage(int width, int height, byte[] bmpData)
+        {
             // assemble image
-            Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            BitmapData bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            var b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            var bData = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             System.Runtime.InteropServices.Marshal.Copy(bmpData, 0, bData.Scan0, bmpData.Length);
             b.UnlockBits(bData);
             return b;

@@ -80,7 +80,6 @@ namespace pkNX.Structures
         public override int Move3 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Move4 { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-
         public override ushort[] GetStats(PersonalInfo p)
         {
             return CalculateStatsBeluga(p);

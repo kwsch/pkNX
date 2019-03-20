@@ -48,7 +48,7 @@ namespace pkNX.Containers
         /// <param name="stream">Stream for the binary data</param>
         public static IFileContainer GetContainer(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream);
+            var br = new BinaryReader(stream);
             var container = GetContainer(br);
             if (!(container is LargeContainer)) // not kept
                 br.Dispose();

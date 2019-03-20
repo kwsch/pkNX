@@ -105,7 +105,7 @@ namespace pkNX.WinForms
             if (pk.Species != 0)
             {
                 try { PopulateFields(pk); }
-                catch { }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
                 // Visual to display what slot is currently loaded.
                 GetSlotColor(slot, Sprites.Properties.Resources.slotView);
             }
@@ -592,7 +592,6 @@ namespace pkNX.WinForms
 
     public static class FormUtil
     {
-        // Utility (Shared)
         internal static void SetForms(int species, ComboBox cb, string[][] AltForms)
         {
             cb.Items.Clear();

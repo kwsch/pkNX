@@ -45,7 +45,7 @@ namespace pkNX.Game
             0xFF008000
         };
 
-        public byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, byte[] vals, out int width, out int height)
+        public static byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, byte[] vals, out int width, out int height)
         {
             width = itemsize * itemsPerRow;
             height = itemsize * vals.Length / itemsPerRow;

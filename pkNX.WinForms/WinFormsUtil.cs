@@ -12,7 +12,7 @@ namespace pkNX.WinForms
         /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
         internal static DialogResult Error(params string[] lines)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            System.Media.SystemSounds.Hand.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

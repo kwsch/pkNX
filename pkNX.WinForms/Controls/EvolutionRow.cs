@@ -74,7 +74,7 @@ namespace pkNX.WinForms
         private static readonly string[] Stats = Enumerable.Range(0, 255 + 1).Select(z => z.ToString()).ToArray();
         private static readonly string[] None = { "" };
 
-        private string[] GetArgs(EvolutionTypeArgumentType type)
+        private static string[] GetArgs(EvolutionTypeArgumentType type)
         {
             switch (type)
             {

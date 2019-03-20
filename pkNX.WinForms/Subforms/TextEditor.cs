@@ -36,23 +36,28 @@ namespace pkNX.WinForms
         private void B_Export_Click(object sender, EventArgs e)
         {
             if (TextData.Length <= 0) return;
-            SaveFileDialog Dump = new SaveFileDialog {Filter = "Text File|*.txt"};
-            DialogResult sdr = Dump.ShowDialog();
-            if (sdr != DialogResult.OK) return;
-            bool newline = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Remove newline formatting codes? (\\n,\\r,\\c)", "Removing newline formatting will make it more readable but will prevent any importing of that dump.") == DialogResult.Yes;
-            string path = Dump.FileName;
+            var dump = new SaveFileDialog {Filter = "Text File|*.txt"};
+            if (dump.ShowDialog() != DialogResult.OK)
+                return;
+
+            var result = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
+                "Remove newline formatting codes? (\\n,\\r,\\c)",
+                "Removing newline formatting will make it more readable but will prevent any importing of that dump.");
+            bool newline = result == DialogResult.Yes;
+            string path = dump.FileName;
             ExportTextFile(path, newline, TextData);
         }
 
         private void B_Import_Click(object sender, EventArgs e)
         {
             if (TextData.Length <= 0) return;
-            OpenFileDialog Dump = new OpenFileDialog { Filter = "Text File|*.txt" };
-            DialogResult odr = Dump.ShowDialog();
-            if (odr != DialogResult.OK) return;
-            string path = Dump.FileName;
+            var dump = new OpenFileDialog { Filter = "Text File|*.txt" };
+            if (dump.ShowDialog() != DialogResult.OK)
+                return;
 
-            if (!ImportTextFiles(path)) return;
+            string path = dump.FileName;
+            if (!ImportTextFiles(path))
+                return;
 
             // Reload the form with the new data.
             ChangeEntry(null, null);
@@ -124,10 +129,8 @@ namespace pkNX.WinForms
                         return false;
                     }
                 }
-                else
-                {
-                    // pray that the filename index lines up
-                }
+                // else pray that the filename index lines up
+
                 i += 2; // Skip over the other header line
                 List<string> Lines = new List<string>();
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
@@ -147,7 +150,7 @@ namespace pkNX.WinForms
                 $"Received: {ctr}, Expected: {TextData.Length}"); return false; }
             if (!newlineFormatting)
             {
-                WinFormsUtil.Error("The input Text Files do not have the ingame newline formatting codes (\\n,\\r,\\c).",
+                WinFormsUtil.Error("The input Text Files do not have the in-game newline formatting codes (\\n,\\r,\\c).",
                       "When exporting text, do not remove newline formatting."); return false; }
 
             // All Text Lines received. Store all back.
@@ -279,7 +282,7 @@ namespace pkNX.WinForms
 
             // get if the user wants to randomize current text file or all files
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current textfile{Environment.NewLine}Cancel: Abort");
+                $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current Text File{Environment.NewLine}Cancel: Abort");
 
             if (dr == DialogResult.Cancel)
                 return;

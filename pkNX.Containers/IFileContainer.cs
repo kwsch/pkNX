@@ -40,7 +40,7 @@ namespace pkNX.Containers
         void CancelEdits();
     }
 
-    public static partial class Extensions
+    public static class FileContainerExtensions
     {
         public static string GetFileFormatString(this IFileContainer c) => "D" + Math.Ceiling(Math.Log10(c.Count));
     }

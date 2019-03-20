@@ -28,7 +28,7 @@ namespace pkNX.WinForms
         private void SetupDGV(string[] list)
         {
             dgvTM.Columns.Clear();
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Index";
                 dgvIndex.DisplayIndex = 0;
@@ -37,7 +37,7 @@ namespace pkNX.WinForms
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 dgvIndex.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            var dgvMove = new DataGridViewComboBoxColumn();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
