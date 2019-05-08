@@ -4,7 +4,7 @@
 
 pkNX: A package of Pokémon (Nintendo Switch) ROM Editing Tools, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
-Similar to [pk3DS](https://github.com/kwsch/pk3ds) for the Nintedo 3DS, pkNX provides an editing environment to manipulate game binary assets such as stats, learnsets, trainers, and more!
+Similar to [pk3DS](https://github.com/kwsch/pk3ds) for the Nintendo 3DS, pkNX provides an editing environment to manipulate game binary assets such as stats, learnsets, trainers, and more!
 
 ![Main Window](https://i.imgur.com/lSYWN4m.png)
 
