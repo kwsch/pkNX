@@ -121,9 +121,9 @@ namespace pkNX.Structures
         public const int SIZE = 36;
     }
 
-    public class Public
+    public class TableRecord
     {
-        public Public(string name, uint address)
+        public TableRecord(string name, uint address)
         {
             Name = name;
             Address = address;
