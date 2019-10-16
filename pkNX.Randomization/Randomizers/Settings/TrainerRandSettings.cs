@@ -60,7 +60,7 @@ namespace pkNX.Randomization
         public bool BoostLevel { get; set; } = true;
 
         [Category(PKM), Description("Boosts levels of all PKM by this ratio if the " + nameof(BoostLevel) + " setting is set.")]
-        public decimal LevelBoostRatio { get; set; } = 1.1m;
+        public float LevelBoostRatio { get; set; } = 1.1f;
         #endregion
 
         #region Stats
@@ -68,7 +68,7 @@ namespace pkNX.Randomization
         public bool RandomShinies { get; set; } = true;
 
         [Category(Stats), Description("Makes random Trainer PKM shiny at this rate (percent).")]
-        public decimal ShinyChance { get; set; } = 2.5m;
+        public float ShinyChance { get; set; } = 2.5f;
 
         [Category(Stats), Description("Maximizes all IVs.")]
         public bool MaxIVs { get; set; } = true;

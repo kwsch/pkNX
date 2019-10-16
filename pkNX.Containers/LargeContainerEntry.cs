@@ -67,8 +67,8 @@ namespace pkNX.Containers
             if (File is string)
                 return;
 
-            using (var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
-                Write(parent, file, DataOffset);
+            using var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            Write(parent, file, DataOffset);
         }
     }
 }

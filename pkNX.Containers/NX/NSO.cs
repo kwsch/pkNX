@@ -28,9 +28,9 @@ namespace pkNX.Containers
 
         public NSO(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
-                ReadHeader(br);
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            ReadHeader(br);
         }
 
         private void ReadHeader(BinaryReader br)
@@ -53,7 +53,7 @@ namespace pkNX.Containers
             return br.ReadBytes(sizeCompressed);
         }
 
-        public byte[] GetDecompressedSegment(BinaryReader br, SegmentHeader h, int sizeCompressed)
+        public static byte[] GetDecompressedSegment(BinaryReader br, SegmentHeader h, int sizeCompressed)
         {
             byte[] data = GetCompressedSegment(br, h, sizeCompressed);
             return LZ4.Decode(data, h.DecompressedSize);
@@ -61,8 +61,8 @@ namespace pkNX.Containers
 
         public static byte[] Hash(byte[] data)
         {
-            using (var method = SHA256.Create())
-                return method.ComputeHash(data);
+            using var method = SHA256.Create();
+            return method.ComputeHash(data);
         }
 
         private void Decompress()
@@ -105,30 +105,28 @@ namespace pkNX.Containers
         public byte[] Write()
         {
             Compress();
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
-            {
-                bw.Write(Header.ToBytesClass());
-                while (bw.BaseStream.Position != Header.HeaderText.FileOffset)
-                    bw.Write((byte)0); // match layout for previous example
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            bw.Write(Header.ToBytesClass());
+            while (bw.BaseStream.Position != Header.HeaderText.FileOffset)
+                bw.Write((byte)0); // match layout for previous example
 
-                // text
-                Header.HeaderText.FileOffset = (int)bw.BaseStream.Position;
-                bw.Write(CompressedText);
+            // text
+            Header.HeaderText.FileOffset = (int)bw.BaseStream.Position;
+            bw.Write(CompressedText);
 
-                // ro
-                Header.HeaderRO.FileOffset = (int)bw.BaseStream.Position;
-                bw.Write(CompressedRO);
+            // ro
+            Header.HeaderRO.FileOffset = (int)bw.BaseStream.Position;
+            bw.Write(CompressedRO);
 
-                // data
-                Header.HeaderData.FileOffset = (int)bw.BaseStream.Position;
-                bw.Write(CompressedData);
+            // data
+            Header.HeaderData.FileOffset = (int)bw.BaseStream.Position;
+            bw.Write(CompressedData);
 
-                bw.BaseStream.Position = 0;
-                bw.Write(Header.ToBytesClass());
+            bw.BaseStream.Position = 0;
+            bw.Write(Header.ToBytesClass());
 
-                return ms.ToArray();
-            }
+            return ms.ToArray();
         }
     }
 }

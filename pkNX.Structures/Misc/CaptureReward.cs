@@ -28,12 +28,10 @@ namespace pkNX.Structures
 
         public CaptureRewardTable(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
-            {
-                ReadHeader(br);
-                ReadEntries(br);
-            }
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            ReadHeader(br);
+            ReadEntries(br);
         }
 
         private void ReadEntries(BinaryReader br)
@@ -81,25 +79,23 @@ namespace pkNX.Structures
 
         public byte[] Write()
         {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            foreach (var g in Table)
             {
-                foreach (var g in Table)
-                {
-                    bw.Write(g.CaptureCount);
-                    bw.Write(g.Entries.Count); // instead of using the read value, use the list count (allow modification)
-                }
-                foreach (var g in Table)
-                {
-                    foreach (var e in g.Entries)
-                    {
-                        bw.Write(e.Item);
-                        bw.Write(e.Count);
-                        bw.Write(e.Rate);
-                    }
-                }
-                return ms.ToArray();
+                bw.Write(g.CaptureCount);
+                bw.Write(g.Entries.Count); // instead of using the read value, use the list count (allow modification)
             }
+            foreach (var g in Table)
+            {
+                foreach (var e in g.Entries)
+                {
+                    bw.Write(e.Item);
+                    bw.Write(e.Count);
+                    bw.Write(e.Rate);
+                }
+            }
+            return ms.ToArray();
         }
 
         public IEnumerable<string> Dump(string[] itemNames)

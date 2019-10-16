@@ -17,7 +17,7 @@
         public abstract void SetFixedRate(int rerollCount);
         public abstract void SetAlwaysShiny();
 
-        protected bool IsPresent(byte[] source, byte[] pattern, int offset)
+        protected static bool IsPresent(byte[] source, byte[] pattern, int offset)
         {
             for (int i = 0; i < pattern.Length; i++)
             {

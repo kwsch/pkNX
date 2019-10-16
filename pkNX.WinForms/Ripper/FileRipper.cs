@@ -85,16 +85,14 @@ namespace pkNX.WinForms
 
             try
             {
-                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-                using (var br = new BinaryReader(fs))
-                {
-                    if (br.BaseStream.Length < 4)
-                        return new RipResult(RipResultCode.BadSize);
-                    var header = br.ReadUInt32();
-                    var result = TryLoadFile(br, header, path, handler);
-                    if (result.Code == RipResultCode.Success)
-                        return result;
-                }
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                using var br = new BinaryReader(fs);
+                if (br.BaseStream.Length < 4)
+                    return new RipResult(RipResultCode.BadSize);
+                var header = br.ReadUInt32();
+                var result = TryLoadFile(br, header, path, handler);
+                if (result.Code == RipResultCode.Success)
+                    return result;
             }
             catch (Exception e)
             {

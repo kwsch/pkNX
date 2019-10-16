@@ -20,21 +20,15 @@
 
         public static VariableType FromIdent(this byte ident)
         {
-            switch (ident)
+            return ident switch
             {
-                case IDENT_VARIABLE:
-                    return VariableType.Normal;
-                case IDENT_REFERENCE:
-                    return VariableType.Reference;
-                case IDENT_ARRAY:
-                    return VariableType.Array;
-                case IDENT_REFARRAY:
-                    return VariableType.ArrayReference;
-                case IDENT_VARARGS:
-                    return VariableType.Variadic;
-                default:
-                    return VariableType.Normal;
-            }
+                IDENT_VARIABLE => VariableType.Normal,
+                IDENT_REFERENCE => VariableType.Reference,
+                IDENT_ARRAY => VariableType.Array,
+                IDENT_REFARRAY => VariableType.ArrayReference,
+                IDENT_VARARGS => VariableType.Variadic,
+                _ => VariableType.Normal
+            };
         }
     }
 }

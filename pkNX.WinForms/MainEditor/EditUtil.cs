@@ -31,38 +31,34 @@ namespace pkNX.WinForms
                 return;
             }
 
-            using (var file = File.OpenRead(path))
+            using var file = File.OpenRead(path);
+            var reader = new XmlSerializer(typeof(SharedSettings));
+            try
             {
-                var reader = new XmlSerializer(typeof(SharedSettings));
-                try
-                {
-                    Settings = (SharedSettings) reader.Deserialize(file);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
+                Settings = (SharedSettings) reader.Deserialize(file);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
         }
 
         public static void SaveSettings(GameVersion game)
         {
             string path = GetSettingsFileName(game);
-            using (var file = File.Create(path))
+            using var file = File.Create(path);
+            var writer = new XmlSerializer(typeof(SharedSettings));
+            try
             {
-                var writer = new XmlSerializer(typeof(SharedSettings));
-                try
-                {
-                    writer.Serialize(file, Settings);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    if (!File.Exists(path))
-                        return;
-                    file.Close();
-                    File.Delete(path);
-                }
+                writer.Serialize(file, Settings);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                if (!File.Exists(path))
+                    return;
+                file.Close();
+                File.Delete(path);
             }
         }
 

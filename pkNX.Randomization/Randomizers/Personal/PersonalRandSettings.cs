@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using pkNX.Structures;
 
@@ -41,17 +42,17 @@ namespace pkNX.Randomization
         /// <summary>Percent chance to learn a TMHM move (0-100).</summary>
         /// <remarks>Average Learnable TMs is 35.260.</remarks>
         [Category(Moves), Description("Percentage chance to learn a given TM move.")]
-        public decimal LearnTMPercent { get; set; } = 35;
+        public float LearnTMPercent { get; set; } = 35;
 
         /// <summary>Percent chance to learn a type tutor move (0-100).</summary>
         /// <remarks>136 special tutor moves learnable by species in Untouched ORAS.</remarks>
         [Category(Moves), Description("Percentage chance to learn a given special Type Tutor move.")]
-        public decimal LearnTypeTutorPercent { get; set; } = 2;
+        public float LearnTypeTutorPercent { get; set; } = 2;
 
         /// <summary>Percent chance to learn a tutor move (0-100).</summary>
         /// <remarks>10001 tutor moves learnable by 826 species in Untouched ORAS.</remarks>
         [Category(Moves), Description("Percentage chance to learn a given Move Tutor move.")]
-        public decimal LearnMoveTutorPercent { get; set; } = 30;
+        public float LearnMoveTutorPercent { get; set; } = 30;
         #endregion
 
         #region Types
@@ -65,7 +66,7 @@ namespace pkNX.Randomization
 
         /// <summary>Chance that both types are the same.</summary>
         [Category(Types), Description("Chance that both types are the same.")]
-        public decimal SameTypeChance { get; set; } = 50;
+        public float SameTypeChance { get; set; } = 50;
         #endregion
 
         #region Ability
@@ -83,7 +84,7 @@ namespace pkNX.Randomization
 
         /// <summary>Chance that both abilities are the same.</summary>
         [Category(Abilities), Description("Chance that both abilities are the same.")]
-        public decimal SameAbilityChance { get; set; } = 100;
+        public float SameAbilityChance { get; set; } = 100;
         #endregion
 
         #region Stats
@@ -130,7 +131,7 @@ namespace pkNX.Randomization
         /// <summary>
         /// Flags to edit the stats when randomizing.
         /// </summary>
-        public bool[] StatsToRandomize => new[] {HP, ATK, DEF, SPE, SPA, SPD};
+        public IReadOnlyList<bool> StatsToRandomize => new[] {HP, ATK, DEF, SPE, SPA, SPD};
         #endregion
 
         #region Misc
@@ -138,13 +139,13 @@ namespace pkNX.Randomization
         [Category(Misc), Description("Enables a PKM's catch rate to be modified. Can inversely scale off BST.")]
         public CatchRate CatchRate { get; set; } = CatchRate.Unchanged;
 
-        /// <summary>Permits modification of <see cref="PersonalInfo.HeldItems"/>.</summary>
-        [Category(Misc), Description("Enables a PKM's base stats to be modified.")]
+        /// <summary>Permits modification of Held Items.</summary>
+        [Category(Misc), Description("Enables a PKM's held items to be modified.")]
         public bool ModifyHeldItems { get; set; } = true;
 
         /// <summary>Chance all held items are the same.</summary>
         [Category(Misc), Description("Percentage chance that all Held Items are the same, resulting in a 100% chance of having the held item.")]
-        public decimal AlwaysHeldItemChance { get; set; } = 20;
+        public float AlwaysHeldItemChance { get; set; } = 20;
 
         /// <summary>Permits modification of <see cref="PersonalInfo.EggGroups"/>.</summary>
         [Category(Misc), Description("Enables a PKM's egg groups to be modified.")]
@@ -152,7 +153,7 @@ namespace pkNX.Randomization
 
         /// <summary>Chance both egg groups are the same.</summary>
         [Category(Misc), Description("Percentage chance that both egg groups will be the same.")]
-        public decimal SameEggGroupChance { get; set; } = 50;
+        public float SameEggGroupChance { get; set; } = 50;
         #endregion
 
         #region Evolutions
@@ -166,11 +167,11 @@ namespace pkNX.Randomization
 
         /// <summary>Percentage chance that only one type will be inherited, and a new random one will replace the other.</summary>
         [Category(Evolutions), Description("Percentage chance that only one type will be inherited, and a new random one will replace the other.")]
-        public decimal InheritTypeOnlyOneChance { get; set; } = 65;
+        public float InheritTypeOnlyOneChance { get; set; } = 65;
 
         /// <summary>Percentage chance that neither one type will be inherited, and new random ones will replace the others.</summary>
         [Category(Evolutions), Description("Percentage chance that neither type will be inherited, and new random ones will replace the others.")]
-        public decimal InheritTypeNeitherChance { get; set; } = 30;
+        public float InheritTypeNeitherChance { get; set; } = 30;
 
         /// <summary>Toggles  chance that neither one type will be inherited, and new random ones will replace the others.</summary>
         [Category(Evolutions), Description("Amount of abilities that will be inherited, and new random ones will replace the others.")]
@@ -182,11 +183,11 @@ namespace pkNX.Randomization
 
         /// <summary>Percentage chance that only one ability will be inherited, and a new random one will replace the other.</summary>
         [Category(Evolutions), Description("Percentage chance that only one ability will be inherited, and a new random one will replace the other.")]
-        public decimal InheritAbilityOnlyOneChance { get; set; } = 45;
+        public float InheritAbilityOnlyOneChance { get; set; } = 45;
 
         /// <summary>Percentage chance that neither one ability will be inherited, and new random ones will replace the others.</summary>
         [Category(Evolutions), Description("Percentage chance that neither ability will be inherited, and new random ones will replace the others.")]
-        public decimal InheritAbilityNeitherChance { get; set; } = 20;
+        public float InheritAbilityNeitherChance { get; set; } = 20;
 
         /// <summary>Inherit the held item values from the pre-evolution.</summary>
         [Category(Evolutions), Description("Inherit the held item values from the pre-evolution.")]

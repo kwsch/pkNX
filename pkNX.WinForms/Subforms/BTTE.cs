@@ -104,8 +104,7 @@ namespace pkNX.WinForms
             var pk = Trainers[entry].Team[slot];
             if (pk.Species != 0)
             {
-                try { PopulateFields(pk); }
-                catch (Exception ex) { Console.WriteLine(ex.Message); }
+                PopulateFields(pk);
                 // Visual to display what slot is currently loaded.
                 GetSlotColor(slot, Sprites.Properties.Resources.slotView);
             }
@@ -431,20 +430,17 @@ namespace pkNX.WinForms
 
         private void DumpTxt(object sender, EventArgs e)
         {
-            using (var sfd = new SaveFileDialog())
+            using var sfd = new SaveFileDialog {FileName = "Trainers.txt"};
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            var sb = new StringBuilder();
+            for (int i = 0; i < Trainers.Length; i++)
             {
-                sfd.FileName = "Trainers.txt";
-                if (sfd.ShowDialog() != DialogResult.OK)
-                    return;
-                var sb = new StringBuilder();
-                for (int i = 0; i < Trainers.Length; i++)
-                {
-                    var tr = Trainers[i];
-                    tr.Name = trName[i];
-                    sb.Append(GetTrainerString(tr));
-                }
-                File.WriteAllText(sfd.FileName, sb.ToString());
+                var tr = Trainers[i];
+                tr.Name = trName[i];
+                sb.Append(GetTrainerString(tr));
             }
+            File.WriteAllText(sfd.FileName, sb.ToString());
         }
 
         private string GetTrainerString(VsTrainer Trainer)

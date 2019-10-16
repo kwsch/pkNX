@@ -7,19 +7,19 @@ namespace pkNX.Game
     {
         public static IReadOnlyCollection<TextReference> GetMapping(GameVersion game)
         {
-            switch (game)
+            return game switch
             {
-                case GameVersion.XY: return XY;
-                case GameVersion.ORASDEMO:
-                case GameVersion.ORAS: return AO;
-                case GameVersion.SMDEMO: return SMDEMO;
-                case GameVersion.SN:
-                case GameVersion.MN: return SM;
-                case GameVersion.US:
-                case GameVersion.UM: return USUM;
-                case GameVersion.GG: return GG;
-            }
-            return null;
+                GameVersion.XY => XY,
+                GameVersion.ORASDEMO => AO,
+                GameVersion.ORAS => AO,
+                GameVersion.SMDEMO => SMDEMO,
+                GameVersion.SN => SM,
+                GameVersion.MN => SM,
+                GameVersion.US => USUM,
+                GameVersion.UM => USUM,
+                GameVersion.GG => GG,
+                _ => null
+            };
         }
 
         private static readonly TextReference[] XY =

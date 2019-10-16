@@ -54,19 +54,19 @@ namespace pkNX.Game
 
         public static IReadOnlyCollection<GameFileReference> GetMapping(GameVersion game)
         {
-            switch (game)
+            return game switch
             {
-                case GameVersion.SN: return SN;
-                case GameVersion.MN: return MN;
-                case GameVersion.US: return US;
-                case GameVersion.UM: return UM;
-                case GameVersion.XY: return XY;
-                case GameVersion.GG: return GG;
-                case GameVersion.ORASDEMO:
-                case GameVersion.ORAS: return AO;
-                case GameVersion.SMDEMO: return SMDEMO;
-            }
-            return null;
+                GameVersion.SN => SN,
+                GameVersion.MN => MN,
+                GameVersion.US => US,
+                GameVersion.UM => UM,
+                GameVersion.XY => XY,
+                GameVersion.GG => GG,
+                GameVersion.ORASDEMO => AO,
+                GameVersion.ORAS => AO,
+                GameVersion.SMDEMO => SMDEMO,
+                _ => null
+            };
         }
 
         #region Games

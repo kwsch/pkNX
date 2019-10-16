@@ -56,7 +56,7 @@ namespace pkNX.WinForms
 
         private void Menu_Open_Click(object sender, EventArgs e)
         {
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK)
                 OpenPath(fbd.SelectedPath);
         }
@@ -110,7 +110,7 @@ namespace pkNX.WinForms
                 OpenFile(path);
         }
 
-        private void OpenFile(string path)
+        private static void OpenFile(string path)
         {
             var result = FileRipper.TryOpenFile(path);
             if (result.Code != RipResultCode.Success)

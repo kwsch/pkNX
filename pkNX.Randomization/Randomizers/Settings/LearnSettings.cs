@@ -23,8 +23,9 @@ namespace pkNX.Randomization
 
         [Category(General), Description("Requires a certain percent of moves to have STAB.")]
         public bool STAB { get; set; }
+
         [Category(General), Description("Required percent of moves having STAB.")]
-        public decimal STABPercent { get; set; }
+        public float STABPercent { get; set; }
 
         [Category(Misc), Description("Reorders moves so that moves are learned with increasing power.")]
         public bool OrderByPower { get; set; } = true;

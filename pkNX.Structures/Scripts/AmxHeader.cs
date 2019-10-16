@@ -71,14 +71,13 @@ namespace pkNX.Structures
         {
             get
             {
-                switch (Magic)
+                return Magic switch
                 {
-                    case MAGIC_16: return 16;
-                    case MAGIC_32: return 32;
-                    case MAGIC_64: return 64;
-                    default:
-                        throw new ArgumentException("Invalid Magic identifier.");
-                }
+                    MAGIC_16 => 16,
+                    MAGIC_32 => 32,
+                    MAGIC_64 => 64,
+                    _ => throw new ArgumentException("Invalid Magic identifier.")
+                };
             }
         }
     }

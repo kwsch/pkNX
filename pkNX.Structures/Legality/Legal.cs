@@ -35,7 +35,7 @@ namespace pkNX.Structures
         /// <param name="level">Current Level.</param>
         /// <param name="factor">Modification factor.</param>
         /// <returns>Boosted (or reduced) level.</returns>
-        public static int GetModifiedLevel(int level, decimal factor)
+        public static int GetModifiedLevel(int level, double factor)
         {
             int newlvl = (int)(level * factor);
             if (newlvl < 1)

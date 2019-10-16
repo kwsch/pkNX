@@ -192,6 +192,16 @@
         /// Pokémon Let's Go Eevee (NX)
         /// </summary>
         GE = 43,
+
+        /// <summary>
+        /// Pokémon Sword (NX)
+        /// </summary>
+        SW = 44,
+
+        /// <summary>
+        /// Pokémon Shield (NX)
+        /// </summary>
+        SH = 45,
         #endregion
 
         // The following values are not actually stored values in pkm data,
@@ -368,6 +378,14 @@
         /// <see cref="GP"/>
         /// <see cref="GE"/>
         GG,
+
+        /// <summary>
+        /// Pokémon Sword &amp; Shield
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="SW"/>
+        /// <see cref="SH"/>
+        SWSH,
 
         /// <summary>
         /// Generation 1 Games

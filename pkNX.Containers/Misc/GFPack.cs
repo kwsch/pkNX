@@ -12,7 +12,7 @@ namespace pkNX.Containers
 {
     public class GFPack : IEnumerable<byte[]>, IFileContainer
     {
-        private const ulong Magic = 0x4B434150_584C4647; // GFLXPACK
+        public const ulong Magic = 0x4B434150_584C4647; // GFLXPACK
 
         // Overall structure: Header, metadata, and the raw compressed files
         public GFPackHeader Header { get; set; }
@@ -33,9 +33,9 @@ namespace pkNX.Containers
         /// <param name="data">Packed file</param>
         public GFPack(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
-                ReadPack(br);
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            ReadPack(br);
         }
 
         public GFPack(BinaryReader br) => ReadPack(br);
@@ -79,137 +79,6 @@ namespace pkNX.Containers
             DecompressedFiles = new byte[Header.CountFiles][];
             for (int i = 0; i < DecompressedFiles.Length; i++)
                 DecompressedFiles[i] = Decompress(CompressedFiles[i], FileTable[i].SizeDecompressed, FileTable[i].Type);
-        }
-
-        /// <summary>
-        /// Intro bytes to the packed binary.
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public class GFPackHeader
-        {
-            public const int SIZE = 0x18;
-            public ulong MAGIC = Magic;
-            public uint Version = 0x1000;
-            public uint IsRelocated; // bit0
-
-            /// <summary>
-            /// Count of Files packed into the binary.
-            /// </summary>
-            public int CountFiles;
-
-            /// <summary>
-            /// Count of Folders packed into the binary.
-            /// </summary>
-            public int CountFolders;
-        }
-
-        public class GFPackPointers
-        {
-            /// <summary>
-            /// Data offset for the <see cref="FileData"/> table.
-            /// </summary>
-            public long PtrFileTable; // array stored at end
-
-            /// <summary>
-            /// Data offset for the <see cref="FileHashAbsolute"/> table.
-            /// </summary>
-            public long PtrHashPaths; // array stored first
-
-            /// <summary>
-            /// Data offset for the <see cref="FileHashFolder"/> table, which has a leading <see cref="FileHashFolderInfo"/>.
-            /// </summary>
-            public long[] PtrHashFolders; // array stored in middle
-
-            // immediately after the pointers are the arrays
-
-            public GFPackPointers(BinaryReader br, int folderCount)
-            {
-                PtrFileTable = br.ReadInt64();
-                PtrHashPaths = br.ReadInt64();
-                PtrHashFolders = new long[folderCount];
-                for (int i = 0; i < PtrHashFolders.Length; i++)
-                    PtrHashFolders[i] = br.ReadInt64();
-            }
-
-            public void Write(BinaryWriter bw)
-            {
-                bw.Write(PtrFileTable);
-                bw.Write(PtrHashPaths);
-                foreach (var table in PtrHashFolders)
-                    bw.Write(table);
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FileHashAbsolute
-        {
-            public const int SIZE = 0x08;
-
-            /// <summary>
-            /// Filename (with directory details) hash.
-            /// </summary>
-            public ulong HashFnv1aPathFull;
-
-            public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFull;
-        }
-
-        public class FileHashFolder
-        {
-            public FileHashFolderInfo Folder;
-            public FileHashIndex[] Files;
-            public int GetIndexFileName(ulong hash) => Array.FindIndex(Files, z => z.HashFnv1aPathFileName == hash);
-            public int GetIndexFileName(string name) => Array.FindIndex(Files, z => z.IsMatch(name));
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FileHashFolderInfo
-        {
-            public const int SIZE = 0x10;
-
-            /// <summary>
-            /// Filename (without directory details) hash.
-            /// </summary>
-            public ulong HashFnv1aPathFolderName;
-            public int FileCount;
-            public uint Padding = 0xCC;
-
-            public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFolderName;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FileHashIndex
-        {
-            public const int SIZE = 0x10;
-
-            /// <summary>
-            /// Filename (without directory details) hash.
-            /// </summary>
-            public ulong HashFnv1aPathFileName;
-            public int Index;
-            public uint Padding = 0xCC;
-
-            public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFileName;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FileData
-        {
-            public const int SIZE = 0x18;
-
-            public ushort Level = 9; // quality?
-            public CompressionType Type;
-            public int SizeDecompressed;
-            public int SizeCompressed;
-            public int Padding = 0xCC;
-            public int OffsetPacked;
-            public uint unused;
-        }
-
-        public enum CompressionType : ushort
-        {
-            None = 0,
-            Zlib = 1,
-            Lz4 = 2,
         }
 
         public IEnumerator<byte[]> GetEnumerator() => (IEnumerator<byte[]>)DecompressedFiles.GetEnumerator();
@@ -298,56 +167,50 @@ namespace pkNX.Containers
 
         public byte[] Write()
         {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            WriteHeaderTableList(bw);
+            for (var i = 0; i < DecompressedFiles.Length; i++)
             {
-                WriteHeaderTableList(bw);
-                for (var i = 0; i < DecompressedFiles.Length; i++)
-                {
-                    var entry = FileTable[i];
-                    var f = DecompressedFiles[i];
-                    var c = Compress(f, entry.Type);
-                    CompressedFiles[i] = c;
+                var entry = FileTable[i];
+                var f = DecompressedFiles[i];
+                var c = Compress(f, entry.Type);
+                CompressedFiles[i] = c;
 
-                    // update entry details
-                    entry.SizeDecompressed = f.Length;
-                    entry.SizeCompressed = c.Length;
-                    entry.OffsetPacked = (int)bw.BaseStream.Position;
+                // update entry details
+                entry.SizeDecompressed = f.Length;
+                entry.SizeCompressed = c.Length;
+                entry.OffsetPacked = (int)bw.BaseStream.Position;
 
-                    bw.Write(c);
-                    while (bw.BaseStream.Position % 0x10 != 0) // pad to nearest 0x10 alignment
-                        bw.Write((byte)0);
-                }
-                bw.BaseStream.Position = 0;
-                WriteHeaderTableList(bw);
-                return ms.ToArray();
+                bw.Write(c);
+                while (bw.BaseStream.Position % 0x10 != 0) // pad to nearest 0x10 alignment
+                    bw.Write((byte)0);
             }
+            bw.BaseStream.Position = 0;
+            WriteHeaderTableList(bw);
+            return ms.ToArray();
         }
 
         private static byte[] Decompress(byte[] encryptedData, int decryptedLength, CompressionType type)
         {
-            switch (type)
+            return type switch
             {
-                case CompressionType.None:
-                    return encryptedData;
-                case CompressionType.Zlib:
-                    return null; // not implemented
-                default:
-                    return LZ4.Decode(encryptedData, decryptedLength);
-            }
+                CompressionType.None => encryptedData,
+                CompressionType.Zlib => null // not implemented
+                ,
+                _ => LZ4.Decode(encryptedData, decryptedLength)
+            };
         }
 
         private static byte[] Compress(byte[] decryptedData, CompressionType type)
         {
-            switch (type)
+            return type switch
             {
-                case CompressionType.None:
-                    return decryptedData;
-                case CompressionType.Zlib:
-                    return null; // not implemented
-                default:
-                    return LZ4.Encode(decryptedData);
-            }
+                CompressionType.None => decryptedData,
+                CompressionType.Zlib => null // not implemented
+                ,
+                _ => LZ4.Encode(decryptedData)
+            };
         }
 
         public void CancelEdits()
@@ -410,5 +273,136 @@ namespace pkNX.Containers
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Intro bytes to the packed binary.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public class GFPackHeader
+    {
+        public const int SIZE = 0x18;
+        public ulong MAGIC = GFPack.Magic;
+        public uint Version = 0x1000;
+        public uint IsRelocated; // bit0
+
+        /// <summary>
+        /// Count of Files packed into the binary.
+        /// </summary>
+        public int CountFiles;
+
+        /// <summary>
+        /// Count of Folders packed into the binary.
+        /// </summary>
+        public int CountFolders;
+    }
+
+    public class GFPackPointers
+    {
+        /// <summary>
+        /// Data offset for the <see cref="FileData"/> table.
+        /// </summary>
+        public long PtrFileTable; // array stored at end
+
+        /// <summary>
+        /// Data offset for the <see cref="FileHashAbsolute"/> table.
+        /// </summary>
+        public long PtrHashPaths; // array stored first
+
+        /// <summary>
+        /// Data offset for the <see cref="FileHashFolder"/> table, which has a leading <see cref="FileHashFolderInfo"/>.
+        /// </summary>
+        public long[] PtrHashFolders; // array stored in middle
+
+        // immediately after the pointers are the arrays
+
+        public GFPackPointers(BinaryReader br, int folderCount)
+        {
+            PtrFileTable = br.ReadInt64();
+            PtrHashPaths = br.ReadInt64();
+            PtrHashFolders = new long[folderCount];
+            for (int i = 0; i < PtrHashFolders.Length; i++)
+                PtrHashFolders[i] = br.ReadInt64();
+        }
+
+        public void Write(BinaryWriter bw)
+        {
+            bw.Write(PtrFileTable);
+            bw.Write(PtrHashPaths);
+            foreach (var table in PtrHashFolders)
+                bw.Write(table);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class FileHashAbsolute
+    {
+        public const int SIZE = 0x08;
+
+        /// <summary>
+        /// Filename (with directory details) hash.
+        /// </summary>
+        public ulong HashFnv1aPathFull;
+
+        public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFull;
+    }
+
+    public class FileHashFolder
+    {
+        public FileHashFolderInfo Folder;
+        public FileHashIndex[] Files;
+        public int GetIndexFileName(ulong hash) => Array.FindIndex(Files, z => z.HashFnv1aPathFileName == hash);
+        public int GetIndexFileName(string name) => Array.FindIndex(Files, z => z.IsMatch(name));
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class FileHashFolderInfo
+    {
+        public const int SIZE = 0x10;
+
+        /// <summary>
+        /// Filename (without directory details) hash.
+        /// </summary>
+        public ulong HashFnv1aPathFolderName;
+        public int FileCount;
+        public uint Padding = 0xCC;
+
+        public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFolderName;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class FileHashIndex
+    {
+        public const int SIZE = 0x10;
+
+        /// <summary>
+        /// Filename (without directory details) hash.
+        /// </summary>
+        public ulong HashFnv1aPathFileName;
+        public int Index;
+        public uint Padding = 0xCC;
+
+        public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFileName;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class FileData
+    {
+        public const int SIZE = 0x18;
+
+        public ushort Level = 9; // quality?
+        public CompressionType Type;
+        public int SizeDecompressed;
+        public int SizeCompressed;
+        public int Padding = 0xCC;
+        public int OffsetPacked;
+        public uint unused;
+    }
+
+    public enum CompressionType : ushort
+    {
+        None = 0,
+        Zlib = 1,
+        Lz4 = 2,
     }
 }

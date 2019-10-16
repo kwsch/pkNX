@@ -76,19 +76,18 @@ namespace pkNX.WinForms
 
         private static string[] GetArgs(EvolutionTypeArgumentType type)
         {
-            switch (type)
+            return type switch
             {
-                case EvolutionTypeArgumentType.NoArg: return None;
-                case EvolutionTypeArgumentType.Level: return Levels;
-                case EvolutionTypeArgumentType.Items: return items;
-                case EvolutionTypeArgumentType.Moves: return movelist;
-                case EvolutionTypeArgumentType.Species: return species;
-                case EvolutionTypeArgumentType.Stat: return Stats;
-                case EvolutionTypeArgumentType.Type: return types;
-                case EvolutionTypeArgumentType.Version: return Stats;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                EvolutionTypeArgumentType.NoArg => None,
+                EvolutionTypeArgumentType.Level => Levels,
+                EvolutionTypeArgumentType.Items => items,
+                EvolutionTypeArgumentType.Moves => movelist,
+                EvolutionTypeArgumentType.Species => species,
+                EvolutionTypeArgumentType.Stat => Stats,
+                EvolutionTypeArgumentType.Type => types,
+                EvolutionTypeArgumentType.Version => Stats,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
     }
 }

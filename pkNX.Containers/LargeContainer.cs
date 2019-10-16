@@ -143,6 +143,11 @@ namespace pkNX
 
         public void Dispose()
         {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
             Stream.Dispose();
             Reader.Dispose();
         }

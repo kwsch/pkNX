@@ -30,19 +30,17 @@ namespace pkNX.Structures
 
         public override byte[] Write()
         {
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
+            using MemoryStream ms = new MemoryStream();
+            using BinaryWriter bw = new BinaryWriter(ms);
+            foreach (EvolutionMethod evo in PossibleEvolutions)
             {
-                foreach (EvolutionMethod evo in PossibleEvolutions)
-                {
-                    bw.Write((ushort)evo.Method);
-                    bw.Write((ushort)evo.Argument);
-                    bw.Write((ushort)evo.Species);
-                    bw.Write((sbyte)evo.Form);
-                    bw.Write((byte)evo.Level);
-                }
-                return ms.ToArray();
+                bw.Write((ushort)evo.Method);
+                bw.Write((ushort)evo.Argument);
+                bw.Write((ushort)evo.Species);
+                bw.Write((sbyte)evo.Form);
+                bw.Write((byte)evo.Level);
             }
+            return ms.ToArray();
         }
     }
 }

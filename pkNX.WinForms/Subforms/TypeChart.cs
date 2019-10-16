@@ -13,7 +13,7 @@ namespace pkNX.WinForms
 
         public byte[] Chart { get; set; }
         public bool Modified { get; set; }
-        private int TypeWidth => 32; // px
+        private const int TypeWidth = 32; // px
         private int TypeCount => types.Length;
 
         public TypeChart(TypeChartEditor editor, string[] types)

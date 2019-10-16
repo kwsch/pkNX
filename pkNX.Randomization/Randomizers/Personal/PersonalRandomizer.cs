@@ -395,7 +395,7 @@ namespace pkNX.Randomization
             z.Stats = stats;
         }
 
-        private void RandomShuffledStats(PersonalInfo z)
+        private static void RandomShuffledStats(PersonalInfo z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
             var stats = z.Stats;

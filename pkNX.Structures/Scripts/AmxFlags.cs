@@ -9,7 +9,7 @@ namespace pkNX.Structures
     /// Flag version listed here is for CUR_FILE_VERSION = 10, circa 2008
     /// </remarks>
     [Flags]
-    public enum AmxFlags : short
+    public enum AmxFlags : ushort
     {
         NONE,
 
@@ -44,7 +44,7 @@ namespace pkNX.Structures
         VERIFY = 0x4000,
 
         /// <summary> AMX has been initialized </summary>
-        INIT = 8000
+        INIT = 0x8000
     }
 
     public static class AmxFlagsExtensions

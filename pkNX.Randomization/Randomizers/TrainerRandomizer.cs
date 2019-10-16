@@ -232,7 +232,7 @@ namespace pkNX.Randomization
             RandomizeEntryMoves(pk);
         }
 
-        public static void BoostLevel(IPokeData pk, decimal ratio)
+        public static void BoostLevel(IPokeData pk, double ratio)
         {
             pk.Level = Legal.GetModifiedLevel(pk.Level, ratio);
         }

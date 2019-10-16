@@ -9,7 +9,8 @@ namespace pkNX.WinForms.Controls
 
         public void TestButton()
         {
-            new Form().ShowDialog();
+            using var form = new Form();
+            form.ShowDialog();
         }
     }
 }

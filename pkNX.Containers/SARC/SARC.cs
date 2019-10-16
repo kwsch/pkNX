@@ -133,7 +133,7 @@ namespace pkNX.Containers
 
         public override void Dump(string path, ContainerHandler handler)
         {
-            path = path ?? FilePath;
+            path ??= FilePath;
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
             if (File.Exists(path))

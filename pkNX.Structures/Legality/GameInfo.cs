@@ -31,18 +31,17 @@ namespace pkNX.Structures
 
         private Action GetInitMethod(GameVersion game)
         {
-            switch (game)
+            return game switch
             {
-                case GameVersion.XY: return LoadXY;
-                case GameVersion.ORASDEMO:
-                case GameVersion.ORAS: return LoadAO;
-                case GameVersion.SMDEMO:
-                case GameVersion.SM: return LoadSM;
-                case GameVersion.USUM: return LoadUSUM;
-                case GameVersion.GG: return LoadGG;
-                default:
-                    throw new ArgumentException(nameof(game));
-            }
+                GameVersion.XY => (Action) LoadXY,
+                GameVersion.ORASDEMO => LoadAO,
+                GameVersion.ORAS => LoadAO,
+                GameVersion.SMDEMO => LoadSM,
+                GameVersion.SM => LoadSM,
+                GameVersion.USUM => LoadUSUM,
+                GameVersion.GG => LoadGG,
+                _ => throw new ArgumentException(nameof(game))
+            };
         }
 
         private void LoadXY()

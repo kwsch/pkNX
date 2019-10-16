@@ -24,7 +24,7 @@ namespace pkNX.Randomization
         public int STABCount { get; set; } = 2;
 
         [Category(SameType), Description("Minimum percent of STAB moves in generated learnsets.")]
-        public decimal STABPercent { get; set; } = 100;
+        public float STABPercent { get; set; } = 100;
 
         [Category(Misc), Description("Banned move IDs.")]
         internal IList<int> BannedMoves { get; set; } = Array.Empty<int>();

@@ -1,6 +1,6 @@
 ﻿namespace pkNX.Game
 {
-    class EditorFactory
+    public class EditorFactory
     {
     }
 }

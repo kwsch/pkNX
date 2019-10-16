@@ -131,12 +131,14 @@ namespace pkNX.Structures
 
         private static int AmplifyStat(int nature, int index, int initial)
         {
-            switch (AbilityAmpTable[(5 * nature) + index])
+            return AbilityAmpTable[(5 * nature) + index] switch
             {
-                case 1: return 110 * initial / 100; // 110%
-                case -1: return 90 * initial / 100; // 90%
-                default: return initial;            // 100%
-            }
+                1 => (110 * initial / 100) // 110%
+                ,
+                -1 => (90 * initial / 100) // 90%
+                ,
+                _ => initial
+            };
         }
 
         private static readonly sbyte[] AbilityAmpTable =

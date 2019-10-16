@@ -20,13 +20,11 @@ namespace pkNX.Structures
 
         public byte[] Write()
         {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
-            {
-                foreach (var seed in Table)
-                    bw.Write(seed);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            foreach (var seed in Table)
+                bw.Write(seed);
+            return ms.ToArray();
         }
 
         public IEnumerable<string> Dump(string[] specNames)

@@ -57,17 +57,16 @@ namespace pkNX.Structures
 
         public int GetIV(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return IV_HP;
-                case 1: return IV_ATK;
-                case 2: return IV_DEF;
-                case 3: return IV_SPE;
-                case 4: return IV_SPA;
-                case 5: return IV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => IV_HP,
+                1 => IV_ATK,
+                2 => IV_DEF,
+                3 => IV_SPE,
+                4 => IV_SPA,
+                5 => IV_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         public void SetIV(int index, int value)
@@ -87,17 +86,16 @@ namespace pkNX.Structures
 
         public int GetEV(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return EV_HP;
-                case 1: return EV_ATK;
-                case 2: return EV_DEF;
-                case 3: return EV_SPE;
-                case 4: return EV_SPA;
-                case 5: return EV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => EV_HP,
+                1 => EV_ATK,
+                2 => EV_DEF,
+                3 => EV_SPE,
+                4 => EV_SPA,
+                5 => EV_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         public void SetEV(int index, int value)

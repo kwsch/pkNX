@@ -25,17 +25,15 @@ namespace pkNX.Structures
 
         public byte[] Write()
         {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            foreach (var t in Table)
             {
-                foreach (var t in Table)
-                {
-                    foreach (var e in t)
-                        bw.Write(e);
-                    bw.Write(t.Count(x => x != 0));
-                }
-                return ms.ToArray();
+                foreach (var e in t)
+                    bw.Write(e);
+                bw.Write(t.Count(x => x != 0));
             }
+            return ms.ToArray();
         }
     }
 }

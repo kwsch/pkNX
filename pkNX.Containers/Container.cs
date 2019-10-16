@@ -12,17 +12,16 @@ namespace pkNX.Containers
         /// <param name="t">File type</param>
         public static IFileContainer GetContainer(string path, ContainerType t)
         {
-            switch (t)
+            return t switch
             {
-                case ContainerType.GARC: return new GARC(path);
-                case ContainerType.Mini: return MiniUtil.GetMini(path);
-                case ContainerType.SARC: return new SARC(path);
-                case ContainerType.Folder: return new FolderContainer(path);
-                case ContainerType.SingleFile: return new SingleFileContainer(path);
-                case ContainerType.GFPack: return new GFPack(path);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(t), t, null);
-            }
+                ContainerType.GARC => (IFileContainer) new GARC(path),
+                ContainerType.Mini => MiniUtil.GetMini(path),
+                ContainerType.SARC => new SARC(path),
+                ContainerType.Folder => new FolderContainer(path),
+                ContainerType.SingleFile => new SingleFileContainer(path),
+                ContainerType.GFPack => new GFPack(path),
+                _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            };
         }
 
         /// <summary>
@@ -48,7 +47,9 @@ namespace pkNX.Containers
         /// <param name="stream">Stream for the binary data</param>
         public static IFileContainer GetContainer(Stream stream)
         {
+#pragma warning disable IDE0068 // Use recommended dispose pattern
             var br = new BinaryReader(stream);
+#pragma warning restore IDE0068 // Use recommended dispose pattern
             var container = GetContainer(br);
             if (!(container is LargeContainer)) // not kept
                 br.Dispose();

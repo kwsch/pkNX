@@ -90,7 +90,7 @@ namespace pkNX.Randomization
             return list.Count == 0 ? GetSpeciesAll(maxSpecies) : list.ToArray();
         }
 
-        private int[] GetSpeciesAll(int maxSpecies) => Enumerable.Range(1, maxSpecies).ToArray();
+        private static int[] GetSpeciesAll(int maxSpecies) => Enumerable.Range(1, maxSpecies).ToArray();
 
         private void AddGen1Species(List<int> list, int maxSpecies)
         {
@@ -186,7 +186,7 @@ namespace pkNX.Randomization
             }
         }
 
-        private void AddGGEvents(List<int> list)
+        private static void AddGGEvents(List<int> list)
         {
             list.AddRange(Enumerable.Range(808, Legal.MaxSpeciesID_7_GG - Legal.MaxSpeciesID_7_USUM)); // *
         }

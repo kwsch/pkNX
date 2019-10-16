@@ -36,7 +36,7 @@ namespace pkNX.WinForms
         private void B_Export_Click(object sender, EventArgs e)
         {
             if (TextData.Length <= 0) return;
-            var dump = new SaveFileDialog {Filter = "Text File|*.txt"};
+            using var dump = new SaveFileDialog {Filter = "Text File|*.txt"};
             if (dump.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -51,7 +51,7 @@ namespace pkNX.WinForms
         private void B_Import_Click(object sender, EventArgs e)
         {
             if (TextData.Length <= 0) return;
-            var dump = new OpenFileDialog { Filter = "Text File|*.txt" };
+            using var dump = new OpenFileDialog { Filter = "Text File|*.txt" };
             if (dump.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -66,21 +66,19 @@ namespace pkNX.WinForms
 
         public static void ExportTextFile(string fileName, bool newline, TextContainer lineData)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using MemoryStream ms = new MemoryStream();
+            ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
+            using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
             {
-                ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
-                using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
+                for (int i = 0; i < lineData.Length; i++)
                 {
-                    for (int i = 0; i < lineData.Length; i++)
-                    {
-                        // Get Strings for the File
-                        string[] data = lineData[i];
-                        string fn = lineData.GetFileName(i);
-                        WriteTextFile(tw, fn, data, newline);
-                    }
+                    // Get Strings for the File
+                    string[] data = lineData[i];
+                    string fn = lineData.GetFileName(i);
+                    WriteTextFile(tw, fn, data, newline);
                 }
-                File.WriteAllBytes(fileName, ms.ToArray());
             }
+            File.WriteAllBytes(fileName, ms.ToArray());
         }
 
         private static void WriteTextFile(TextWriter tw, string fn, string[] data, bool newline = false)

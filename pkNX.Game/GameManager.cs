@@ -100,13 +100,11 @@ namespace pkNX.Game
 
         public static GameManager GetManager(GameLocation loc, int language)
         {
-            switch (loc.Game)
+            return loc.Game switch
             {
-                case GameVersion.GG:
-                    return new GameManagerGG(loc, language);
-                default:
-                    throw new ArgumentException(nameof(loc.Game));
-            }
+                GameVersion.GG => new GameManagerGG(loc, language),
+                _ => throw new ArgumentException(nameof(loc.Game))
+            };
         }
     }
 }

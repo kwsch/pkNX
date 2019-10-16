@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+// ReSharper disable UnusedMember.Global
 
 namespace pkNX.Structures
 {
@@ -12,18 +13,16 @@ namespace pkNX.Structures
         public string WriteJson()
         {
             var serializer = new JsonSerializer();
-            using (var stringWriter = new StringWriter())
+            using var stringWriter = new StringWriter();
+            using var writer = new JsonTextWriter(stringWriter)
             {
-                using (var writer = new JsonTextWriter(stringWriter))
-                {
-                    writer.QuoteName = false;
-                    writer.Formatting = Formatting.Indented;
-                    writer.IndentChar = ' ';
-                    writer.Indentation = 2;
-                    serializer.Serialize(writer, this);
-                }
-                return stringWriter.ToString();
-            }
+                QuoteName = false,
+                Formatting = Formatting.Indented,
+                IndentChar = ' ',
+                Indentation = 2
+            };
+            serializer.Serialize(writer, this);
+            return stringWriter.ToString();
         }
     }
 

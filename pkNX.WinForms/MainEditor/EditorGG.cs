@@ -18,7 +18,7 @@ namespace pkNX.WinForms.Controls
             var text = ROM.GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
             var config = new TextConfig(ROM.Game);
             var tc = new TextContainer(text, config);
-            var form = new TextEditor(tc, TextEditor.TextEditorMode.Common);
+            using var form = new TextEditor(tc, TextEditor.TextEditorMode.Common);
             form.ShowDialog();
             if (!form.Modified)
                 text.CancelEdits();
@@ -29,7 +29,7 @@ namespace pkNX.WinForms.Controls
             var text = ROM.GetFilteredFolder(GameFile.StoryText, z => Path.GetExtension(z) == ".dat");
             var config = new TextConfig(ROM.Game);
             var tc = new TextContainer(text, config);
-            var form = new TextEditor(tc, TextEditor.TextEditorMode.Script);
+            using var form = new TextEditor(tc, TextEditor.TextEditorMode.Script);
             form.ShowDialog();
             if (!form.Modified)
                 text.CancelEdits();
@@ -49,7 +49,7 @@ namespace pkNX.WinForms.Controls
                 TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
             };
             editor.Initialize();
-            var form = new BTTE(ROM, editor);
+            using var form = new BTTE(ROM, editor);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -66,7 +66,7 @@ namespace pkNX.WinForms.Controls
                 Mega = ROM.Data.MegaEvolutionData,
                 Personal = ROM.Data.PersonalData,
             };
-            var form = new PokeDataUI(editor, ROM);
+            using var form = new PokeDataUI(editor, ROM);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -82,7 +82,7 @@ namespace pkNX.WinForms.Controls
                 Create = Item.FromBytes,
                 Write = item => item.Write(),
             };
-            var form = new GenericEditor<Item>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
+            using var form = new GenericEditor<Item>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
             form.ShowDialog();
             if (!form.Modified)
                 cache.CancelEdits();
@@ -98,7 +98,7 @@ namespace pkNX.WinForms.Controls
                 Create = data => new Move7(data),
                 Write = move => move.Write(),
             };
-            var form = new GenericEditor<Move7>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
+            using var form = new GenericEditor<Move7>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
             form.ShowDialog();
             if (!form.Modified)
                 cache.CancelEdits();
@@ -127,7 +127,7 @@ namespace pkNX.WinForms.Controls
                 }
             }
 
-            var form = new GenericEditor<EncounterGift7b>(cache, names, "Gift Editor", Randomize);
+            using var form = new GenericEditor<EncounterGift7b>(cache, names, "Gift Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();
@@ -157,7 +157,7 @@ namespace pkNX.WinForms.Controls
                 }
             }
 
-            var form = new GenericEditor<EncounterTrade7b>(cache, names, "Trade Editor", Randomize);
+            using var form = new GenericEditor<EncounterTrade7b>(cache, names, "Trade Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();
@@ -187,7 +187,7 @@ namespace pkNX.WinForms.Controls
                 }
             }
 
-            var form = new GenericEditor<EncounterStatic7b>(cache, names, "Static Encounter Editor", Randomize);
+            using var form = new GenericEditor<EncounterStatic7b>(cache, names, "Static Encounter Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 file.CancelEdits();
@@ -210,13 +210,13 @@ namespace pkNX.WinForms.Controls
                 return;
             }
             var json = File.ReadAllText(path);
-            var form = new GGWE(ROM, json);
+            using var form = new GGWE(ROM, json);
             form.ShowDialog();
             var result = form.Result;
             if (string.IsNullOrWhiteSpace(result))
                 return; // no save
 
-            var sfd = new SaveFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
+            using var sfd = new SaveFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             path = sfd.FileName;
@@ -232,11 +232,11 @@ namespace pkNX.WinForms.Controls
             var shiny = new ShinyRateGG(nso.DecompressedText);
             if (!shiny.IsEditable)
             {
-                WinFormsUtil.Alert("Not able to find shiny rate logic in exefs.");
+                WinFormsUtil.Alert("Not able to find shiny rate logic in ExeFS.");
                 return;
             }
 
-            var editor = new ShinyRate(shiny);
+            using var editor = new ShinyRate(shiny);
             editor.ShowDialog();
             if (!editor.Modified)
                 return;
@@ -252,14 +252,14 @@ namespace pkNX.WinForms.Controls
             var list = new TMEditorGG(data);
             if (!list.Valid)
             {
-                WinFormsUtil.Alert("Not able to find tm data in exefs.");
+                WinFormsUtil.Alert("Not able to find tm data in ExeFS.");
                 return;
             }
 
             var moves = list.GetMoves();
             var allowed = Legal.GetAllowedMoves(ROM.Game, ROM.Data.MoveData.Length);
             var names = ROM.GetStrings(TextName.MoveNames);
-            var editor = new TMList(moves, allowed, names);
+            using var editor = new TMList(moves, allowed, names);
             editor.ShowDialog();
             if (!editor.Modified)
                 return;
@@ -284,7 +284,7 @@ namespace pkNX.WinForms.Controls
             int ofs = CodePattern.IndexOfBytes(nso.DecompressedRO, pattern);
             if (ofs < 0)
             {
-                WinFormsUtil.Alert("Not able to find type chart data in exefs.");
+                WinFormsUtil.Alert("Not able to find type chart data in ExeFS.");
                 return;
             }
             ofs += pattern.Length + 0x24; // 0x5B4C0C in lgpe 1.0 RO
@@ -293,7 +293,7 @@ namespace pkNX.WinForms.Controls
             var types = ROM.GetStrings(TextName.Types);
             Array.Copy(nso.DecompressedRO, ofs, cdata, 0, cdata.Length);
             var chart = new TypeChartEditor(cdata);
-            var editor = new TypeChart(chart, types);
+            using var editor = new TypeChart(chart, types);
             editor.ShowDialog();
             if (!editor.Modified)
                 return;

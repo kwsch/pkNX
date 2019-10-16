@@ -26,7 +26,7 @@ namespace pkNX.Game
         public void CancelEdits()
         {
             for (int i = 0; i < Cache.Length; i++)
-                Cache[i] = default(T);
+                Cache[i] = default;
         }
 
         public void Initialize() { }

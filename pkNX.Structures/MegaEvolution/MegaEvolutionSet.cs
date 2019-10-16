@@ -28,7 +28,6 @@ namespace pkNX.Structures
             return result;
         }
 
-
         public static byte[] WriteArray(MegaEvolutionSet[] data)
         {
             return data.SelectMany(z => z.Write()).ToArray();

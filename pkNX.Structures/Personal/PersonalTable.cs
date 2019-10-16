@@ -34,10 +34,13 @@ namespace pkNX.Structures
                     return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
                     return z => new PersonalInfoORAS(z);
+                case GameVersion.SM:
+                case GameVersion.USUM:
+                    return z => new PersonalInfoSM(z);
                 case GameVersion.GG:
                     return z => new PersonalInfoGG(z);
                 default:
-                    return z => new PersonalInfoSM(z);
+                    return z => new PersonalInfoSWSH(z);
             }
         }
 
@@ -52,6 +55,7 @@ namespace pkNX.Structures
                 case GameVersion.SM:
                 case GameVersion.USUM:
                 case GameVersion.GG: return PersonalInfoSM.SIZE;
+                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE; // todo
 
                 default: return -1;
             }
