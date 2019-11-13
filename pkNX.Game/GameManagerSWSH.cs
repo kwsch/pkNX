@@ -11,13 +11,13 @@ namespace pkNX.Game
         private GameVersion ActualGame;
         public string TitleID => ActualGame == GameVersion.GP ? Sword : Shield;
         private const string Sword = "0100ABF008968000";
-        private const string Shield = "0100ABF008968000";
+        private const string Shield = "01008DB008C2C000";
 
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
-            var eeveevidpath = Path.Combine(ROM.RomFS, Path.Combine("bin", "EEVEE_GO"));
-            bool sword = Directory.Exists(eeveevidpath);
+            var swshfilepath = Path.Combine(ROM.RomFS, Path.Combine("bin", "SWSH_File"));
+            bool sword = Directory.Exists(swshfilepath);
             ActualGame = sword ? GameVersion.SW : GameVersion.SH;
             var redirect = Path.Combine(basePath, TitleID);
             // get sword vs shield
