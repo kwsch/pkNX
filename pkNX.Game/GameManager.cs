@@ -103,6 +103,7 @@ namespace pkNX.Game
             return loc.Game switch
             {
                 GameVersion.GG => new GameManagerGG(loc, language),
+                GameVersion.SWSH => new GameManagerSWSH(loc, language),
                 _ => throw new ArgumentException(nameof(loc.Game))
             };
         }

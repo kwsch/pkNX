@@ -22,6 +22,11 @@ namespace pkNX.Structures
         public const int MaxItemID_7_GG = 959; // todo
         public const int MaxAbilityID_7_GG = MaxAbilityID_7_USUM;
 
+        public const int MaxSpeciesID_8_SWSH = 809;
+        public const int MaxMoveID_8_SWSH = 728; // todo
+        public const int MaxItemID_8_SWSH = 959; // todo
+        public const int MaxAbilityID_8_SWSH = 233; // todo
+
         public static readonly ushort[] Pouch_Regular_SM = // 00
         {
             068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087,

@@ -51,6 +51,7 @@ namespace pkNX.WinForms.Controls
             if (GameVersion.SM.Contains(g)) return new EditorSM(ROM);
             if (GameVersion.USUM.Contains(g)) return new EditorUU(ROM);
             if (GameVersion.GG.Contains(g)) return new EditorGG(ROM);
+            if (GameVersion.SWSH.Contains(g)) return new EditorGG(ROM);
             return null;
         }
 

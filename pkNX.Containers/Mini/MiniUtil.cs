@@ -95,7 +95,7 @@ namespace pkNX.Containers
         public static Mini GetMini(string path)
         {
             path = FileMitm.GetRedirectedReadPath(path);
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             using var br = new BinaryReader(fs);
             return GetMini(br);
         }

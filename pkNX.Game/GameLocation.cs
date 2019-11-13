@@ -62,6 +62,7 @@ namespace pkNX.Game
         private const int FILECOUNT_SM = 311;
         private const int FILECOUNT_USUM = 333;
         private const int FILECOUNT_GG = 27818;
+        private const int FILECOUNT_SWSH = 41718;
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs)
         {
@@ -87,9 +88,12 @@ namespace pkNX.Game
                     }
                 case FILECOUNT_GG:
                     return GameVersion.GG;
+                case FILECOUNT_SWSH:
+                    return GameVersion.SWSH;
 
                 default:
-                    return GameVersion.Invalid;
+                    return GameVersion.SWSH;
+                    //return GameVersion.Invalid;
             }
         }
     }
