@@ -1,0 +1,18 @@
+namespace pkNX.Structures;
+
+table BatleTowerTrainer8Archive {
+  Entries:[BatleTowerTrainer8];
+}
+
+table BatleTowerTrainer8 {
+    Hash0:ulong;
+    Hash1:ulong;
+    EntryID:ushort;
+    Field_03:ushort;
+    Field_04:ushort;
+    Choices:[ushort];
+}
+
+root_type BatleTowerTrainer8Archive;
+
+file_extension "bin";

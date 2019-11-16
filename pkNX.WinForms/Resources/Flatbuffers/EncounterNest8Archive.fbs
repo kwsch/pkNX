@@ -1,0 +1,29 @@
+namespace pkNX.Structures;
+
+table EncounterNest8Archive {
+  Tables:[EncounterNest8Table];
+}
+
+table EncounterNest8Table {
+  TableID:ulong;
+  GameVersion:uint;
+  Entries:[EncounterNest8];
+}
+
+table EncounterNest8 {
+    EntryIndex:uint;
+    Species:uint;
+    AltForm:uint;
+    LevelTableID:ulong;
+    Ability:byte;
+    IsGigantamax:bool;
+    DropTableID:ulong;
+    BonusTableID:ulong;
+    Probabilities:[uint];
+    Gender:byte;
+    EncounterRank:byte;
+}
+
+root_type EncounterNest8Archive;
+
+file_extension "bin";

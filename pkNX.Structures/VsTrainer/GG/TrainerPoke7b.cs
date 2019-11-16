@@ -11,7 +11,7 @@ namespace pkNX.Structures
         public TrainerPoke7b(byte[] data = null) => Data = data ?? new byte[SIZE];
 
         public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((x, offset) => new TrainerPoke7b(offset, x), SIZE);
-        public static byte[] WriteTeam(IList<TrainerPoke7b> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
+        public static byte[] WriteTeam(IList<TrainerPoke> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
 
         public TrainerPoke7b(int offset, byte[] data = null)
         {

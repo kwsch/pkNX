@@ -42,8 +42,11 @@ namespace pkNX.WinForms
 
             InitPersonal();
             InitLearn();
-            InitEvo(8);
-            InitMega(2);
+
+            InitEvo(Editor.Evolve[0].PossibleEvolutions.Length);
+
+            if (Editor.Mega != null)
+                InitMega(2);
 
             CB_Species.SelectedIndex = 1;
 
@@ -52,8 +55,8 @@ namespace pkNX.WinForms
             PG_Learn.SelectedObject = EditUtil.Settings.Learn;
         }
 
-        public GameManager ROM { get; set; }
-        public PokeEditor Editor { get; set; }
+        public readonly GameManager ROM;
+        public readonly PokeEditor Editor;
         public bool Modified { get; set; }
 
         private readonly ComboBox[] helditem_boxes;
@@ -77,7 +80,7 @@ namespace pkNX.WinForms
 
         public void InitPersonal()
         {
-            var TMs = GetTMList();
+            var TMs = Editor.TMHM;
             if (TMs.Length == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 0; i < 100; i++)
@@ -85,8 +88,18 @@ namespace pkNX.WinForms
             }
             else // Use TM moves.
             {
-                for (int i = 0; i < TMs.Length; i++)
-                    CLB_TM.Items.Add($"TM{i+1:00} {movelist[TMs[i]]}");
+                if (GameVersion.SWSH.Contains(ROM.Game))
+                {
+                    for (int i = 0; i < TMs.Length/2; i++)
+                        CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
+                    for (int i = TMs.Length / 2; i < TMs.Length; i++)
+                        CLB_TM.Items.Add($"TR{i-100:00} {movelist[TMs[i]]}");
+                }
+                else
+                {
+                    for (int i = 0; i < TMs.Length; i++)
+                        CLB_TM.Items.Add($"TM{i + 1:00} {movelist[TMs[i]]}");
+                }
             }
 
             var entries = entryNames.Select((z, i) => $"{z} - {i:000}");
@@ -172,22 +185,6 @@ namespace pkNX.WinForms
             }
         }
 
-        private static int[] GetTMList()
-        {
-            return new[]
-            {
-                029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
-                261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
-                492, 157, 009, 404, 127, 398, 092, 161, 503, 339,
-                007, 605, 347, 406, 008, 085, 053, 087, 200, 094,
-                089, 120, 247, 583, 076, 126, 057, 063, 276, 355,
-                059, 188, 072, 430, 058, 446, 006, 529, 138, 224,
-                // rest are same as SM, unused
-
-                // No HMs
-            };
-        }
-
         public void UpdateIndex(object sender, EventArgs e)
         {
             if (cPersonal != null)
@@ -204,9 +201,10 @@ namespace pkNX.WinForms
             LoadPersonal(Editor.Personal[index]);
             LoadLearnset(Editor.Learn[index]);
             LoadEvolutions(Editor.Evolve[index]);
-            LoadMegas(Editor.Mega[index], spec);
-            var img = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false);
-            img = ImageUtil.ScaleImage((Bitmap)img, 2);
+            if (Editor.Mega != null)
+                LoadMegas(Editor.Mega[index], spec);
+            var img = SpriteUtil.GetSprite(spec, form, 0, 0, false, false);
+            img = ImageUtil.ResizeImage((Bitmap)img, PB_MonSprite.Width, PB_MonSprite.Height);
             PB_MonSprite.Image = img;
         }
 
@@ -405,6 +403,8 @@ namespace pkNX.WinForms
 
         public void LoadMegas(MegaEvolutionSet[] m, int spec)
         {
+            if (Editor.Mega == null)
+                return;
             cMega = m;
             Debug.Assert(Megas.Length == m.Length);
             for (int i = 0; i < Megas.Length; i++)
@@ -416,6 +416,8 @@ namespace pkNX.WinForms
 
         public void SaveMegas()
         {
+            if (Editor.Mega == null)
+                return;
             var m = cMega;
             Debug.Assert(Megas.Length == m.Length);
             foreach (var row in Megas)

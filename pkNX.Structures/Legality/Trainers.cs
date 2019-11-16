@@ -338,6 +338,71 @@ namespace pkNX.Structures
             #endregion
         };
 
+        public static readonly int[] SpecialClasses_SWSH =
+        {
+            #region Classes
+            004, // Champion
+            005, // Pokémon Trainer
+            006, // Pokémon Trainer
+            007, // Pokémon Trainer
+            008, // Pokémon Trainer
+            011, // Pokémon Trainer
+            012, // Gym Leader
+            013, // Pokémon Trainer
+            014, // Pokémon Trainer
+            015, // Gym Leader
+            020, // Gym Leader
+            021, // Gym Leader
+            022, // Gym Leader
+            023, // Gym Leader
+            024, // Gym Leader
+            025, // Gym Leader
+            026, // Gym Leader
+            027, // Gym Leader
+            028, // Gym Leader
+            029, // Gym Leader
+            030, // Oleana
+            032, // Rose
+            074, // Pokémon Trainer
+            075, // Pokémon Trainer
+            094, // Gym Leader
+            097, // Gym Leader
+            100, // Gym Leader
+            103, // Gym Leader
+            106, // Gym Leader
+            109, // Gym Leader
+            112, // Gym Leader
+            115, // Gym Leader
+            183, // GAME FREAK's
+            184, // Pokémon Trainer
+            185, // Pokémon Trainer
+            186, // Pokémon Trainer
+            187, // Pokémon Trainer
+            188, // Pokémon Trainer
+            199, // Pokémon Trainer
+            200, // Pokémon Trainer
+            205, // Gym Leader
+            206, // Gym Leader
+            207, // Gym Leader
+            208, // Gym Leader
+            209, // Gym Leader
+            210, // Gym Leader
+            211, // Gym Leader
+            212, // Gym Leader
+            213, // Gym Leader
+            214, // Gym Leader
+            215, // Gym Leader
+            216, // Gym Leader
+            217, // Pokémon Trainer
+            218, // Gym Leader
+            #endregion
+        };
+
+        public static readonly int[] UnusedClasses_SWSH =
+        {
+            000, 001, 002, 003, 009, 010, 016, 017, 018, 019, 031, 148, 149, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 201, 202, 203, 204,
+        };
+
         public static readonly int[] Model_XY =
         {
             #region Models
@@ -417,6 +482,13 @@ namespace pkNX.Structures
         {
             005, 007, 008, 009, 010, 011, 013, 014, 015, 016, 017, 018, 020, 021, 022, 023, 024, 025, 027, 028, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046,
             048, 049, 050, 051, 052, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 437, 439, 597, 601
+        };
+
+        public static readonly int[] ImportantTrainers_SWSH =
+        {
+            004, 005, 006, 007, 008, 009, 032, 036, 037, 077, 078, 107, 108, 109, 110, 111, 112, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 143, 144, 145,
+            146, 147, 148, 149, 153, 154, 155, 189, 190, 191, 192, 193, 194, 195, 196, 202, 203, 204, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 228, 229, 230, 231, 232, 233,
+            234, 235, 236, 237, 238, 239, 240, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 312, 313, 314
         };
     }
 }

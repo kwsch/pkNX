@@ -39,7 +39,7 @@ namespace pkNX.WinForms
             };
         }
 
-        private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteBuilder.GetSprite(spec, form, 0, 0, false, false);
+        private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteUtil.GetSprite(spec, form, 0, 0, false, false);
 
         private EvolutionMethod current;
         private EvolutionTypeArgumentType oldMethod;

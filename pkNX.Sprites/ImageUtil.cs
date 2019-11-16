@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
@@ -12,16 +13,14 @@ namespace pkNX.Sprites
     {
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double transparency)
         {
-            if (baseLayer == null)
-                return overLayer as Bitmap;
             overLayer = ChangeOpacity(overLayer, transparency);
             return LayerImage(baseLayer, overLayer, x, y);
         }
 
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y)
         {
-            if (baseLayer == null)
-                return overLayer as Bitmap;
+            if (baseLayer is null)
+                return (Bitmap)overLayer;
             Bitmap img = new Bitmap(baseLayer);
             using (Graphics gr = Graphics.FromImage(img))
                 gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
@@ -30,8 +29,6 @@ namespace pkNX.Sprites
 
         public static Bitmap ChangeOpacity(Image img, double trans)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
@@ -48,8 +45,6 @@ namespace pkNX.Sprites
 
         public static Bitmap ChangeAllColorTo(Image img, Color c)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
@@ -66,8 +61,6 @@ namespace pkNX.Sprites
 
         public static Bitmap ToGrayscale(Image img)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
@@ -164,13 +157,19 @@ namespace pkNX.Sprites
             }
         }
 
-        public static void GlowEdges(byte[] data, byte[] colors, int width, int reach = 3, double amount = 0.0777)
+        public static void GlowEdges(byte[] data, byte blue, byte green, byte red, int width, int reach = 3, double amount = 0.0777)
         {
-            // dual pass (pollute, de-transparent)
+            PollutePixels(data, width, reach, amount);
+            CleanPollutedPixels(data, blue, green, red);
+        }
+
+        private static void PollutePixels(byte[] data, int width, int reach, double amount)
+        {
             int stride = width * 4;
             int height = data.Length / stride;
             for (int i = 0; i < data.Length; i += 4)
             {
+                // only pollute outwards if the current pixel isn't transparent
                 if (data[i + 3] == 0)
                     continue;
 
@@ -189,23 +188,32 @@ namespace pkNX.Sprites
                 {
                     for (int j = top; j <= bottom; j++)
                     {
+                        // update one of the color bits
+                        // it is expected that a transparent pixel RGBA value is 0.
                         var c = 4 * (i + (j * width));
                         data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
                     }
                 }
             }
+        }
+
+        private static void CleanPollutedPixels(byte[] data, byte blue, byte green, byte red)
+        {
             for (int i = 0; i < data.Length; i += 4)
             {
+                // only clean if the current pixel isn't transparent
                 if (data[i + 3] != 0)
                     continue;
-                var flair = data[i + 0];
-                if (flair == 0)
+
+                // grab the transparency from the donor byte
+                var transparency = data[i + 0];
+                if (transparency == 0)
                     continue;
 
-                data[i + 3] = flair;
-                data[i + 0] = colors[0];
-                data[i + 1] = colors[1];
-                data[i + 2] = colors[2];
+                data[i + 0] = blue;
+                data[i + 1] = green;
+                data[i + 2] = red;
+                data[i + 3] = transparency;
             }
         }
 
@@ -229,15 +237,27 @@ namespace pkNX.Sprites
             return Color.FromArgb(r, g, b);
         }
 
-        public static Bitmap ScaleImage(Bitmap rawImg, int s)
+        // https://stackoverflow.com/a/24199315
+        public static Bitmap ResizeImage(Image image, int width, int height)
         {
-            var bigImg = new Bitmap(rawImg.Width * s, rawImg.Height * s);
-            for (int x = 0; x < bigImg.Width; x++)
-            {
-                for (int y = 0; y < bigImg.Height; y++)
-                    bigImg.SetPixel(x, y, rawImg.GetPixel(x / s, y / s));
-            }
-            return bigImg;
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using var wrapMode = new ImageAttributes();
+            wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+
+            using var graphics = Graphics.FromImage(destImage);
+            graphics.CompositingMode = CompositingMode.SourceCopy;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+
+            return destImage;
         }
     }
 }

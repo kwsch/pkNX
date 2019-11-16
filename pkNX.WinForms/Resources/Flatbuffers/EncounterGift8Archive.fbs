@@ -1,0 +1,43 @@
+namespace pkNX.Structures;
+
+table EncounterGift8Archive {
+  Encounters:[EncounterGift8];
+}
+
+table EncounterGift8 {
+  Field_00:byte;
+  Field_01:byte;
+  Field_02:byte;
+  Ball:ubyte;
+  Field_04:byte;
+
+  Hash1:ulong;
+
+  CanGigantamax:byte;
+  Field_07:byte;
+  Level:byte;
+  Species:uint;
+  Field_0A:byte;
+  Field_0B:byte;
+  Field_0C:byte;
+  Field_0D:byte;
+  Field_0E:byte;
+
+  Hash2:ulong;
+
+  Field_10:uint;
+  ShinyLock:uint;
+  Nature:uint;
+  Field_13:byte;
+
+  IV_Hp:byte;
+  IV_Atk:byte;
+  IV_Def:byte;
+  IV_SpAtk:byte;
+  IV_SpDef:byte;
+  IV_Spe:byte;
+}
+
+root_type EncounterGift8Archive;
+
+file_extension "bin";

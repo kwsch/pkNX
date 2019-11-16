@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,6 +47,8 @@
     <Compile Include="FormConverter.cs" />
     <Compile Include="ImageUtil.cs" />
     <Compile Include="SpriteBuilder.cs" />
+    <Compile Include="SpriteName.cs" />
+    <Compile Include="SpriteUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj">
@@ -54,11 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1237.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\slotDel.png" />
   </ItemGroup>
@@ -67,6 +73,2949 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\slotView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1238.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1239.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1241.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1242.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1243.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1244.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1245.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1246.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1247.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1248.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1249.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1250.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1251.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1252.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1253.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1254.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1255.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1257.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1258.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1259.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1260.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1261.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1262.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1263.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1264.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1266.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1267.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1269.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1270.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1271.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1278.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_tm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_tr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_37.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_39.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_41.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_42.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_54.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_55.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_56.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_57.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_62.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_63.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_76.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_77.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_78.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_79.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_81.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_82.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_83.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_84.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_85.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_86.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_87.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_88.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_89.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_91.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_92.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_94.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_107.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_108.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_109.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_116.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_117.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_118.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_119.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_134.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_149.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_150.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_151.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_152.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_153.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_154.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_155.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_156.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_157.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_158.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_159.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_160.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_161.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_162.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_163.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_169.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_170.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_171.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_172.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_173.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_174.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_184.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_185.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_186.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_187.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_188.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_189.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_190.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_191.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_192.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_193.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_194.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_195.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_196.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_197.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_198.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_199.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_201.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_202.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_203.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_204.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_205.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_206.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_207.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_208.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_209.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_210.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_211.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_212.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_213.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_214.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_215.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_217.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_218.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_219.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_220.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_221.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_222.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_223.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_224.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_228.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_229.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_230.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_231.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_232.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_233.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_234.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_236.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_237.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_238.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_239.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_241.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_242.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_243.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_244.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_245.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_246.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_247.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_248.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_249.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_250.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_251.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_253.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_254.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_255.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_257.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_259.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_265.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_266.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_267.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_268.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_269.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_270.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_271.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_272.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_273.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_274.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_275.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_276.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_277.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_278.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_279.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_280.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_281.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_282.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_283.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_284.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_285.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_286.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_287.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_288.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_289.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_290.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_291.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_292.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_293.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_294.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_295.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_296.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_297.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_298.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_299.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_300.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_301.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_302.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_303.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_304.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_305.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_306.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_307.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_308.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_309.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_310.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_311.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_312.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_313.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_314.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_315.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_316.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_317.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_318.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_319.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_320.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_321.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_325.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_326.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_492.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_493.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_494.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_495.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_496.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_497.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_498.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_499.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_500.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_504.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_537.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_538.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_539.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_540.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_541.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_542.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_543.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_544.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_545.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_546.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_547.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_564.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_565.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_566.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_567.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_568.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_569.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_570.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_571.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_576.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_580.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_581.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_582.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_583.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_591.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_618.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_628.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_629.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_631.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_632.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_639.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_640.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_644.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_645.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_646.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_647.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_648.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_649.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_650.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_686.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_687.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_688.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_703.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_708.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_709.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_795.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_796.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_846.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_849.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_851.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_852.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_879.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_880.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_881.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_882.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_883.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_884.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_903.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_904.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_905.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_906.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_907.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_908.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_909.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_910.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_911.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_912.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_913.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_914.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_915.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_916.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_917.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_918.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_919.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_920.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_943.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_944.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_945.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_946.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1074.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1075.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1076.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1077.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1080.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1081.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1084.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1085.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1086.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1087.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1088.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1089.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1090.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1091.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1092.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1093.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1094.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1095.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1096.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1097.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1098.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1099.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1103.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1104.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1105.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1107.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1108.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1109.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1110.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1111.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1112.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1113.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1114.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1115.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1116.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1117.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1118.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1119.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1121.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1122.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1123.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1124.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1125.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1126.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1127.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1129.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1231.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1232.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1233.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1234.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1235.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1236.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_0-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_26-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_37.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_37-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_38-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_44.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_50-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_51-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_52-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_52-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_53-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_66.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_67.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_77.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_77-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_78.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_78-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_83.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_83-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_91.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_92.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_93.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_94.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_95.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_98.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_99.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_107.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_109.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_110.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_110-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_111.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_112.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_118.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_119.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_122.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_122-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_129.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_130.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_131.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_132.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_133.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_134.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_135.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_136.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_143.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_150.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_151.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_163.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_164.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_170.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_171.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_172.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_173.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_175.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_176.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_177.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_178.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_182.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_185.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_194.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_195.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_196.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_197.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_202.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_208.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_211.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_213.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_215.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_220.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_221.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_222.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_222-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_223.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_224.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_225.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_226.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_236.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_237.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_246.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_247.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_248.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_251.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_263.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_263-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_264.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_264-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_270.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_271.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_272.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_273.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_274.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_275.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_278.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_279.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_280.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_281.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_282.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_290.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_291.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_292.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_302.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_303.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_309.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_310.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_315.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_320.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_321.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_324.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_328.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_329.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_330.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_337.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_338.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_339.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_340.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_341.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_342.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_343.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_344.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_349.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_350.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_355.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_356.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_360.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_361.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_362.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_385.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_406.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_407.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_415.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_416.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_420.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_421.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_421-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_422.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_422-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_423.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_423-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_425.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_426.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_434.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_435.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_436.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_437.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_438.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_439.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_446.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_447.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_448.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_449.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_450.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_450f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_451.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_452.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_453.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_454.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_458.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_459.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_460.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_461.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_464.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_468.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_470.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_471.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_473.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_475.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_477.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_478.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_479-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_509.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_510.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_517.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_518.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_519.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_520.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_521.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_521f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_524.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_525.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_526.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_527.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_528.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_529.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_530.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_532.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_533.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_534.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_535.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_536.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_537.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_538.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_539.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_546.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_547.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_550.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_550-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_554.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_554-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_555.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_555-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_555-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_555-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_556.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_557.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_558.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_559.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_560.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_561.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_562.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_562-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_563.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_568.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_569.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_572.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_573.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_574.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_575.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_576.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_577.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_578.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_579.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_582.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_583.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_584.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_588.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_589.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_592.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_592f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_593.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_593f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_595.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_596.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_597.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_598.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_599.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_600.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_601.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_605.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_606.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_607.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_608.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_609.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_610.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_611.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_612.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_613.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_614.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_616.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_617.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_618.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_618-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_622.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_623.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_624.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_625.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_627.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_628.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_629.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_630.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_631.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_632.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_633.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_634.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_635.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_638.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_639.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_640.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_643.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_644.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_646.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_646-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_646-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_647.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_647-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_659.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_660.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_674.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_675.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_677.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_678.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_678-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_679.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_680.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_681.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_681-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_682.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_683.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_684.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_685.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_686.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_687.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_688.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_689.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_694.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_695.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_700.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_701.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_704.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_705.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_706.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_708.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_709.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_710.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_710-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_710-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_710-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_711.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_711-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_711-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_711-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_712.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_713.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_714.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_715.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_722.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_723.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_724.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_725.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_726.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_727.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_728.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_729.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_730.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_736.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_737.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_738.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_742.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_743.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_746.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_746-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_747.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_748.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_749.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_750.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_751.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_752.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_755.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_756.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_757.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_758.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_759.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_760.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_761.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_762.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_763.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_765.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_766.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_767.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_768.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_771.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_772.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_773-17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_776.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_777.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_778.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_778-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_780.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_781.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_782.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_783.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_784.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_789.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_790.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_791.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_792.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_800.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_800-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_800-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_802.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_807.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_808.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_809.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_810.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_811.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_812.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_813.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_814.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_815.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_816.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_817.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_818.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_819.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_820.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_821.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_822.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_823.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_824.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_825.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_826.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_827.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_828.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_829.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_830.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_831.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_832.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_833.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_834.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_835.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_836.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_837.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_838.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_839.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_840.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_841.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_842.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_843.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_844.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_845.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_845-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_845-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_846.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_847.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_848.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_849.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_849-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_850.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_851.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_852.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_853.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_854.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_854-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_855.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_855-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_856.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_857.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_858.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_859.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_860.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_861.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_862.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_863.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_864.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_865.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_866.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_867.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_868.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_869-8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_870.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_871.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_872.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_873.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_874.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_875.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_875-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_876.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_876-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_877.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_877-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_878.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_879.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_880.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_881.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_882.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_883.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_884.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_885.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_886.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_887.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_888.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_888-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_889.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_889-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_890.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotDel68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotDrag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotDrag68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotHover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotHover68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotSet68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotTrans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotTrans68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\slotView68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\ball\_ball12.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

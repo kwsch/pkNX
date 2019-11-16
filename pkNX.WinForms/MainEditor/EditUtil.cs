@@ -35,7 +35,7 @@ namespace pkNX.WinForms
             var reader = new XmlSerializer(typeof(SharedSettings));
             try
             {
-                Settings = (SharedSettings) reader.Deserialize(file);
+                Settings = (SharedSettings) reader.Deserialize(file) ?? new SharedSettings();
             }
             catch (Exception e)
             {

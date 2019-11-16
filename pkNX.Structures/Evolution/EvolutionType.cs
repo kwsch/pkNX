@@ -45,6 +45,12 @@
         LevelUpDusk,
         LevelUpWormhole,
         UseItemWormhole,
+
+        U43, // Farfetch'd (1) with val 3? -> Sirfetch'd
+        U44, // Yamask (1) -> Runerigus (val 49) 
+        U45, // Milcery->Alcremie (Console Region==Form?) 
+        U46, // Toxel->Toxtricity (0)
+        U47, // Toxel->Toxtricity (1)
     }
 
     public enum EvolutionTypeArgumentType

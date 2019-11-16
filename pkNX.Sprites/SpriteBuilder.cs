@@ -1,141 +1,110 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using pkNX.Sprites.Properties;
 
 namespace pkNX.Sprites
 {
-    public static class SpriteBuilder
+    public abstract class SpriteBuilder
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
 
-        // Data Requests
-        public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        private const string ResourceSeparator = "_";
-        private const string ResourcePikachuCosplay = "c"; // osplay
-        private const string ResourceShiny = "s"; // hiny
-        private const string ResourceGGStarter = "p"; //artner
-        public static bool AllowShinySprite { get; set; } = true;
+        public abstract int Width { get; }
+        public abstract int Height { get; }
 
-        public const int Generation = 7;
+        protected abstract int ItemShiftX { get; }
+        protected abstract int ItemShiftY { get; }
+        protected abstract int ItemMaxSize { get; }
+        protected abstract int EggItemShiftX { get; }
+        protected abstract int EggItemShiftY { get; }
 
-        /// <summary>
-        /// Species that show their default Species sprite regardless of current form
-        /// </summary>
-        public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
-        {
-            414, // Mothim
-            493, // Arceus
-            664, // Scatterbug
-            665, // Spewpa
-            773, // Silvally
-            778, // Mimikyu
-        };
+        public abstract Bitmap Hover { get; }
+        public abstract Bitmap View { get; }
+        public abstract Bitmap Set { get; }
+        public abstract Bitmap Delete { get; }
+        public abstract Bitmap Transparent { get; }
+        public abstract Bitmap Drag { get; }
 
-        /// <summary>
-        /// Species that show a Gender specific Sprite
-        /// </summary>
-        public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
-        {
-            521, // Unfezant
-            592, // Frillish
-            593, // Jellicent
-            668, // Pyroar
-        };
+        private const double UnknownFormTransparency = 0.5;
+        private const double ShinyTransparency = 0.7;
+        private const double EggUnderLayerTransparency = 0.33;
 
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
-        {
-            if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
-                form = 0;
+        protected virtual string GetSpriteStringSpeciesOnly(int species) => $"_{species}";
+        protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected virtual string GetItemResourceName(int item) => $"item_{item}";
+        protected virtual Image Unknown => Resources.unknown;
+        protected virtual Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
 
-            var sb = new System.Text.StringBuilder();
-            { sb.Append(ResourceSeparator); sb.Append(species); }
-            if (form > 0)
-            { sb.Append(ResourceSeparator); sb.Append(form); }
-            else if (gender == 1 && SpeciesGenderedSprite.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-            { sb.Append(ResourceSeparator); sb.Append(gender); }
-
-            if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
-                sb.Append(ResourcePikachuCosplay);
-            else if ((species == 25 && form == 8) || (species == 133 && form == 1))
-                sb.Append(ResourceGGStarter);
-
-            if (shiny && AllowShinySprite)
-                sb.Append(ResourceShiny);
-            return sb.ToString();
-        }
-
-        public static Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1)
+        public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1)
         {
             if (species == 0)
                 return Resources._0;
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, generation);
-
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation);
         }
 
-        public static Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1)
+        public Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false)
         {
             if (isEgg)
                 baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
-            if (isShiny)
-                baseSprite = LayerOverImageShiny(baseSprite);
             if (heldItem > 0)
                 baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
+            if (isShiny)
+                baseSprite = LayerOverImageShiny(baseSprite);
             return baseSprite;
         }
 
-        private static Image GetBaseImage(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImage(int species, int form, int gender, bool shiny, int generation)
         {
             var img = FormConverter.IsTotemForm(species, form)
-                ? GetBaseImageTotem(species, form, gender, shiny, generation)
-                : GetBaseImageDefault(species, form, gender, shiny, generation);
+                        ? GetBaseImageTotem(species, form, gender, shiny, generation)
+                        : GetBaseImageDefault(species, form, gender, shiny, generation);
             return img ?? GetBaseImageFallback(species, form, gender, shiny, generation);
         }
 
-        private static Image GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
-            var file = GetResourceStringSprite(species, baseform, gender, generation, shiny);
-            var baseImage = (Image)Resources.ResourceManager.GetObject(file);
+            var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, generation);
+            if (baseImage == null)
+                return null;
             return ImageUtil.ToGrayscale(baseImage);
         }
 
-        private static Image GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
         {
-            var file = GetResourceStringSprite(species, form, gender, generation, shiny);
+            var file = GetSpriteAll(species, form, gender, shiny, generation);
             return (Image)Resources.ResourceManager.GetObject(file);
         }
 
-        private static Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
         {
-            Image baseImage;
             if (shiny) // try again without shiny
             {
-                var file = GetResourceStringSprite(species, form, gender, generation);
-                baseImage = (Image)Resources.ResourceManager.GetObject(file);
-                if (baseImage != null)
-                    return baseImage;
+                var img = GetBaseImageDefault(species, form, gender, false, generation);
+                if (img != null)
+                    return img;
             }
 
             // try again without form
-            baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
+            var baseImage = (Image)Resources.ResourceManager.GetObject(GetSpriteStringSpeciesOnly(species));
             if (baseImage == null) // failed again
-                return Resources.unknown;
-            return ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5);
+                return Unknown;
+            return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
         }
 
-        private static Image LayerOverImageItem(Image baseImage, int item, int generation)
+        private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
-            if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
+            Image itemimg = (Image)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.helditem;
+            if (2 <= generation && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.item_tm;
+            else if (generation >= 8 && (1130 <= item && item <= 1229)) // Gen8 TR
+                itemimg = Resources.bitem_tr;
 
-            // Redraw
-            int x = 22 + ((15 - itemimg.Width) / 2);
+            // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
+            int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
             if (x + itemimg.Width > baseImage.Width)
                 x = baseImage.Width - itemimg.Width;
-            int y = 15 + (15 - itemimg.Height);
+            int y = ItemShiftY + (ItemMaxSize - itemimg.Height);
             return ImageUtil.LayerImage(baseImage, itemimg, x, y);
         }
 
@@ -143,23 +112,17 @@ namespace pkNX.Sprites
         {
             // Add shiny star to top left of image.
             var rare = Resources.rare_icon;
-            return ImageUtil.LayerImage(baseImage, rare, 0, 0, 0.7);
+            return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
         }
 
-        private static Image LayerOverImageEgg(Image baseImage, int species, bool hasItem)
+        private Image LayerOverImageEgg(Image baseImage, int species, bool hasItem)
         {
             if (ShowEggSpriteAsItem && !hasItem)
                 return LayerOverImageEggAsItem(baseImage, species);
             return LayerOverImageEggTransparentSpecies(baseImage, species);
         }
 
-        private static Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
-
-        private const double EggUnderLayerTransparency = 0.33;
-        private const int EggOverLayerAsItemShiftX = 9;
-        private const int EggOverLayerAsItemShiftY = 2;
-
-        private static Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
+        private Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
         {
             // Partially transparent species.
             baseImage = ImageUtil.ChangeOpacity(baseImage, EggUnderLayerTransparency);
@@ -168,10 +131,60 @@ namespace pkNX.Sprites
             return ImageUtil.LayerImage(baseImage, egg, 0, 0);
         }
 
-        private static Image LayerOverImageEggAsItem(Image baseImage, int species)
+        private Image LayerOverImageEggAsItem(Image baseImage, int species)
         {
             var egg = GetEggSprite(species);
-            return ImageUtil.LayerImage(baseImage, egg, EggOverLayerAsItemShiftX, EggOverLayerAsItemShiftY); // similar to held item, since they can't have any
+            return ImageUtil.LayerImage(baseImage, egg, EggItemShiftX, EggItemShiftY); // similar to held item, since they can't have any
         }
+    }
+
+    /// <summary>
+    /// 30 high, 40 wide sprite builder
+    /// </summary>
+    public class SpriteBuilder3040 : SpriteBuilder
+    {
+        public override int Height => 30;
+        public override int Width => 40;
+
+        protected override int ItemShiftX => 22;
+        protected override int ItemShiftY => 15;
+        protected override int ItemMaxSize => 15;
+        protected override int EggItemShiftX => 9;
+        protected override int EggItemShiftY => 2;
+
+        public override Bitmap Hover => Resources.slotHover;
+        public override Bitmap View => Resources.slotView;
+        public override Bitmap Set => Resources.slotSet;
+        public override Bitmap Delete => Resources.slotDel;
+        public override Bitmap Transparent => Resources.slotTrans;
+        public override Bitmap Drag => Resources.slotDrag;
+    }
+
+    /// <summary>
+    /// 56 high, 68 wide sprite builder
+    /// </summary>
+    public class SpriteBuilder5668 : SpriteBuilder
+    {
+        public override int Height => 56;
+        public override int Width => 68;
+
+        protected override int ItemShiftX => 52;
+        protected override int ItemShiftY => 28;
+        protected override int ItemMaxSize => 32;
+        protected override int EggItemShiftX => 9;
+        protected override int EggItemShiftY => 2;
+
+        protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
+        protected override string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
+        protected override Image Unknown => Resources.b_0;
+        protected override Image GetEggSprite(int species) => Resources.egg; // no manaphy egg sprite (yet)
+
+        public override Bitmap Hover => Resources.slotHover68;
+        public override Bitmap View => Resources.slotView68;
+        public override Bitmap Set => Resources.slotSet68;
+        public override Bitmap Delete => Resources.slotDel68;
+        public override Bitmap Transparent => Resources.slotTrans68;
+        public override Bitmap Drag => Resources.slotDrag68;
     }
 }

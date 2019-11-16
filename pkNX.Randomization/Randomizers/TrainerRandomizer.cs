@@ -308,10 +308,17 @@ namespace pkNX.Randomization
         private static readonly int[] royal = { 081, 082, 083, 084, 185 };
 
         // 3 poke max
-        private static readonly int[] doubleTrainer =
+        private static readonly int[] MultiBattle_GG =
         {
             007, 008, 020, 021, 024, 025, 032, 033, 050, 051, // Jessie & James
             028, 029, 030, 031, // Rival vs Archer & Grunt
+        };
+
+        // 3 poke max
+        private static readonly int[] MultiBattle_SWSH =
+        {
+            156, 157, 158, 197, 198, 199, 225, 226, 227, // Hop
+            223, 224, // Sordward and Shielbert
         };
 
         private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
@@ -325,14 +332,19 @@ namespace pkNX.Randomization
             if (GameVersion.USUM.Contains(game))
                 return Legal.ImportantTrainers_USUM.ToDictionary(z => z, index => royal.Contains(index) ? 1 : 6);
             if (GameVersion.GG.Contains(game))
-                return Legal.ImportantTrainers_GG.ToDictionary(z => z, index => doubleTrainer.Contains(index) ? 3 : 6);
+                return Legal.ImportantTrainers_GG.ToDictionary(z => z, index => MultiBattle_GG.Contains(index) ? 3 : 6);
+            if (GameVersion.SWSH.Contains(game))
+                return Legal.ImportantTrainers_SWSH.ToDictionary(z => z, index => MultiBattle_SWSH.Contains(index) ? 3 : 6);
             return new Dictionary<int, int>();
         }
 
-        private static readonly int[] MasterTrainerGG = Enumerable.Range(72, 382 - 72 + 1).ToArray();
+        private static readonly int[] CrashClasses_GG = Enumerable.Range(72, 382 - 72 + 1).ToArray();
+        private static readonly int[] CrashClasses_SWSH = Enumerable.Range(219, 236 - 219 + 1).Concat(Legal.UnusedClasses_SWSH).ToArray();
 
         private static int[] GetSpecialClasses(GameVersion game)
         {
+            if (GameVersion.SWSH.Contains(game))
+                return Legal.SpecialClasses_SWSH;
             if (GameVersion.GG.Contains(game))
                 return Legal.SpecialClasses_GG;
             if (GameVersion.SM.Contains(game))
@@ -348,8 +360,10 @@ namespace pkNX.Randomization
 
         private static int[] GetCrashClasses(GameVersion game)
         {
+            if (GameVersion.SWSH.Contains(game))
+                return CrashClasses_SWSH;
             if (GameVersion.GG.Contains(game))
-                return MasterTrainerGG;
+                return CrashClasses_GG;
             return Array.Empty<int>();
         }
     }

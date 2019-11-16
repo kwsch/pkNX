@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
@@ -65,6 +64,7 @@ namespace pkNX.WinForms.Controls
                 Learn = ROM.Data.LevelUpData,
                 Mega = ROM.Data.MegaEvolutionData,
                 Personal = ROM.Data.PersonalData,
+                TMHM = Legal.TMHM_GG,
             };
             using var form = new PokeDataUI(editor, ROM);
             form.ShowDialog();
@@ -195,32 +195,22 @@ namespace pkNX.WinForms.Controls
                 file[0] = objs.SelectMany(z => z.Write()).ToArray();
         }
 
-        public void EditWild()
-        {
-            var ofd = new OpenFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
-            if (ofd.ShowDialog() != DialogResult.OK)
-                return;
-            var path = ofd.FileName;
-            if (!File.Exists(path))
-                return;
+        public void EditWild_GP() => PopWildEdit("encount_data_p.bin");
+        public void EditWild_GE() => PopWildEdit("encount_data_e.bin");
 
-            if (Path.GetExtension(path) != ".json" || new FileInfo(path).Length > 350_000)
-            {
-                WinFormsUtil.Alert("Not an expected json file.");
-                return;
-            }
-            var json = File.ReadAllText(path);
-            using var form = new GGWE(ROM, json);
+        private void PopWildEdit(string file)
+        {
+            var winner = Path.Combine(ROM.PathRomFS, "bin", "field", "param", "encount", file);
+            var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(winner);
+
+            using var form = new GGWE(ROM, obj);
             form.ShowDialog();
             var result = form.Result;
             if (string.IsNullOrWhiteSpace(result))
-                return; // no save
-
-            using var sfd = new SaveFileDialog { Filter = "json files (*.json)|*.json|All files (*.*)|*.*" };
-            if (sfd.ShowDialog() != DialogResult.OK)
                 return;
-            path = sfd.FileName;
-            File.WriteAllText(path, result);
+
+            var data = FlatBufferConverter.SerializeFrom(obj);
+            FileMitm.WriteAllBytes(winner, data);
         }
 
         public void EditShinyRate()

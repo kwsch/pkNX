@@ -1,0 +1,69 @@
+namespace pkNX.Structures;
+
+table EncounterArchive7b {
+  EncounterTables:[EncounterTable7b];
+}
+
+table EncounterTable7b {
+  ZoneID:ulong;
+  TrainerRankMin:uint;
+  TrainerRankMax:uint;
+  
+  GroundSpawnAllowed:bool;
+  GroundSpawnCountMax:uint;
+  GroundSpawnDuration:uint;
+  
+  GroundTableEncounterRate:uint;
+  GroundTableLevelMin:uint;
+  GroundTableLevelMax:uint;
+  GroundTableRandChanceTotal:uint;
+  GroundTable:[EncounterSlot7b];
+  
+  WaterSpawnAllowed:bool;
+  WaterSpawnCountMax:uint;
+  WaterSpawnDuration:uint;
+  
+  WaterTableEncounterRate:uint;
+  WaterTableLevelMin:uint;
+  WaterTableLevelMax:uint;
+  WaterTableRandChanceTotal:uint;
+  WaterTable:[EncounterSlot7b];
+  
+  OldRodTableEncounterRate:uint;
+  OldRodTableLevelMin:uint;
+  OldRodTableLevelMax:uint;
+  OldRodTableRandChanceTotal:uint;
+  OldRodTable:[EncounterSlot7b];
+  
+  GoodRodTableEncounterRate:uint;
+  GoodRodTableLevelMin:uint;
+  GoodRodTableLevelMax:uint;
+  GoodRodTableRandChanceTotal:uint;
+  GoodRodTable:[EncounterSlot7b];
+  
+  SuperRodTableEncounterRate:uint;
+  SuperRodTableLevelMin:uint;
+  SuperRodTableLevelMax:uint;
+  SuperRodTableRandChanceTotal:uint;
+  SuperRodTable:[EncounterSlot7b];
+  
+  SkySpawnAllowed:bool;
+  SkySpawnCountMax:uint;
+  SkySpawnDuration:uint;
+  
+  SkyTableEncounterRate:uint;
+  SkyTableLevelMin:uint;
+  SkyTableLevelMax:uint;
+  SkyTableRandChanceTotal:uint;
+  SkyTable:[EncounterSlot7b];
+}
+
+table EncounterSlot7b {
+  Probability:int;
+  Species:int;
+  Form:short;
+}
+
+root_type EncounterArchive7b;
+
+file_extension "bin";

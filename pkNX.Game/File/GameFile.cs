@@ -148,5 +148,11 @@
 
         /// <summary> Gift Pokémon data. </summary>
         EncounterGift,
+
+        /// <summary> Nest Data </summary>
+        NestData,
+
+        /// <summary> Wild Data </summary>
+        WildData,
     }
 }

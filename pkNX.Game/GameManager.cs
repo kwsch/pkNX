@@ -13,6 +13,7 @@ namespace pkNX.Game
         protected readonly TextManager Text; // GameText
         protected readonly GameFileMapping FileMap;
         public readonly GameInfo Info;
+        private int _language;
 
         public string PathExeFS => ROM.ExeFS;
         public string PathRomFS => ROM.RomFS;
@@ -20,7 +21,17 @@ namespace pkNX.Game
         /// <summary>
         /// Language to use when fetching string &amp; graphic assets.
         /// </summary>
-        public int Language { get; set; }
+        public int Language
+        {
+            get => _language;
+            set
+            {
+                if (value == _language)
+                    return;
+                _language = value;
+                Text?.ClearCache();
+            }
+        }
 
         /// <summary>
         /// Current <see cref="GameVersion"/> the data represents.
@@ -102,7 +113,9 @@ namespace pkNX.Game
         {
             return loc.Game switch
             {
-                GameVersion.GG => new GameManagerGG(loc, language),
+                GameVersion.GG => (GameManager)new GameManagerGG(loc, language),
+                GameVersion.SW => new GameManagerSWSH(loc, language),
+                GameVersion.SH => new GameManagerSWSH(loc, language),
                 _ => throw new ArgumentException(nameof(loc.Game))
             };
         }

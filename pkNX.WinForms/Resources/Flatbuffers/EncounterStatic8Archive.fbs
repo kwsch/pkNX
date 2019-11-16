@@ -1,0 +1,50 @@
+namespace pkNX.Structures;
+
+table EncounterStatic8Archive {
+  Encounters:[EncounterStatic8];
+}
+
+table EncounterStatic8 {
+  Hash1:ulong;
+  Hash2:ulong;
+
+  EV_Hp:ubyte;
+  EV_Atk:ubyte;
+  EV_Def:ubyte;
+  EV_SpAtk:ubyte;
+  EV_SpDef:ubyte;
+  EV_Spe:ubyte;
+  AltForm:byte;
+  DynamaxLevel:byte;
+  Field_0A:byte;
+
+  Hash3:ulong;
+
+  Field_0C:byte;
+
+  HeldItem:uint;
+
+  Level:byte;
+  Field_0F:uint;
+  Species:uint;
+  ShinyLock:uint;
+  Nature:uint;
+  Gender:byte;
+  IV_Hp:byte;
+  IV_Atk:byte;
+  IV_Def:byte;
+  IV_SpAtk:byte;
+  IV_SpDef:byte;
+  IV_Spe:byte;
+
+  Ability:uint;
+
+  Move0:uint;
+  Move1:uint;
+  Move2:uint;
+  Move3:uint;
+}
+
+root_type EncounterStatic8Archive;
+
+file_extension "bin";

@@ -37,21 +37,4 @@ namespace pkNX.Structures
         public int SpecialZ_ZMove { get => BitConverter.ToUInt16(Data, 0x50); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x50); }
         public bool LocalVariant { get => Data[0x52] == 1; set => Data[0x52] = (byte)(value ? 1 : 0); }
     }
-
-    /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SWSH"/> games.
-    /// </summary>
-    public sealed class PersonalInfoSWSH : PersonalInfoSM
-    {
-        public new const int SIZE = PersonalInfoSM.SIZE;
-
-        // todo: this is a copy of lgpe class
-        public PersonalInfoSWSH(byte[] data) : base(data)
-        {
-            TMHM = GetBits(Data, 0x28, 8); // only 60 TMs used
-            TypeTutors = GetBits(Data, 0x38, 1); // at most 8 flags used
-        }
-
-        public int GoSpecies { get => BitConverter.ToUInt16(Data, 0x48); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x48); }
-    }
 }

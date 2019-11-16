@@ -3,6 +3,8 @@
     public enum TextName
     {
         AbilityNames,
+        AbilityFlavor,
+
         MoveNames,
         MoveFlavor,
 
@@ -17,7 +19,10 @@
         TrainerNames,
         TrainerClasses,
         TrainerText,
-        metlist_000000,
+        metlist_00000,
+        metlist_30000,
+        metlist_40000,
+        metlist_60000,
         OPowerFlavor,
         MaisonTrainerNames,
         SuperTrainerNames,
@@ -26,6 +31,9 @@
 
         SpeciesClassifications,
         PokedexEntry1,
-        PokedexEntry2
+        PokedexEntry2,
+
+        RibbonMark,
+        MemoryFeelings
     }
 }

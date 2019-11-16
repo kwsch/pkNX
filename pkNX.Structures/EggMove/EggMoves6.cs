@@ -1,32 +1,31 @@
 ﻿using System;
-using System.IO;
 
 namespace pkNX.Structures
 {
-    public class EggMoves6 : EggMoves
+    public sealed class EggMoves6 : EggMoves
     {
-        public EggMoves6(byte[] data)
+        private static readonly EggMoves6 None = new EggMoves6(Array.Empty<int>());
+
+        private EggMoves6(int[] moves) : base(moves) { }
+
+        private static EggMoves6 Get(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = Array.Empty<int>(); return; }
+                return None;
 
-            using BinaryReader br = new BinaryReader(new MemoryStream(data));
-            Moves = new int[Count = br.ReadUInt16()];
-            for (int i = 0; i < Count; i++)
-                Moves[i] = br.ReadUInt16();
+            int count = BitConverter.ToInt16(data, 0);
+            var moves = new int[count];
+            for (int i = 0; i < moves.Length; i++)
+                moves[i] = BitConverter.ToInt16(data, 2 + (i * 2));
+            return new EggMoves6(moves);
         }
 
-        public override byte[] Write()
+        public static EggMoves6[] GetArray(byte[][] entries)
         {
-            Count = Moves.Length;
-            if (Count == 0) return Array.Empty<byte>();
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
-            bw.Write((ushort)Count);
-            for (int i = 0; i < Count; i++)
-                bw.Write((ushort)Moves[i]);
-
-            return ms.ToArray();
+            EggMoves6[] data = new EggMoves6[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Get(entries[i]);
+            return data;
         }
     }
 }

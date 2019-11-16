@@ -19,7 +19,7 @@ namespace pkNX.WinForms.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,156 @@ namespace pkNX.WinForms.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] BattleTowerPoke8Archive {
+            get {
+                object obj = ResourceManager.GetObject("BattleTowerPoke8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] BattleTowerTrainer8Archive {
+            get {
+                object obj = ResourceManager.GetObject("BattleTowerTrainer8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterArchive7b {
+            get {
+                object obj = ResourceManager.GetObject("EncounterArchive7b", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterArchive8 {
+            get {
+                object obj = ResourceManager.GetObject("EncounterArchive8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterGift8Archive {
+            get {
+                object obj = ResourceManager.GetObject("EncounterGift8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterNest8Archive {
+            get {
+                object obj = ResourceManager.GetObject("EncounterNest8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterStatic8Archive {
+            get {
+                object obj = ResourceManager.GetObject("EncounterStatic8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EncounterTrade8Archive {
+            get {
+                object obj = ResourceManager.GetObject("EncounterTrade8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] flatc {
+            get {
+                object obj = ResourceManager.GetObject("flatc", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NestHoleCrystalEncounter8Archive {
+            get {
+                object obj = ResourceManager.GetObject("NestHoleCrystalEncounter8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NestHoleDistributionEncounter8Archive {
+            get {
+                object obj = ResourceManager.GetObject("NestHoleDistributionEncounter8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NestHoleDistributionReward8Archive {
+            get {
+                object obj = ResourceManager.GetObject("NestHoleDistributionReward8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NestHoleLevel8Archive {
+            get {
+                object obj = ResourceManager.GetObject("NestHoleLevel8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] NestHoleReward8Archive {
+            get {
+                object obj = ResourceManager.GetObject("NestHoleReward8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Waza8 {
+            get {
+                object obj = ResourceManager.GetObject("Waza8", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

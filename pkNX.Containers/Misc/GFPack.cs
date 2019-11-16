@@ -99,24 +99,40 @@ namespace pkNX.Containers
 
         public int GetIndexFileName(ulong hash)
         {
+            var folder_ind = 0;
             foreach (var f in HashInFolder)
             {
                 int index = f.GetIndexFileName(hash);
                 if (index >= 0)
-                    return index;
+                    return folder_ind + index;
+                folder_ind += f.Files.Length;
             }
             return -1;
         }
 
         public int GetIndexFileName(string name)
         {
+            var folder_ind = 0;
             foreach (var f in HashInFolder)
             {
                 int index = f.GetIndexFileName(name);
                 if (index >= 0)
-                    return index;
+                    return folder_ind + index;
+                folder_ind += f.Files.Length;
             }
             return -1;
+        }
+
+        public byte[] GetDataFileName(string name)
+        {
+            int index = GetIndexFileName(name);
+            return DecompressedFiles[index];
+        }
+
+        public void SetDataFileName(string name, byte[] data)
+        {
+            int index = GetIndexFileName(name);
+            DecompressedFiles[index] = data;
         }
 
         public void LoadFiles(string[] directories, string parent, CompressionType type = CompressionType.Lz4)

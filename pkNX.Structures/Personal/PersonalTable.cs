@@ -55,7 +55,10 @@ namespace pkNX.Structures
                 case GameVersion.SM:
                 case GameVersion.USUM:
                 case GameVersion.GG: return PersonalInfoSM.SIZE;
-                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE; // todo
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE;
 
                 default: return -1;
             }

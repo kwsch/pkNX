@@ -165,8 +165,8 @@ namespace pkNX.WinForms
 
         private static void GetQuickFiller(PictureBox pb, TrainerPoke pk)
         {
-            var rawImg = SpriteBuilder.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny);
-            pb.Image = ImageUtil.ScaleImage((Bitmap)rawImg, 2);
+            var rawImg = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny);
+            pb.Image = ImageUtil.ResizeImage((Bitmap)rawImg, pb.Width, pb.Height);
         }
 
         // Top Level Functions
@@ -400,7 +400,7 @@ namespace pkNX.WinForms
             tr.Item4 = CB_Item_4.SelectedIndex;
             tr.Money = CB_Money.SelectedIndex;
             tr.Mode = (BattleMode)CB_Mode.SelectedIndex;
-            tr.AI = SaveAIBits();
+            tr.AI = SaveAIBits(tr.AI);
             if (tr is TrainerData7b b)
             {
                 b.Gift = CB_Gift.SelectedIndex;
@@ -414,11 +414,16 @@ namespace pkNX.WinForms
                 AIBits[i].Checked = ((val >> i) & 1) == 1;
         }
 
-        private uint SaveAIBits()
+        private uint SaveAIBits(uint oldval)
         {
-            uint val = 0;
+            uint val = oldval;
             for (int i = 0; i < AIBits.Length; i++)
-                val |= AIBits[i].Checked ? 1u << i : 0;
+            {
+                if (AIBits[i].Checked)
+                    val |= 1u << i;
+                else
+                    val &= ~(1u << i);
+            }
             return val;
         }
 
@@ -560,7 +565,7 @@ namespace pkNX.WinForms
                 Learn = learn,
                 RandMove = rmove,
                 RandSpec = rspec,
-                GetBlank = () => new TrainerPoke7b(), // this should probably be less specific
+                GetBlank = () => (Game.Info.SWSH ? (TrainerPoke)new TrainerPoke8() : new TrainerPoke7b()), // this should probably be less specific
             };
             trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject);
             return trand;

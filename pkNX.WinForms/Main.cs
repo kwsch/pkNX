@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using pkNX.Sprites;
 using pkNX.Structures;
 using pkNX.WinForms.Properties;
 using EditorBase = pkNX.WinForms.Controls.EditorBase;
@@ -145,6 +146,7 @@ namespace pkNX.WinForms
             Menu_Current.Enabled = true;
             EditUtil.LoadSettings(Editor.Game);
             EditUtil.SaveSettings(Editor.Game);
+            SpriteUtil.Initialize(editor.Game.GetGeneration() >= 8);
             System.Media.SystemSounds.Asterisk.Play();
         }
 

@@ -435,6 +435,12 @@
         Gen7,
 
         /// <summary>
+        /// Generation 8 Games
+        /// </summary>
+        /// <see cref="SWSH"/>
+        Gen8,
+
+        /// <summary>
         /// Generation 1/2 Game Boy Cartridge Era Only
         /// </summary>
         /// <remarks>

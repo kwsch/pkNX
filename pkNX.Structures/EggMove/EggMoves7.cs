@@ -1,34 +1,51 @@
 ﻿using System;
-using System.IO;
 
 namespace pkNX.Structures
 {
-    public class EggMoves7 : EggMoves
+    public sealed class EggMoves7 : EggMoves
     {
-        public EggMoves7(byte[] data)
-        {
-            if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = Array.Empty<int>(); return; }
+        private static readonly EggMoves7 None = new EggMoves7(Array.Empty<int>());
+        public readonly int FormTableIndex;
 
-            using BinaryReader br = new BinaryReader(new MemoryStream(data));
-            FormTableIndex = br.ReadUInt16();
-            Count = br.ReadUInt16();
-            Moves = new int[Count];
-            for (int i = 0; i < Count; i++)
-                Moves[i] = br.ReadUInt16();
+        private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
+
+        private static EggMoves7 Get(byte[] data)
+        {
+            if (data.Length < 4 || data.Length % 2 != 0)
+                return None;
+
+            int formIndex = BitConverter.ToInt16(data, 0);
+            int count = BitConverter.ToInt16(data, 2);
+            var moves = new int[count];
+            for (int i = 0; i < moves.Length; i++)
+                moves[i] = BitConverter.ToInt16(data, 4 + (i * 2));
+            return new EggMoves7(moves, formIndex);
         }
 
-        public override byte[] Write()
+        public static EggMoves7[] GetArray(byte[][] entries)
         {
-            Count = Moves.Length;
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
-            bw.Write((ushort)FormTableIndex);
-            bw.Write((ushort)Count);
-            for (int i = 0; i < Count; i++)
-                bw.Write((ushort)Moves[i]);
+            EggMoves7[] data = new EggMoves7[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Get(entries[i]);
+            return data;
+        }
 
-            return ms.ToArray();
+        private byte[] Set()
+        {
+            var data = new byte[2 + 2 + 2*Moves.Length];
+            BitConverter.GetBytes((ushort)FormTableIndex).CopyTo(data, 0);
+            BitConverter.GetBytes((ushort)Moves.Length).CopyTo(data, 2);
+            for (int i = 0; i < Moves.Length; i++)
+                BitConverter.GetBytes((ushort)Moves[i]).CopyTo(data, 4 + (2*i));
+            return data;
+        }
+
+        public static byte[][] SetArray(EggMoves7[] entries)
+        {
+            byte[][] data = new byte[entries.Length][];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = entries[i].Set();
+            return data;
         }
     }
 }

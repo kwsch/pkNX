@@ -11,17 +11,16 @@ namespace pkNX.WinForms
 {
     public sealed partial class GGWE : Form
     {
-        private readonly EncounterArchive Tables;
+        private readonly EncounterArchive7b Tables;
         private readonly GameManager ROM;
         private int entry = -1;
 
-        public GGWE(GameManager rom, string json)
+        public GGWE(GameManager rom, EncounterArchive7b obj)
         {
             InitializeComponent();
-            EncounterArchive obj = EncounterArchive.ReadJson(json);
             if (obj?.EncounterTables?[0]?.GroundTable == null)
             {
-                WinFormsUtil.Error("Bad json data provided.", $"Unable to parse to {nameof(EncounterArchive)} data.");
+                WinFormsUtil.Error("Bad data provided.", $"Unable to parse to {nameof(EncounterArchive7b)} data.");
                 Close();
             }
 
@@ -31,7 +30,7 @@ namespace pkNX.WinForms
             var species = (string[]) spec.Clone();
             species[0] = "";
             EncounterList.species = species;
-            var locs = rom.GetStrings(TextName.metlist_000000);
+            var locs = rom.GetStrings(TextName.metlist_00000);
 
             EL_Ground.Initialize();
             EL_Water.Initialize();
@@ -292,8 +291,6 @@ namespace pkNX.WinForms
             EL_Super.SaveCurrent();
             EL_Sky.SaveCurrent();
 
-            Result = Tables.WriteJson();
-            // Clipboard.SetText(Result);
             Close();
         }
 
@@ -373,7 +370,7 @@ namespace pkNX.WinForms
                 ApplyRand(area.SuperRodTable);
             }
 
-            void ApplyRand(IList<EncounterSlot> slots)
+            void ApplyRand(IList<EncounterSlot7b> slots)
             {
                 if (slots[0].Species == 0)
                     return;
@@ -420,15 +417,15 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private static IEnumerable<string> GetEncounterTableSummary(GameManager rom, EncounterArchive table)
+        private static IEnumerable<string> GetEncounterTableSummary(GameManager rom, EncounterArchive7b table)
         {
-            var locationNames = rom.GetStrings(TextName.metlist_000000);
+            var locationNames = rom.GetStrings(TextName.metlist_00000);
             var specs = rom.GetStrings(TextName.SpeciesNames);
 
             var locs = table.EncounterTables.Select(z => z.ZoneID);
             var names = GetNames(locs, locationNames);
             var dupeNamed = GetScreenedNames(names).ToArray();
-            return EncounterTableUtil.GetLines(table, dupeNamed, specs);
+            return EncounterTable7bUtil.GetLines(table, dupeNamed, specs);
         }
     }
 }

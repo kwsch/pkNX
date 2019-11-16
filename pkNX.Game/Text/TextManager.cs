@@ -13,6 +13,8 @@ namespace pkNX.Game
 
         private readonly Dictionary<TextName, string[]> Cache = new Dictionary<TextName, string[]>();
 
+        public void ClearCache() => Cache.Clear();
+
         public TextManager(GameVersion game, TextConfig config = null)
         {
             References = TextMapping.GetMapping(game);

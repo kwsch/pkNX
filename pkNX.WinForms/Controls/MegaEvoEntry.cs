@@ -31,8 +31,8 @@ namespace pkNX.WinForms
 
         private void ChangeSpecies(int form)
         {
-            PB_Base.Image = SpriteBuilder.GetSprite(Species, 0, 0, 0, false, false, 7);
-            PB_Preview.Image = SpriteBuilder.GetSprite(Species, form, 0, 0, false, false, 7);
+            PB_Base.Image = SpriteUtil.GetSprite(Species, 0, 0, 0, false, false, 7);
+            PB_Preview.Image = SpriteUtil.GetSprite(Species, form, 0, 0, false, false, 7);
             PB_Preview.Visible = PB_Base.Visible = L_Into.Visible = CB_Method.SelectedIndex > 0;
         }
 

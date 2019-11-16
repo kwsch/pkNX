@@ -82,13 +82,13 @@ namespace pkNX.WinForms
             if (!int.TryParse(dgv.Rows[row].Cells[2].Value?.ToString(), out var rate) || (uint)rate > 100)
                 dgv.Rows[row].Cells[3].Value = 0;
 
-            dgv.Rows[row].Cells[0].Value = SpriteBuilder.GetSprite(sp, form, 0, 0, false, false);
+            dgv.Rows[row].Cells[0].Value = SpriteUtil.GetSprite(sp, form, 0, 0, false, false);
         }
 
-        private EncounterSlot[] Slots;
+        private EncounterSlot7b[] Slots;
         public static string[] species;
 
-        public void LoadSlots(EncounterSlot[] slots)
+        public void LoadSlots(EncounterSlot7b[] slots)
         {
             Slots = slots;
 
@@ -117,7 +117,7 @@ namespace pkNX.WinForms
             }
         }
 
-        private void SaveRow(int row, EncounterSlot s)
+        private void SaveRow(int row, EncounterSlot7b s)
         {
             int sp = Array.IndexOf(species, dgv.Rows[row].Cells[1].Value ?? species[0]);
             string formstr = (dgv.Rows[row].Cells[2].Value ?? 0).ToString();

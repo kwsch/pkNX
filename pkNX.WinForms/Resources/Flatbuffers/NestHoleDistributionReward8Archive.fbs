@@ -1,0 +1,23 @@
+namespace pkNX.Structures;
+
+table NestHoleDistributionReward8Archive {
+  Tables:[NestHoleDistributionReward8Table];
+}
+
+table NestHoleDistributionReward8Table {
+  TableID:ulong;
+  Entries:[NestHoleDistributionReward8];
+}
+
+table NestHoleDistributionReward8 {
+    Value0:byte;
+    Value1:byte;
+    Value2:byte;
+    Value3:byte;
+    Value4:byte;
+    ItemID:ushort;
+}
+
+root_type NestHoleDistributionReward8Archive;
+
+file_extension "bin";

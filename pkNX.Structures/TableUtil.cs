@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,9 +74,27 @@ namespace pkNX.Structures
         private static IEnumerable<string> GetValues(object obj, Type type)
         {
             foreach (var z in type.GetProperties())
-                yield return z.GetValue(obj, null)?.ToString() ?? "";
+                yield return GetFormattedString(z.GetValue(obj, null));
+
             foreach (var z in type.GetFields())
-                yield return z.GetValue(obj)?.ToString() ?? "";
+                yield return GetFormattedString(z.GetValue(obj));
+        }
+
+        private static string GetFormattedString(object obj)
+        {
+            if (obj == null)
+                return string.Empty;
+            if (obj is ulong u)
+                return u.ToString("X16");
+            if (obj is IEnumerable x)
+                return string.Join("|", JoinEnumerator(x.GetEnumerator()).Select(v => v?.ToString() ?? string.Empty));
+            return obj.ToString();
+        }
+
+        private static IEnumerable<object> JoinEnumerator(IEnumerator x)
+        {
+            while (x.MoveNext())
+                yield return x.Current;
         }
     }
 }

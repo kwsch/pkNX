@@ -21,6 +21,7 @@ namespace pkNX.Structures
         public bool SM { get; private set; }
         public bool USUM { get; private set; }
         public bool GG { get; private set; }
+        public bool SWSH { get; private set; }
 
         public GameInfo(GameVersion game)
         {
@@ -40,6 +41,9 @@ namespace pkNX.Structures
                 GameVersion.SM => LoadSM,
                 GameVersion.USUM => LoadUSUM,
                 GameVersion.GG => LoadGG,
+                GameVersion.SW => LoadSWSH,
+                GameVersion.SH => LoadSWSH,
+                GameVersion.SWSH => LoadSWSH,
                 _ => throw new ArgumentException(nameof(game))
             };
         }
@@ -92,6 +96,16 @@ namespace pkNX.Structures
             MaxItemID = Legal.MaxItemID_7_GG;
             HeldItems = new ushort[1];
             MaxAbilityID = Legal.MaxAbilityID_7_GG;
+        }
+
+        private void LoadSWSH()
+        {
+            SWSH = true;
+            MaxSpeciesID = Legal.MaxSpeciesID_8;
+            MaxMoveID = Legal.MaxMoveID_8;
+            MaxItemID = Legal.MaxItemID_8;
+            HeldItems = new ushort[1];
+            MaxAbilityID = Legal.MaxAbilityID_8;
         }
     }
 }
