@@ -11,6 +11,7 @@ Similar to [pk3DS](https://github.com/kwsch/pk3ds) for the Nintendo 3DS, pkNX pr
 ## Features
 Supports the following games:
 * Let's Go, Pikachu! / Let's Go, Eevee!
+* Sword / Shield
 
 Editors can be launched from the program's main window after opening a dumped & unpacked ROM. 
 * To lessen read/write lag, data is only saved when the user cleanly quits the program. 
