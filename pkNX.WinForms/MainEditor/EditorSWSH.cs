@@ -189,20 +189,21 @@ namespace pkNX.WinForms.Controls
 
         private void PopWildEdit(string file)
         {
-            IFileContainer fp = ROM.GetFile(GameFile.NestData);
-            var data_table = new GFPack(fp[0]);
-            var s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_symbol_{file}.bin"));
-            var h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_{file}.bin"));
+            IFileContainer dp = ROM.GetFile(GameFile.NestData);
+            var fp = Path.Combine(ROM.PathRomFS, "bin", "archive", "field", "resident", file);
+            GFPack data_table = new GFPack(dp[0]);
+            EncounterArchive8 s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_symbol_{file}.bin"));
+            EncounterArchive8 h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_{file}.bin"));
 
             using var form = new SSWE(ROM, s, h);
             form.ShowDialog();
 
             var sd = FlatBufferConverter.SerializeFrom(s);
-            var hd = FlatBufferConverter.SerializeFrom(s);
+            var hd = FlatBufferConverter.SerializeFrom(h);
             data_table.SetDataFileName($"encount_symbol_{file}.bin", sd);
             data_table.SetDataFileName($"encount_{file}.bin", hd);
 
-            fp[0] = data_table.Write();
+            dp[0] = data_table.Write();
         }
 
         public void EditMasterDump()
