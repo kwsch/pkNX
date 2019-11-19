@@ -203,7 +203,7 @@
             // 
             // Tab_Sun
             // 
-            this.Tab_Sun.Controls.Add(this.SL_4);
+            this.Tab_Sun.Controls.Add(this.SL_5);
             this.Tab_Sun.Location = new System.Drawing.Point(104, 4);
             this.Tab_Sun.Name = "Tab_Sun";
             this.Tab_Sun.Size = new System.Drawing.Size(349, 632);
@@ -213,7 +213,7 @@
             // 
             // ST_Snowing
             // 
-            this.ST_Snowing.Controls.Add(this.SL_5);
+            this.ST_Snowing.Controls.Add(this.SL_4);
             this.ST_Snowing.Location = new System.Drawing.Point(104, 4);
             this.ST_Snowing.Name = "ST_Snowing";
             this.ST_Snowing.Size = new System.Drawing.Size(349, 632);
