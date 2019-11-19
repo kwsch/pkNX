@@ -189,9 +189,8 @@ namespace pkNX.WinForms.Controls
 
         private void PopWildEdit(string file)
         {
-            IFileContainer dp = ROM.GetFile(GameFile.NestData);
-            var fp = Path.Combine(ROM.PathRomFS, "bin", "archive", "field", "resident", file);
-            GFPack data_table = new GFPack(dp[0]);
+            IFileContainer fp = ROM.GetFile(GameFile.NestData);
+            GFPack data_table = new GFPack(fp[0]);
             EncounterArchive8 s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_symbol_{file}.bin"));
             EncounterArchive8 h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_{file}.bin"));
 
@@ -203,7 +202,7 @@ namespace pkNX.WinForms.Controls
             data_table.SetDataFileName($"encount_symbol_{file}.bin", sd);
             data_table.SetDataFileName($"encount_{file}.bin", hd);
 
-            dp[0] = data_table.Write();
+            fp[0] = data_table.Write();
         }
 
         public void EditMasterDump()
