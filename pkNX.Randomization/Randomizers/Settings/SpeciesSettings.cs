@@ -43,12 +43,16 @@ namespace pkNX.Randomization
         [Category(General), Description("Allows Generation 7 species when randomizing.")]
         public bool Gen7 { get; set; } = true;
 
+        /// <summary>Allows Generation 8 species when randomizing.</summary>
+        [Category(General), Description("Allows Generation 8 species when randomizing.")]
+        public bool Gen8 { get; set; } = true;
+
         /// <summary>Allows Legendary species when randomizing.</summary>
         [Category(Misc), Description("Allows Legendary species when randomizing.")]
         public bool Legends { get; set; } = false;
 
-        /// <summary>Allows Event-only species when randomizing.</summary>
-        [Category(Misc), Description("Allows Event-only species when randomizing.")]
+        /// <summary>Allows Event-only (Mythical) species when randomizing.</summary>
+        [Category(Misc), Description("Allows Event-only (Mythical) species when randomizing.")]
         public bool Events { get; set; } = false;
 
         /// <summary>Allows Shedinja as a random species when randomizing.</summary>
@@ -83,6 +87,7 @@ namespace pkNX.Randomization
             if (Gen5) AddGen5Species(list, maxSpecies);
             if (Gen6) AddGen6Species(list, maxSpecies);
             if (Gen7) AddGen7Species(list, maxSpecies);
+            if (Gen8) AddGen8Species(list, maxSpecies);
 
             if (generation == 7 && Gen1 && maxSpecies <= Legal.MaxSpeciesID_7_GG)
                 AddGGEvents(list);
@@ -184,6 +189,15 @@ namespace pkNX.Randomization
                 if (Events)
                     AddGGEvents(list);
             }
+        }
+
+        private void AddGen8Species(List<int> list, int maxSpecies)
+        {
+            if (maxSpecies <= Legal.MaxSpeciesID_7_GG)
+                return;
+            list.AddRange(Enumerable.Range(810, 78)); // Grookey - Dragapult
+            if (Legends) list.AddRange(Enumerable.Range(888, 3)); // Zacian, Zamazenta, Eternatus
+            // if (Events) list.AddRange(Enumerable.Range(891, 2)); // 2 Mythicals(?), currently stubbed
         }
 
         private static void AddGGEvents(List<int> list)
