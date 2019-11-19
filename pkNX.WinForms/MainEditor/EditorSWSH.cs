@@ -198,7 +198,7 @@ namespace pkNX.WinForms.Controls
             form.ShowDialog();
 
             var sd = FlatBufferConverter.SerializeFrom(s);
-            var hd = FlatBufferConverter.SerializeFrom(s);
+            var hd = FlatBufferConverter.SerializeFrom(h);
             data_table.SetDataFileName($"encount_symbol_{file}.bin", sd);
             data_table.SetDataFileName($"encount_{file}.bin", hd);
 
