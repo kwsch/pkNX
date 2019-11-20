@@ -38,8 +38,8 @@ namespace pkNX.Structures
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
                 var ability = e.Ability switch
                 {
-                    3 => " 4",
-                    4 => "-1",
+                    3 => "A3",
+                    4 => "A4",
                     _ => throw new Exception()
                 };
 
@@ -81,8 +81,8 @@ namespace pkNX.Structures
 
                 var ability = e.Ability switch
                 {
-                    3 => "Hidden",
-                    4 => "Any",
+                    3 => "A3",
+                    4 => "A4",
                     _ => throw new Exception()
                 };
                 yield return $"\tAbility: {ability}";
