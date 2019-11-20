@@ -85,6 +85,9 @@
             this.CHK_CanMega = new System.Windows.Forms.CheckBox();
             this.NUD_MegaForm = new System.Windows.Forms.NumericUpDown();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
+            this.L_DynamaxLevel = new System.Windows.Forms.Label();
+            this.CB_DynamaxLevel = new System.Windows.Forms.ComboBox();
+            this.CHK_Gigantamax = new System.Windows.Forms.CheckBox();
             this.Stats = new pkNX.WinForms.Controls.StatEditor();
             this.Tab_Moves = new System.Windows.Forms.TabPage();
             this.B_Clear = new System.Windows.Forms.Button();
@@ -750,6 +753,9 @@
             // 
             // Tab_Stats
             // 
+            this.Tab_Stats.Controls.Add(this.L_DynamaxLevel);
+            this.Tab_Stats.Controls.Add(this.CB_DynamaxLevel);
+            this.Tab_Stats.Controls.Add(this.CHK_Gigantamax);
             this.Tab_Stats.Controls.Add(this.Stats);
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
@@ -759,12 +765,54 @@
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
+            // L_DynamaxLevel
+            // 
+            this.L_DynamaxLevel.Location = new System.Drawing.Point(-24, 192);
+            this.L_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.L_DynamaxLevel.Name = "L_DynamaxLevel";
+            this.L_DynamaxLevel.Size = new System.Drawing.Size(120, 21);
+            this.L_DynamaxLevel.TabIndex = 45;
+            this.L_DynamaxLevel.Text = "Dynamax Level:";
+            this.L_DynamaxLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_DynamaxLevel
+            // 
+            this.CB_DynamaxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_DynamaxLevel.FormattingEnabled = true;
+            this.CB_DynamaxLevel.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.CB_DynamaxLevel.Location = new System.Drawing.Point(96, 192);
+            this.CB_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_DynamaxLevel.Name = "CB_DynamaxLevel";
+            this.CB_DynamaxLevel.Size = new System.Drawing.Size(40, 21);
+            this.CB_DynamaxLevel.TabIndex = 46;
+            // 
+            // CHK_Gigantamax
+            // 
+            this.CHK_Gigantamax.AutoSize = true;
+            this.CHK_Gigantamax.Location = new System.Drawing.Point(139, 195);
+            this.CHK_Gigantamax.Name = "CHK_Gigantamax";
+            this.CHK_Gigantamax.Size = new System.Drawing.Size(82, 17);
+            this.CHK_Gigantamax.TabIndex = 47;
+            this.CHK_Gigantamax.Text = "Gigantamax";
+            this.CHK_Gigantamax.UseVisualStyleBackColor = true;
+            // 
             // Stats
             // 
-            this.Stats.Location = new System.Drawing.Point(1, 1);
+            this.Stats.Location = new System.Drawing.Point(0, 1);
             this.Stats.Name = "Stats";
             this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(222, 195);
+            this.Stats.Size = new System.Drawing.Size(224, 218);
             this.Stats.TabIndex = 0;
             // 
             // Tab_Moves
@@ -1287,6 +1335,7 @@
             this.FLP_Mega.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MegaForm)).EndInit();
             this.Tab_Stats.ResumeLayout(false);
+            this.Tab_Stats.PerformLayout();
             this.Tab_Moves.ResumeLayout(false);
             this.GB_Moves.ResumeLayout(false);
             this.TC_trdata.ResumeLayout(false);
@@ -1407,6 +1456,9 @@
         private System.Windows.Forms.TabPage Tab_Mods;
         private System.Windows.Forms.Button B_Boost;
         private System.Windows.Forms.Button B_MaxAI;
+        private System.Windows.Forms.Label L_DynamaxLevel;
+        public System.Windows.Forms.ComboBox CB_DynamaxLevel;
+        public System.Windows.Forms.CheckBox CHK_Gigantamax;
     }
 }
 

@@ -75,6 +75,9 @@ namespace pkNX.Randomization
 
         [Category(Stats), Description("Picks a random valid ability for each PKM.")]
         public bool RandomAbilities { get; set; } = true;
+
+        [Category(Stats), Description("Makes all Dynamaxed PKM have a Dynamax Level of 10.")]
+        public bool MaxDynamaxLevel { get; set; } = true;
         #endregion
 
         #region Moves
