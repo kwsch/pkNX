@@ -228,6 +228,8 @@ namespace pkNX.Randomization
                 pk.Ability = (int)Util.Rand32() % 4;
             if (Settings.MaxIVs)
                 pk.IVs = new[] { 31, 31, 31, 31, 31, 31 };
+            if (Settings.MaxDynamaxLevel && pk is TrainerPoke8 c && c.DynamaxLevel != 0)
+                c.DynamaxLevel = 10;
 
             RandomizeEntryMoves(pk);
         }
@@ -317,7 +319,7 @@ namespace pkNX.Randomization
         // 3 poke max
         private static readonly int[] MultiBattle_SWSH =
         {
-            156, 157, 158, 197, 198, 199, 225, 226, 227, // Hop
+            156, 157, 158, 197, 198, 199, 225, 226, 227, 312, 313, 314, // Hop
             223, 224, // Sordward and Shielbert
         };
 

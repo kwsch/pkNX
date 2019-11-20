@@ -337,6 +337,11 @@ namespace pkNX.WinForms
                 FLP_HeldItem.Visible = FLP_Ability.Visible = false;
                 NUD_Friendship.Value = b.Friendship;
             }
+            else if (pkm is TrainerPoke8 c)
+            {
+                CB_DynamaxLevel.SelectedIndex = c.DynamaxLevel;
+                CHK_Gigantamax.Checked = c.CanGigantamax;
+            }
             else
             {
                 FLP_Friendship.Visible = FLP_Mega.Visible = false;
@@ -368,6 +373,12 @@ namespace pkNX.WinForms
             {
                 b.CanMegaEvolve = CHK_CanMega.Checked;
                 b.MegaFormChoice = (int) NUD_MegaForm.Value;
+            }
+
+            if (pk is TrainerPoke8 c)
+            {
+                c.DynamaxLevel = (byte) CB_DynamaxLevel.SelectedIndex;
+                c.CanGigantamax = CHK_Gigantamax.Checked;
             }
 
             return pk;
