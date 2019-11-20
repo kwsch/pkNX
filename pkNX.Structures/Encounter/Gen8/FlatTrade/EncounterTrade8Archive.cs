@@ -25,7 +25,7 @@ namespace pkNX.Structures
         public byte Field_0D { get; set; }
         public byte Field_0E { get; set; }
         public ulong Hash2 { get; set; }
-        public byte Gender { get; set; }
+        public byte OTGender { get; set; }
         public uint RequiredForm { get; set; }
         public uint RequiredSpecies { get; set; }
         public uint Nature { get; set; }
@@ -51,7 +51,7 @@ namespace pkNX.Structures
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
             var ability = $"Ability = {Ability}";
-            var gender = Gender == 0 ? "            " : $", Gender = {Gender - 1}";
+            var gender = $", OTGender = {OTGender}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm}";
             var tid = $", TID7 = {TrainerID}";
             var dyna = $", DynamaxLevel = {DynamaxLevel}";

@@ -21,7 +21,7 @@ table EncounterTrade8 {
   Feeling:ubyte;
   Intensity:ubyte;
   Hash2:ulong;
-  Gender:ubyte;
+  OTGender:ubyte;
   RequiredForm:ubyte;
   RequiredSpecies:uint;
   Nature:uint;
