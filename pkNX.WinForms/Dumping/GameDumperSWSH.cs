@@ -452,6 +452,11 @@ namespace pkNX.WinForms
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
             File.WriteAllLines(GetPath("nestCrystalPrettySword.txt"), dai_pretty_sw);
             File.WriteAllLines(GetPath("nestCrystalPrettyShield.txt"), dai_pretty_sh);
+
+            var dist_sw = TableUtil.GetTable( dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+            var dist_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+            File.WriteAllText(GetPath("nestDist_sw.txt"), dist_sw);
+            File.WriteAllText(GetPath("nestDist_sh.txt"), dist_sh);
         }
 
         private static readonly int[] LanguageIndexes = { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
