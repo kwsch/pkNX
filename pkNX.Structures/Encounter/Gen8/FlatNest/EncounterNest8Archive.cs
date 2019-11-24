@@ -51,7 +51,7 @@ namespace pkNX.Structures
                     if (e.Probabilities[i] == 0)
                         throw new Exception();
                 }
-                var rank = e.EncounterRank;
+                var rank = e.FlawlessIVs;
                 return $"            new EncounterStatic8N(Nest{index:00},{min},{max},{rank}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
             }
         }
@@ -74,9 +74,6 @@ namespace pkNX.Structures
             {
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
-                var rank = $"{e.EncounterRank + 1}-Star";
-                yield return $"{rank} {giga}{species[e.Species]}{form}";
-                yield return $"\tLv. {15 + (10 * e.EncounterRank)}-{20 + (10 * e.EncounterRank)}";
                 yield return $"\tGender: {new[] { "Random", "Male", "Female", "Genderless" }[e.Gender]}";
 
                 var ability = e.Ability switch
@@ -94,12 +91,12 @@ namespace pkNX.Structures
                 }
 
                 yield return "\tDrops:";
-                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, e.EncounterRank))
-                    yield return $"\t\t{entry.Values[e.EncounterRank],3}% {GetItemName(entry.ItemID)}";
+                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, e.FlawlessIVs))
+                    yield return $"\t\t{entry.Values[e.FlawlessIVs],3}% {GetItemName(entry.ItemID)}";
 
                 yield return "\tBonus Drops:";
-                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, e.EncounterRank))
-                    yield return $"\t\t{entry.Values[e.EncounterRank]} x {GetItemName(entry.ItemID)}";
+                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, e.FlawlessIVs))
+                    yield return $"\t\t{entry.Values[e.FlawlessIVs]} x {GetItemName(entry.ItemID)}";
 
                 yield return string.Empty;
             }
