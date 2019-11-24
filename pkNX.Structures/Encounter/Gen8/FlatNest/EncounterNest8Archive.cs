@@ -44,15 +44,15 @@ namespace pkNX.Structures
                 };
 
                 // calc min/max ranks
-                int min = Array.FindIndex(e.Probabilities, z => z != 0);
-                int max = Array.FindLastIndex(e.Probabilities, z => z != 0);
+                int min = e.MinRank;
+                int max = e.MaxRank;
                 for (int i = min; i < max; i++)
                 {
                     if (e.Probabilities[i] == 0)
                         throw new Exception();
                 }
-                var rank = e.FlawlessIVs;
-                return $"            new EncounterStatic8N(Nest{index:00},{min},{max},{rank}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
+                var flawless = e.FlawlessIVs;
+                return $"            new EncounterStatic8N(Nest{index:00},{min},{max},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
             }
         }
 
@@ -74,6 +74,9 @@ namespace pkNX.Structures
             {
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
+                var rank = $"{e.MinRank + 1}-Star";
+                yield return $"{rank} {giga}{species[e.Species]}{form}";
+                yield return $"\tLv. {15 + (10 * e.MinRank)}-{20 + (10 * e.MaxRank)}";
                 yield return $"\tGender: {new[] { "Random", "Male", "Female", "Genderless" }[e.Gender]}";
 
                 var ability = e.Ability switch
@@ -141,6 +144,9 @@ namespace pkNX.Structures
             get => (FixedAbility) Ability;
             set => Ability = (int) value;
         }
+
+        public int MinRank => Array.FindIndex(Probabilities, z => z != 0);
+        public int MaxRank => Array.FindLastIndex(Probabilities, z => z != 0);
     }
 
     public enum FixedAbility
