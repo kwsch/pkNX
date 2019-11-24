@@ -137,7 +137,7 @@ namespace pkNX.Structures
         public ulong BonusTableID { get; set; }
         public int[] Probabilities { get; set; }
         public int Gender { get; set; }
-        public int EncounterRank { get; set; }
+        public int FlawlessIVs { get; set; }
 
         public FixedAbility AbilityPermitted
         {

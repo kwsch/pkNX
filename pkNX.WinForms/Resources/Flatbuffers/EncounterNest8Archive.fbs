@@ -21,7 +21,7 @@ table EncounterNest8 {
     BonusTableID:ulong;
     Probabilities:[uint];
     Gender:byte;
-    EncounterRank:byte;
+    FlawlessIVs:byte;
 }
 
 root_type EncounterNest8Archive;
