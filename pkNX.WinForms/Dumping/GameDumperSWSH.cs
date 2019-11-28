@@ -297,6 +297,11 @@ namespace pkNX.WinForms
             File.WriteAllLines(GetPath("Encounters_Symbol_Sword.txt"), EncounterTable8Util.GetLines(encount_symbol_sw, zones, subtables, species));
             File.WriteAllLines(GetPath("Encounters_Shield.txt"), EncounterTable8Util.GetLines(encount_sh, zones, subtables, species));
             File.WriteAllLines(GetPath("Encounters_Symbol_Shield.txt"), EncounterTable8Util.GetLines(encount_symbol_sh, zones, subtables, species));
+
+            File.WriteAllBytes(GetPath("encounter_sw_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_sw), "sw"));
+            File.WriteAllBytes(GetPath("encounter_sh_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_sh), "sh"));
+            File.WriteAllBytes(GetPath("encounter_sw_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_symbol_sw), "sw"));
+            File.WriteAllBytes(GetPath("encounter_sh_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_symbol_sh), "sh"));
         }
 
         public void DumpNestEntries()
@@ -457,6 +462,29 @@ namespace pkNX.WinForms
             var dist_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
             File.WriteAllText(GetPath("nestDist_sw.txt"), dist_sw);
             File.WriteAllText(GetPath("nestDist_sh.txt"), dist_sh);
+
+            string[][] nestHex = new string[2][];
+            foreach (var game in new[] { 1, 2 })
+            {
+                var tables = dist_encounts.Tables.Where(z => z.GameVersion == game).ToList();
+                var encounters = tables.SelectMany((z, x) => z.GetSummary(speciesNames, x)).ToArray();
+
+                var path1 = GetPath($"nestHex{game}.txt");
+                File.WriteAllLines(path1, encounters);
+                nestHex[game - 1] = encounters;
+
+                var result = tables.Select(z => z.GetSummarySimple());
+                var path2 = GetPath($"nestDistFormat_{game}.txt");
+                File.WriteAllLines(path2, result);
+            }
+
+            var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
+            var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
+            var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
+
+            File.WriteAllLines(GetPath("hex_nestDistCommon.txt"), common);
+            File.WriteAllLines(GetPath("hex_nestDistSword.txt"), sword);
+            File.WriteAllLines(GetPath("hex_nestDistShield.txt"), shield);
         }
 
         private static readonly int[] LanguageIndexes = { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
