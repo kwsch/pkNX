@@ -24,13 +24,13 @@ table NestHoleDistributionEncounter8 {
     Field_08:uint;
     Field_09:uint;
     Field_0A:uint;
-    Field_0B:byte;
-    IsGigantamax:uint;
+    Ability:byte;
+    IsGigantamax:bool;
     DropTableID:ulong;
     BonusTableID:ulong;
     Probabilities:[uint];
-    Field_10:byte;
-    EncounterRank:byte;
+    Gender:byte;
+    FlawlessIVs:byte;
     Field_12:byte;
     Field_13:byte;
     Field_14:byte;

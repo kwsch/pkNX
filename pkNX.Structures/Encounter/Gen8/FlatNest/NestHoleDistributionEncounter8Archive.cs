@@ -37,9 +37,9 @@ namespace pkNX.Structures
 
             IEnumerable<string> PrettySummary(NestHoleDistributionEncounter8 e)
             {
-                var giga = e.IsGigantamax != 0 ? "Gigantamax " : string.Empty;
+                var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
-                var rank = $"{e.EncounterRank}-Star";
+                var rank = $"{e.FlawlessIVs}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {e.Level}";
                 yield return $"\tDynamax Level: {e.DynamaxLevel}";
@@ -68,12 +68,12 @@ namespace pkNX.Structures
                 }
 
                 yield return "\tDrops:";
-                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, e.EncounterRank - 1))
-                    yield return $"\t\t{entry.Values[e.EncounterRank - 1],3}% {GetItemName(entry.ItemID)}";
+                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, e.FlawlessIVs - 1))
+                    yield return $"\t\t{entry.Values[e.FlawlessIVs - 1],3}% {GetItemName(entry.ItemID)}";
 
                 yield return "\tBonus Drops:";
-                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, e.EncounterRank - 1))
-                    yield return $"\t\t{entry.Values[e.EncounterRank - 1]} x {GetItemName(entry.ItemID)}";
+                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, e.FlawlessIVs - 1))
+                    yield return $"\t\t{entry.Values[e.FlawlessIVs - 1]} x {GetItemName(entry.ItemID)}";
 
                 yield return string.Empty;
             }
@@ -97,6 +97,49 @@ namespace pkNX.Structures
                 return items[(int)itemID];
             }
         }
+
+
+        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
+        {
+            foreach (var entry in Entries)
+                yield return Summary(entry);
+            yield return string.Empty;
+
+            string Summary(NestHoleDistributionEncounter8 e)
+            {
+                var comment = $" // {species[e.Species]}{(e.AltForm == 0 ? string.Empty : "-" + e.AltForm)}";
+                var gender = e.Gender == 0 ? string.Empty : $", Gender = {e.Gender - 1}";
+                var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
+                var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
+                var moves = $", Moves = new[]{{ {e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000} }}";
+                var ability = e.Ability switch
+                {
+                    2 => "A2",
+                    3 => "A3",
+                    4 => "A4",
+                    _ => throw new Exception()
+                };
+
+                // calc min/max ranks
+                int min = e.MinRank;
+                int max = e.MaxRank;
+                for (int i = min; i < max; i++)
+                {
+                    if (e.Probabilities[i] == 0)
+                        throw new Exception();
+                }
+                var flawless = e.FlawlessIVs;
+                return $"            new EncounterStatic8ND({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga} }},{comment}";
+            }
+        }
+
+        public string GetSummarySimple()
+        {
+            var tableID = TableID.ToString("X16");
+            var tableData = TableUtil.GetTable(Entries);
+
+            return tableID + Environment.NewLine + tableData + Environment.NewLine;
+        }
     }
 
     public class NestHoleDistributionEncounter8
@@ -106,22 +149,22 @@ namespace pkNX.Structures
         public int AltForm { get; set; }
         public int Level { get; set; }
         public ushort DynamaxLevel { get; set; }
-        public uint Field_05 { get; set; }
+        public uint Field_05 { get; set; } // probably EVs
         public uint Field_06 { get; set; }
         public uint Field_07 { get; set; }
         public uint Field_08 { get; set; }
         public uint Field_09 { get; set; }
         public uint Field_0A { get; set; }
-        public byte Field_0B { get; set; }
-        public int IsGigantamax { get; set; }
+        public byte Ability { get; set; }
+        public bool IsGigantamax { get; set; }
         public ulong DropTableID { get; set; }
         public ulong BonusTableID { get; set; }
         public int[] Probabilities { get; set; }
-        public byte Field_10 { get; set; }
-        public byte EncounterRank { get; set; }
+        public byte Gender { get; set; }
+        public byte FlawlessIVs { get; set; }
         public byte Field_12 { get; set; }
-        public byte Field_13 { get; set; }
-        public byte Field_14 { get; set; }
+        public byte Field_13 { get; set; } // 3/4
+        public byte Field_14 { get; set; } // 3/4/5 -- +1 for second entries
         public byte Nature { get; set; }
         public int Field_16 { get; set; }
         public uint Move0 { get; set; }
@@ -131,12 +174,15 @@ namespace pkNX.Structures
         public float DynamaxBoost { get; set; }
         public uint Field_1C { get; set; }
         public uint Field_1D { get; set; }
-        public uint Field_1E { get; set; }
-        public uint Field_1F { get; set; }
-        public uint Field_20 { get; set; }
-        public uint Field_21 { get; set; }
-        public uint Field_22 { get; set; }
-        public uint Field_23 { get; set; }
-        public uint Field_24 { get; set; }
+        public uint Field_1E { get; set; } // Shield
+        public uint Field_1F { get; set; } // % only if move
+        public uint Field_20 { get; set; } // Move ID
+        public uint Field_21 { get; set; } // Shield only if move
+        public uint Field_22 { get; set; } // % only if move
+        public uint Field_23 { get; set; } // Move ID
+        public uint Field_24 { get; set; } // shield? only if move
+
+        public int MinRank => Array.FindIndex(Probabilities, z => z != 0);
+        public int MaxRank => Array.FindLastIndex(Probabilities, z => z != 0);
     }
 }
