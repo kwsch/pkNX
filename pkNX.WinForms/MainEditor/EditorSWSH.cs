@@ -191,11 +191,20 @@ namespace pkNX.WinForms.Controls
         {
             IFileContainer fp = ROM.GetFile(GameFile.NestData);
             var data_table = new GFPack(fp[0]);
-            var s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_symbol_{file}.bin"));
-            var h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName($"encount_{file}.bin"));
+            var sdo = data_table.GetDataFileName($"encount_symbol_{file}.bin");
+            var hdo = data_table.GetDataFileName($"encount_{file}.bin");
+            var s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(sdo);
+            var h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(hdo);
+            while (s.EncounterTables[0].SubTables.Length != 9)
+            {
+                s = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(sdo);
+                h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(hdo);
+            }
 
             using var form = new SSWE(ROM, s, h);
             form.ShowDialog();
+            if (!form.Saved)
+                return;
 
             var sd = FlatBufferConverter.SerializeFrom(s);
             var hd = FlatBufferConverter.SerializeFrom(h);

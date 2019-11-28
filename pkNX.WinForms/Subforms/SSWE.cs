@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,7 +12,6 @@ namespace pkNX.WinForms
 {
     public sealed partial class SSWE : Form
     {
-        private static readonly IReadOnlyDictionary<ulong, string> DictHash = SWSHInfo.Zones;
         private readonly EncounterArchive8 Symbols;
         private readonly EncounterArchive8 Hidden;
         private readonly GameManager ROM;
@@ -40,14 +40,33 @@ namespace pkNX.WinForms
             LoadLocations();
         }
 
+        private class LocationHash
+        {
+            public ulong Hash { get; }
+            public string LocationName { get; }
+
+            public LocationHash(ulong hash, string loc)
+            {
+                Hash = hash;
+                LocationName = loc;
+            }
+        }
+
+        public bool Saved { get; private set; }
+
         public void LoadLocations()
         {
-            var sl = Symbols.EncounterTables.Select(z => z.ZoneID);
-            var hl = Hidden.EncounterTables.Select(z => z.ZoneID);
-            var locs = sl.Concat(hl).Select(z => DictHash[z]).OrderBy(z => z).ToArray();
+            var sl = Symbols.EncounterTables
+                .Select(area => new LocationHash(area.ZoneID, SWSHInfo.Zones[area.ZoneID] + " [S]"));
+            var hl = Hidden.EncounterTables
+                .Select(area => new LocationHash(area.ZoneID, SWSHInfo.Zones[area.ZoneID] + " [H]"));
+            var locs = sl.Concat(hl)
+                .OrderBy(z => z.LocationName)
+                .ToArray();
 
-            CB_Location.Items.Clear();
-            CB_Location.Items.AddRange(locs);
+            CB_Location.ValueMember = nameof(LocationHash.Hash);
+            CB_Location.DisplayMember = nameof(LocationHash.LocationName);
+            CB_Location.DataSource = new BindingSource(locs, null);
 
             CB_Location.SelectedIndex = 0;
         }
@@ -55,9 +74,9 @@ namespace pkNX.WinForms
         private void CB_Location_SelectedIndexChanged(object sender, EventArgs e)
         {
             SaveEntry(entry);
-            var item = CB_Location.Items[CB_Location.SelectedIndex].ToString();
-            var obj = DictHash.First(z => z.Value == item);
-            entry = obj.Key;
+            var item = (LocationHash)CB_Location.SelectedItem;
+            entry = item.Hash;
+            Debug.WriteLine($"Loading area data for [0x{entry:X16}] {item.LocationName}");
             L_Hash.Text = entry.ToString("X16");
             LoadEntry(entry);
         }
@@ -96,6 +115,7 @@ namespace pkNX.WinForms
                 return;
 
             Save(SL, Symbols);
+            Save(SL, Hidden);
             void Save(EncounterList8[] arr, EncounterArchive8 arc)
             {
                 var table = Array.Find(arc.EncounterTables, z => z.ZoneID == zone);
@@ -116,6 +136,7 @@ namespace pkNX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveEntry(entry);
+            Saved = true;
             Close();
         }
 
