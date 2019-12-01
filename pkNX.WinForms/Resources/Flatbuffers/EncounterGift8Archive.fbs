@@ -1,7 +1,7 @@
 namespace pkNX.Structures;
 
 table EncounterGift8Archive {
-  Encounters:[EncounterGift8];
+  Table:[EncounterGift8];
 }
 
 table EncounterGift8 {

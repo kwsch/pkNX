@@ -266,7 +266,7 @@ namespace pkNX.WinForms
         {
             var path = ROM.GetFile(GameFile.EncounterGift).FilePath;
             var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(path);
-            var table = TableUtil.GetTable(gifts.Encounters);
+            var table = TableUtil.GetTable(gifts.Table);
             var fn = GetPath("GiftEncounters.txt");
             File.WriteAllText(fn, table);
         }
@@ -275,7 +275,7 @@ namespace pkNX.WinForms
         {
             var path = ROM.GetFile(GameFile.EncounterStatic).FilePath;
             var gifts = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(path);
-            var table = TableUtil.GetTable(gifts.Encounters);
+            var table = TableUtil.GetTable(gifts.Table);
             var fn = GetPath("StaticEncounters.txt");
             File.WriteAllText(fn, table);
         }

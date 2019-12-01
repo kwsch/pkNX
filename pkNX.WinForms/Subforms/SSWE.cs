@@ -52,7 +52,7 @@ namespace pkNX.WinForms
             }
         }
 
-        public bool Saved { get; private set; }
+        public bool Modified { get; private set; }
 
         public void LoadLocations()
         {
@@ -136,7 +136,7 @@ namespace pkNX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveEntry(entry);
-            Saved = true;
+            Modified = true;
             Close();
         }
 

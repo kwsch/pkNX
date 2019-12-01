@@ -1,7 +1,7 @@
 namespace pkNX.Structures;
 
 table EncounterStatic8Archive {
-  Encounters:[EncounterStatic8];
+  Table:[EncounterStatic8];
 }
 
 table EncounterStatic8 {

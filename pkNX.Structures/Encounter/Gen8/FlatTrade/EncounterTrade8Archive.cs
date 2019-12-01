@@ -2,7 +2,7 @@
 
 namespace pkNX.Structures
 {
-    public class EncounterTrade8Archive
+    public class EncounterTrade8Archive : IFlatBufferArchive<EncounterTrade8>
     {
         public EncounterTrade8[] Table { get; set; }
     }

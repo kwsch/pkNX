@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
@@ -203,7 +204,7 @@ namespace pkNX.WinForms.Controls
 
             using var form = new SSWE(ROM, s, h);
             form.ShowDialog();
-            if (!form.Saved)
+            if (!form.Modified)
                 return;
 
             var sd = FlatBufferConverter.SerializeFrom(s);
@@ -212,6 +213,49 @@ namespace pkNX.WinForms.Controls
             data_table.SetDataFileName($"encount_{file}.bin", hd);
 
             fp[0] = data_table.Write();
+        }
+
+        public void EditStatic()
+        {
+            var arc = ROM.GetFile(GameFile.EncounterStatic);
+            var data = arc[0];
+            if (CreateGenericEditor<EncounterStatic8Archive, EncounterStatic8>(ref data, "Static Encounters"))
+                arc[0] = data;
+        }
+
+        public void EditGift()
+        {
+            var arc = ROM.GetFile(GameFile.EncounterGift);
+            var data = arc[0];
+            if (CreateGenericEditor<EncounterGift8Archive, EncounterGift8>(ref data, "Gift Encounters"))
+                arc[0] = data;
+        }
+
+        public void EditTrade()
+        {
+            var arc = ROM.GetFile(GameFile.EncounterTrade);
+            var data = arc[0];
+            if (CreateGenericEditor<EncounterTrade8Archive, EncounterTrade8>(ref data, "Trade Encounters"))
+                arc[0] = data;
+        }
+
+        private bool CreateGenericEditor<TA, T1>(ref byte[] data, string title, string[] names = null) where TA : IFlatBufferArchive<T1> where T1 : class
+        {
+            var objs = FlatBufferConverter.DeserializeFrom<TA>(data);
+            if (names == null)
+                names = Enumerable.Range(1, objs.Table.Length).Select(z => z.ToString()).ToArray();
+            var result = PopEdit(objs.Table, title, names);
+            if (result)
+                data = FlatBufferConverter.SerializeFrom(objs);
+            return result;
+        }
+
+        private bool PopEdit<T>(T[] data, string title, string[] names) where T : class
+        {
+            var cache = new DirectCache<T>(data);
+            using var form = new GenericEditor<T>(cache, names, title);
+            form.ShowDialog();
+            return form.Modified;
         }
 
         public void EditMasterDump()
