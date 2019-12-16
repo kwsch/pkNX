@@ -71,6 +71,8 @@ namespace pkNX.WinForms
             PG_Moves.SelectedObject = EditUtil.Settings.Move;
             PG_RTrainer.SelectedObject = EditUtil.Settings.Trainer;
             PG_Species.SelectedObject = EditUtil.Settings.Species;
+
+            L_Gift.Visible = CB_Gift.Visible = NUD_GiftCount.Visible = Game.Info.GG;
         }
 
         public bool Modified { get; set; }
@@ -165,8 +167,7 @@ namespace pkNX.WinForms
 
         private static void GetQuickFiller(PictureBox pb, TrainerPoke pk)
         {
-            var rawImg = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny);
-            pb.Image = ImageUtil.ResizeImage((Bitmap)rawImg, pb.Width, pb.Height);
+            pb.Image = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny);
         }
 
         // Top Level Functions
@@ -334,18 +335,17 @@ namespace pkNX.WinForms
             {
                 CHK_CanMega.Checked = b.CanMegaEvolve;
                 NUD_MegaForm.Value = b.MegaFormChoice;
-                FLP_HeldItem.Visible = FLP_Ability.Visible = false;
                 NUD_Friendship.Value = b.Friendship;
+                FLP_HeldItem.Visible = FLP_Ability.Visible = false;
+                L_DynamaxLevel.Visible = CB_DynamaxLevel.Visible = CHK_Gigantamax.Visible = false;
             }
             else if (pkm is TrainerPoke8 c)
             {
                 CB_DynamaxLevel.SelectedIndex = c.DynamaxLevel;
                 CHK_Gigantamax.Checked = c.CanGigantamax;
-            }
-            else
-            {
                 FLP_Friendship.Visible = FLP_Mega.Visible = false;
                 FLP_HeldItem.Visible = FLP_Ability.Visible = true;
+                L_DynamaxLevel.Visible = CB_DynamaxLevel.Visible = CHK_Gigantamax.Visible = true;
             }
 
             Stats.LoadStats(pkm);
@@ -566,8 +566,18 @@ namespace pkNX.WinForms
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
             int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
             rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
+            int[] ban = new int[0];
+
+            if (Game.Info.SWSH)
+            {
+                var pt = Game.Data.PersonalData;
+                ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+            }
+
             var rspec = new SpeciesRandomizer(Game.Info, Personal);
-            rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject);
+            rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject, ban);
             learn.Moves = moves;
             var evos = Game.Data.EvolutionData;
             var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll(), evos.LoadAll())

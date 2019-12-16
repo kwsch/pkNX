@@ -302,7 +302,7 @@
             // L_Team
             // 
             this.L_Team.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Team.Location = new System.Drawing.Point(-19, 353);
+            this.L_Team.Location = new System.Drawing.Point(-4, 358);
             this.L_Team.Name = "L_Team";
             this.L_Team.Size = new System.Drawing.Size(66, 15);
             this.L_Team.TabIndex = 445;
@@ -314,9 +314,9 @@
             this.PB_Team1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team1.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team1.Location = new System.Drawing.Point(53, 330);
+            this.PB_Team1.Location = new System.Drawing.Point(72, 333);
             this.PB_Team1.Name = "PB_Team1";
-            this.PB_Team1.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team1.Size = new System.Drawing.Size(70, 58);
             this.PB_Team1.TabIndex = 444;
             this.PB_Team1.TabStop = false;
             // 
@@ -352,9 +352,9 @@
             this.PB_Team2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team2.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team2.Location = new System.Drawing.Point(139, 330);
+            this.PB_Team2.Location = new System.Drawing.Point(158, 333);
             this.PB_Team2.Name = "PB_Team2";
-            this.PB_Team2.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team2.Size = new System.Drawing.Size(70, 58);
             this.PB_Team2.TabIndex = 443;
             this.PB_Team2.TabStop = false;
             // 
@@ -363,9 +363,9 @@
             this.PB_Team3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team3.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team3.Location = new System.Drawing.Point(225, 330);
+            this.PB_Team3.Location = new System.Drawing.Point(244, 333);
             this.PB_Team3.Name = "PB_Team3";
-            this.PB_Team3.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team3.Size = new System.Drawing.Size(70, 58);
             this.PB_Team3.TabIndex = 442;
             this.PB_Team3.TabStop = false;
             // 
@@ -374,9 +374,9 @@
             this.PB_Team4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team4.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team4.Location = new System.Drawing.Point(311, 330);
+            this.PB_Team4.Location = new System.Drawing.Point(330, 333);
             this.PB_Team4.Name = "PB_Team4";
-            this.PB_Team4.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team4.Size = new System.Drawing.Size(70, 58);
             this.PB_Team4.TabIndex = 441;
             this.PB_Team4.TabStop = false;
             // 
@@ -385,9 +385,9 @@
             this.PB_Team5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team5.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team5.Location = new System.Drawing.Point(397, 330);
+            this.PB_Team5.Location = new System.Drawing.Point(416, 333);
             this.PB_Team5.Name = "PB_Team5";
-            this.PB_Team5.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team5.Size = new System.Drawing.Size(70, 58);
             this.PB_Team5.TabIndex = 440;
             this.PB_Team5.TabStop = false;
             // 
@@ -396,9 +396,9 @@
             this.PB_Team6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team6.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team6.Location = new System.Drawing.Point(483, 330);
+            this.PB_Team6.Location = new System.Drawing.Point(502, 333);
             this.PB_Team6.Name = "PB_Team6";
-            this.PB_Team6.Size = new System.Drawing.Size(82, 62);
+            this.PB_Team6.Size = new System.Drawing.Size(70, 58);
             this.PB_Team6.TabIndex = 439;
             this.PB_Team6.TabStop = false;
             // 
@@ -767,7 +767,7 @@
             // 
             // L_DynamaxLevel
             // 
-            this.L_DynamaxLevel.Location = new System.Drawing.Point(-24, 192);
+            this.L_DynamaxLevel.Location = new System.Drawing.Point(-24, 194);
             this.L_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             this.L_DynamaxLevel.Name = "L_DynamaxLevel";
             this.L_DynamaxLevel.Size = new System.Drawing.Size(120, 21);
@@ -791,7 +791,7 @@
             "8",
             "9",
             "10"});
-            this.CB_DynamaxLevel.Location = new System.Drawing.Point(96, 192);
+            this.CB_DynamaxLevel.Location = new System.Drawing.Point(96, 194);
             this.CB_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             this.CB_DynamaxLevel.Name = "CB_DynamaxLevel";
             this.CB_DynamaxLevel.Size = new System.Drawing.Size(40, 21);
@@ -800,7 +800,7 @@
             // CHK_Gigantamax
             // 
             this.CHK_Gigantamax.AutoSize = true;
-            this.CHK_Gigantamax.Location = new System.Drawing.Point(139, 195);
+            this.CHK_Gigantamax.Location = new System.Drawing.Point(139, 197);
             this.CHK_Gigantamax.Name = "CHK_Gigantamax";
             this.CHK_Gigantamax.Size = new System.Drawing.Size(82, 17);
             this.CHK_Gigantamax.TabIndex = 47;
@@ -812,7 +812,7 @@
             this.Stats.Location = new System.Drawing.Point(0, 1);
             this.Stats.Name = "Stats";
             this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(224, 218);
+            this.Stats.Size = new System.Drawing.Size(224, 190);
             this.Stats.TabIndex = 0;
             // 
             // Tab_Moves

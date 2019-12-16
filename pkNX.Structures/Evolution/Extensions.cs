@@ -56,11 +56,11 @@ namespace pkNX.Structures
             [LevelUpWormhole] = Level,
             [UseItemWormhole] = Items,
 
-            [U43] = Version, // Farfetch'd (1) with val 3? -> Sirfetch'd
-            [U44] = Version, // Yamask (1) -> Runerigus (val 49)
-            [U45] = Version, // Milcery->Alcremie (Console Region==Form?)
-            [U46] = Version, // Toxel->Toxtricity (0)
-            [U47] = Version, // Toxel->Toxtricity (1)
+            [CriticalHitsInBattle] = Version,
+            [HitPointsLostInBattle] = Version,
+            [Spin] = NoArg,
+            [LevelUpNatureAmped] = NoArg,
+            [LevelUpNatureLowKey] = NoArg,
         };
 
         public static EvolutionTypeArgumentType GetArgType(this EvolutionType t) => ArgType[t];

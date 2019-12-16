@@ -203,9 +203,20 @@ namespace pkNX.WinForms
             LoadEvolutions(Editor.Evolve[index]);
             if (Editor.Mega != null)
                 LoadMegas(Editor.Mega[index], spec);
-            var img = SpriteUtil.GetSprite(spec, form, 0, 0, false, false);
-            img = ImageUtil.ResizeImage((Bitmap)img, PB_MonSprite.Width, PB_MonSprite.Height);
-            PB_MonSprite.Image = img;
+            Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false);
+            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            for (int x = 0; x < rawImg.Width; x++)
+            {
+                for (int y = 0; y < rawImg.Height; y++)
+                {
+                    Color c = rawImg.GetPixel(x, y);
+                    bigImg.SetPixel(2 * x, 2 * y, c);
+                    bigImg.SetPixel((2 * x) + 1, 2 * y, c);
+                    bigImg.SetPixel(2 * x, (2 * y) + 1, c);
+                    bigImg.SetPixel((2 * x) + 1, (2 * y) + 1, c);
+                }
+            }
+            PB_MonSprite.Image = bigImg;
         }
 
         private void SaveCurrent()

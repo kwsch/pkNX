@@ -6,7 +6,7 @@ namespace pkNX.Structures
 {
     public static partial class Legal
     {
-        public static int GetRandomForme(int species, bool mega, bool alola, PersonalTable stats)
+        public static int GetRandomForme(int species, bool mega, bool alola, bool galar, PersonalTable stats)
         {
             if (stats == null)
                 return 0;
@@ -19,11 +19,20 @@ namespace pkNX.Structures
                 return 30; // save file specific
             if (species == 774) // minior
                 return Util.Rand.Next(7);
+            if (species == 890) // Eternatus
+                return 0;
+
+            if (galar && species == 052) // Galarian Meowth is altform 2
+                return Util.Rand.Next(3);
+            if (galar && species == 555) // Galarian Darmanitan is altform 2, Galarian Zen is altform 3
+                return Util.Rand.Next(4);
 
             if (stats.TableLength == 980 && (species == 25 || species == 133)) // gg tableB -- no starters, they crash trainer battles.
                 return 0; // Pikachu
             if (EvolveToAlolanForms.Contains(species))
                 return alola ? Util.Rand.Next(2) : 0;
+            if (EvolveToGalarForms.Contains(species))
+                return galar ? Util.Rand.Next(2) : 0;
             if (!BattleExclusiveForms.Contains(species) || mega)
                 return Util.Rand.Next(stats[species].FormeCount); // Slot-Random
             return 0;
@@ -47,14 +56,17 @@ namespace pkNX.Structures
 
         public static int[] GetRandomItemList(GameVersion game)
         {
-            if (GameVersion.ORAS.Contains(game) || game == GameVersion.ORASDEMO)
-                return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();
-
             if (GameVersion.XY.Contains(game))
                 return Items_HeldXY.Concat(Items_Ball).Where(i => i != 0).ToArray();
 
+            if (GameVersion.ORAS.Contains(game) || game == GameVersion.ORASDEMO)
+                return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();
+
             if (GameVersion.SM.Contains(game) || GameVersion.USUM.Contains(game))
                 return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
+
+            if (GameVersion.SWSH.Contains(game))
+                return HeldItems_SWSH.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
 
             return new int[1];
         }

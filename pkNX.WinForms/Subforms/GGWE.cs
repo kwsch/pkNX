@@ -349,18 +349,29 @@ namespace pkNX.WinForms
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
             var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
             rand.Initialize(settings, 808, 809);
-            RandomizeWild(rand, CHK_FillEmpty.Checked);
+            RandomizeWild(rand, CHK_FillEmpty.Checked, CHK_Level.Checked);
             LoadEntry(entry);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void RandomizeWild(SpeciesRandomizer rand, bool fill)
+        private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool boost)
         {
             var pt = ROM.Data.PersonalData;
             bool IsGrassOrWater(int s) => pt[s].IsType((int)Types.Water) || pt[s].IsType((int)Types.Grass);
 
             foreach (var area in Tables.EncounterTables)
             {
+                if (boost)
+                {
+                    area.GroundTableLevelMin = Legal.GetModifiedLevel(area.GroundTableLevelMin, (double)NUD_LevelBoost.Value);
+                    area.GroundTableLevelMax = Legal.GetModifiedLevel(area.GroundTableLevelMax, (double)NUD_LevelBoost.Value);
+
+                    area.WaterTableLevelMin = Legal.GetModifiedLevel(area.WaterTableLevelMin, (double)NUD_LevelBoost.Value);
+                    area.WaterTableLevelMax = Legal.GetModifiedLevel(area.WaterTableLevelMax, (double)NUD_LevelBoost.Value);
+
+                    area.SkyTableLevelMin = Legal.GetModifiedLevel(area.SkyTableLevelMin, (double)NUD_LevelBoost.Value);
+                    area.SkyTableLevelMax = Legal.GetModifiedLevel(area.SkyTableLevelMax, (double)NUD_LevelBoost.Value);
+                }
                 ApplyRand(area.GroundTable);
                 ApplyRand(area.WaterTable);
                 ApplyRand(area.SkyTable);

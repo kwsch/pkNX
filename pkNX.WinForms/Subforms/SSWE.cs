@@ -152,12 +152,12 @@ namespace pkNX.WinForms
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
             rand.Initialize(settings, ban);
-            RandomizeWild(rand, CHK_FillEmpty.Checked);
+            RandomizeWild(rand, CHK_FillEmpty.Checked, CHK_Level.Checked);
             LoadEntry(entry);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void RandomizeWild(SpeciesRandomizer rand, bool fill)
+        private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool boost)
         {
             var pt = ROM.Data.PersonalData;
             var fr = new FormRandomizer(pt);
@@ -165,6 +165,11 @@ namespace pkNX.WinForms
             {
                 foreach (var sub in area.SubTables)
                 {
+                    if (boost)
+                    {
+                        sub.LevelMin = Legal.GetModifiedLevel(sub.LevelMin, (double)NUD_LevelBoost.Value);
+                        sub.LevelMax = Legal.GetModifiedLevel(sub.LevelMax, (double)NUD_LevelBoost.Value);
+                    }
                     ApplyRand(sub.Slots);
                 }
             }

@@ -41,9 +41,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Base)).BeginInit();
             this.GB_Name.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // NUD_Form
-            //
+            // 
             this.NUD_Form.Location = new System.Drawing.Point(82, 73);
             this.NUD_Form.Maximum = new decimal(new int[] {
             127,
@@ -58,26 +58,26 @@
             this.NUD_Form.Name = "NUD_Form";
             this.NUD_Form.Size = new System.Drawing.Size(45, 20);
             this.NUD_Form.TabIndex = 71;
-            //
+            // 
             // PB_Preview
-            //
+            // 
             this.PB_Preview.Location = new System.Drawing.Point(87, 99);
             this.PB_Preview.Name = "PB_Preview";
-            this.PB_Preview.Size = new System.Drawing.Size(40, 30);
+            this.PB_Preview.Size = new System.Drawing.Size(68, 56);
             this.PB_Preview.TabIndex = 70;
             this.PB_Preview.TabStop = false;
-            //
+            // 
             // L_Method
-            //
+            // 
             this.L_Method.Location = new System.Drawing.Point(16, 73);
             this.L_Method.Name = "L_Method";
             this.L_Method.Size = new System.Drawing.Size(60, 20);
             this.L_Method.TabIndex = 67;
             this.L_Method.Text = "Form:";
             this.L_Method.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
             // CB_Arg
-            //
+            // 
             this.CB_Arg.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Arg.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Arg.FormattingEnabled = true;
@@ -85,26 +85,26 @@
             this.CB_Arg.Name = "CB_Arg";
             this.CB_Arg.Size = new System.Drawing.Size(121, 21);
             this.CB_Arg.TabIndex = 72;
-            //
+            // 
             // PB_Base
-            //
+            // 
             this.PB_Base.Location = new System.Drawing.Point(6, 99);
             this.PB_Base.Name = "PB_Base";
-            this.PB_Base.Size = new System.Drawing.Size(40, 30);
+            this.PB_Base.Size = new System.Drawing.Size(68, 56);
             this.PB_Base.TabIndex = 73;
             this.PB_Base.TabStop = false;
-            //
-            // label1
-            //
-            this.L_Into.Location = new System.Drawing.Point(27, 103);
+            // 
+            // L_Into
+            // 
+            this.L_Into.Location = new System.Drawing.Point(27, 125);
             this.L_Into.Name = "L_Into";
             this.L_Into.Size = new System.Drawing.Size(60, 20);
             this.L_Into.TabIndex = 74;
             this.L_Into.Text = "Into ->";
             this.L_Into.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
             // CB_Method
-            //
+            // 
             this.CB_Method.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Method.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Method.FormattingEnabled = true;
@@ -112,9 +112,9 @@
             this.CB_Method.Name = "CB_Method";
             this.CB_Method.Size = new System.Drawing.Size(121, 21);
             this.CB_Method.TabIndex = 75;
-            //
+            // 
             // GB_Name
-            //
+            // 
             this.GB_Name.Controls.Add(this.PB_Base);
             this.GB_Name.Controls.Add(this.CB_Method);
             this.GB_Name.Controls.Add(this.L_Into);
@@ -125,18 +125,18 @@
             this.GB_Name.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GB_Name.Location = new System.Drawing.Point(0, 0);
             this.GB_Name.Name = "GB_Name";
-            this.GB_Name.Size = new System.Drawing.Size(132, 137);
+            this.GB_Name.Size = new System.Drawing.Size(160, 160);
             this.GB_Name.TabIndex = 76;
             this.GB_Name.TabStop = false;
             this.GB_Name.Text = "Mega";
-            //
+            // 
             // MegaEvoEntry
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.GB_Name);
             this.Name = "MegaEvoEntry";
-            this.Size = new System.Drawing.Size(132, 137);
+            this.Size = new System.Drawing.Size(160, 160);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Base)).EndInit();
