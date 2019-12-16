@@ -123,7 +123,7 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in objs)
                 {
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
                 }
             }
 
@@ -152,7 +152,7 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in objs)
                 {
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
                     t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
                 }
             }
@@ -183,7 +183,7 @@ namespace pkNX.WinForms.Controls
                 {
                     var t = objs[i];
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, ROM.Data.PersonalData);
+                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
                 }
             }
 

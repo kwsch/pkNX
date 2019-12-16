@@ -31,6 +31,7 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Personal = new System.Windows.Forms.TabPage();
+            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_PDumpTable = new System.Windows.Forms.Button();
             this.L_GoID = new System.Windows.Forms.Label();
             this.MT_GoID = new System.Windows.Forms.MaskedTextBox();
@@ -137,9 +138,9 @@
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.Tab_Learn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.Tab_Evo.SuspendLayout();
@@ -149,13 +150,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).BeginInit();
             this.Tab_RLearn.SuspendLayout();
             this.Tab_REvo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(460, -1);
+            this.B_Save.Location = new System.Drawing.Point(456, -1);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 0;
@@ -173,11 +173,12 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(534, 541);
+            this.tabControl1.Size = new System.Drawing.Size(534, 766);
             this.tabControl1.TabIndex = 1;
             // 
             // Tab_Personal
             // 
+            this.Tab_Personal.Controls.Add(this.PB_MonSprite);
             this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(this.L_GoID);
             this.Tab_Personal.Controls.Add(this.MT_GoID);
@@ -262,14 +263,24 @@
             this.Tab_Personal.Location = new System.Drawing.Point(4, 22);
             this.Tab_Personal.Name = "Tab_Personal";
             this.Tab_Personal.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Personal.Size = new System.Drawing.Size(526, 515);
+            this.Tab_Personal.Size = new System.Drawing.Size(526, 740);
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
             // 
+            // PB_MonSprite
+            // 
+            this.PB_MonSprite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PB_MonSprite.BackColor = System.Drawing.Color.Transparent;
+            this.PB_MonSprite.Location = new System.Drawing.Point(382, 8);
+            this.PB_MonSprite.Name = "PB_MonSprite";
+            this.PB_MonSprite.Size = new System.Drawing.Size(136, 112);
+            this.PB_MonSprite.TabIndex = 91;
+            this.PB_MonSprite.TabStop = false;
+            // 
             // B_PDumpTable
             // 
-            this.B_PDumpTable.Location = new System.Drawing.Point(451, 492);
+            this.B_PDumpTable.Location = new System.Drawing.Point(443, 709);
             this.B_PDumpTable.Name = "B_PDumpTable";
             this.B_PDumpTable.Size = new System.Drawing.Size(75, 23);
             this.B_PDumpTable.TabIndex = 502;
@@ -280,7 +291,7 @@
             // L_GoID
             // 
             this.L_GoID.AutoSize = true;
-            this.L_GoID.Location = new System.Drawing.Point(122, 425);
+            this.L_GoID.Location = new System.Drawing.Point(116, 567);
             this.L_GoID.Name = "L_GoID";
             this.L_GoID.Size = new System.Drawing.Size(35, 13);
             this.L_GoID.TabIndex = 501;
@@ -289,7 +300,7 @@
             // MT_GoID
             // 
             this.MT_GoID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MT_GoID.Location = new System.Drawing.Point(163, 423);
+            this.MT_GoID.Location = new System.Drawing.Point(157, 565);
             this.MT_GoID.Mask = "000";
             this.MT_GoID.Name = "MT_GoID";
             this.MT_GoID.Size = new System.Drawing.Size(31, 20);
@@ -298,7 +309,7 @@
             // 
             // TB_RawColor
             // 
-            this.TB_RawColor.Location = new System.Drawing.Point(421, 255);
+            this.TB_RawColor.Location = new System.Drawing.Point(440, 356);
             this.TB_RawColor.Name = "TB_RawColor";
             this.TB_RawColor.ReadOnly = true;
             this.TB_RawColor.Size = new System.Drawing.Size(30, 20);
@@ -309,7 +320,7 @@
             // L_HiddenAbility
             // 
             this.L_HiddenAbility.AutoSize = true;
-            this.L_HiddenAbility.Location = new System.Drawing.Point(419, 138);
+            this.L_HiddenAbility.Location = new System.Drawing.Point(438, 208);
             this.L_HiddenAbility.Name = "L_HiddenAbility";
             this.L_HiddenAbility.Size = new System.Drawing.Size(21, 13);
             this.L_HiddenAbility.TabIndex = 499;
@@ -318,7 +329,7 @@
             // L_WeightKG
             // 
             this.L_WeightKG.AutoSize = true;
-            this.L_WeightKG.Location = new System.Drawing.Point(418, 376);
+            this.L_WeightKG.Location = new System.Drawing.Point(437, 518);
             this.L_WeightKG.Name = "L_WeightKG";
             this.L_WeightKG.Size = new System.Drawing.Size(19, 13);
             this.L_WeightKG.TabIndex = 495;
@@ -327,7 +338,7 @@
             // L_Ability2
             // 
             this.L_Ability2.AutoSize = true;
-            this.L_Ability2.Location = new System.Drawing.Point(420, 116);
+            this.L_Ability2.Location = new System.Drawing.Point(439, 186);
             this.L_Ability2.Name = "L_Ability2";
             this.L_Ability2.Size = new System.Drawing.Size(19, 13);
             this.L_Ability2.TabIndex = 497;
@@ -336,7 +347,7 @@
             // L_HeightM
             // 
             this.L_HeightM.AutoSize = true;
-            this.L_HeightM.Location = new System.Drawing.Point(418, 355);
+            this.L_HeightM.Location = new System.Drawing.Point(437, 497);
             this.L_HeightM.Name = "L_HeightM";
             this.L_HeightM.Size = new System.Drawing.Size(15, 13);
             this.L_HeightM.TabIndex = 494;
@@ -345,7 +356,7 @@
             // L_Ability1
             // 
             this.L_Ability1.AutoSize = true;
-            this.L_Ability1.Location = new System.Drawing.Point(420, 94);
+            this.L_Ability1.Location = new System.Drawing.Point(439, 164);
             this.L_Ability1.Name = "L_Ability1";
             this.L_Ability1.Size = new System.Drawing.Size(19, 13);
             this.L_Ability1.TabIndex = 496;
@@ -354,7 +365,7 @@
             // TB_Weight
             // 
             this.TB_Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Weight.Location = new System.Drawing.Point(386, 372);
+            this.TB_Weight.Location = new System.Drawing.Point(405, 514);
             this.TB_Weight.Mask = "000.0";
             this.TB_Weight.Name = "TB_Weight";
             this.TB_Weight.Size = new System.Drawing.Size(32, 20);
@@ -364,7 +375,7 @@
             // TB_Height
             // 
             this.TB_Height.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Height.Location = new System.Drawing.Point(386, 351);
+            this.TB_Height.Location = new System.Drawing.Point(405, 493);
             this.TB_Height.Mask = "00.0";
             this.TB_Height.Name = "TB_Height";
             this.TB_Height.Size = new System.Drawing.Size(32, 20);
@@ -374,7 +385,7 @@
             // L_Weight
             // 
             this.L_Weight.AutoSize = true;
-            this.L_Weight.Location = new System.Drawing.Point(342, 375);
+            this.L_Weight.Location = new System.Drawing.Point(361, 517);
             this.L_Weight.Name = "L_Weight";
             this.L_Weight.Size = new System.Drawing.Size(44, 13);
             this.L_Weight.TabIndex = 491;
@@ -384,7 +395,7 @@
             // L_Height
             // 
             this.L_Height.AutoSize = true;
-            this.L_Height.Location = new System.Drawing.Point(345, 354);
+            this.L_Height.Location = new System.Drawing.Point(364, 496);
             this.L_Height.Name = "L_Height";
             this.L_Height.Size = new System.Drawing.Size(41, 13);
             this.L_Height.TabIndex = 490;
@@ -394,31 +405,31 @@
             // CB_ZMove
             // 
             this.CB_ZMove.FormattingEnabled = true;
-            this.CB_ZMove.Location = new System.Drawing.Point(297, 463);
+            this.CB_ZMove.Location = new System.Drawing.Point(316, 605);
             this.CB_ZMove.Name = "CB_ZMove";
-            this.CB_ZMove.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZMove.Size = new System.Drawing.Size(175, 21);
             this.CB_ZMove.TabIndex = 488;
             // 
             // CB_ZBaseMove
             // 
             this.CB_ZBaseMove.FormattingEnabled = true;
-            this.CB_ZBaseMove.Location = new System.Drawing.Point(297, 441);
+            this.CB_ZBaseMove.Location = new System.Drawing.Point(316, 583);
             this.CB_ZBaseMove.Name = "CB_ZBaseMove";
-            this.CB_ZBaseMove.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZBaseMove.Size = new System.Drawing.Size(125, 21);
             this.CB_ZBaseMove.TabIndex = 485;
             // 
             // CB_ZItem
             // 
             this.CB_ZItem.FormattingEnabled = true;
-            this.CB_ZItem.Location = new System.Drawing.Point(297, 419);
+            this.CB_ZItem.Location = new System.Drawing.Point(316, 561);
             this.CB_ZItem.Name = "CB_ZItem";
-            this.CB_ZItem.Size = new System.Drawing.Size(121, 21);
+            this.CB_ZItem.Size = new System.Drawing.Size(125, 21);
             this.CB_ZItem.TabIndex = 484;
             // 
             // TB_CallRate
             // 
             this.TB_CallRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CallRate.Location = new System.Drawing.Point(163, 334);
+            this.TB_CallRate.Location = new System.Drawing.Point(157, 476);
             this.TB_CallRate.Mask = "000";
             this.TB_CallRate.Name = "TB_CallRate";
             this.TB_CallRate.Size = new System.Drawing.Size(31, 20);
@@ -428,7 +439,7 @@
             // L_CallRate
             // 
             this.L_CallRate.AutoSize = true;
-            this.L_CallRate.Location = new System.Drawing.Point(109, 338);
+            this.L_CallRate.Location = new System.Drawing.Point(103, 480);
             this.L_CallRate.Name = "L_CallRate";
             this.L_CallRate.Size = new System.Drawing.Size(53, 13);
             this.L_CallRate.TabIndex = 482;
@@ -439,7 +450,7 @@
             // 
             this.CHK_Variant.AutoSize = true;
             this.CHK_Variant.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Variant.Location = new System.Drawing.Point(91, 452);
+            this.CHK_Variant.Location = new System.Drawing.Point(85, 594);
             this.CHK_Variant.Name = "CHK_Variant";
             this.CHK_Variant.Size = new System.Drawing.Size(104, 17);
             this.CHK_Variant.TabIndex = 481;
@@ -448,7 +459,7 @@
             // 
             // TB_BST
             // 
-            this.TB_BST.Location = new System.Drawing.Point(387, 20);
+            this.TB_BST.Location = new System.Drawing.Point(341, 33);
             this.TB_BST.Name = "TB_BST";
             this.TB_BST.ReadOnly = true;
             this.TB_BST.Size = new System.Drawing.Size(31, 20);
@@ -459,7 +470,7 @@
             // L_BST
             // 
             this.L_BST.AutoSize = true;
-            this.L_BST.Location = new System.Drawing.Point(355, 23);
+            this.L_BST.Location = new System.Drawing.Point(307, 37);
             this.L_BST.Name = "L_BST";
             this.L_BST.Size = new System.Drawing.Size(31, 13);
             this.L_BST.TabIndex = 479;
@@ -469,7 +480,7 @@
             // TB_CatchRate
             // 
             this.TB_CatchRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CatchRate.Location = new System.Drawing.Point(387, 44);
+            this.TB_CatchRate.Location = new System.Drawing.Point(157, 539);
             this.TB_CatchRate.Mask = "000";
             this.TB_CatchRate.Name = "TB_CatchRate";
             this.TB_CatchRate.Size = new System.Drawing.Size(31, 20);
@@ -478,7 +489,7 @@
             // 
             // TB_Stage
             // 
-            this.TB_Stage.Location = new System.Drawing.Point(386, 288);
+            this.TB_Stage.Location = new System.Drawing.Point(405, 430);
             this.TB_Stage.Name = "TB_Stage";
             this.TB_Stage.ReadOnly = true;
             this.TB_Stage.Size = new System.Drawing.Size(32, 20);
@@ -488,7 +499,7 @@
             // L_Stage
             // 
             this.L_Stage.AutoSize = true;
-            this.L_Stage.Location = new System.Drawing.Point(301, 290);
+            this.L_Stage.Location = new System.Drawing.Point(320, 432);
             this.L_Stage.Name = "L_Stage";
             this.L_Stage.Size = new System.Drawing.Size(85, 13);
             this.L_Stage.TabIndex = 476;
@@ -497,7 +508,7 @@
             // 
             // TB_FormeCount
             // 
-            this.TB_FormeCount.Location = new System.Drawing.Point(386, 330);
+            this.TB_FormeCount.Location = new System.Drawing.Point(405, 472);
             this.TB_FormeCount.Name = "TB_FormeCount";
             this.TB_FormeCount.ReadOnly = true;
             this.TB_FormeCount.Size = new System.Drawing.Size(32, 20);
@@ -507,7 +518,7 @@
             // L_FormesCount
             // 
             this.L_FormesCount.AutoSize = true;
-            this.L_FormesCount.Location = new System.Drawing.Point(311, 333);
+            this.L_FormesCount.Location = new System.Drawing.Point(330, 475);
             this.L_FormesCount.Name = "L_FormesCount";
             this.L_FormesCount.Size = new System.Drawing.Size(75, 13);
             this.L_FormesCount.TabIndex = 474;
@@ -516,7 +527,7 @@
             // 
             // TB_FormeSprite
             // 
-            this.TB_FormeSprite.Location = new System.Drawing.Point(386, 309);
+            this.TB_FormeSprite.Location = new System.Drawing.Point(405, 451);
             this.TB_FormeSprite.Name = "TB_FormeSprite";
             this.TB_FormeSprite.ReadOnly = true;
             this.TB_FormeSprite.Size = new System.Drawing.Size(32, 20);
@@ -526,7 +537,7 @@
             // L_FormeSprite
             // 
             this.L_FormeSprite.AutoSize = true;
-            this.L_FormeSprite.Location = new System.Drawing.Point(317, 312);
+            this.L_FormeSprite.Location = new System.Drawing.Point(336, 454);
             this.L_FormeSprite.Name = "L_FormeSprite";
             this.L_FormeSprite.Size = new System.Drawing.Size(69, 13);
             this.L_FormeSprite.TabIndex = 472;
@@ -536,7 +547,7 @@
             // L_CatchRate
             // 
             this.L_CatchRate.AutoSize = true;
-            this.L_CatchRate.Location = new System.Drawing.Point(322, 47);
+            this.L_CatchRate.Location = new System.Drawing.Point(92, 543);
             this.L_CatchRate.Name = "L_CatchRate";
             this.L_CatchRate.Size = new System.Drawing.Size(64, 13);
             this.L_CatchRate.TabIndex = 471;
@@ -547,7 +558,7 @@
             this.CB_Color.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Color.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Color.FormattingEnabled = true;
-            this.CB_Color.Location = new System.Drawing.Point(297, 255);
+            this.CB_Color.Location = new System.Drawing.Point(316, 356);
             this.CB_Color.Name = "CB_Color";
             this.CB_Color.Size = new System.Drawing.Size(121, 21);
             this.CB_Color.TabIndex = 470;
@@ -557,7 +568,7 @@
             this.CB_EXPGroup.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_EXPGroup.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_EXPGroup.FormattingEnabled = true;
-            this.CB_EXPGroup.Location = new System.Drawing.Point(82, 256);
+            this.CB_EXPGroup.Location = new System.Drawing.Point(76, 357);
             this.CB_EXPGroup.Name = "CB_EXPGroup";
             this.CB_EXPGroup.Size = new System.Drawing.Size(112, 21);
             this.CB_EXPGroup.TabIndex = 469;
@@ -565,7 +576,7 @@
             // L_Color
             // 
             this.L_Color.AutoSize = true;
-            this.L_Color.Location = new System.Drawing.Point(263, 257);
+            this.L_Color.Location = new System.Drawing.Point(282, 358);
             this.L_Color.Name = "L_Color";
             this.L_Color.Size = new System.Drawing.Size(34, 13);
             this.L_Color.TabIndex = 468;
@@ -574,7 +585,7 @@
             // L_EXPGrowth
             // 
             this.L_EXPGrowth.AutoSize = true;
-            this.L_EXPGrowth.Location = new System.Drawing.Point(18, 259);
+            this.L_EXPGrowth.Location = new System.Drawing.Point(12, 360);
             this.L_EXPGrowth.Name = "L_EXPGrowth";
             this.L_EXPGrowth.Size = new System.Drawing.Size(63, 13);
             this.L_EXPGrowth.TabIndex = 467;
@@ -585,7 +596,7 @@
             this.CB_Ability3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Ability3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ability3.FormattingEnabled = true;
-            this.CB_Ability3.Location = new System.Drawing.Point(278, 135);
+            this.CB_Ability3.Location = new System.Drawing.Point(297, 205);
             this.CB_Ability3.Name = "CB_Ability3";
             this.CB_Ability3.Size = new System.Drawing.Size(140, 21);
             this.CB_Ability3.TabIndex = 466;
@@ -595,7 +606,7 @@
             this.CB_Ability2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Ability2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ability2.FormattingEnabled = true;
-            this.CB_Ability2.Location = new System.Drawing.Point(278, 113);
+            this.CB_Ability2.Location = new System.Drawing.Point(297, 183);
             this.CB_Ability2.Name = "CB_Ability2";
             this.CB_Ability2.Size = new System.Drawing.Size(140, 21);
             this.CB_Ability2.TabIndex = 465;
@@ -605,7 +616,7 @@
             this.CB_Ability1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Ability1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ability1.FormattingEnabled = true;
-            this.CB_Ability1.Location = new System.Drawing.Point(278, 91);
+            this.CB_Ability1.Location = new System.Drawing.Point(297, 161);
             this.CB_Ability1.Name = "CB_Ability1";
             this.CB_Ability1.Size = new System.Drawing.Size(140, 21);
             this.CB_Ability1.TabIndex = 464;
@@ -615,7 +626,7 @@
             this.CB_EggGroup2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_EggGroup2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_EggGroup2.FormattingEnabled = true;
-            this.CB_EggGroup2.Location = new System.Drawing.Point(297, 206);
+            this.CB_EggGroup2.Location = new System.Drawing.Point(316, 297);
             this.CB_EggGroup2.Name = "CB_EggGroup2";
             this.CB_EggGroup2.Size = new System.Drawing.Size(121, 21);
             this.CB_EggGroup2.TabIndex = 463;
@@ -625,7 +636,7 @@
             this.CB_EggGroup1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_EggGroup1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_EggGroup1.FormattingEnabled = true;
-            this.CB_EggGroup1.Location = new System.Drawing.Point(297, 184);
+            this.CB_EggGroup1.Location = new System.Drawing.Point(316, 275);
             this.CB_EggGroup1.Name = "CB_EggGroup1";
             this.CB_EggGroup1.Size = new System.Drawing.Size(121, 21);
             this.CB_EggGroup1.TabIndex = 462;
@@ -633,7 +644,7 @@
             // L_EggGroup
             // 
             this.L_EggGroup.AutoSize = true;
-            this.L_EggGroup.Location = new System.Drawing.Point(232, 187);
+            this.L_EggGroup.Location = new System.Drawing.Point(251, 278);
             this.L_EggGroup.Name = "L_EggGroup";
             this.L_EggGroup.Size = new System.Drawing.Size(66, 13);
             this.L_EggGroup.TabIndex = 461;
@@ -642,7 +653,7 @@
             // L_Ability
             // 
             this.L_Ability.AutoSize = true;
-            this.L_Ability.Location = new System.Drawing.Point(232, 95);
+            this.L_Ability.Location = new System.Drawing.Point(251, 165);
             this.L_Ability.Name = "L_Ability";
             this.L_Ability.Size = new System.Drawing.Size(45, 13);
             this.L_Ability.TabIndex = 460;
@@ -651,7 +662,7 @@
             // TB_BaseExp
             // 
             this.TB_BaseExp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseExp.Location = new System.Drawing.Point(163, 355);
+            this.TB_BaseExp.Location = new System.Drawing.Point(157, 497);
             this.TB_BaseExp.Mask = "000";
             this.TB_BaseExp.Name = "TB_BaseExp";
             this.TB_BaseExp.Size = new System.Drawing.Size(31, 20);
@@ -661,7 +672,7 @@
             // L_BaseEXP
             // 
             this.L_BaseEXP.AutoSize = true;
-            this.L_BaseEXP.Location = new System.Drawing.Point(104, 359);
+            this.L_BaseEXP.Location = new System.Drawing.Point(98, 501);
             this.L_BaseEXP.Name = "L_BaseEXP";
             this.L_BaseEXP.Size = new System.Drawing.Size(58, 13);
             this.L_BaseEXP.TabIndex = 458;
@@ -671,7 +682,7 @@
             // TB_HatchCycles
             // 
             this.TB_HatchCycles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HatchCycles.Location = new System.Drawing.Point(163, 376);
+            this.TB_HatchCycles.Location = new System.Drawing.Point(157, 518);
             this.TB_HatchCycles.Mask = "000";
             this.TB_HatchCycles.Name = "TB_HatchCycles";
             this.TB_HatchCycles.Size = new System.Drawing.Size(31, 20);
@@ -681,7 +692,7 @@
             // L_HatchCycles
             // 
             this.L_HatchCycles.AutoSize = true;
-            this.L_HatchCycles.Location = new System.Drawing.Point(89, 379);
+            this.L_HatchCycles.Location = new System.Drawing.Point(83, 521);
             this.L_HatchCycles.Name = "L_HatchCycles";
             this.L_HatchCycles.Size = new System.Drawing.Size(73, 13);
             this.L_HatchCycles.TabIndex = 456;
@@ -691,7 +702,7 @@
             // TB_Friendship
             // 
             this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Friendship.Location = new System.Drawing.Point(163, 313);
+            this.TB_Friendship.Location = new System.Drawing.Point(157, 455);
             this.TB_Friendship.Mask = "000";
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(31, 20);
@@ -701,7 +712,7 @@
             // TB_Gender
             // 
             this.TB_Gender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Gender.Location = new System.Drawing.Point(163, 292);
+            this.TB_Gender.Location = new System.Drawing.Point(157, 434);
             this.TB_Gender.Mask = "000";
             this.TB_Gender.Name = "TB_Gender";
             this.TB_Gender.Size = new System.Drawing.Size(31, 20);
@@ -711,7 +722,7 @@
             // L_Friendship
             // 
             this.L_Friendship.AutoSize = true;
-            this.L_Friendship.Location = new System.Drawing.Point(104, 317);
+            this.L_Friendship.Location = new System.Drawing.Point(98, 459);
             this.L_Friendship.Name = "L_Friendship";
             this.L_Friendship.Size = new System.Drawing.Size(58, 13);
             this.L_Friendship.TabIndex = 453;
@@ -721,7 +732,7 @@
             // L_Gender
             // 
             this.L_Gender.AutoSize = true;
-            this.L_Gender.Location = new System.Drawing.Point(117, 295);
+            this.L_Gender.Location = new System.Drawing.Point(111, 437);
             this.L_Gender.Name = "L_Gender";
             this.L_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Gender.TabIndex = 452;
@@ -731,7 +742,7 @@
             // L_Item1
             // 
             this.L_Item1.AutoSize = true;
-            this.L_Item1.Location = new System.Drawing.Point(197, 137);
+            this.L_Item1.Location = new System.Drawing.Point(191, 207);
             this.L_Item1.Name = "L_Item1";
             this.L_Item1.Size = new System.Drawing.Size(21, 13);
             this.L_Item1.TabIndex = 451;
@@ -740,7 +751,7 @@
             // L_Item5
             // 
             this.L_Item5.AutoSize = true;
-            this.L_Item5.Location = new System.Drawing.Point(197, 115);
+            this.L_Item5.Location = new System.Drawing.Point(191, 185);
             this.L_Item5.Name = "L_Item5";
             this.L_Item5.Size = new System.Drawing.Size(21, 13);
             this.L_Item5.TabIndex = 450;
@@ -749,7 +760,7 @@
             // L_Item50
             // 
             this.L_Item50.AutoSize = true;
-            this.L_Item50.Location = new System.Drawing.Point(197, 94);
+            this.L_Item50.Location = new System.Drawing.Point(191, 164);
             this.L_Item50.Name = "L_Item50";
             this.L_Item50.Size = new System.Drawing.Size(27, 13);
             this.L_Item50.TabIndex = 449;
@@ -760,7 +771,7 @@
             this.CB_HeldItem3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_HeldItem3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_HeldItem3.FormattingEnabled = true;
-            this.CB_HeldItem3.Location = new System.Drawing.Point(54, 134);
+            this.CB_HeldItem3.Location = new System.Drawing.Point(48, 204);
             this.CB_HeldItem3.Name = "CB_HeldItem3";
             this.CB_HeldItem3.Size = new System.Drawing.Size(140, 21);
             this.CB_HeldItem3.TabIndex = 448;
@@ -770,7 +781,7 @@
             this.CB_HeldItem2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_HeldItem2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_HeldItem2.FormattingEnabled = true;
-            this.CB_HeldItem2.Location = new System.Drawing.Point(54, 112);
+            this.CB_HeldItem2.Location = new System.Drawing.Point(48, 182);
             this.CB_HeldItem2.Name = "CB_HeldItem2";
             this.CB_HeldItem2.Size = new System.Drawing.Size(140, 21);
             this.CB_HeldItem2.TabIndex = 447;
@@ -780,7 +791,7 @@
             this.CB_HeldItem1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_HeldItem1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_HeldItem1.FormattingEnabled = true;
-            this.CB_HeldItem1.Location = new System.Drawing.Point(54, 90);
+            this.CB_HeldItem1.Location = new System.Drawing.Point(48, 160);
             this.CB_HeldItem1.Name = "CB_HeldItem1";
             this.CB_HeldItem1.Size = new System.Drawing.Size(140, 21);
             this.CB_HeldItem1.TabIndex = 446;
@@ -788,7 +799,7 @@
             // L_HeldItem
             // 
             this.L_HeldItem.AutoSize = true;
-            this.L_HeldItem.Location = new System.Drawing.Point(18, 93);
+            this.L_HeldItem.Location = new System.Drawing.Point(12, 163);
             this.L_HeldItem.Name = "L_HeldItem";
             this.L_HeldItem.Size = new System.Drawing.Size(35, 13);
             this.L_HeldItem.TabIndex = 445;
@@ -799,7 +810,7 @@
             this.CB_Type2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Type2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Type2.FormattingEnabled = true;
-            this.CB_Type2.Location = new System.Drawing.Point(65, 206);
+            this.CB_Type2.Location = new System.Drawing.Point(59, 297);
             this.CB_Type2.Name = "CB_Type2";
             this.CB_Type2.Size = new System.Drawing.Size(129, 21);
             this.CB_Type2.TabIndex = 444;
@@ -809,7 +820,7 @@
             this.CB_Type1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Type1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Type1.FormattingEnabled = true;
-            this.CB_Type1.Location = new System.Drawing.Point(65, 184);
+            this.CB_Type1.Location = new System.Drawing.Point(59, 275);
             this.CB_Type1.Name = "CB_Type1";
             this.CB_Type1.Size = new System.Drawing.Size(129, 21);
             this.CB_Type1.TabIndex = 443;
@@ -817,7 +828,7 @@
             // L_Type
             // 
             this.L_Type.AutoSize = true;
-            this.L_Type.Location = new System.Drawing.Point(18, 187);
+            this.L_Type.Location = new System.Drawing.Point(12, 278);
             this.L_Type.Name = "L_Type";
             this.L_Type.Size = new System.Drawing.Size(47, 13);
             this.L_Type.TabIndex = 442;
@@ -826,7 +837,7 @@
             // TB_SPEEVs
             // 
             this.TB_SPEEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEEVs.Location = new System.Drawing.Point(273, 44);
+            this.TB_SPEEVs.Location = new System.Drawing.Point(267, 57);
             this.TB_SPEEVs.Mask = "0";
             this.TB_SPEEVs.Name = "TB_SPEEVs";
             this.TB_SPEEVs.Size = new System.Drawing.Size(31, 20);
@@ -836,7 +847,7 @@
             // TB_SPDEVs
             // 
             this.TB_SPDEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDEVs.Location = new System.Drawing.Point(234, 44);
+            this.TB_SPDEVs.Location = new System.Drawing.Point(228, 57);
             this.TB_SPDEVs.Mask = "0";
             this.TB_SPDEVs.Name = "TB_SPDEVs";
             this.TB_SPDEVs.Size = new System.Drawing.Size(31, 20);
@@ -846,7 +857,7 @@
             // TB_SPAEVs
             // 
             this.TB_SPAEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAEVs.Location = new System.Drawing.Point(195, 44);
+            this.TB_SPAEVs.Location = new System.Drawing.Point(189, 57);
             this.TB_SPAEVs.Mask = "0";
             this.TB_SPAEVs.Name = "TB_SPAEVs";
             this.TB_SPAEVs.Size = new System.Drawing.Size(31, 20);
@@ -856,7 +867,7 @@
             // TB_DEFEVs
             // 
             this.TB_DEFEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFEVs.Location = new System.Drawing.Point(157, 44);
+            this.TB_DEFEVs.Location = new System.Drawing.Point(151, 57);
             this.TB_DEFEVs.Mask = "0";
             this.TB_DEFEVs.Name = "TB_DEFEVs";
             this.TB_DEFEVs.Size = new System.Drawing.Size(31, 20);
@@ -866,7 +877,7 @@
             // TB_ATKEVs
             // 
             this.TB_ATKEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKEVs.Location = new System.Drawing.Point(119, 44);
+            this.TB_ATKEVs.Location = new System.Drawing.Point(113, 57);
             this.TB_ATKEVs.Mask = "0";
             this.TB_ATKEVs.Name = "TB_ATKEVs";
             this.TB_ATKEVs.Size = new System.Drawing.Size(31, 20);
@@ -876,7 +887,7 @@
             // TB_HPEVs
             // 
             this.TB_HPEVs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPEVs.Location = new System.Drawing.Point(80, 44);
+            this.TB_HPEVs.Location = new System.Drawing.Point(74, 57);
             this.TB_HPEVs.Mask = "0";
             this.TB_HPEVs.Name = "TB_HPEVs";
             this.TB_HPEVs.Size = new System.Drawing.Size(31, 20);
@@ -886,7 +897,7 @@
             // TB_BaseSPE
             // 
             this.TB_BaseSPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseSPE.Location = new System.Drawing.Point(273, 20);
+            this.TB_BaseSPE.Location = new System.Drawing.Point(267, 33);
             this.TB_BaseSPE.Mask = "000";
             this.TB_BaseSPE.Name = "TB_BaseSPE";
             this.TB_BaseSPE.Size = new System.Drawing.Size(31, 20);
@@ -896,7 +907,7 @@
             // TB_BaseSPD
             // 
             this.TB_BaseSPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseSPD.Location = new System.Drawing.Point(234, 20);
+            this.TB_BaseSPD.Location = new System.Drawing.Point(228, 33);
             this.TB_BaseSPD.Mask = "000";
             this.TB_BaseSPD.Name = "TB_BaseSPD";
             this.TB_BaseSPD.Size = new System.Drawing.Size(31, 20);
@@ -906,7 +917,7 @@
             // TB_BaseSPA
             // 
             this.TB_BaseSPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseSPA.Location = new System.Drawing.Point(195, 20);
+            this.TB_BaseSPA.Location = new System.Drawing.Point(189, 33);
             this.TB_BaseSPA.Mask = "000";
             this.TB_BaseSPA.Name = "TB_BaseSPA";
             this.TB_BaseSPA.Size = new System.Drawing.Size(31, 20);
@@ -916,7 +927,7 @@
             // TB_BaseDEF
             // 
             this.TB_BaseDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseDEF.Location = new System.Drawing.Point(157, 20);
+            this.TB_BaseDEF.Location = new System.Drawing.Point(151, 33);
             this.TB_BaseDEF.Mask = "000";
             this.TB_BaseDEF.Name = "TB_BaseDEF";
             this.TB_BaseDEF.Size = new System.Drawing.Size(31, 20);
@@ -926,7 +937,7 @@
             // TB_BaseATK
             // 
             this.TB_BaseATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseATK.Location = new System.Drawing.Point(119, 20);
+            this.TB_BaseATK.Location = new System.Drawing.Point(113, 33);
             this.TB_BaseATK.Mask = "000";
             this.TB_BaseATK.Name = "TB_BaseATK";
             this.TB_BaseATK.Size = new System.Drawing.Size(31, 20);
@@ -936,7 +947,7 @@
             // TB_BaseHP
             // 
             this.TB_BaseHP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseHP.Location = new System.Drawing.Point(80, 20);
+            this.TB_BaseHP.Location = new System.Drawing.Point(74, 33);
             this.TB_BaseHP.Mask = "000";
             this.TB_BaseHP.Name = "TB_BaseHP";
             this.TB_BaseHP.Size = new System.Drawing.Size(31, 20);
@@ -945,7 +956,7 @@
             // 
             // Label_HP
             // 
-            this.Label_HP.Location = new System.Drawing.Point(77, 4);
+            this.Label_HP.Location = new System.Drawing.Point(71, 17);
             this.Label_HP.Name = "Label_HP";
             this.Label_HP.Size = new System.Drawing.Size(31, 13);
             this.Label_HP.TabIndex = 424;
@@ -954,7 +965,7 @@
             // 
             // Label_ATK
             // 
-            this.Label_ATK.Location = new System.Drawing.Point(119, 4);
+            this.Label_ATK.Location = new System.Drawing.Point(113, 17);
             this.Label_ATK.Name = "Label_ATK";
             this.Label_ATK.Size = new System.Drawing.Size(31, 13);
             this.Label_ATK.TabIndex = 425;
@@ -963,7 +974,7 @@
             // 
             // Label_DEF
             // 
-            this.Label_DEF.Location = new System.Drawing.Point(157, 4);
+            this.Label_DEF.Location = new System.Drawing.Point(151, 17);
             this.Label_DEF.Name = "Label_DEF";
             this.Label_DEF.Size = new System.Drawing.Size(31, 13);
             this.Label_DEF.TabIndex = 426;
@@ -972,7 +983,7 @@
             // 
             // Label_SPA
             // 
-            this.Label_SPA.Location = new System.Drawing.Point(195, 4);
+            this.Label_SPA.Location = new System.Drawing.Point(189, 17);
             this.Label_SPA.Name = "Label_SPA";
             this.Label_SPA.Size = new System.Drawing.Size(31, 13);
             this.Label_SPA.TabIndex = 427;
@@ -981,7 +992,7 @@
             // 
             // Label_SPD
             // 
-            this.Label_SPD.Location = new System.Drawing.Point(234, 4);
+            this.Label_SPD.Location = new System.Drawing.Point(228, 17);
             this.Label_SPD.Name = "Label_SPD";
             this.Label_SPD.Size = new System.Drawing.Size(31, 13);
             this.Label_SPD.TabIndex = 428;
@@ -990,7 +1001,7 @@
             // 
             // Label_SPE
             // 
-            this.Label_SPE.Location = new System.Drawing.Point(271, 4);
+            this.Label_SPE.Location = new System.Drawing.Point(265, 17);
             this.Label_SPE.Name = "Label_SPE";
             this.Label_SPE.Size = new System.Drawing.Size(31, 13);
             this.Label_SPE.TabIndex = 429;
@@ -1000,7 +1011,7 @@
             // L_EVYield
             // 
             this.L_EVYield.AutoSize = true;
-            this.L_EVYield.Location = new System.Drawing.Point(16, 47);
+            this.L_EVYield.Location = new System.Drawing.Point(10, 60);
             this.L_EVYield.Name = "L_EVYield";
             this.L_EVYield.Size = new System.Drawing.Size(50, 13);
             this.L_EVYield.TabIndex = 423;
@@ -1009,7 +1020,7 @@
             // L_BaseStats
             // 
             this.L_BaseStats.AutoSize = true;
-            this.L_BaseStats.Location = new System.Drawing.Point(16, 23);
+            this.L_BaseStats.Location = new System.Drawing.Point(10, 36);
             this.L_BaseStats.Name = "L_BaseStats";
             this.L_BaseStats.Size = new System.Drawing.Size(61, 13);
             this.L_BaseStats.TabIndex = 422;
@@ -1018,7 +1029,7 @@
             // L_ZMove
             // 
             this.L_ZMove.AutoSize = true;
-            this.L_ZMove.Location = new System.Drawing.Point(250, 466);
+            this.L_ZMove.Location = new System.Drawing.Point(269, 608);
             this.L_ZMove.Name = "L_ZMove";
             this.L_ZMove.Size = new System.Drawing.Size(47, 13);
             this.L_ZMove.TabIndex = 489;
@@ -1027,7 +1038,7 @@
             // L_BaseMove
             // 
             this.L_BaseMove.AutoSize = true;
-            this.L_BaseMove.Location = new System.Drawing.Point(233, 445);
+            this.L_BaseMove.Location = new System.Drawing.Point(252, 587);
             this.L_BaseMove.Name = "L_BaseMove";
             this.L_BaseMove.Size = new System.Drawing.Size(64, 13);
             this.L_BaseMove.TabIndex = 487;
@@ -1036,7 +1047,7 @@
             // L_ZCrystal
             // 
             this.L_ZCrystal.AutoSize = true;
-            this.L_ZCrystal.Location = new System.Drawing.Point(246, 423);
+            this.L_ZCrystal.Location = new System.Drawing.Point(265, 565);
             this.L_ZCrystal.Name = "L_ZCrystal";
             this.L_ZCrystal.Size = new System.Drawing.Size(51, 13);
             this.L_ZCrystal.TabIndex = 486;
@@ -1051,7 +1062,7 @@
             this.Tab_Learn.Location = new System.Drawing.Point(4, 22);
             this.Tab_Learn.Name = "Tab_Learn";
             this.Tab_Learn.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Learn.Size = new System.Drawing.Size(526, 515);
+            this.Tab_Learn.Size = new System.Drawing.Size(526, 715);
             this.Tab_Learn.TabIndex = 1;
             this.Tab_Learn.Text = "Learnset";
             this.Tab_Learn.UseVisualStyleBackColor = true;
@@ -1072,7 +1083,7 @@
             this.CLB_TM.FormattingEnabled = true;
             this.CLB_TM.Location = new System.Drawing.Point(284, 34);
             this.CLB_TM.Name = "CLB_TM";
-            this.CLB_TM.Size = new System.Drawing.Size(147, 469);
+            this.CLB_TM.Size = new System.Drawing.Size(147, 664);
             this.CLB_TM.TabIndex = 6;
             // 
             // L_LevelUp
@@ -1093,7 +1104,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(0, 34);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(282, 469);
+            this.dgv.Size = new System.Drawing.Size(282, 669);
             this.dgv.TabIndex = 1;
             // 
             // Tab_Evo
@@ -1101,7 +1112,7 @@
             this.Tab_Evo.Controls.Add(this.flowLayoutPanel1);
             this.Tab_Evo.Location = new System.Drawing.Point(4, 22);
             this.Tab_Evo.Name = "Tab_Evo";
-            this.Tab_Evo.Size = new System.Drawing.Size(526, 515);
+            this.Tab_Evo.Size = new System.Drawing.Size(526, 715);
             this.Tab_Evo.TabIndex = 2;
             this.Tab_Evo.Text = "Evolve";
             this.Tab_Evo.UseVisualStyleBackColor = true;
@@ -1111,7 +1122,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 515);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 715);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // Tab_Extra
@@ -1121,7 +1132,7 @@
             this.Tab_Extra.Location = new System.Drawing.Point(4, 22);
             this.Tab_Extra.Name = "Tab_Extra";
             this.Tab_Extra.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Extra.Size = new System.Drawing.Size(526, 515);
+            this.Tab_Extra.Size = new System.Drawing.Size(526, 715);
             this.Tab_Extra.TabIndex = 3;
             this.Tab_Extra.Text = "Enhancements";
             this.Tab_Extra.UseVisualStyleBackColor = true;
@@ -1327,22 +1338,11 @@
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateIndex);
             // 
-            // PB_MonSprite
-            // 
-            this.PB_MonSprite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PB_MonSprite.BackColor = System.Drawing.Color.Transparent;
-            this.PB_MonSprite.Location = new System.Drawing.Point(446, 26);
-            this.PB_MonSprite.Name = "PB_MonSprite";
-            this.PB_MonSprite.Size = new System.Drawing.Size(80, 60);
-            this.PB_MonSprite.TabIndex = 91;
-            this.PB_MonSprite.TabStop = false;
-            // 
             // PokeDataUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 541);
-            this.Controls.Add(this.PB_MonSprite);
+            this.ClientSize = new System.Drawing.Size(534, 766);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
@@ -1354,6 +1354,7 @@
             this.tabControl1.ResumeLayout(false);
             this.Tab_Personal.ResumeLayout(false);
             this.Tab_Personal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.Tab_Learn.ResumeLayout(false);
             this.Tab_Learn.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -1365,7 +1366,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).EndInit();
             this.Tab_RLearn.ResumeLayout(false);
             this.Tab_REvo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.ResumeLayout(false);
 
         }

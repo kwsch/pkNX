@@ -50,6 +50,9 @@ namespace pkNX.Randomization
         [Category(PKM), Description("Allows random Mega Forms when randomizing species.")]
         public bool AllowRandomMegaForms { get; set; } = false;
 
+        [Category(PKM), Description("Allows random Held Items when randomizing species.")]
+        public bool AllowRandomHeldItems { get; set; } = false;
+
         [Category(PKM), Description("Forces all PKM above the specified level setting to be fully evolved.")]
         public bool ForceFullyEvolved { get; set; } = true;
 

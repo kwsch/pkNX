@@ -32,6 +32,7 @@
             this.CB_Location = new System.Windows.Forms.ComboBox();
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
+            this.L_Type = new System.Windows.Forms.Label();
             this.TC_Types = new System.Windows.Forms.TabControl();
             this.Tab_Normal = new System.Windows.Forms.TabPage();
             this.Tab_Overcast = new System.Windows.Forms.TabPage();
@@ -48,13 +49,14 @@
             this.CHK_FillEmpty = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
-            this.L_Type = new System.Windows.Forms.Label();
+            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.SL_0 = new pkNX.WinForms.EncounterList8();
             this.SL_1 = new pkNX.WinForms.EncounterList8();
             this.SL_2 = new pkNX.WinForms.EncounterList8();
             this.SL_3 = new pkNX.WinForms.EncounterList8();
-            this.SL_5 = new pkNX.WinForms.EncounterList8();
             this.SL_4 = new pkNX.WinForms.EncounterList8();
+            this.SL_5 = new pkNX.WinForms.EncounterList8();
             this.SL_6 = new pkNX.WinForms.EncounterList8();
             this.SL_7 = new pkNX.WinForms.EncounterList8();
             this.SL_8 = new pkNX.WinForms.EncounterList8();
@@ -77,6 +79,7 @@
             this.ST_Shaking.SuspendLayout();
             this.ST_Fishing.SuspendLayout();
             this.Tab_Rand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -133,6 +136,17 @@
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            // 
+            // L_Type
+            // 
+            this.L_Type.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_Type.AutoSize = true;
+            this.L_Type.ForeColor = System.Drawing.Color.Red;
+            this.L_Type.Location = new System.Drawing.Point(2, 624);
+            this.L_Type.Name = "L_Type";
+            this.L_Type.Size = new System.Drawing.Size(41, 13);
+            this.L_Type.TabIndex = 12;
+            this.L_Type.Text = "Source";
             // 
             // TC_Types
             // 
@@ -273,6 +287,8 @@
             // 
             // Tab_Rand
             // 
+            this.Tab_Rand.Controls.Add(this.NUD_LevelBoost);
+            this.Tab_Rand.Controls.Add(this.CHK_Level);
             this.Tab_Rand.Controls.Add(this.CHK_FillEmpty);
             this.Tab_Rand.Controls.Add(this.B_RandAll);
             this.Tab_Rand.Controls.Add(this.PG_Species);
@@ -314,16 +330,43 @@
             this.PG_Species.TabIndex = 6;
             this.PG_Species.ToolbarVisible = false;
             // 
-            // L_Type
+            // NUD_LevelBoost
             // 
-            this.L_Type.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Type.AutoSize = true;
-            this.L_Type.ForeColor = System.Drawing.Color.Red;
-            this.L_Type.Location = new System.Drawing.Point(2, 624);
-            this.L_Type.Name = "L_Type";
-            this.L_Type.Size = new System.Drawing.Size(41, 13);
-            this.L_Type.TabIndex = 12;
-            this.L_Type.Text = "Source";
+            this.NUD_LevelBoost.DecimalPlaces = 2;
+            this.NUD_LevelBoost.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(298, 15);
+            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_LevelBoost.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
+            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
+            this.NUD_LevelBoost.TabIndex = 303;
+            this.NUD_LevelBoost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // CHK_Level
+            // 
+            this.CHK_Level.AutoSize = true;
+            this.CHK_Level.Location = new System.Drawing.Point(169, 16);
+            this.CHK_Level.Name = "CHK_Level";
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
+            this.CHK_Level.TabIndex = 302;
+            this.CHK_Level.Text = "Multiply PKM Level by";
+            this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // SL_0
             // 
@@ -361,15 +404,6 @@
             this.SL_3.Size = new System.Drawing.Size(349, 632);
             this.SL_3.TabIndex = 1;
             // 
-            // SL_5
-            // 
-            this.SL_5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_5.Location = new System.Drawing.Point(0, 0);
-            this.SL_5.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_5.Name = "SL_5";
-            this.SL_5.Size = new System.Drawing.Size(349, 632);
-            this.SL_5.TabIndex = 1;
-            // 
             // SL_4
             // 
             this.SL_4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -378,6 +412,15 @@
             this.SL_4.Name = "SL_4";
             this.SL_4.Size = new System.Drawing.Size(349, 632);
             this.SL_4.TabIndex = 2;
+            // 
+            // SL_5
+            // 
+            this.SL_5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_5.Location = new System.Drawing.Point(0, 0);
+            this.SL_5.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_5.Name = "SL_5";
+            this.SL_5.Size = new System.Drawing.Size(349, 632);
+            this.SL_5.TabIndex = 1;
             // 
             // SL_6
             // 
@@ -453,6 +496,8 @@
             this.ST_Shaking.ResumeLayout(false);
             this.ST_Fishing.ResumeLayout(false);
             this.Tab_Rand.ResumeLayout(false);
+            this.Tab_Rand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -490,5 +535,7 @@
         private System.Windows.Forms.Button B_RandAll;
         private System.Windows.Forms.PropertyGrid PG_Species;
         private System.Windows.Forms.Label L_Type;
+        private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
+        private System.Windows.Forms.CheckBox CHK_Level;
     }
 }

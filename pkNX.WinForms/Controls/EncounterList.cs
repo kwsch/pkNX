@@ -30,15 +30,19 @@ namespace pkNX.WinForms
             {
                 HeaderText = "Sprite",
                 DisplayIndex = 0,
-                Width = 42,
+                Width = SpriteUtil.Spriter.Width + 2,
                 DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
                 ReadOnly = true,
             };
+            var padding = SpriteUtil.Spriter.Height > 40
+                ? new Padding(0, (SpriteUtil.Spriter.Height / 2) - 8, 0, 0)
+                : new Padding(0);
             var dgvSpecies = new DataGridViewComboBoxColumn
             {
                 HeaderText = "Species",
                 DisplayIndex = 1,
                 Width = 135,
+                DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter, Padding = padding },
                 FlatStyle = FlatStyle.Flat
             };
             var dgvForm = new DataGridViewTextBoxColumn
@@ -101,7 +105,7 @@ namespace pkNX.WinForms
                 row.Cells[1].Value = species[slots[i].Species];
                 row.Cells[2].Value = slots[i].Form;
                 row.Cells[3].Value = slots[i].Probability;
-                row.Height = 32;
+                row.Height = SpriteUtil.Spriter.Height + 2;
             }
 
             dgv.CancelEdit();

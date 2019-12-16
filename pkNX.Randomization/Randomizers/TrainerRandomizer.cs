@@ -158,8 +158,7 @@ namespace pkNX.Randomization
             {
                 pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
                 TryForceEvolve(pk);
-                pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
-                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, true, Personal);
             }
         }
 
@@ -172,14 +171,14 @@ namespace pkNX.Randomization
                 pk.Species = species;
                 pk.MegaFormChoice = Util.Random.Next(mega.Length);
                 pk.CanMegaEvolve = true;
-                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
                 return;
             }
 
             pk.MegaFormChoice = 0;
             pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
             TryForceEvolve(pk);
-            pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, Personal);
+            pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
         }
 
         private void TryForceEvolve(IPokeData pk)
@@ -220,12 +219,14 @@ namespace pkNX.Randomization
 
         private void UpdatePKMFromSettings(TrainerPoke pk)
         {
+            if (Settings.AllowRandomHeldItems)
+                pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
             if (Settings.BoostLevel)
                 BoostLevel(pk, Settings.LevelBoostRatio);
             if (Settings.RandomShinies)
                 pk.Shiny = Util.Random.Next(0, 100 + 1) < Settings.ShinyChance;
             if (Settings.RandomAbilities)
-                pk.Ability = (int)Util.Rand32() % 4;
+                pk.Ability = Util.Random.Next(1, 4); // 1, 2, or H
             if (Settings.MaxIVs)
                 pk.IVs = new[] { 31, 31, 31, 31, 31, 31 };
             if (Settings.MaxDynamaxLevel && pk is TrainerPoke8 c && c.DynamaxLevel != 0)
@@ -341,7 +342,7 @@ namespace pkNX.Randomization
         }
 
         private static readonly int[] CrashClasses_GG = Enumerable.Range(72, 382 - 72 + 1).ToArray();
-        private static readonly int[] CrashClasses_SWSH = Enumerable.Range(219, 236 - 219 + 1).Concat(Legal.UnusedClasses_SWSH).ToArray();
+        private static readonly int[] CrashClasses_SWSH = Enumerable.Range(94, 151 - 94 + 1).Concat(Enumerable.Range(219, 236 - 219 + 1)).Concat(Legal.UnusedClasses_SWSH).ToArray();
 
         private static int[] GetSpecialClasses(GameVersion game)
         {
