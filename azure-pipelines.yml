@@ -27,7 +27,9 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: pkNX'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    PathtoPublish: 'pkNX.WinForms\bin\Release'
+    ArtifactName: pkNX
+  condition: succeededOrFailed()
