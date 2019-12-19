@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Xunit;
 
 namespace pkNX.Tests
@@ -7,6 +8,7 @@ namespace pkNX.Tests
         [Fact]
         public void TestMethod1()
         {
+            true.Should().BeTrue();
         }
     }
 }
