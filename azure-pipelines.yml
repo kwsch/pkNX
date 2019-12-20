@@ -7,12 +7,7 @@ trigger:
 - master
 
 pool:
-  name: Azure Pipelines
   vmImage: 'windows-latest'
-  demands:
-  - msbuild
-  - visualstudio
-  - vstest
 
 variables:
   solution: '**/*.sln'
@@ -29,26 +24,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:Version=$(GitVersion.SemVer)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  displayName: 'VsTest - testAssemblies'
-  inputs:
-    testAssemblyVer2: |
-     **\$(buildConfiguration)\*test*.dll
-     !**\obj\**
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-  continueOnError: true
-
-- task: PublishSymbols@2
-  displayName: 'Publish symbols path'
-  inputs:
-    SearchPattern: '**\bin\**\*.pdb'
-    PublishSymbols: false
-  continueOnError: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: pkNX'
