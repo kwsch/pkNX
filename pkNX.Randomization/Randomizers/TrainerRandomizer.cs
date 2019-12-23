@@ -11,6 +11,7 @@ namespace pkNX.Randomization
         private readonly PersonalTable Personal;
         private readonly VsTrainer[] Trainers;
         private readonly int[] PossibleHeldItems;
+        private readonly int[] GigantamaxForms;
         private readonly Dictionary<int, int[]> MegaDictionary;
         private readonly Dictionary<int, int> IndexFixedCount;
         private readonly IList<int> SpecialClasses;
@@ -34,6 +35,7 @@ namespace pkNX.Randomization
             Evos = evos;
 
             PossibleHeldItems = Legal.GetRandomItemList(Info.Game);
+            GigantamaxForms = Legal.GigantamaxForms.ToArray();
             MegaDictionary = Legal.GetMegaDictionary(Info.Game);
             IndexFixedCount = GetFixedCountIndexes(Info.Game);
             SpecialClasses = GetSpecialClasses(Info.Game);
@@ -157,7 +159,6 @@ namespace pkNX.Randomization
             else // every other pkm
             {
                 pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
-                TryForceEvolve(pk);
                 pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, true, Personal);
             }
         }
@@ -177,7 +178,6 @@ namespace pkNX.Randomization
 
             pk.MegaFormChoice = 0;
             pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
-            TryForceEvolve(pk);
             pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
         }
 
@@ -229,8 +229,20 @@ namespace pkNX.Randomization
                 pk.Ability = Util.Random.Next(1, 4); // 1, 2, or H
             if (Settings.MaxIVs)
                 pk.IVs = new[] { 31, 31, 31, 31, 31, 31 };
-            if (Settings.MaxDynamaxLevel && pk is TrainerPoke8 c && c.DynamaxLevel != 0)
-                c.DynamaxLevel = 10;
+
+            TryForceEvolve(pk);
+
+            // Gen 8 settings
+            if (pk is TrainerPoke8 c)
+            {
+                if (Settings.GigantamaxSwap && c.CanGigantamax)
+                {
+                    c.Species = GigantamaxForms[Util.Random.Next(GigantamaxForms.Length)];
+                    c.Form = 0; // only Kanto Meowth can Gigantamax
+                }
+                if (Settings.MaxDynamaxLevel && c.DynamaxLevel != 0)
+                    c.DynamaxLevel = 10;
+            }
 
             RandomizeEntryMoves(pk);
         }
@@ -341,8 +353,8 @@ namespace pkNX.Randomization
             return new Dictionary<int, int>();
         }
 
-        private static readonly int[] CrashClasses_GG = Enumerable.Range(72, 382 - 72 + 1).ToArray();
-        private static readonly int[] CrashClasses_SWSH = Enumerable.Range(94, 151 - 94 + 1).Concat(Enumerable.Range(219, 236 - 219 + 1)).Concat(Legal.UnusedClasses_SWSH).ToArray();
+        private static readonly int[] CrashClasses_GG = Enumerable.Range(072, 382 - 072 + 1).ToArray(); // Master Trainer titles, not really trclasses
+        private static readonly int[] CrashClasses_SWSH = Legal.UnusedClasses_SWSH;
 
         private static int[] GetSpecialClasses(GameVersion game)
         {

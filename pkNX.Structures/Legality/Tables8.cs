@@ -198,6 +198,36 @@ namespace pkNX.Structures
 
         public static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
 
+        public static readonly int[] GigantamaxForms =
+        {
+            006, // Charizard
+            012, // Butterfree
+            025, // Pikachu
+            052, // Meowth
+            068, // Machamp
+            094, // Gengar
+            099, // Kingler
+            131, // Lapras
+            133, // Eevee
+            143, // Snorlax
+            569, // Garbodor
+            809, // Melmetal
+            823, // Corviknight
+            826, // Orbeetle
+            834, // Drednaw
+            839, // Coalossal
+            841, // Flapple
+            842, // Appletun
+            844, // Sandaconda
+            849, // Toxtricity
+            851, // Centiskorch
+            858, // Hatterene
+            861, // Grimmsnarl
+            869, // Alcremie
+            879, // Copperajah
+            884, // Duraludon
+        };
+
         internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>
         {
                            006, 008,
