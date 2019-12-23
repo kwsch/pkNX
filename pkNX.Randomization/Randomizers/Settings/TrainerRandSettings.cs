@@ -59,6 +59,9 @@ namespace pkNX.Randomization
         [Category(PKM), Description("Forces all PKM above this level to be fully evolved if the " + nameof(ForceFullyEvolved) + " setting is set.")]
         public int ForceFullyEvolvedAtLevel { get; set; } = 36;
 
+        [Category(PKM), Description("Swaps Gigantamaxed species with other Gigantamaxed species.")]
+        public bool GigantamaxSwap { get; set; } = false;
+
         [Category(PKM), Description("Causes all PKM levels to be boosted by the specified ratio multiplier.")]
         public bool BoostLevel { get; set; } = true;
 
