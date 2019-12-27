@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
@@ -35,12 +36,15 @@ namespace pkNX.Game
             var learn = this[GameFile.Learnsets][0];
             var splitLearn = learn.Split(0x104);
             Learn = new FakeContainer(splitLearn);
+
+            var move = this[GameFile.MoveStats];
+            ((FolderContainer)move).Initialize();
             Data = new GameData
             {
-                MoveData = new DataCache<Move>(this[GameFile.MoveStats]) // mini
+                MoveData = new DataCache<Move>(move)
                 {
-                    Create = z => new Move7(z),
-                    Write = z => z.Write(),
+                    Create = Waza8Reader.ReadPlaceholder,
+                    Write = _ => throw new ArgumentException(),
                 },
                 LevelUpData = new DataCache<Learnset>(Learn)
                 {
@@ -57,6 +61,8 @@ namespace pkNX.Game
                 },
             };
         }
+
+        public void ResetMoves() => GetFilteredFolder(GameFile.MoveStats);
 
         public void ResetText()
         {

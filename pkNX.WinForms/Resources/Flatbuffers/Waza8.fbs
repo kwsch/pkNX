@@ -70,7 +70,7 @@ table Waza8 {
     Stat2Percent:ubyte;
     Stat3Percent:ubyte;
 
-    GigantimaxPower:ubyte;
+    GigantamaxPower:ubyte;
 
     // Flags
     Flag_MakesContact:bool;

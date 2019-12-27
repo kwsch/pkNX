@@ -47,4 +47,11 @@ namespace pkNX.Structures
 
         public MoveFlag7 Flags { get => (MoveFlag7)BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes((uint)value).CopyTo(Data, 0x24); }
     }
+
+    public class Move8Fake : Move7
+    {
+        public uint Version { get; set; }
+        public uint MoveID { get; set; }
+        public bool CanUseMove { get; set; }
+    }
 }
