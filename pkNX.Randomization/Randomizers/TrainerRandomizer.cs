@@ -240,7 +240,7 @@ namespace pkNX.Randomization
                     c.Species = GigantamaxForms[Util.Random.Next(GigantamaxForms.Length)];
                     c.Form = 0; // only Kanto Meowth can Gigantamax
                 }
-                if (Settings.MaxDynamaxLevel && c.DynamaxLevel != 0)
+                if (Settings.MaxDynamaxLevel && c.CanDynamax)
                     c.DynamaxLevel = 10;
             }
 
