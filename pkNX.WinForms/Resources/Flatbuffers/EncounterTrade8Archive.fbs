@@ -16,19 +16,19 @@ table EncounterTrade8 {
   Species:uint;
   Hash1:ulong;
   TrainerID:uint;
-  Memory:ubyte;
-  Argument:ushort;
-  Feeling:ubyte;
-  Intensity:ubyte;
+  Field_0B:ubyte;
+  Field_0C:ushort;
+  Field_0D:ubyte;
+  Field_0E:ubyte;
   Hash2:ulong;
   OTGender:ubyte;
   RequiredForm:ubyte;
   RequiredSpecies:uint;
   Nature:uint;
-  Field_14:byte;
-  Field_15:uint;
-  Field_16:uint;
-  Field_17:uint;
+  Memory:byte;
+  Argument:uint;
+  Feeling:uint;
+  Intensity:uint;
 
   IV_Hp:ubyte;
   IV_Atk:ubyte;
