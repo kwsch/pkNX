@@ -8,6 +8,7 @@
 
         public abstract bool Shiny { get; set; }
         public abstract bool CanMegaEvolve { get; set; }
+        public abstract bool CanDynamax { get; set; }
 
         public abstract int Move1 { get; set; }
         public abstract int Move2 { get; set; }

@@ -67,6 +67,14 @@ namespace pkNX.WinForms.Controls
             if (PKM is IAwakened s)
                 TB_AVTotal.Text = s.AwakeningSum().ToString();
 
+            var showAV = PKM is IAwakened;
+            Label_AVs.Visible = TB_AVTotal.Visible = FLP_HPType.Visible = showAV;
+            foreach (var mtb in tb_av)
+                mtb.Visible = showAV;
+            Label_EVs.Visible = TB_EVTotal.Visible = FLP_Dynamax.Visible = !showAV;
+            foreach (var mtb in tb_ev)
+                mtb.Visible = !showAV;
+
             // Recolor the Stat Labels based on boosted stats.
             RecolorStatLabels();
             UpdatingFields = true;

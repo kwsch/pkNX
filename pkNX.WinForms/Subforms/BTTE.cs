@@ -336,16 +336,16 @@ namespace pkNX.WinForms
                 CHK_CanMega.Checked = b.CanMegaEvolve;
                 NUD_MegaForm.Value = b.MegaFormChoice;
                 NUD_Friendship.Value = b.Friendship;
-                FLP_HeldItem.Visible = FLP_Ability.Visible = false;
-                L_DynamaxLevel.Visible = CB_DynamaxLevel.Visible = CHK_Gigantamax.Visible = false;
+                FLP_Friendship.Visible = FLP_Mega.Visible = true;
+                FLP_HeldItem.Visible = FLP_Ability.Visible = FLP_CanDynamax.Visible = false;
             }
             else if (pkm is TrainerPoke8 c)
             {
-                CB_DynamaxLevel.SelectedIndex = c.DynamaxLevel;
-                CHK_Gigantamax.Checked = c.CanGigantamax;
+                CHK_CanDynamax.Checked = c.CanDynamax;
+                Stats.CB_DynamaxLevel.SelectedIndex = c.DynamaxLevel;
+                Stats.CHK_Gigantamax.Checked = c.CanGigantamax;
                 FLP_Friendship.Visible = FLP_Mega.Visible = false;
-                FLP_HeldItem.Visible = FLP_Ability.Visible = true;
-                L_DynamaxLevel.Visible = CB_DynamaxLevel.Visible = CHK_Gigantamax.Visible = true;
+                FLP_HeldItem.Visible = FLP_Ability.Visible = FLP_CanDynamax.Visible = true;
             }
 
             Stats.LoadStats(pkm);
@@ -373,12 +373,14 @@ namespace pkNX.WinForms
             {
                 b.CanMegaEvolve = CHK_CanMega.Checked;
                 b.MegaFormChoice = (int) NUD_MegaForm.Value;
+                b.Friendship = (int) NUD_Friendship.Value;
             }
 
-            if (pk is TrainerPoke8 c)
+            else if (pk is TrainerPoke8 c)
             {
-                c.DynamaxLevel = (byte) CB_DynamaxLevel.SelectedIndex;
-                c.CanGigantamax = CHK_Gigantamax.Checked;
+                c.CanDynamax = CHK_CanDynamax.Checked;
+                c.DynamaxLevel = (byte) Stats.CB_DynamaxLevel.SelectedIndex;
+                c.CanGigantamax = Stats.CHK_Gigantamax.Checked;
             }
 
             return pk;
