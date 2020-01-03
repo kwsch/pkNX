@@ -17,7 +17,7 @@ table EncounterTrade8 {
   Hash1:ulong;
   TrainerID:uint;
   Field_0B:ubyte;
-  Field_0C:ushort;
+  Field_0C:ubyte;
   Field_0D:ubyte;
   Field_0E:ubyte;
   Hash2:ulong;
