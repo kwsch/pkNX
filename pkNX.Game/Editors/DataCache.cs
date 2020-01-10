@@ -9,7 +9,7 @@ namespace pkNX.Game
         public Func<byte[], T> Create { private get; set; }
         public Func<T, byte[]> Write { protected get; set; }
 
-        protected DataCache(T[] cache) => Cache = cache;
+        public DataCache(T[] cache) => Cache = cache;
         public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
         protected readonly T[] Cache;

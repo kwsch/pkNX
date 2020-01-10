@@ -215,6 +215,27 @@ namespace pkNX.WinForms.Controls
             fp[0] = data_table.Write();
         }
 
+        public void EditRaid()
+        {
+            IFileContainer fp = ROM.GetFile(GameFile.NestData);
+            var data_table = new GFPack(fp[0]);
+            const string nest = "nest_hole_encount.bin";
+            var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNest8Archive>(data_table.GetDataFileName(nest));
+
+            var arr = nest_encounts.Tables;
+            var cache = new DataCache<EncounterNest8Table>(arr);
+            var games = new[] {"Sword", "Shield"};
+            var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
+            using var form = new GenericEditor<EncounterNest8Table>(cache, names, "Raid Encounters");
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+
+            var data = FlatBufferConverter.SerializeFrom(nest_encounts);
+            data_table.SetDataFileName(nest, data);
+            fp[0] = data_table.Write();
+        }
+
         public void EditStatic()
         {
             var arc = ROM.GetFile(GameFile.EncounterStatic);

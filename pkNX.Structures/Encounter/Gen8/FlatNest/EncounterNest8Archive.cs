@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace pkNX.Structures
 {
@@ -131,30 +132,36 @@ namespace pkNX.Structures
         public int Species { get; set; }
         public int AltForm { get; set; }
         public ulong LevelTableID { get; set; }
-        public int Ability { get; set; }
+        public byte Ability { get; set; }
         public bool IsGigantamax { get; set; }
         public ulong DropTableID { get; set; }
         public ulong BonusTableID { get; set; }
-        public int[] Probabilities { get; set; }
-        public int Gender { get; set; }
-        public int FlawlessIVs { get; set; }
+        public uint[] Probabilities { get; set; }
+        public byte Gender { get; set; }
+        public byte FlawlessIVs { get; set; }
 
+        [JsonIgnore]
         public FixedAbility AbilityPermitted
         {
             get => (FixedAbility) Ability;
-            set => Ability = (int) value;
+            set => Ability = (byte) value;
         }
 
+        [JsonIgnore]
         public int MinRank => Array.FindIndex(Probabilities, z => z != 0);
+
+        [JsonIgnore]
         public int MaxRank => Array.FindLastIndex(Probabilities, z => z != 0);
+
+        public override string ToString() => $"{EntryIndex:00} - {Species:000}";
     }
 
     public enum FixedAbility
     {
-        Regular12 = 0,
-        Only1 = 1,
-        Only2 = 2,
-        OnlyH = 3,
+        Ability1 = 0,
+        Ability2 = 1,
+        AbilityH = 2,
+        Ability1_2 = 3,
         Any = 4,
     }
 }
