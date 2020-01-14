@@ -49,7 +49,7 @@ namespace pkNX.Randomization
             if (AllowAlolanForm && Legal.EvolveToAlolanForms.Contains(species))
                 return Util.Random.Next(2);
             if (AllowGalarianForm && Legal.EvolveToGalarForms.Contains(species))
-                return Util.Random.Next(2);
+                return species == 079 ? 1 : Util.Random.Next(2);
             if (!Legal.BattleExclusiveForms.Contains(species) || AllowMega)
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random
             return 0;

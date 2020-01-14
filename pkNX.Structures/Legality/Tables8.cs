@@ -170,6 +170,7 @@ namespace pkNX.Structures
             052, // Meowth
             077, // Ponyta
             078, // Rapidash
+            079, // Slowpoke
             083, // Farfetch’d
             122, // Mr. Mime
             222, // Corsola
