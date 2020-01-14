@@ -24,6 +24,8 @@ namespace pkNX.Structures
 
             if (galar && species == 052) // Galarian Meowth is altform 2
                 return Util.Rand.Next(3);
+            if (galar && species == 079) // todo: remove when Kanto Slowpoke is made usable in SWSH
+                return 1;
             if (galar && species == 555) // Galarian Darmanitan is altform 2, Galarian Zen is altform 3
                 return Util.Rand.Next(4);
 
