@@ -39,9 +39,13 @@ namespace pkNX.Structures
             {
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
-                var rank = $"{e.FlawlessIVs}-Star";
+                var rank = $"{e.MinRank + 1}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {e.Level}";
+                if (e.Field_12 == 1)
+                    yield return "\tShiny: Never";
+                else if (e.Field_12 == 2)
+                    yield return "\tShiny: Always";
                 yield return $"\tDynamax Level: {e.DynamaxLevel}";
                 yield return $"\tDynamax Boost: {e.DynamaxBoost:0.0}x";
                 /*yield return $"\tGender: {new[] { "Random", "Male", "Female", "Genderless" }[e.Gender]}";
@@ -68,12 +72,13 @@ namespace pkNX.Structures
                 }
 
                 yield return "\tDrops:";
-                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, e.FlawlessIVs - 1))
-                    yield return $"\t\t{entry.Values[e.FlawlessIVs - 1],3}% {GetItemName(entry.ItemID)}";
+                var dropTable = e.MinRank;
+                foreach (var entry in GetOrderedDrops(drop_tables, e.DropTableID, dropTable))
+                    yield return $"\t\t{entry.Values[e.MinRank],3}% {GetItemName(entry.ItemID)}";
 
                 yield return "\tBonus Drops:";
-                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, e.FlawlessIVs - 1))
-                    yield return $"\t\t{entry.Values[e.FlawlessIVs - 1]} x {GetItemName(entry.ItemID)}";
+                foreach (var entry in GetOrderedDrops(bonus_tables, e.BonusTableID, dropTable))
+                    yield return $"\t\t{entry.Values[e.MinRank]} x {GetItemName(entry.ItemID)}";
 
                 yield return string.Empty;
             }
@@ -114,9 +119,11 @@ namespace pkNX.Structures
                 var moves = $", Moves = new[]{{ {e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000} }}";
                 var ability = e.Ability switch
                 {
-                    2 => "A2",
-                    3 => "A3",
-                    4 => "A4",
+                    0 => "A0", // 1
+                    1 => "A1", // 2
+                    2 => "A2", // H
+                    3 => "A3", // 1/2 only
+                    4 => "A4", // 1/2/H
                     _ => throw new Exception()
                 };
 
