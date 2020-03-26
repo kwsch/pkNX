@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -39,7 +38,7 @@ namespace pkNX.Structures
             IEnumerable<string> PrettySummary(NestHoleCrystalEncounter8 e)
             {
                 var encounter_rank = GetEncounterRank(e.Level); // TODO: How is this actually encoded?
-                var giga = e.IsGigantamax != 0 ? "Gigantamax " : string.Empty;
+                var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
                 var rank = $"{encounter_rank}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
@@ -92,21 +91,72 @@ namespace pkNX.Structures
                     return $"{items[(int)itemID]} {moves[tmtrs[100 + (int)itemID - 1130]]}";
                 return items[(int)itemID];
             }
+        }
 
-            int GetEncounterRank(int level)
+        private static int GetEncounterRank(int level)
+        {
+            if (15 <= level && level <= 20)
+                return 1;
+            if (25 <= level && level <= 30)
+                return 2;
+            if (35 <= level && level <= 40)
+                return 3;
+            if (45 <= level && level <= 50)
+                return 4;
+            if (55 <= level && level <= 60)
+                return 5;
+            return 0;
+        }
+
+        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, IReadOnlyList<string> items, int index)
+        {
+            for (uint i = 0; i < Entries.Length; i++)
             {
-                if (15 <= level && level <= 20)
-                    return 1;
-                if (25 <= level && level <= 30)
-                    return 2;
-                if (35 <= level && level <= 40)
-                    return 3;
-                if (45 <= level && level <= 50)
-                    return 4;
-                if (55 <= level && level <= 60)
-                    return 5;
-                throw new ArgumentException();
+                if (Entries[i].Species == 0)
+                    continue;
+                yield return Summary(Entries[i], i);
             }
+            yield return string.Empty;
+
+            string Summary(NestHoleCrystalEncounter8 e, uint x)
+            {
+                // Comment
+                var crystal = items[(int)(1279 + x)];
+                var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
+                var gprefix = e.IsGigantamax ? "Gigantamax " : string.Empty;
+                var comment = $"{crystal} {gprefix}{species[e.Species]}{form}";
+
+                var ability = e.Ability switch
+                {
+                    0 => "A0", // 1
+                    1 => "A1", // 2
+                    2 => "A2", // H
+                    3 => "A3", // 1/2 only
+                    4 => "A4", // 1/2/H
+                    _ => throw new Exception()
+                };
+
+                // Constructor
+                var spec = $"Species = {e.Species:000}";
+                var lvl = $", Level = {e.Level:00}";
+                var loc = ", Location = 126";
+                var abil = $", Ability = {ability}";
+                var dyna = $", DynamaxLevel = {e.DynamaxLevel}";
+                var moves = $", Moves = new[] {{{e.Move0:000},{e.Move1:000},{e.Move2:000},{e.Move3:000}}}";
+                var ivs = $", IVs = new[] {{{e.IV_Hp},{e.IV_Atk},{e.IV_Def},{e.IV_Spe},{e.IV_SpAtk},{e.IV_SpDef}}}";
+                var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
+                var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
+
+                return $"            new EncounterStatic8NC {{ {spec}{lvl}{abil}{loc}{ivs}{dyna}{moves}{altform}{giga} }}, // {comment}";
+            }
+        }
+
+        public string GetSummarySimple()
+        {
+            var tableID = TableID.ToString("X16");
+            var tableData = TableUtil.GetTable(Entries);
+
+            return tableID + Environment.NewLine + tableData + Environment.NewLine;
         }
     }
 
@@ -117,8 +167,8 @@ namespace pkNX.Structures
         public int AltForm { get; set; }
         public int Level { get; set; }
         public byte DynamaxLevel { get; set; }
-        public byte Field_05 { get; set; }
-        public int IsGigantamax { get; set; }
+        public byte Ability { get; set; }
+        public bool IsGigantamax { get; set; }
         public ulong DropTableID { get; set; }
         public ulong BonusTableID { get; set; }
         public byte Field_09 { get; set; }
@@ -141,12 +191,12 @@ namespace pkNX.Structures
         public float DynamaxBoost { get; set; }
         public uint Field_1B { get; set; }
         public uint Field_1C { get; set; }
-        public uint Field_1D { get; set; }
-        public uint Field_1E { get; set; }
-        public uint Field_1F { get; set; }
-        public uint Field_20 { get; set; }
-        public uint Field_21 { get; set; }
-        public uint Field_22 { get; set; }
-        public uint Field_23 { get; set; }
+        public uint Field_1D { get; set; } // Shield
+        public uint Field_1E { get; set; } // % only if move
+        public uint Field_1F { get; set; } // Move ID
+        public uint Field_20 { get; set; } // Shield only if move
+        public uint Field_21 { get; set; } // % only if move
+        public uint Field_22 { get; set; } // Move ID
+        public uint Field_23 { get; set; } // shield? only if move
     }
 }
