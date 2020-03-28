@@ -5,16 +5,16 @@ table EncounterGift8Archive {
 }
 
 table EncounterGift8 {
-  Field_00:byte;
-  Field_01:byte;
-  Field_02:byte;
-  Ball:ubyte;
+  IsEgg:uint;
+  AltForm:byte;
+  DynamaxLevel:byte;
+  Ball:uint;
   Field_04:byte;
 
   Hash1:ulong;
 
-  CanGigantamax:byte;
-  Field_07:byte;
+  CanGigantamax:bool;
+  HeldItem:uint;
   Level:byte;
   Species:uint;
   Field_0A:byte;
@@ -25,10 +25,10 @@ table EncounterGift8 {
 
   Hash2:ulong;
 
-  Field_10:uint;
+  Field_10:byte;
   ShinyLock:uint;
   Nature:uint;
-  Field_13:byte;
+  Gender:byte;
 
   IV_Hp:byte;
   IV_Atk:byte;
@@ -36,6 +36,9 @@ table EncounterGift8 {
   IV_SpAtk:byte;
   IV_SpDef:byte;
   IV_Spe:byte;
+
+  Ability:uint;
+  SpecialMove:uint;
 }
 
 root_type EncounterGift8Archive;
