@@ -40,7 +40,7 @@
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grid.Location = new System.Drawing.Point(0, 0);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(461, 494);
+            this.Grid.Size = new System.Drawing.Size(461, 611);
             this.Grid.TabIndex = 0;
             // 
             // B_Save
@@ -87,7 +87,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(461, 494);
+            this.ClientSize = new System.Drawing.Size(461, 611);
             this.Controls.Add(this.B_Rand);
             this.Controls.Add(this.B_Dump);
             this.Controls.Add(this.CB_EntryName);
