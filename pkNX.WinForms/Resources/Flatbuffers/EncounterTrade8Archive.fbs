@@ -5,39 +5,42 @@ table EncounterTrade8Archive {
 }
 
 table EncounterTrade8 {
-  Field_00:ubyte;
-  DynamaxLevel:ubyte;
-  Field_02:uint;
-  Field_03:ubyte;
+  AltForm:byte;
+  DynamaxLevel:byte;
+  Ball:uint;
+  Field_03:uint;
   Hash0:ulong;
-  AltForm:ubyte; // all 0 ?
+  CanGigantamax:bool;
   HeldItem:uint;
-  Level:ubyte;
+  Level:byte;
   Species:uint;
   Hash1:ulong;
   TrainerID:uint;
-  Field_0B:ubyte;
-  Field_0C:ubyte;
-  Field_0D:ubyte;
-  Field_0E:ubyte;
-  Hash2:ulong;
-  OTGender:ubyte;
-  RequiredForm:ubyte;
-  RequiredSpecies:uint;
-  Nature:uint;
   Memory:byte;
-  Argument:uint;
-  Feeling:uint;
-  Intensity:uint;
+  TextVar:ubyte;
+  Feeling:byte;
+  Intensity:byte;
+  Hash2:ulong;
+  OTGender:byte;
 
-  IV_Hp:ubyte;
-  IV_Atk:ubyte;
-  IV_Def:ubyte;
-  IV_SpAtk:ubyte;
-  IV_SpDef:ubyte;
-  IV_Spe:ubyte;
+  RequiredForm:byte;
+  RequiredSpecies:uint;
+  RequiredNature:uint;
 
-  Ability:ubyte;
+  UnknownRequirement:byte;
+
+  ShinyLock:uint;
+  Nature:uint;
+  Gender:byte;
+
+  IV_Hp:byte;
+  IV_Atk:byte;
+  IV_Def:byte;
+  IV_SpAtk:byte;
+  IV_SpDef:byte;
+  IV_Spe:byte;
+
+  Ability:byte;
   Relearn1:ushort;
   Relearn2:ushort;
   Relearn3:ushort;
