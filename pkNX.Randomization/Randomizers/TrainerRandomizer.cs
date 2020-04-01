@@ -16,6 +16,7 @@ namespace pkNX.Randomization
         private readonly Dictionary<int, int> IndexFixedCount;
         private readonly IList<int> SpecialClasses;
         private readonly IList<int> CrashClasses;
+        private readonly IList<int> DoubleClasses;
 
         public GenericRandomizer<int> Class { get; set; }
         public LearnsetRandomizer Learn { get; set; }
@@ -40,6 +41,7 @@ namespace pkNX.Randomization
             IndexFixedCount = GetFixedCountIndexes(Info.Game);
             SpecialClasses = GetSpecialClasses(Info.Game);
             CrashClasses = GetCrashClasses(Info.Game);
+            DoubleClasses = GetDoubleClasses(Info.Game);
         }
 
         public void Initialize(TrainerRandSettings settings)
@@ -49,6 +51,7 @@ namespace pkNX.Randomization
             IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
             if (Settings.SkipSpecialClasses)
                 classes = classes.Except(SpecialClasses);
+            classes = classes.Except(DoubleClasses);
             Class = new GenericRandomizer<int>(classes.ToArray());
         }
 
@@ -121,7 +124,7 @@ namespace pkNX.Randomization
             if (Settings.SkipSpecialClasses && SpecialClasses.Contains(tr.Self.Class))
                 return;
 
-            if (CrashClasses.Contains(tr.Self.Class))
+            if (CrashClasses.Contains(tr.Self.Class) || DoubleClasses.Contains(tr.Self.Class))
                 return; // keep as is
 
             tr.Self.Class = Class.Next();
@@ -354,7 +357,8 @@ namespace pkNX.Randomization
         }
 
         private static readonly int[] CrashClasses_GG = Enumerable.Range(072, 382 - 072 + 1).ToArray(); // Master Trainer titles, not really trclasses
-        private static readonly int[] CrashClasses_SWSH = Legal.UnusedClasses_SWSH;
+        private static readonly int[] CrashClasses_SWSH = Legal.BlacklistedClasses_SWSH;
+        private static readonly int[] DoubleClasses_SWSH = Legal.DoubleBattleClasses_SWSH;
 
         private static int[] GetSpecialClasses(GameVersion game)
         {
@@ -362,10 +366,10 @@ namespace pkNX.Randomization
                 return Legal.SpecialClasses_SWSH;
             if (GameVersion.GG.Contains(game))
                 return Legal.SpecialClasses_GG;
-            if (GameVersion.SM.Contains(game))
-                return Legal.SpecialClasses_SM;
             if (GameVersion.USUM.Contains(game))
                 return Legal.SpecialClasses_USUM;
+            if (GameVersion.SM.Contains(game))
+                return Legal.SpecialClasses_SM;
             if (GameVersion.ORAS.Contains(game))
                 return Legal.SpecialClasses_ORAS;
             if (GameVersion.XY.Contains(game))
@@ -379,6 +383,13 @@ namespace pkNX.Randomization
                 return CrashClasses_SWSH;
             if (GameVersion.GG.Contains(game))
                 return CrashClasses_GG;
+            return Array.Empty<int>();
+        }
+
+        private static int[] GetDoubleClasses(GameVersion game)
+        {
+            if (GameVersion.SWSH.Contains(game))
+                return DoubleClasses_SWSH;
             return Array.Empty<int>();
         }
     }
