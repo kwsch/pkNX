@@ -126,7 +126,7 @@ namespace pkNX.Randomization
 
             if (CrashClasses.Contains(tr.Self.Class) || DoubleClasses.Contains(tr.Self.Class))
                 return; // keep as is
-            
+
             tr.Self.Class = Class.Next();
         }
 
