@@ -341,67 +341,199 @@ namespace pkNX.Structures
         public static readonly int[] SpecialClasses_SWSH =
         {
             #region Classes
-            004, // Champion
-            005, // Pokémon Trainer
-            006, // Pokémon Trainer
-            007, // Pokémon Trainer
-            008, // Pokémon Trainer
-            011, // Pokémon Trainer
-            012, // Gym Leader
-            013, // Pokémon Trainer
-            014, // Pokémon Trainer
-            015, // Gym Leader
-            020, // Gym Leader
-            021, // Gym Leader
-            022, // Gym Leader
-            023, // Gym Leader
-            024, // Gym Leader
-            025, // Gym Leader
-            026, // Gym Leader
-            027, // Gym Leader
-            028, // Gym Leader
-            029, // Gym Leader
-            030, // Macro Cosmos's
-            032, // Macro Cosmos's
-            074, // Pokémon Trainer
-            075, // Pokémon Trainer
-            151, // Ball Guy
-            183, // GAME FREAK's
-            184, // Pokémon Trainer
-            185, // Pokémon Trainer
-            186, // Pokémon Trainer
-            187, // Pokémon Trainer
-            188, // Pokémon Trainer
-            199, // Pokémon Trainer
-            200, // Pokémon Trainer
-            205, // Gym Leader
-            206, // Gym Leader
-            207, // Gym Leader
-            208, // Gym Leader
-            209, // Gym Leader
-            210, // Gym Leader
-            211, // Gym Leader
-            212, // Gym Leader
-            213, // Gym Leader
-            214, // Gym Leader
-            215, // Gym Leader
-            216, // Gym Leader
-            217, // Pokémon Trainer
-            218, // Gym Leader
+            004, // Champion [Leon]
+            005, // Pokémon Trainer [Champion Cup, Leon]
+            006, // Pokémon Trainer [Battle Tower, Leon]
+            007, // Pokémon Trainer [Hop]
+            008, // Pokémon Trainer [Champion Cup, Hop]
+            011, // Pokémon Trainer [Bede]
+            012, // Gym Leader [Bede]
+            013, // Pokémon Trainer [Marnie]
+            014, // Pokémon Trainer [Champion Cup, Marnie]
+            015, // Gym Leader [Marnie]
+            020, // Gym Leader [Milo]
+            021, // Gym Leader [Nessa]
+            022, // Gym Leader [Kabu]
+            023, // Gym Leader [Bea]
+            024, // Gym Leader [Allister]
+            025, // Gym Leader [Opal]
+            026, // Gym Leader [Gordie]
+            027, // Gym Leader [Melony]
+            028, // Gym Leader [Piers]
+            029, // Gym Leader [Raihan]
+            030, // Macro Cosmos’s [Oleana]
+            032, // Macro Cosmos’s [Rose]
+            074, // Pokémon Trainer [Sordward]
+            075, // Pokémon Trainer [Shielbert]
+            183, // GAME FREAK’s [Morimoto]
+            184, // Pokémon Trainer [Max Raid Battle, Hop]
+            185, // Pokémon Trainer [Max Raid Battle, Piers]
+            188, // Pokémon Trainer [First Battle, Hop]
+            199, // Pokémon Trainer [Final Battle, Hop)
+            200, // Pokémon Trainer [Opal]
+            205, // Gym Leader [Rematch, Nessa]
+            206, // Gym Leader [Rematch, Raihan]
+            207, // Gym Leader [Rematch, Allister]
+            208, // Gym Leader [Rematch, Bea]
+            209, // Gym Leader [Rematch, Milo]
+            210, // Gym Leader [Champion Cup, Nessa]
+            211, // Gym Leader [Champion Cup, Kabu]
+            212, // Gym Leader [Champion Cup, Bea]
+            213, // Gym Leader [Champion Cup, Allister]
+            214, // Gym Leader [Champion Cup, Opal]
+            215, // Gym Leader [Champion Cup, Gordie]
+            216, // Gym Leader [Champion Cup, Melony]
+            217, // Pokémon Trainer [Champion Cup, Piers]
+            218, // Gym Leader [Champion Cup, Raihan]
+            #endregion
+        };
+
+        public static readonly int[] DoubleBattleClasses_SWSH =
+        {
+            #region DoubleBattleClasses
+            072, // Reporter
+            073, // Cameraman
+            170, // Musician
+            171, // Dancer
+            172, // Rail Staff
+            173, // Beauty
+            175, // Office Worker [Male]
+            176, // Office Worker [Female]
+            178, // Team Yell [Male]
+            179, // Gym Trainer [Dark, Male]
+            180, // Doctor [Male]
+            181, // Doctor [Female]
+            186, // Pokémon Trainer [Sordward]
+            187, // Pokémon Trainer [Shielbert]
+            202, // Team Yell [Female]
+            203, // Macro Cosmos's [Employee, Male]
+            204, // Macro Cosmos's [Employee, Female]
             #endregion
         };
 
         // <summary>
         // Unused Trainer Classes in Sword and Shield.
-        // There are over 100 that go unused; some crash the game while others weren't even localized.
-        // <summary>
+        // Consists of NPCs you can interact with but never battle.
+        // </summary>
         public static readonly int[] UnusedClasses_SWSH =
-         Enumerable.Range(094, 118 - 094 + 1).Concat  // 094-117
-        (Enumerable.Range(147, 165 - 147 + 1)).Concat // 147-164
-        (Enumerable.Range(189, 199 - 189 + 1)).Concat // 189-198
-        (Enumerable.Range(219, 236 - 219 + 1)).Concat // 219-235
-        (new int[] { 000, 001, 002, 003, 009, 010, 016, 017, 018, 019, 031, 047, 068, 090, 091, 119, 121, 123,
-                     125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 166, 167, 168, 169, 174, 177, 182, 200 }).ToArray();
+        {
+            #region UnusedClasses
+            000, // Pokémon Trainer [Your Player]
+            001, // Pokémon Trainer [Your Player]
+            002, // きんにくじまん [T-Pose]
+            003, // おかあさん [Mother]
+            009, // じょしゅ [Sonia]
+            010, // じょしゅ [Sonia]
+            016, // おばさん [T-Pose]
+            017, // ポケモンはかせ [Magnolia]
+            018, // ポケモンはかせ [Magnolia]
+            031, // Macro Cosmos’s [Rose]
+            119, // Gym Challenger [T-Pose]
+            121, // Gym Challenger [T-Pose]
+            123, // Gym Challenger [T-Pose]
+            125, // Gym Challenger [T-Pose]
+            127, // Gym Challenger [T-Pose]
+            129, // Gym Challenger [T-Pose]
+            131, // Gym Challenger [T-Pose]
+            133, // Gym Challenger [T-Pose]
+            135, // Gym Challenger [T-Pose]
+            137, // Gym Challenger [T-Pose]
+            139, // Gym Challenger [T-Pose]
+            141, // Gym Challenger [T-Pose]
+            143, // Gym Challenger [T-Pose]
+            145, // Gym Challenger [T-Pose]
+            147, // Gym Challenger [T-Pose]
+            148, // ＰＣじょう [Pokémon Center Lady]
+            149, // リーグしんぱんいん [League Referee]
+            150, // カセキはかせ [Cara Liss]
+            151, // Ball Guy [T-Pose]
+            152, // てんいん [Poké Mart Clerk]
+            153, // てんいん [T-Pose]
+            155, // えんじ [Preschooler]
+            156, // えんじ [Preschooler]
+            157, // じどう [T-Pose]
+            158, // じどう [T-Pose]
+            159, // わかもの [T-Pose]
+            160, // ちゅうねん [T-Pose]
+            161, // ちゅうねん [T-Pose]
+            162, // ろうじん [T-Pose]
+            163, // ろうじん [T-Pose]
+            164, // ちゅうねん [T-Pose]
+            167, // Young Man [T-Pose]
+            #endregion
+        };
+
+        // <summary>
+        // Unused Trainer Classes in Sword and Shield.
+        // Assigning these Trainer Classes to a Trainer crashes the game.
+        // </summary>
+        public static readonly int[] CrashClasses_SWSH =
+        {
+            #region CrashClasses
+            019, // ベテラントレーナー
+            047, // Waitress
+            068, // Stylist
+            094, // Gym Leader
+            095, // Gym Trainer
+            096, // Gym Trainer
+            097, // Gym Leader
+            098, // Gym Trainer
+            099, // Gym Trainer
+            100, // Gym Leader
+            101, // Gym Trainer
+            102, // Gym Trainer
+            103, // Gym Leader
+            104, // Gym Trainer
+            105, // Gym Trainer
+            106, // Gym Leader
+            107, // Gym Trainer
+            108, // Gym Trainer
+            109, // Gym Leader
+            110, // Gym Trainer
+            111, // Gym Trainer
+            112, // Gym Leader
+            113, // Gym Trainer
+            114, // Gym Trainer
+            115, // Gym Leader
+            116, // Gym Trainer
+            117, // Gym Trainer
+            154, // はいたついん
+            168, // Interviewers  [Displayed when 072 and 073 partake in a Double Battle]; Reporter / Cameraman
+            172, // Music Crew    [Displayed when 170 and 171 partake in a Double Battle]; Musician / Dancer
+            174, // Daring Couple [Displayed when 172 and 173 partake in a Double Battle]; Rail Staff / Beauty
+            177, // Colleagues    [Displayed when 175 and 176 partake in a Double Battle]; Office Workers
+            182, // Medical Team  [Displayed when 180 and 181 partake in a Double Battle]; Doctors
+            #endregion
+        };
+
+        // <summary>
+        // Dummy Trainer Classes in Sword and Shield.
+        // No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
+        // </summary>
+        public static readonly int[] DummyClasses_SWSH =
+        {
+            #region DummyClasses
+            219, // [~ 230]
+            220, // [~ 231]
+            221, // [~ 232]
+            222, // [~ 233]
+            223, // [~ 234]
+            224, // [~ 235]
+            225, // [~ 236]
+            226, // [~ 237]
+            227, // [~ 238]
+            228, // [~ 239]
+            229, // [~ 240]
+            230, // [~ 241]
+            231, // [~ 242]
+            232, // [~ 243]
+            233, // [~ 244]
+            234, // [~ 245]
+            235, // [~ 246]
+            #endregion
+        };
+
+        public static readonly int[] BlacklistedClasses_SWSH = UnusedClasses_SWSH.Concat(CrashClasses_SWSH.Concat(DummyClasses_SWSH)).ToArray();
 
         public static readonly int[] Model_XY =
         {
