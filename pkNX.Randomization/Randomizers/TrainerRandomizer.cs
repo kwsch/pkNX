@@ -49,7 +49,6 @@ namespace pkNX.Randomization
             IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
             if (Settings.SkipSpecialClasses)
                 classes = classes.Except(SpecialClasses);
-            classes = classes.Except(Legal.DoubleBattleClasses_SWSH);
             Class = new GenericRandomizer<int>(classes.ToArray());
         }
 

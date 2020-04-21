@@ -535,7 +535,7 @@ namespace pkNX.Structures
             #endregion
         };
 
-        public static readonly int[] BlacklistedClasses_SWSH = UnusedClasses_SWSH.Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
+        public static readonly int[] BlacklistedClasses_SWSH = DoubleBattleClasses_SWSH.Concat(UnusedClasses_SWSH).Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
 
         public static readonly int[] Model_XY =
         {
