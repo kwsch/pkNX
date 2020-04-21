@@ -5,7 +5,7 @@ namespace pkNX.Sprites
 {
     public static class SpriteName
     {
-        public static bool AllowShinySprite { get; set; }
+        public static bool AllowShinySprite { get; set; } = true;
 
         private const string Separator = "_";
         private const string Cosplay = "c";
@@ -42,7 +42,7 @@ namespace pkNX.Sprites
                         sb.Append(GGStarter);
                 }
             }
-            else if (gender == 1 && SpeciesGenderedSprite.Contains(species))
+            else if (gender == 2 && SpeciesGenderedSprite.Contains(species))
             {
                 sb.Append('f');
             }
@@ -61,8 +61,9 @@ namespace pkNX.Sprites
             493, // Arceus
             664, // Scatterbug
             665, // Spewpa
-            773, // Silvally
             778, // Mimikyu
+            854, // Sinistea
+            855, // Polteageist
         };
 
         /// <summary>
@@ -70,6 +71,8 @@ namespace pkNX.Sprites
         /// </summary>
         public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
+            449, // Hippopotas
+            450, // Hippowdon
             521, // Unfezant
             592, // Frillish
             593, // Jellicent

@@ -51,6 +51,7 @@ namespace pkNX.Structures
 
         public override int Friendship { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Rank { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
+        public override bool CanDynamax { get => false; set { } }
 
         public override uint IV32  { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
         public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
@@ -60,7 +61,6 @@ namespace pkNX.Structures
         public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
         public override bool Shiny { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
-        public override bool CanDynamax { get => false; set { } }
 
         public override bool CanMegaEvolve
         {
