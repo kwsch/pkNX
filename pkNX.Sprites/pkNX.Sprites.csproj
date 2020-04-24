@@ -3948,6 +3948,9 @@
     <None Include="Sprites\Big Pokemon Sprites\b_666-5.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_666-6.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_666-7.png" />
   </ItemGroup>
   <ItemGroup>
@@ -7819,6 +7822,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_666-5s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_666-6s.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_666-7s.png" />
