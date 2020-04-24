@@ -104,7 +104,7 @@ namespace pkNX.Structures
             MaxSpeciesID = Legal.MaxSpeciesID_8;
             MaxMoveID = Legal.MaxMoveID_8;
             MaxItemID = Legal.MaxItemID_8;
-            HeldItems = new ushort[1];
+            HeldItems = Legal.HeldItems_SWSH;
             MaxAbilityID = Legal.MaxAbilityID_8;
         }
     }

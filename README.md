@@ -27,3 +27,7 @@ pkNX also provides some utility to extract from supported container types, e.g. 
 pkNX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137).
 
 The executable can be built with any compiler that supports C# 8.
+
+## Dependencies
+
+pkNX's shiny sprite collection is taken from [pokesprite](https://github.com/msikma/pokesprite), which is licensed under [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).

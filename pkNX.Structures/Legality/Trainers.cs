@@ -342,14 +342,14 @@ namespace pkNX.Structures
         {
             #region Classes
             004, // Champion [Leon]
-            005, // Pokémon Trainer [Champion Cup, Leon]
-            006, // Pokémon Trainer [Battle Tower, Leon]
+            005, // Pokémon Trainer [Leon, Battle Tower]
+            006, // Pokémon Trainer [Leon, Champion Cup Rematches]
             007, // Pokémon Trainer [Hop]
-            008, // Pokémon Trainer [Champion Cup, Hop]
+            008, // Pokémon Trainer [Hop, Gym Outfit]
             011, // Pokémon Trainer [Bede]
             012, // Gym Leader [Bede]
             013, // Pokémon Trainer [Marnie]
-            014, // Pokémon Trainer [Champion Cup, Marnie]
+            014, // Pokémon Trainer [Marnie, Gym Outfit]
             015, // Gym Leader [Marnie]
             020, // Gym Leader [Milo]
             021, // Gym Leader [Nessa]
@@ -369,7 +369,7 @@ namespace pkNX.Structures
             184, // Pokémon Trainer [Max Raid Battle, Hop]
             185, // Pokémon Trainer [Max Raid Battle, Piers]
             188, // Pokémon Trainer [First Battle, Hop]
-            199, // Pokémon Trainer [Final Battle, Hop)
+            199, // Pokémon Trainer [Final Battle, Hop]
             200, // Pokémon Trainer [Opal]
             205, // Gym Leader [Rematch, Nessa]
             206, // Gym Leader [Rematch, Raihan]
@@ -406,8 +406,15 @@ namespace pkNX.Structures
             186, // Pokémon Trainer [Sordward]
             187, // Pokémon Trainer [Shielbert]
             202, // Team Yell [Female]
-            203, // Macro Cosmos's [Employee, Male]
-            204, // Macro Cosmos's [Employee, Female]
+            203, // Macro Cosmos’s [Male]
+            204, // Macro Cosmos’s [Female]
+            
+            // These Trainer Classes are never assigned to Trainers, they're purely for display
+            168, // Interviewers  (Displayed when Trainer Classes 072 and 073 partake in a Double Battle)
+            172, // Music Crew    (Displayed when Trainer Classes 170 and 171 partake in a Double Battle)
+            174, // Daring Couple (Displayed when Trainer Classes 172 and 173 partake in a Double Battle)
+            177, // Colleagues    (Displayed when Trainer Classes 175 and 176 partake in a Double Battle)
+            182, // Medical Team  (Displayed when Trainer Classes 180 and 181 partake in a Double Battle)
             #endregion
         };
 
@@ -422,12 +429,12 @@ namespace pkNX.Structures
             001, // Pokémon Trainer [Your Player]
             002, // きんにくじまん [T-Pose]
             003, // おかあさん [Mother]
-            009, // じょしゅ [Sonia]
-            010, // じょしゅ [Sonia]
+            009, // じょしゅ [Sonia, Trench Coat]
+            010, // じょしゅ [Sonia, Lab Coat]
             016, // おばさん [T-Pose]
-            017, // ポケモンはかせ [Magnolia]
-            018, // ポケモンはかせ [Magnolia]
-            031, // Macro Cosmos’s [Rose]
+            017, // ポケモンはかせ [Magnolia, Lab Coat]
+            018, // ポケモンはかせ [Magnolia, Casual Dress]
+            031, // Macro Cosmos’s [Rose, Casual Clothing]
             119, // Gym Challenger [T-Pose]
             121, // Gym Challenger [T-Pose]
             123, // Gym Challenger [T-Pose]
@@ -498,11 +505,6 @@ namespace pkNX.Structures
             116, // Gym Trainer
             117, // Gym Trainer
             154, // はいたついん
-            168, // Interviewers  [Displayed when 072 and 073 partake in a Double Battle]; Reporter / Cameraman
-            172, // Music Crew    [Displayed when 170 and 171 partake in a Double Battle]; Musician / Dancer
-            174, // Daring Couple [Displayed when 172 and 173 partake in a Double Battle]; Rail Staff / Beauty
-            177, // Colleagues    [Displayed when 175 and 176 partake in a Double Battle]; Office Workers
-            182, // Medical Team  [Displayed when 180 and 181 partake in a Double Battle]; Doctors
             #endregion
         };
 
@@ -533,7 +535,7 @@ namespace pkNX.Structures
             #endregion
         };
 
-        public static readonly int[] BlacklistedClasses_SWSH = UnusedClasses_SWSH.Concat(CrashClasses_SWSH.Concat(DummyClasses_SWSH)).ToArray();
+        public static readonly int[] BlacklistedClasses_SWSH = DoubleBattleClasses_SWSH.Concat(UnusedClasses_SWSH).Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
 
         public static readonly int[] Model_XY =
         {

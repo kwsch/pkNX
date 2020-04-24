@@ -22,6 +22,7 @@ namespace pkNX.Sprites
         public abstract Bitmap Delete { get; }
         public abstract Bitmap Transparent { get; }
         public abstract Bitmap Drag { get; }
+        public abstract Bitmap UnknownItem { get; }
 
         private const double UnknownFormTransparency = 0.5;
         private const double ShinyTransparency = 0.7;
@@ -94,10 +95,10 @@ namespace pkNX.Sprites
 
         private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.helditem;
-            if (2 <= generation && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
-                itemimg = Resources.item_tm;
-            else if (generation >= 8 && (1130 <= item && item <= 1229)) // Gen8 TR
+            Image itemimg = (Image)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.bitem_unk;
+            if (328 <= item && item <= 419) // gen2/3/4 TM
+                itemimg = Resources.bitem_tm;
+            else if (1130 <= item && item <= 1229) // Gen8 TR
                 itemimg = Resources.bitem_tr;
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
@@ -158,6 +159,7 @@ namespace pkNX.Sprites
         public override Bitmap Delete => Resources.slotDel;
         public override Bitmap Transparent => Resources.slotTrans;
         public override Bitmap Drag => Resources.slotDrag;
+        public override Bitmap UnknownItem => Resources.helditem; 
     }
 
     /// <summary>
@@ -186,5 +188,6 @@ namespace pkNX.Sprites
         public override Bitmap Delete => Resources.slotDel68;
         public override Bitmap Transparent => Resources.slotTrans68;
         public override Bitmap Drag => Resources.slotDrag68;
+        public override Bitmap UnknownItem => Resources.bitem_unk;
     }
 }

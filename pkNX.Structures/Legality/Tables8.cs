@@ -163,14 +163,13 @@ namespace pkNX.Structures
             1105, 1106, 1107, 1108,
         };
 
-        internal static readonly ushort[] HeldItems_SWSH = new ushort[1].Concat(Pouch_Items_SWSH).Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).ToArray();
+        internal static readonly ushort[] HeldItems_SWSH = new ushort[1].Concat(Pouch_Items_SWSH).Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
 
         internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
         {
             052, // Meowth
             077, // Ponyta
             078, // Rapidash
-            079, // Slowpoke
             083, // Farfetch’d
             122, // Mr. Mime
             222, // Corsola
@@ -180,6 +179,9 @@ namespace pkNX.Structures
             555, // Darmanitan
             562, // Yamask
             618, // Stunfisk
+
+            // DLC (todo: slowbro, maybe others?)
+            079, // Slowpoke
         };
 
         internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
@@ -227,6 +229,8 @@ namespace pkNX.Structures
             869, // Alcremie
             879, // Copperajah
             884, // Duraludon
+
+            // todo: DLC (venusaur, blastoise, galar starters, urshifu, maybe others?)
         };
 
         internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>

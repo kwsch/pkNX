@@ -16,7 +16,6 @@ namespace pkNX.Randomization
         private readonly Dictionary<int, int> IndexFixedCount;
         private readonly IList<int> SpecialClasses;
         private readonly IList<int> CrashClasses;
-        private readonly IList<int> DoubleClasses;
 
         public GenericRandomizer<int> Class { get; set; }
         public LearnsetRandomizer Learn { get; set; }
@@ -41,7 +40,6 @@ namespace pkNX.Randomization
             IndexFixedCount = GetFixedCountIndexes(Info.Game);
             SpecialClasses = GetSpecialClasses(Info.Game);
             CrashClasses = GetCrashClasses(Info.Game);
-            DoubleClasses = GetDoubleClasses(Info.Game);
         }
 
         public void Initialize(TrainerRandSettings settings)
@@ -51,7 +49,6 @@ namespace pkNX.Randomization
             IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
             if (Settings.SkipSpecialClasses)
                 classes = classes.Except(SpecialClasses);
-            classes = classes.Except(DoubleClasses);
             Class = new GenericRandomizer<int>(classes.ToArray());
         }
 
@@ -124,7 +121,7 @@ namespace pkNX.Randomization
             if (Settings.SkipSpecialClasses && SpecialClasses.Contains(tr.Self.Class))
                 return;
 
-            if (CrashClasses.Contains(tr.Self.Class) || DoubleClasses.Contains(tr.Self.Class))
+            if (CrashClasses.Contains(tr.Self.Class))
                 return; // keep as is
 
             tr.Self.Class = Class.Next();
@@ -208,12 +205,18 @@ namespace pkNX.Randomization
                 var index = Personal.GetFormeIndex(species, form);
                 var eSet = evos[index].PossibleEvolutions;
                 int evoCount = eSet.Count(z => z.HasData);
-                if (evoCount == 0)
+                if (evoCount == 0 && species != 808)
                     break;
                 ++timesEvolved;
                 var next = Util.Random.Next(evoCount);
                 var nextEvo = eSet[next];
-                species = nextEvo.Species;
+
+                // Meltan only evolves in GO, so force evolve if no custom evo method has been added
+                if (evoCount == 0 && species == 808)
+                    species = 809;
+                else
+                    species = nextEvo.Species;
+
                 form = nextEvo.Form >= 0 ? nextEvo.Form : form;
             }
             while (timesEvolved < 3); // prevent randomized evos from looping excessively
@@ -241,7 +244,7 @@ namespace pkNX.Randomization
                 if (Settings.GigantamaxSwap && c.CanGigantamax)
                 {
                     c.Species = GigantamaxForms[Util.Random.Next(GigantamaxForms.Length)];
-                    c.Form = 0; // only Kanto Meowth can Gigantamax
+                    c.Form = c.Species == 025 || c.Species == 052 ? 0 : Legal.GetRandomForme(c.Species, false, false, false, Personal); // Pikachu & Meowth altforms can't gmax
                 }
                 if (Settings.MaxDynamaxLevel && c.CanDynamax)
                     c.DynamaxLevel = 10;
@@ -358,7 +361,6 @@ namespace pkNX.Randomization
 
         private static readonly int[] CrashClasses_GG = Enumerable.Range(072, 382 - 072 + 1).ToArray(); // Master Trainer titles, not really trclasses
         private static readonly int[] CrashClasses_SWSH = Legal.BlacklistedClasses_SWSH;
-        private static readonly int[] DoubleClasses_SWSH = Legal.DoubleBattleClasses_SWSH;
 
         private static int[] GetSpecialClasses(GameVersion game)
         {
@@ -383,13 +385,6 @@ namespace pkNX.Randomization
                 return CrashClasses_SWSH;
             if (GameVersion.GG.Contains(game))
                 return CrashClasses_GG;
-            return Array.Empty<int>();
-        }
-
-        private static int[] GetDoubleClasses(GameVersion game)
-        {
-            if (GameVersion.SWSH.Contains(game))
-                return DoubleClasses_SWSH;
             return Array.Empty<int>();
         }
     }
