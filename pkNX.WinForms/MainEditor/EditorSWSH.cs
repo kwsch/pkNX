@@ -236,6 +236,47 @@ namespace pkNX.WinForms.Controls
             fp[0] = data_table.Write();
         }
 
+        public void EditRaidRewards()
+        {
+            IFileContainer fp = ROM.GetFile(GameFile.NestData);
+            var data_table = new GFPack(fp[0]);
+            const string nest = "nest_hole_drop_rewards.bin";
+            byte[] originalData = data_table.GetDataFileName(nest);
+            var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(originalData);
+
+            var arr = nest_drops.Tables;
+            var cache = new DataCache<NestHoleReward8Table>(arr);
+            var names = arr.Select((z, i) => $"{z.TableID}").ToArray();
+            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "Raid Rewards");
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+
+            var data = FlatBufferConverter.SerializeFrom(nest_drops);
+            data_table.SetDataFileName(nest, data);
+            fp[0] = data_table.Write();
+        }
+
+        public void EditRBonusRewards()
+        {
+            IFileContainer fp = ROM.GetFile(GameFile.NestData);
+            var data_table = new GFPack(fp[0]);
+            const string nest = "nest_hole_bonus_rewards.bin";
+            var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName(nest));
+
+            var arr = nest_bonus.Tables;
+            var cache = new DataCache<NestHoleReward8Table>(arr);
+            var names = arr.Select((z, i) => $"{z.TableID}").ToArray();
+            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "RBonus Rewards");
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+
+            var data = FlatBufferConverter.SerializeFrom(nest_bonus);
+            data_table.SetDataFileName(nest, data);
+            fp[0] = data_table.Write();
+        }
+
         public void EditStatic()
         {
             var arc = ROM.GetFile(GameFile.EncounterStatic);
