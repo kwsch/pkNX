@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Runtime.InteropServices.ComTypes;﻿
+using System.Collections.Generic;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace pkNX.Structures
 {
@@ -11,6 +13,7 @@ namespace pkNX.Structures
     public interface INestHoleRewardTable
     {
         ulong TableID { get; set; }
+        [JsonIgnore]
         INestHoleReward[] Rewards { get; }
     }
 
@@ -19,6 +22,8 @@ namespace pkNX.Structures
         public ulong TableID { get; set; }
         public NestHoleReward8[] Entries { get; set; }
 
+        [Browsable(false)]
+        [JsonIgnore]
         public INestHoleReward[] Rewards => Entries;
     }
 
@@ -33,5 +38,7 @@ namespace pkNX.Structures
         public uint EntryID { get; set; }
         public uint ItemID { get; set; }
         public uint[] Values { get; set; }
+
+        public override string ToString() => $"{EntryID:0} - {ItemID:0000}";
     }
 }

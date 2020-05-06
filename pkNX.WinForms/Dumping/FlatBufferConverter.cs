@@ -114,6 +114,7 @@ namespace pkNX.WinForms
             File.WriteAllText(jsonPath, text);
             var args = GetArgumentsSerialize(jsonName, fbsName);
             RunFlatC(args);
+            File.Delete(jsonPath);
         }
 
         private static void RunFlatC(string args)
