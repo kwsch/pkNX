@@ -291,6 +291,8 @@ namespace pkNX.WinForms
             EL_Super.SaveCurrent();
             EL_Sky.SaveCurrent();
 
+            Result = "OK";
+
             Close();
         }
 
