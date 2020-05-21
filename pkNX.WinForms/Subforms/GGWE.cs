@@ -279,8 +279,6 @@ namespace pkNX.WinForms
             EL_Sky.SaveCurrent();
         }
 
-        public string Result { get; set; }
-
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveEntry(entry);
@@ -291,7 +289,7 @@ namespace pkNX.WinForms
             EL_Super.SaveCurrent();
             EL_Sky.SaveCurrent();
 
-            Result = "OK";
+            DialogResult = DialogResult.OK;
 
             Close();
         }

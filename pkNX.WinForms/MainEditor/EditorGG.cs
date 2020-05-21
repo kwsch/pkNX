@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
@@ -204,9 +205,7 @@ namespace pkNX.WinForms.Controls
             var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(winner);
 
             using var form = new GGWE(ROM, obj);
-            form.ShowDialog();
-            var result = form.Result;
-            if (string.IsNullOrWhiteSpace(result))
+            if (form.ShowDialog() != DialogResult.OK)
                 return;
 
             var data = FlatBufferConverter.SerializeFrom(obj);
