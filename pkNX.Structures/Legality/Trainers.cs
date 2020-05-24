@@ -411,7 +411,7 @@ namespace pkNX.Structures
             
             // These Trainer Classes are never assigned to Trainers, they're purely for display
             168, // Interviewers  (Displayed when Trainer Classes 072 and 073 partake in a Double Battle)
-            172, // Music Crew    (Displayed when Trainer Classes 170 and 171 partake in a Double Battle)
+            169, // Music Crew    (Displayed when Trainer Classes 170 and 171 partake in a Double Battle)
             174, // Daring Couple (Displayed when Trainer Classes 172 and 173 partake in a Double Battle)
             177, // Colleagues    (Displayed when Trainer Classes 175 and 176 partake in a Double Battle)
             182, // Medical Team  (Displayed when Trainer Classes 180 and 181 partake in a Double Battle)
