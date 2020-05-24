@@ -27,9 +27,9 @@ namespace pkNX.Structures
             var result = new Item8[numEntries];
             for (var i = 0; i < result.Length; i++)
             {
-                var entryIndex = BitConverter.ToUInt16(bin, 0x44 + 2 * i);
+                var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
                 if (entryIndex >= maxEntryIndex) { throw new ArgumentException();  }
-                result[i] = new Item8(i, bin.Slice(entriesStart + entryIndex * SIZE, SIZE));
+                result[i] = new Item8(i, bin.Slice(entriesStart + (entryIndex * SIZE), SIZE));
             }
 
             return result;

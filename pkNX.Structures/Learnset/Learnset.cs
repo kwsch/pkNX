@@ -87,7 +87,7 @@ namespace pkNX.Structures
             Count = Moves.Length;
         }
 
-        public int[] GetHighPoweredMoves(int count, Move[] movedata)
+        public int[] GetHighPoweredMoves(int count, IReadOnlyList<Move> movedata)
         {
             var moves = Moves.OrderByDescending(move => movedata[move].Power).Distinct().Take(count).ToArray();
             Array.Resize(ref moves, count);

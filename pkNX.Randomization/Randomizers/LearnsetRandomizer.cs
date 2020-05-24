@@ -14,7 +14,7 @@ namespace pkNX.Randomization
         private readonly GameInfo Game;
         private readonly PersonalTable Personal;
         private MoveRandomizer moverand;
-        public Move[] Moves { private get; set; }
+        public IReadOnlyList<Move> Moves { private get; set; }
 
         public LearnSettings Settings { get; private set; }
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
@@ -120,7 +120,7 @@ namespace pkNX.Randomization
             int[] moves = new int[count];
             if (count == 0)
                 return moves;
-            moves[0] = Settings.STABFirst ? moverand.GetRandomFirstMove(index) : moverand.GetRandomFirstMoveAny();
+            moves[0] = Settings.STABFirst ? moverand.GetRandomFirstMove(index) : MoveRandomizer.GetRandomFirstMoveAny();
             var rand = moverand.GetRandomLearnset(index, count - 1);
 
             // STAB Moves (if requested) come first; randomize the order of moves
@@ -141,7 +141,7 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        public int[] GetHighPoweredMoves(Move[] movedata, int species, int form, int count = 4)
+        public int[] GetHighPoweredMoves(IReadOnlyList<Move> movedata, int species, int form, int count = 4)
         {
             int index = Personal.GetFormeIndex(species, form);
             var learn = Learnsets[index];

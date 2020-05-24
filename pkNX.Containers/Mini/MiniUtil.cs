@@ -103,7 +103,7 @@ namespace pkNX.Containers
         public static Mini GetMini(BinaryReader br)
         {
             var ident = GetIsMini(br);
-            if (ident == null)
+            if (string.IsNullOrEmpty(ident))
                 return null;
 
             br.BaseStream.Position = 0;
@@ -139,7 +139,7 @@ namespace pkNX.Containers
                 using var br = new BinaryReader(fs);
                 return GetIsMini(br);
             }
-            catch { return null; }
+            catch { return string.Empty; }
         }
 
         public static string GetIsMini(byte[] data)
@@ -150,7 +150,7 @@ namespace pkNX.Containers
                 using var br = new BinaryReader(ms);
                 return GetIsMini(br);
             }
-            catch { return null; }
+            catch { return string.Empty; }
         }
     }
 }

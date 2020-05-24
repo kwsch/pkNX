@@ -5,7 +5,7 @@ namespace pkNX.Structures
     public class EncounterTrade7b : EncounterTrade
     {
         public const int SIZE = 0x58;
-        public EncounterTrade7b(byte[] data) => Data = data ?? new byte[SIZE];
+        public EncounterTrade7b(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
         // game loops over all trades to find which one is being offered
         public ulong HashTradeID => BitConverter.ToUInt64(Data, 0x00);
@@ -145,7 +145,7 @@ namespace pkNX.Structures
 
         public ulong HashTradeStringNickname => BitConverter.ToUInt64(Data, 0x50);
 
-        public int Ball => 4;
+        public static int Ball => 4;
     }
 
     public enum OptionalTradeValue : short

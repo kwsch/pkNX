@@ -4,6 +4,9 @@ namespace pkNX.Structures
 {
     public class EncounterGift6AO : EncounterGift
     {
+        public const int SIZE = 0x24;
+        public EncounterGift6AO(byte[] data = null) : base(data ?? new byte[SIZE]) { }
+
         public override int Species { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public int _02 { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Form { get => Data[0x04]; set => Data[0x04] = (byte)value; }

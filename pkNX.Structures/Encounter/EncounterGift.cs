@@ -4,7 +4,8 @@ namespace pkNX.Structures
 {
     public abstract class EncounterGift
     {
-        protected byte[] Data { get; set; }
+        protected readonly byte[] Data;
+        protected EncounterGift(byte[] data) => Data = data;
         public virtual byte[] Write() => (byte[])Data.Clone();
 
         public abstract int Species { get; set; }

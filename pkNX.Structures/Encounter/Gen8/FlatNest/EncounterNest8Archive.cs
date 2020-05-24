@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
 
+#pragma warning disable CA1819 // Properties should not return arrays
 namespace pkNX.Structures
 {
     public class EncounterNest8Archive

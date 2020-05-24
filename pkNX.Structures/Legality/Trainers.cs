@@ -408,7 +408,7 @@ namespace pkNX.Structures
             202, // Team Yell [Female]
             203, // Macro Cosmos’s [Male]
             204, // Macro Cosmos’s [Female]
-            
+
             // These Trainer Classes are never assigned to Trainers, they're purely for display
             168, // Interviewers  (Displayed when Trainer Classes 072 and 073 partake in a Double Battle)
             169, // Music Crew    (Displayed when Trainer Classes 170 and 171 partake in a Double Battle)

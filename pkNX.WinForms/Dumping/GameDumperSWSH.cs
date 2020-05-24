@@ -409,13 +409,12 @@ namespace pkNX.WinForms
             File.WriteAllLines(bin, lines);
         }
 
-        public byte[] GetDistributionContents(string path)
+        public static byte[] GetDistributionContents(string path)
         {
             var archive = File.ReadAllBytes(path);
 
             // Validate Header
-            if (archive.Length < 0x20 || archive.Length != 4 + BitConverter.ToInt32(archive, 0x10) ||
-                BitConverter.ToInt32(archive, 0x8) != 0x20)
+            if (archive.Length < 0x20 || archive.Length != 4 + BitConverter.ToInt32(archive, 0x10) || BitConverter.ToInt32(archive, 0x8) != 0x20)
                 throw new ArgumentException();
 
             // TODO: Eventually validate CRC16 over Data[:-4], CRC stored at Data[-4:]
@@ -504,7 +503,7 @@ namespace pkNX.WinForms
             foreach (var game in new[] { 1, 2 })
             {
                 var tables = dai_encounts.Tables.Where(z => z.GameVersion == game).ToList();
-                var encounters = tables.SelectMany((z, x) => z.GetSummary(speciesNames, itemNames, x)).ToArray();
+                var encounters = tables.SelectMany(z => z.GetSummary(speciesNames, itemNames)).ToArray();
 
                 var path1 = GetPath($"nestCrystalHex{game}.txt");
                 File.WriteAllLines(path1, encounters);

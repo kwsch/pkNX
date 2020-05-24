@@ -32,7 +32,7 @@ namespace pkNX.Structures
 
         private byte[] Set()
         {
-            var data = new byte[2 + 2 + 2*Moves.Length];
+            var data = new byte[2 + 2 + (2 *Moves.Length)];
             BitConverter.GetBytes((ushort)FormTableIndex).CopyTo(data, 0);
             BitConverter.GetBytes((ushort)Moves.Length).CopyTo(data, 2);
             for (int i = 0; i < Moves.Length; i++)

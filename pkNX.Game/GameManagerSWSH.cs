@@ -17,8 +17,7 @@ namespace pkNX.Game
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
-            // todo var eeveevidpath = Path.Combine(ROM.RomFS, Path.Combine("bin", "movies", "EEVEE_GO"));
-            bool shield = false; // todo Directory.Exists(eeveevidpath);
+            const bool shield = false; // todo
             ActualGame = shield ? GameVersion.SH : GameVersion.SW;
             var redirect = Path.Combine(basePath, TitleID);
             FileMitm.SetRedirect(basePath, redirect);

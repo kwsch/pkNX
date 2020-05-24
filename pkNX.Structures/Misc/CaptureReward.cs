@@ -9,22 +9,7 @@ namespace pkNX.Structures
     /// <remarks>They do this because the Pickup Ability no longer exists, and to ease the grind of marts.</remarks>
     public class CaptureRewardTable
     {
-        public class Group
-        {
-            public int CaptureCount;
-            public int EntryCount;
-
-            public List<Entry> Entries;
-        }
-
-        public class Entry
-        {
-            public int Item;
-            public int Count;
-            public int Rate;
-        }
-
-        public List<Group> Table = new List<Group>();
+        public List<CaptureRewardGroup> Table = new List<CaptureRewardGroup>();
 
         public CaptureRewardTable(byte[] data)
         {
@@ -40,15 +25,15 @@ namespace pkNX.Structures
                 ReadTable(br, g);
         }
 
-        private static void ReadTable(BinaryReader br, Group g)
+        private static void ReadTable(BinaryReader br, CaptureRewardGroup g)
         {
             for (int i = 0; i < g.EntryCount; i++)
                 g.Entries.Add(ReadEntry(br));
         }
 
-        private static Entry ReadEntry(BinaryReader br)
+        private static CaptureRewardEntry ReadEntry(BinaryReader br)
         {
-            return new Entry
+            return new CaptureRewardEntry
             {
                 Item = br.ReadInt32(),
                 Count = br.ReadInt32(),
@@ -67,12 +52,7 @@ namespace pkNX.Structures
                     break;
                 }
                 var entries = br.ReadInt32();
-                var group = new Group
-                {
-                    CaptureCount = count,
-                    EntryCount = entries,
-                    Entries = new List<Entry>(entries),
-                };
+                var group = new CaptureRewardGroup(count, entries);
                 Table.Add(group);
             }
         }
@@ -110,5 +90,27 @@ namespace pkNX.Structures
                 yield return "";
             }
         }
+    }
+
+    public class CaptureRewardGroup
+    {
+        public int CaptureCount;
+        public int EntryCount;
+
+        public List<CaptureRewardEntry> Entries;
+
+        public CaptureRewardGroup(int count, int entries)
+        {
+            CaptureCount = count;
+            EntryCount = entries;
+            Entries = new List<CaptureRewardEntry>(entries);
+        }
+    }
+
+    public class CaptureRewardEntry
+    {
+        public int Item;
+        public int Count;
+        public int Rate;
     }
 }

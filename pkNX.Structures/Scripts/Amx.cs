@@ -80,7 +80,7 @@ namespace pkNX.Structures
         public TableRecord[] PublicVars { get; protected set; }
         public Variable[] Globals { get; protected set; }
 
-        public string ReadName(byte[] data, int offset)
+        public static string ReadName(byte[] data, int offset)
         {
             var end = Array.FindIndex(data, offset, z => z == 0);
             if (end < 0)

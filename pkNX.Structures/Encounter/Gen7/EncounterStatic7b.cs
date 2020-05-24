@@ -6,7 +6,7 @@ namespace pkNX.Structures
     public sealed class EncounterStatic7b : EncounterStatic
     {
         public const int SIZE = 0x40;
-        public EncounterStatic7b(byte[] data) => Data = data ?? new byte[SIZE];
+        public EncounterStatic7b(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
         public ulong Hash => BitConverter.ToUInt64(Data, 0);
 

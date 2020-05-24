@@ -19,17 +19,17 @@ namespace pkNX.WinForms
     {
         public static ContainerHandler DefaultHandler { private get; set; } = new ContainerHandler();
 
-        public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, RipResult>> Loaders =
-            new List<Func<BinaryReader, uint, string, ContainerHandler, RipResult>>
+        public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>> Loaders =
+            new List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>>
             {
                 GFPackDump,
                 NSODump,
             };
 
-        private static RipResult NSODump(BinaryReader br, uint header, string path, ContainerHandler handler)
+        private static FileRipperResult NSODump(BinaryReader br, uint header, string path, ContainerHandler handler)
         {
             if (header != NSOHeader.ExpectedMagic)
-                return new RipResult(RipResultCode.UnknownFormat);
+                return new FileRipperResult(RipResultCode.UnknownFormat);
 
             br.BaseStream.Position = 0;
             var nso = new NSO(br);
@@ -46,13 +46,13 @@ namespace pkNX.WinForms
             File.WriteAllBytes(Path.Combine(resultPath, "data.bin"), nso.DecompressedData);
             File.WriteAllBytes(Path.Combine(resultPath, "ro.bin"), nso.DecompressedRO);
 
-            return new RipResult(RipResultCode.Success) { ResultPath = resultPath };
+            return new FileRipperResult(RipResultCode.Success) { ResultPath = resultPath };
         }
 
-        private static RipResult GFPackDump(BinaryReader br, uint header, string path, ContainerHandler handler)
+        private static FileRipperResult GFPackDump(BinaryReader br, uint header, string path, ContainerHandler handler)
         {
             if (header != 0x584C_4647)
-                return new RipResult(RipResultCode.UnknownFormat);
+                return new FileRipperResult(RipResultCode.UnknownFormat);
 
             br.BaseStream.Position = 0;
             var gfp = new GFPack(br);
@@ -64,21 +64,13 @@ namespace pkNX.WinForms
 
             gfp.Dump(resultPath, handler);
 
-            return new RipResult(RipResultCode.Success) {ResultPath = resultPath};
+            return new FileRipperResult(RipResultCode.Success) {ResultPath = resultPath};
         }
 
-        public class RipResult
-        {
-            public readonly RipResultCode Code;
-            public string ResultPath;
-
-            public RipResult(RipResultCode code) => Code = code;
-        }
-
-        public static RipResult TryOpenFile(string path, ContainerHandler handler = null)
+        public static FileRipperResult TryOpenFile(string path, ContainerHandler handler = null)
         {
             if (!File.Exists(path))
-                return new RipResult(RipResultCode.FileExist);
+                return new FileRipperResult(RipResultCode.FileExist);
 
             if (handler == null)
                 handler = DefaultHandler;
@@ -88,7 +80,7 @@ namespace pkNX.WinForms
                 using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
                 using var br = new BinaryReader(fs);
                 if (br.BaseStream.Length < 4)
-                    return new RipResult(RipResultCode.BadSize);
+                    return new FileRipperResult(RipResultCode.BadSize);
                 var header = br.ReadUInt32();
                 var result = TryLoadFile(br, header, path, handler);
                 if (result.Code == RipResultCode.Success)
@@ -97,12 +89,12 @@ namespace pkNX.WinForms
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new RipResult(RipResultCode.ReadError);
+                return new FileRipperResult(RipResultCode.ReadError);
             }
-            return new RipResult(RipResultCode.UnknownFormat);
+            return new FileRipperResult(RipResultCode.UnknownFormat);
         }
 
-        private static RipResult TryLoadFile(BinaryReader br, uint header, string path, ContainerHandler handler)
+        private static FileRipperResult TryLoadFile(BinaryReader br, uint header, string path, ContainerHandler handler)
         {
             foreach (var method in Loaders)
             {
@@ -117,7 +109,15 @@ namespace pkNX.WinForms
                     Debug.WriteLine(e.Message);
                 }
             }
-            return new RipResult(RipResultCode.UnknownFormat);
+            return new FileRipperResult(RipResultCode.UnknownFormat);
         }
+    }
+
+    public class FileRipperResult
+    {
+        public readonly RipResultCode Code;
+        public string ResultPath;
+
+        public FileRipperResult(RipResultCode code) => Code = code;
     }
 }

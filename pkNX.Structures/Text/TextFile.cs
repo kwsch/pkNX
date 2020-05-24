@@ -8,6 +8,8 @@ namespace pkNX.Structures
 {
     public class TextFile
     {
+        public bool SETEMPTYTEXT { get; set; } = true;
+
         // Text Formatting Config
         private const ushort KEY_BASE = 0x7C89;
         private const ushort KEY_ADVANCE = 0x2983;
@@ -17,7 +19,6 @@ namespace pkNX.Structures
         private const ushort KEY_TEXTCLEAR = 0xBE01;
         private const ushort KEY_TEXTWAIT = 0xBE02;
         private const ushort KEY_TEXTNULL = 0xBDFF;
-        private const bool SETEMPTYTEXT = true;
         private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
         public TextFile(byte[] data = null, TextConfig config = null, bool remapChars = false)
@@ -76,17 +77,14 @@ namespace pkNX.Structures
             }
         }
 
-        public byte[] this[int index]
+        public byte[] GetEncryptedLine(int index)
         {
-            get
-            {
-                ushort key = GetLineKey(index);
-                var line = LineOffsets[index];
-                byte[] EncryptedLineData = new byte[line.Length * 2];
-                Array.Copy(Data, line.Offset, EncryptedLineData, 0, EncryptedLineData.Length);
+            ushort key = GetLineKey(index);
+            var line = LineOffsets[index];
+            byte[] EncryptedLineData = new byte[line.Length * 2];
+            Array.Copy(Data, line.Offset, EncryptedLineData, 0, EncryptedLineData.Length);
 
-                return CryptLineData(EncryptedLineData, key);
-            }
+            return CryptLineData(EncryptedLineData, key);
         }
 
         private static ushort GetLineKey(int index)
@@ -315,7 +313,7 @@ namespace pkNX.Structures
             return s.ToString();
         }
 
-        private IEnumerable<ushort> GetEscapeValues(char esc)
+        private static IEnumerable<ushort> GetEscapeValues(char esc)
         {
             var vals = new List<ushort>();
             switch (esc)

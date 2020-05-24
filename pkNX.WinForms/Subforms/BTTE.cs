@@ -369,18 +369,18 @@ namespace pkNX.WinForms
             pk.Move3 = CB_Move3.SelectedIndex;
             pk.Move4 = CB_Move4.SelectedIndex;
 
-            if (pk is TrainerPoke7b b)
+            switch (pk)
             {
-                b.CanMegaEvolve = CHK_CanMega.Checked;
-                b.MegaFormChoice = (int) NUD_MegaForm.Value;
-                b.Friendship = (int) NUD_Friendship.Value;
-            }
-
-            else if (pk is TrainerPoke8 c)
-            {
-                c.CanDynamax = CHK_CanDynamax.Checked;
-                c.DynamaxLevel = (byte) Stats.CB_DynamaxLevel.SelectedIndex;
-                c.CanGigantamax = Stats.CHK_Gigantamax.Checked;
+                case TrainerPoke7b b:
+                    b.CanMegaEvolve = CHK_CanMega.Checked;
+                    b.MegaFormChoice = (int) NUD_MegaForm.Value;
+                    b.Friendship = (int) NUD_Friendship.Value;
+                    break;
+                case TrainerPoke8 c:
+                    c.CanDynamax = CHK_CanDynamax.Checked;
+                    c.DynamaxLevel = (byte) Stats.CB_DynamaxLevel.SelectedIndex;
+                    c.CanGigantamax = Stats.CHK_Gigantamax.Checked;
+                    break;
             }
 
             return pk;
@@ -568,7 +568,7 @@ namespace pkNX.WinForms
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
             int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
             rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
-            int[] ban = new int[0];
+            int[] ban = Array.Empty<int>();
 
             if (Game.Info.SWSH)
             {

@@ -1,5 +1,6 @@
 ﻿namespace pkNX.Structures
 {
+#pragma warning disable CA1819 // Properties should not return arrays
     public class EncounterArchive7b
     {
         public EncounterTable7b[] EncounterTables { get; set; }

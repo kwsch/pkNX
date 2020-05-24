@@ -159,7 +159,7 @@ namespace pkNX.Sprites
         public override Bitmap Delete => Resources.slotDel;
         public override Bitmap Transparent => Resources.slotTrans;
         public override Bitmap Drag => Resources.slotDrag;
-        public override Bitmap UnknownItem => Resources.helditem; 
+        public override Bitmap UnknownItem => Resources.helditem;
     }
 
     /// <summary>

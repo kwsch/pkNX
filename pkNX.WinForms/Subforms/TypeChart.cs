@@ -11,7 +11,8 @@ namespace pkNX.WinForms
         private readonly string[] types;
         private readonly TypeChartEditor Editor;
 
-        public byte[] Chart { get; set; }
+        public byte[] Chart;
+
         public bool Modified { get; set; }
         private const int TypeWidth = 32; // px
         private int TypeCount => types.Length;
@@ -88,7 +89,7 @@ namespace pkNX.WinForms
             "is super effective!"
         };
 
-        public void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
+        public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
         {
             X = e.X / TypeWidth;
             Y = e.Y / TypeWidth;

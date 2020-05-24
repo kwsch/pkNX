@@ -246,7 +246,7 @@ namespace pkNX.WinForms.Controls
 
             var arr = nest_drops.Tables;
             var cache = new DataCache<NestHoleReward8Table>(arr);
-            var names = arr.Select((z, i) => $"{z.TableID}").ToArray();
+            var names = arr.Select(z => $"{z.TableID}").ToArray();
             using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "Raid Rewards");
             form.ShowDialog();
             if (!form.Modified)
@@ -266,7 +266,7 @@ namespace pkNX.WinForms.Controls
 
             var arr = nest_bonus.Tables;
             var cache = new DataCache<NestHoleReward8Table>(arr);
-            var names = arr.Select((z, i) => $"{z.TableID}").ToArray();
+            var names = arr.Select(z => $"{z.TableID}").ToArray();
             using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "RBonus Rewards");
             form.ShowDialog();
             if (!form.Modified)

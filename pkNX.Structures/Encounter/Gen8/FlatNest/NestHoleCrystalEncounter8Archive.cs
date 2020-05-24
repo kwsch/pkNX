@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+#pragma warning disable CA1819 // Properties should not return arrays
 namespace pkNX.Structures
 {
     public class NestHoleCrystalEncounter8Archive
@@ -108,7 +109,7 @@ namespace pkNX.Structures
             return 0;
         }
 
-        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, IReadOnlyList<string> items, int index)
+        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, IReadOnlyList<string> items)
         {
             for (uint i = 0; i < Entries.Length; i++)
             {
@@ -139,7 +140,7 @@ namespace pkNX.Structures
                 // Constructor
                 var spec = $"Species = {e.Species:000}";
                 var lvl = $", Level = {e.Level:00}";
-                var loc = ", Location = 126";
+                const string loc = ", Location = 126";
                 var abil = $", Ability = {ability}";
                 var dyna = $", DynamaxLevel = {e.DynamaxLevel}";
                 var moves = $", Moves = new[] {{{e.Move0:000},{e.Move1:000},{e.Move2:000},{e.Move3:000}}}";

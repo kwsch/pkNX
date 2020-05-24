@@ -22,8 +22,8 @@ namespace pkNX.Containers
         public int ContentLargestUnpadded;
         public int ContentLargestPadded; // Format 6 Only
 
-        private bool VER6 => Version == VER_6;
-        private bool VER4 => Version == VER_4;
+        public bool VER6 => Version == VER_6;
+        public bool VER4 => Version == VER_4;
 
         public GARCHeader(GARCVersion version)
         {

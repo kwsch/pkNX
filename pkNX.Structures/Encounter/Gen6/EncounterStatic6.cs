@@ -5,7 +5,7 @@ namespace pkNX.Structures.Encounter
     public sealed class EncounterStatic6 : EncounterStatic
     {
         private const int SIZE = 0xC;
-        public EncounterStatic6(byte[] data) => Data = data ?? new byte[SIZE];
+        public EncounterStatic6(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
         public override int Species { get => BitConverter.ToUInt16(Data, 0x0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0); }
         public override int Form { get => Data[0x2]; set => Data[0x2] = (byte)value; }

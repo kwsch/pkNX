@@ -5,8 +5,7 @@ namespace pkNX.Structures
     public class EncounterGift7 : EncounterGift
     {
         public const int SIZE = 0x14;
-
-        public EncounterGift7(byte[] data) => Data = data;
+        public EncounterGift7(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
         public override int Species { get => BitConverter.ToUInt16(Data, 0x0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0); }
         public override int Form { get => Data[0x2]; set => Data[0x2] = (byte)value; }

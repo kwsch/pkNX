@@ -1,4 +1,5 @@
 using System;
+// ReSharper disable UnusedMember.Local
 
 namespace pkNX.Structures
 {
@@ -78,6 +79,7 @@ namespace pkNX.Structures
     /// <summary>
     /// Manual Flatbuffer reader for <seealso cref="Waza8"/>
     /// </summary>
+#pragma warning disable IDE0051, RCS1213 // Remove unused member declaration.
     public static class Waza8Reader
     {
         private const int Version = 4;
@@ -131,6 +133,7 @@ namespace pkNX.Structures
         private const int FlagAnimateAlly = 100;
         private const int FlagDance = 102;
         private const int Flag18 = 104;
+#pragma warning restore IDE0051, RCS1213 // Remove unused member declaration.
 
         public static Move8Fake ReadPlaceholder(byte[] data)
         {

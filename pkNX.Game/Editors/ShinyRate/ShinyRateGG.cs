@@ -75,7 +75,7 @@ namespace pkNX.Game
             Always12.CopyTo(Data, CodeOffset + 12);
         }
 
-        public byte[] GetFixedInstruction(int count)
+        public static byte[] GetFixedInstruction(int count)
         {
             if (count <= 0)
                 count = 1;
