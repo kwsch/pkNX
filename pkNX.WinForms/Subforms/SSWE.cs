@@ -56,10 +56,11 @@ namespace pkNX.WinForms
 
         public void LoadLocations()
         {
+            static string GetLocationName(ulong id) => SWSHInfo.Zones.TryGetValue(id, out var zoneName) ? zoneName : id.ToString("X16");
             var sl = Symbols.EncounterTables
-                .Select(area => new LocationHash(area.ZoneID, SWSHInfo.Zones[area.ZoneID] + " [S]"));
+                .Select(area => new LocationHash(area.ZoneID, GetLocationName(area.ZoneID) + " [S]"));
             var hl = Hidden.EncounterTables
-                .Select(area => new LocationHash(area.ZoneID, SWSHInfo.Zones[area.ZoneID] + " [H]"));
+                .Select(area => new LocationHash(area.ZoneID, GetLocationName(area.ZoneID) + " [H]"));
             var locs = sl.Concat(hl)
                 .OrderBy(z => z.LocationName)
                 .ToArray();
