@@ -196,20 +196,21 @@ namespace pkNX.WinForms.Controls
                 file[0] = objs.SelectMany(z => z.Write()).ToArray();
         }
 
-        public void EditWild_GP() => PopWildEdit("encount_data_p.bin");
-        public void EditWild_GE() => PopWildEdit("encount_data_e.bin");
+        public void EditWild_GP() => PopWildEdit(GameFile.WildData1);
+        public void EditWild_GE() => PopWildEdit(GameFile.WildData2);
 
-        private void PopWildEdit(string file)
+        private void PopWildEdit(GameFile type)
         {
-            var winner = Path.Combine(ROM.PathRomFS, "bin", "field", "param", "encount", file);
-            var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(winner);
+            var file = ROM.GetFile(type);
+            var data = file[0];
+            var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(data);
 
             using var form = new GGWE(ROM, obj);
             if (form.ShowDialog() != DialogResult.OK)
                 return;
 
-            var data = FlatBufferConverter.SerializeFrom(obj);
-            FileMitm.WriteAllBytes(winner, data);
+            data = FlatBufferConverter.SerializeFrom(obj);
+            file[0] = data;
         }
 
         public void EditShinyRate()

@@ -338,6 +338,9 @@ namespace pkNX.Game
             new GameFileReference(GameFile.EncounterGift, ContainerType.SingleFile, "bin", "script_event_data", "add_poke.bin"),
             new GameFileReference(GameFile.Learnsets, ContainerType.GFPack, "bin", "archive", "waza_oboe.gfpak"),
 
+            new GameFileReference(GameFile.WildData1, ContainerType.SingleFile, "bin", "field", "param", "encount", "encount_data_p.bin"),
+            new GameFileReference(GameFile.WildData2, ContainerType.SingleFile, "bin", "field", "param", "encount", "encount_data_e.bin"),
+
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)
@@ -378,7 +381,7 @@ namespace pkNX.Game
 
             new GameFileReference(GameFile.ItemStats, ContainerType.SingleFile, "bin", "pml", "item", "item.dat"),
             new GameFileReference(GameFile.Evolutions, "bin", "pml", "evolution"),
-            new GameFileReference(GameFile.EggMoves, "bin", "pml", "tamagowaza"), 
+            new GameFileReference(GameFile.EggMoves, "bin", "pml", "tamagowaza"),
             new GameFileReference(GameFile.PersonalStats, "bin", "pml", "personal"),
             new GameFileReference(GameFile.MoveStats, "bin", "pml", "waza"),
             new GameFileReference(GameFile.EncounterStatic, ContainerType.SingleFile, "bin", "script_event_data", "event_encount_data.bin"),

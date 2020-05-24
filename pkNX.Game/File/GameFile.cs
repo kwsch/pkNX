@@ -154,5 +154,11 @@
 
         /// <summary> Wild Data </summary>
         WildData,
+
+        /// <summary> Wild Data </summary>
+        WildData1,
+
+        /// <summary> Wild Data </summary>
+        WildData2,
     }
 }
