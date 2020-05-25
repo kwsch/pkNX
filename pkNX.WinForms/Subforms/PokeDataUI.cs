@@ -81,7 +81,7 @@ namespace pkNX.WinForms
         public void InitPersonal()
         {
             var TMs = Editor.TMHM;
-            if (TMs.Length == 0) // No ExeFS to grab TMs from.
+            if (TMs.Count == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 0; i < 100; i++)
                     CLB_TM.Items.Add($"TM{i+1:00}");
@@ -90,14 +90,14 @@ namespace pkNX.WinForms
             {
                 if (GameVersion.SWSH.Contains(ROM.Game))
                 {
-                    for (int i = 0; i < TMs.Length/2; i++)
+                    for (int i = 0; i < TMs.Count / 2; i++)
                         CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
-                    for (int i = TMs.Length / 2; i < TMs.Length; i++)
+                    for (int i = TMs.Count / 2; i < TMs.Count; i++)
                         CLB_TM.Items.Add($"TR{i-100:00} {movelist[TMs[i]]}");
                 }
                 else
                 {
-                    for (int i = 0; i < TMs.Length; i++)
+                    for (int i = 0; i < TMs.Count; i++)
                         CLB_TM.Items.Add($"TM{i + 1:00} {movelist[TMs[i]]}");
                 }
             }
