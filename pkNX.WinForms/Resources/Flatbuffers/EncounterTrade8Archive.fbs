@@ -33,12 +33,12 @@ table EncounterTrade8 {
   Nature:uint;
   Gender:byte;
 
-  IV_Hp:byte;
+  IV_Spe:byte;
   IV_Atk:byte;
   IV_Def:byte;
+  IV_Hp:byte;
   IV_SpAtk:byte;
   IV_SpDef:byte;
-  IV_Spe:byte;
 
   Ability:byte;
   Relearn1:ushort;

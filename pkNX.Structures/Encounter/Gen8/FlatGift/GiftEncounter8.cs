@@ -22,12 +22,12 @@ namespace pkNX.Structures
         public int ShinyLock { get; set; }
         public int Nature { get; set; }
         public int Gender { get; set; }
-        public int IV_Hp { get; set; }
+        public int IV_Spe { get; set; }
         public int IV_Atk { get; set; }
         public int IV_Def { get; set; }
+        public int IV_Hp { get; set; }
         public int IV_SpAtk { get; set; }
         public int IV_SpDef { get; set; }
-        public int IV_Spe { get; set; }
         public int Ability { get; set; }
         public int SpecialMove { get; set; }
     }

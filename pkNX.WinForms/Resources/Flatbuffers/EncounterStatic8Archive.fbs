@@ -8,19 +8,19 @@ table EncounterStatic8 {
   Hash1:ulong;
   Hash2:ulong;
 
-  EV_Hp:ubyte;
+  EV_Spe:ubyte;
   EV_Atk:ubyte;
   EV_Def:ubyte;
+  EV_Hp:ubyte;
   EV_SpAtk:ubyte;
   EV_SpDef:ubyte;
-  EV_Spe:ubyte;
   AltForm:byte;
   DynamaxLevel:byte;
   Field_0A:byte;
 
   Hash3:ulong;
 
-  Field_0C:byte;
+  CanGigantamax:bool;
 
   HeldItem:uint;
 
@@ -30,12 +30,12 @@ table EncounterStatic8 {
   ShinyLock:uint;
   Nature:uint;
   Gender:byte;
-  IV_Hp:byte;
+  IV_Spe:byte;
   IV_Atk:byte;
   IV_Def:byte;
+  IV_Hp:byte;
   IV_SpAtk:byte;
   IV_SpDef:byte;
-  IV_Spe:byte;
 
   Ability:uint;
 
