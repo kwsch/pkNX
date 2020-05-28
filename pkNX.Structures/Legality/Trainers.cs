@@ -308,35 +308,46 @@ namespace pkNX.Structures
         public static readonly int[] SpecialClasses_GG =
         {
             #region Classes
-            000, // Pokémon Trainer
-            001, // Gym Leader
-            002, // Gym Leader
-            003, // Gym Leader
-            004, // Gym Leader
-            005, // Gym Leader
-            006, // Gym Leader
-            007, // Gym Leader
-            008, // Pokémon Trainer
-            009, // Pokémon Trainer
-            010, // Pokémon Trainer
-            011, // Pokémon Trainer
-            012, // Team Rocket Boss
-            013, // Team Rocket Admin
-            014, // Team Rocket
-            017, // Elite Four
-            018, // Elite Four
-            019, // Elite Four
-            020, // Elite Four
-            027, // Team Rocket
-            028, // Gym Leader
-            032, // Pokémon Trainer
-            033, // Pokémon Trainer
-            057, // Gym Leader
-            058, // Pokémon Trainer
-            061, // Champion
-            383, // Pokémon Trainer
+            000, // Pokémon Trainer [Trace, Standard]
+            001, // Gym Leader [Brock]
+            002, // Gym Leader [Misty]
+            003, // Gym Leader [Lt. Surge]
+            004, // Gym Leader [Erika]
+            005, // Gym Leader [Sabrina]
+            006, // Gym Leader [Koga]
+            007, // Gym Leader [Blaine]
+            008, // Pokémon Trainer [Red]
+            009, // Pokémon Trainer [Blue]
+            010, // Pokémon Trainer [Green]
+            011, // Pokémon Trainer [Mina]
+            012, // Team Rocket Boss [Giovanni]
+            013, // Team Rocket Admin [Archer]
+            014, // Team Rocket [Jessie]
+            017, // Elite Four [Lorelei]
+            018, // Elite Four [Bruno]
+            019, // Elite Four [Agatha]
+            020, // Elite Four [Lance]
+            027, // Team Rocket [James]
+            028, // Gym Leader [Giovanni]
+            057, // Gym Leader [Blue]
+            058, // Pokémon Trainer [Archer]
+            061, // Champion [Trace]
+            383, // Pokémon Trainer [Trace, Champion Title Defense]
             #endregion
         };
+
+        // <summary>
+        // Unused Trainer Classes in Let's Go, Pikachu! and Let's Go, Eevee!.
+        // Assigning these Trainer Classes to a Trainer crashes the game.
+        // A majority of these are Master Trainer related, and only used for multiplayer. They are not to be assigned to NPCs.
+        // </summary>
+        public static readonly int[] BlacklistedClasses_GG = Enumerable.Range(072, 311).Concat(new int[]
+        {
+            #region CrashClasses
+            032, // Pokémon Trainer
+            033, // Pokémon Trainer
+            #endregion
+        }).ToArray();
 
         public static readonly int[] SpecialClasses_SWSH =
         {

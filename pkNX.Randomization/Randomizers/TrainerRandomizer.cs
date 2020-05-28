@@ -170,15 +170,16 @@ namespace pkNX.Randomization
             {
                 int[] mega = GetRandomMega(MegaDictionary, out int species);
                 pk.Species = species;
-                pk.MegaFormChoice = Util.Random.Next(mega.Length);
                 pk.CanMegaEvolve = true;
-                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
+                pk.MegaFormChoice = Util.Random.Next(mega.Length) + 1;
+                pk.Form = 0; // allow it to Mega Evolve naturally
                 return;
             }
-
-            pk.MegaFormChoice = 0;
-            pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
-            pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
+            else
+            {
+                pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
+                pk.Form = Legal.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal);
+            }
         }
 
         private void TryForceEvolve(IPokeData pk)
@@ -359,7 +360,7 @@ namespace pkNX.Randomization
             return new Dictionary<int, int>();
         }
 
-        private static readonly int[] CrashClasses_GG = Enumerable.Range(072, 382 - 072 + 1).ToArray(); // Master Trainer titles, not really trclasses
+        private static readonly int[] CrashClasses_GG = Legal.BlacklistedClasses_GG;
         private static readonly int[] CrashClasses_SWSH = Legal.BlacklistedClasses_SWSH;
 
         private static int[] GetSpecialClasses(GameVersion game)
