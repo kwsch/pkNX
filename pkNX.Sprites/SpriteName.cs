@@ -58,7 +58,6 @@ namespace pkNX.Sprites
         public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
         {
             414, // Mothim
-            493, // Arceus
             664, // Scatterbug
             665, // Spewpa
             778, // Mimikyu
