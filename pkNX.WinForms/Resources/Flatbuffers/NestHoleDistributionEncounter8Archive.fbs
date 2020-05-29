@@ -8,7 +8,7 @@ table NestHoleDistributionEncounter8Table {
   TableID:ulong;
   GameVersion:uint;
   Field_02:byte;
-  Field_03:byte;
+  EncounterRate:byte;
   Entries:[NestHoleDistributionEncounter8];
 }
 
@@ -31,7 +31,7 @@ table NestHoleDistributionEncounter8 {
     Probabilities:[uint];
     Gender:byte;
     FlawlessIVs:byte;
-    Field_12:byte;
+    ShinyLock:byte;
     Field_13:byte;
     Field_14:byte;
     Nature:byte;

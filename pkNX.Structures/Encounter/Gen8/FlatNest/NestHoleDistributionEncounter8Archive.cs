@@ -15,7 +15,7 @@ namespace pkNX.Structures
         public ulong TableID { get; set; }
         public uint GameVersion { get; set; }
         public byte Field_02 { get; set; }
-        public byte Field_03 { get; set; }
+        public byte EncounterRate { get; set; }
         public NestHoleDistributionEncounter8[] Entries { get; set; }
 
         public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<int> tmtrs,
@@ -42,9 +42,9 @@ namespace pkNX.Structures
                 var rank = $"{e.MinRank + 1}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {e.Level}";
-                if (e.Field_12 == 1)
+                if (e.ShinyLock == 1)
                     yield return "\tShiny: Never";
-                else if (e.Field_12 == 2)
+                else if (e.ShinyLock == 2)
                     yield return "\tShiny: Always";
                 yield return $"\tDynamax Level: {e.DynamaxLevel}";
                 yield return $"\tDynamax Boost: {e.DynamaxBoost:0.0}x";
@@ -117,6 +117,13 @@ namespace pkNX.Structures
                 var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
                 var moves = $", Moves = new[]{{ {e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000} }}";
+                var shiny = e.ShinyLock switch
+                {
+                    0 => string.Empty,
+                    1 => $", Shiny = Shiny.Never",
+                    2 => $", Shiny = Shiny.Always",
+                    _ => throw new Exception()
+                };
                 var ability = e.Ability switch
                 {
                     0 => "A0", // 1
@@ -136,7 +143,7 @@ namespace pkNX.Structures
                         throw new Exception();
                 }
                 var flawless = e.FlawlessIVs;
-                return $"            new EncounterStatic8ND({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga} }},{comment}";
+                return $"            new EncounterStatic8ND({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
             }
         }
 
@@ -169,7 +176,7 @@ namespace pkNX.Structures
         public int[] Probabilities { get; set; }
         public byte Gender { get; set; }
         public byte FlawlessIVs { get; set; }
-        public byte Field_12 { get; set; }
+        public byte ShinyLock { get; set; }
         public byte Field_13 { get; set; } // 3/4
         public byte Field_14 { get; set; } // 3/4/5 -- +1 for second entries
         public byte Nature { get; set; }
