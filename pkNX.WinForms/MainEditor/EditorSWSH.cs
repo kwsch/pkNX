@@ -216,7 +216,7 @@ namespace pkNX.WinForms.Controls
             fp[0] = data_table.Write();
         }
 
-        public void EditRaid()
+        public void EditRaids()
         {
             IFileContainer fp = ROM.GetFile(GameFile.NestData);
             var data_table = new GFPack(fp[0]);
@@ -227,11 +227,34 @@ namespace pkNX.WinForms.Controls
             var cache = new DataCache<EncounterNest8Table>(arr);
             var games = new[] {"Sword", "Shield"};
             var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
-            using var form = new GenericEditor<EncounterNest8Table>(cache, names, "Raid Encounters");
+
+            void Randomize()
+            {
+                var pt = ROM.Data.PersonalData;
+                int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+                var spec = EditUtil.Settings.Species;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec, ban);
+                foreach (var t in arr)
+                {
+                    foreach (var p in t.Entries)
+                    {
+                        p.Species = srand.GetRandomSpecies(p.Species);
+                        p.AltForm = Legal.GetRandomForme(p.Species, false, true, true, ROM.Data.PersonalData);
+                        p.Ability = 4; // "A4" -- 1, 2, or H
+                        p.Gender = 0; // random
+                        p.IsGigantamax = false; // don't allow gmax flag on non-gmax species
+                    }
+                }
+            }
+
+            using var form = new GenericEditor<EncounterNest8Table>(cache, names, "Max Raid Battles Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 return;
-
             var data = FlatBufferConverter.SerializeFrom(nest_encounts);
             data_table.SetDataFileName(nest, data);
             fp[0] = data_table.Write();
@@ -248,11 +271,23 @@ namespace pkNX.WinForms.Controls
             var arr = nest_drops.Tables;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
-            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "Raid Rewards");
+
+            void Randomize()
+            {
+                int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Info.Game);
+                foreach (var t in arr)
+                {
+                    foreach (var i in t.Entries)
+                    {
+                        i.ItemID = (uint)PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    }
+                }
+            }
+
+            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "Raid Rewards Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 return;
-
             var data = FlatBufferConverter.SerializeFrom(nest_drops);
             data_table.SetDataFileName(nest, data);
             fp[0] = data_table.Write();
@@ -268,11 +303,23 @@ namespace pkNX.WinForms.Controls
             var arr = nest_bonus.Tables;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
-            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "RBonus Rewards");
+
+            void Randomize()
+            {
+                int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Info.Game);
+                foreach (var t in arr)
+                {
+                    foreach (var i in t.Entries)
+                    {
+                        i.ItemID = (uint)PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    }
+                }
+            }
+
+            using var form = new GenericEditor<NestHoleReward8Table>(cache, names, "Raid Bonus Rewards Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 return;
-
             var data = FlatBufferConverter.SerializeFrom(nest_bonus);
             data_table.SetDataFileName(nest, data);
             fp[0] = data_table.Write();
