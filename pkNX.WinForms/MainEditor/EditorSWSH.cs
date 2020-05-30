@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Structures;
 
 namespace pkNX.WinForms.Controls
@@ -281,24 +282,148 @@ namespace pkNX.WinForms.Controls
         {
             var arc = ROM.GetFile(GameFile.EncounterStatic);
             var data = arc[0];
-            if (CreateGenericEditor<EncounterStatic8Archive, EncounterStatic8>(ref data, "Static Encounters"))
-                arc[0] = data;
+            var objs = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(data);
+
+            var encounters = objs.Table;
+            var names = Enumerable.Range(0, encounters.Length).Select(z => $"{z:000}").ToArray();
+            var cache = new DirectCache<EncounterStatic8>(encounters);
+
+            void Randomize()
+            {
+                int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+                var pt = ROM.Data.PersonalData;
+                int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+                var spec = EditUtil.Settings.Species;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec, ban);
+                foreach (var t in encounters)
+                {
+                    if (t.Species >= 888 && t.Species <= 890) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                        continue;
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                    t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    t.Nature = 25; // random
+                    t.Gender = 0; // random
+                    t.ShinyLock = 0;
+                    t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
+                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                }
+            }
+
+            using var form = new GenericEditor<EncounterStatic8>(cache, names, "Static Encounter Editor", Randomize);
+            form.ShowDialog();
+            if (!form.Modified)
+                arc.CancelEdits();
+            else
+                arc[0] = FlatBufferConverter.SerializeFrom(objs);
         }
 
         public void EditGift()
         {
             var arc = ROM.GetFile(GameFile.EncounterGift);
             var data = arc[0];
-            if (CreateGenericEditor<EncounterGift8Archive, EncounterGift8>(ref data, "Gift Encounters"))
-                arc[0] = data;
+            var objs = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
+
+            var gifts = objs.Table;
+            var names = Enumerable.Range(0, gifts.Length).Select(z => $"{z:000}").ToArray();
+            var cache = new DirectCache<EncounterGift8>(gifts);
+
+            void Randomize()
+            {
+                int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+                var pt = ROM.Data.PersonalData;
+                int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+                var spec = EditUtil.Settings.Species;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec, ban);
+                foreach (var t in gifts)
+                {
+                    // swap gmax gifts for other gmax capable species
+                    if (t.CanGigantamax)
+                    {
+                        t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
+                        t.AltForm = t.Species == 025 || t.Species == 052 ? 0 : Legal.GetRandomForme(t.Species, false, false, false, ROM.Data.PersonalData); // Pikachu & Meowth altforms can't gmax
+                    }
+                    else
+                    {
+                        t.Species = srand.GetRandomSpecies(t.Species);
+                        t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                    }
+
+                    t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.Ball = Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    t.Nature = 25; // random
+                    t.Gender = 0; // random
+                    t.ShinyLock = 0;
+                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                }
+            }
+
+            using var form = new GenericEditor<EncounterGift8>(cache, names, "Gift Pokémon Editor", Randomize);
+            form.ShowDialog();
+            if (!form.Modified)
+                arc.CancelEdits();
+            else
+                arc[0] = FlatBufferConverter.SerializeFrom(objs);
         }
 
         public void EditTrade()
         {
             var arc = ROM.GetFile(GameFile.EncounterTrade);
             var data = arc[0];
-            if (CreateGenericEditor<EncounterTrade8Archive, EncounterTrade8>(ref data, "Trade Encounters"))
-                arc[0] = data;
+            var objs = FlatBufferConverter.DeserializeFrom<EncounterTrade8Archive>(data);
+
+            var trades = objs.Table;
+            var names = Enumerable.Range(0, trades.Length).Select(z => $"{z:000}").ToArray();
+            var cache = new DirectCache<EncounterTrade8>(trades);
+
+            void Randomize()
+            {
+                int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+                var pt = ROM.Data.PersonalData;
+                int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+                var spec = EditUtil.Settings.Species;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                srand.Initialize(spec, ban);
+                foreach (var t in trades)
+                {
+                    // what you receive
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                    t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.Ball = Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    t.Nature = 25; // random
+                    t.Gender = 0; // random
+                    t.ShinyLock = 0;
+                    t.Relearn1 = t.Relearn2 = t.Relearn3 = t.Relearn4 = 0;
+                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+
+                    // what you trade
+                    t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
+                    t.RequiredForm = Legal.GetRandomForme(t.RequiredSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.RequiredNature = 25; // any
+                }
+            }
+
+            using var form = new GenericEditor<EncounterTrade8>(cache, names, "In-Game Trades Editor", Randomize);
+            form.ShowDialog();
+            if (!form.Modified)
+                arc.CancelEdits();
+            else
+                arc[0] = FlatBufferConverter.SerializeFrom(objs);
         }
 
         private bool CreateGenericEditor<TA, T1>(ref byte[] data, string title, string[] names = null) where TA : IFlatBufferArchive<T1> where T1 : class
