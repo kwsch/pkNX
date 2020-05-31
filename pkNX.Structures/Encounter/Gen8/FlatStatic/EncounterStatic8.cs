@@ -18,10 +18,10 @@ namespace pkNX.Structures
         public int HeldItem { get; set; }
         public int Level { get; set; }
         public int Field_0F { get; set; }
-        public int Species { get; set; }
-        public int ShinyLock { get; set; }
-        public int Nature { get; set; }
-        public int Gender { get; set; }
+        public Species Species { get; set; }
+        public Shiny ShinyLock { get; set; }
+        public Nature Nature { get; set; }
+        public FixedGender Gender { get; set; }
         public int IV_Spe { get; set; }
         public int IV_Atk { get; set; }
         public int IV_Def { get; set; }

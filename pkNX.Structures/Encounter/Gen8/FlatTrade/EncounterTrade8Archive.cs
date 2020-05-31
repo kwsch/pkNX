@@ -11,13 +11,13 @@ namespace pkNX.Structures
     {
         public int AltForm { get; set; }
         public int DynamaxLevel { get; set; }
-        public int Ball { get; set; }
+        public Ball Ball { get; set; }
         public int Field_03 { get; set; }
         public ulong Hash0 { get; set; }
         public bool CanGigantamax { get; set; }
         public int HeldItem { get; set; }
         public int Level { get; set; }
-        public int Species { get; set; }
+        public Species Species { get; set; }
         public ulong Hash1 { get; set; }
         public int TrainerID { get; set; }
         public int Memory { get; set; }
@@ -27,12 +27,12 @@ namespace pkNX.Structures
         public ulong Hash2 { get; set; }
         public int OTGender { get; set; }
         public int RequiredForm { get; set; }
-        public int RequiredSpecies { get; set; }
-        public int RequiredNature { get; set; }
+        public Species RequiredSpecies { get; set; }
+        public Nature RequiredNature { get; set; }
         public int UnknownRequirement { get; set; } // all 0; we know this field is a trade requirement, but unsure what exactly
-        public int ShinyLock { get; set; }
-        public int Nature { get; set; }
-        public int Gender { get; set; }
+        public Shiny ShinyLock { get; set; }
+        public Nature Nature { get; set; }
+        public FixedGender Gender { get; set; }
         public int IV_Spe { get; set; }
         public int IV_Atk { get; set; }
         public int IV_Def { get; set; }
@@ -49,7 +49,7 @@ namespace pkNX.Structures
 
         public string GetSummary(IReadOnlyList<string> species)
         {
-            var comment = $" // {species[Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
             var ability = $"Ability = {Ability}";
             var otgender = $", OTGender = {OTGender}";
             var gender = $", Gender = {Gender}";

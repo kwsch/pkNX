@@ -348,15 +348,16 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
-                    if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus && t.AltForm == 1) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                    if (t.Species >= Species.Zacian && t.Species <= Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
-                    t.Species = srand.GetRandomSpecies(t.Species);
-                    t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                    int newSpecies = srand.GetRandomSpecies((int)t.Species);
+                    t.Species = (Species)newSpecies;
+                    t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = 25; // random
-                    t.Gender = 0; // random
-                    t.ShinyLock = 0;
+                    t.Nature = Nature.Random25;
+                    t.Gender = FixedGender.Random;
+                    t.ShinyLock = Shiny.Random;
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
                     t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
                 }
@@ -396,21 +397,22 @@ namespace pkNX.WinForms.Controls
                     // swap gmax gifts for other gmax capable species
                     if (t.CanGigantamax)
                     {
-                        t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                        t.AltForm = t.Species == 025 || t.Species == 052 ? 0 : Legal.GetRandomForme(t.Species, false, false, false, ROM.Data.PersonalData); // Pikachu & Meowth altforms can't gmax
+                        t.Species = (Species)Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
+                        t.AltForm = t.Species == Species.Pikachu || t.Species == Species.Meowth ? 0 : Legal.GetRandomForme((int)t.Species, false, false, false, ROM.Data.PersonalData); // Pikachu & Meowth altforms can't gmax
                     }
                     else
                     {
-                        t.Species = srand.GetRandomSpecies(t.Species);
-                        t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                        int newSpecies = srand.GetRandomSpecies((int)t.Species);
+                        t.Species = (Species)newSpecies;
+                        t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
-                    t.Ball = Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.Ball = (Ball)Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = 25; // random
-                    t.Gender = 0; // random
-                    t.ShinyLock = 0;
+                    t.Nature = Nature.Random25;
+                    t.Gender = FixedGender.Random;
+                    t.ShinyLock = Shiny.Random;
                     t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
                 }
             }
@@ -447,21 +449,23 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in trades)
                 {
                     // what you receive
-                    t.Species = srand.GetRandomSpecies(t.Species);
-                    t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);
+                    int newSpecies = srand.GetRandomSpecies((int)t.Species);
+                    t.Species = (Species)newSpecies;
+                    t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
-                    t.Ball = Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.Ball = (Ball)Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = 25; // random
-                    t.Gender = 0; // random
-                    t.ShinyLock = 0;
+                    t.Nature = Nature.Random25;
+                    t.Gender = FixedGender.Random;
+                    t.ShinyLock = Shiny.Random;
                     t.Relearn1 = t.Relearn2 = t.Relearn3 = t.Relearn4 = 0;
                     t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
 
                     // what you trade
-                    t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
-                    t.RequiredForm = Legal.GetRandomForme(t.RequiredSpecies, false, true, true, ROM.Data.PersonalData);
-                    t.RequiredNature = 25; // any
+                    int newRequiredSpecies = srand.GetRandomSpecies((int)t.RequiredSpecies);
+                    t.Species = (Species)newRequiredSpecies;
+                    t.AltForm = Legal.GetRandomForme(newRequiredSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.RequiredNature = Nature.Random25; // any
                 }
             }
 

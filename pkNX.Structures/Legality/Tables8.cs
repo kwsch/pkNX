@@ -230,7 +230,7 @@ namespace pkNX.Structures
             (int)Species.Alcremie,
             (int)Species.Copperajah,
             (int)Species.Duraludon,
-             
+
             // todo: DLC (venusaur, blastoise, galar starters, urshifu, maybe others?)
         };
 
