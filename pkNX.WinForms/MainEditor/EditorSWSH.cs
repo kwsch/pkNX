@@ -463,8 +463,8 @@ namespace pkNX.WinForms.Controls
 
                     // what you trade
                     int newRequiredSpecies = srand.GetRandomSpecies((int)t.RequiredSpecies);
-                    t.Species = (Species)newRequiredSpecies;
-                    t.AltForm = Legal.GetRandomForme(newRequiredSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.RequiredSpecies = (Species)newRequiredSpecies;
+                    t.RequiredForm = Legal.GetRandomForme(newRequiredSpecies, false, true, true, ROM.Data.PersonalData);
                     t.RequiredNature = Nature.Random25; // any
                 }
             }
