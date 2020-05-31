@@ -13,24 +13,24 @@ namespace pkNX.Structures
             if (stats[species].FormeCount <= 1)
                 return 0;
 
-            if (species == 658 && !mega) // Greninja
+            if (species == (int)Species.Greninja && !mega)
                 return 0;
-            if (species == 664 || species == 665 || species == 666) // vivillon
+            if (species == (int)Species.Scatterbug || species == (int)Species.Spewpa || species == (int)Species.Vivillon)
                 return 30; // save file specific
-            if (species == 774) // minior
+            if (species == (int)Species.Minior)
                 return Util.Rand.Next(7);
-            if (species == 890) // Eternatus
+            if (species == (int)Species.Eternatus)
                 return 0;
 
-            if (galar && species == 052) // Galarian Meowth is altform 2
+            if (galar && species == (int)Species.Meowth) // Galarian Meowth is altform 2
                 return Util.Rand.Next(3);
-            if (galar && species == 079) // todo: remove when Kanto Slowpoke is made usable in SWSH
+            if (galar && species == (int)Species.Slowpoke) // todo: remove when Kanto Slowpoke is made usable in SWSH
                 return 1;
-            if (galar && species == 555) // Galarian Darmanitan is altform 2, Galarian Zen is altform 3
+            if (galar && species == (int)Species.Darmanitan) // Galarian Darmanitan is altform 2, Galarian Zen is altform 3
                 return Util.Rand.Next(4);
 
-            if (stats.TableLength == 980 && (species == 25 || species == 133)) // gg tableB -- no starters, they crash trainer battles.
-                return 0; // Pikachu
+            if (stats.TableLength == 980 && (species == (int)Species.Pikachu || species == (int)Species.Eevee)) // gg tableB -- no starters, they crash trainer battles.
+                return 0;
             if (EvolveToAlolanForms.Contains(species))
                 return alola ? Util.Rand.Next(2) : 0;
             if (EvolveToGalarForms.Contains(species))

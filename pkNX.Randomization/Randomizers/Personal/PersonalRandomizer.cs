@@ -322,7 +322,7 @@ namespace pkNX.Randomization
                 t[i] = Rand.Next(100) < Settings.LearnTypeTutorPercent;
 
             // Make sure Rayquaza can learn Dragon Ascent.
-            if (!Game.XY && species == 384)
+            if (!Game.XY && species == (int)Species.Rayquaza)
                 t[7] = true;
 
             z.TypeTutors = t;

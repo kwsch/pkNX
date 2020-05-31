@@ -100,28 +100,28 @@ namespace pkNX.Structures
 
         public static readonly int[] AlolanOriginForms =
         {
-            019, // Rattata
-            020, // Raticate
-            027, // Sandshrew
-            028, // Sandslash
-            037, // Vulpix
-            038, // Ninetales
-            050, // Diglett
-            051, // Dugtrio
-            052, // Meowth
-            053, // Persian
-            074, // Geodude
-            075, // Graveler
-            076, // Golem
-            088, // Grimer
-            089, // Muk
+            (int)Species.Rattata,
+            (int)Species.Raticate,
+            (int)Species.Sandshrew,
+            (int)Species.Sandslash,
+            (int)Species.Vulpix,
+            (int)Species.Ninetales,
+            (int)Species.Diglett,
+            (int)Species.Dugtrio,
+            (int)Species.Meowth,
+            (int)Species.Persian,
+            (int)Species.Geodude,
+            (int)Species.Graveler,
+            (int)Species.Golem,
+            (int)Species.Grimer,
+            (int)Species.Muk,
         };
 
         public static readonly int[] EvolveToAlolanForms = new[]
         {
-            026, // Raichu
-            103, // Exeggutor
-            105, // Marowak
+            (int)Species.Raichu,
+            (int)Species.Exeggutor,
+            (int)Species.Marowak,
         }.Concat(AlolanOriginForms).ToArray();
 
         #region Unreleased Items
@@ -199,72 +199,72 @@ namespace pkNX.Structures
 
         public static readonly HashSet<int> Totem_Alolan = new HashSet<int>
         {
-            020, // Raticate (Normal, Alolan, Totem)
-            105, // Marowak (Normal, Alolan, Totem)
-            778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
+            (int)Species.Raticate, // Normal, Alolan, Totem
+            (int)Species.Marowak, // Normal, Alolan, Totem
+            (int)Species.Mimikyu, // Normal, Busted, Totem, Totem_Busted
         };
 
         public static readonly HashSet<int> Totem_SM = new HashSet<int>
         {
-            020, // Raticate
-            735, // Gumshoos
-            //746, // Wishiwashi
-            758, // Salazzle
-            754, // Lurantis
-            738, // Vikavolt
-            778, // Mimikyu
-            784, // Kommo-o
+            (int)Species.Raticate,
+            (int)Species.Gumshoos,
+            // (int)Species.Wishiwashi,
+            (int)Species.Salazzle,
+            (int)Species.Lurantis,
+            (int)Species.Vikavolt,
+            (int)Species.Mimikyu,
+            (int)Species.Kommoo,
         };
 
         public static readonly HashSet<int> Totem_USUM = new HashSet<int>
         {
-            020, // Raticate
-            735, // Gumshoos
-            //746, // Wishiwashi
-            758, // Salazzle
-            754, // Lurantis
-            738, // Vikavolt
-            778, // Mimikyu
-            784, // Kommo-o
-            105, // Marowak
-            752, // Araquanid
-            777, // Togedemaru
-            743, // Ribombee
+            (int)Species.Raticate,
+            (int)Species.Gumshoos,
+            // (int)Species.Wishiwashi,
+            (int)Species.Salazzle,
+            (int)Species.Lurantis,
+            (int)Species.Vikavolt,
+            (int)Species.Mimikyu,
+            (int)Species.Kommoo,
+            (int)Species.Marowak,
+            (int)Species.Araquanid,
+            (int)Species.Togedemaru,
+            (int)Species.Ribombee,
         };
 
         public static readonly ushort[] HeldItemsBuy_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Medicine_SM).ToArray();
 
         public static readonly HashSet<int> BattleForms = new HashSet<int>
         {
-            351, // Castform
-            421, // Cherrim
-            555, // Darmanitan
-            648, // Meloetta
-            681, // Aegislash
-            716, // Xerneas
-            746, // Wishiwashi
-            778, // Mimikyu
+            (int)Species.Castform,
+            (int)Species.Cherrim,
+            (int)Species.Darmanitan,
+            (int)Species.Meloetta,
+            (int)Species.Aegislash,
+            (int)Species.Xerneas,
+            (int)Species.Wishiwashi,
+            (int)Species.Mimikyu,
         };
 
         public static readonly HashSet<int> BattleMegas = new HashSet<int>
         {
             // XY
-            3,6,9,65,80,
-            115,127,130,142,150,181,
-            212,214,229,248,282,
-            303,306,308,310,354,359,380,381,
-            445,448,460,
+            (int)Species.Venusaur, (int)Species.Charizard, (int)Species.Blastoise, (int)Species.Alakazam, (int)Species.Gengar,
+            (int)Species.Kangaskhan, (int)Species.Pinsir, (int)Species.Gyarados, (int)Species.Aerodactyl, (int)Species.Mewtwo,
+            (int)Species.Ampharos, (int)Species.Scizor, (int)Species.Heracross, (int)Species.Houndoom, (int)Species.Tyranitar,
+            (int)Species.Blaziken, (int)Species.Gardevoir, (int)Species.Mawile, (int)Species.Aggron, (int)Species.Medicham,
+            (int)Species.Manectric, (int)Species.Banette, (int)Species.Absol, (int)Species.Latias, (int)Species.Latios,
+            (int)Species.Garchomp, (int)Species.Lucario, (int)Species.Abomasnow,
 
             // AO
-            15,18,94,
-            208,254,257,260,
-            302,319,323,334,362,373,376,384,
-            428,475,
-            531,
-            719,
+            (int)Species.Beedrill, (int)Species.Pidgeot, (int)Species.Slowbro, (int)Species.Steelix,
+            (int)Species.Sceptile, (int)Species.Swampert, (int)Species.Sableye, (int)Species.Sharpedo, (int)Species.Camerupt,
+            (int)Species.Altaria, (int)Species.Glalie, (int)Species.Salamence, (int)Species.Metagross, (int)Species.Rayquaza,
+            (int)Species.Lopunny, (int)Species.Gallade,
+            (int)Species.Audino, (int)Species.Diancie,
 
             // USUM
-            800, // Ultra Necrozma
+            (int)Species.Necrozma, // Ultra
         };
 
         public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };

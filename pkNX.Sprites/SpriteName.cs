@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using pkNX.Structures;
 
 namespace pkNX.Sprites
 {
@@ -29,14 +30,14 @@ namespace pkNX.Sprites
             {
                 sb.Append(Separator); sb.Append(form);
 
-                if (species == 25)
+                if (species == (int)Species.Pikachu)
                 {
                     if (generation == 6)
                         sb.Append(Cosplay);
                     else if (form == 8)
                         sb.Append(GGStarter);
                 }
-                else if (species == 133)
+                else if (species == (int)Species.Eevee)
                 {
                     if (form == 1)
                         sb.Append(GGStarter);
@@ -57,12 +58,13 @@ namespace pkNX.Sprites
         /// </summary>
         public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
         {
-            414, // Mothim
-            664, // Scatterbug
-            665, // Spewpa
-            778, // Mimikyu
-            854, // Sinistea
-            855, // Polteageist
+            (int)Species.Mothim,
+            (int)Species.Scatterbug,
+            (int)Species.Spewpa,
+            (int)Species.Rockruff,
+            (int)Species.Mimikyu,
+            (int)Species.Sinistea,
+            (int)Species.Polteageist,
         };
 
         /// <summary>
@@ -70,12 +72,12 @@ namespace pkNX.Sprites
         /// </summary>
         public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
-            449, // Hippopotas
-            450, // Hippowdon
-            521, // Unfezant
-            592, // Frillish
-            593, // Jellicent
-            668, // Pyroar
+            (int)Species.Hippopotas,
+            (int)Species.Hippowdon,
+            (int)Species.Unfezant,
+            (int)Species.Frillish,
+            (int)Species.Jellicent,
+            (int)Species.Pyroar,
         };
     }
 }

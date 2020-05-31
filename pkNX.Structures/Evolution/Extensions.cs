@@ -16,7 +16,7 @@ namespace pkNX.Structures
             [LevelUp] = Level,
             [Trade] = NoArg,
             [TradeHeldItem] = Items,
-            [TradeSpecies] = Species,
+            [TradeSpecies] = EvolutionTypeArgumentType.Species,
             [UseItem] = Items,
 
             [LevelUpATK] = Level,
@@ -33,7 +33,7 @@ namespace pkNX.Structures
             [LevelUpHeldItemDay] = Items,
             [LevelUpHeldItemNight] = Items,
             [LevelUpKnowMove] = Moves,
-            [LevelUpWithTeammate] = Species,
+            [LevelUpWithTeammate] = EvolutionTypeArgumentType.Species,
             [LevelUpMale] = Level,
             [LevelUpFemale] = Level,
             [LevelUpElectric] = NoArg,

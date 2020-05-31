@@ -348,7 +348,7 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
-                    if (t.Species >= 888 && t.Species <= 890) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                    if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus && t.AltForm == 1) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
                     t.Species = srand.GetRandomSpecies(t.Species);
                     t.AltForm = Legal.GetRandomForme(t.Species, false, true, true, ROM.Data.PersonalData);

@@ -73,10 +73,10 @@ namespace pkNX.Randomization
                     return;
                 case EvolutionType.TradeSpecies:
                     evo.Method = EvolutionType.LevelUpWithTeammate;
-                    if (species == 588)
-                        evo.Argument = 616; // Karrablast with Shelmet
-                    if (species == 616)
-                        evo.Argument = 588; // Shelmet with Karrablast
+                    if (species == (int)Species.Karrablast)
+                        evo.Argument = (int)Species.Shelmet; // Karrablast with Shelmet
+                    if (species == (int)Species.Shelmet)
+                        evo.Argument = (int)Species.Karrablast; // Shelmet with Karrablast
                     return;
 
                 case EvolutionType.LevelUpVersion:

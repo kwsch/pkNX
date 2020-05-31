@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using pkNX.Structures;
+using static pkNX.Structures.Species;
 
 namespace pkNX.Sprites
 {
@@ -13,7 +14,7 @@ namespace pkNX.Sprites
                 return false;
             if (!Legal.Totem_USUM.Contains(species))
                 return false;
-            if (species == 778) // Mimikyu
+            if (species == (int)Mimikyu)
                 return form == 2 || form == 3;
             if (Legal.Totem_Alolan.Contains(species))
                 return form == 2;
@@ -22,21 +23,21 @@ namespace pkNX.Sprites
 
         public static int GetTotemBaseForm(int species, int form)
         {
-            if (species == 778) // Mimikyu
+            if (species == (int)Mimikyu)
                 return form - 2;
             return form - 1;
         }
 
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
-            switch (species)
+            switch ((Species)species)
             {
-                case 201: // Unown
+                case Unown:
                     return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
-                case 414: // Wormadam base form is kept
+                case Mothim: // Wormadam base form is kept
                     return form < 3;
-                case 664:
-                case 665: // Vivillon Pre-evolutions
+                case Scatterbug:
+                case Spewpa: // Vivillon Pre-evolutions
                     return form < 18;
                 default:
                     return false;
@@ -59,9 +60,10 @@ namespace pkNX.Sprites
 
         private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
         {
-            201, // Unown
-            414, // Mothim (Burmy forme carried over, not cleared)
-            664, 665, // Vivillon pre-evos
+            (int)Unown,
+            (int)Mothim, // Burmy forme carried over, not cleared
+            (int)Scatterbug,
+            (int)Spewpa, // Vivillon pre-evos
         };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using pkNX.Structures;
 using pkNX.Sprites.Properties;
 
 namespace pkNX.Sprites
@@ -32,7 +33,7 @@ namespace pkNX.Sprites
         protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
         protected virtual string GetItemResourceName(int item) => $"item_{item}";
         protected virtual Image Unknown => Resources.unknown;
-        protected virtual Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
+        protected virtual Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources._490_e : Resources.egg;
 
         public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1)
         {
@@ -171,7 +172,7 @@ namespace pkNX.Sprites
         public override int Width => 68;
 
         protected override int ItemShiftX => 52;
-        protected override int ItemShiftY => 28;
+        protected override int ItemShiftY => 24;
         protected override int ItemMaxSize => 32;
         protected override int EggItemShiftX => 9;
         protected override int EggItemShiftY => 2;

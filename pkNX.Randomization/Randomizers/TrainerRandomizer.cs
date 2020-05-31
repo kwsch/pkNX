@@ -206,15 +206,15 @@ namespace pkNX.Randomization
                 var index = Personal.GetFormeIndex(species, form);
                 var eSet = evos[index].PossibleEvolutions;
                 int evoCount = eSet.Count(z => z.HasData);
-                if (evoCount == 0 && species != 808)
+                if (evoCount == 0 && species != (int)Species.Meltan)
                     break;
                 ++timesEvolved;
                 var next = Util.Random.Next(evoCount);
                 var nextEvo = eSet[next];
 
                 // Meltan only evolves in GO, so force evolve if no custom evo method has been added
-                if (evoCount == 0 && species == 808)
-                    species = 809;
+                if (evoCount == 0 && species == (int)Species.Meltan)
+                    species = (int)Species.Melmetal;
                 else
                     species = nextEvo.Species;
 
@@ -244,8 +244,15 @@ namespace pkNX.Randomization
             {
                 if (Settings.GigantamaxSwap && c.CanGigantamax)
                 {
+                    // we only want to add gmax legendaries/mythicals if the user's settings allow so
+                    var SpeciesSettings = new SpeciesSettings();
+                    // if (SpeciesSettings.Legends)
+                    //    GigantamaxForms.Concat(new[] {(int)Species.Urshifu});
+                    if (SpeciesSettings.Events)
+                        GigantamaxForms.Concat(new[] {(int)Species.Melmetal});
+
                     c.Species = GigantamaxForms[Util.Random.Next(GigantamaxForms.Length)];
-                    c.Form = c.Species == 025 || c.Species == 052 ? 0 : Legal.GetRandomForme(c.Species, false, false, false, Personal); // Pikachu & Meowth altforms can't gmax
+                    c.Form = c.Species == (int)Species.Pikachu || c.Species == (int)Species.Meowth ? 0 : Legal.GetRandomForme(c.Species, false, false, false, Personal); // Pikachu & Meowth altforms can't gmax
                 }
                 if (Settings.MaxDynamaxLevel && c.CanDynamax)
                     c.DynamaxLevel = 10;

@@ -167,69 +167,70 @@ namespace pkNX.Structures
 
         internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
         {
-            052, // Meowth
-            077, // Ponyta
-            078, // Rapidash
-            083, // Farfetch’d
-            122, // Mr. Mime
-            222, // Corsola
-            263, // Zigzagoon
-            264, // Linoone
-            554, // Darumaka
-            555, // Darmanitan
-            562, // Yamask
-            618, // Stunfisk
+            (int)Species.Meowth,
+            (int)Species.Ponyta,
+            (int)Species.Rapidash,
+            (int)Species.Farfetchd,
+            (int)Species.MrMime,
+            (int)Species.Corsola,
+            (int)Species.Zigzagoon,
+            (int)Species.Linoone,
+            (int)Species.Yamask,
+            (int)Species.Darumaka,
+            (int)Species.Darmanitan,
+            (int)Species.Stunfisk,
 
             // DLC (todo: slowbro, maybe others?)
-            079, // Slowpoke
+            (int)Species.Slowpoke,
         };
 
         internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
         {
-            110, // Weezing
+            (int)Species.MrMime,
+            (int)Species.Weezing,
         };
 
         internal static readonly HashSet<int> GalarForm0Evolutions = new HashSet<int>
         {
-            862, // Obstagoon
-            863, // Perrserker
-            864, // Cursola
-            865, // Sirfetch’d
-            866, // Mr. Rime
-            867, // Runerigus
+            (int)Species.Perrserker,
+            (int)Species.Obstagoon,
+            (int)Species.MrRime,
+            (int)Species.Sirfetchd,
+            (int)Species.Runerigus,
+            (int)Species.Cursola,
         };
 
         public static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
 
         public static readonly int[] GigantamaxForms =
         {
-            006, // Charizard
-            012, // Butterfree
-            025, // Pikachu
-            052, // Meowth
-            068, // Machamp
-            094, // Gengar
-            099, // Kingler
-            131, // Lapras
-            133, // Eevee
-            143, // Snorlax
-            569, // Garbodor
-            809, // Melmetal
-            823, // Corviknight
-            826, // Orbeetle
-            834, // Drednaw
-            839, // Coalossal
-            841, // Flapple
-            842, // Appletun
-            844, // Sandaconda
-            849, // Toxtricity
-            851, // Centiskorch
-            858, // Hatterene
-            861, // Grimmsnarl
-            869, // Alcremie
-            879, // Copperajah
-            884, // Duraludon
-
+            (int)Species.Charizard,
+            (int)Species.Butterfree,
+            (int)Species.Pikachu,
+            (int)Species.Meowth,
+            (int)Species.Machamp,
+            (int)Species.Gengar,
+            (int)Species.Kingler,
+            (int)Species.Lapras,
+            (int)Species.Eevee,
+            (int)Species.Snorlax,
+            (int)Species.Garbodor,
+           // (int)Species.Melmetal,
+            (int)Species.Corviknight,
+            (int)Species.Orbeetle,
+            (int)Species.Drednaw,
+            (int)Species.Coalossal,
+            (int)Species.Flapple,
+            (int)Species.Appletun,
+            (int)Species.Sandaconda,
+            (int)Species.Toxtricity,
+            (int)Species.Centiskorch,
+            (int)Species.Hatterene,
+            (int)Species.Grimmsnarl,
+            (int)Species.Alcremie,
+            (int)Species.Copperajah,
+            (int)Species.Duraludon,
+             
             // todo: DLC (venusaur, blastoise, galar starters, urshifu, maybe others?)
         };
 
