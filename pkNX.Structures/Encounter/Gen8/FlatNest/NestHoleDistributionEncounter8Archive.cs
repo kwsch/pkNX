@@ -37,6 +37,9 @@ namespace pkNX.Structures
 
             IEnumerable<string> PrettySummary(NestHoleDistributionEncounter8 e)
             {
+                if (!e.Exists)
+                    yield break;
+
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
                 var rank = $"{e.MinRank + 1}-Star";
@@ -107,7 +110,10 @@ namespace pkNX.Structures
         public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
         {
             foreach (var entry in Entries)
-                yield return Summary(entry);
+            {
+                if (entry.Exists)
+                    yield return Summary(entry);
+            }
             yield return string.Empty;
 
             string Summary(NestHoleDistributionEncounter8 e)
@@ -198,5 +204,8 @@ namespace pkNX.Structures
 
         public int MinRank => Array.FindIndex(Probabilities, z => z != 0);
         public int MaxRank => Array.FindLastIndex(Probabilities, z => z != 0);
+        public bool Exists => Probabilities.Any(z => z != 0);
+
+        public override string ToString() => $"[{MinRank},{MaxRank}] {(Species)Species}-{AltForm}";
     }
 }
