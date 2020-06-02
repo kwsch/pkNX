@@ -52,5 +52,13 @@ namespace pkNX.Containers
 
         public IEnumerable<string> Summary => Entries.Select((z, i) => $"{i:0000}\t{z.Summary}");
         public IEnumerable<string> ShortSummary => Entries.Select(z => z.Summary);
+
+        public Dictionary<ulong, string> ToDictionary()
+        {
+            var map = new Dictionary<ulong, string>();
+            foreach (var entry in Entries)
+                map[entry.Hash] = entry.Name;
+            return map;
+        }
     }
 }

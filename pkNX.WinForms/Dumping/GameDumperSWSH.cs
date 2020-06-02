@@ -114,23 +114,19 @@ namespace pkNX.WinForms
                 }
             }
 
-            var outname = Path.Combine(DumpFolder, "ahtb.txt");
-            var outname2 = Path.Combine(DumpFolder, "ahtblist.txt");
+            var outname = GetPath("ahtb.txt");
+            var outname2 = GetPath("ahtblist.txt");
             File.WriteAllLines(outname, result);
             File.WriteAllLines(outname2, list);
         }
 
         public static Dictionary<ulong, string> ReadAHTB(byte[] bytes)
         {
-            Dictionary<ulong, string> map = new Dictionary<ulong, string>();
             if (!AHTB.IsAHTB(bytes))
                 throw new ArgumentException();
 
             var tbl = new AHTB(bytes);
-            foreach (var entry in tbl.Entries)
-                map[entry.Hash] = entry.Name;
-
-            return map;
+            return tbl.ToDictionary();
         }
 
         private TrainerEditor GetTrainerEditor()

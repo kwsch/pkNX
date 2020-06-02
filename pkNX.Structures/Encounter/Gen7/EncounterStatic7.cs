@@ -49,13 +49,13 @@ namespace pkNX.Structures
             set => Data[0x6] = (byte)((Data[0x6] & ~0x70) | ((value & 7) << 4));
         }
 
-        public bool _7
+        public bool Unk7_0
         {
             get => (Data[0x7] & 1) >> 0 == 1;
             set => Data[0x7] = (byte)((Data[0x7] & ~1) | (value ? 1 : 0));
         }
 
-        public bool _7_1
+        public bool Unk7_1
         {
             get => (Data[0x7] & 2) >> 1 == 1;
             set => Data[0x7] = (byte)((Data[0x7] & ~2) | (value ? 2 : 0));

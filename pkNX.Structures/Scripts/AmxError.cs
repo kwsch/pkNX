@@ -1,6 +1,8 @@
 ﻿namespace pkNX.Structures
 {
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum AmxError
+#pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
         AMX_ERR_NONE,
         /* reserve the first 15 error codes for exit codes of the abstract machine */

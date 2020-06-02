@@ -8,7 +8,7 @@ namespace pkNX.Structures
         public EncounterGift6AO(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
         public override int Species { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
-        public int _02 { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
+        public int Unk02 { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Form { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int Level { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int Ability { get => (sbyte)Data[0x06]; set => Data[0x06] = (byte)value; }
@@ -16,15 +16,15 @@ namespace pkNX.Structures
         public override Shiny Shiny { get => (Shiny)Data[0x08]; set => Data[0x08] = (byte)value; }
 
         // padding?
-        public int _09 { get => Data[0x09]; set => Data[0x09] = (byte)value; }
-        public int _0A { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-        public int _0B { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
+        public int Unk09 { get => Data[0x09]; set => Data[0x09] = (byte)value; }
+        public int Unk0A { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
+        public int Unk0B { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
 
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         public override FixedGender Gender { get => (FixedGender)Data[0x10]; set => Data[0x10] = (byte)value; }
 
         // padding?
-        public int _11 { get => (sbyte)Data[0x11]; set => Data[0x11] = (byte)value; }
+        public int Unk11 { get => (sbyte)Data[0x11]; set => Data[0x11] = (byte)value; }
         public short MetLocation { get => BitConverter.ToInt16(Data, 0x12); set => BitConverter.GetBytes(value).CopyTo(Data, 0x12); }
         public int Move { get => BitConverter.ToUInt16(Data, 0x14); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); }
 
@@ -42,6 +42,6 @@ namespace pkNX.Structures
         public int CNT_Tough { get => (sbyte)Data[0x20]; set => Data[0x20] = (byte)value; }
         public int CNT_Sheen { get => (sbyte)Data[0x21]; set => Data[0x21] = (byte)value; }
 
-        public int _22 { get => (sbyte)Data[0x22]; set => Data[0x22] = (byte)value; }
+        public int Unk22 { get => (sbyte)Data[0x22]; set => Data[0x22] = (byte)value; }
     }
 }

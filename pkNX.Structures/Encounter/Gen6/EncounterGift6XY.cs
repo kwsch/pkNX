@@ -31,6 +31,6 @@ namespace pkNX.Structures
         public override int IV_SPE { get => (sbyte)Data[0x16]; set => Data[0x16] = (byte)value; }
 
         // padding
-        public int _17 { get => (sbyte)Data[0x17]; set => Data[0x17] = (byte)value; }
+        public int Unk17 { get => (sbyte)Data[0x17]; set => Data[0x17] = (byte)value; }
     }
 }
