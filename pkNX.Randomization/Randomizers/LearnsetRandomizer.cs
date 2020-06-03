@@ -71,7 +71,11 @@ namespace pkNX.Randomization
         public override void Execute()
         {
             for (var i = 0; i < Learnsets.Length; i++)
+            {
+                if (Personal[i].HP == 0)
+                    continue;
                 Randomize(Learnsets[i], i);
+            }
         }
 
         private void Randomize(Learnset set, int index)
