@@ -160,6 +160,8 @@ namespace pkNX.Structures
                 if (vptr > vLength)
                     return default;
                 var rofs = BitConverter.ToUInt16(data, vptr);
+                if (rofs == 0)
+                    return default;
                 return data[root + rofs];
             }
 
@@ -169,6 +171,8 @@ namespace pkNX.Structures
                 if (vptr > vLength)
                     return default;
                 var rofs = BitConverter.ToUInt16(data, vptr);
+                if (rofs == 0)
+                    return default;
                 return BitConverter.ToUInt16(data, root + rofs);
             }
 
@@ -178,6 +182,8 @@ namespace pkNX.Structures
                 if (vptr > vLength)
                     return default;
                 var rofs = BitConverter.ToUInt16(data, vptr);
+                if (rofs == 0)
+                    return default;
                 return data[root + rofs] == 1;
             }
         }
