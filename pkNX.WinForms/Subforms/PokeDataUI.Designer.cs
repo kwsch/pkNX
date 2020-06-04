@@ -121,7 +121,6 @@
             this.Tab_Evo = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.Tab_Extra = new System.Windows.Forms.TabPage();
-            this.L_RandEnhance = new System.Windows.Forms.Label();
             this.TC_Rand = new System.Windows.Forms.TabControl();
             this.Tab_RStats = new System.Windows.Forms.TabPage();
             this.NUD_AmpEXP = new System.Windows.Forms.NumericUpDown();
@@ -138,6 +137,10 @@
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.Tab_Learnset = new System.Windows.Forms.TabPage();
+            this.Tab_Moveset = new System.Windows.Forms.TabPage();
+            this.PG_Move = new System.Windows.Forms.PropertyGrid();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
@@ -150,6 +153,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).BeginInit();
             this.Tab_RLearn.SuspendLayout();
             this.Tab_REvo.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.Tab_Learnset.SuspendLayout();
+            this.Tab_Moveset.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -1062,7 +1068,7 @@
             this.Tab_Learn.Location = new System.Drawing.Point(4, 22);
             this.Tab_Learn.Name = "Tab_Learn";
             this.Tab_Learn.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Learn.Size = new System.Drawing.Size(526, 715);
+            this.Tab_Learn.Size = new System.Drawing.Size(526, 740);
             this.Tab_Learn.TabIndex = 1;
             this.Tab_Learn.Text = "Learnset";
             this.Tab_Learn.UseVisualStyleBackColor = true;
@@ -1112,7 +1118,7 @@
             this.Tab_Evo.Controls.Add(this.flowLayoutPanel1);
             this.Tab_Evo.Location = new System.Drawing.Point(4, 22);
             this.Tab_Evo.Name = "Tab_Evo";
-            this.Tab_Evo.Size = new System.Drawing.Size(526, 715);
+            this.Tab_Evo.Size = new System.Drawing.Size(526, 740);
             this.Tab_Evo.TabIndex = 2;
             this.Tab_Evo.Text = "Evolve";
             this.Tab_Evo.UseVisualStyleBackColor = true;
@@ -1122,39 +1128,30 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 715);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 740);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // Tab_Extra
             // 
-            this.Tab_Extra.Controls.Add(this.L_RandEnhance);
             this.Tab_Extra.Controls.Add(this.TC_Rand);
             this.Tab_Extra.Location = new System.Drawing.Point(4, 22);
             this.Tab_Extra.Name = "Tab_Extra";
             this.Tab_Extra.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Extra.Size = new System.Drawing.Size(526, 715);
+            this.Tab_Extra.Size = new System.Drawing.Size(526, 740);
             this.Tab_Extra.TabIndex = 3;
             this.Tab_Extra.Text = "Enhancements";
             this.Tab_Extra.UseVisualStyleBackColor = true;
-            // 
-            // L_RandEnhance
-            // 
-            this.L_RandEnhance.AutoSize = true;
-            this.L_RandEnhance.Location = new System.Drawing.Point(9, 8);
-            this.L_RandEnhance.Name = "L_RandEnhance";
-            this.L_RandEnhance.Size = new System.Drawing.Size(116, 13);
-            this.L_RandEnhance.TabIndex = 1;
-            this.L_RandEnhance.Text = "Randomization Options";
             // 
             // TC_Rand
             // 
             this.TC_Rand.Controls.Add(this.Tab_RStats);
             this.TC_Rand.Controls.Add(this.Tab_RLearn);
             this.TC_Rand.Controls.Add(this.Tab_REvo);
-            this.TC_Rand.Location = new System.Drawing.Point(8, 24);
+            this.TC_Rand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TC_Rand.Location = new System.Drawing.Point(3, 3);
             this.TC_Rand.Name = "TC_Rand";
             this.TC_Rand.SelectedIndex = 0;
-            this.TC_Rand.Size = new System.Drawing.Size(428, 488);
+            this.TC_Rand.Size = new System.Drawing.Size(520, 734);
             this.TC_Rand.TabIndex = 0;
             // 
             // Tab_RStats
@@ -1232,13 +1229,13 @@
             // 
             // Tab_RLearn
             // 
+            this.Tab_RLearn.Controls.Add(this.tabControl2);
             this.Tab_RLearn.Controls.Add(this.B_LearnMetronome);
             this.Tab_RLearn.Controls.Add(this.B_LearnExpand);
             this.Tab_RLearn.Controls.Add(this.B_RandLearn);
-            this.Tab_RLearn.Controls.Add(this.PG_Learn);
             this.Tab_RLearn.Location = new System.Drawing.Point(4, 22);
             this.Tab_RLearn.Name = "Tab_RLearn";
-            this.Tab_RLearn.Size = new System.Drawing.Size(420, 462);
+            this.Tab_RLearn.Size = new System.Drawing.Size(512, 708);
             this.Tab_RLearn.TabIndex = 2;
             this.Tab_RLearn.Text = "Randomize Learn";
             this.Tab_RLearn.UseVisualStyleBackColor = true;
@@ -1275,12 +1272,10 @@
             // 
             // PG_Learn
             // 
-            this.PG_Learn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Learn.Location = new System.Drawing.Point(6, 32);
+            this.PG_Learn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Learn.Location = new System.Drawing.Point(3, 3);
             this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(411, 427);
+            this.PG_Learn.Size = new System.Drawing.Size(489, 641);
             this.PG_Learn.TabIndex = 2;
             this.PG_Learn.ToolbarVisible = false;
             // 
@@ -1338,6 +1333,50 @@
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateIndex);
             // 
+            // tabControl2
+            // 
+            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl2.Controls.Add(this.Tab_Learnset);
+            this.tabControl2.Controls.Add(this.Tab_Moveset);
+            this.tabControl2.Location = new System.Drawing.Point(6, 32);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(503, 673);
+            this.tabControl2.TabIndex = 6;
+            // 
+            // Tab_Learnset
+            // 
+            this.Tab_Learnset.Controls.Add(this.PG_Learn);
+            this.Tab_Learnset.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Learnset.Name = "Tab_Learnset";
+            this.Tab_Learnset.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Learnset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Learnset.TabIndex = 0;
+            this.Tab_Learnset.Text = "Learn Settings";
+            this.Tab_Learnset.UseVisualStyleBackColor = true;
+            // 
+            // Tab_Moveset
+            // 
+            this.Tab_Moveset.Controls.Add(this.PG_Move);
+            this.Tab_Moveset.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Moveset.Name = "Tab_Moveset";
+            this.Tab_Moveset.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Moveset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Moveset.TabIndex = 1;
+            this.Tab_Moveset.Text = "Moveset Settings";
+            this.Tab_Moveset.UseVisualStyleBackColor = true;
+            // 
+            // PG_Move
+            // 
+            this.PG_Move.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Move.Location = new System.Drawing.Point(3, 3);
+            this.PG_Move.Name = "PG_Move";
+            this.PG_Move.Size = new System.Drawing.Size(489, 641);
+            this.PG_Move.TabIndex = 3;
+            this.PG_Move.ToolbarVisible = false;
+            // 
             // PokeDataUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1360,12 +1399,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.Tab_Evo.ResumeLayout(false);
             this.Tab_Extra.ResumeLayout(false);
-            this.Tab_Extra.PerformLayout();
             this.TC_Rand.ResumeLayout(false);
             this.Tab_RStats.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).EndInit();
             this.Tab_RLearn.ResumeLayout(false);
             this.Tab_REvo.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.Tab_Learnset.ResumeLayout(false);
+            this.Tab_Moveset.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1468,7 +1509,6 @@
         private System.Windows.Forms.Button B_PDumpTable;
         private System.Windows.Forms.TabControl TC_Rand;
         private System.Windows.Forms.TabPage Tab_RStats;
-        private System.Windows.Forms.Label L_RandEnhance;
         private System.Windows.Forms.TabPage Tab_RLearn;
         private System.Windows.Forms.TabPage Tab_REvo;
         private System.Windows.Forms.PropertyGrid PG_Personal;
@@ -1482,5 +1522,9 @@
         private System.Windows.Forms.Button B_LearnMetronome;
         private System.Windows.Forms.Button B_AmpExperience;
         private System.Windows.Forms.NumericUpDown NUD_AmpEXP;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage Tab_Learnset;
+        private System.Windows.Forms.TabPage Tab_Moveset;
+        private System.Windows.Forms.PropertyGrid PG_Move;
     }
 }

@@ -53,6 +53,7 @@ namespace pkNX.WinForms
             PG_Personal.SelectedObject = EditUtil.Settings.Personal;
             PG_Evolution.SelectedObject = EditUtil.Settings.Species;
             PG_Learn.SelectedObject = EditUtil.Settings.Learn;
+            PG_Move.SelectedObject = EditUtil.Settings.Move;
         }
 
         public readonly GameManager ROM;
@@ -490,10 +491,11 @@ namespace pkNX.WinForms
         {
             SaveCurrent();
             var settings = (LearnSettings)PG_Learn.SelectedObject;
+            var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
             var moves = ROM.Data.MoveData.LoadAll();
             int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves.Length);
-            rand.Initialize(moves, settings, EditUtil.Settings.Move, banned);
+            rand.Initialize(moves, settings, moveset, banned);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -508,8 +510,9 @@ namespace pkNX.WinForms
                     "Not expanding learnsets.");
                 return;
             }
+            var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, EditUtil.Settings.Move);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, moveset);
             rand.ExecuteExpandOnly();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -518,8 +521,9 @@ namespace pkNX.WinForms
         private void B_LearnMetronome_Click(object sender, EventArgs e)
         {
             var settings = (LearnSettings)PG_Learn.SelectedObject;
+            var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, EditUtil.Settings.Move);
+            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, moveset);
             rand.ExecuteMetronome();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
