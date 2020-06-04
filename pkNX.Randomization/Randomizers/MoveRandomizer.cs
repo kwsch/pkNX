@@ -31,16 +31,18 @@ namespace pkNX.Randomization
         {
             Settings = settings;
 
-            var nanned = new List<int>();
-            nanned.AddRange(new[] { 165, 621, 464 }.Concat(Legal.Z_Moves)); // Struggle, Hyperspace Fury, Dark Void
+            var banned = new List<int>();
+            banned.AddRange(Legal.Taboo_Moves.Concat(Legal.Z_Moves).Concat(Legal.Max_Moves));
             if (Settings.BanFixedDamageMoves)
-                nanned.AddRange(FixedDamageMoves);
-            nanned.AddRange(bannedMoves);
+                banned.AddRange(FixedDamageMoves);
+            banned.AddRange(bannedMoves);
 
-            Settings.BannedMoves = nanned.ToArray();
+            Settings.BannedMoves = banned.ToArray();
 
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
-            var moves = all.Except(nanned);
+            var moves = all.Except(banned);
+            if (MoveData[0] is Move8Fake)
+                moves = moves.Where(z => ((Move8Fake) MoveData[z]).CanUseMove);
             RandMove = new GenericRandomizer<int>(moves.ToArray());
         }
 
@@ -97,8 +99,12 @@ namespace pkNX.Randomization
             if (Settings.DMG && Settings.DMGCount > moves.Count(move => MoveData[move].Category != 0))
                 return false;
 
-            if (Settings.STAB && Settings.STABCount > moves.Count(move => types.Contains(MoveData[move].Type)))
-                return false;
+            if (Settings.STAB)
+            {
+                var stabCt = moves.Count(move => types.Contains(MoveData[move].Type));
+                if (stabCt < Settings.STABCount)
+                    return false;
+            }
 
             if (moves.Any(Settings.BannedMoves.Contains))
                 return false;

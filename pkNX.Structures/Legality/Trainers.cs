@@ -341,7 +341,7 @@ namespace pkNX.Structures
         // Assigning these Trainer Classes to a Trainer crashes the game.
         // A majority of these are Master Trainer related, and only used for multiplayer. They are not to be assigned to NPCs.
         // </summary>
-        public static readonly int[] BlacklistedClasses_GG = Enumerable.Range(072, 311).Concat(new int[]
+        public static readonly int[] BlacklistedClasses_GG = Enumerable.Range(072, 311).Concat(new[]
         {
             #region CrashClasses
             032, // Pokémon Trainer
@@ -591,6 +591,37 @@ namespace pkNX.Structures
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
             695, 696, 697, 698, 699, 700, 701, 702, 703, 719, 723, 724, 725, 726, 727, 728
+        };
+
+        public static readonly int[] Max_Moves =
+        {
+            757, // Max Flare
+            758, // Max Flutterby
+            759, // Max Lightning
+            760, // Max Strike
+            761, // Max Knuckle
+            762, // Max Phantasm
+            763, // Max Hailstorm
+            764, // Max Ooze
+            765, // Max Geyser
+            766, // Max Airstream
+            767, // Max Starfall
+            768, // Max Wyrmwind
+            769, // Max Mindstorm
+            770, // Max Rockfall
+            771, // Max Quake
+            772, // Max Darkness
+            773, // Max Overgrowth
+            774, // Max Steelspike
+        };
+
+        public static readonly int[] Taboo_Moves =
+        {
+            165, // Struggle
+            464, // Dark Void
+            621, // Hyperspace Fury
+            781, // Behemoth Blade
+            782, // Behemoth Bash
         };
 
         public static readonly int[] ImportantTrainers_XY =

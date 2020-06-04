@@ -21,12 +21,6 @@ namespace pkNX.Randomization
         [Category(General), Description("Level to end learning level up moves.")]
         public int SpreadTo { get; set; } = 75;
 
-        [Category(General), Description("Requires a certain percent of moves to have STAB.")]
-        public bool STAB { get; set; }
-
-        [Category(General), Description("Required percent of moves having STAB.")]
-        public float STABPercent { get; set; }
-
         [Category(Misc), Description("Reorders moves so that moves are learned with increasing power.")]
         public bool OrderByPower { get; set; } = true;
 
