@@ -57,7 +57,8 @@ namespace pkNX.WinForms
             trClass = Game.GetStrings(TextName.TrainerClasses);
             movelist = EditorUtil.SanitizeMoveList(movelist);
 
-            AIBits = new[] {CHK_AI0, CHK_AI1, CHK_AI2, CHK_AI3, CHK_AI4, CHK_AI5, CHK_AI6, CHK_AI7};
+            AIBits = Game.Info.SWSH ? new[] { CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Raid, CHK_AI_Allowance, CHK_AI_PokeChange, CHK_AI_FireGym1, CHK_AI_FireGym2, CHK_AI_Unused1, CHK_AI_Item, CHK_AI_FireGym3, CHK_AI_Unused2 }
+                                    : new[] { CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Allowance, CHK_AI_Item, CHK_AI_PokeChange, CHK_AI_Unused1 };
 
             mnuView.Click += ClickView;
             mnuSet.Click += ClickSet;
@@ -73,6 +74,7 @@ namespace pkNX.WinForms
             PG_Species.SelectedObject = EditUtil.Settings.Species;
 
             L_Gift.Visible = CB_Gift.Visible = NUD_GiftCount.Visible = Game.Info.GG;
+            GB_Additional_AI.Visible = Game.Info.SWSH;
         }
 
         public bool Modified { get; set; }
