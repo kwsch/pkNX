@@ -215,7 +215,7 @@ namespace pkNX.Structures
             (int)Species.Eevee,
             (int)Species.Snorlax,
             (int)Species.Garbodor,
-           // (int)Species.Melmetal,
+            (int)Species.Melmetal,
             (int)Species.Corviknight,
             (int)Species.Orbeetle,
             (int)Species.Drednaw,
@@ -334,10 +334,10 @@ namespace pkNX.Structures
 
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
-            1281, // ★And337
-            1282, // ★And603
-            1283, // ★And390
-            1284, // ★Sgr6879
+            // 1281, // ★And337 (Corviknight)
+            // 1282, // ★And603 (Eiscue)
+            // 1283, // ★And390 (Stonjourner)
+            // 1284, // ★Sgr6879 (Copperajah)
             1285, // ★Sgr6859
             1286, // ★Sgr6913
             1287, // ★Sgr7348
