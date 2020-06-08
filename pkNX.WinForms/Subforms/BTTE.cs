@@ -592,7 +592,7 @@ namespace pkNX.WinForms
                 RandSpec = rspec,
                 GetBlank = () => (Game.Info.SWSH ? (TrainerPoke)new TrainerPoke8() : new TrainerPoke7b()), // this should probably be less specific
             };
-            trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject);
+            trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject, (SpeciesSettings)PG_Species.SelectedObject);
             return trand;
         }
 

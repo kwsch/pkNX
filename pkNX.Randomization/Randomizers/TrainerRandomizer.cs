@@ -26,6 +26,7 @@ namespace pkNX.Randomization
         public EvolutionSet[] Evos { get; set; }
 
         private TrainerRandSettings Settings;
+        private SpeciesSettings SpecSettings;
 
         public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
         {
@@ -42,9 +43,10 @@ namespace pkNX.Randomization
             CrashClasses = GetCrashClasses(Info.Game);
         }
 
-        public void Initialize(TrainerRandSettings settings)
+        public void Initialize(TrainerRandSettings settings, SpeciesSettings spec)
         {
             Settings = settings;
+            SpecSettings = spec;
 
             IEnumerable<int> classes = Enumerable.Range(0, ClassCount).Except(CrashClasses);
             if (Settings.SkipSpecialClasses)
@@ -244,7 +246,14 @@ namespace pkNX.Randomization
             {
                 if (Settings.GigantamaxSwap && c.CanGigantamax)
                 {
-                    c.Species = GigantamaxForms[Util.Random.Next(GigantamaxForms.Length)];
+                    // only allow Gigantamax Forms per the user's species settings
+                    var species = SpecSettings.GetSpecies(Info.MaxSpeciesID, Info.Generation);
+                    var AllowedGigantamaxes = species.Intersect(GigantamaxForms).ToArray();
+
+                    if (AllowedGigantamaxes.Length == 0) // return if the user's settings make it to where no gmax fits the criteria
+                        return;
+
+                    c.Species = AllowedGigantamaxes[Util.Random.Next(AllowedGigantamaxes.Length)];
                     c.Form = c.Species == (int)Species.Pikachu || c.Species == (int)Species.Meowth ? 0 : Legal.GetRandomForme(c.Species, false, false, false, Personal); // Pikachu & Meowth altforms can't gmax
                 }
                 if (Settings.MaxDynamaxLevel && c.CanDynamax)
