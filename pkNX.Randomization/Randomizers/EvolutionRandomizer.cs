@@ -64,7 +64,7 @@ namespace pkNX.Randomization
                     evo.Method = EvolutionType.LevelUp; // trade -> level up
                     evo.Argument = 30;
                     return;
-                case EvolutionType.Trade when Game.Generation == 7:
+                case EvolutionType.Trade when Game.Generation >= 7:
                     evo.Method = EvolutionType.LevelUp; // trade -> level up
                     evo.Level = 30;
                     return;
