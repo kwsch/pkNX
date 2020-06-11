@@ -467,9 +467,20 @@ namespace pkNX.WinForms
         {
             SaveCurrent();
             var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
-            settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
+            if (ROM.Info.GG)
+                settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
             var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
-            rand.Randomizer.Initialize(settings);
+            int[] ban = Array.Empty<int>();
+
+            if (ROM.Info.SWSH)
+            {
+                var pt = ROM.Data.PersonalData;
+                ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+            }
+
+            rand.Randomizer.Initialize(settings, ban);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -479,7 +490,8 @@ namespace pkNX.WinForms
         {
             SaveCurrent();
             var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
-            settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
+            if (ROM.Info.GG)
+                settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
             var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
             rand.Randomizer.Initialize(settings);
             rand.ExecuteTrade();
