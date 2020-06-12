@@ -52,7 +52,7 @@ namespace pkNX.Structures
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
             var ability = $"Ability = {Ability}";
             var otgender = $", OTGender = {OTGender}";
-            var gender = $", Gender = {Gender}";
+            var gender = $", Gender = {(int)Gender}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var tid = $", TID7 = {TrainerID}";
@@ -61,7 +61,7 @@ namespace pkNX.Structures
             const string iv = ", IVs = TradeIVs";
 
             return
-                $"            new EncounterTrade8({Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{iv}{dyna}{otgender}{gender}{altform}{giga}{relearn} }},{comment}";
+                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{iv}{dyna}{otgender}{gender}{altform}{giga}{relearn} }},{comment}";
         }
     }
 }
