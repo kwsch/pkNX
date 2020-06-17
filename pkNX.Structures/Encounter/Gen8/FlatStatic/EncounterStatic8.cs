@@ -15,9 +15,10 @@ namespace pkNX.Structures
         public int Field_0A { get; set; }
         public ulong Hash3 { get; set; }
         public bool CanGigantamax { get; set; }
+        public int Field_0D { get; set; }
         public int HeldItem { get; set; }
         public int Level { get; set; }
-        public int Field_0F { get; set; }
+        public int Field_10 { get; set; }
         public Species Species { get; set; }
         public Shiny ShinyLock { get; set; }
         public Nature Nature { get; set; }

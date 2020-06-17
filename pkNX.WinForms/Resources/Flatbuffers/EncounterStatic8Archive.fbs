@@ -22,10 +22,12 @@ table EncounterStatic8 {
 
   CanGigantamax:bool;
 
+  Field_0D:uint;
+
   HeldItem:uint;
 
   Level:byte;
-  Field_0F:uint;
+  Field_10:uint;
   Species:uint;
   ShinyLock:uint;
   Nature:uint;
