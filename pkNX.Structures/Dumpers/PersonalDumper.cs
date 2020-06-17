@@ -59,6 +59,8 @@ namespace pkNX.Structures
         private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
         private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
 
+        private static readonly int[] ArmorTutorIndexes = { 0x325, 0x327, 0x32C, 0x324, 0x323, 0x32D, 0x32B, 0x32A, 0x32F, 0x32E, 0x31D, 0x326, 0x320, 0x329, 0x31F, 0x328, 0x31E, 0x322 };
+
         public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
 
         public List<string> Dump(PersonalTable table)
@@ -98,8 +100,9 @@ namespace pkNX.Structures
             AddLearnsets(lines, entry, specCode);
             AddEggMoves(lines, species, form, specCode);
             AddTMs(lines, pi, specCode);
+            AddArmorTutors(lines, pi, specCode);
             AddEvolutions(lines, entry);
-            AddZukan(lines, entry);
+            //AddZukan(lines, entry);
         }
 
         private void AddZukan(List<string> lines, int entry)
@@ -121,6 +124,26 @@ namespace pkNX.Structures
                     continue;
                 var move = TMIndexes[i];
                 lines.Add($"- [TM{i:00}] {Moves[move]}");
+                count++;
+
+                MoveSpeciesLearn[move].Add(SpecCode);
+            }
+            if (count == 0)
+                lines.Add("None!");
+        }
+
+        protected virtual void AddArmorTutors(List<string> lines, PersonalInfo pi, string SpecCode)
+        {
+
+            var armor = pi.SpecialTutors[0];
+            int count = 0;
+            lines.Add("Armor Tutors:");
+            for (int i = 0; i < armor.Length; i++)
+            {
+                if (!armor[i])
+                    continue;
+                var move = ArmorTutorIndexes[i];
+                lines.Add($"- {Moves[move]}");
                 count++;
 
                 MoveSpeciesLearn[move].Add(SpecCode);
@@ -220,7 +243,7 @@ namespace pkNX.Structures
                 ? "Egg Group: {0} / {1}"
                 : "Egg Group: {0}", EggGroups[pi.EggGroup1], EggGroups[pi.EggGroup2]));
             lines.Add($"Hatch Cycles: {pi.HatchCycles}");
-            lines.Add($"Height: {(decimal) pi.Height / 100:00.00} m, Weight: {(decimal) pi.Weight / 10:000.0} kg, Color: {Colors[pi.Color]}");
+            lines.Add($"Height: {(decimal)pi.Height / 100:00.00} m, Weight: {(decimal)pi.Weight / 10:000.0} kg, Color: {Colors[pi.Color]}");
         }
     }
 }

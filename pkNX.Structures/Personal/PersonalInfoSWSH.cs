@@ -25,6 +25,15 @@ namespace pkNX.Structures
             for (int i = 0; i < typeTutors.Length; i++)
                 typeTutors[i] = FlagUtil.GetFlag(Data, 0x38, i);
             TypeTutors = typeTutors;
+
+            // 0xA8-0xAF are armor type tutors, one bit for each type
+            var armorTutors = new bool[18];
+            for (int i = 0; i < armorTutors.Length; i++)
+                armorTutors[i] = FlagUtil.GetFlag(Data, 0xA8 + (i >> 3), i);
+            SpecialTutors = new[]
+            {
+                armorTutors,
+            };
         }
 
         public override byte[] Write()
@@ -36,6 +45,8 @@ namespace pkNX.Structures
             }
             for (int i = 0; i < TypeTutors.Length; i++)
                 FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
+            for (int i = 0; i < SpecialTutors[0].Length; i++)
+                FlagUtil.SetFlag(Data, 0xA8 + (i >> 3), i, SpecialTutors[0][i]);
             return Data;
         }
 
@@ -105,5 +116,6 @@ namespace pkNX.Structures
 
         public int SpriteIndex { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
         public int DexID { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
+        public int DexIDArmor { get => BitConverter.ToUInt16(Data, 0xAC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAC); }
     }
 }

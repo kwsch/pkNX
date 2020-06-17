@@ -349,28 +349,42 @@ namespace pkNX.WinForms
             var pt = ROM.Data.PersonalData;
             var s = ROM.GetStrings(TextName.SpeciesNames);
 
-            var dex = new List<string>();
+            var galar = new List<string>();
+            var armor = new List<string>();
             var dexit = new List<string>();
             var foreign = new List<string>();
             for (int i = 1; i <= ROM.Info.MaxSpeciesID; i++)
             {
                 var p = (PersonalInfoSWSH)pt[i];
+                bool any = false;
                 if (p.DexID != 0)
-                    dex.Add($"{p.DexID:000} - [{i:000]} - {s[i]}");
-                else if (p.IsPresentInGame)
+                {
+                    galar.Add($"{p.DexID:000} - [{i:000]} - {s[i]}");
+                    any = true;
+                }
+                if (p.DexIDArmor != 0)
+                {
+                    armor.Add($"{p.DexIDArmor:000} - [{i:000]} - {s[i]}");
+                    any = true;
+                }
+
+                if (p.IsPresentInGame && !any)
                     foreign.Add($"[{i:000]} - {s[i]}");
                 else
                     dexit.Add($"[{i:000]} - {s[i]}");
             }
 
             var path = GetPath("GalarDex.txt");
-            File.WriteAllLines(path, dex.OrderBy(z => z));
+            File.WriteAllLines(path, galar.OrderBy(z => z));
 
-            var path2 = GetPath("Dexit.txt");
-            File.WriteAllLines(path2, dexit);
+            var path2 = GetPath("ArmorDex.txt");
+            File.WriteAllLines(path2, armor.OrderBy(z => z));
 
-            var path3 = GetPath("Foreign.txt");
-            File.WriteAllLines(path3, foreign);
+            var path3 = GetPath("Dexit.txt");
+            File.WriteAllLines(path3, dexit);
+
+            var path4 = GetPath("Foreign.txt");
+            File.WriteAllLines(path4, foreign);
         }
 
         public void DumpFlavorText()
@@ -432,11 +446,13 @@ namespace pkNX.WinForms
 
             var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"));
             var encount_data = GetDistributionContents(Path.Combine(path, "normal_encount"));
+            var rigel1_data = GetDistributionContents(Path.Combine(path, "normal_encount_rigel1"));
             var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"));
             var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"));
             var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(drop_data);
             var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
             var dist_encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(encount_data);
+            var dist_encounts_rigel1 = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(rigel1_data);
             var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
             var dist_pretty_sw = dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
@@ -445,6 +461,13 @@ namespace pkNX.WinForms
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
             File.WriteAllLines(GetPath("nestDistPrettySword.txt"), dist_pretty_sw);
             File.WriteAllLines(GetPath("nestDistPrettyShield.txt"), dist_pretty_sh);
+
+            var dist_pretty_rigel1_sw = dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+            var dist_pretty_rigel1_sh = dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+            File.WriteAllLines(GetPath("nestDistArmorPrettySword.txt"), dist_pretty_sw);
+            File.WriteAllLines(GetPath("nestDistArmorPrettyShield.txt"), dist_pretty_sh);
 
             var dai_pretty_sw = dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
@@ -457,6 +480,11 @@ namespace pkNX.WinForms
             var dist_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
             File.WriteAllText(GetPath("nestDist_sw.txt"), dist_sw);
             File.WriteAllText(GetPath("nestDist_sh.txt"), dist_sh);
+
+            var dist_rigel1_sw = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+            var dist_rigel1_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+            File.WriteAllText(GetPath("nestDistArmor_sw.txt"), dist_sw);
+            File.WriteAllText(GetPath("nestDistArmor_sh.txt"), dist_sh);
 
             var dai_sw = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
             var dai_sh = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));

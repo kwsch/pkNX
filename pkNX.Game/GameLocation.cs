@@ -95,7 +95,6 @@ namespace pkNX.Game
                 case FILECOUNT_SWSH_1:
                 case FILECOUNT_SWSH_2:
                     return GameVersion.SW; // todo: differentiate between SW/SH
-
                 default:
                     return GameVersion.Invalid;
             }

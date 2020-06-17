@@ -29,10 +29,11 @@ namespace pkNX.Structures
         public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
         {
             foreach (var entry in Entries)
-                yield return Summary(entry);
+                foreach (var summary in Summary(entry))
+                    yield return summary;
             yield return string.Empty;
 
-            string Summary(EncounterNest8 e)
+            IEnumerable<string> Summary(EncounterNest8 e)
             {
                 var comment = $" // {species[e.Species]}{(e.AltForm == 0 ? string.Empty : "-" + e.AltForm)}";
                 var gender = e.Gender == 0 ? string.Empty : $", Gender = {e.Gender - 1}";
@@ -40,21 +41,34 @@ namespace pkNX.Structures
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
                 var ability = e.Ability switch
                 {
+                    2 => "A2",
                     3 => "A3",
                     4 => "A4",
                     _ => throw new Exception()
                 };
+                var flawless = e.FlawlessIVs;
 
                 // calc min/max ranks
                 int min = e.MinRank;
                 int max = e.MaxRank;
+
+                int curMin = -1;
                 for (int i = min; i < max; i++)
                 {
-                    if (e.Probabilities[i] == 0)
-                        throw new Exception();
+                    if (e.Probabilities[i] != 0)
+                    {
+                        if (curMin == -1)
+                            curMin = i;
+
+                        if (i == max - 1)
+                            yield return $"            new EncounterStatic8N(Nest{index:00},{curMin},{i},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
+                    }
+                    else if (curMin != -1)
+                    {
+                        yield return $"            new EncounterStatic8N(Nest{index:00},{curMin},{i - 1},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
+                        curMin = -1;
+                    }
                 }
-                var flawless = e.FlawlessIVs;
-                return $"            new EncounterStatic8N(Nest{index:00},{min},{max},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
             }
         }
 
@@ -83,6 +97,7 @@ namespace pkNX.Structures
 
                 var ability = e.Ability switch
                 {
+                    2 => "A2",
                     3 => "A3",
                     4 => "A4",
                     _ => throw new Exception()
