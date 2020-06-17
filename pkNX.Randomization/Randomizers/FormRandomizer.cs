@@ -27,30 +27,37 @@ namespace pkNX.Randomization
             switch ((Species)species)
             {
                 case Unown:
+                case Deerling:
                 case Sawsbuck:
                     return 31; // Random
                 case Greninja when !AllowMega:
+                case Eternatus:
                     return 0;
                 case Scatterbug:
                 case Spewpa:
                 case Vivillon:
                     return 30; // save file specific
                 case Minior:
-                    return Util.Random.Next(7);
-                case Eternatus:
-                    return 0;
+                    return Util.Random.Next(7); // keep the core color a surprise
 
                 // Galarian Forms
-                case Meowth when AllowGalarianForm: // Galarian Meowth is altform 2
+                case Meowth when AllowGalarianForm: // Kanto, Alola, Galar
                     return Util.Random.Next(3);
-                case Darmanitan when AllowGalarianForm: // Galarian Darmanitan is altform 2, Galarian Zen is altform 3
+                case Darmanitan when AllowGalarianForm: // Standard, Zen, Galar Standard, Galar Zen
                     return Util.Random.Next(4);
+                case Slowbro when AllowGalarianForm: // Slowbro-1 is Mega and Slowbro-2 is Galar, so only return 0 or 2
+                    {
+                        int form = Util.Random.Next(2);
+                        if (form == 1)
+                            form++;
+                        return form;
+                    }
             }
 
             if (AllowAlolanForm && Legal.EvolveToAlolanForms.Contains(species))
                 return Util.Random.Next(2);
             if (AllowGalarianForm && Legal.EvolveToGalarForms.Contains(species))
-                return species == (int)Slowpoke ? 1 : Util.Random.Next(2);
+                return Util.Random.Next(2);
             if (!Legal.BattleExclusiveForms.Contains(species) || AllowMega)
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random
             return 0;

@@ -50,6 +50,8 @@
         Spin,
         LevelUpNatureAmped,
         LevelUpNatureLowKey,
+        TowerOfDarkness,
+        TowerOfWaters,
     }
 
     public enum EvolutionTypeArgumentType

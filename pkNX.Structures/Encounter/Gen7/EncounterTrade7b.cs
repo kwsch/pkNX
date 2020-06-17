@@ -10,9 +10,9 @@ namespace pkNX.Structures
         // game loops over all trades to find which one is being offered
         public ulong HashTradeID => BitConverter.ToUInt64(Data, 0x00);
 
-        public override int Species
+        public override Species Species
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
+            get => (Species)BitConverter.ToUInt16(Data, 0x08);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
         }
 
@@ -123,9 +123,9 @@ namespace pkNX.Structures
 
         // 0x38-0x40 are languageIDs to figure out which language to use (do indexOf current save language -> language message file)
 
-        public int RequiredSpecies
+        public Species RequiredSpecies
         {
-            get => BitConverter.ToUInt16(Data, 0x42);
+            get => (Species)BitConverter.ToUInt16(Data, 0x42);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x42);
         }
 

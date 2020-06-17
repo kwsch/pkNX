@@ -286,10 +286,19 @@ namespace pkNX.WinForms
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
                 CHK_Variant.Checked = sm.LocalVariant;
+                CHK_IsPresentInGame.Visible = false;
             }
             if (pkm is PersonalInfoGG gg)
             {
                 MT_GoID.Text = gg.GoSpecies.ToString("000");
+                CHK_Variant.Checked = gg.LocalVariant;
+                CHK_IsPresentInGame.Visible = false;
+            }
+            if (pkm is PersonalInfoSWSH swsh)
+            {
+                MT_GoID.Text = swsh.SpriteIndex.ToString("000");
+                CHK_IsPresentInGame.Checked = swsh.IsPresentInGame;
+                CHK_Variant.Visible = false;
             }
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)

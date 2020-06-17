@@ -7,7 +7,7 @@ namespace pkNX.Structures
         public const int SIZE = 0x24;
         public EncounterGift6AO(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
-        public override int Species { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public override Species Species { get => (Species)BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public int Unk02 { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Form { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int Level { get => Data[0x05]; set => Data[0x05] = (byte)value; }
@@ -35,12 +35,12 @@ namespace pkNX.Structures
         public override int IV_SPD { get => (sbyte)Data[0x1A]; set => Data[0x1A] = (byte)value; }
         public override int IV_SPE { get => (sbyte)Data[0x1B]; set => Data[0x1B] = (byte)value; }
 
-        public int CNT_Cool  { get => (sbyte)Data[0x1C]; set => Data[0x1C] = (byte)value; }
-        public int CNT_Beauty{ get => (sbyte)Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public int CNT_Cute  { get => (sbyte)Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public int CNT_Smart { get => (sbyte)Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public int CNT_Tough { get => (sbyte)Data[0x20]; set => Data[0x20] = (byte)value; }
-        public int CNT_Sheen { get => (sbyte)Data[0x21]; set => Data[0x21] = (byte)value; }
+        public int CNT_Cool   { get => (sbyte)Data[0x1C]; set => Data[0x1C] = (byte)value; }
+        public int CNT_Beauty { get => (sbyte)Data[0x1D]; set => Data[0x1D] = (byte)value; }
+        public int CNT_Cute   { get => (sbyte)Data[0x1E]; set => Data[0x1E] = (byte)value; }
+        public int CNT_Smart  { get => (sbyte)Data[0x1F]; set => Data[0x1F] = (byte)value; }
+        public int CNT_Tough  { get => (sbyte)Data[0x20]; set => Data[0x20] = (byte)value; }
+        public int CNT_Sheen  { get => (sbyte)Data[0x21]; set => Data[0x21] = (byte)value; }
 
         public int Unk22 { get => (sbyte)Data[0x22]; set => Data[0x22] = (byte)value; }
     }

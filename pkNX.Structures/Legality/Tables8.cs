@@ -5,10 +5,10 @@ namespace pkNX.Structures
 {
     public static partial class Legal
     {
-        public const int MaxSpeciesID_8 = 890; // Eternatus
-        public const int MaxMoveID_8 = 796; // Steel Beam (jet fuel)
-        public const int MaxItemID_8 = 1278; // Rotom Catalog, or 1578 for all catalog parts?
-        public const int MaxAbilityID_8 = 258;
+        public const int MaxSpeciesID_8 = 893; // Zarude
+        public const int MaxMoveID_8 = 818; // Surging Strikes
+        public const int MaxItemID_8 = 1589; // Mark Charm
+        public const int MaxAbilityID_8 = 260; // Unseen Fist
         public const int MaxBallID_8 = 0x1A; // 26 Beast
         public const int MaxGameID_8 = 45;
 
@@ -175,13 +175,14 @@ namespace pkNX.Structures
             (int)Species.Corsola,
             (int)Species.Zigzagoon,
             (int)Species.Linoone,
-            (int)Species.Yamask,
             (int)Species.Darumaka,
             (int)Species.Darmanitan,
+            (int)Species.Yamask,
             (int)Species.Stunfisk,
 
-            // DLC (todo: slowbro, maybe others?)
+            // DLC
             (int)Species.Slowpoke,
+            (int)Species.Slowbro,
         };
 
         internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
@@ -192,12 +193,12 @@ namespace pkNX.Structures
 
         internal static readonly HashSet<int> GalarForm0Evolutions = new HashSet<int>
         {
-            (int)Species.Perrserker,
             (int)Species.Obstagoon,
-            (int)Species.MrRime,
-            (int)Species.Sirfetchd,
-            (int)Species.Runerigus,
+            (int)Species.Perrserker,
             (int)Species.Cursola,
+            (int)Species.Sirfetchd,
+            (int)Species.MrRime,
+            (int)Species.Runerigus,
         };
 
         public static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
@@ -231,7 +232,13 @@ namespace pkNX.Structures
             (int)Species.Copperajah,
             (int)Species.Duraludon,
 
-            // todo: DLC (venusaur, blastoise, galar starters, urshifu, maybe others?)
+            // DLC
+            (int)Species.Venusaur,
+            (int)Species.Blastoise,
+            (int)Species.Rillaboom,
+            (int)Species.Cinderace,
+            (int)Species.Inteleon,
+            (int)Species.Urshifu,
         };
 
         internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>

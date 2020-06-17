@@ -128,19 +128,20 @@
             this.B_RandPersonal = new System.Windows.Forms.Button();
             this.PG_Personal = new System.Windows.Forms.PropertyGrid();
             this.Tab_RLearn = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.Tab_Learnset = new System.Windows.Forms.TabPage();
+            this.PG_Learn = new System.Windows.Forms.PropertyGrid();
+            this.Tab_Moveset = new System.Windows.Forms.TabPage();
+            this.PG_Move = new System.Windows.Forms.PropertyGrid();
             this.B_LearnMetronome = new System.Windows.Forms.Button();
             this.B_LearnExpand = new System.Windows.Forms.Button();
             this.B_RandLearn = new System.Windows.Forms.Button();
-            this.PG_Learn = new System.Windows.Forms.PropertyGrid();
             this.Tab_REvo = new System.Windows.Forms.TabPage();
             this.B_TradeEvo = new System.Windows.Forms.Button();
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.Tab_Learnset = new System.Windows.Forms.TabPage();
-            this.Tab_Moveset = new System.Windows.Forms.TabPage();
-            this.PG_Move = new System.Windows.Forms.PropertyGrid();
+            this.CHK_IsPresentInGame = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
@@ -152,10 +153,10 @@
             this.Tab_RStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).BeginInit();
             this.Tab_RLearn.SuspendLayout();
-            this.Tab_REvo.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.Tab_Learnset.SuspendLayout();
             this.Tab_Moveset.SuspendLayout();
+            this.Tab_REvo.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -184,6 +185,7 @@
             // 
             // Tab_Personal
             // 
+            this.Tab_Personal.Controls.Add(this.CHK_IsPresentInGame);
             this.Tab_Personal.Controls.Add(this.PB_MonSprite);
             this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(this.L_GoID);
@@ -297,16 +299,16 @@
             // L_GoID
             // 
             this.L_GoID.AutoSize = true;
-            this.L_GoID.Location = new System.Drawing.Point(116, 567);
+            this.L_GoID.Location = new System.Drawing.Point(116, 564);
             this.L_GoID.Name = "L_GoID";
-            this.L_GoID.Size = new System.Drawing.Size(35, 13);
+            this.L_GoID.Size = new System.Drawing.Size(40, 13);
             this.L_GoID.TabIndex = 501;
-            this.L_GoID.Text = "GoID:";
+            this.L_GoID.Text = "GO ID:";
             // 
             // MT_GoID
             // 
             this.MT_GoID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MT_GoID.Location = new System.Drawing.Point(157, 565);
+            this.MT_GoID.Location = new System.Drawing.Point(157, 560);
             this.MT_GoID.Mask = "000";
             this.MT_GoID.Name = "MT_GoID";
             this.MT_GoID.Size = new System.Drawing.Size(31, 20);
@@ -435,7 +437,7 @@
             // TB_CallRate
             // 
             this.TB_CallRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CallRate.Location = new System.Drawing.Point(157, 476);
+            this.TB_CallRate.Location = new System.Drawing.Point(157, 539);
             this.TB_CallRate.Mask = "000";
             this.TB_CallRate.Name = "TB_CallRate";
             this.TB_CallRate.Size = new System.Drawing.Size(31, 20);
@@ -445,7 +447,7 @@
             // L_CallRate
             // 
             this.L_CallRate.AutoSize = true;
-            this.L_CallRate.Location = new System.Drawing.Point(103, 480);
+            this.L_CallRate.Location = new System.Drawing.Point(103, 543);
             this.L_CallRate.Name = "L_CallRate";
             this.L_CallRate.Size = new System.Drawing.Size(53, 13);
             this.L_CallRate.TabIndex = 482;
@@ -456,7 +458,7 @@
             // 
             this.CHK_Variant.AutoSize = true;
             this.CHK_Variant.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Variant.Location = new System.Drawing.Point(85, 594);
+            this.CHK_Variant.Location = new System.Drawing.Point(84, 588);
             this.CHK_Variant.Name = "CHK_Variant";
             this.CHK_Variant.Size = new System.Drawing.Size(104, 17);
             this.CHK_Variant.TabIndex = 481;
@@ -486,7 +488,7 @@
             // TB_CatchRate
             // 
             this.TB_CatchRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CatchRate.Location = new System.Drawing.Point(157, 539);
+            this.TB_CatchRate.Location = new System.Drawing.Point(157, 518);
             this.TB_CatchRate.Mask = "000";
             this.TB_CatchRate.Name = "TB_CatchRate";
             this.TB_CatchRate.Size = new System.Drawing.Size(31, 20);
@@ -553,7 +555,7 @@
             // L_CatchRate
             // 
             this.L_CatchRate.AutoSize = true;
-            this.L_CatchRate.Location = new System.Drawing.Point(92, 543);
+            this.L_CatchRate.Location = new System.Drawing.Point(92, 522);
             this.L_CatchRate.Name = "L_CatchRate";
             this.L_CatchRate.Size = new System.Drawing.Size(64, 13);
             this.L_CatchRate.TabIndex = 471;
@@ -668,7 +670,7 @@
             // TB_BaseExp
             // 
             this.TB_BaseExp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseExp.Location = new System.Drawing.Point(157, 497);
+            this.TB_BaseExp.Location = new System.Drawing.Point(157, 476);
             this.TB_BaseExp.Mask = "000";
             this.TB_BaseExp.Name = "TB_BaseExp";
             this.TB_BaseExp.Size = new System.Drawing.Size(31, 20);
@@ -678,7 +680,7 @@
             // L_BaseEXP
             // 
             this.L_BaseEXP.AutoSize = true;
-            this.L_BaseEXP.Location = new System.Drawing.Point(98, 501);
+            this.L_BaseEXP.Location = new System.Drawing.Point(98, 480);
             this.L_BaseEXP.Name = "L_BaseEXP";
             this.L_BaseEXP.Size = new System.Drawing.Size(58, 13);
             this.L_BaseEXP.TabIndex = 458;
@@ -688,7 +690,7 @@
             // TB_HatchCycles
             // 
             this.TB_HatchCycles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HatchCycles.Location = new System.Drawing.Point(157, 518);
+            this.TB_HatchCycles.Location = new System.Drawing.Point(157, 497);
             this.TB_HatchCycles.Mask = "000";
             this.TB_HatchCycles.Name = "TB_HatchCycles";
             this.TB_HatchCycles.Size = new System.Drawing.Size(31, 20);
@@ -698,7 +700,7 @@
             // L_HatchCycles
             // 
             this.L_HatchCycles.AutoSize = true;
-            this.L_HatchCycles.Location = new System.Drawing.Point(83, 521);
+            this.L_HatchCycles.Location = new System.Drawing.Point(83, 500);
             this.L_HatchCycles.Name = "L_HatchCycles";
             this.L_HatchCycles.Size = new System.Drawing.Size(73, 13);
             this.L_HatchCycles.TabIndex = 456;
@@ -1163,7 +1165,7 @@
             this.Tab_RStats.Location = new System.Drawing.Point(4, 22);
             this.Tab_RStats.Name = "Tab_RStats";
             this.Tab_RStats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_RStats.Size = new System.Drawing.Size(420, 462);
+            this.Tab_RStats.Size = new System.Drawing.Size(512, 708);
             this.Tab_RStats.TabIndex = 1;
             this.Tab_RStats.Text = "Randomize Personal";
             this.Tab_RStats.UseVisualStyleBackColor = true;
@@ -1223,7 +1225,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_Personal.Location = new System.Drawing.Point(6, 35);
             this.PG_Personal.Name = "PG_Personal";
-            this.PG_Personal.Size = new System.Drawing.Size(411, 424);
+            this.PG_Personal.Size = new System.Drawing.Size(503, 670);
             this.PG_Personal.TabIndex = 0;
             this.PG_Personal.ToolbarVisible = false;
             // 
@@ -1239,6 +1241,59 @@
             this.Tab_RLearn.TabIndex = 2;
             this.Tab_RLearn.Text = "Randomize Learn";
             this.Tab_RLearn.UseVisualStyleBackColor = true;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl2.Controls.Add(this.Tab_Learnset);
+            this.tabControl2.Controls.Add(this.Tab_Moveset);
+            this.tabControl2.Location = new System.Drawing.Point(6, 32);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(503, 673);
+            this.tabControl2.TabIndex = 6;
+            // 
+            // Tab_Learnset
+            // 
+            this.Tab_Learnset.Controls.Add(this.PG_Learn);
+            this.Tab_Learnset.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Learnset.Name = "Tab_Learnset";
+            this.Tab_Learnset.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Learnset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Learnset.TabIndex = 0;
+            this.Tab_Learnset.Text = "Learn Settings";
+            this.Tab_Learnset.UseVisualStyleBackColor = true;
+            // 
+            // PG_Learn
+            // 
+            this.PG_Learn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Learn.Location = new System.Drawing.Point(3, 3);
+            this.PG_Learn.Name = "PG_Learn";
+            this.PG_Learn.Size = new System.Drawing.Size(489, 641);
+            this.PG_Learn.TabIndex = 2;
+            this.PG_Learn.ToolbarVisible = false;
+            // 
+            // Tab_Moveset
+            // 
+            this.Tab_Moveset.Controls.Add(this.PG_Move);
+            this.Tab_Moveset.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Moveset.Name = "Tab_Moveset";
+            this.Tab_Moveset.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Moveset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Moveset.TabIndex = 1;
+            this.Tab_Moveset.Text = "Moveset Settings";
+            this.Tab_Moveset.UseVisualStyleBackColor = true;
+            // 
+            // PG_Move
+            // 
+            this.PG_Move.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_Move.Location = new System.Drawing.Point(3, 3);
+            this.PG_Move.Name = "PG_Move";
+            this.PG_Move.Size = new System.Drawing.Size(489, 641);
+            this.PG_Move.TabIndex = 3;
+            this.PG_Move.ToolbarVisible = false;
             // 
             // B_LearnMetronome
             // 
@@ -1270,15 +1325,6 @@
             this.B_RandLearn.UseVisualStyleBackColor = true;
             this.B_RandLearn.Click += new System.EventHandler(this.B_RandLearn_Click);
             // 
-            // PG_Learn
-            // 
-            this.PG_Learn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PG_Learn.Location = new System.Drawing.Point(3, 3);
-            this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(489, 641);
-            this.PG_Learn.TabIndex = 2;
-            this.PG_Learn.ToolbarVisible = false;
-            // 
             // Tab_REvo
             // 
             this.Tab_REvo.Controls.Add(this.B_TradeEvo);
@@ -1286,7 +1332,7 @@
             this.Tab_REvo.Controls.Add(this.PG_Evolution);
             this.Tab_REvo.Location = new System.Drawing.Point(4, 22);
             this.Tab_REvo.Name = "Tab_REvo";
-            this.Tab_REvo.Size = new System.Drawing.Size(420, 462);
+            this.Tab_REvo.Size = new System.Drawing.Size(512, 708);
             this.Tab_REvo.TabIndex = 3;
             this.Tab_REvo.Text = "Randomize Evo";
             this.Tab_REvo.UseVisualStyleBackColor = true;
@@ -1318,7 +1364,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_Evolution.Location = new System.Drawing.Point(6, 32);
             this.PG_Evolution.Name = "PG_Evolution";
-            this.PG_Evolution.Size = new System.Drawing.Size(411, 427);
+            this.PG_Evolution.Size = new System.Drawing.Size(503, 673);
             this.PG_Evolution.TabIndex = 2;
             this.PG_Evolution.ToolbarVisible = false;
             // 
@@ -1333,49 +1379,17 @@
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateIndex);
             // 
-            // tabControl2
+            // CHK_IsPresentInGame
             // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl2.Controls.Add(this.Tab_Learnset);
-            this.tabControl2.Controls.Add(this.Tab_Moveset);
-            this.tabControl2.Location = new System.Drawing.Point(6, 32);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(503, 673);
-            this.tabControl2.TabIndex = 6;
-            // 
-            // Tab_Learnset
-            // 
-            this.Tab_Learnset.Controls.Add(this.PG_Learn);
-            this.Tab_Learnset.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Learnset.Name = "Tab_Learnset";
-            this.Tab_Learnset.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Learnset.Size = new System.Drawing.Size(495, 647);
-            this.Tab_Learnset.TabIndex = 0;
-            this.Tab_Learnset.Text = "Learn Settings";
-            this.Tab_Learnset.UseVisualStyleBackColor = true;
-            // 
-            // Tab_Moveset
-            // 
-            this.Tab_Moveset.Controls.Add(this.PG_Move);
-            this.Tab_Moveset.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Moveset.Name = "Tab_Moveset";
-            this.Tab_Moveset.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Moveset.Size = new System.Drawing.Size(495, 647);
-            this.Tab_Moveset.TabIndex = 1;
-            this.Tab_Moveset.Text = "Moveset Settings";
-            this.Tab_Moveset.UseVisualStyleBackColor = true;
-            // 
-            // PG_Move
-            // 
-            this.PG_Move.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PG_Move.Location = new System.Drawing.Point(3, 3);
-            this.PG_Move.Name = "PG_Move";
-            this.PG_Move.Size = new System.Drawing.Size(489, 641);
-            this.PG_Move.TabIndex = 3;
-            this.PG_Move.ToolbarVisible = false;
+            this.CHK_IsPresentInGame.AutoSize = true;
+            this.CHK_IsPresentInGame.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_IsPresentInGame.Enabled = false;
+            this.CHK_IsPresentInGame.Location = new System.Drawing.Point(84, 607);
+            this.CHK_IsPresentInGame.Name = "CHK_IsPresentInGame";
+            this.CHK_IsPresentInGame.Size = new System.Drawing.Size(104, 17);
+            this.CHK_IsPresentInGame.TabIndex = 503;
+            this.CHK_IsPresentInGame.Text = "Present in Game";
+            this.CHK_IsPresentInGame.UseVisualStyleBackColor = true;
             // 
             // PokeDataUI
             // 
@@ -1403,10 +1417,10 @@
             this.Tab_RStats.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AmpEXP)).EndInit();
             this.Tab_RLearn.ResumeLayout(false);
-            this.Tab_REvo.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.Tab_Learnset.ResumeLayout(false);
             this.Tab_Moveset.ResumeLayout(false);
+            this.Tab_REvo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1526,5 +1540,6 @@
         private System.Windows.Forms.TabPage Tab_Learnset;
         private System.Windows.Forms.TabPage Tab_Moveset;
         private System.Windows.Forms.PropertyGrid PG_Move;
+        private System.Windows.Forms.CheckBox CHK_IsPresentInGame;
     }
 }

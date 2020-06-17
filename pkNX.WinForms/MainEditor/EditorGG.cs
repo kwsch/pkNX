@@ -112,7 +112,7 @@ namespace pkNX.WinForms.Controls
             var file = ROM[GameFile.EncounterGift];
             var data = file[0];
             var objs = data.GetArray(z => new EncounterGift7b(z), EncounterGift7b.SIZE); // binary
-            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
             var cache = new DirectCache<EncounterGift7b>(objs);
 
             void Randomize()
@@ -123,8 +123,14 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec);
                 foreach (var t in objs)
                 {
-                    t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.Form = Legal.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData);
+                    t.Nature = Nature.Random25;
+                    t.Gender = FixedGender.Random;
+                    t.Shiny = Shiny.Random;
+                    t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                    if (t.IV_HP != -4)
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
                 }
             }
 
@@ -141,7 +147,7 @@ namespace pkNX.WinForms.Controls
             var file = ROM[GameFile.EncounterTrade];
             var data = file[0];
             var objs = data.GetArray(z => new EncounterTrade7b(z), EncounterTrade7b.SIZE); // binary
-            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
             var cache = new DirectCache<EncounterTrade7b>(objs);
 
             void Randomize()
@@ -149,12 +155,19 @@ namespace pkNX.WinForms.Controls
                 var spec = EditUtil.Settings.Species;
                 spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
                 var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                srand.Initialize(spec);
+                srand.Initialize(spec, 808, 809); // can only catch 1-151 in wild
                 foreach (var t in objs)
                 {
-                    t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
-                    t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.Form = Legal.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData);
+                    t.RequiredForm = 0; // can't catch wild alolan forms
+                    t.Nature = Nature.Random - 1;
+                    t.Gender = FixedGender.Random;
+                    t.Shiny = Shiny.Random;
+                    t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                    if (t.IV_HP != -4)
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
                 }
             }
 
@@ -171,7 +184,7 @@ namespace pkNX.WinForms.Controls
             var file = ROM[GameFile.EncounterStatic];
             var data = file[0];
             var objs = data.GetArray(z => new EncounterStatic7b(z), EncounterStatic7b.SIZE); // binary
-            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:00}").ToArray();
+            var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
             var cache = new DirectCache<EncounterStatic7b>(objs);
 
             void Randomize()
@@ -183,8 +196,14 @@ namespace pkNX.WinForms.Controls
                 for (int i = 2; i < objs.Length; i++) // skip starters
                 {
                     var t = objs[i];
-                    t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = Legal.GetRandomForme(t.Species, false, true, false, ROM.Data.PersonalData);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.Form = Legal.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData);
+                    t.Nature = Nature.Random25;
+                    t.Gender = FixedGender.Random;
+                    t.Shiny = Shiny.Random;
+                    t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                    if (t.IV_HP != -4)
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
                 }
             }
 

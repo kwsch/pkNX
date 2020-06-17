@@ -350,16 +350,16 @@ namespace pkNX.WinForms.Controls
                 {
                     if (t.Species >= Species.Zacian && t.Species <= Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
-                    int newSpecies = srand.GetRandomSpecies((int)t.Species);
-                    t.Species = (Species)newSpecies;
-                    t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.AltForm = Legal.GetRandomForme((int)t.Species, false, true, true, ROM.Data.PersonalData);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
-                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    if (t.IV_Hp != -4)
+                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
                 }
             }
 
@@ -402,9 +402,8 @@ namespace pkNX.WinForms.Controls
                     }
                     else
                     {
-                        int newSpecies = srand.GetRandomSpecies((int)t.Species);
-                        t.Species = (Species)newSpecies;
-                        t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
+                        t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                        t.AltForm = Legal.GetRandomForme((int)t.Species, false, true, true, ROM.Data.PersonalData);
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
@@ -413,7 +412,8 @@ namespace pkNX.WinForms.Controls
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
-                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    if (t.IV_Hp != -4)
+                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
                 }
             }
 
@@ -440,7 +440,7 @@ namespace pkNX.WinForms.Controls
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
                 var pt = ROM.Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
@@ -449,9 +449,8 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in trades)
                 {
                     // what you receive
-                    int newSpecies = srand.GetRandomSpecies((int)t.Species);
-                    t.Species = (Species)newSpecies;
-                    t.AltForm = Legal.GetRandomForme(newSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
+                    t.AltForm = Legal.GetRandomForme((int)t.Species, false, true, true, ROM.Data.PersonalData);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
@@ -459,12 +458,12 @@ namespace pkNX.WinForms.Controls
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
                     t.Relearn1 = t.Relearn2 = t.Relearn3 = t.Relearn4 = 0;
-                    t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    if (t.IV_Hp != -4)
+                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
 
                     // what you trade
-                    int newRequiredSpecies = srand.GetRandomSpecies((int)t.RequiredSpecies);
-                    t.RequiredSpecies = (Species)newRequiredSpecies;
-                    t.RequiredForm = Legal.GetRandomForme(newRequiredSpecies, false, true, true, ROM.Data.PersonalData);
+                    t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.RequiredSpecies);
+                    t.RequiredForm = Legal.GetRandomForme((int)t.RequiredSpecies, false, true, true, ROM.Data.PersonalData);
                     t.RequiredNature = Nature.Random25; // any
                 }
             }

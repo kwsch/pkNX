@@ -63,7 +63,8 @@ namespace pkNX.Game
         private const int FILECOUNT_USUM = 333;
         private const int FILECOUNT_GG = 27818;
         private const int FILECOUNT_SWSH = 41702;
-        private const int FILECOUNT_SWSH_1 = 41951;
+        private const int FILECOUNT_SWSH_1 = 41951; // Ver. 1.1.0 update
+        private const int FILECOUNT_SWSH_2 = 46867; // Ver. 1.2.0 update
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs)
         {
@@ -86,13 +87,14 @@ namespace pkNX.Game
                     if (File.Exists(encdata) && new FileInfo(encdata).Length != 0)
                         return GameVersion.US;
                     return GameVersion.UM;
-                    }
+                }
                 case FILECOUNT_GG:
                     return GameVersion.GG;
 
                 case FILECOUNT_SWSH:
                 case FILECOUNT_SWSH_1:
-                    return GameVersion.SW;
+                case FILECOUNT_SWSH_2:
+                    return GameVersion.SW; // todo: differentiate between SW/SH
 
                 default:
                     return GameVersion.Invalid;

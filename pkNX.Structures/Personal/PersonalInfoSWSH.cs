@@ -7,7 +7,7 @@ namespace pkNX.Structures
     /// </summary>
     public sealed class PersonalInfoSWSH : PersonalInfo
     {
-        public const int SIZE = 0xA8;
+        public const int SIZE = 0xB0;
 
         public PersonalInfoSWSH(byte[] data)
         {

@@ -23,6 +23,16 @@ namespace pkNX.Sprites
             if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
+            switch (form)
+            {
+                case 30 when species >= (int)Species.Scatterbug && species <= (int)Species.Vivillon: // save file specific
+                    form = 0;
+                    break;
+                case 31 when species == (int)Species.Unown || species == (int)Species.Deerling || species == (int)Species.Sawsbuck: // Random
+                    form = 0;
+                    break;
+            }
+
             var sb = new StringBuilder();
             { sb.Append(Separator); sb.Append(species); }
 
@@ -65,6 +75,7 @@ namespace pkNX.Sprites
             (int)Species.Mimikyu,
             (int)Species.Sinistea,
             (int)Species.Polteageist,
+            (int)Species.Urshifu,
         };
 
         /// <summary>

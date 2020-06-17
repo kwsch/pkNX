@@ -52,16 +52,17 @@ namespace pkNX.Structures
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
             var ability = $"Ability = {Ability}";
             var otgender = $", OTGender = {OTGender}";
-            var gender = $", Gender = {(int)Gender}";
+            var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
+            var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var tid = $", TID7 = {TrainerID}";
             var dyna = $", DynamaxLevel = {DynamaxLevel}";
-            var relearn = Relearn1 == 0 ? "                                   " : $", Relearn = new[] {{{Relearn1},{Relearn2},{Relearn3},{Relearn4}}}";
+            var relearn = Relearn1 == 0 ? "                                   " : $", Relearn = new[] {{{Relearn1:000},{Relearn2:000},{Relearn3:000},{Relearn4:000}}}";
             const string iv = ", IVs = TradeIVs";
 
             return
-                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{iv}{dyna}{otgender}{gender}{altform}{giga}{relearn} }},{comment}";
+                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{iv}{dyna}{otgender}{gender}{nature}{altform}{giga}{relearn} }},{comment}";
         }
     }
 }

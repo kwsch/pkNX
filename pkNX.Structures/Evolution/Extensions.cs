@@ -61,6 +61,8 @@ namespace pkNX.Structures
             [Spin] = NoArg,
             [LevelUpNatureAmped] = NoArg,
             [LevelUpNatureLowKey] = NoArg,
+            [TowerOfDarkness] = NoArg,
+            [TowerOfWaters] = NoArg,
         };
 
         public static EvolutionTypeArgumentType GetArgType(this EvolutionType t) => ArgType[t];

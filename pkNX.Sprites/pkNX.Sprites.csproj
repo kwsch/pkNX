@@ -8828,5 +8828,23 @@
   <ItemGroup>
     <None Include="Sprites\Big Items\bitem_unk.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_893-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_893.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_892.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_891.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_80-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-9.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

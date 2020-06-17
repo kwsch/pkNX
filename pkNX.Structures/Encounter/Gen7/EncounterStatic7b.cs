@@ -10,9 +10,9 @@ namespace pkNX.Structures
 
         public ulong Hash => BitConverter.ToUInt64(Data, 0);
 
-        public override int Species
+        public override Species Species
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
+            get => (Species)BitConverter.ToUInt16(Data, 0x08);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
         }
 

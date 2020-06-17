@@ -25943,6 +25943,16 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_25_9 {
+            get {
+                object obj = ResourceManager.GetObject("b_25_9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_250 {
             get {
                 object obj = ResourceManager.GetObject("b_250", resourceCulture);
@@ -42403,6 +42413,16 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_80_2 {
+            get {
+                object obj = ResourceManager.GetObject("b_80_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_800 {
             get {
                 object obj = ResourceManager.GetObject("b_800", resourceCulture);
@@ -44876,6 +44896,46 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_890s {
             get {
                 object obj = ResourceManager.GetObject("b_890s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_891 {
+            get {
+                object obj = ResourceManager.GetObject("b_891", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_892 {
+            get {
+                object obj = ResourceManager.GetObject("b_892", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_893 {
+            get {
+                object obj = ResourceManager.GetObject("b_893", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_893_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_893_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

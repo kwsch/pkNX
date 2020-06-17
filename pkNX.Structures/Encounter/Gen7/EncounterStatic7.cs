@@ -7,9 +7,9 @@ namespace pkNX.Structures
         public const int SIZE = 0x38;
         public EncounterStatic7(byte[] data = null) : base(data ?? new byte[SIZE]) { }
 
-        public override int Species
+        public override Species Species
         {
-            get => BitConverter.ToUInt16(Data, 0x0);
+            get => (Species)BitConverter.ToUInt16(Data, 0x0);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0);
         }
 
