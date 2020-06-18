@@ -117,6 +117,63 @@ namespace pkNX.Game
             {0x5D02F15C043B872E, 008}, // in the Slumbering Weald // late
             {0xA4945486A2B97DFF, 018}, // on Route 2 // Surfing
             {0xAC1187E9EC166853, 092}, // on Route 9 (in Circhester Bay) // Surfing
+
+            // DLC
+            {0x908A64718CA374E6, 164}, // in the Fields of Honor
+            {0x908A63718CA37333, 166}, // in the Soothing Wetlands
+            {0x908A62718CA37180, 168}, // in the Forest of Focus
+            {0x908A69718CA37D65, 170}, // on Challenge Beach
+            {0x908A68718CA37BB2, 172}, // in Brawlers’ Cave
+            {0x908A67718CA379FF, 174}, // on Challenge Road
+            {0x908A66718CA3784C, 176}, // in Courageous Cavern
+            {0x908A6D718CA38431, 178}, // in Loop Lagoon
+            {0x908A6C718CA3827E, 180}, // in the Training Lowlands
+            {0x90875F718CA13690, 182}, // in Warm-Up Tunnel
+            {0x908760718CA13843, 184}, // in the Potbottom Desert
+            {0x909170718CA9A7F8, 186}, // in the Workout Sea
+            {0x909173718CA9AD11, 188}, // in the Stepping-Stone Sea
+            {0x909172718CA9AB5E, 190}, // in the Insular Sea
+            {0x909175718CA9B077, 192}, // in the Honeycalm Sea
+            {0x908DEC718CA691D5, 194}, // on Honeycalm Island
+
+            // TODO: Secondary Labels
+            {0x525D03DF0309D804, 164}, // in the Fields of Honor
+            {0xB0621052994A5089, 164}, // in the Fields of Honor // Water Spawns
+            {0x91B1D1436BAF5871, 164}, // in the Fields of Honor // Ground Spawns
+            {0xC449DFAB894F632C, 178}, // in Loop Lagoon // Ground Spawns
+            {0x67E3FF10EB64FB79, 170}, // on Challenge Beach
+            {0x273693DD91D7BD10, 170}, // on Challenge Beach
+            {0xD61582D408C39E60, 170}, // on Challenge Beach
+            {0xBECC9623CD3E8C77, 166}, // in the Soothing Wetlands
+            {0x1C051CB6F97C2068, 166}, // in the Soothing Wetlands
+            {0xBC028EF260AD9406, 168}, // in the Forest of Focus
+            {0x32AB88FC9797DC83, 168}, // in the Forest of Focus
+            {0x39D078468AA0DCC1, 170}, // on Challenge Beach
+            {0x3BFB22D0FB5B42D2, 170}, // on Challenge Beach
+            {0x2B1DF6E85F9BAE28, 172}, // in Brawlers’ Cave
+            {0x36FE81B956D0DCB5, 172}, // in Brawlers’ Cave
+            {0xBBAA199D0705405B, 174}, // on Challenge Road
+            {0xFB9A7FD6D979C6DA, 176}, // in Courageous Cavern
+            {0xBC0E1701C0276FCF, 176}, // in Courageous Cavern
+            {0xAC2ED08E980FCFC5, 178}, // in Loop Lagoon
+            {0x7D2E205E8E300EE1, 178}, // in Loop Lagoon // Water Spawns
+            {0x85E286D82C666BBC, 180}, // in the Training Lowlands
+            {0x95E125D2EE3ED656, 182}, // in Warm-up Tunnel
+            {0xA7F495799F209587, 184}, // in the Potbottom Desert
+            {0x30AAD92559FCE81E, 186}, // in the Workout Sea
+            {0x6F748A46C8E3802C, 186}, // in the Workout Sea
+            {0xF3036CD294CE9365, 186}, // in the Workout Sea
+            {0x97A3E0687E3C5B01, 188}, // in the Stepping-Stone Sea
+            {0xDDDFF88957FD5B5C, 188}, // in the Stepping-Stone Sea
+            {0xFB9BB438425D58DA, 190}, // in the Insular Sea
+            {0xC16C1E2A1B5FFE87, 192}, // in the Honeycalm Sea
+            {0x081D7EF6A1C192B1, 194}, // on Honeycalm Island
+            {0x86EFBF49516B5555, 194}, // on Honeycalm Island
+            {0x39AB700A9F1AB71F, 180}, // in the Training Lowlands
+            {0x96C6A2A36131F383, 188}, // in the Stepping-Stone Sea
+            {0xC92D06352150C78A, 190}, // in the Insular Sea
+            {0xED1F9772AA35C3CD, 186}, // in the Workout Sea
+            {0x9C0049D3E6129924, 192}, // in the Honeycalm Sea
         };
 
         public static readonly IReadOnlyDictionary<ulong, string> Zones = new Dictionary<ulong, string>
@@ -230,7 +287,64 @@ namespace pkNX.Game
             { 0x94289204B628522C, "Slumbering Weald (Low Level)" },
             { 0x5D02F15C043B872E, "Slumbering Weald (High Level)" },
             { 0xA4945486A2B97DFF, "Route 2 (Surfing)" },
-            { 0xAC1187E9EC166853, "Route 9 (in Circhester Bay) (Surfing)" }
+            { 0xAC1187E9EC166853, "Route 9 (in Circhester Bay) (Surfing)" },
+
+            // DLC
+            { 0x908A64718CA374E6, "Fields of Honor" },
+            { 0x908A63718CA37333, "Soothing Wetlands" },
+            { 0x908A62718CA37180, "Forest of Focus" },
+            { 0x908A69718CA37D65, "Challenge Beach" },
+            { 0x908A68718CA37BB2, "Brawlers’ Cave" },
+            { 0x908A67718CA379FF, "Challenge Road" },
+            { 0x908A66718CA3784C, "Courageous Cavern" },
+            { 0x908A6D718CA38431, "Loop Lagoon" },
+            { 0x908A6C718CA3827E, "Training Lowlands" },
+            { 0x90875F718CA13690, "Warm-Up Tunnel" },
+            { 0x908760718CA13843, "Potbottom Desert" },
+            { 0x909170718CA9A7F8, "Workout Sea" },
+            { 0x909173718CA9AD11, "Stepping-Stone Sea" },
+            { 0x909172718CA9AB5E, "Insular Sea" },
+            { 0x909175718CA9B077, "Honeycalm Sea" },
+            { 0x908DEC718CA691D5, "Honeycalm Island" },
+            
+            // TODO: Secondary Labels
+            { 0x525D03DF0309D804, "Fields of Honor" },
+            { 0xB0621052994A5089, "Fields of Honor" },
+            { 0x91B1D1436BAF5871, "Fields of Honor" },
+            { 0xC449DFAB894F632C, "Loop Lagoon" },
+            { 0x67E3FF10EB64FB79, "Challenge Beach" },
+            { 0x273693DD91D7BD10, "Challenge Beach" },
+            { 0xD61582D408C39E60, "Challenge Beach" },
+            { 0xBECC9623CD3E8C77, "Soothing Wetlands" },
+            { 0x1C051CB6F97C2068, "Soothing Wetlands" },
+            { 0xBC028EF260AD9406, "Forest of Focus" },
+            { 0x32AB88FC9797DC83, "Forest of Focus" },
+            { 0x39D078468AA0DCC1, "Challenge Beach" },
+            { 0x3BFB22D0FB5B42D2, "Challenge Beach" },
+            { 0x2B1DF6E85F9BAE28, "Brawlers’ Cave" },
+            { 0x36FE81B956D0DCB5, "Brawlers’ Cave" },
+            { 0xBBAA199D0705405B, "Challenge Road" },
+            { 0xFB9A7FD6D979C6DA, "Courageous Cavern" },
+            { 0xBC0E1701C0276FCF, "Courageous Cavern" },
+            { 0xAC2ED08E980FCFC5, "Loop Lagoon" },
+            { 0x7D2E205E8E300EE1, "Loop Lagoon" },
+            { 0x85E286D82C666BBC, "Training Lowlands" },
+            { 0x95E125D2EE3ED656, "Warm-up Tunnel" },
+            { 0xA7F495799F209587, "Potbottom Desert" },
+            { 0x30AAD92559FCE81E, "Workout Sea" },
+            { 0x6F748A46C8E3802C, "Workout Sea" },
+            { 0xF3036CD294CE9365, "Workout Sea" },
+            { 0x97A3E0687E3C5B01, "Stepping-Stone Sea" },
+            { 0xDDDFF88957FD5B5C, "Stepping-Stone Sea" },
+            { 0xFB9BB438425D58DA, "Insular Sea" },
+            { 0xC16C1E2A1B5FFE87, "Honeycalm Sea" },
+            { 0x081D7EF6A1C192B1, "Honeycalm Island" },
+            { 0x86EFBF49516B5555, "Honeycalm Island" },
+            { 0x39AB700A9F1AB71F, "Training Lowlands" },
+            { 0x96C6A2A36131F383, "Stepping-Stone Sea" },
+            { 0xC92D06352150C78A, "Insular Sea" },
+            { 0xED1F9772AA35C3CD, "Workout Sea" },
+            { 0x9C0049D3E6129924, "Honeycalm Sea" },
         };
     }
 
