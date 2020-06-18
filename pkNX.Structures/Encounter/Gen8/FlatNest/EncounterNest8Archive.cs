@@ -53,14 +53,14 @@ namespace pkNX.Structures
                 int max = e.MaxRank;
 
                 int curMin = -1;
-                for (int i = min; i < max; i++)
+                for (int i = min; i >= 0 && i <= max; i++)
                 {
                     if (e.Probabilities[i] != 0)
                     {
                         if (curMin == -1)
                             curMin = i;
 
-                        if (i == max - 1)
+                        if (i == max)
                             yield return $"            new EncounterStatic8N(Nest{index:00},{curMin},{i},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
                     }
                     else if (curMin != -1)

@@ -114,6 +114,25 @@ namespace pkNX.WinForms
                 }
             }
 
+            var paks = Directory.EnumerateFiles(ROM.PathRomFS, "*", SearchOption.AllDirectories)
+                .Where(z => Path.GetExtension(z) == ".gfpak");
+            foreach (var f in paks)
+            {
+                var pak = new GFPack(f);
+                foreach (var bytes in pak.DecompressedFiles)
+                {
+                    if (AHTB.IsAHTB(bytes))
+                    {
+                        var tbl = new AHTB(bytes);
+                        var summaries = tbl.Summary;
+                        foreach (var t in tbl.ShortSummary)
+                            result.Add(t);
+                        list.Add(Path.GetFileName(f));
+                        list.AddRange(summaries);
+                    }
+                }
+            }
+
             var outname = GetPath("ahtb.txt");
             var outname2 = GetPath("ahtblist.txt");
             File.WriteAllLines(outname, result);
