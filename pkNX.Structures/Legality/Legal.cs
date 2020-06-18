@@ -42,7 +42,7 @@ namespace pkNX.Structures
 
             if (stats.TableLength == 980 && (species == (int)Species.Pikachu || species == (int)Species.Eevee)) // gg tableB -- no starters, they crash trainer battles.
                 return 0;
-            if (stats.TableLength == 1180 && species == (int)Species.Pikachu) // SWSH -- disallow Partner Pikachu from LGPE, but allow World Cap
+            if (stats.TableLength == 1181 && species == (int)Species.Pikachu) // SWSH -- disallow Partner Pikachu from LGPE, but allow World Cap
             {
                 int form = Util.Rand.Next(9);
                 if (form == 8)

@@ -159,6 +159,10 @@ namespace pkNX.WinForms
             {
                 var t = tr[i];
 
+                // some battles with Avery and Klara have out of bounds trclasses -- set back to "Pokémon Trainer"
+                if (t.Self.Class == 250 || t.Self.Class == 251)
+                    t.Self.Class = 219;
+
                 result.Add($"{i:000} - {trc[t.Self.Class]}: {trn[i]}");
                 const int MoneyScalar = 80;
                 result.Add($"AI: {t.Self.AI} | Mode: {t.Self.Mode} | Money: {t.Self.Money * MoneyScalar}");

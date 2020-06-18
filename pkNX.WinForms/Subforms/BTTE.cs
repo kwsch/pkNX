@@ -390,6 +390,9 @@ namespace pkNX.WinForms
 
         private void PopulateFieldsTrainer(TrainerData tr)
         {
+            if (tr.Class > CB_Trainer_Class.Items.Count)
+                return;
+
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
             CB_Item_1.SelectedIndex = tr.Item1;
