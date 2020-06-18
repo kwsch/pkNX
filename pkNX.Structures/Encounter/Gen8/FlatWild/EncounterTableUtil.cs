@@ -21,7 +21,11 @@ namespace pkNX.Structures
 
         private static byte[] GetZoneBytes(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc)
         {
-            byte locID = zoneLoc.TryGetValue(zone.ZoneID, out var tmp) ? tmp : (byte)2; // mystery zone
+            // Don't dump data that we can't correlate to a zone
+            if (!zoneLoc.TryGetValue(zone.ZoneID, out var tmp))
+                return new byte[] { };
+
+            byte locID = tmp;
             var list = new List<Slot8>();
             for (int i = 0; i < zone.SubTables.Length; i++)
             {
