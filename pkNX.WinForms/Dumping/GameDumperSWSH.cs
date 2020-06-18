@@ -264,20 +264,28 @@ namespace pkNX.WinForms
 
         public void DumpGifts()
         {
-            var path = ROM.GetFile(GameFile.EncounterGift).FilePath;
-            var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(path);
+            var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
+            var data = ROM.GetFile(GameFile.EncounterGift)[0];
+            var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
             var table = TableUtil.GetTable(gifts.Table);
             var fn = GetPath("GiftEncounters.txt");
             File.WriteAllText(fn, table);
+
+            var f2 = GetPath("GiftEncountersPKHeX.txt");
+            File.WriteAllLines(f2, gifts.Table.Select(z => z.GetSummary(speciesNames)));
         }
 
         public void DumpStatic()
         {
-            var path = ROM.GetFile(GameFile.EncounterStatic).FilePath;
-            var gifts = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(path);
-            var table = TableUtil.GetTable(gifts.Table);
+            var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
+            var data = ROM.GetFile(GameFile.EncounterStatic)[0];
+            var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(data);
+            var table = TableUtil.GetTable(statics.Table);
             var fn = GetPath("StaticEncounters.txt");
             File.WriteAllText(fn, table);
+
+            var f2 = GetPath("StaticEncountersPKHeX.txt");
+            File.WriteAllLines(f2, statics.Table.Select(z => z.GetSummary(speciesNames)));
         }
 
         public void DumpWilds()

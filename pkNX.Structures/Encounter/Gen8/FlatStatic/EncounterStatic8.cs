@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace pkNX.Structures
 {
     public class EncounterStatic8
@@ -34,5 +36,22 @@ namespace pkNX.Structures
         public int Move1 { get; set; }
         public int Move2 { get; set; }
         public int Move3 { get; set; }
+
+        public string GetSummary(IReadOnlyList<string> species)
+        {
+            var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var ability = Ability == 0 ? string.Empty : $", Ability = {Ability}";
+            var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
+            var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
+            var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
+            var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
+            var ivs = IV_Hp == -4 ? ", FlawlessIVCount = 3" : string.Empty;
+            var shiny = ShinyLock == Shiny.Never ? ", Shiny = Never" : string.Empty;
+            var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
+            var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
+
+            return
+                $"            new EncounterStatic8 {{ Species = {(int)Species:000}, Level = {Level:00}, Location = -01{moves}{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna} }},{comment}";
+        }
     }
 }

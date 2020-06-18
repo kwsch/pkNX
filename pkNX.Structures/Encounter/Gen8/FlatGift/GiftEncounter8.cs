@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace pkNX.Structures
 {
     public class EncounterGift8
@@ -30,5 +32,21 @@ namespace pkNX.Structures
         public int IV_SpDef { get; set; }
         public int Ability { get; set; }
         public int SpecialMove { get; set; }
+
+        public string GetSummary(IReadOnlyList<string> species)
+        {
+            var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var ability = Ability == 0 ? string.Empty : $", Ability = {Ability}";
+            var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
+            var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
+            var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
+            var ivs = IV_Hp == -4 ? ", FlawlessIVCount = 3" : string.Empty;
+            var shiny = ShinyLock == Shiny.Never ? ", Shiny = Never" : string.Empty;
+            var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
+            var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
+
+            return
+                $"            new EncounterStatic8 {{ Gift = true, Species = {(int)Species:000}, Level = {Level:00}, Location = -01{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna} }},{comment}";
+        }
     }
 }
