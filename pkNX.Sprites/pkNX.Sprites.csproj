@@ -8846,5 +8846,41 @@
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_25-9.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1579.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1580.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1581.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1582.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1588.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_485.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_486.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_487.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_488.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_489.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_490.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_491.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

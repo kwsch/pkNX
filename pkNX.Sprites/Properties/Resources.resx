@@ -15496,4 +15496,40 @@
   <data name="b_893_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Sprites\Big Pokemon Sprites\b_893-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bitem_1579" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_1579.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_1580" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_1580.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_1581" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_1581.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_1582" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_1582.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_1588" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_1588.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_485" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_485.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_486" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_486.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_487" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_487.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_488" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_488.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_489" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_489.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_490" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_490.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitem_491" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sprites\Big Items\bitem_491.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
