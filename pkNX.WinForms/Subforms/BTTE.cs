@@ -390,8 +390,13 @@ namespace pkNX.WinForms
 
         private void PopulateFieldsTrainer(TrainerData tr)
         {
-            if (tr.Class > CB_Trainer_Class.Items.Count)
-                return;
+            // some trainers have trclasses without corresponding trnames in the text, so add them
+            if (Game.Info.SWSH)
+            {
+                var classes = CB_Trainer_Class.Items;
+                for (int i = classes.Count; i <= 253; i++)
+                    classes.Add($"{trClass[1]} - {i} *");
+            }
 
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;

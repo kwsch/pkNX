@@ -396,6 +396,13 @@ namespace pkNX.Structures
             216, // Gym Leader [Champion Cup, Melony]
             217, // Pokémon Trainer [Champion Cup, Piers]
             218, // Gym Leader [Champion Cup, Raihan]
+            219, // Pokémon Trainer [Klara]
+            220, // Pokémon Trainer [Avery]
+            221, // Dojo Master [Mustard]
+            222, // Dojo Master [Mustard, No Jacket]
+            227, // Dojo Matron [Honey]
+            250, // ??? [Klara] -- no corresponding name in 'trnames', but is assigned
+            251, // ??? [Avery] -- no corresponding name in 'trnames', but is assigned
             #endregion
         };
 
@@ -478,6 +485,8 @@ namespace pkNX.Structures
             163, // ろうじん [T-Pose]
             164, // ちゅうねん [T-Pose]
             167, // Young Man [T-Pose]
+            224, // Master Dojo [Male] -- functionally identical to 223
+            226, // Master Dojo [Female] -- functionally identical to 225
             #endregion
         };
 
@@ -516,6 +525,9 @@ namespace pkNX.Structures
             116, // Gym Trainer
             117, // Gym Trainer
             154, // はいたついん
+            222, // Dojo Master [Mustard] -- this is used, but crashes if assigned to any other trainers
+            228, // Pokémon Trainer
+            229, // Pokémon Trainer
             #endregion
         };
 
@@ -526,23 +538,23 @@ namespace pkNX.Structures
         public static readonly int[] DummyClasses_SWSH =
         {
             #region DummyClasses
-            219, // [~ 230]
-            220, // [~ 231]
-            221, // [~ 232]
-            222, // [~ 233]
-            223, // [~ 234]
-            224, // [~ 235]
-            225, // [~ 236]
-            226, // [~ 237]
-            227, // [~ 238]
-            228, // [~ 239]
-            229, // [~ 240]
-            230, // [~ 241]
-            231, // [~ 242]
-            232, // [~ 243]
-            233, // [~ 244]
-            234, // [~ 245]
-            235, // [~ 246]
+            230, // [~ 254]
+            231, // [~ 255]
+            232, // [~ 256]
+            233, // [~ 257]
+            234, // [~ 258]
+            235, // [~ 259]
+            236, // [~ 260]
+            237, // [~ 261]
+            238, // [~ 262]
+            239, // [~ 263]
+            240, // [~ 264]
+            241, // [~ 265]
+            242, // [~ 266]
+            243, // [~ 267]
+            244, // [~ 268]
+            245, // [~ 269]
+            246, // [~ 270]
             #endregion
         };
 
@@ -664,7 +676,8 @@ namespace pkNX.Structures
         {
             032, 036, 037, 077, 078, 107, 108, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 143, 144, 145, 149, 153, 154, 155, 156, 157, 158, 175, 189, 190,
             191, 192, 193, 195, 196, 197, 198, 199, 202, 203, 204, 210, 211, 212, 213, 214, 215, 216, 221, 222, 225, 226, 227, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 248, 249, 250, 251,
-            252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289
+            252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289, 315, 316, 317, 318, 319, 320, 321, 324, 325, 326, 327, 328, 329, 374, 376, 414, 415, 416, 417,
+            418, 419, 420, 432, 433,
         };
     }
 }
