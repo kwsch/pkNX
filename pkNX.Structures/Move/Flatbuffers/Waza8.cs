@@ -55,7 +55,7 @@ namespace pkNX.Structures
         public bool Flag_FailSkyBattle { get; set; }
         public bool Flag_AnimateAlly { get; set; }
         public bool Flag_Dance { get; set; }
-        public bool Flag_18 { get; set; }
+        public bool Flag_Metronome { get; set; }
 
         public MoveInflictDuration InflictCount
         {
@@ -132,7 +132,7 @@ namespace pkNX.Structures
         private const int FlagFailSkyBattle = 98;
         private const int FlagAnimateAlly = 100;
         private const int FlagDance = 102;
-        private const int Flag18 = 104;
+        private const int FlagMetronome = 104;
 #pragma warning restore IDE0051, RCS1213 // Remove unused member declaration.
 
         public static Move8Fake ReadPlaceholder(byte[] data)

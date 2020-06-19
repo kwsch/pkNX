@@ -92,7 +92,7 @@ table Waza8 {
     Flag_AnimateAlly:bool;
 
     Flag_Dance:bool;
-    Flag_18:bool;
+    Flag_Metronome:bool;
 }
 
 root_type Waza8;
