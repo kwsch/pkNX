@@ -27,7 +27,7 @@ table EncounterStatic8 {
   HeldItem:uint;
 
   Level:byte;
-  Field_10:uint;
+  EncounterScenario:uint;
   Species:uint;
   ShinyLock:uint;
   Nature:uint;
