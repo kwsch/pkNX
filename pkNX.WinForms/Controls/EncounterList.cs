@@ -86,7 +86,7 @@ namespace pkNX.WinForms
             if (!int.TryParse(dgv.Rows[row].Cells[2].Value?.ToString(), out var rate) || (uint)rate > 100)
                 dgv.Rows[row].Cells[3].Value = 0;
 
-            dgv.Rows[row].Cells[0].Value = SpriteUtil.GetSprite(sp, form, 0, 0, false, false);
+            dgv.Rows[row].Cells[0].Value = SpriteUtil.GetSprite(sp, form, 0, 0, false, false, false);
         }
 
         private EncounterSlot7b[] Slots;

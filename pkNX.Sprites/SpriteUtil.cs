@@ -15,9 +15,9 @@ namespace pkNX.Sprites
             return (Bitmap)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
         }
 
-        public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
+        public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, bool gmax, int generation = -1)
         {
-            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation);
+            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, gmax, generation);
         }
 
         public static void Initialize(bool big) => Spriter = big ? (SpriteBuilder)SB8 : SB17;

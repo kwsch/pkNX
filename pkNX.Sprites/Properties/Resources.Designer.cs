@@ -21863,6 +21863,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_12_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_12_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_12_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_12_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_120 {
             get {
                 object obj = ResourceManager.GetObject("b_120", resourceCulture);
@@ -22173,6 +22193,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_131_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_131_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_131_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_131_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_131s {
             get {
                 object obj = ResourceManager.GetObject("b_131s", resourceCulture);
@@ -22226,6 +22266,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_133_1ps {
             get {
                 object obj = ResourceManager.GetObject("b_133_1ps", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_133_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_133_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_133_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_133_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22466,6 +22526,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_143 {
             get {
                 object obj = ResourceManager.GetObject("b_143", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_143_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_143_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_143_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_143_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25953,6 +26033,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_25_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_25_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_25_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_25_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_250 {
             get {
                 object obj = ResourceManager.GetObject("b_250", resourceCulture);
@@ -27256,6 +27356,16 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_3_1s {
             get {
                 object obj = ResourceManager.GetObject("b_3_1s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_3_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_3_gmax", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -33513,6 +33623,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_52_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_52_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_52_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_52_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_520 {
             get {
                 object obj = ResourceManager.GetObject("b_520", resourceCulture);
@@ -34763,6 +34893,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_569_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_569_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_569_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_569_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_569s {
             get {
                 object obj = ResourceManager.GetObject("b_569s", resourceCulture);
@@ -35656,6 +35806,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_6_2s {
             get {
                 object obj = ResourceManager.GetObject("b_6_2s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_6_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_6_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_6_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_6_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -38586,6 +38756,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_68 {
             get {
                 object obj = ResourceManager.GetObject("b_68", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_68_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_68_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_68_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_68_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -42693,6 +42883,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_809_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_809_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_809_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_809_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_809s {
             get {
                 object obj = ResourceManager.GetObject("b_809s", resourceCulture);
@@ -42773,6 +42983,16 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_812_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_812_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_812s {
             get {
                 object obj = ResourceManager.GetObject("b_812s", resourceCulture);
@@ -42833,6 +43053,16 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_815_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_815_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_815s {
             get {
                 object obj = ResourceManager.GetObject("b_815s", resourceCulture);
@@ -42886,6 +43116,16 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_818 {
             get {
                 object obj = ResourceManager.GetObject("b_818", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_818_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_818_gmax", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -43013,6 +43253,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_823_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_823_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_823_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_823_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_823s {
             get {
                 object obj = ResourceManager.GetObject("b_823s", resourceCulture);
@@ -43066,6 +43326,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_826 {
             get {
                 object obj = ResourceManager.GetObject("b_826", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_826_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_826_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_826_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_826_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -43273,6 +43553,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_834_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_834_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_834_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_834_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_834s {
             get {
                 object obj = ResourceManager.GetObject("b_834s", resourceCulture);
@@ -43373,6 +43673,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_839_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_839_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_839_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_839_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_839s {
             get {
                 object obj = ResourceManager.GetObject("b_839s", resourceCulture);
@@ -43433,6 +43753,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_841_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_841_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_841_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_841_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_841s {
             get {
                 object obj = ResourceManager.GetObject("b_841s", resourceCulture);
@@ -43446,6 +43786,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_842 {
             get {
                 object obj = ResourceManager.GetObject("b_842", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_842_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_842_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_842_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_842_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -43486,6 +43846,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_844 {
             get {
                 object obj = ResourceManager.GetObject("b_844", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_844_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_844_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_844_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_844_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -43653,6 +44033,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_849_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_849_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_849_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_849_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_849s {
             get {
                 object obj = ResourceManager.GetObject("b_849s", resourceCulture);
@@ -43706,6 +44106,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_851 {
             get {
                 object obj = ResourceManager.GetObject("b_851", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_851_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_851_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_851_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_851_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -43853,6 +44273,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_858_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_858_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_858_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_858_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_858s {
             get {
                 object obj = ResourceManager.GetObject("b_858s", resourceCulture);
@@ -43926,6 +44366,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_861 {
             get {
                 object obj = ResourceManager.GetObject("b_861", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_861_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_861_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_861_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_861_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -44253,6 +44713,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_869_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_869_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_869_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_869_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_869s {
             get {
                 object obj = ResourceManager.GetObject("b_869s", resourceCulture);
@@ -44533,6 +45013,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_879_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_879_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_879_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_879_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_879s {
             get {
                 object obj = ResourceManager.GetObject("b_879s", resourceCulture);
@@ -44666,6 +45166,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_884 {
             get {
                 object obj = ResourceManager.GetObject("b_884", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_884_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_884_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_884_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_884_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -44923,6 +45443,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_892_1_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_892_1_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_892_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_892_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_893 {
             get {
                 object obj = ResourceManager.GetObject("b_893", resourceCulture);
@@ -44986,6 +45526,16 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_9_1s {
             get {
                 object obj = ResourceManager.GetObject("b_9_1s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_9_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_9_gmax", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -45103,6 +45653,26 @@ namespace pkNX.Sprites.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_94_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_94_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_94_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_94_gmaxs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_94s {
             get {
                 object obj = ResourceManager.GetObject("b_94s", resourceCulture);
@@ -45196,6 +45766,26 @@ namespace pkNX.Sprites.Properties {
         public static System.Drawing.Bitmap b_99 {
             get {
                 object obj = ResourceManager.GetObject("b_99", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_99_gmax {
+            get {
+                object obj = ResourceManager.GetObject("b_99_gmax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_99_gmaxs {
+            get {
+                object obj = ResourceManager.GetObject("b_99_gmaxs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

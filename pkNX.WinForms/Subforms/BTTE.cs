@@ -169,7 +169,10 @@ namespace pkNX.WinForms
 
         private static void GetQuickFiller(PictureBox pb, TrainerPoke pk)
         {
-            pb.Image = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny);
+            if (pk is TrainerPoke8 c)
+                pb.Image = SpriteUtil.GetSprite(c.Species, c.Form, c.Gender, c.HeldItem, false, c.Shiny, c.CanGigantamax);
+            else
+                pb.Image = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny, false);
         }
 
         // Top Level Functions

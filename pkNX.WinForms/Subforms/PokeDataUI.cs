@@ -204,7 +204,7 @@ namespace pkNX.WinForms
             LoadEvolutions(Editor.Evolve[index]);
             if (Editor.Mega != null)
                 LoadMegas(Editor.Mega[index], spec);
-            Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false);
+            Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
             Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {

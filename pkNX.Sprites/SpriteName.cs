@@ -7,10 +7,12 @@ namespace pkNX.Sprites
     public static class SpriteName
     {
         public static bool AllowShinySprite { get; set; } = true;
+        public static bool AllowGigantamaxSprite { get; set; } = true;
 
         private const string Separator = "_";
         private const string Cosplay = "c";
         private const string Shiny = "s";
+        private const string Gigantamax = "gmax";
         private const string GGStarter = "p";
 
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
@@ -18,9 +20,12 @@ namespace pkNX.Sprites
         /// <summary>
         /// Gets the resource name of the Pokémon sprite.
         /// </summary>
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = 8, bool shiny = false)
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation = 8, bool shiny = false, bool gmax = false)
         {
-            if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
+            if (SpeciesDefaultFormSprite.Contains(species) && !gmax) // Species who show their default sprite regardless of Form
+                form = 0;
+
+            if (gmax && species == (int)Species.Toxtricity || species == (int)Species.Alcremie) // same sprites for all altform gmaxes
                 form = 0;
 
             switch (form)
@@ -58,6 +63,11 @@ namespace pkNX.Sprites
                 sb.Append('f');
             }
 
+            if (gmax && AllowGigantamaxSprite)
+            {
+                sb.Append(Separator);
+                sb.Append(Gigantamax);
+            }
             if (shiny && AllowShinySprite)
                 sb.Append(Shiny);
             return sb.ToString();
