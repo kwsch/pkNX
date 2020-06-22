@@ -42,7 +42,7 @@ namespace pkNX.Structures
             list[0] = $"Index{sep}{name ?? t.Name}{sep}{list[0]}";
 
             // slap in row name to row
-            for (int i = 1; i < list.Length; i++)
+            for (int i = 1; i < names.Count + 1; i++)
                 list[i] = $"{i - 1}{sep}{names[i - 1]}{sep}{list[i]}";
 
             return string.Join(Environment.NewLine, list);

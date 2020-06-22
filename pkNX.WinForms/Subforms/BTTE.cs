@@ -478,6 +478,9 @@ namespace pkNX.WinForms
             var name = Trainer.Name;
             var team = Trainer.Team;
             var sb = new StringBuilder();
+            if (tr.Class > trClass.Length) // Klara and Avery out of bounds trclass edge case
+                tr.Class = 1;
+
             sb.AppendLine("======");
             sb.Append(file).Append(" - ").Append(trClass[tr.Class]).Append(" ").AppendLine(name);
             sb.AppendLine("======");
