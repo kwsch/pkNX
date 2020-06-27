@@ -136,7 +136,7 @@ namespace pkNX.Structures
         }
 
         /// <summary>
-        /// Count of entries in the table, which includes default species entries and their separate AltForm ID entreis.
+        /// Count of entries in the table, which includes default species entries and their separate AltForm ID entries.
         /// </summary>
         public int TableLength => Table.Length;
 

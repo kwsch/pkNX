@@ -595,6 +595,7 @@ namespace pkNX.WinForms
             }
 
             var rspec = new SpeciesRandomizer(Game.Info, Personal);
+            var rform = new FormRandomizer(Personal);
             rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject, ban);
             learn.Moves = moves;
             var evos = Game.Data.EvolutionData;
@@ -604,6 +605,7 @@ namespace pkNX.WinForms
                 Learn = learn,
                 RandMove = rmove,
                 RandSpec = rspec,
+                RandForm = rform,
                 GetBlank = () => (Game.Info.SWSH ? (TrainerPoke)new TrainerPoke8() : new TrainerPoke7b()), // this should probably be less specific
             };
             trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject, (SpeciesSettings)PG_Species.SelectedObject);

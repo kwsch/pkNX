@@ -1,4 +1,5 @@
 ﻿using pkNX.Structures;
+using System;
 using System.Linq;
 using static pkNX.Structures.Species;
 
@@ -13,11 +14,7 @@ namespace pkNX.Randomization
             Personal = t;
         }
 
-        public bool AllowMega { get; set; } = false;
-        public bool AllowAlolanForm { get; set; } = true;
-        public bool AllowGalarianForm { get; set; } = true;
-
-        public int GetRandomForme(int species, PersonalInfo[] stats = null)
+        public int GetRandomForme(int species, bool mega, bool alola, bool galar, PersonalInfo[] stats = null)
         {
             if (stats == null)
                 stats = Personal.Table;
@@ -30,7 +27,7 @@ namespace pkNX.Randomization
                 case Deerling:
                 case Sawsbuck:
                     return 31; // Random
-                case Greninja when !AllowMega:
+                case Greninja when !mega:
                 case Eternatus:
                     return 0;
                 case Scatterbug:
@@ -41,26 +38,42 @@ namespace pkNX.Randomization
                     return Util.Random.Next(7); // keep the core color a surprise
 
                 // Galarian Forms
-                case Meowth when AllowGalarianForm: // Kanto, Alola, Galar
+                case Meowth when galar: // Kanto, Alola, Galar
                     return Util.Random.Next(3);
-                case Darmanitan when AllowGalarianForm: // Standard, Zen, Galar Standard, Galar Zen
+                case Darmanitan when galar: // Standard, Zen, Galar Standard, Galar Zen
                     return Util.Random.Next(4);
-                case Slowbro when AllowGalarianForm: // Slowbro-1 is Mega and Slowbro-2 is Galar, so only return 0 or 2
-                    {
-                        int form = Util.Random.Next(2);
-                        if (form == 1)
-                            form++;
-                        return form;
-                    }
+
+                // some species have 1 invalid form among several other valid forms, handle them here
+                case Pikachu when Personal.TableLength == 1181:
+                case Slowbro when galar:
+                {
+                    int form = Util.Random.Next(stats[species].FormeCount - 1);
+                    int banned = GetInvalidForm(species, galar, Personal);
+                    if (form == banned)
+                        form++;
+                    return form;
+                }
             }
 
-            if (AllowAlolanForm && Legal.EvolveToAlolanForms.Contains(species))
+            if (Personal.TableLength == 980 && (species == (int)Pikachu || species == (int)Eevee)) // gg tableB -- no starters, they crash trainer battles.
+                return 0;
+            if (alola && Legal.EvolveToAlolanForms.Contains(species))
                 return Util.Random.Next(2);
-            if (AllowGalarianForm && Legal.EvolveToGalarForms.Contains(species))
+            if (galar && Legal.EvolveToGalarForms.Contains(species))
                 return Util.Random.Next(2);
-            if (!Legal.BattleExclusiveForms.Contains(species) || AllowMega)
+            if (!Legal.BattleExclusiveForms.Contains(species) || mega)
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random
             return 0;
+        }
+
+        public int GetInvalidForm(int species, bool galar, PersonalTable stats)
+        {
+            return species switch
+            {
+                (int)Pikachu when stats.TableLength == 1181 => 8, // LGPE Partner Pikachu
+                (int)Slowbro when galar => 1, // Mega Slowbro
+                _ => throw new ArgumentOutOfRangeException(nameof(species))
+            };
         }
     }
 }

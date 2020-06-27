@@ -6,58 +6,6 @@ namespace pkNX.Structures
 {
     public static partial class Legal
     {
-        public static int GetRandomForme(int species, bool mega, bool alola, bool galar, PersonalTable stats)
-        {
-            if (stats == null)
-                return 0;
-            if (stats[species].FormeCount <= 1)
-                return 0;
-
-            if (species == (int)Species.Unown || species == (int)Species.Deerling || species == (int)Species.Sawsbuck)
-                return 31; // Random
-            if ((species == (int)Species.Greninja && !mega) || species == (int)Species.Eternatus)
-                return 0;
-            if (species == (int)Species.Scatterbug || species == (int)Species.Spewpa || species == (int)Species.Vivillon)
-                return 30; // save file specific
-            if (species == (int)Species.Minior)
-                return Util.Rand.Next(7); // keep the core color a surprise
-
-            if (galar)
-            {
-                switch ((Species)species)
-                {
-                    case Species.Meowth:
-                        return Util.Rand.Next(3); // Kanto, Alola, Galar
-                    case Species.Darmanitan:
-                        return Util.Rand.Next(4); // Standard, Zen, Galar Standard, Galar Zen
-                    case Species.Slowbro:
-                        {
-                            int form = Util.Rand.Next(2); // Slowbro-1 is Mega and Slowbro-2 is Galar, so only return 0 or 2
-                            if (form == 1)
-                                form++;
-                            return form;
-                        }
-                }
-            }
-
-            if (stats.TableLength == 980 && (species == (int)Species.Pikachu || species == (int)Species.Eevee)) // gg tableB -- no starters, they crash trainer battles.
-                return 0;
-            if (stats.TableLength == 1181 && species == (int)Species.Pikachu) // SWSH -- disallow Partner Pikachu from LGPE, but allow World Cap
-            {
-                int form = Util.Rand.Next(9);
-                if (form == 8)
-                    form++;
-                return form;
-            }
-            if (EvolveToAlolanForms.Contains(species))
-                return alola ? Util.Rand.Next(2) : 0;
-            if (EvolveToGalarForms.Contains(species))
-                return galar ? Util.Rand.Next(2) : 0;
-            if (!BattleExclusiveForms.Contains(species) || mega)
-                return Util.Rand.Next(stats[species].FormeCount); // Slot-Random
-            return 0;
-        }
-
         /// <summary>
         /// Multiplies the current level with a scaling factor, returning a modified level.
         /// </summary>
@@ -176,6 +124,7 @@ namespace pkNX.Structures
             {362, new[] {763}}, // Glalie @ Glalitite
             {373, new[] {769}}, // Salamence @ Salamencite
             {376, new[] {758}}, // Metagross @ Metagrossite
+            // Rayquaza requires Dragon Ascent, no Held Item
             {428, new[] {768}}, // Lopunny @ Lopunnite
             {475, new[] {756}}, // Gallade @ Galladite
             {531, new[] {757}}, // Audino @ Audinite

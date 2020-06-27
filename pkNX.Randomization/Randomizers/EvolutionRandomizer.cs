@@ -10,14 +10,16 @@ namespace pkNX.Randomization
         private readonly EvolutionSet[] Evolutions;
         private readonly GameInfo Game;
         private readonly PersonalTable Personal;
-        public readonly SpeciesRandomizer Randomizer;
+        public readonly SpeciesRandomizer RandSpec;
+        public readonly FormRandomizer RandForm;
 
         public EvolutionRandomizer(GameInfo game, EvolutionSet[] evolutions, PersonalTable t)
         {
             Game = game;
             Personal = t;
             Evolutions = evolutions;
-            Randomizer = new SpeciesRandomizer(Game, t);
+            RandSpec = new SpeciesRandomizer(Game, t);
+            RandForm = new FormRandomizer(t);
         }
 
         public override void Execute()
@@ -44,8 +46,8 @@ namespace pkNX.Randomization
             {
                 if (evo.Method != 0)
                 {
-                    evo.Species = Randomizer.GetRandomSpecies(evo.Species, species);
-                    evo.Form = Legal.GetRandomForme(evo.Species, false, true, Game.SWSH, Personal);
+                    evo.Species = RandSpec.GetRandomSpecies(evo.Species, species);
+                    evo.Form = RandForm.GetRandomForme(evo.Species, false, true, Game.SWSH, Personal.Table);
                 }
             }
         }

@@ -489,7 +489,7 @@ namespace pkNX.WinForms
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 
-            rand.Randomizer.Initialize(settings, ban);
+            rand.RandSpec.Initialize(settings, ban);
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -502,7 +502,7 @@ namespace pkNX.WinForms
             if (ROM.Info.GG)
                 settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
             var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
-            rand.Randomizer.Initialize(settings);
+            rand.RandSpec.Initialize(settings);
             rand.ExecuteTrade();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();

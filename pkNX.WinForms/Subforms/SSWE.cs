@@ -192,7 +192,7 @@ namespace pkNX.WinForms
                     }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    s.Form = fr.GetRandomForme(s.Species);
+                    s.Form = fr.GetRandomForme(s.Species, false, true, true, ROM.Data.PersonalData.Table);
                     if (fill)
                         s.Probability = RandomScaledRates[slots.Count][i];
                 }
