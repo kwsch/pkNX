@@ -497,8 +497,8 @@ namespace pkNX.WinForms
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
             var dist_pretty_rigel1_sh = dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            File.WriteAllLines(GetPath("nestDistArmorPrettySword.txt"), dist_pretty_sw);
-            File.WriteAllLines(GetPath("nestDistArmorPrettyShield.txt"), dist_pretty_sh);
+            File.WriteAllLines(GetPath("nestDistArmorPrettySword.txt"), dist_pretty_rigel1_sw);
+            File.WriteAllLines(GetPath("nestDistArmorPrettyShield.txt"), dist_pretty_rigel1_sh);
 
             var dai_pretty_sw = dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
@@ -512,10 +512,10 @@ namespace pkNX.WinForms
             File.WriteAllText(GetPath("nestDist_sw.txt"), dist_sw);
             File.WriteAllText(GetPath("nestDist_sh.txt"), dist_sh);
 
-            var dist_rigel1_sw = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-            var dist_rigel1_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
-            File.WriteAllText(GetPath("nestDistArmor_sw.txt"), dist_sw);
-            File.WriteAllText(GetPath("nestDistArmor_sh.txt"), dist_sh);
+            var dist_rigel1_sw = TableUtil.GetTable(dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+            var dist_rigel1_sh = TableUtil.GetTable(dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+            File.WriteAllText(GetPath("nestDistArmor_sw.txt"), dist_rigel1_sw);
+            File.WriteAllText(GetPath("nestDistArmor_sh.txt"), dist_rigel1_sh);
 
             var dai_sw = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
             var dai_sh = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
