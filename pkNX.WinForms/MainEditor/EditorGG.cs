@@ -125,7 +125,7 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in objs)
                 {
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.Shiny = Shiny.Random;
@@ -162,7 +162,7 @@ namespace pkNX.WinForms.Controls
                 {
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
                     t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
                     t.RequiredForm = 0; // can't catch wild alolan forms
                     t.Nature = Nature.Random - 1;
                     t.Gender = FixedGender.Random;
@@ -200,7 +200,7 @@ namespace pkNX.WinForms.Controls
                 {
                     var t = objs[i];
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.Shiny = Shiny.Random;

@@ -487,16 +487,18 @@ namespace pkNX.WinForms
             sb.AppendLine("======");
             sb.Append(file).Append(" - ").Append(trClass[tr.Class]).Append(" ").AppendLine(name);
             sb.AppendLine("======");
-            sb.Append("Pokemon: ").Append(tr.NumPokemon).AppendLine();
+            sb.Append("Pokémon: ").Append(tr.NumPokemon).AppendLine();
             for (int i = 0; i < tr.NumPokemon; i++)
             {
                 var pk = team[i];
                 if (pk.Shiny)
                     sb.Append("Shiny ");
                 sb.Append(specieslist[pk.Species]);
+                if (pk.Form > 0)
+                    sb.Append("-" + pk.Form);
                 sb.Append(" (Lv. ").Append(pk.Level).Append(") ");
                 if (pk.HeldItem > 0)
-                    sb.Append("@").Append(itemlist[pk.HeldItem]);
+                    sb.Append("@ ").Append(itemlist[pk.HeldItem]);
 
                 if (pk.Nature != 0)
                     sb.Append(" (Nature: ").Append(natures[pk.Nature]).Append(")");

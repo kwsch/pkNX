@@ -47,7 +47,7 @@ namespace pkNX.Randomization
                 if (evo.Method != 0)
                 {
                     evo.Species = RandSpec.GetRandomSpecies(evo.Species, species);
-                    evo.Form = RandForm.GetRandomForme(evo.Species, false, true, Game.SWSH, Personal.Table);
+                    evo.Form = RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
                 }
             }
         }

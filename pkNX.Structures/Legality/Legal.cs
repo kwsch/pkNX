@@ -191,5 +191,44 @@ namespace pkNX.Structures
             406, 417, 420, 430, 438, 446, 453, 483, 492, 499,
             503, 504, 525, 529, 583, 585, 605, 742
         };
+
+        public static readonly HashSet<int> BattleForms = new HashSet<int>
+        {
+            (int)Species.Castform,
+            (int)Species.Cherrim,
+            (int)Species.Meloetta,
+            (int)Species.Aegislash,
+            (int)Species.Xerneas,
+            (int)Species.Wishiwashi,
+            (int)Species.Mimikyu,
+            (int)Species.Cramorant,
+            (int)Species.Eiscue,
+            (int)Species.Morpeko,
+            (int)Species.Zacian,
+            (int)Species.Zamazenta,
+            (int)Species.Eternatus,
+        };
+
+        public static readonly HashSet<int> BattleMegas = new HashSet<int>
+        {
+            // XY
+            (int)Species.Venusaur, (int)Species.Charizard, (int)Species.Blastoise, (int)Species.Alakazam, (int)Species.Gengar,
+            (int)Species.Kangaskhan, (int)Species.Pinsir, (int)Species.Gyarados, (int)Species.Aerodactyl, (int)Species.Mewtwo,
+            (int)Species.Ampharos, (int)Species.Scizor, (int)Species.Heracross, (int)Species.Houndoom, (int)Species.Tyranitar,
+            (int)Species.Blaziken, (int)Species.Gardevoir, (int)Species.Mawile, (int)Species.Aggron, (int)Species.Medicham,
+            (int)Species.Manectric, (int)Species.Banette, (int)Species.Absol, (int)Species.Latias, (int)Species.Latios,
+            (int)Species.Garchomp, (int)Species.Lucario, (int)Species.Abomasnow,
+
+            // AO
+            (int)Species.Beedrill, (int)Species.Pidgeot, (int)Species.Slowbro, (int)Species.Steelix,
+            (int)Species.Sceptile, (int)Species.Swampert, (int)Species.Sableye, (int)Species.Sharpedo, (int)Species.Camerupt,
+            (int)Species.Altaria, (int)Species.Glalie, (int)Species.Salamence, (int)Species.Metagross, (int)Species.Rayquaza,
+            (int)Species.Lopunny, (int)Species.Gallade,
+            (int)Species.Audino, (int)Species.Diancie,
+        };
+
+        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 }; // Kyogre and Groudon
+        public static readonly HashSet<int> BattleFusions = new HashSet<int> { 646, 800 }; // Kyurem and Necrozma
+        public static HashSet<int> BattleExclusiveForms = new HashSet<int>(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
     }
 }

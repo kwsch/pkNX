@@ -14,7 +14,7 @@ namespace pkNX.Randomization
             Personal = t;
         }
 
-        public int GetRandomForme(int species, bool mega, bool alola, bool galar, PersonalInfo[] stats = null)
+        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[] stats = null)
         {
             if (stats == null)
                 stats = Personal.Table;
@@ -28,7 +28,6 @@ namespace pkNX.Randomization
                 case Sawsbuck:
                     return 31; // Random
                 case Greninja when !mega:
-                case Eternatus:
                     return 0;
                 case Scatterbug:
                 case Spewpa:
@@ -37,15 +36,13 @@ namespace pkNX.Randomization
                 case Minior:
                     return Util.Random.Next(7); // keep the core color a surprise
 
-                // Galarian Forms
-                case Meowth when galar: // Kanto, Alola, Galar
-                    return Util.Random.Next(3);
-                case Darmanitan when galar: // Standard, Zen, Galar Standard, Galar Zen
-                    return Util.Random.Next(4);
+                case Meowth when galar:
+                    return Util.Random.Next(3); // Kanto, Alola, Galar
 
                 // some species have 1 invalid form among several other valid forms, handle them here
                 case Pikachu when Personal.TableLength == 1181:
                 case Slowbro when galar:
+                case Darmanitan:
                 {
                     int form = Util.Random.Next(stats[species].FormeCount - 1);
                     int banned = GetInvalidForm(species, galar, Personal);
@@ -61,7 +58,7 @@ namespace pkNX.Randomization
                 return Util.Random.Next(2);
             if (galar && Legal.EvolveToGalarForms.Contains(species))
                 return Util.Random.Next(2);
-            if (!Legal.BattleExclusiveForms.Contains(species) || mega)
+            if (!Legal.BattleExclusiveForms.Contains(species) || mega || fused && Legal.BattleFusions.Contains(species))
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random
             return 0;
         }
@@ -72,6 +69,7 @@ namespace pkNX.Randomization
             {
                 (int)Pikachu when stats.TableLength == 1181 => 8, // LGPE Partner Pikachu
                 (int)Slowbro when galar => 1, // Mega Slowbro
+                (int)Darmanitan => 1, // Zen Mode
                 _ => throw new ArgumentOutOfRangeException(nameof(species))
             };
         }

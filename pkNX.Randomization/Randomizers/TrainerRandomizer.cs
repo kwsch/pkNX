@@ -162,7 +162,7 @@ namespace pkNX.Randomization
             else // every other pkm
             {
                 pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
-                pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, true, Personal.Table);
+                pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, true, Personal.Table);
             }
         }
 
@@ -181,7 +181,7 @@ namespace pkNX.Randomization
             else
             {
                 pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
-                pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, true, false, Personal.Table);
+                pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, false, Personal.Table);
             }
         }
 
@@ -255,7 +255,7 @@ namespace pkNX.Randomization
                         return;
 
                     c.Species = AllowedGigantamaxes[Util.Random.Next(AllowedGigantamaxes.Length)];
-                    c.Form = c.Species == (int)Species.Pikachu || c.Species == (int)Species.Meowth ? 0 : RandForm.GetRandomForme(c.Species, false, false, false, Personal.Table); // Pikachu & Meowth altforms can't gmax
+                    c.Form = c.Species == (int)Species.Pikachu || c.Species == (int)Species.Meowth ? 0 : RandForm.GetRandomForme(c.Species, false, false, false, false, Personal.Table); // Pikachu & Meowth altforms can't gmax
                 }
                 if (Settings.MaxDynamaxLevel && c.CanDynamax)
                     c.DynamaxLevel = 10;
