@@ -25,7 +25,7 @@ namespace pkNX.Sprites
             if (SpeciesDefaultFormSprite.Contains(species) && !gmax) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            if (gmax && species == (int)Species.Toxtricity || species == (int)Species.Alcremie) // same sprites for all altform gmaxes
+            if (gmax && (species == (int)Species.Toxtricity || species == (int)Species.Alcremie)) // same sprites for all altform gmaxes
                 form = 0;
 
             switch (form)
