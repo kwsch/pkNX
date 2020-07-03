@@ -465,6 +465,7 @@ namespace pkNX.WinForms
 
         private void B_AmpExperience_Click(object sender, EventArgs e)
         {
+            SaveCurrent();
             decimal rate = NUD_AmpEXP.Value;
             foreach (var p in Editor.Personal.Table)
                 p.BaseEXP = (int)Math.Max(0, Math.Min(byte.MaxValue, p.BaseEXP * rate));
