@@ -393,8 +393,8 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in gifts)
                 {
-                    // swap gmax gifts for other gmax capable species
-                    if (t.CanGigantamax)
+                    // swap gmax gifts and kubfu for other gmax capable species
+                    if (t.CanGigantamax || t.Species == Species.Kubfu)
                     {
                         t.Species = (Species)Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
                         t.AltForm = t.Species == Species.Pikachu || t.Species == Species.Meowth ? 0 : frand.GetRandomForme((int)t.Species, false, false, false, false, ROM.Data.PersonalData.Table); // Pikachu & Meowth altforms can't gmax
