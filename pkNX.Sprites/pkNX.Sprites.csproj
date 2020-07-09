@@ -60,6 +60,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -9058,6 +9059,63 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_884-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_3-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_9-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_25-9s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_80-2s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_812-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_815-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_818-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_891s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_892-1-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_892-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_892s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_893-1s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_893s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25-8pf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_25-8pfs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_25fs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_25f-gmaxs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_25f-gmax.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

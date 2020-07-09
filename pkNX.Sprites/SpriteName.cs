@@ -39,7 +39,7 @@ namespace pkNX.Sprites
             }
 
             var sb = new StringBuilder();
-            { sb.Append(Separator); sb.Append(species); }
+            sb.Append(Separator).Append(species);
 
             if (form != 0)
             {
@@ -58,7 +58,7 @@ namespace pkNX.Sprites
                         sb.Append(GGStarter);
                 }
             }
-            else if (gender == 2 && SpeciesGenderedSprite.Contains(species))
+            if (gender == 2 && SpeciesGenderedSprite.Contains(species) && !gmax)
             {
                 sb.Append('f');
             }
@@ -93,6 +93,7 @@ namespace pkNX.Sprites
         /// </summary>
         public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
+            (int)Species.Pikachu,
             (int)Species.Hippopotas,
             (int)Species.Hippowdon,
             (int)Species.Unfezant,
