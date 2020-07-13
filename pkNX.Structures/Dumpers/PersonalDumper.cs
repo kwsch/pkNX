@@ -210,8 +210,14 @@ namespace pkNX.Structures
             lines.Add("======");
             if (pi is PersonalInfoSWSH s)
             {
-                var line = s.DexID == 0 ? "Foreign" : $"#{s.DexID}";
-                lines.Add("Galar Dex: " + line);
+                if (s.DexID != 0)
+                    lines.Add($"Galar Dex: #{s.DexID:000}");
+                if (s.DexIDArmor != 0)
+                    lines.Add($"Armor Dex: #{s.DexIDArmor:000}");
+                if (s.DexIDCrown != 0)
+                    lines.Add($"Crown Dex: #{s.DexIDCrown:000}");
+                if (s.DexID == 0 && s.DexIDArmor == 0 && s.DexIDCrown == 0)
+                    lines.Add("Galar Dex: Foreign");
             }
             lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.BST})");
             lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");
@@ -243,7 +249,7 @@ namespace pkNX.Structures
                 ? "Egg Group: {0} / {1}"
                 : "Egg Group: {0}", EggGroups[pi.EggGroup1], EggGroups[pi.EggGroup2]));
             lines.Add($"Hatch Cycles: {pi.HatchCycles}");
-            lines.Add($"Height: {(decimal)pi.Height / 100:00.00} m, Weight: {(decimal)pi.Weight / 10:000.0} kg, Color: {Colors[pi.Color]}");
+            lines.Add($"Height: {(decimal)pi.Height / 100:00.00}m, Weight: {(decimal)pi.Weight / 10:000.0}kg, Color: {Colors[pi.Color]}");
         }
     }
 }

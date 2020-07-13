@@ -287,10 +287,10 @@ namespace pkNX.WinForms
             var data = ROM.GetFile(GameFile.EncounterGift)[0];
             var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
             var table = TableUtil.GetTable(gifts.Table);
-            var fn = GetPath("GiftEncounters.txt");
+            var fn = GetPath("Gifts.txt");
             File.WriteAllText(fn, table);
 
-            var f2 = GetPath("GiftEncountersPKHeX.txt");
+            var f2 = GetPath("GiftsPKHeX.txt");
             File.WriteAllLines(f2, gifts.Table.Select(z => z.GetSummary(speciesNames)));
         }
 
@@ -382,6 +382,7 @@ namespace pkNX.WinForms
 
             var galar = new List<string>();
             var armor = new List<string>();
+            var crown = new List<string>();
             var dexit = new List<string>();
             var foreign = new List<string>();
             for (int i = 1; i <= ROM.Info.MaxSpeciesID; i++)
@@ -398,11 +399,16 @@ namespace pkNX.WinForms
                     armor.Add($"{p.DexIDArmor:000} - [{i:000]} - {s[i]}");
                     any = true;
                 }
+                if (p.DexIDCrown != 0)
+                {
+                    crown.Add($"{p.DexIDCrown:000} - [{i:000]} - {s[i]}");
+                    any = true;
+                }
 
-                if (p.IsPresentInGame && !any)
-                    foreign.Add($"[{i:000]} - {s[i]}");
-                else
+                if (!p.IsPresentInGame)
                     dexit.Add($"[{i:000]} - {s[i]}");
+                else if (!any)
+                    foreign.Add($"[{i:000]} - {s[i]}");
             }
 
             var path = GetPath("GalarDex.txt");
@@ -411,11 +417,14 @@ namespace pkNX.WinForms
             var path2 = GetPath("ArmorDex.txt");
             File.WriteAllLines(path2, armor.OrderBy(z => z));
 
-            var path3 = GetPath("Dexit.txt");
-            File.WriteAllLines(path3, dexit);
+            var path3 = GetPath("CrownDex.txt");
+            File.WriteAllLines(path3, crown.OrderBy(z => z));
 
-            var path4 = GetPath("Foreign.txt");
-            File.WriteAllLines(path4, foreign);
+            var path4 = GetPath("Dexit.txt");
+            File.WriteAllLines(path4, dexit);
+
+            var path5 = GetPath("Foreign.txt");
+            File.WriteAllLines(path5, foreign);
         }
 
         public void DumpFlavorText()
@@ -674,26 +683,32 @@ namespace pkNX.WinForms
 
             var indexes = new[]
             {
-                919, // Galarian
-                1230, //  Gigantimax
-                1238, //  Gulping
-                1239, //  Gorging
-                1240, //  Low Key
+                0925, // Galarian
+                1238, // Gigantamax
+                1249, // Gulping
+                1250, // Gorging
+                1251, // Low Key
 
-                1247, //  Ruby Cream
-                1248, //  Matcha Cream
-                1249, //  Mint Cream
-                1250, //  Lemon Cream
-                1251, //  Salted Cream
-                1252, //  Ruby Swirl
-                1253, //  Caramel Swirl
-                1254, //  Rainbow Swirl
+                1258, // Ruby Cream
+                1259, // Matcha Cream
+                1260, // Mint Cream
+                1261, // Lemon Cream
+                1262, // Salted Cream
+                1263, // Ruby Swirl
+                1264, // Caramel Swirl
+                1265, // Rainbow Swirl
 
-                1256, //  Noice Face (iceman)
-                1258, //  Hangry Mode
+                1267, // Noice Face (iceman)
+                1269, // Hangry Mode
 
-                1261, //  Crowned (skip sword/shield)
-                1264, //  Eternamax
+                1272, // Crowned (skip sword/shield)
+                1275, // Eternamax
+
+                // DLC
+                0892, // Single Strike Style
+                0915, // World Cap
+                1276, // Rapid Strike Style
+                1279, // Dada
             };
 
             var fn = $"NewFormNames_{code}.txt";

@@ -62,7 +62,12 @@ namespace pkNX.Structures
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
-            var ability = Ability == 0 ? string.Empty : $", Ability = {Ability}";
+            var ability = Ability switch
+            {
+                0 => string.Empty,
+                3 => ", Ability = 4",
+                _ => $", Ability = {Ability}",
+            };
             var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
