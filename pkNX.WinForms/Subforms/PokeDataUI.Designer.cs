@@ -31,6 +31,15 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Personal = new System.Windows.Forms.TabPage();
+            this.GB_ZMove = new System.Windows.Forms.GroupBox();
+            this.L_ZCrystal = new System.Windows.Forms.Label();
+            this.L_BaseMove = new System.Windows.Forms.Label();
+            this.L_ZMove = new System.Windows.Forms.Label();
+            this.CB_ZItem = new System.Windows.Forms.ComboBox();
+            this.CB_ZBaseMove = new System.Windows.Forms.ComboBox();
+            this.CB_ZMove = new System.Windows.Forms.ComboBox();
+            this.CHK_IsPresentInGame = new System.Windows.Forms.CheckBox();
+            this.CHK_CanNotDynamax = new System.Windows.Forms.CheckBox();
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_PDumpTable = new System.Windows.Forms.Button();
             this.L_GoID = new System.Windows.Forms.Label();
@@ -45,9 +54,6 @@
             this.TB_Height = new System.Windows.Forms.MaskedTextBox();
             this.L_Weight = new System.Windows.Forms.Label();
             this.L_Height = new System.Windows.Forms.Label();
-            this.CB_ZMove = new System.Windows.Forms.ComboBox();
-            this.CB_ZBaseMove = new System.Windows.Forms.ComboBox();
-            this.CB_ZItem = new System.Windows.Forms.ComboBox();
             this.TB_CallRate = new System.Windows.Forms.MaskedTextBox();
             this.L_CallRate = new System.Windows.Forms.Label();
             this.CHK_Variant = new System.Windows.Forms.CheckBox();
@@ -110,9 +116,6 @@
             this.Label_SPE = new System.Windows.Forms.Label();
             this.L_EVYield = new System.Windows.Forms.Label();
             this.L_BaseStats = new System.Windows.Forms.Label();
-            this.L_ZMove = new System.Windows.Forms.Label();
-            this.L_BaseMove = new System.Windows.Forms.Label();
-            this.L_ZCrystal = new System.Windows.Forms.Label();
             this.Tab_Learn = new System.Windows.Forms.TabPage();
             this.L_TM = new System.Windows.Forms.Label();
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
@@ -141,9 +144,15 @@
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.CHK_IsPresentInGame = new System.Windows.Forms.CheckBox();
+            this.L_ArmorDex = new System.Windows.Forms.Label();
+            this.L_RegionalDex = new System.Windows.Forms.Label();
+            this.TB_RegionalDex = new System.Windows.Forms.TextBox();
+            this.TB_ArmorDex = new System.Windows.Forms.TextBox();
+            this.TB_CrownDex = new System.Windows.Forms.TextBox();
+            this.L_CrownDex = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
+            this.GB_ZMove.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).BeginInit();
             this.Tab_Learn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -185,7 +194,15 @@
             // 
             // Tab_Personal
             // 
+            this.Tab_Personal.Controls.Add(this.TB_CrownDex);
+            this.Tab_Personal.Controls.Add(this.L_CrownDex);
+            this.Tab_Personal.Controls.Add(this.TB_RegionalDex);
+            this.Tab_Personal.Controls.Add(this.TB_ArmorDex);
+            this.Tab_Personal.Controls.Add(this.L_ArmorDex);
+            this.Tab_Personal.Controls.Add(this.L_RegionalDex);
+            this.Tab_Personal.Controls.Add(this.GB_ZMove);
             this.Tab_Personal.Controls.Add(this.CHK_IsPresentInGame);
+            this.Tab_Personal.Controls.Add(this.CHK_CanNotDynamax);
             this.Tab_Personal.Controls.Add(this.PB_MonSprite);
             this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(this.L_GoID);
@@ -200,9 +217,6 @@
             this.Tab_Personal.Controls.Add(this.TB_Height);
             this.Tab_Personal.Controls.Add(this.L_Weight);
             this.Tab_Personal.Controls.Add(this.L_Height);
-            this.Tab_Personal.Controls.Add(this.CB_ZMove);
-            this.Tab_Personal.Controls.Add(this.CB_ZBaseMove);
-            this.Tab_Personal.Controls.Add(this.CB_ZItem);
             this.Tab_Personal.Controls.Add(this.TB_CallRate);
             this.Tab_Personal.Controls.Add(this.L_CallRate);
             this.Tab_Personal.Controls.Add(this.CHK_Variant);
@@ -265,9 +279,6 @@
             this.Tab_Personal.Controls.Add(this.Label_SPE);
             this.Tab_Personal.Controls.Add(this.L_EVYield);
             this.Tab_Personal.Controls.Add(this.L_BaseStats);
-            this.Tab_Personal.Controls.Add(this.L_ZMove);
-            this.Tab_Personal.Controls.Add(this.L_BaseMove);
-            this.Tab_Personal.Controls.Add(this.L_ZCrystal);
             this.Tab_Personal.Location = new System.Drawing.Point(4, 22);
             this.Tab_Personal.Name = "Tab_Personal";
             this.Tab_Personal.Padding = new System.Windows.Forms.Padding(3);
@@ -275,6 +286,95 @@
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
+            // 
+            // GB_ZMove
+            // 
+            this.GB_ZMove.Controls.Add(this.L_ZCrystal);
+            this.GB_ZMove.Controls.Add(this.L_BaseMove);
+            this.GB_ZMove.Controls.Add(this.L_ZMove);
+            this.GB_ZMove.Controls.Add(this.CB_ZItem);
+            this.GB_ZMove.Controls.Add(this.CB_ZBaseMove);
+            this.GB_ZMove.Controls.Add(this.CB_ZMove);
+            this.GB_ZMove.Location = new System.Drawing.Point(238, 586);
+            this.GB_ZMove.Name = "GB_ZMove";
+            this.GB_ZMove.Size = new System.Drawing.Size(264, 107);
+            this.GB_ZMove.TabIndex = 505;
+            this.GB_ZMove.TabStop = false;
+            this.GB_ZMove.Text = "Z-Move Data";
+            // 
+            // L_ZCrystal
+            // 
+            this.L_ZCrystal.AutoSize = true;
+            this.L_ZCrystal.Location = new System.Drawing.Point(22, 31);
+            this.L_ZCrystal.Name = "L_ZCrystal";
+            this.L_ZCrystal.Size = new System.Drawing.Size(51, 13);
+            this.L_ZCrystal.TabIndex = 486;
+            this.L_ZCrystal.Text = "Z-Crystal:";
+            // 
+            // L_BaseMove
+            // 
+            this.L_BaseMove.AutoSize = true;
+            this.L_BaseMove.Location = new System.Drawing.Point(9, 53);
+            this.L_BaseMove.Name = "L_BaseMove";
+            this.L_BaseMove.Size = new System.Drawing.Size(64, 13);
+            this.L_BaseMove.TabIndex = 487;
+            this.L_BaseMove.Text = "Base Move:";
+            // 
+            // L_ZMove
+            // 
+            this.L_ZMove.AutoSize = true;
+            this.L_ZMove.Location = new System.Drawing.Point(26, 74);
+            this.L_ZMove.Name = "L_ZMove";
+            this.L_ZMove.Size = new System.Drawing.Size(47, 13);
+            this.L_ZMove.TabIndex = 489;
+            this.L_ZMove.Text = "Z-Move:";
+            // 
+            // CB_ZItem
+            // 
+            this.CB_ZItem.FormattingEnabled = true;
+            this.CB_ZItem.Location = new System.Drawing.Point(73, 27);
+            this.CB_ZItem.Name = "CB_ZItem";
+            this.CB_ZItem.Size = new System.Drawing.Size(125, 21);
+            this.CB_ZItem.TabIndex = 484;
+            // 
+            // CB_ZBaseMove
+            // 
+            this.CB_ZBaseMove.FormattingEnabled = true;
+            this.CB_ZBaseMove.Location = new System.Drawing.Point(73, 49);
+            this.CB_ZBaseMove.Name = "CB_ZBaseMove";
+            this.CB_ZBaseMove.Size = new System.Drawing.Size(125, 21);
+            this.CB_ZBaseMove.TabIndex = 485;
+            // 
+            // CB_ZMove
+            // 
+            this.CB_ZMove.FormattingEnabled = true;
+            this.CB_ZMove.Location = new System.Drawing.Point(73, 71);
+            this.CB_ZMove.Name = "CB_ZMove";
+            this.CB_ZMove.Size = new System.Drawing.Size(175, 21);
+            this.CB_ZMove.TabIndex = 488;
+            // 
+            // CHK_IsPresentInGame
+            // 
+            this.CHK_IsPresentInGame.AutoSize = true;
+            this.CHK_IsPresentInGame.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_IsPresentInGame.Enabled = false;
+            this.CHK_IsPresentInGame.Location = new System.Drawing.Point(84, 615);
+            this.CHK_IsPresentInGame.Name = "CHK_IsPresentInGame";
+            this.CHK_IsPresentInGame.Size = new System.Drawing.Size(104, 17);
+            this.CHK_IsPresentInGame.TabIndex = 503;
+            this.CHK_IsPresentInGame.Text = "Present in Game";
+            this.CHK_IsPresentInGame.UseVisualStyleBackColor = true;
+            // 
+            // CHK_CanNotDynamax
+            // 
+            this.CHK_CanNotDynamax.AutoSize = true;
+            this.CHK_CanNotDynamax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_CanNotDynamax.Location = new System.Drawing.Point(91, 595);
+            this.CHK_CanNotDynamax.Name = "CHK_CanNotDynamax";
+            this.CHK_CanNotDynamax.Size = new System.Drawing.Size(97, 17);
+            this.CHK_CanNotDynamax.TabIndex = 504;
+            this.CHK_CanNotDynamax.Text = "Can\'t Dynamax";
+            this.CHK_CanNotDynamax.UseVisualStyleBackColor = true;
             // 
             // PB_MonSprite
             // 
@@ -299,7 +399,7 @@
             // L_GoID
             // 
             this.L_GoID.AutoSize = true;
-            this.L_GoID.Location = new System.Drawing.Point(116, 564);
+            this.L_GoID.Location = new System.Drawing.Point(116, 518);
             this.L_GoID.Name = "L_GoID";
             this.L_GoID.Size = new System.Drawing.Size(40, 13);
             this.L_GoID.TabIndex = 501;
@@ -308,7 +408,7 @@
             // MT_GoID
             // 
             this.MT_GoID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MT_GoID.Location = new System.Drawing.Point(157, 560);
+            this.MT_GoID.Location = new System.Drawing.Point(157, 514);
             this.MT_GoID.Mask = "000";
             this.MT_GoID.Name = "MT_GoID";
             this.MT_GoID.Size = new System.Drawing.Size(31, 20);
@@ -337,7 +437,7 @@
             // L_WeightKG
             // 
             this.L_WeightKG.AutoSize = true;
-            this.L_WeightKG.Location = new System.Drawing.Point(437, 518);
+            this.L_WeightKG.Location = new System.Drawing.Point(437, 493);
             this.L_WeightKG.Name = "L_WeightKG";
             this.L_WeightKG.Size = new System.Drawing.Size(19, 13);
             this.L_WeightKG.TabIndex = 495;
@@ -355,7 +455,7 @@
             // L_HeightM
             // 
             this.L_HeightM.AutoSize = true;
-            this.L_HeightM.Location = new System.Drawing.Point(437, 497);
+            this.L_HeightM.Location = new System.Drawing.Point(437, 472);
             this.L_HeightM.Name = "L_HeightM";
             this.L_HeightM.Size = new System.Drawing.Size(15, 13);
             this.L_HeightM.TabIndex = 494;
@@ -373,7 +473,7 @@
             // TB_Weight
             // 
             this.TB_Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Weight.Location = new System.Drawing.Point(405, 514);
+            this.TB_Weight.Location = new System.Drawing.Point(405, 489);
             this.TB_Weight.Mask = "000.0";
             this.TB_Weight.Name = "TB_Weight";
             this.TB_Weight.Size = new System.Drawing.Size(32, 20);
@@ -383,7 +483,7 @@
             // TB_Height
             // 
             this.TB_Height.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Height.Location = new System.Drawing.Point(405, 493);
+            this.TB_Height.Location = new System.Drawing.Point(405, 468);
             this.TB_Height.Mask = "00.0";
             this.TB_Height.Name = "TB_Height";
             this.TB_Height.Size = new System.Drawing.Size(32, 20);
@@ -393,7 +493,7 @@
             // L_Weight
             // 
             this.L_Weight.AutoSize = true;
-            this.L_Weight.Location = new System.Drawing.Point(361, 517);
+            this.L_Weight.Location = new System.Drawing.Point(361, 492);
             this.L_Weight.Name = "L_Weight";
             this.L_Weight.Size = new System.Drawing.Size(44, 13);
             this.L_Weight.TabIndex = 491;
@@ -403,41 +503,17 @@
             // L_Height
             // 
             this.L_Height.AutoSize = true;
-            this.L_Height.Location = new System.Drawing.Point(364, 496);
+            this.L_Height.Location = new System.Drawing.Point(364, 471);
             this.L_Height.Name = "L_Height";
             this.L_Height.Size = new System.Drawing.Size(41, 13);
             this.L_Height.TabIndex = 490;
             this.L_Height.Text = "Height:";
             this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CB_ZMove
-            // 
-            this.CB_ZMove.FormattingEnabled = true;
-            this.CB_ZMove.Location = new System.Drawing.Point(316, 605);
-            this.CB_ZMove.Name = "CB_ZMove";
-            this.CB_ZMove.Size = new System.Drawing.Size(175, 21);
-            this.CB_ZMove.TabIndex = 488;
-            // 
-            // CB_ZBaseMove
-            // 
-            this.CB_ZBaseMove.FormattingEnabled = true;
-            this.CB_ZBaseMove.Location = new System.Drawing.Point(316, 583);
-            this.CB_ZBaseMove.Name = "CB_ZBaseMove";
-            this.CB_ZBaseMove.Size = new System.Drawing.Size(125, 21);
-            this.CB_ZBaseMove.TabIndex = 485;
-            // 
-            // CB_ZItem
-            // 
-            this.CB_ZItem.FormattingEnabled = true;
-            this.CB_ZItem.Location = new System.Drawing.Point(316, 561);
-            this.CB_ZItem.Name = "CB_ZItem";
-            this.CB_ZItem.Size = new System.Drawing.Size(125, 21);
-            this.CB_ZItem.TabIndex = 484;
-            // 
             // TB_CallRate
             // 
             this.TB_CallRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CallRate.Location = new System.Drawing.Point(157, 539);
+            this.TB_CallRate.Location = new System.Drawing.Point(157, 535);
             this.TB_CallRate.Mask = "000";
             this.TB_CallRate.Name = "TB_CallRate";
             this.TB_CallRate.Size = new System.Drawing.Size(31, 20);
@@ -447,7 +523,7 @@
             // L_CallRate
             // 
             this.L_CallRate.AutoSize = true;
-            this.L_CallRate.Location = new System.Drawing.Point(103, 543);
+            this.L_CallRate.Location = new System.Drawing.Point(103, 539);
             this.L_CallRate.Name = "L_CallRate";
             this.L_CallRate.Size = new System.Drawing.Size(53, 13);
             this.L_CallRate.TabIndex = 482;
@@ -458,7 +534,7 @@
             // 
             this.CHK_Variant.AutoSize = true;
             this.CHK_Variant.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Variant.Location = new System.Drawing.Point(84, 588);
+            this.CHK_Variant.Location = new System.Drawing.Point(84, 575);
             this.CHK_Variant.Name = "CHK_Variant";
             this.CHK_Variant.Size = new System.Drawing.Size(104, 17);
             this.CHK_Variant.TabIndex = 481;
@@ -488,7 +564,7 @@
             // TB_CatchRate
             // 
             this.TB_CatchRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_CatchRate.Location = new System.Drawing.Point(157, 518);
+            this.TB_CatchRate.Location = new System.Drawing.Point(157, 493);
             this.TB_CatchRate.Mask = "000";
             this.TB_CatchRate.Name = "TB_CatchRate";
             this.TB_CatchRate.Size = new System.Drawing.Size(31, 20);
@@ -497,7 +573,7 @@
             // 
             // TB_Stage
             // 
-            this.TB_Stage.Location = new System.Drawing.Point(405, 430);
+            this.TB_Stage.Location = new System.Drawing.Point(405, 405);
             this.TB_Stage.Name = "TB_Stage";
             this.TB_Stage.ReadOnly = true;
             this.TB_Stage.Size = new System.Drawing.Size(32, 20);
@@ -507,7 +583,7 @@
             // L_Stage
             // 
             this.L_Stage.AutoSize = true;
-            this.L_Stage.Location = new System.Drawing.Point(320, 432);
+            this.L_Stage.Location = new System.Drawing.Point(320, 407);
             this.L_Stage.Name = "L_Stage";
             this.L_Stage.Size = new System.Drawing.Size(85, 13);
             this.L_Stage.TabIndex = 476;
@@ -516,7 +592,7 @@
             // 
             // TB_FormeCount
             // 
-            this.TB_FormeCount.Location = new System.Drawing.Point(405, 472);
+            this.TB_FormeCount.Location = new System.Drawing.Point(405, 447);
             this.TB_FormeCount.Name = "TB_FormeCount";
             this.TB_FormeCount.ReadOnly = true;
             this.TB_FormeCount.Size = new System.Drawing.Size(32, 20);
@@ -526,7 +602,7 @@
             // L_FormesCount
             // 
             this.L_FormesCount.AutoSize = true;
-            this.L_FormesCount.Location = new System.Drawing.Point(330, 475);
+            this.L_FormesCount.Location = new System.Drawing.Point(330, 450);
             this.L_FormesCount.Name = "L_FormesCount";
             this.L_FormesCount.Size = new System.Drawing.Size(75, 13);
             this.L_FormesCount.TabIndex = 474;
@@ -535,7 +611,7 @@
             // 
             // TB_FormeSprite
             // 
-            this.TB_FormeSprite.Location = new System.Drawing.Point(405, 451);
+            this.TB_FormeSprite.Location = new System.Drawing.Point(405, 426);
             this.TB_FormeSprite.Name = "TB_FormeSprite";
             this.TB_FormeSprite.ReadOnly = true;
             this.TB_FormeSprite.Size = new System.Drawing.Size(32, 20);
@@ -545,7 +621,7 @@
             // L_FormeSprite
             // 
             this.L_FormeSprite.AutoSize = true;
-            this.L_FormeSprite.Location = new System.Drawing.Point(336, 454);
+            this.L_FormeSprite.Location = new System.Drawing.Point(336, 429);
             this.L_FormeSprite.Name = "L_FormeSprite";
             this.L_FormeSprite.Size = new System.Drawing.Size(69, 13);
             this.L_FormeSprite.TabIndex = 472;
@@ -555,7 +631,7 @@
             // L_CatchRate
             // 
             this.L_CatchRate.AutoSize = true;
-            this.L_CatchRate.Location = new System.Drawing.Point(92, 522);
+            this.L_CatchRate.Location = new System.Drawing.Point(92, 497);
             this.L_CatchRate.Name = "L_CatchRate";
             this.L_CatchRate.Size = new System.Drawing.Size(64, 13);
             this.L_CatchRate.TabIndex = 471;
@@ -670,7 +746,7 @@
             // TB_BaseExp
             // 
             this.TB_BaseExp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_BaseExp.Location = new System.Drawing.Point(157, 476);
+            this.TB_BaseExp.Location = new System.Drawing.Point(157, 451);
             this.TB_BaseExp.Mask = "000";
             this.TB_BaseExp.Name = "TB_BaseExp";
             this.TB_BaseExp.Size = new System.Drawing.Size(31, 20);
@@ -680,7 +756,7 @@
             // L_BaseEXP
             // 
             this.L_BaseEXP.AutoSize = true;
-            this.L_BaseEXP.Location = new System.Drawing.Point(98, 480);
+            this.L_BaseEXP.Location = new System.Drawing.Point(98, 455);
             this.L_BaseEXP.Name = "L_BaseEXP";
             this.L_BaseEXP.Size = new System.Drawing.Size(58, 13);
             this.L_BaseEXP.TabIndex = 458;
@@ -690,7 +766,7 @@
             // TB_HatchCycles
             // 
             this.TB_HatchCycles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HatchCycles.Location = new System.Drawing.Point(157, 497);
+            this.TB_HatchCycles.Location = new System.Drawing.Point(157, 472);
             this.TB_HatchCycles.Mask = "000";
             this.TB_HatchCycles.Name = "TB_HatchCycles";
             this.TB_HatchCycles.Size = new System.Drawing.Size(31, 20);
@@ -700,7 +776,7 @@
             // L_HatchCycles
             // 
             this.L_HatchCycles.AutoSize = true;
-            this.L_HatchCycles.Location = new System.Drawing.Point(83, 500);
+            this.L_HatchCycles.Location = new System.Drawing.Point(83, 475);
             this.L_HatchCycles.Name = "L_HatchCycles";
             this.L_HatchCycles.Size = new System.Drawing.Size(73, 13);
             this.L_HatchCycles.TabIndex = 456;
@@ -710,7 +786,7 @@
             // TB_Friendship
             // 
             this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Friendship.Location = new System.Drawing.Point(157, 455);
+            this.TB_Friendship.Location = new System.Drawing.Point(157, 430);
             this.TB_Friendship.Mask = "000";
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(31, 20);
@@ -720,7 +796,7 @@
             // TB_Gender
             // 
             this.TB_Gender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Gender.Location = new System.Drawing.Point(157, 434);
+            this.TB_Gender.Location = new System.Drawing.Point(157, 409);
             this.TB_Gender.Mask = "000";
             this.TB_Gender.Name = "TB_Gender";
             this.TB_Gender.Size = new System.Drawing.Size(31, 20);
@@ -730,7 +806,7 @@
             // L_Friendship
             // 
             this.L_Friendship.AutoSize = true;
-            this.L_Friendship.Location = new System.Drawing.Point(98, 459);
+            this.L_Friendship.Location = new System.Drawing.Point(98, 434);
             this.L_Friendship.Name = "L_Friendship";
             this.L_Friendship.Size = new System.Drawing.Size(58, 13);
             this.L_Friendship.TabIndex = 453;
@@ -740,7 +816,7 @@
             // L_Gender
             // 
             this.L_Gender.AutoSize = true;
-            this.L_Gender.Location = new System.Drawing.Point(111, 437);
+            this.L_Gender.Location = new System.Drawing.Point(111, 412);
             this.L_Gender.Name = "L_Gender";
             this.L_Gender.Size = new System.Drawing.Size(45, 13);
             this.L_Gender.TabIndex = 452;
@@ -1033,33 +1109,6 @@
             this.L_BaseStats.Size = new System.Drawing.Size(61, 13);
             this.L_BaseStats.TabIndex = 422;
             this.L_BaseStats.Text = "Base Stats:";
-            // 
-            // L_ZMove
-            // 
-            this.L_ZMove.AutoSize = true;
-            this.L_ZMove.Location = new System.Drawing.Point(269, 608);
-            this.L_ZMove.Name = "L_ZMove";
-            this.L_ZMove.Size = new System.Drawing.Size(47, 13);
-            this.L_ZMove.TabIndex = 489;
-            this.L_ZMove.Text = "Z-Move:";
-            // 
-            // L_BaseMove
-            // 
-            this.L_BaseMove.AutoSize = true;
-            this.L_BaseMove.Location = new System.Drawing.Point(252, 587);
-            this.L_BaseMove.Name = "L_BaseMove";
-            this.L_BaseMove.Size = new System.Drawing.Size(64, 13);
-            this.L_BaseMove.TabIndex = 487;
-            this.L_BaseMove.Text = "Base Move:";
-            // 
-            // L_ZCrystal
-            // 
-            this.L_ZCrystal.AutoSize = true;
-            this.L_ZCrystal.Location = new System.Drawing.Point(265, 565);
-            this.L_ZCrystal.Name = "L_ZCrystal";
-            this.L_ZCrystal.Size = new System.Drawing.Size(51, 13);
-            this.L_ZCrystal.TabIndex = 486;
-            this.L_ZCrystal.Text = "Z-Crystal:";
             // 
             // Tab_Learn
             // 
@@ -1379,17 +1428,62 @@
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateIndex);
             // 
-            // CHK_IsPresentInGame
+            // L_ArmorDex
             // 
-            this.CHK_IsPresentInGame.AutoSize = true;
-            this.CHK_IsPresentInGame.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_IsPresentInGame.Enabled = false;
-            this.CHK_IsPresentInGame.Location = new System.Drawing.Point(84, 607);
-            this.CHK_IsPresentInGame.Name = "CHK_IsPresentInGame";
-            this.CHK_IsPresentInGame.Size = new System.Drawing.Size(104, 17);
-            this.CHK_IsPresentInGame.TabIndex = 503;
-            this.CHK_IsPresentInGame.Text = "Present in Game";
-            this.CHK_IsPresentInGame.UseVisualStyleBackColor = true;
+            this.L_ArmorDex.AutoSize = true;
+            this.L_ArmorDex.Location = new System.Drawing.Point(346, 535);
+            this.L_ArmorDex.Name = "L_ArmorDex";
+            this.L_ArmorDex.Size = new System.Drawing.Size(59, 13);
+            this.L_ArmorDex.TabIndex = 507;
+            this.L_ArmorDex.Text = "Armor Dex:";
+            this.L_ArmorDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_RegionalDex
+            // 
+            this.L_RegionalDex.AutoSize = true;
+            this.L_RegionalDex.Location = new System.Drawing.Point(331, 513);
+            this.L_RegionalDex.Name = "L_RegionalDex";
+            this.L_RegionalDex.Size = new System.Drawing.Size(74, 13);
+            this.L_RegionalDex.TabIndex = 506;
+            this.L_RegionalDex.Text = "Regional Dex:";
+            this.L_RegionalDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_RegionalDex
+            // 
+            this.TB_RegionalDex.Location = new System.Drawing.Point(405, 510);
+            this.TB_RegionalDex.Name = "TB_RegionalDex";
+            this.TB_RegionalDex.ReadOnly = true;
+            this.TB_RegionalDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_RegionalDex.TabIndex = 509;
+            this.TB_RegionalDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TB_ArmorDex
+            // 
+            this.TB_ArmorDex.Location = new System.Drawing.Point(405, 531);
+            this.TB_ArmorDex.Name = "TB_ArmorDex";
+            this.TB_ArmorDex.ReadOnly = true;
+            this.TB_ArmorDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_ArmorDex.TabIndex = 508;
+            this.TB_ArmorDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TB_CrownDex
+            // 
+            this.TB_CrownDex.Location = new System.Drawing.Point(405, 552);
+            this.TB_CrownDex.Name = "TB_CrownDex";
+            this.TB_CrownDex.ReadOnly = true;
+            this.TB_CrownDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_CrownDex.TabIndex = 511;
+            this.TB_CrownDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_CrownDex
+            // 
+            this.L_CrownDex.AutoSize = true;
+            this.L_CrownDex.Location = new System.Drawing.Point(343, 556);
+            this.L_CrownDex.Name = "L_CrownDex";
+            this.L_CrownDex.Size = new System.Drawing.Size(62, 13);
+            this.L_CrownDex.TabIndex = 510;
+            this.L_CrownDex.Text = "Crown Dex:";
+            this.L_CrownDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PokeDataUI
             // 
@@ -1407,6 +1501,8 @@
             this.tabControl1.ResumeLayout(false);
             this.Tab_Personal.ResumeLayout(false);
             this.Tab_Personal.PerformLayout();
+            this.GB_ZMove.ResumeLayout(false);
+            this.GB_ZMove.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MonSprite)).EndInit();
             this.Tab_Learn.ResumeLayout(false);
             this.Tab_Learn.PerformLayout();
@@ -1541,5 +1637,13 @@
         private System.Windows.Forms.TabPage Tab_Moveset;
         private System.Windows.Forms.PropertyGrid PG_Move;
         private System.Windows.Forms.CheckBox CHK_IsPresentInGame;
+        private System.Windows.Forms.CheckBox CHK_CanNotDynamax;
+        private System.Windows.Forms.GroupBox GB_ZMove;
+        private System.Windows.Forms.Label L_ArmorDex;
+        private System.Windows.Forms.Label L_RegionalDex;
+        private System.Windows.Forms.TextBox TB_RegionalDex;
+        private System.Windows.Forms.TextBox TB_ArmorDex;
+        private System.Windows.Forms.TextBox TB_CrownDex;
+        private System.Windows.Forms.Label L_CrownDex;
     }
 }

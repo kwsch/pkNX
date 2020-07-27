@@ -115,6 +115,8 @@ namespace pkNX.Structures
         }
 
         public int SpriteIndex { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
+        public bool RegionalVariant { get => ((Data[0x5A] >> 0) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~1) | (value ? 1 : 0)); }
+        public bool CanNotDynamax { get => ((Data[0x5A] >> 2) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~4) | (value ? 4 : 0)); }
         public int DexID { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
         public int DexIDArmor { get => BitConverter.ToUInt16(Data, 0xAC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAC); }
         public int DexIDCrown { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }

@@ -286,20 +286,29 @@ namespace pkNX.WinForms
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
                 CHK_Variant.Checked = sm.LocalVariant;
-                CHK_IsPresentInGame.Visible = false;
+                CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible =
+                L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
             if (pkm is PersonalInfoGG gg)
             {
                 MT_GoID.Text = gg.GoSpecies.ToString("000");
                 CHK_Variant.Checked = gg.LocalVariant;
-                CHK_IsPresentInGame.Visible = false;
+                GB_ZMove.Visible = CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible =
+                L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
             if (pkm is PersonalInfoSWSH swsh)
             {
                 MT_GoID.Text = swsh.SpriteIndex.ToString("000");
+                TB_RegionalDex.Text = swsh.DexID.ToString("000");
+                TB_ArmorDex.Text = swsh.DexIDArmor.ToString("000");
+                TB_CrownDex.Text = swsh.DexIDCrown.ToString("000");
                 CHK_IsPresentInGame.Checked = swsh.IsPresentInGame;
-                CHK_Variant.Visible = false;
+                CHK_Variant.Checked = swsh.RegionalVariant;
+                CHK_CanNotDynamax.Checked = swsh.CanNotDynamax;
+                L_CallRate.Visible = TB_CallRate.Visible = GB_ZMove.Visible = false;
             }
+
+            L_CrownDex.Visible = TB_CrownDex.Visible = false; // todo: remove when DLC 2 is released
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)
                 CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
@@ -357,6 +366,15 @@ namespace pkNX.WinForms
             if (pkm is PersonalInfoGG gg)
             {
                 gg.GoSpecies = Convert.ToUInt16(MT_GoID.Text);
+            }
+            if (pkm is PersonalInfoSWSH swsh)
+            {
+                swsh.DexID = Convert.ToUInt16(TB_RegionalDex.Text);
+                swsh.DexIDArmor = Convert.ToUInt16(TB_ArmorDex.Text);
+                swsh.DexIDCrown = Convert.ToUInt16(TB_CrownDex.Text);
+                swsh.IsPresentInGame = CHK_IsPresentInGame.Checked;
+                swsh.RegionalVariant = CHK_Variant.Checked;
+                swsh.CanNotDynamax = CHK_CanNotDynamax.Checked;
             }
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)

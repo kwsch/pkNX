@@ -199,7 +199,6 @@ namespace pkNX.Structures
 
             var msg = evo2.Select(z => $"Evolves into {Species[z.Species]}-{z.Form} @ {z.Level} ({z.Method}) [{z.Argument}]");
             lines.AddRange(msg);
-            lines.Add("");
         }
 
         private void AddPersonalLines(List<string> lines, PersonalInfo pi, int entry, string name, string specCode)
@@ -218,6 +217,9 @@ namespace pkNX.Structures
                     lines.Add($"Crown Dex: #{s.DexIDCrown:000}");
                 if (s.DexID == 0 && s.DexIDArmor == 0 && s.DexIDCrown == 0)
                     lines.Add("Galar Dex: Foreign");
+
+                if (s.CanNotDynamax)
+                    lines.Add("Can Not Dynamax!");
             }
             lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.BST})");
             lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");

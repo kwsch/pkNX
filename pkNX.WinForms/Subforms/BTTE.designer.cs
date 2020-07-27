@@ -102,20 +102,20 @@
             this.TC_trdata = new System.Windows.Forms.TabControl();
             this.Tab_Trainer = new System.Windows.Forms.TabPage();
             this.GB_Additional_AI = new System.Windows.Forms.GroupBox();
-            this.CHK_AI_Raid = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Unused1 = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Unused2 = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_FireGym1 = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_FireGym2 = new System.Windows.Forms.CheckBox();
             this.CHK_AI_FireGym3 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_FireGym2 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_FireGym1 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Unused2 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Unused1 = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Raid = new System.Windows.Forms.CheckBox();
             this.GB_AI = new System.Windows.Forms.GroupBox();
-            this.CHK_AI_Basic = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Strong = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Expert = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Double = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Allowance = new System.Windows.Forms.CheckBox();
-            this.CHK_AI_Item = new System.Windows.Forms.CheckBox();
             this.CHK_AI_PokeChange = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Item = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Allowance = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Double = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Expert = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Strong = new System.Windows.Forms.CheckBox();
+            this.CHK_AI_Basic = new System.Windows.Forms.CheckBox();
             this.L_Mode = new System.Windows.Forms.Label();
             this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.GB_Items = new System.Windows.Forms.GroupBox();
@@ -788,17 +788,19 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(224, 300);
+            this.Tab_Stats.Size = new System.Drawing.Size(224, 277);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
             // Stats
             // 
+            this.Stats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.Stats.Location = new System.Drawing.Point(0, 1);
             this.Stats.Name = "Stats";
             this.Stats.PKM = null;
-            this.Stats.Size = new System.Drawing.Size(224, 218);
+            this.Stats.Size = new System.Drawing.Size(224, 276);
             this.Stats.TabIndex = 0;
             // 
             // Tab_Moves
@@ -810,7 +812,7 @@
             this.Tab_Moves.Location = new System.Drawing.Point(4, 22);
             this.Tab_Moves.Name = "Tab_Moves";
             this.Tab_Moves.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Moves.Size = new System.Drawing.Size(224, 300);
+            this.Tab_Moves.Size = new System.Drawing.Size(224, 277);
             this.Tab_Moves.TabIndex = 1;
             this.Tab_Moves.Text = "Moves";
             this.Tab_Moves.UseVisualStyleBackColor = true;
@@ -973,28 +975,38 @@
             this.GB_Additional_AI.TabStop = false;
             this.GB_Additional_AI.Text = "Additional AI Bits";
             // 
-            // CHK_AI_Raid
+            // CHK_AI_FireGym3
             // 
-            this.CHK_AI_Raid.AutoSize = true;
-            this.CHK_AI_Raid.Location = new System.Drawing.Point(6, 17);
-            this.CHK_AI_Raid.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Raid.Name = "CHK_AI_Raid";
-            this.CHK_AI_Raid.Size = new System.Drawing.Size(48, 17);
-            this.CHK_AI_Raid.TabIndex = 463;
-            this.CHK_AI_Raid.Text = "Raid";
-            this.CHK_AI_Raid.UseVisualStyleBackColor = true;
+            this.CHK_AI_FireGym3.AutoSize = true;
+            this.CHK_AI_FireGym3.Location = new System.Drawing.Point(69, 45);
+            this.CHK_AI_FireGym3.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_FireGym3.Name = "CHK_AI_FireGym3";
+            this.CHK_AI_FireGym3.Size = new System.Drawing.Size(82, 17);
+            this.CHK_AI_FireGym3.TabIndex = 470;
+            this.CHK_AI_FireGym3.Text = "Fire Gym (3)";
+            this.CHK_AI_FireGym3.UseVisualStyleBackColor = true;
             // 
-            // CHK_AI_Unused1
+            // CHK_AI_FireGym2
             // 
-            this.CHK_AI_Unused1.AutoSize = true;
-            this.CHK_AI_Unused1.Enabled = false;
-            this.CHK_AI_Unused1.Location = new System.Drawing.Point(6, 31);
-            this.CHK_AI_Unused1.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Unused1.Name = "CHK_AI_Unused1";
-            this.CHK_AI_Unused1.Size = new System.Drawing.Size(63, 17);
-            this.CHK_AI_Unused1.TabIndex = 465;
-            this.CHK_AI_Unused1.Text = "Unused";
-            this.CHK_AI_Unused1.UseVisualStyleBackColor = true;
+            this.CHK_AI_FireGym2.AutoSize = true;
+            this.CHK_AI_FireGym2.Location = new System.Drawing.Point(69, 31);
+            this.CHK_AI_FireGym2.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_FireGym2.Name = "CHK_AI_FireGym2";
+            this.CHK_AI_FireGym2.Size = new System.Drawing.Size(82, 17);
+            this.CHK_AI_FireGym2.TabIndex = 467;
+            this.CHK_AI_FireGym2.Text = "Fire Gym (2)";
+            this.CHK_AI_FireGym2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI_FireGym1
+            // 
+            this.CHK_AI_FireGym1.AutoSize = true;
+            this.CHK_AI_FireGym1.Location = new System.Drawing.Point(69, 17);
+            this.CHK_AI_FireGym1.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_FireGym1.Name = "CHK_AI_FireGym1";
+            this.CHK_AI_FireGym1.Size = new System.Drawing.Size(82, 17);
+            this.CHK_AI_FireGym1.TabIndex = 466;
+            this.CHK_AI_FireGym1.Text = "Fire Gym (1)";
+            this.CHK_AI_FireGym1.UseVisualStyleBackColor = true;
             // 
             // CHK_AI_Unused2
             // 
@@ -1008,38 +1020,28 @@
             this.CHK_AI_Unused2.Text = "Unused";
             this.CHK_AI_Unused2.UseVisualStyleBackColor = true;
             // 
-            // CHK_AI_FireGym1
+            // CHK_AI_Unused1
             // 
-            this.CHK_AI_FireGym1.AutoSize = true;
-            this.CHK_AI_FireGym1.Location = new System.Drawing.Point(69, 17);
-            this.CHK_AI_FireGym1.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_FireGym1.Name = "CHK_AI_FireGym1";
-            this.CHK_AI_FireGym1.Size = new System.Drawing.Size(82, 17);
-            this.CHK_AI_FireGym1.TabIndex = 466;
-            this.CHK_AI_FireGym1.Text = "Fire Gym (1)";
-            this.CHK_AI_FireGym1.UseVisualStyleBackColor = true;
+            this.CHK_AI_Unused1.AutoSize = true;
+            this.CHK_AI_Unused1.Enabled = false;
+            this.CHK_AI_Unused1.Location = new System.Drawing.Point(6, 31);
+            this.CHK_AI_Unused1.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Unused1.Name = "CHK_AI_Unused1";
+            this.CHK_AI_Unused1.Size = new System.Drawing.Size(63, 17);
+            this.CHK_AI_Unused1.TabIndex = 465;
+            this.CHK_AI_Unused1.Text = "Unused";
+            this.CHK_AI_Unused1.UseVisualStyleBackColor = true;
             // 
-            // CHK_AI_FireGym2
+            // CHK_AI_Raid
             // 
-            this.CHK_AI_FireGym2.AutoSize = true;
-            this.CHK_AI_FireGym2.Location = new System.Drawing.Point(69, 31);
-            this.CHK_AI_FireGym2.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_FireGym2.Name = "CHK_AI_FireGym2";
-            this.CHK_AI_FireGym2.Size = new System.Drawing.Size(82, 17);
-            this.CHK_AI_FireGym2.TabIndex = 467;
-            this.CHK_AI_FireGym2.Text = "Fire Gym (2)";
-            this.CHK_AI_FireGym2.UseVisualStyleBackColor = true;
-            // 
-            // CHK_AI_FireGym3
-            // 
-            this.CHK_AI_FireGym3.AutoSize = true;
-            this.CHK_AI_FireGym3.Location = new System.Drawing.Point(69, 45);
-            this.CHK_AI_FireGym3.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_FireGym3.Name = "CHK_AI_FireGym3";
-            this.CHK_AI_FireGym3.Size = new System.Drawing.Size(82, 17);
-            this.CHK_AI_FireGym3.TabIndex = 470;
-            this.CHK_AI_FireGym3.Text = "Fire Gym (3)";
-            this.CHK_AI_FireGym3.UseVisualStyleBackColor = true;
+            this.CHK_AI_Raid.AutoSize = true;
+            this.CHK_AI_Raid.Location = new System.Drawing.Point(6, 17);
+            this.CHK_AI_Raid.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Raid.Name = "CHK_AI_Raid";
+            this.CHK_AI_Raid.Size = new System.Drawing.Size(48, 17);
+            this.CHK_AI_Raid.TabIndex = 463;
+            this.CHK_AI_Raid.Text = "Raid";
+            this.CHK_AI_Raid.UseVisualStyleBackColor = true;
             // 
             // GB_AI
             // 
@@ -1057,60 +1059,16 @@
             this.GB_AI.TabStop = false;
             this.GB_AI.Text = "AI Bits";
             // 
-            // CHK_AI_Basic
+            // CHK_AI_PokeChange
             // 
-            this.CHK_AI_Basic.AutoSize = true;
-            this.CHK_AI_Basic.Location = new System.Drawing.Point(7, 16);
-            this.CHK_AI_Basic.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Basic.Name = "CHK_AI_Basic";
-            this.CHK_AI_Basic.Size = new System.Drawing.Size(52, 17);
-            this.CHK_AI_Basic.TabIndex = 460;
-            this.CHK_AI_Basic.Text = "Basic";
-            this.CHK_AI_Basic.UseVisualStyleBackColor = true;
-            // 
-            // CHK_AI_Strong
-            // 
-            this.CHK_AI_Strong.AutoSize = true;
-            this.CHK_AI_Strong.Location = new System.Drawing.Point(7, 30);
-            this.CHK_AI_Strong.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Strong.Name = "CHK_AI_Strong";
-            this.CHK_AI_Strong.Size = new System.Drawing.Size(57, 17);
-            this.CHK_AI_Strong.TabIndex = 460;
-            this.CHK_AI_Strong.Text = "Strong";
-            this.CHK_AI_Strong.UseVisualStyleBackColor = true;
-            // 
-            // CHK_AI_Expert
-            // 
-            this.CHK_AI_Expert.AutoSize = true;
-            this.CHK_AI_Expert.Location = new System.Drawing.Point(7, 44);
-            this.CHK_AI_Expert.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Expert.Name = "CHK_AI_Expert";
-            this.CHK_AI_Expert.Size = new System.Drawing.Size(56, 17);
-            this.CHK_AI_Expert.TabIndex = 461;
-            this.CHK_AI_Expert.Text = "Expert";
-            this.CHK_AI_Expert.UseVisualStyleBackColor = true;
-            // 
-            // CHK_AI_Double
-            // 
-            this.CHK_AI_Double.AutoSize = true;
-            this.CHK_AI_Double.Location = new System.Drawing.Point(7, 58);
-            this.CHK_AI_Double.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Double.Name = "CHK_AI_Double";
-            this.CHK_AI_Double.Size = new System.Drawing.Size(60, 17);
-            this.CHK_AI_Double.TabIndex = 462;
-            this.CHK_AI_Double.Text = "Double";
-            this.CHK_AI_Double.UseVisualStyleBackColor = true;
-            // 
-            // CHK_AI_Allowance
-            // 
-            this.CHK_AI_Allowance.AutoSize = true;
-            this.CHK_AI_Allowance.Location = new System.Drawing.Point(7, 72);
-            this.CHK_AI_Allowance.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_Allowance.Name = "CHK_AI_Allowance";
-            this.CHK_AI_Allowance.Size = new System.Drawing.Size(75, 17);
-            this.CHK_AI_Allowance.TabIndex = 464;
-            this.CHK_AI_Allowance.Text = "Allowance";
-            this.CHK_AI_Allowance.UseVisualStyleBackColor = true;
+            this.CHK_AI_PokeChange.AutoSize = true;
+            this.CHK_AI_PokeChange.Location = new System.Drawing.Point(7, 100);
+            this.CHK_AI_PokeChange.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_PokeChange.Name = "CHK_AI_PokeChange";
+            this.CHK_AI_PokeChange.Size = new System.Drawing.Size(88, 17);
+            this.CHK_AI_PokeChange.TabIndex = 468;
+            this.CHK_AI_PokeChange.Text = "PokeChange";
+            this.CHK_AI_PokeChange.UseVisualStyleBackColor = true;
             // 
             // CHK_AI_Item
             // 
@@ -1123,16 +1081,60 @@
             this.CHK_AI_Item.Text = "Item";
             this.CHK_AI_Item.UseVisualStyleBackColor = true;
             // 
-            // CHK_AI_PokeChange
+            // CHK_AI_Allowance
             // 
-            this.CHK_AI_PokeChange.AutoSize = true;
-            this.CHK_AI_PokeChange.Location = new System.Drawing.Point(7, 100);
-            this.CHK_AI_PokeChange.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_AI_PokeChange.Name = "CHK_AI_PokeChange";
-            this.CHK_AI_PokeChange.Size = new System.Drawing.Size(88, 17);
-            this.CHK_AI_PokeChange.TabIndex = 468;
-            this.CHK_AI_PokeChange.Text = "PokeChange";
-            this.CHK_AI_PokeChange.UseVisualStyleBackColor = true;
+            this.CHK_AI_Allowance.AutoSize = true;
+            this.CHK_AI_Allowance.Location = new System.Drawing.Point(7, 72);
+            this.CHK_AI_Allowance.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Allowance.Name = "CHK_AI_Allowance";
+            this.CHK_AI_Allowance.Size = new System.Drawing.Size(75, 17);
+            this.CHK_AI_Allowance.TabIndex = 464;
+            this.CHK_AI_Allowance.Text = "Allowance";
+            this.CHK_AI_Allowance.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI_Double
+            // 
+            this.CHK_AI_Double.AutoSize = true;
+            this.CHK_AI_Double.Location = new System.Drawing.Point(7, 58);
+            this.CHK_AI_Double.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Double.Name = "CHK_AI_Double";
+            this.CHK_AI_Double.Size = new System.Drawing.Size(60, 17);
+            this.CHK_AI_Double.TabIndex = 462;
+            this.CHK_AI_Double.Text = "Double";
+            this.CHK_AI_Double.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI_Expert
+            // 
+            this.CHK_AI_Expert.AutoSize = true;
+            this.CHK_AI_Expert.Location = new System.Drawing.Point(7, 44);
+            this.CHK_AI_Expert.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Expert.Name = "CHK_AI_Expert";
+            this.CHK_AI_Expert.Size = new System.Drawing.Size(56, 17);
+            this.CHK_AI_Expert.TabIndex = 461;
+            this.CHK_AI_Expert.Text = "Expert";
+            this.CHK_AI_Expert.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI_Strong
+            // 
+            this.CHK_AI_Strong.AutoSize = true;
+            this.CHK_AI_Strong.Location = new System.Drawing.Point(7, 30);
+            this.CHK_AI_Strong.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Strong.Name = "CHK_AI_Strong";
+            this.CHK_AI_Strong.Size = new System.Drawing.Size(57, 17);
+            this.CHK_AI_Strong.TabIndex = 460;
+            this.CHK_AI_Strong.Text = "Strong";
+            this.CHK_AI_Strong.UseVisualStyleBackColor = true;
+            // 
+            // CHK_AI_Basic
+            // 
+            this.CHK_AI_Basic.AutoSize = true;
+            this.CHK_AI_Basic.Location = new System.Drawing.Point(7, 16);
+            this.CHK_AI_Basic.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_AI_Basic.Name = "CHK_AI_Basic";
+            this.CHK_AI_Basic.Size = new System.Drawing.Size(52, 17);
+            this.CHK_AI_Basic.TabIndex = 460;
+            this.CHK_AI_Basic.Text = "Basic";
+            this.CHK_AI_Basic.UseVisualStyleBackColor = true;
             // 
             // L_Mode
             // 
@@ -1215,7 +1217,7 @@
             this.Tab_Rand.Controls.Add(this.TC_RandSettings);
             this.Tab_Rand.Location = new System.Drawing.Point(4, 22);
             this.Tab_Rand.Name = "Tab_Rand";
-            this.Tab_Rand.Size = new System.Drawing.Size(314, 300);
+            this.Tab_Rand.Size = new System.Drawing.Size(314, 277);
             this.Tab_Rand.TabIndex = 2;
             this.Tab_Rand.Text = "Randomizer Options";
             this.Tab_Rand.UseVisualStyleBackColor = true;
@@ -1240,7 +1242,7 @@
             this.TC_RandSettings.Location = new System.Drawing.Point(0, 0);
             this.TC_RandSettings.Name = "TC_RandSettings";
             this.TC_RandSettings.SelectedIndex = 0;
-            this.TC_RandSettings.Size = new System.Drawing.Size(314, 300);
+            this.TC_RandSettings.Size = new System.Drawing.Size(314, 277);
             this.TC_RandSettings.TabIndex = 447;
             // 
             // Tab_RTrainer
@@ -1248,7 +1250,7 @@
             this.Tab_RTrainer.Controls.Add(this.PG_RTrainer);
             this.Tab_RTrainer.Location = new System.Drawing.Point(4, 22);
             this.Tab_RTrainer.Name = "Tab_RTrainer";
-            this.Tab_RTrainer.Size = new System.Drawing.Size(306, 274);
+            this.Tab_RTrainer.Size = new System.Drawing.Size(306, 251);
             this.Tab_RTrainer.TabIndex = 3;
             this.Tab_RTrainer.Text = "Trainer";
             this.Tab_RTrainer.UseVisualStyleBackColor = true;
@@ -1258,7 +1260,7 @@
             this.PG_RTrainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_RTrainer.Location = new System.Drawing.Point(0, 0);
             this.PG_RTrainer.Name = "PG_RTrainer";
-            this.PG_RTrainer.Size = new System.Drawing.Size(306, 274);
+            this.PG_RTrainer.Size = new System.Drawing.Size(306, 251);
             this.PG_RTrainer.TabIndex = 0;
             this.PG_RTrainer.ToolbarVisible = false;
             // 
