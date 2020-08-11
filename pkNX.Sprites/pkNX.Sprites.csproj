@@ -1327,7 +1327,7 @@
     <None Include="Sprites\Big Items\bitem_1236.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_0-1.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_egg.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_1.png" />
@@ -2911,7 +2911,7 @@
     <None Include="Sprites\Big Pokemon Sprites\b_890.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_0.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_unknown.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\slotDel68.png" />
@@ -4876,10 +4876,10 @@
     <None Include="Sprites\Big Pokemon Sprites\b_289.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-5c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-5cf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-6c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-6cf.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_250.png" />
@@ -4942,16 +4942,16 @@
     <None Include="Sprites\Big Pokemon Sprites\b_269.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-1c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-1cf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-2c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-2cf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-3c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-3cf.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Pokemon Sprites\b_25-4c.png" />
+    <None Include="Sprites\Big Pokemon Sprites\b_25-4cf.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_227.png" />
@@ -5347,37 +5347,37 @@
     <None Include="Sprites\Big Shiny Sprites\b_24s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-1cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-1cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-1s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-2cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-2cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-2s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-3cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-3cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-3s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-4cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-4cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-4s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-5cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-5cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-5s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\Big Shiny Sprites\b_25-6cs.png" />
+    <None Include="Sprites\Big Shiny Sprites\b_25-6cfs.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25-6s.png" />
@@ -9110,6 +9110,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sprites\Big Shiny Sprites\b_25fs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_490-e.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -180,8 +180,8 @@ namespace pkNX.Sprites
         protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
         protected override string GetSpriteAll(int species, int form, int gender, bool shiny, bool gmax, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny, gmax);
         protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
-        protected override Image Unknown => Resources.b_0;
-        protected override Image GetEggSprite(int species) => Resources.egg; // no manaphy egg sprite (yet)
+        protected override Image Unknown => Resources.b_unknown;
+        protected override Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources.b_490_e : Resources.b_egg;
 
         public override Bitmap Hover => Resources.slotHover68;
         public override Bitmap View => Resources.slotView68;
