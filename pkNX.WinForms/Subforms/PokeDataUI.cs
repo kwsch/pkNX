@@ -527,6 +527,30 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
+        private void B_EvolveEveryLevel_Click(object sender, EventArgs e)
+        {
+            SaveCurrent();
+            var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+            if (ROM.Info.GG)
+                settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
+            var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
+            int[] ban = Array.Empty<int>();
+
+            if (ROM.Info.SWSH)
+            {
+                var pt = ROM.Data.PersonalData;
+                ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+            }
+
+            rand.RandSpec.Initialize(settings, ban);
+            rand.ExecuteEvolveEveryLevel();
+            rand.Execute(); // randomize right after
+            LoadIndex(CB_Species.SelectedIndex);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_RandLearn_Click(object sender, EventArgs e)
         {
             SaveCurrent();

@@ -31,6 +31,12 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Personal = new System.Windows.Forms.TabPage();
+            this.TB_CrownDex = new System.Windows.Forms.TextBox();
+            this.L_CrownDex = new System.Windows.Forms.Label();
+            this.TB_RegionalDex = new System.Windows.Forms.TextBox();
+            this.TB_ArmorDex = new System.Windows.Forms.TextBox();
+            this.L_ArmorDex = new System.Windows.Forms.Label();
+            this.L_RegionalDex = new System.Windows.Forms.Label();
             this.GB_ZMove = new System.Windows.Forms.GroupBox();
             this.L_ZCrystal = new System.Windows.Forms.Label();
             this.L_BaseMove = new System.Windows.Forms.Label();
@@ -140,16 +146,11 @@
             this.B_LearnExpand = new System.Windows.Forms.Button();
             this.B_RandLearn = new System.Windows.Forms.Button();
             this.Tab_REvo = new System.Windows.Forms.TabPage();
+            this.B_EveryLevel = new System.Windows.Forms.Button();
             this.B_TradeEvo = new System.Windows.Forms.Button();
             this.B_RandEvo = new System.Windows.Forms.Button();
             this.PG_Evolution = new System.Windows.Forms.PropertyGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.L_ArmorDex = new System.Windows.Forms.Label();
-            this.L_RegionalDex = new System.Windows.Forms.Label();
-            this.TB_RegionalDex = new System.Windows.Forms.TextBox();
-            this.TB_ArmorDex = new System.Windows.Forms.TextBox();
-            this.TB_CrownDex = new System.Windows.Forms.TextBox();
-            this.L_CrownDex = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.Tab_Personal.SuspendLayout();
             this.GB_ZMove.SuspendLayout();
@@ -286,6 +287,63 @@
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
+            // 
+            // TB_CrownDex
+            // 
+            this.TB_CrownDex.Location = new System.Drawing.Point(405, 552);
+            this.TB_CrownDex.Name = "TB_CrownDex";
+            this.TB_CrownDex.ReadOnly = true;
+            this.TB_CrownDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_CrownDex.TabIndex = 511;
+            this.TB_CrownDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_CrownDex
+            // 
+            this.L_CrownDex.AutoSize = true;
+            this.L_CrownDex.Location = new System.Drawing.Point(343, 556);
+            this.L_CrownDex.Name = "L_CrownDex";
+            this.L_CrownDex.Size = new System.Drawing.Size(62, 13);
+            this.L_CrownDex.TabIndex = 510;
+            this.L_CrownDex.Text = "Crown Dex:";
+            this.L_CrownDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_RegionalDex
+            // 
+            this.TB_RegionalDex.Location = new System.Drawing.Point(405, 510);
+            this.TB_RegionalDex.Name = "TB_RegionalDex";
+            this.TB_RegionalDex.ReadOnly = true;
+            this.TB_RegionalDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_RegionalDex.TabIndex = 509;
+            this.TB_RegionalDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TB_ArmorDex
+            // 
+            this.TB_ArmorDex.Location = new System.Drawing.Point(405, 531);
+            this.TB_ArmorDex.Name = "TB_ArmorDex";
+            this.TB_ArmorDex.ReadOnly = true;
+            this.TB_ArmorDex.Size = new System.Drawing.Size(32, 20);
+            this.TB_ArmorDex.TabIndex = 508;
+            this.TB_ArmorDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_ArmorDex
+            // 
+            this.L_ArmorDex.AutoSize = true;
+            this.L_ArmorDex.Location = new System.Drawing.Point(346, 535);
+            this.L_ArmorDex.Name = "L_ArmorDex";
+            this.L_ArmorDex.Size = new System.Drawing.Size(59, 13);
+            this.L_ArmorDex.TabIndex = 507;
+            this.L_ArmorDex.Text = "Armor Dex:";
+            this.L_ArmorDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_RegionalDex
+            // 
+            this.L_RegionalDex.AutoSize = true;
+            this.L_RegionalDex.Location = new System.Drawing.Point(331, 513);
+            this.L_RegionalDex.Name = "L_RegionalDex";
+            this.L_RegionalDex.Size = new System.Drawing.Size(74, 13);
+            this.L_RegionalDex.TabIndex = 506;
+            this.L_RegionalDex.Text = "Regional Dex:";
+            this.L_RegionalDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_ZMove
             // 
@@ -1376,6 +1434,7 @@
             // 
             // Tab_REvo
             // 
+            this.Tab_REvo.Controls.Add(this.B_EveryLevel);
             this.Tab_REvo.Controls.Add(this.B_TradeEvo);
             this.Tab_REvo.Controls.Add(this.B_RandEvo);
             this.Tab_REvo.Controls.Add(this.PG_Evolution);
@@ -1386,11 +1445,21 @@
             this.Tab_REvo.Text = "Randomize Evo";
             this.Tab_REvo.UseVisualStyleBackColor = true;
             // 
+            // B_EveryLevel
+            // 
+            this.B_EveryLevel.Location = new System.Drawing.Point(241, 3);
+            this.B_EveryLevel.Name = "B_EveryLevel";
+            this.B_EveryLevel.Size = new System.Drawing.Size(168, 23);
+            this.B_EveryLevel.TabIndex = 5;
+            this.B_EveryLevel.Text = "Random Evolution Every Level";
+            this.B_EveryLevel.UseVisualStyleBackColor = true;
+            this.B_EveryLevel.Click += new System.EventHandler(this.B_EvolveEveryLevel_Click);
+            // 
             // B_TradeEvo
             // 
             this.B_TradeEvo.Location = new System.Drawing.Point(87, 3);
             this.B_TradeEvo.Name = "B_TradeEvo";
-            this.B_TradeEvo.Size = new System.Drawing.Size(180, 23);
+            this.B_TradeEvo.Size = new System.Drawing.Size(148, 23);
             this.B_TradeEvo.TabIndex = 4;
             this.B_TradeEvo.Text = "Replace Trade Evolutions";
             this.B_TradeEvo.UseVisualStyleBackColor = true;
@@ -1427,63 +1496,6 @@
             this.CB_Species.Size = new System.Drawing.Size(155, 21);
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateIndex);
-            // 
-            // L_ArmorDex
-            // 
-            this.L_ArmorDex.AutoSize = true;
-            this.L_ArmorDex.Location = new System.Drawing.Point(346, 535);
-            this.L_ArmorDex.Name = "L_ArmorDex";
-            this.L_ArmorDex.Size = new System.Drawing.Size(59, 13);
-            this.L_ArmorDex.TabIndex = 507;
-            this.L_ArmorDex.Text = "Armor Dex:";
-            this.L_ArmorDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_RegionalDex
-            // 
-            this.L_RegionalDex.AutoSize = true;
-            this.L_RegionalDex.Location = new System.Drawing.Point(331, 513);
-            this.L_RegionalDex.Name = "L_RegionalDex";
-            this.L_RegionalDex.Size = new System.Drawing.Size(74, 13);
-            this.L_RegionalDex.TabIndex = 506;
-            this.L_RegionalDex.Text = "Regional Dex:";
-            this.L_RegionalDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_RegionalDex
-            // 
-            this.TB_RegionalDex.Location = new System.Drawing.Point(405, 510);
-            this.TB_RegionalDex.Name = "TB_RegionalDex";
-            this.TB_RegionalDex.ReadOnly = true;
-            this.TB_RegionalDex.Size = new System.Drawing.Size(32, 20);
-            this.TB_RegionalDex.TabIndex = 509;
-            this.TB_RegionalDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_ArmorDex
-            // 
-            this.TB_ArmorDex.Location = new System.Drawing.Point(405, 531);
-            this.TB_ArmorDex.Name = "TB_ArmorDex";
-            this.TB_ArmorDex.ReadOnly = true;
-            this.TB_ArmorDex.Size = new System.Drawing.Size(32, 20);
-            this.TB_ArmorDex.TabIndex = 508;
-            this.TB_ArmorDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_CrownDex
-            // 
-            this.TB_CrownDex.Location = new System.Drawing.Point(405, 552);
-            this.TB_CrownDex.Name = "TB_CrownDex";
-            this.TB_CrownDex.ReadOnly = true;
-            this.TB_CrownDex.Size = new System.Drawing.Size(32, 20);
-            this.TB_CrownDex.TabIndex = 511;
-            this.TB_CrownDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_CrownDex
-            // 
-            this.L_CrownDex.AutoSize = true;
-            this.L_CrownDex.Location = new System.Drawing.Point(343, 556);
-            this.L_CrownDex.Name = "L_CrownDex";
-            this.L_CrownDex.Size = new System.Drawing.Size(62, 13);
-            this.L_CrownDex.TabIndex = 510;
-            this.L_CrownDex.Text = "Crown Dex:";
-            this.L_CrownDex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PokeDataUI
             // 
@@ -1645,5 +1657,6 @@
         private System.Windows.Forms.TextBox TB_ArmorDex;
         private System.Windows.Forms.TextBox TB_CrownDex;
         private System.Windows.Forms.Label L_CrownDex;
+        private System.Windows.Forms.Button B_EveryLevel;
     }
 }

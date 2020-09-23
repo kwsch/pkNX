@@ -27,6 +27,8 @@ namespace pkNX.Randomization
             for (var i = 0; i < Evolutions.Length; i++)
             {
                 var evo = Evolutions[i];
+                if (Personal[i].HP == 0)
+                    continue;
                 Randomize(evo, i);
             }
         }
@@ -37,6 +39,17 @@ namespace pkNX.Randomization
             {
                 var evo = Evolutions[i];
                 ReplaceTradeMethods(evo, i);
+            }
+        }
+
+        public void ExecuteEvolveEveryLevel()
+        {
+            for (var i = 0; i < Evolutions.Length; i++)
+            {
+                var evo = Evolutions[i];
+                if (Personal[i].HP == 0)
+                    continue;
+                MakeEvolveEveryLevel(evo, i);
             }
         }
 
@@ -96,6 +109,27 @@ namespace pkNX.Randomization
                     evo.Method = EvolutionType.LevelUpFriendshipNight;
                     evo.Argument = 0; // clear ver
                     return;
+            }
+        }
+
+        private void MakeEvolveEveryLevel(EvolutionSet evos, int species)
+        {
+            var evoSet = evos.PossibleEvolutions;
+            var evoNew = new EvolutionMethod()
+            {
+                Argument = 0, // clear
+                Form = 0, // randomized later
+                Level = 1,
+                Method = EvolutionType.LevelUp,
+                Species = species, // randomized later
+            };
+
+            evoSet[0] = evoNew;
+
+            if (evoSet[1].HasData) // has other branched evolutions; remove them
+            {
+                for (int i = 1; i < evoSet.Length; i++)
+                    evoSet[i] = new EvolutionMethod();
             }
         }
     }
