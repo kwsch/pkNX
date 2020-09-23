@@ -49,6 +49,7 @@ namespace pkNX.Randomization
                 var evo = Evolutions[i];
                 if (Personal[i].HP == 0)
                     continue;
+                Personal[i].EXPGrowth = (int)EXPGroup.Slow; // keep everything the same to preserve levels after evolving
                 MakeEvolveEveryLevel(evo, i);
             }
         }
