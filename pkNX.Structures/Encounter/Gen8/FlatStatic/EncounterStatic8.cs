@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace pkNX.Structures
 {
@@ -62,17 +63,27 @@ namespace pkNX.Structures
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            int[] IVs = new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+
             var ability = Ability switch
             {
                 0 => string.Empty,
                 3 => ", Ability = 4",
                 _ => $", Ability = {Ability}",
             };
+
+            var ivs = IVs[0] switch
+            {
+                31 when IVs.All(z => z == 31) => ", FlawlessIVCount = 6",
+                -1 when IVs.All(z => z == -1) => string.Empty,
+                -4 => ", FlawlessIVCount = 3",
+                _ => $", IVs = new[]{{{string.Join(",", IVs)}}}",
+            };
+
             var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
             var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
-            var ivs = IV_Hp == -4 ? ", FlawlessIVCount = 3" : string.Empty;
             var shiny = ShinyLock == Shiny.Never ? ", Shiny = Never" : string.Empty;
             var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";

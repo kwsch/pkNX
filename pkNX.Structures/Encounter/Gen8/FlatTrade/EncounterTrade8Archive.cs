@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace pkNX.Structures
 {
@@ -50,12 +51,24 @@ namespace pkNX.Structures
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            int[] IVs = new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            const string iv = ", IVs = TradeIVs";
+
             var ability = Ability switch
             {
                 0 => "             ",
                 3 => "Ability = 4, ",
                 _ => $"Ability = {Ability}, ",
             };
+
+            var ivs = IVs[0] switch
+            {
+                31 when IVs.All(z => z == 31) => ", FlawlessIVCount = 6",
+                -1 when IVs.All(z => z == -1) => string.Empty,
+                -4 => ", FlawlessIVCount = 3",
+                _ => iv,
+            };
+
             var otgender = $", OTGender = {OTGender}";
             var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
@@ -64,10 +77,10 @@ namespace pkNX.Structures
             var tid = $"TID7 = {TrainerID}";
             var dyna = $", DynamaxLevel = {DynamaxLevel}";
             var relearn = Relearn1 == 0 ? "                                   " : $", Relearn = new[] {{{Relearn1:000},{Relearn2:000},{Relearn3:000},{Relearn4:000}}}";
-            const string iv = ", IVs = TradeIVs";
+            var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {Ball}";
 
             return
-                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{iv}{dyna}{otgender}{gender}{nature}{altform}{giga}{relearn} }},{comment}";
+                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{nature}{altform}{giga}{relearn}{ball} }},{comment}";
         }
     }
 }
