@@ -38,6 +38,34 @@ namespace pkNX.Structures
         public int Move2 { get; set; }
         public int Move3 { get; set; }
 
+        public int[] IVs
+        {
+            get => new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_Hp =    value[0];
+                IV_Atk =   value[1];
+                IV_Def =   value[2];
+                IV_Spe =   value[3];
+                IV_SpAtk = value[4];
+                IV_SpDef = value[5];
+            }
+        }
+
+        public int[] Moves
+        {
+            get => new[] { Move0, Move1, Move2, Move3 };
+            set
+            {
+                if (value?.Length != 4) return;
+                Move0 = value[0];
+                Move1 = value[1];
+                Move2 = value[2];
+                Move3 = value[3];
+            }
+        }
+
         // scenarios that are set for specific story encounters, most don't work on encounters that are not meant to have them
         public enum Scenario
         {
@@ -63,8 +91,6 @@ namespace pkNX.Structures
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
-            int[] IVs = new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
-
             var ability = Ability switch
             {
                 0 => string.Empty,

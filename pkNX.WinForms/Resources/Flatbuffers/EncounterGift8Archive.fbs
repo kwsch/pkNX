@@ -39,6 +39,8 @@ table EncounterGift8 {
 
   Ability:uint;
   SpecialMove:uint;
+
+  IVs:[byte];
 }
 
 root_type EncounterGift8Archive;

@@ -45,6 +45,8 @@ table EncounterTrade8 {
   Relearn2:ushort;
   Relearn3:ushort;
   Relearn4:ushort;
+
+  IVs:[byte];
 }
 
 root_type EncounterTrade8Archive;

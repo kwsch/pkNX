@@ -34,11 +34,24 @@ namespace pkNX.Structures
         public int Ability { get; set; }
         public int SpecialMove { get; set; }
 
+        public int[] IVs
+        {
+            get => new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_Hp =    value[0];
+                IV_Atk =   value[1];
+                IV_Def =   value[2];
+                IV_Spe =   value[3];
+                IV_SpAtk = value[4];
+                IV_SpDef = value[5];
+            }
+        }
+
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
-            int[] IVs = new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
-
             var ability = Ability switch
             {
                 0 => string.Empty,

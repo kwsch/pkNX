@@ -46,12 +46,26 @@ namespace pkNX.Structures
         public int Relearn3 { get; set; }
         public int Relearn4 { get; set; }
 
+        public int[] IVs
+        {
+            get => new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_Hp =    value[0];
+                IV_Atk =   value[1];
+                IV_Def =   value[2];
+                IV_Spe =   value[3];
+                IV_SpAtk = value[4];
+                IV_SpDef = value[5];
+            }
+        }
+
         private int[] Relearn => new[] {Relearn1, Relearn2, Relearn3, Relearn4};
 
         public string GetSummary(IReadOnlyList<string> species)
         {
             var comment = $" // {species[(int)Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
-            int[] IVs = new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
             const string iv = ", IVs = TradeIVs";
 
             var ability = Ability switch
@@ -80,7 +94,7 @@ namespace pkNX.Structures
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {Ball}";
 
             return
-                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{nature}{altform}{giga}{relearn}{ball} }},{comment}";
+                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{nature}{giga}{relearn}{altform}{ball} }},{comment}";
         }
     }
 }

@@ -355,9 +355,9 @@ namespace pkNX.WinForms.Controls
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
-                    t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
-                    if (t.IV_Hp != -4)
-                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    t.Moves = new[] { 0, 0, 0, 0 };
+                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
 
@@ -411,8 +411,8 @@ namespace pkNX.WinForms.Controls
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
-                    if (t.IV_Hp != -4)
-                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
 
@@ -457,9 +457,9 @@ namespace pkNX.WinForms.Controls
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
-                    t.Relearn1 = t.Relearn2 = t.Relearn3 = t.Relearn4 = 0;
-                    if (t.IV_Hp != -4)
-                        t.IV_Hp = t.IV_Atk = t.IV_Def = t.IV_SpAtk = t.IV_SpDef = t.IV_Spe = -1;
+                    t.Relearn1 = 0;
+                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
 
                     // what you trade
                     t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.RequiredSpecies);

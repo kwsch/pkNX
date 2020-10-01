@@ -45,6 +45,9 @@ table EncounterStatic8 {
   Move1:uint;
   Move2:uint;
   Move3:uint;
+
+  IVs:[byte];
+  Moves:[uint];
 }
 
 root_type EncounterStatic8Archive;
