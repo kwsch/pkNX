@@ -13,7 +13,7 @@ Supports the following games:
 * Let's Go, Pikachu! / Let's Go, Eevee!
 * Sword / Shield
 
-**For Sword and Shield, pkNX operates under the assumption that your dumped ROM includes the Ver. 1.2.0 patch.**
+**For Sword and Shield, pkNX operates under the assumption that your dumped ROM includes the Ver. 1.3.0 patch.**
 
 Editors can be launched from the program's main window after opening a dumped & unpacked ROM. 
 * To lessen read/write lag, data is only saved when the user cleanly quits the program. 

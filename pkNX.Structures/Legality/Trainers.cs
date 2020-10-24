@@ -401,8 +401,12 @@ namespace pkNX.Structures
             221, // Dojo Master [Mustard]
             222, // Dojo Master [Mustard, No Jacket]
             227, // Dojo Matron [Honey]
-            250, // ??? [Klara] -- no corresponding name in 'trnames', but is assigned
-            251, // ??? [Avery] -- no corresponding name in 'trnames', but is assigned
+            228, // Pokémon Trainer [Peony]
+            229, // Pokémon Trainer [Peonia]
+            250, // Pokémon Trainer [Klara]
+            251, // Pokémon Trainer [Avery]
+            252, // Gym Leader [Avery]
+            253, // Gym Leader [Klara]
             #endregion
         };
 
@@ -426,6 +430,26 @@ namespace pkNX.Structures
             202, // Team Yell [Female]
             203, // Macro Cosmos’s [Male]
             204, // Macro Cosmos’s [Female]
+            230, // Dojo Master [Galarian Star Tournament, Mustard]
+            231, // Gym Leader [Galarian Star Tournament, Bede]
+            232, // Gym Leader [Galarian Star Tournament, Marnie]
+            233, // Pokémon Trainer [Galarian Star Tournament, Leon]
+            234, // Gym Leader [Galarian Star Tournament, Kabu]
+            235, // Gym Leader [Galarian Star Tournament, Nessa]
+            236, // Pokémon Trainer [Galarian Star Tournament, Piers]
+            237, // Gym Leader [Galarian Star Tournament, Allister]
+            238, // Gym Leader [Galarian Star Tournament, Raihan]
+            239, // Gym Leader [Galarian Star Tournament, Bea]
+            240, // Pokémon Trainer [Galarian Star Tournament, Shielbert]
+            241, // Pokémon Trainer [Galarian Star Tournament, Hop]
+            242, // Gym Leader [Galarian Star Tournament, Melony]
+            243, // Gym Leader [Galarian Star Tournament, Gordie]
+            244, // Gym Leader [Galarian Star Tournament, Avery]
+            245, // Gym Leader [Galarian Star Tournament, Klara]
+            246, // Pokémon Trainer [Galarian Star Tournament, Peony]
+            247, // Pokémon Trainer [Galarian Star Tournament, Sordward]
+            248, // Gym Leader [Galarian Star Tournament, Milo]
+            249, // Pokémon Trainer [Galarian Star Tournament, Opal]
 
             // These Trainer Classes are never assigned to Trainers, they're purely for display
             168, // Interviewers  (Displayed when Trainer Classes 072 and 073 partake in a Double Battle)
@@ -526,8 +550,6 @@ namespace pkNX.Structures
             117, // Gym Trainer
             154, // はいたついん
             222, // Dojo Master [Mustard] -- this is used, but crashes if assigned to any other trainers
-            228, // Pokémon Trainer
-            229, // Pokémon Trainer
             #endregion
         };
 
@@ -538,28 +560,23 @@ namespace pkNX.Structures
         public static readonly int[] DummyClasses_SWSH =
         {
             #region DummyClasses
-            230, // [~ 254]
-            231, // [~ 255]
-            232, // [~ 256]
-            233, // [~ 257]
-            234, // [~ 258]
-            235, // [~ 259]
-            236, // [~ 260]
-            237, // [~ 261]
-            238, // [~ 262]
-            239, // [~ 263]
-            240, // [~ 264]
-            241, // [~ 265]
-            242, // [~ 266]
-            243, // [~ 267]
-            244, // [~ 268]
-            245, // [~ 269]
-            246, // [~ 270]
-            247, // ???
-            248, // ???
-            249, // ???
-            252, // ???
-            253, // ???
+            254, // [~ 254]
+            255, // [~ 255]
+            256, // [~ 256]
+            257, // [~ 257]
+            258, // [~ 258]
+            259, // [~ 259]
+            260, // [~ 260]
+            261, // [~ 261]
+            262, // [~ 262]
+            263, // [~ 263]
+            264, // [~ 264]
+            265, // [~ 265]
+            266, // [~ 266]
+            267, // [~ 267]
+            268, // [~ 268]
+            269, // [~ 269]
+            270, // [~ 270]
             #endregion
         };
 
@@ -681,8 +698,8 @@ namespace pkNX.Structures
         {
             032, 036, 037, 077, 078, 107, 108, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 143, 144, 145, 149, 153, 154, 155, 156, 157, 158, 175, 189, 190,
             191, 192, 193, 195, 196, 197, 198, 199, 202, 203, 204, 210, 211, 212, 213, 214, 215, 216, 221, 222, 225, 226, 227, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 248, 249, 250, 251,
-            252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289, 315, 316, 317, 318, 319, 320, 321, 324, 325, 326, 327, 328, 329, 374, 376, 414, 415, 416, 417,
-            418, 419, 420, 432, 433,
+            252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289, 315, 316, 317, 318, 319, 320, 321, 324, 325, 326, 327, 328, 329, 330, 374, 376, 414, 415, 416,
+            417, 418, 419, 420, 431, 432, 433, 434,
         };
     }
 }
