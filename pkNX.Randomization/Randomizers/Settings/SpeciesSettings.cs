@@ -167,7 +167,7 @@ namespace pkNX.Randomization
 
         private void AddGen7Species(List<int> list, int maxSpecies)
         {
-            if (maxSpecies <= 721)
+            if (maxSpecies <= Legal.MaxSpeciesID_6)
                 return;
             list.AddRange(Enumerable.Range(722, 50)); // Rowlet - Pyukumuku
             list.AddRange(Enumerable.Range(774, 11)); // Minior - Kommo-o
@@ -201,6 +201,7 @@ namespace pkNX.Randomization
             {
                 list.AddRange(Enumerable.Range(888, 3)); // Zacian, Zamazenta, Eternatus
                 list.AddRange(Enumerable.Range(891, 2)); // Kubfu, Urshifu
+                list.AddRange(Enumerable.Range(894, 5)); // Regieleki, Regidrago, Glastrier, Spectrier, Calyrex
             }
             if (Events) list.Add(893); // Zarude
         }

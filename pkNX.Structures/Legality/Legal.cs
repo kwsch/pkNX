@@ -228,7 +228,7 @@ namespace pkNX.Structures
         };
 
         public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 }; // Kyogre and Groudon
-        public static readonly HashSet<int> BattleFusions = new HashSet<int> { 646, 800 }; // Kyurem and Necrozma
+        public static readonly HashSet<int> BattleFusions = new HashSet<int> { 646, 800, 898 }; // Kyurem, Necrozma, Calyrex
         public static HashSet<int> BattleExclusiveForms = new HashSet<int>(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
     }
 }

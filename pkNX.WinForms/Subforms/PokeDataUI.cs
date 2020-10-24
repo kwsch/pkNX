@@ -299,16 +299,14 @@ namespace pkNX.WinForms
             if (pkm is PersonalInfoSWSH swsh)
             {
                 MT_GoID.Text = swsh.SpriteIndex.ToString("000");
-                TB_RegionalDex.Text = swsh.DexID.ToString("000");
-                TB_ArmorDex.Text = swsh.DexIDArmor.ToString("000");
-                TB_CrownDex.Text = swsh.DexIDCrown.ToString("000");
+                TB_RegionalDex.Text = swsh.PokeDexIndex.ToString("000");
+                TB_ArmorDex.Text = swsh.ArmorDexIndex.ToString("000");
+                TB_CrownDex.Text = swsh.CrownDexIndex.ToString("000");
                 CHK_IsPresentInGame.Checked = swsh.IsPresentInGame;
-                CHK_Variant.Checked = swsh.RegionalVariant;
+                CHK_Variant.Checked = swsh.IsRegionalForm;
                 CHK_CanNotDynamax.Checked = swsh.CanNotDynamax;
                 L_CallRate.Visible = TB_CallRate.Visible = GB_ZMove.Visible = false;
             }
-
-            L_CrownDex.Visible = TB_CrownDex.Visible = false; // todo: remove when DLC 2 is released
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)
                 CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
@@ -369,11 +367,11 @@ namespace pkNX.WinForms
             }
             if (pkm is PersonalInfoSWSH swsh)
             {
-                swsh.DexID = Convert.ToUInt16(TB_RegionalDex.Text);
-                swsh.DexIDArmor = Convert.ToUInt16(TB_ArmorDex.Text);
-                swsh.DexIDCrown = Convert.ToUInt16(TB_CrownDex.Text);
+                swsh.PokeDexIndex = Convert.ToUInt16(TB_RegionalDex.Text);
+                swsh.ArmorDexIndex = Convert.ToUInt16(TB_ArmorDex.Text);
+                swsh.CrownDexIndex = Convert.ToUInt16(TB_CrownDex.Text);
                 swsh.IsPresentInGame = CHK_IsPresentInGame.Checked;
-                swsh.RegionalVariant = CHK_Variant.Checked;
+                swsh.IsRegionalForm = CHK_Variant.Checked;
                 swsh.CanNotDynamax = CHK_CanNotDynamax.Checked;
             }
 

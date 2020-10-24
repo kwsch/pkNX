@@ -241,6 +241,7 @@
     <None Include="Resources\Flatbuffers\EncounterArchive7b.fbs" />
     <None Include="Resources\Flatbuffers\EncounterArchive8.fbs" />
     <None Include="Resources\Flatbuffers\EncounterGift8Archive.fbs" />
+    <None Include="Resources\Flatbuffers\EncounterUnderground8Archive.fbs" />
     <None Include="Resources\Flatbuffers\NestHoleDistributionEncounter8Archive.fbs" />
     <None Include="Resources\Flatbuffers\NestHoleCrystalEncounter8Archive.fbs" />
     <None Include="Resources\Flatbuffers\NestHoleDistributionReward8Archive.fbs" />

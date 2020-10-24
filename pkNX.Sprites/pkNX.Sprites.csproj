@@ -9114,5 +9114,47 @@
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_490-e.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_144-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_145-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_146-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_894.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_895.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_896.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_897.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_898.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_898-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_898-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1592.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1604.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Items\bitem_1606.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Pokemon Sprites\b_199-1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

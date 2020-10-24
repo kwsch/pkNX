@@ -125,7 +125,7 @@ namespace pkNX.Structures
             {
                 var table = rewards.First(t => t.TableID == tableID);
                 var list = table.Rewards
-                    .Where(d => d.Values[encounterRank] != 0)
+                    .Where(d => encounterRank < d.Values.Length && d.Values[encounterRank] != 0)
                     .OrderByDescending(d => d.Values[encounterRank])
                     .ThenBy(d => GetItemName(d.ItemID));
 

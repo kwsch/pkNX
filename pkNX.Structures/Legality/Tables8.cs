@@ -5,12 +5,12 @@ namespace pkNX.Structures
 {
     public static partial class Legal
     {
-        public const int MaxSpeciesID_8 = 893; // Zarude
-        public const int MaxMoveID_8 = 818; // Surging Strikes
-        public const int MaxItemID_8 = 1589; // Mark Charm
-        public const int MaxAbilityID_8 = 260; // Unseen Fist
-        public const int MaxBallID_8 = 0x1A; // 26 Beast
-        public const int MaxGameID_8 = 45;
+        public const int MaxSpeciesID_8 = 898; // Calyrex
+        public const int MaxMoveID_8 = 826; // Eerie Spell
+        public const int MaxItemID_8 = 1607; // Reins of Unity
+        public const int MaxAbilityID_8 = 267; // As One
+        public const int MaxBallID_8 = (int)Ball.Beast;
+        public const int MaxGameID_8 = (int)GameVersion.SH;
 
         #region Met Locations
         internal static readonly int[] Met_SWSH_0 =
@@ -73,6 +73,7 @@ namespace pkNX.Structures
             917, 918, 919, 920, 1103, 1104, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120,
             1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239,
             1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254, 1581, 1582, 1588,
+            1592, 1604, 1606,
         };
 
         internal static readonly ushort[] Pouch_Ball_SWSH =
@@ -85,7 +86,7 @@ namespace pkNX.Structures
 
         internal static readonly ushort[] Pouch_Battle_SWSH =
         {
-            055, 056, 057, 058, 059, 060, 061, 062, 063, 1580
+            055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
         };
 
         internal static readonly ushort[] Pouch_Items_SWSH = Pouch_Regular_SWSH.Concat(Pouch_Ball_SWSH).Concat(Pouch_Battle_SWSH).ToArray();
@@ -99,6 +100,8 @@ namespace pkNX.Structures
             943, 944, 945, 946,
             1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
+            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600,
+            1601, 1602, 1603, 1605,
         };
 
         internal static readonly ushort[] TM_SWSH =
@@ -189,6 +192,10 @@ namespace pkNX.Structures
             // DLC
             (int)Species.Slowpoke,
             (int)Species.Slowbro,
+            (int)Species.Articuno,
+            (int)Species.Zapdos,
+            (int)Species.Moltres,
+            (int)Species.Slowking,
         };
 
         internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
@@ -265,7 +272,11 @@ namespace pkNX.Structures
             130, 132, 134, 136, 138,
             140, 142, 144, 146, 148,
             150, 152, 154, 156, 158,
-            160, 162,
+            160,      164, 166, 168,
+            170, 172, 174, 176, 178,
+            180, 182, 184, 186, 188,
+            190, 192, 194, 196, 198,
+            200
         };
 
         public static readonly int[] TMHM_SWSH =
@@ -320,14 +331,10 @@ namespace pkNX.Structures
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {
-            112, // Griseous Orb
             116, // Douse Drive
             117, // Shock Drive
             118, // Burn Drive
             119, // Chill Drive
-            135, // Adamant Orb
-            136, // Lustrous Orb
-            225, // Soul Dew
 
             298, // Flame Plate
             299, // Splash Plate
@@ -347,16 +354,13 @@ namespace pkNX.Structures
             313, // Iron Plate
             // 644, // Pixie Plate
 
-            322, // Electirizer
-            323, // Magmarizer
-
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
             // 1281, // ★And337 (Corviknight)
             // 1282, // ★And603 (Eiscue)
             // 1283, // ★And390 (Stonjourner)
             // 1284, // ★Sgr6879 (Copperajah)
-            1285, // ★Sgr6859
+            // 1285, // ★Sgr6859 (Centiskorch)
             1286, // ★Sgr6913
             1287, // ★Sgr7348
             1288, // ★Sgr7121
@@ -651,9 +655,7 @@ namespace pkNX.Structures
             1577, // ★Aql7602
             1578, // ★Aql7235
 
-            005, // Safari Ball
             016, // Cherish Ball
-            499, // Sport Ball
             500, // Park Ball
 
             193, // Payapa Berry

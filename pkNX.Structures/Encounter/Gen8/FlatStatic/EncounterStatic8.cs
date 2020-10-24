@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,8 +6,8 @@ namespace pkNX.Structures
 {
     public class EncounterStatic8
     {
-        public ulong Hash1 { get; set; }
-        public ulong Hash2 { get; set; }
+        public ulong BackgroundFarTypeID { get; set; }
+        public ulong BackgroundNearTypeID { get; set; }
         public int EV_Spe { get; set; }
         public int EV_Atk { get; set; }
         public int EV_Def { get; set; }
@@ -16,9 +17,9 @@ namespace pkNX.Structures
         public int AltForm { get; set; }
         public int DynamaxLevel { get; set; }
         public int Field_0A { get; set; }
-        public ulong Hash3 { get; set; }
+        public ulong EncounterID { get; set; }
+        public int Field_0C { get; set; }
         public bool CanGigantamax { get; set; }
-        public int Field_0D { get; set; }
         public int HeldItem { get; set; }
         public int Level { get; set; }
         public Scenario EncounterScenario { get; set; }
@@ -38,6 +39,7 @@ namespace pkNX.Structures
         public int Move2 { get; set; }
         public int Move3 { get; set; }
 
+        [JsonIgnore]
         public int[] IVs
         {
             get => new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
@@ -53,6 +55,7 @@ namespace pkNX.Structures
             }
         }
 
+        [JsonIgnore]
         public int[] Moves
         {
             get => new[] { Move0, Move1, Move2, Move3 };
@@ -84,8 +87,11 @@ namespace pkNX.Structures
             Max_Raid_Battle_4 = 12,
             Zacian_Zamazenta_3 = 13,
             Fast_Slowpoke = 14,
-            _15 = 15,
-            Vespiquen_Raid_Boss = 16,
+            Regigigas_Raid_Battle = 15,
+            Special_Raid_Battle = 16,
+            Calyrex = 17,
+            Glastrier_Spectrier = 18,
+            Calyrex_Fusion = 19,
         }
 
         public string GetSummary(IReadOnlyList<string> species)
@@ -110,7 +116,7 @@ namespace pkNX.Structures
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
             var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
-            var shiny = ShinyLock == Shiny.Never ? ", Shiny = Never" : string.Empty;
+            var shiny = ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
 

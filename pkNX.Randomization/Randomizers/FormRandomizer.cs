@@ -20,6 +20,7 @@ namespace pkNX.Randomization
                 stats = Personal.Table;
             if (stats[species].FormeCount <= 1)
                 return 0;
+            bool IsGen6 = Personal.MaxSpeciesID == 721;
 
             switch ((Species)species)
             {
@@ -33,6 +34,8 @@ namespace pkNX.Randomization
                 case Spewpa:
                 case Vivillon:
                     return 30; // save file specific
+                case Zygarde when !IsGen6:
+                    return Util.Random.Next(4); // Complete Forme is battle only
                 case Minior:
                     return Util.Random.Next(7); // keep the core color a surprise
 
@@ -69,7 +72,7 @@ namespace pkNX.Randomization
             {
                 (int)Pikachu when stats.TableLength == 1181 => 8, // LGPE Partner Pikachu
                 (int)Slowbro when galar => 1, // Mega Slowbro
-                (int)Darmanitan => 1, // Zen Mode
+                (int)Darmanitan => 1, // Zen Mode (battle only)
                 _ => throw new ArgumentOutOfRangeException(nameof(species))
             };
         }

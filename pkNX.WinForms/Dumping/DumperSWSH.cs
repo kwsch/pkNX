@@ -163,6 +163,12 @@ namespace pkNX.WinForms
             Dumper.DumpEggEntries();
             System.Media.SystemSounds.Asterisk.Play();
         }
+
+        private void B_MaxDens_Click(object sender, EventArgs e)
+        {
+            Dumper.DumpMaxDens();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
         #endregion
     }
 }

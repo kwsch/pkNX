@@ -389,19 +389,19 @@ namespace pkNX.WinForms
             {
                 var p = (PersonalInfoSWSH)pt[i];
                 bool any = false;
-                if (p.DexID != 0)
+                if (p.PokeDexIndex != 0)
                 {
-                    galar.Add($"{p.DexID:000} - [{i:000]} - {s[i]}");
+                    galar.Add($"{p.PokeDexIndex:000} - [{i:000]} - {s[i]}");
                     any = true;
                 }
-                if (p.DexIDArmor != 0)
+                if (p.ArmorDexIndex != 0)
                 {
-                    armor.Add($"{p.DexIDArmor:000} - [{i:000]} - {s[i]}");
+                    armor.Add($"{p.ArmorDexIndex:000} - [{i:000]} - {s[i]}");
                     any = true;
                 }
-                if (p.DexIDCrown != 0)
+                if (p.CrownDexIndex != 0)
                 {
-                    crown.Add($"{p.DexIDCrown:000} - [{i:000]} - {s[i]}");
+                    crown.Add($"{p.CrownDexIndex:000} - [{i:000]} - {s[i]}");
                     any = true;
                 }
 
@@ -459,6 +459,20 @@ namespace pkNX.WinForms
             File.WriteAllLines(bin, lines);
         }
 
+        public void DumpMaxDens()
+        {
+            var f = Path.Combine(ROM.PathRomFS, "bin", "appli", "chika", "data_table", "underground_exploration_poke.bin");
+            var file = File.ReadAllBytes(f);
+            var encounters = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(file);
+            var lines = TableUtil.GetTable(encounters.PokemonTables);
+            var table = GetPath("MaxDens.txt");
+            File.WriteAllText(table, lines);
+
+            var names = ROM.GetStrings(TextName.SpeciesNames);
+            var pkhex = encounters.PokemonTables.Select(z => z.GetSummary(names));
+            File.WriteAllText(GetPath("MaxDens_hex.txt"), string.Join(Environment.NewLine, pkhex));
+        }
+
         public static byte[] GetDistributionContents(string path)
         {
             var archive = File.ReadAllBytes(path);
@@ -487,12 +501,14 @@ namespace pkNX.WinForms
             var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"));
             var encount_data = GetDistributionContents(Path.Combine(path, "normal_encount"));
             var rigel1_data = GetDistributionContents(Path.Combine(path, "normal_encount_rigel1"));
+            var rigel2_data = GetDistributionContents(Path.Combine(path, "normal_encount_rigel2"));
             var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"));
             var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"));
             var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(drop_data);
             var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
             var dist_encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(encount_data);
             var dist_encounts_rigel1 = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(rigel1_data);
+            var dist_encounts_rigel2 = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(rigel2_data);
             var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
             var dist_pretty_sw = dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
@@ -508,6 +524,13 @@ namespace pkNX.WinForms
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
             File.WriteAllLines(GetPath("nestDistArmorPrettySword.txt"), dist_pretty_rigel1_sw);
             File.WriteAllLines(GetPath("nestDistArmorPrettyShield.txt"), dist_pretty_rigel1_sh);
+
+            var dist_pretty_rigel2_sw = dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+            var dist_pretty_rigel2_sh = dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+            File.WriteAllLines(GetPath("nestDistCrownPrettySword.txt"), dist_pretty_rigel2_sw);
+            File.WriteAllLines(GetPath("nestDistCrownPrettyShield.txt"), dist_pretty_rigel2_sh);
 
             var dai_pretty_sw = dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
@@ -525,6 +548,11 @@ namespace pkNX.WinForms
             var dist_rigel1_sh = TableUtil.GetTable(dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
             File.WriteAllText(GetPath("nestDistArmor_sw.txt"), dist_rigel1_sw);
             File.WriteAllText(GetPath("nestDistArmor_sh.txt"), dist_rigel1_sh);
+
+            var dist_rigel2_sw = TableUtil.GetTable(dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+            var dist_rigel2_sh = TableUtil.GetTable(dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+            File.WriteAllText(GetPath("nestDistCrown_sw.txt"), dist_rigel2_sw);
+            File.WriteAllText(GetPath("nestDistCrown_sh.txt"), dist_rigel2_sh);
 
             var dai_sw = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
             var dai_sh = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
@@ -683,32 +711,34 @@ namespace pkNX.WinForms
 
             var indexes = new[]
             {
-                0925, // Galarian
-                1238, // Gigantamax
-                1249, // Gulping
-                1250, // Gorging
-                1251, // Low Key
+                0930, // Galarian
+                0931, // Gigantamax
+                1258, // Gulping
+                1259, // Gorging
+                1260, // Low Key
 
-                1258, // Ruby Cream
-                1259, // Matcha Cream
-                1260, // Mint Cream
-                1261, // Lemon Cream
-                1262, // Salted Cream
-                1263, // Ruby Swirl
-                1264, // Caramel Swirl
-                1265, // Rainbow Swirl
+                1267, // Ruby Cream
+                1268, // Matcha Cream
+                1269, // Mint Cream
+                1270, // Lemon Cream
+                1271, // Salted Cream
+                1272, // Ruby Swirl
+                1273, // Caramel Swirl
+                1274, // Rainbow Swirl
 
-                1267, // Noice Face (iceman)
-                1269, // Hangry Mode
+                1276, // Noice Face (iceman)
+                1278, // Hangry Mode
 
-                1272, // Crowned (skip sword/shield)
-                1275, // Eternamax
+                1281, // Crowned (skip sword/shield)
+                1284, // Eternamax
 
                 // DLC
                 0892, // Single Strike Style
-                0915, // World Cap
-                1276, // Rapid Strike Style
-                1279, // Dada
+                0920, // World Cap
+                1285, // Rapid Strike Style
+                1288, // Dada
+                1289, // Ice Rider
+                1290, // Shadow Rider
             };
 
             var fn = $"NewFormNames_{code}.txt";

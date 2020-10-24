@@ -41,6 +41,7 @@
             this.B_ItemInfo = new System.Windows.Forms.Button();
             this.B_Moves = new System.Windows.Forms.Button();
             this.B_BattleTower = new System.Windows.Forms.Button();
+            this.B_MaxDens = new System.Windows.Forms.Button();
             this.Tab_PKHeX = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.B_PKText = new System.Windows.Forms.Button();
@@ -57,10 +58,10 @@
             this.B_GalarDex = new System.Windows.Forms.Button();
             this.B_FlavorText = new System.Windows.Forms.Button();
             this.B_EggMove = new System.Windows.Forms.Button();
-            this.B_OpenFolder = new System.Windows.Forms.Button();
             this.Tab_Future = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.B_Distribution_Nests = new System.Windows.Forms.Button();
+            this.B_OpenFolder = new System.Windows.Forms.Button();
             this.TC_Options.SuspendLayout();
             this.Tab_General.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -108,6 +109,7 @@
             this.flowLayoutPanel1.Controls.Add(this.B_ItemInfo);
             this.flowLayoutPanel1.Controls.Add(this.B_Moves);
             this.flowLayoutPanel1.Controls.Add(this.B_BattleTower);
+            this.flowLayoutPanel1.Controls.Add(this.B_MaxDens);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -213,6 +215,16 @@
             this.B_BattleTower.Text = "Battle Tower";
             this.B_BattleTower.UseVisualStyleBackColor = true;
             this.B_BattleTower.Click += new System.EventHandler(this.B_BattleTower_Click);
+            // 
+            // B_MaxDens
+            // 
+            this.B_MaxDens.Location = new System.Drawing.Point(132, 186);
+            this.B_MaxDens.Name = "B_MaxDens";
+            this.B_MaxDens.Size = new System.Drawing.Size(123, 55);
+            this.B_MaxDens.TabIndex = 16;
+            this.B_MaxDens.Text = "Max Dens";
+            this.B_MaxDens.UseVisualStyleBackColor = true;
+            this.B_MaxDens.Click += new System.EventHandler(this.B_MaxDens_Click);
             // 
             // Tab_PKHeX
             // 
@@ -384,16 +396,6 @@
             this.B_EggMove.UseVisualStyleBackColor = true;
             this.B_EggMove.Click += new System.EventHandler(this.B_EggMove_Click);
             // 
-            // B_OpenFolder
-            // 
-            this.B_OpenFolder.Location = new System.Drawing.Point(322, -1);
-            this.B_OpenFolder.Name = "B_OpenFolder";
-            this.B_OpenFolder.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenFolder.TabIndex = 2;
-            this.B_OpenFolder.Text = "Open Folder";
-            this.B_OpenFolder.UseVisualStyleBackColor = true;
-            this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
-            // 
             // Tab_Future
             // 
             this.Tab_Future.Controls.Add(this.flowLayoutPanel4);
@@ -423,6 +425,16 @@
             this.B_Distribution_Nests.Text = "Distribution Nests";
             this.B_Distribution_Nests.UseVisualStyleBackColor = true;
             this.B_Distribution_Nests.Click += new System.EventHandler(this.B_Distribution_Nests_Click);
+            // 
+            // B_OpenFolder
+            // 
+            this.B_OpenFolder.Location = new System.Drawing.Point(322, -1);
+            this.B_OpenFolder.Name = "B_OpenFolder";
+            this.B_OpenFolder.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenFolder.TabIndex = 2;
+            this.B_OpenFolder.Text = "Open Folder";
+            this.B_OpenFolder.UseVisualStyleBackColor = true;
+            this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
             // 
             // DumperSWSH
             // 
@@ -483,5 +495,6 @@
         private System.Windows.Forms.TabPage Tab_Future;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.Button B_Distribution_Nests;
+        private System.Windows.Forms.Button B_MaxDens;
     }
 }

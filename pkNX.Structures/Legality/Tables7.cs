@@ -9,8 +9,8 @@ namespace pkNX.Structures
         public const int MaxMoveID_7_SM = 719;
         public const int MaxItemID_7_SM = 920;
         public const int MaxAbilityID_7_SM = 232;
-        public const int MaxBallID_7_SM = 0x1A; // 26
-        public const int MaxGameID_7 = 41; // Crystal (VC?)
+        public const int MaxBallID_7_SM = (int)Ball.Beast;
+        public const int MaxGameID_7 = (int)GameVersion.C;
 
         public const int MaxSpeciesID_7_USUM = 807;
         public const int MaxMoveID_7_USUM = 728;
@@ -18,8 +18,8 @@ namespace pkNX.Structures
         public const int MaxAbilityID_7_USUM = 233;
 
         public const int MaxSpeciesID_7_GG = 809;
-        public const int MaxMoveID_7_GG = 728; // todo
-        public const int MaxItemID_7_GG = 959; // todo
+        public const int MaxMoveID_7_GG = 742; // Double Iron Bash
+        public const int MaxItemID_7_GG = 1057; // Magmar Candy
         public const int MaxAbilityID_7_GG = MaxAbilityID_7_USUM;
 
         public static readonly ushort[] Pouch_Regular_SM = // 00

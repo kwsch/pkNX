@@ -143,6 +143,16 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] EncounterUnderground8Archive {
+            get {
+                object obj = ResourceManager.GetObject("EncounterUnderground8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] flatc {
             get {
                 object obj = ResourceManager.GetObject("flatc", resourceCulture);

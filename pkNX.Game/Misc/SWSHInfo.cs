@@ -173,6 +173,43 @@ namespace pkNX.Game
             {0xC92D06352150C78A, 190}, // in the Insular Sea // Sharpedo
             {0xED1F9772AA35C3CD, 186}, // in the Workout Sea // Sharpedo
             {0x9C0049D3E6129924, 192}, // in the Honeycalm Sea // Sharpedo
+
+            // DLC2
+            {0x87E14B7187BC1CC1, 204}, // on Slippery Slope
+            {0x87E1487187BC17A8, 206}, // in Freezington
+            {0x87E1497187BC195B, 208}, // in Frostpoint Field
+            {0x87E14E7187BC21DA, 210}, // in the Giant’s Bed
+            {0x87E14F7187BC238D, 212}, // in the Old Cemetery
+            {0x87E14C7187BC1E74, 214}, // on Snowslide Slope
+            {0x87E14D7187BC2027, 216}, // in the Tunnel to the Top
+            {0x87E1427187BC0D76, 218}, // on the Path to the Peak
+            {0x87E1437187BC0F29, 220}, // at the Crown Shrine
+            {0x87E4507187BE5B17, 222}, // at the Giant’s Foot
+            {0x87E44F7187BE5964, 224}, // in Roaring-Sea Caves
+            {0x87E4527187BE5E7D, 226}, // at the Frigid Sea
+            {0x87E4517187BE5CCA, 228}, // in Three-Point Pass
+            {0x87DA3F7187B5E9AF, 230}, // at Ballimere Lake
+            {0x87DA407187B5EB62, 232}, // in Lakeside Cave
+            {0x87DA417187B5ED15, 234}, // at Dyna Tree Hill
+
+            {0xD6EA3DE40B009E55, 204}, // on Slippery Slope
+            {0xADF616908BD308DF, 208}, // in Frostpoint Field
+            {0x308C5EB6A846D1F0, 210}, // in the Giant’s Bed
+            {0x50E781F91B97C049, 212}, // in the Old Cemetery
+            {0xC303110BF1EC3322, 214}, // on Snowslide Slope
+            {0xB768660B0BF4C0C3, 216}, // in the Tunnel to the Top
+            {0xFCB78AFCCECAF094, 218}, // on the Path to the Peak
+            {0xA345459C03EA6673, 222}, // at the Giant’s Foot
+            {0xE4A982819ACF7292, 224}, // in Roaring-Sea Caves
+            {0x18AAF85178C7B839, 226}, // at the Frigid Sea
+            {0x3EC6FCDC0C77D460, 228}, // in Three-Point Pass
+            {0xE5225F9325CCA74B, 230}, // at Ballimere Lake
+            {0x2F1B41507D695958, 232}, // in Lakeside Cave
+
+            {0xF8A59FCA719D1EAE, 210}, // in the Giant’s Bed (Surfing), also used for 222 (in the Giant's Foot surfing)
+            {0x55D8F226A42368B7, 224}, // in Roaring-Sea Caves (Surfing)
+            {0x78536116469DC44D, 226}, // at the Frigid Sea (Surfing)
+            {0x9BDD6D11FFBEDA3F, 230}, // at Ballimere Lake (Surfing)
         };
 
         public static readonly IReadOnlyDictionary<ulong, string> Zones = new Dictionary<ulong, string>
@@ -343,6 +380,43 @@ namespace pkNX.Game
             { 0xC92D06352150C78A, "Insular Sea (Sharpedo)" },
             { 0xED1F9772AA35C3CD, "Workout Sea (Sharpedo)" },
             { 0x9C0049D3E6129924, "Honeycalm Sea (Sharpedo)" },
+
+             // DLC2
+            { 0x87E14B7187BC1CC1, "Slippery Slope" },
+            { 0x87E1487187BC17A8, "Freezington" },
+            { 0x87E1497187BC195B, "Frostpoint Field" },
+            { 0x87E14E7187BC21DA, "the Giant’s Bed" },
+            { 0x87E14F7187BC238D, "the Old Cemetery" },
+            { 0x87E14C7187BC1E74, "Snowslide Slope" },
+            { 0x87E14D7187BC2027, "the Tunnel to the Top" },
+            { 0x87E1427187BC0D76, "the Path to the Peak" },
+            { 0x87E1437187BC0F29, "the Crown Shrine" },
+            { 0x87E4507187BE5B17, "the Giant’s Foot" },
+            { 0x87E44F7187BE5964, "Roaring-Sea Caves" },
+            { 0x87E4527187BE5E7D, "the Frigid Sea" },
+            { 0x87E4517187BE5CCA, "Three-Point Pass" },
+            { 0x87DA3F7187B5E9AF, "Ballimere Lake" },
+            { 0x87DA407187B5EB62, "Lakeside Cave" },
+            { 0x87DA417187B5ED15, "Dyna Tree Hill" },
+
+            { 0xD6EA3DE40B009E55, "Slippery Slope" },
+            { 0xADF616908BD308DF, "Frostpoint Field" },
+            { 0x308C5EB6A846D1F0, "the Giant’s Bed" },
+            { 0x50E781F91B97C049, "the Old Cemetery" },
+            { 0xC303110BF1EC3322, "Snowslide Slope" },
+            { 0xB768660B0BF4C0C3, "the Tunnel to the Top" },
+            { 0xFCB78AFCCECAF094, "the Path to the Peak" },
+            { 0xA345459C03EA6673, "the Giant’s Foot" },
+            { 0xE4A982819ACF7292, "Roaring-Sea Caves" },
+            { 0x18AAF85178C7B839, "the Frigid Sea" },
+            { 0x3EC6FCDC0C77D460, "Three-Point Pass" },
+            { 0xE5225F9325CCA74B, "Ballimere Lake" },
+            { 0x2F1B41507D695958, "Lakeside Cave" },
+
+            { 0xF8A59FCA719D1EAE,"Giant’s Bed and Giant's Foot (Surfing)" },
+            { 0x55D8F226A42368B7,"Roaring-Sea Caves (Surfing)" },
+            { 0x78536116469DC44D,"Frigid Sea (Surfing)" },
+            { 0x9BDD6D11FFBEDA3F,"Ballimere Lake (Surfing)" },
         };
     }
 

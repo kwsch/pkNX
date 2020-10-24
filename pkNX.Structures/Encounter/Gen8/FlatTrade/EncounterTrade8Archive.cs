@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace pkNX.Structures
@@ -46,6 +47,7 @@ namespace pkNX.Structures
         public int Relearn3 { get; set; }
         public int Relearn4 { get; set; }
 
+        [JsonIgnore]
         public int[] IVs
         {
             get => new[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
@@ -87,6 +89,7 @@ namespace pkNX.Structures
             var gender = Gender == FixedGender.Random ? string.Empty : $", Gender = {(int)Gender - 1}";
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm}";
+            var shiny = ShinyLock == Shiny.Never ? string.Empty : $", Shiny = Shiny.{ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var tid = $"TID7 = {TrainerID}";
             var dyna = $", DynamaxLevel = {DynamaxLevel}";
@@ -94,7 +97,7 @@ namespace pkNX.Structures
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {Ball}";
 
             return
-                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{nature}{giga}{relearn}{altform}{ball} }},{comment}";
+                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{shiny}{nature}{giga}{relearn}{altform}{ball} }},{comment}";
         }
     }
 }

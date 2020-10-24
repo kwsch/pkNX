@@ -8,7 +8,7 @@ table EncounterGift8 {
   IsEgg:uint;
   AltForm:byte;
   DynamaxLevel:byte;
-  Ball:uint;
+  BallItemID:uint;
   Field_04:byte;
 
   Hash1:ulong;
@@ -18,14 +18,14 @@ table EncounterGift8 {
   Level:byte;
   Species:uint;
   Field_0A:byte;
-  Field_0B:byte;
-  Field_0C:byte;
-  Field_0D:byte;
-  Field_0E:byte;
+  MemoryCode:byte;
+  MemoryData:ushort;
+  MemoryFeel:byte;
+  MemoryLevel:byte;
 
-  Hash2:ulong;
+  OtNameID:ulong;
 
-  Field_10:byte;
+  OtGender:byte;
   ShinyLock:uint;
   Nature:uint;
   Gender:byte;
@@ -39,8 +39,6 @@ table EncounterGift8 {
 
   Ability:uint;
   SpecialMove:uint;
-
-  IVs:[byte];
 }
 
 root_type EncounterGift8Archive;

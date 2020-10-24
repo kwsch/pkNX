@@ -5,8 +5,8 @@ table EncounterStatic8Archive {
 }
 
 table EncounterStatic8 {
-  Hash1:ulong;
-  Hash2:ulong;
+  BackgroundFarTypeID:ulong;
+  BackgroundNearTypeID:ulong;
 
   EV_Spe:ubyte;
   EV_Atk:ubyte;
@@ -14,15 +14,15 @@ table EncounterStatic8 {
   EV_Hp:ubyte;
   EV_SpAtk:ubyte;
   EV_SpDef:ubyte;
-  AltForm:byte;
+  AltForm:ubyte;
   DynamaxLevel:byte;
-  Field_0A:byte;
+  Field_0A:uint;
 
-  Hash3:ulong;
+  EncounterID:ulong;
+
+  Field_0C:ubyte;
 
   CanGigantamax:bool;
-
-  Field_0D:uint;
 
   HeldItem:uint;
 
@@ -45,9 +45,6 @@ table EncounterStatic8 {
   Move1:uint;
   Move2:uint;
   Move3:uint;
-
-  IVs:[byte];
-  Moves:[uint];
 }
 
 root_type EncounterStatic8Archive;
