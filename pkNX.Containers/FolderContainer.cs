@@ -49,7 +49,7 @@ namespace pkNX.Containers
             if (index < 0)
                 return null;
             string path = Paths[index];
-            var data = Data[index] ?? (Data[index] = FileMitm.ReadAllBytes(path));
+            var data = Data[index] ??= FileMitm.ReadAllBytes(path);
             return (byte[])data.Clone();
         }
 
@@ -57,7 +57,7 @@ namespace pkNX.Containers
         {
             if (index < 0 || (uint)index >= Data.Count)
                 return null;
-            var data = Data[index] ?? (Data[index] = FileMitm.ReadAllBytes(Paths[index]));
+            var data = Data[index] ??= FileMitm.ReadAllBytes(Paths[index]);
             return (byte[])data.Clone();
         }
 
@@ -68,7 +68,7 @@ namespace pkNX.Containers
             {
                 if (value != null)
                 {
-                    var current = Data[index] ?? (Data[index] = GetFileData(index));
+                    var current = Data[index] ??= GetFileData(index);
                     TrackModify[index] = !value.SequenceEqual(current);
                 }
                 Data[index] = value;

@@ -165,7 +165,7 @@ namespace pkNX.Structures
 
         public void ParseOp(AmxOpCode op, ref int cip, ref Cell tgt)
         {
-            void GETPARAM_P(Cell v, AmxOpCode o) { } // (v = ((Cell) (o) >> (int) (CellSize * 4)));}
+            static void GETPARAM_P(Cell v, AmxOpCode o) { } // (v = ((Cell) (o) >> (int) (CellSize * 4)));}
             switch (op)
             {
                 case AmxOpCode.CONST:
@@ -383,7 +383,7 @@ namespace pkNX.Structures
                     break;
             }
 
-            void DBGPARAM(out Cell v) => v = null; // v = (Cell)(amx->code + (int)cip), cip += CellSize)
+            static void DBGPARAM(out Cell v) => v = null; // v = (Cell)(amx->code + (int)cip), cip += CellSize)
         }
     }
 }

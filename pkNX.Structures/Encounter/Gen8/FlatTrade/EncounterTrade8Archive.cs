@@ -63,6 +63,7 @@ namespace pkNX.Structures
             }
         }
 
+        [JsonIgnore]
         private int[] Relearn => new[] {Relearn1, Relearn2, Relearn3, Relearn4};
 
         public string GetSummary(IReadOnlyList<string> species)

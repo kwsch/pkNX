@@ -568,7 +568,7 @@ namespace pkNX.WinForms
             foreach (var game in new[] { 1, 2 })
             {
                 var tables = dist_encounts.Tables.Where(z => z.GameVersion == game).ToList();
-                var encounters = tables.SelectMany((z, x) => z.GetSummary(speciesNames, x)).ToArray();
+                var encounters = tables.SelectMany(z => z.GetSummary(speciesNames)).ToArray();
 
                 var path1 = GetPath($"nestDistHex{game}.txt");
                 File.WriteAllLines(path1, encounters);

@@ -61,7 +61,7 @@ namespace pkNX.Structures
                 };
                 yield return $"\tAbility: {ability}";*/
 
-                yield return $"\tMoves:";
+                yield return "\tMoves:";
                 if (e.Move0 != 0) yield return $"\t\t- {moves[(int)e.Move0]}";
                 if (e.Move1 != 0) yield return $"\t\t- {moves[(int)e.Move1]}";
                 if (e.Move2 != 0) yield return $"\t\t- {moves[(int)e.Move2]}";
@@ -106,8 +106,7 @@ namespace pkNX.Structures
             }
         }
 
-
-        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
+        public IEnumerable<string> GetSummary(IReadOnlyList<string> species)
         {
             foreach (var entry in Entries)
             {
@@ -126,8 +125,8 @@ namespace pkNX.Structures
                 var shiny = e.ShinyLock switch
                 {
                     0 => string.Empty,
-                    1 => $", Shiny = Shiny.Never",
-                    2 => $", Shiny = Shiny.Always",
+                    1 => ", Shiny = Shiny.Never",
+                    2 => ", Shiny = Shiny.Always",
                     _ => throw new Exception()
                 };
                 var ability = e.Ability switch

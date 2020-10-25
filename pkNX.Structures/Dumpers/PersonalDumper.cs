@@ -34,6 +34,17 @@ namespace pkNX.Structures
         }
     }
 
+    public class PersonalDumperSettings
+    {
+        public bool Stats { get; set; } = true;
+        public bool Learn { get; set; } = true;
+        public bool Egg { get; set; } = true;
+        public bool TMHM { get; set; } = true;
+        public bool Tutor { get; set; } = true;
+        public bool Evo { get; set; } = true;
+        public bool Dex { get; set; } // Skipped to reduce dumped file size
+    }
+
     public class PersonalDumper
     {
         public bool HasAbilities { get; set; } = true;
@@ -62,6 +73,8 @@ namespace pkNX.Structures
         private static readonly int[] ArmorTutorIndexes = { 0x325, 0x327, 0x32C, 0x324, 0x323, 0x32D, 0x32B, 0x32A, 0x32F, 0x32E, 0x31D, 0x326, 0x320, 0x329, 0x31F, 0x328, 0x31E, 0x322 };
 
         public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
+
+        public PersonalDumperSettings Settings = new PersonalDumperSettings();
 
         public List<string> Dump(PersonalTable table)
         {
@@ -96,13 +109,20 @@ namespace pkNX.Structures
 
             var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
 
-            AddPersonalLines(lines, pi, entry, name, specCode);
-            AddLearnsets(lines, entry, specCode);
-            AddEggMoves(lines, species, form, specCode);
-            AddTMs(lines, pi, specCode);
-            AddArmorTutors(lines, pi, specCode);
-            AddEvolutions(lines, entry);
-            //AddZukan(lines, entry);
+            if (Settings.Stats)
+                AddPersonalLines(lines, pi, entry, name, specCode);
+            if (Settings.Learn)
+                AddLearnsets(lines, entry, specCode);
+            if (Settings.Egg)
+                AddEggMoves(lines, species, form, specCode);
+            if (Settings.TMHM)
+                AddTMs(lines, pi, specCode);
+            if (Settings.Tutor)
+                AddArmorTutors(lines, pi, specCode);
+            if (Settings.Evo)
+                AddEvolutions(lines, entry);
+            if (Settings.Dex)
+                AddZukan(lines, entry);
         }
 
         private void AddZukan(List<string> lines, int entry)
@@ -134,7 +154,6 @@ namespace pkNX.Structures
 
         protected virtual void AddArmorTutors(List<string> lines, PersonalInfo pi, string SpecCode)
         {
-
             var armor = pi.SpecialTutors[0];
             int count = 0;
             lines.Add("Armor Tutors:");

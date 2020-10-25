@@ -75,7 +75,7 @@ namespace pkNX
 
         private byte[] GetCachedValue(int i, int subFile)
         {
-            return Files[i] ?? (Files[i] = GetEntry(i, subFile));
+            return Files[i] ??= GetEntry(i, subFile);
         }
 
         #endregion

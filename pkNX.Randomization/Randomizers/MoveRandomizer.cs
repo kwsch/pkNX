@@ -118,7 +118,7 @@ namespace pkNX.Randomization
         {
             var data = moves.Select((Move, Index) => new { Index, Move, Data = movedata[Move] });
             var powered = data.Where(z => z.Data.Power > 1).ToList();
-            var indexes = powered.Select(z => z.Index).ToList();
+            var indexes = powered.ConvertAll(z => z.Index);
             var order = powered.OrderBy(z => z.Data.Power * Math.Max(1, (z.Data.HitMin + z.Data.HitMax) / 2m)).ToList();
 
             for (var i = 0; i < order.Count; i++)

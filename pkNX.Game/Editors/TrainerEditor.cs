@@ -31,11 +31,11 @@ namespace pkNX.Game
 
         public VsTrainer this[int index]
         {
-            get => Cache[index] ?? (Cache[index] = LoadTrainer(index));
+            get => Cache[index] ??= LoadTrainer(index);
             set => Cache[index] = value;
         }
 
-        public TrainerClass GetClass(int index) => CacheClass[index] ?? (CacheClass[index] = ReadClass(TrainerClass[index]));
+        public TrainerClass GetClass(int index) => CacheClass[index] ??= ReadClass(TrainerClass[index]);
 
         private VsTrainer LoadTrainer(int index)
         {

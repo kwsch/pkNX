@@ -67,7 +67,6 @@ namespace pkNX.Structures
             851, // Beast
         };
 
-
         [JsonIgnore]
         public Ball Ball
         {
@@ -113,7 +112,7 @@ namespace pkNX.Structures
             var nature = Nature == Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
             var shiny = ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
-            var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
+            var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {(int)Ball}";
 

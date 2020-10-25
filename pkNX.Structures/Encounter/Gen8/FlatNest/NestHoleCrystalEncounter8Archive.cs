@@ -57,7 +57,7 @@ namespace pkNX.Structures
                 };
                 yield return $"\tAbility: {ability}";*/
 
-                yield return $"\tMoves:";
+                yield return "\tMoves:";
                 if (e.Move0 != 0) yield return $"\t\t- {moves[(int)e.Move0]}";
                 if (e.Move1 != 0) yield return $"\t\t- {moves[(int)e.Move1]}";
                 if (e.Move2 != 0) yield return $"\t\t- {moves[(int)e.Move2]}";

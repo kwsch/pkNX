@@ -29,8 +29,11 @@ namespace pkNX.Structures
         public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
         {
             foreach (var entry in Entries)
+            {
                 foreach (var summary in Summary(entry))
                     yield return summary;
+            }
+
             yield return string.Empty;
 
             IEnumerable<string> Summary(EncounterNest8 e)

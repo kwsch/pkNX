@@ -19,7 +19,7 @@ namespace pkNX.Game
 
         public T this[int index]
         {
-            get => Cache[index] ?? (Cache[index] = Create(Data[index]));
+            get => Cache[index] ??= Create(Data[index]);
             set => Cache[index] = value;
         }
 

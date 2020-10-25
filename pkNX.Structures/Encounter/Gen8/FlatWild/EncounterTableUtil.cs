@@ -25,7 +25,7 @@ namespace pkNX.Structures
         {
             // Don't dump data that we can't correlate to a zone
             if (!zoneLoc.TryGetValue(zone.ZoneID, out var tmp))
-                return new byte[] { };
+                return Array.Empty<byte>();
 
             byte locID = tmp;
             var list = new List<Slot8>();

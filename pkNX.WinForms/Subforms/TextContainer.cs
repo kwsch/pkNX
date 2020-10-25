@@ -24,7 +24,7 @@ namespace pkNX.WinForms
 
         public string[] this[int index]
         {
-            get => Cache[index] ?? (Cache[index] = GetLines(index));
+            get => Cache[index] ??= GetLines(index);
             set => Cache[index] = value;
         }
 

@@ -117,7 +117,7 @@ namespace pkNX.Structures
             var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
             var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
             var shiny = ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
-            var giga = !CanGigantamax ? string.Empty : $", CanGigantamax = true";
+            var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
 
             return

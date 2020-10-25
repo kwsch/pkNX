@@ -495,7 +495,7 @@ namespace pkNX.WinForms
                     sb.Append("Shiny ");
                 sb.Append(specieslist[pk.Species]);
                 if (pk.Form > 0)
-                    sb.Append("-" + pk.Form);
+                    sb.Append('-').Append(pk.Form);
                 sb.Append(" (Lv. ").Append(pk.Level).Append(") ");
                 if (pk.HeldItem > 0)
                     sb.Append("@ ").Append(itemlist[pk.HeldItem]);

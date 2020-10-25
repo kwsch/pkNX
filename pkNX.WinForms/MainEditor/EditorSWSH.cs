@@ -458,7 +458,7 @@ namespace pkNX.WinForms.Controls
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
                     t.Relearn1 = 0;
-                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
 
                     // what you trade
@@ -513,14 +513,6 @@ namespace pkNX.WinForms.Controls
                 arc.CancelEdits();
             else
                 arc[0] = FlatBufferConverter.SerializeFrom(objs);
-        }
-
-        private bool PopEdit<T>(T[] data, string title, string[] names) where T : class
-        {
-            var cache = new DirectCache<T>(data);
-            using var form = new GenericEditor<T>(cache, names, title);
-            form.ShowDialog();
-            return form.Modified;
         }
 
         public void EditMasterDump()

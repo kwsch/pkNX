@@ -61,7 +61,7 @@ namespace pkNX.Randomization
                 return Util.Random.Next(2);
             if (galar && Legal.EvolveToGalarForms.Contains(species))
                 return Util.Random.Next(2);
-            if (!Legal.BattleExclusiveForms.Contains(species) || mega || fused && Legal.BattleFusions.Contains(species))
+            if (!Legal.BattleExclusiveForms.Contains(species) || mega || (fused && Legal.BattleFusions.Contains(species)))
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random
             return 0;
         }
