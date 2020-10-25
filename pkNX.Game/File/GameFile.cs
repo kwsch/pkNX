@@ -160,5 +160,8 @@
 
         /// <summary> Wild Data </summary>
         WildData2,
+
+        /// <summary> Dynamax Adventure Dens </summary>
+        DynamaxDens,
     }
 }

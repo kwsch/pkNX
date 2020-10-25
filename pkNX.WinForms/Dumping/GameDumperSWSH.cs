@@ -461,8 +461,7 @@ namespace pkNX.WinForms
 
         public void DumpMaxDens()
         {
-            var f = Path.Combine(ROM.PathRomFS, "bin", "appli", "chika", "data_table", "underground_exploration_poke.bin");
-            var file = File.ReadAllBytes(f);
+            var file = ROM.GetFile(GameFile.DynamaxDens)[0];
             var encounters = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(file);
             var lines = TableUtil.GetTable(encounters.PokemonTables);
             var table = GetPath("MaxDens.txt");

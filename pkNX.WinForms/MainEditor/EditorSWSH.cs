@@ -356,7 +356,7 @@ namespace pkNX.WinForms.Controls
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
                     t.Moves = new[] { 0, 0, 0, 0 };
-                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -411,7 +411,7 @@ namespace pkNX.WinForms.Controls
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.ShinyLock = Shiny.Random;
-                    if (t.IV_Hp != -4 && !t.IVs.All(z => z == 31))
+                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -469,6 +469,45 @@ namespace pkNX.WinForms.Controls
             }
 
             using var form = new GenericEditor<EncounterTrade8>(cache, names, "In-Game Trades Editor", Randomize);
+            form.ShowDialog();
+            if (!form.Modified)
+                arc.CancelEdits();
+            else
+                arc[0] = FlatBufferConverter.SerializeFrom(objs);
+        }
+
+        public void EditDynamaxAdv()
+        {
+            var arc = ROM.GetFile(GameFile.DynamaxDens);
+            var data = arc[0];
+            var objs = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(data);
+
+            var table = objs.PokemonTables;
+            var names = Enumerable.Range(0, table.Length).Select(z => $"{z:000}").ToArray();
+            var cache = new DirectCache<EncounterUnderground8>(table);
+
+            void Randomize()
+            {
+                var pt = ROM.Data.PersonalData;
+                int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+                var spec = EditUtil.Settings.Species;
+                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                srand.Initialize(spec, ban);
+                foreach (var t in table)
+                {
+                    // what you receive
+                    t.Species = (uint)(Species)srand.GetRandomSpecies((int)t.Species);
+                    t.AltForm = (byte)frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
+                }
+            }
+
+            using var form = new GenericEditor<EncounterUnderground8>(cache, names, "Dynamax Adventures Encounter Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 arc.CancelEdits();
