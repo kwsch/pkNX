@@ -406,7 +406,7 @@ namespace pkNX.WinForms.Controls
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
-                    t.Ball = (Ball)Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterGift8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
@@ -452,7 +452,7 @@ namespace pkNX.WinForms.Controls
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
                     t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
-                    t.Ball = (Ball)Randomization.Util.Random.Next(1, 15); // packed bit, only allows for 15 balls
+                    t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
@@ -500,7 +500,7 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in table)
                 {
                     // what you receive
-                    t.Species = (uint)(Species)srand.GetRandomSpecies((int)t.Species);
+                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
                     t.AltForm = (byte)frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;

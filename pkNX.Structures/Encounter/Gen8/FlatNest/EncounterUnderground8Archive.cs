@@ -18,7 +18,7 @@ namespace pkNX.Structures
         public uint Ball { get; set; }
         public uint IndexNum { get; set; }
         public uint Level { get; set; }
-        public uint Species { get; set; }
+        public Species Species { get; set; }
         public ulong UiMessageID { get; set; }
         public uint OT_Gender { get; set; }
         public byte Version { get; set; }
@@ -48,7 +48,7 @@ namespace pkNX.Structures
             var moves = $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
             var game = Version != 0 ? Version == 1 ? ", Version = GameVersion.SW" : ", Version = GameVersion.SH" : "";
             var g = IsGigantamax ? ", CanGigantamax = true" : "";
-            return $"            new EncounterStatic8U({Species:000},{AltForm},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
+            return $"            new EncounterStatic8U({(int)Species:000},{AltForm},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
         }
     }
 }

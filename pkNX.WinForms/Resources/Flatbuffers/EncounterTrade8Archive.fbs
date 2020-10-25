@@ -7,7 +7,7 @@ table EncounterTrade8Archive {
 table EncounterTrade8 {
   AltForm:byte;
   DynamaxLevel:byte;
-  Ball:uint;
+  BallItemID:uint;
   Field_03:uint;
   Hash0:ulong;
   CanGigantamax:bool;

@@ -43,7 +43,7 @@ namespace pkNX.Randomization
                     return Util.Random.Next(3); // Kanto, Alola, Galar
 
                 // some species have 1 invalid form among several other valid forms, handle them here
-                case Pikachu when Personal.TableLength == 1181:
+                case Pikachu when Personal.TableLength == 1192:
                 case Slowbro when galar:
                 case Darmanitan:
                 {
@@ -70,7 +70,7 @@ namespace pkNX.Randomization
         {
             return species switch
             {
-                (int)Pikachu when stats.TableLength == 1181 => 8, // LGPE Partner Pikachu
+                (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
                 (int)Slowbro when galar => 1, // Mega Slowbro
                 (int)Darmanitan => 1, // Zen Mode (battle only)
                 _ => throw new ArgumentOutOfRangeException(nameof(species))

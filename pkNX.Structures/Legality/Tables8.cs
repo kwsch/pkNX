@@ -36,6 +36,12 @@ namespace pkNX.Structures
             180, 182, 184, 186, 188,
             190, 192, 194, 196, 198,
             200, 202,
+
+                      204, 206, 208,
+            210, 212, 214, 216, 218,
+            220, 222, 224, 226, 228,
+            230, 232, 234, 236, 238,
+            240, 242, 244, 246,
         };
 
         internal static readonly int[] Met_SWSH_3 =
@@ -101,7 +107,7 @@ namespace pkNX.Structures
             1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
             1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600,
-            1601, 1602, 1603, 1605,
+            1601, 1602, 1603, 1605, 1607,
         };
 
         internal static readonly ushort[] TM_SWSH =
@@ -276,7 +282,13 @@ namespace pkNX.Structures
             170, 172, 174, 176, 178,
             180, 182, 184, 186, 188,
             190, 192, 194, 196, 198,
-            200
+            200,
+
+            202, 204, 206, 208, 210,
+            212, 214, 216, 218, 220,
+            222, 224, 226, 228, 230,
+            232, 234, 236, 238, 240,
+            242, 244, 246,
         };
 
         public static readonly int[] TMHM_SWSH =
@@ -325,17 +337,12 @@ namespace pkNX.Structures
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
             10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
-            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05
+            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
         };
 
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {
-            116, // Douse Drive
-            117, // Shock Drive
-            118, // Burn Drive
-            119, // Chill Drive
-
             298, // Flame Plate
             299, // Splash Plate
             300, // Zap Plate
@@ -657,13 +664,6 @@ namespace pkNX.Structures
 
             016, // Cherish Ball
             500, // Park Ball
-
-            193, // Payapa Berry
-            208, // Enigma Berry
-            209, // Micle Berry
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
         };
         #endregion
         internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8 + 1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();

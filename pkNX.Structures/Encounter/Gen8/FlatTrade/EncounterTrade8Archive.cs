@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace pkNX.Structures
     {
         public int AltForm { get; set; }
         public int DynamaxLevel { get; set; }
-        public Ball Ball { get; set; }
+        public int BallItemID { get; set; }
         public int Field_03 { get; set; }
         public ulong Hash0 { get; set; }
         public bool CanGigantamax { get; set; }
@@ -46,6 +47,44 @@ namespace pkNX.Structures
         public int Relearn2 { get; set; }
         public int Relearn3 { get; set; }
         public int Relearn4 { get; set; }
+
+        [JsonIgnore]
+        public static readonly int[] BallToItem = {
+            000, // None
+            001, // Master
+            002, // Ultra
+            003, // Great
+            004, // Poke
+            005, // Safari
+            006, // Net
+            007, // Dive
+            008, // Nest
+            009, // Repeat
+            010, // Timer
+            011, // Luxury
+            012, // Premier
+            013, // Dusk
+            014, // Heal
+            015, // Quick
+            016, // Cherish
+            492, // Fast
+            493, // Level
+            494, // Lure
+            495, // Heavy
+            496, // Love
+            497, // Friend
+            498, // Moon
+            499, // Sport
+            576, // Dream
+            851, // Beast
+        };
+
+        [JsonIgnore]
+        public Ball Ball
+        {
+            get => (Ball)Array.IndexOf(BallToItem, BallItemID);
+            set => BallItemID = BallToItem[(int)value];
+        }
 
         [JsonIgnore]
         public int[] IVs
