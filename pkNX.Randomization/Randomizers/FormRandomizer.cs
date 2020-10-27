@@ -24,6 +24,9 @@ namespace pkNX.Randomization
 
             switch ((Species)species)
             {
+                // Rayquaza's Forme Count was unchanged in SWSH despite Megas being removed, so just in case the user allows random Megas, disallow this invalid Forme.
+                case Rayquaza when Personal.TableLength == 1192:
+                    return 0;
                 case Unown:
                 case Deerling:
                 case Sawsbuck:
