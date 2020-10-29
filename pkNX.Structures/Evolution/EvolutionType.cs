@@ -32,7 +32,7 @@
         LevelUpCold,
         LevelUpInverted,
         LevelUpAffection50MoveType,
-        LevelUpMoveType,
+        LevelUpDarkTeammate,
         LevelUpWeather,
         LevelUpMorning,
         LevelUpNight,

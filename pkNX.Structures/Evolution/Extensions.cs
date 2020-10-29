@@ -42,7 +42,7 @@ namespace pkNX.Structures
             [LevelUpInverted] = NoArg,
             [LevelUpAffection50MoveType] = Type,
 
-            [LevelUpMoveType] = Type,
+            [LevelUpDarkTeammate] = NoArg,
             [LevelUpWeather] = Level,
             [LevelUpMorning] = Level,
             [LevelUpNight] = Level,
