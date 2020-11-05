@@ -46,6 +46,8 @@
             this.Tab_Sky = new System.Windows.Forms.TabPage();
             this.EL_Sky = new pkNX.WinForms.EncounterList();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
+            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.CHK_ForceType = new System.Windows.Forms.CheckBox();
             this.L_SpawnDuration = new System.Windows.Forms.Label();
             this.L_SpawnCount = new System.Windows.Forms.Label();
@@ -62,8 +64,6 @@
             this.L_Hash = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Dump = new System.Windows.Forms.Button();
-            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
-            this.CHK_Level = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RankMax)).BeginInit();
             this.TC_Tables.SuspendLayout();
@@ -74,16 +74,18 @@
             this.Tab_Super.SuspendLayout();
             this.Tab_Sky.SuspendLayout();
             this.Tab_Rand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_Location
             // 
             this.CB_Location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Location.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Location.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Location.FormattingEnabled = true;
             this.CB_Location.Location = new System.Drawing.Point(12, 12);
             this.CB_Location.Name = "CB_Location";
@@ -137,7 +139,7 @@
             this.Tab_Ground.Controls.Add(this.EL_Ground);
             this.Tab_Ground.Location = new System.Drawing.Point(4, 22);
             this.Tab_Ground.Name = "Tab_Ground";
-            this.Tab_Ground.Size = new System.Drawing.Size(313, 665);
+            this.Tab_Ground.Size = new System.Drawing.Size(313, 655);
             this.Tab_Ground.TabIndex = 0;
             this.Tab_Ground.Text = "Ground";
             this.Tab_Ground.UseVisualStyleBackColor = true;
@@ -147,7 +149,7 @@
             this.EL_Ground.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Ground.Location = new System.Drawing.Point(0, 0);
             this.EL_Ground.Name = "EL_Ground";
-            this.EL_Ground.Size = new System.Drawing.Size(313, 665);
+            this.EL_Ground.Size = new System.Drawing.Size(313, 655);
             this.EL_Ground.TabIndex = 14;
             // 
             // Tab_Water
@@ -155,7 +157,7 @@
             this.Tab_Water.Controls.Add(this.EL_Water);
             this.Tab_Water.Location = new System.Drawing.Point(4, 22);
             this.Tab_Water.Name = "Tab_Water";
-            this.Tab_Water.Size = new System.Drawing.Size(313, 400);
+            this.Tab_Water.Size = new System.Drawing.Size(313, 655);
             this.Tab_Water.TabIndex = 1;
             this.Tab_Water.Text = "Water";
             this.Tab_Water.UseVisualStyleBackColor = true;
@@ -165,7 +167,7 @@
             this.EL_Water.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Water.Location = new System.Drawing.Point(0, 0);
             this.EL_Water.Name = "EL_Water";
-            this.EL_Water.Size = new System.Drawing.Size(313, 400);
+            this.EL_Water.Size = new System.Drawing.Size(313, 655);
             this.EL_Water.TabIndex = 13;
             // 
             // Tab_Old
@@ -173,7 +175,7 @@
             this.Tab_Old.Controls.Add(this.EL_Old);
             this.Tab_Old.Location = new System.Drawing.Point(4, 22);
             this.Tab_Old.Name = "Tab_Old";
-            this.Tab_Old.Size = new System.Drawing.Size(313, 400);
+            this.Tab_Old.Size = new System.Drawing.Size(313, 655);
             this.Tab_Old.TabIndex = 2;
             this.Tab_Old.Text = "Old";
             this.Tab_Old.UseVisualStyleBackColor = true;
@@ -183,7 +185,7 @@
             this.EL_Old.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Old.Location = new System.Drawing.Point(0, 0);
             this.EL_Old.Name = "EL_Old";
-            this.EL_Old.Size = new System.Drawing.Size(313, 400);
+            this.EL_Old.Size = new System.Drawing.Size(313, 655);
             this.EL_Old.TabIndex = 13;
             // 
             // Tab_Good
@@ -191,7 +193,7 @@
             this.Tab_Good.Controls.Add(this.EL_Good);
             this.Tab_Good.Location = new System.Drawing.Point(4, 22);
             this.Tab_Good.Name = "Tab_Good";
-            this.Tab_Good.Size = new System.Drawing.Size(313, 400);
+            this.Tab_Good.Size = new System.Drawing.Size(313, 655);
             this.Tab_Good.TabIndex = 3;
             this.Tab_Good.Text = "Good";
             this.Tab_Good.UseVisualStyleBackColor = true;
@@ -201,7 +203,7 @@
             this.EL_Good.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Good.Location = new System.Drawing.Point(0, 0);
             this.EL_Good.Name = "EL_Good";
-            this.EL_Good.Size = new System.Drawing.Size(313, 400);
+            this.EL_Good.Size = new System.Drawing.Size(313, 655);
             this.EL_Good.TabIndex = 13;
             // 
             // Tab_Super
@@ -209,7 +211,7 @@
             this.Tab_Super.Controls.Add(this.EL_Super);
             this.Tab_Super.Location = new System.Drawing.Point(4, 22);
             this.Tab_Super.Name = "Tab_Super";
-            this.Tab_Super.Size = new System.Drawing.Size(313, 400);
+            this.Tab_Super.Size = new System.Drawing.Size(313, 655);
             this.Tab_Super.TabIndex = 4;
             this.Tab_Super.Text = "Super";
             this.Tab_Super.UseVisualStyleBackColor = true;
@@ -219,7 +221,7 @@
             this.EL_Super.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Super.Location = new System.Drawing.Point(0, 0);
             this.EL_Super.Name = "EL_Super";
-            this.EL_Super.Size = new System.Drawing.Size(313, 400);
+            this.EL_Super.Size = new System.Drawing.Size(313, 655);
             this.EL_Super.TabIndex = 12;
             // 
             // Tab_Sky
@@ -227,7 +229,7 @@
             this.Tab_Sky.Controls.Add(this.EL_Sky);
             this.Tab_Sky.Location = new System.Drawing.Point(4, 22);
             this.Tab_Sky.Name = "Tab_Sky";
-            this.Tab_Sky.Size = new System.Drawing.Size(313, 400);
+            this.Tab_Sky.Size = new System.Drawing.Size(313, 655);
             this.Tab_Sky.TabIndex = 5;
             this.Tab_Sky.Text = "Sky";
             this.Tab_Sky.UseVisualStyleBackColor = true;
@@ -237,7 +239,7 @@
             this.EL_Sky.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EL_Sky.Location = new System.Drawing.Point(0, 0);
             this.EL_Sky.Name = "EL_Sky";
-            this.EL_Sky.Size = new System.Drawing.Size(313, 400);
+            this.EL_Sky.Size = new System.Drawing.Size(313, 655);
             this.EL_Sky.TabIndex = 12;
             // 
             // Tab_Rand
@@ -264,6 +266,44 @@
             this.Tab_Rand.TabIndex = 6;
             this.Tab_Rand.Text = "Rand";
             this.Tab_Rand.UseVisualStyleBackColor = true;
+            // 
+            // NUD_LevelBoost
+            // 
+            this.NUD_LevelBoost.DecimalPlaces = 2;
+            this.NUD_LevelBoost.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.NUD_LevelBoost.Location = new System.Drawing.Point(209, 139);
+            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_LevelBoost.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
+            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
+            this.NUD_LevelBoost.TabIndex = 305;
+            this.NUD_LevelBoost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // CHK_Level
+            // 
+            this.CHK_Level.AutoSize = true;
+            this.CHK_Level.Location = new System.Drawing.Point(80, 140);
+            this.CHK_Level.Name = "CHK_Level";
+            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
+            this.CHK_Level.TabIndex = 304;
+            this.CHK_Level.Text = "Multiply PKM Level by";
+            this.CHK_Level.UseVisualStyleBackColor = true;
             // 
             // CHK_ForceType
             // 
@@ -441,44 +481,6 @@
             this.B_Dump.UseVisualStyleBackColor = true;
             this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
             // 
-            // NUD_LevelBoost
-            // 
-            this.NUD_LevelBoost.DecimalPlaces = 2;
-            this.NUD_LevelBoost.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.NUD_LevelBoost.Location = new System.Drawing.Point(209, 139);
-            this.NUD_LevelBoost.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_LevelBoost.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.NUD_LevelBoost.Name = "NUD_LevelBoost";
-            this.NUD_LevelBoost.Size = new System.Drawing.Size(43, 20);
-            this.NUD_LevelBoost.TabIndex = 305;
-            this.NUD_LevelBoost.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // CHK_Level
-            // 
-            this.CHK_Level.AutoSize = true;
-            this.CHK_Level.Location = new System.Drawing.Point(80, 140);
-            this.CHK_Level.Name = "CHK_Level";
-            this.CHK_Level.Size = new System.Drawing.Size(130, 17);
-            this.CHK_Level.TabIndex = 304;
-            this.CHK_Level.Text = "Multiply PKM Level by";
-            this.CHK_Level.UseVisualStyleBackColor = true;
-            // 
             // GGWE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,10 +510,10 @@
             this.Tab_Sky.ResumeLayout(false);
             this.Tab_Rand.ResumeLayout(false);
             this.Tab_Rand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ModCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_LevelBoost)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

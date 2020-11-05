@@ -35,33 +35,33 @@
             this.L_Type = new System.Windows.Forms.Label();
             this.TC_Types = new System.Windows.Forms.TabControl();
             this.Tab_Normal = new System.Windows.Forms.TabPage();
+            this.SL_0 = new pkNX.WinForms.EncounterList8();
             this.Tab_Overcast = new System.Windows.Forms.TabPage();
+            this.SL_1 = new pkNX.WinForms.EncounterList8();
             this.Tab_Raining = new System.Windows.Forms.TabPage();
+            this.SL_2 = new pkNX.WinForms.EncounterList8();
             this.Tab_Thunder = new System.Windows.Forms.TabPage();
+            this.SL_3 = new pkNX.WinForms.EncounterList8();
             this.Tab_Sun = new System.Windows.Forms.TabPage();
+            this.SL_4 = new pkNX.WinForms.EncounterList8();
             this.ST_Snowing = new System.Windows.Forms.TabPage();
+            this.SL_5 = new pkNX.WinForms.EncounterList8();
             this.ST_Snowstorm = new System.Windows.Forms.TabPage();
+            this.SL_6 = new pkNX.WinForms.EncounterList8();
             this.ST_Sandstorm = new System.Windows.Forms.TabPage();
+            this.SL_7 = new pkNX.WinForms.EncounterList8();
             this.ST_Fog = new System.Windows.Forms.TabPage();
+            this.SL_8 = new pkNX.WinForms.EncounterList8();
             this.ST_Shaking = new System.Windows.Forms.TabPage();
+            this.SL_9 = new pkNX.WinForms.EncounterList8();
             this.ST_Fishing = new System.Windows.Forms.TabPage();
+            this.SL_10 = new pkNX.WinForms.EncounterList8();
             this.Tab_Rand = new System.Windows.Forms.TabPage();
+            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Level = new System.Windows.Forms.CheckBox();
             this.CHK_FillEmpty = new System.Windows.Forms.CheckBox();
             this.B_RandAll = new System.Windows.Forms.Button();
             this.PG_Species = new System.Windows.Forms.PropertyGrid();
-            this.NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
-            this.CHK_Level = new System.Windows.Forms.CheckBox();
-            this.SL_0 = new pkNX.WinForms.EncounterList8();
-            this.SL_1 = new pkNX.WinForms.EncounterList8();
-            this.SL_2 = new pkNX.WinForms.EncounterList8();
-            this.SL_3 = new pkNX.WinForms.EncounterList8();
-            this.SL_4 = new pkNX.WinForms.EncounterList8();
-            this.SL_5 = new pkNX.WinForms.EncounterList8();
-            this.SL_6 = new pkNX.WinForms.EncounterList8();
-            this.SL_7 = new pkNX.WinForms.EncounterList8();
-            this.SL_8 = new pkNX.WinForms.EncounterList8();
-            this.SL_9 = new pkNX.WinForms.EncounterList8();
-            this.SL_10 = new pkNX.WinForms.EncounterList8();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -108,6 +108,8 @@
             // 
             this.CB_Location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Location.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Location.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Location.FormattingEnabled = true;
             this.CB_Location.Location = new System.Drawing.Point(12, 13);
             this.CB_Location.Name = "CB_Location";
@@ -185,6 +187,15 @@
             this.Tab_Normal.Text = "Normal";
             this.Tab_Normal.UseVisualStyleBackColor = true;
             // 
+            // SL_0
+            // 
+            this.SL_0.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_0.Location = new System.Drawing.Point(0, 0);
+            this.SL_0.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_0.Name = "SL_0";
+            this.SL_0.Size = new System.Drawing.Size(349, 632);
+            this.SL_0.TabIndex = 0;
+            // 
             // Tab_Overcast
             // 
             this.Tab_Overcast.Controls.Add(this.SL_1);
@@ -194,6 +205,15 @@
             this.Tab_Overcast.TabIndex = 1;
             this.Tab_Overcast.Text = "Overcast";
             this.Tab_Overcast.UseVisualStyleBackColor = true;
+            // 
+            // SL_1
+            // 
+            this.SL_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_1.Location = new System.Drawing.Point(0, 0);
+            this.SL_1.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_1.Name = "SL_1";
+            this.SL_1.Size = new System.Drawing.Size(349, 632);
+            this.SL_1.TabIndex = 1;
             // 
             // Tab_Raining
             // 
@@ -205,6 +225,15 @@
             this.Tab_Raining.Text = "Raining";
             this.Tab_Raining.UseVisualStyleBackColor = true;
             // 
+            // SL_2
+            // 
+            this.SL_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_2.Location = new System.Drawing.Point(0, 0);
+            this.SL_2.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_2.Name = "SL_2";
+            this.SL_2.Size = new System.Drawing.Size(349, 632);
+            this.SL_2.TabIndex = 1;
+            // 
             // Tab_Thunder
             // 
             this.Tab_Thunder.Controls.Add(this.SL_3);
@@ -214,6 +243,15 @@
             this.Tab_Thunder.TabIndex = 3;
             this.Tab_Thunder.Text = "Thunder";
             this.Tab_Thunder.UseVisualStyleBackColor = true;
+            // 
+            // SL_3
+            // 
+            this.SL_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_3.Location = new System.Drawing.Point(0, 0);
+            this.SL_3.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_3.Name = "SL_3";
+            this.SL_3.Size = new System.Drawing.Size(349, 632);
+            this.SL_3.TabIndex = 1;
             // 
             // Tab_Sun
             // 
@@ -225,6 +263,15 @@
             this.Tab_Sun.Text = "Intense Sun";
             this.Tab_Sun.UseVisualStyleBackColor = true;
             // 
+            // SL_4
+            // 
+            this.SL_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_4.Location = new System.Drawing.Point(0, 0);
+            this.SL_4.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_4.Name = "SL_4";
+            this.SL_4.Size = new System.Drawing.Size(349, 632);
+            this.SL_4.TabIndex = 2;
+            // 
             // ST_Snowing
             // 
             this.ST_Snowing.Controls.Add(this.SL_5);
@@ -234,6 +281,15 @@
             this.ST_Snowing.TabIndex = 11;
             this.ST_Snowing.Text = "Snowing";
             this.ST_Snowing.UseVisualStyleBackColor = true;
+            // 
+            // SL_5
+            // 
+            this.SL_5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_5.Location = new System.Drawing.Point(0, 0);
+            this.SL_5.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_5.Name = "SL_5";
+            this.SL_5.Size = new System.Drawing.Size(349, 632);
+            this.SL_5.TabIndex = 1;
             // 
             // ST_Snowstorm
             // 
@@ -245,6 +301,15 @@
             this.ST_Snowstorm.Text = "Snowstorm";
             this.ST_Snowstorm.UseVisualStyleBackColor = true;
             // 
+            // SL_6
+            // 
+            this.SL_6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_6.Location = new System.Drawing.Point(0, 0);
+            this.SL_6.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_6.Name = "SL_6";
+            this.SL_6.Size = new System.Drawing.Size(349, 632);
+            this.SL_6.TabIndex = 1;
+            // 
             // ST_Sandstorm
             // 
             this.ST_Sandstorm.Controls.Add(this.SL_7);
@@ -254,6 +319,15 @@
             this.ST_Sandstorm.TabIndex = 9;
             this.ST_Sandstorm.Text = "Sandstorm";
             this.ST_Sandstorm.UseVisualStyleBackColor = true;
+            // 
+            // SL_7
+            // 
+            this.SL_7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_7.Location = new System.Drawing.Point(0, 0);
+            this.SL_7.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_7.Name = "SL_7";
+            this.SL_7.Size = new System.Drawing.Size(349, 632);
+            this.SL_7.TabIndex = 1;
             // 
             // ST_Fog
             // 
@@ -265,6 +339,15 @@
             this.ST_Fog.Text = "Heavy Fog";
             this.ST_Fog.UseVisualStyleBackColor = true;
             // 
+            // SL_8
+            // 
+            this.SL_8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_8.Location = new System.Drawing.Point(0, 0);
+            this.SL_8.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_8.Name = "SL_8";
+            this.SL_8.Size = new System.Drawing.Size(349, 632);
+            this.SL_8.TabIndex = 1;
+            // 
             // ST_Shaking
             // 
             this.ST_Shaking.Controls.Add(this.SL_9);
@@ -275,6 +358,15 @@
             this.ST_Shaking.Text = "Shaking Trees";
             this.ST_Shaking.UseVisualStyleBackColor = true;
             // 
+            // SL_9
+            // 
+            this.SL_9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_9.Location = new System.Drawing.Point(0, 0);
+            this.SL_9.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_9.Name = "SL_9";
+            this.SL_9.Size = new System.Drawing.Size(349, 632);
+            this.SL_9.TabIndex = 1;
+            // 
             // ST_Fishing
             // 
             this.ST_Fishing.Controls.Add(this.SL_10);
@@ -284,6 +376,15 @@
             this.ST_Fishing.TabIndex = 7;
             this.ST_Fishing.Text = "Fishing";
             this.ST_Fishing.UseVisualStyleBackColor = true;
+            // 
+            // SL_10
+            // 
+            this.SL_10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SL_10.Location = new System.Drawing.Point(0, 0);
+            this.SL_10.Margin = new System.Windows.Forms.Padding(0);
+            this.SL_10.Name = "SL_10";
+            this.SL_10.Size = new System.Drawing.Size(349, 632);
+            this.SL_10.TabIndex = 1;
             // 
             // Tab_Rand
             // 
@@ -299,36 +400,6 @@
             this.Tab_Rand.TabIndex = 6;
             this.Tab_Rand.Text = "Randomization";
             this.Tab_Rand.UseVisualStyleBackColor = true;
-            // 
-            // CHK_FillEmpty
-            // 
-            this.CHK_FillEmpty.Location = new System.Drawing.Point(80, 9);
-            this.CHK_FillEmpty.Name = "CHK_FillEmpty";
-            this.CHK_FillEmpty.Size = new System.Drawing.Size(83, 31);
-            this.CHK_FillEmpty.TabIndex = 8;
-            this.CHK_FillEmpty.Text = "Fill All Empty Slots";
-            this.CHK_FillEmpty.UseVisualStyleBackColor = true;
-            // 
-            // B_RandAll
-            // 
-            this.B_RandAll.Location = new System.Drawing.Point(6, 6);
-            this.B_RandAll.Name = "B_RandAll";
-            this.B_RandAll.Size = new System.Drawing.Size(68, 34);
-            this.B_RandAll.TabIndex = 7;
-            this.B_RandAll.Text = "Randomize All Species";
-            this.B_RandAll.UseVisualStyleBackColor = true;
-            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
-            // 
-            // PG_Species
-            // 
-            this.PG_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Species.Location = new System.Drawing.Point(0, 46);
-            this.PG_Species.Name = "PG_Species";
-            this.PG_Species.Size = new System.Drawing.Size(349, 586);
-            this.PG_Species.TabIndex = 6;
-            this.PG_Species.ToolbarVisible = false;
             // 
             // NUD_LevelBoost
             // 
@@ -368,104 +439,35 @@
             this.CHK_Level.Text = "Multiply PKM Level by";
             this.CHK_Level.UseVisualStyleBackColor = true;
             // 
-            // SL_0
+            // CHK_FillEmpty
             // 
-            this.SL_0.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_0.Location = new System.Drawing.Point(0, 0);
-            this.SL_0.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_0.Name = "SL_0";
-            this.SL_0.Size = new System.Drawing.Size(349, 632);
-            this.SL_0.TabIndex = 0;
+            this.CHK_FillEmpty.Location = new System.Drawing.Point(80, 9);
+            this.CHK_FillEmpty.Name = "CHK_FillEmpty";
+            this.CHK_FillEmpty.Size = new System.Drawing.Size(83, 31);
+            this.CHK_FillEmpty.TabIndex = 8;
+            this.CHK_FillEmpty.Text = "Fill All Empty Slots";
+            this.CHK_FillEmpty.UseVisualStyleBackColor = true;
             // 
-            // SL_1
+            // B_RandAll
             // 
-            this.SL_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_1.Location = new System.Drawing.Point(0, 0);
-            this.SL_1.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_1.Name = "SL_1";
-            this.SL_1.Size = new System.Drawing.Size(349, 632);
-            this.SL_1.TabIndex = 1;
+            this.B_RandAll.Location = new System.Drawing.Point(6, 6);
+            this.B_RandAll.Name = "B_RandAll";
+            this.B_RandAll.Size = new System.Drawing.Size(68, 34);
+            this.B_RandAll.TabIndex = 7;
+            this.B_RandAll.Text = "Randomize All Species";
+            this.B_RandAll.UseVisualStyleBackColor = true;
+            this.B_RandAll.Click += new System.EventHandler(this.B_RandAll_Click);
             // 
-            // SL_2
+            // PG_Species
             // 
-            this.SL_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_2.Location = new System.Drawing.Point(0, 0);
-            this.SL_2.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_2.Name = "SL_2";
-            this.SL_2.Size = new System.Drawing.Size(349, 632);
-            this.SL_2.TabIndex = 1;
-            // 
-            // SL_3
-            // 
-            this.SL_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_3.Location = new System.Drawing.Point(0, 0);
-            this.SL_3.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_3.Name = "SL_3";
-            this.SL_3.Size = new System.Drawing.Size(349, 632);
-            this.SL_3.TabIndex = 1;
-            // 
-            // SL_4
-            // 
-            this.SL_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_4.Location = new System.Drawing.Point(0, 0);
-            this.SL_4.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_4.Name = "SL_4";
-            this.SL_4.Size = new System.Drawing.Size(349, 632);
-            this.SL_4.TabIndex = 2;
-            // 
-            // SL_5
-            // 
-            this.SL_5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_5.Location = new System.Drawing.Point(0, 0);
-            this.SL_5.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_5.Name = "SL_5";
-            this.SL_5.Size = new System.Drawing.Size(349, 632);
-            this.SL_5.TabIndex = 1;
-            // 
-            // SL_6
-            // 
-            this.SL_6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_6.Location = new System.Drawing.Point(0, 0);
-            this.SL_6.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_6.Name = "SL_6";
-            this.SL_6.Size = new System.Drawing.Size(349, 632);
-            this.SL_6.TabIndex = 1;
-            // 
-            // SL_7
-            // 
-            this.SL_7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_7.Location = new System.Drawing.Point(0, 0);
-            this.SL_7.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_7.Name = "SL_7";
-            this.SL_7.Size = new System.Drawing.Size(349, 632);
-            this.SL_7.TabIndex = 1;
-            // 
-            // SL_8
-            // 
-            this.SL_8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_8.Location = new System.Drawing.Point(0, 0);
-            this.SL_8.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_8.Name = "SL_8";
-            this.SL_8.Size = new System.Drawing.Size(349, 632);
-            this.SL_8.TabIndex = 1;
-            // 
-            // SL_9
-            // 
-            this.SL_9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_9.Location = new System.Drawing.Point(0, 0);
-            this.SL_9.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_9.Name = "SL_9";
-            this.SL_9.Size = new System.Drawing.Size(349, 632);
-            this.SL_9.TabIndex = 1;
-            // 
-            // SL_10
-            // 
-            this.SL_10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SL_10.Location = new System.Drawing.Point(0, 0);
-            this.SL_10.Margin = new System.Windows.Forms.Padding(0);
-            this.SL_10.Name = "SL_10";
-            this.SL_10.Size = new System.Drawing.Size(349, 632);
-            this.SL_10.TabIndex = 1;
+            this.PG_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PG_Species.Location = new System.Drawing.Point(0, 46);
+            this.PG_Species.Name = "PG_Species";
+            this.PG_Species.Size = new System.Drawing.Size(349, 586);
+            this.PG_Species.TabIndex = 6;
+            this.PG_Species.ToolbarVisible = false;
             // 
             // SSWE
             // 

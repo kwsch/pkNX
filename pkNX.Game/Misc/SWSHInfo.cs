@@ -13,9 +13,9 @@ namespace pkNX.Game
             {0x776778717EA44BA4, 126}, // at Watchtower Ruins (in a Wild Area)
             {0x776779717EA44D57, 128}, // at East Lake Axewell (in a Wild Area)
             {0x77677A717EA44F0A, 130}, // at West Lake Axewell (in a Wild Area)
-            {0x77677B717EA450BD, 132}, // on Axew’s Eye (in a Wild Area)
+            {0x77677B717EA450BD, 132}, // on Axew's Eye (in a Wild Area)
             {0x77676C717EA43740, 134}, // at South Lake Miloch (in a Wild Area)
-            {0x77676D717EA438F3, 136}, // near the Giant’s Seat (in a Wild Area)
+            {0x77676D717EA438F3, 136}, // near the Giant's Seat (in a Wild Area)
             {0x776AFA717EA75E61, 138}, // at North Lake Miloch (in a Wild Area)
             {0x194B97FF2492111A, 028}, // on Route 3
             {0x776E81717EAA799D, 140}, // at the Motostoke Riverbank (in a Wild Area)
@@ -39,9 +39,9 @@ namespace pkNX.Game
             {0xB332930807F9D48A, 106}, // on Route 10 // Near Station
             {0x7771E5717EAD5960, 144}, // in the Stony Wilderness (in a Wild Area)
             {0x7771E8717EAD5E79, 146}, // in Dusty Bowl (in a Wild Area)
-            {0x7771E7717EAD5CC6, 148}, // around the Giant’s Mirror (in a Wild Area)
+            {0x7771E7717EAD5CC6, 148}, // around the Giant's Mirror (in a Wild Area)
             {0x7771EA717EAD61DF, 150}, // on the Hammerlocke Hills (in a Wild Area)
-            {0x7771E9717EAD602C, 152}, // near the Giant’s Cap (in a Wild Area)
+            {0x7771E9717EAD602C, 152}, // near the Giant's Cap (in a Wild Area)
             {0x7771EC717EAD6545, 154}, // at the Lake of Outrage (in a Wild Area)
             {0x10355BFF1F4DAB9C, 018}, // on Route 2
             {0xB332920807F9D2D7, 106}, // on Route 10
@@ -54,9 +54,9 @@ namespace pkNX.Game
             {0xE20E6AE30AAA57D2, 126}, // at Watchtower Ruins (in a Wild Area)
             {0xEEEEAC06BAC8D0B3, 128}, // at East Lake Axewell (in a Wild Area)
             {0xF8D1E527F7B21FA0, 130}, // at West Lake Axewell (in a Wild Area)
-            {0xB6CFE90E0378FD79, 132}, // on Axew’s Eye (in a Wild Area)
+            {0xB6CFE90E0378FD79, 132}, // on Axew's Eye (in a Wild Area)
             {0x520D8DD522E9A4C6, 134}, // at South Lake Miloch (in a Wild Area)
-            {0xBC7237A0392D8837, 136}, // near the Giant’s Seat (in a Wild Area)
+            {0xBC7237A0392D8837, 136}, // near the Giant's Seat (in a Wild Area)
             {0xB67C706F5BAE9E35, 138}, // at North Lake Miloch (in a Wild Area)
             {0xDA910F69A1B92FED, 130}, // at West Lake Axewell (in a Wild Area) // Surfing
             {0x7C17DB1B430F9543, 134}, // at South Lake Miloch (in a Wild Area) // Surfing
@@ -82,9 +82,9 @@ namespace pkNX.Game
             {0x0181225223DE5420, 106}, // on Route 10 // Near Station
             {0x1F0F1AE1818C4326, 144}, // in the Stony Wilderness (in a Wild Area)
             {0xAD11B3F3B2AC662D, 146}, // in Dusty Bowl (in a Wild Area)
-            {0xCD9719B2E64F2AA4, 148}, // around the Giant’s Mirror (in a Wild Area)
+            {0xCD9719B2E64F2AA4, 148}, // around the Giant's Mirror (in a Wild Area)
             {0xCD48625EDC10CBFB, 150}, // on the Hammerlocke Hills (in a Wild Area)
-            {0x712F3056573E23FA, 152}, // near the Giant’s Cap (in a Wild Area)
+            {0x712F3056573E23FA, 152}, // near the Giant's Cap (in a Wild Area)
             {0x593196758BA16B61, 154}, // at the Lake of Outrage (in a Wild Area)
             {0xF79DE930E6F50533, 106}, // on Route 10
             {0xA26A4595F72EDAEA, 018}, // on Route 2 // high level
@@ -102,15 +102,15 @@ namespace pkNX.Game
             {0x5F4E0AB29FD3F13A, 142}, // in Bridge Field (in a Wild Area) // Flying Spawns noibat/woobat/tranquill
             {0xF603DEA4177200EA, 144}, // in the Stony Wilderness (in a Wild Area) // ? Second full table
             {0x76EE4E28DD28374E, 144}, // in the Stony Wilderness (in a Wild Area) // Flying Spawns tranquill/sigilyph
-            {0x3F264B6FCB5647B4, 148}, // around the Giant’s Mirror (in a Wild Area) // Flying Spawns tranquill/corvisquire
+            {0x3F264B6FCB5647B4, 148}, // around the Giant's Mirror (in a Wild Area) // Flying Spawns tranquill/corvisquire
             {0x2D887A1CA9B1B99A, 146}, // in Dusty Bowl (in a Wild Area) // Flying Spawns braviary
-            {0x2BE7E6A8901ECC20, 148}, // around the Giant’s Mirror (in a Wild Area) // Underground Spawns dugtrio/excadrill/boldore
-            {0x39F0170769BF4524, 146}, // in Dusty Bowl (in a Wild Area) // Surfing. Also used for 148,around the Giant’s Mirror (in a Wild Area) surfing.
-            {0xB2067FBCF8D5C7BA, 152}, // near the Giant’s Cap (in a Wild Area) // Underground Spawns rolycoly/rhyhorn/boldore
+            {0x2BE7E6A8901ECC20, 148}, // around the Giant's Mirror (in a Wild Area) // Underground Spawns dugtrio/excadrill/boldore
+            {0x39F0170769BF4524, 146}, // in Dusty Bowl (in a Wild Area) // Surfing. Also used for 148,around the Giant's Mirror (in a Wild Area) surfing.
+            {0xB2067FBCF8D5C7BA, 152}, // near the Giant's Cap (in a Wild Area) // Underground Spawns rolycoly/rhyhorn/boldore
             {0x48B9525945EE48B5, 144}, // in the Stony Wilderness (in a Wild Area) // ? third full table
-            {0xB5756B87989661E1, 152}, // near the Giant’s Cap (in a Wild Area) // ? second full table
-            {0x7AB83D18C831DDEB, 152}, // near the Giant’s Cap (in a Wild Area) // ? third full table
-            {0xDBEF8A8593377AAA, 152}, // near the Giant’s Cap (in a Wild Area) // Underground Spawns Solrock
+            {0xB5756B87989661E1, 152}, // near the Giant's Cap (in a Wild Area) // ? second full table
+            {0x7AB83D18C831DDEB, 152}, // near the Giant's Cap (in a Wild Area) // ? third full table
+            {0xDBEF8A8593377AAA, 152}, // near the Giant's Cap (in a Wild Area) // Underground Spawns Solrock
             {0x066F97F8765BC22D, 150}, // on the Hammerlocke Hills (in a Wild Area) // Flying Spawns Unfezant/Corvisquire
             {0x87A97AFF94BC6CF2, 154}, // at the Lake of Outrage (in a Wild Area) // Surfing
             {0x94289204B628522C, 008}, // in the Slumbering Weald  // early
@@ -118,12 +118,12 @@ namespace pkNX.Game
             {0xA4945486A2B97DFF, 018}, // on Route 2 // Surfing
             {0xAC1187E9EC166853, 092}, // on Route 9 (in Circhester Bay) // Surfing
 
-            // DLC
+            // DLC 1 - Isle of Armor
             {0x908A64718CA374E6, 164}, // in the Fields of Honor
             {0x908A63718CA37333, 166}, // in the Soothing Wetlands
             {0x908A62718CA37180, 168}, // in the Forest of Focus
             {0x908A69718CA37D65, 170}, // on Challenge Beach
-            {0x908A68718CA37BB2, 172}, // in Brawlers’ Cave
+            {0x908A68718CA37BB2, 172}, // in Brawlers' Cave
             {0x908A67718CA379FF, 174}, // on Challenge Road
             {0x908A66718CA3784C, 176}, // in Courageous Cavern
             {0x908A6D718CA38431, 178}, // in Loop Lagoon
@@ -148,8 +148,8 @@ namespace pkNX.Game
             {0x32AB88FC9797DC83, 168}, // in the Forest of Focus // Surfing
             {0x39D078468AA0DCC1, 170}, // on Challenge Beach // Ground Spawns
             {0x3BFB22D0FB5B42D2, 170}, // on Challenge Beach // Surfing (Ocean)
-            {0x2B1DF6E85F9BAE28, 172}, // in Brawlers’ Cave // Ground Spawns
-            {0x36FE81B956D0DCB5, 172}, // in Brawlers’ Cave // Surfing
+            {0x2B1DF6E85F9BAE28, 172}, // in Brawlers' Cave // Ground Spawns
+            {0x36FE81B956D0DCB5, 172}, // in Brawlers' Cave // Surfing
             {0xBBAA199D0705405B, 174}, // on Challenge Road // Ground Spawns
             {0xFB9A7FD6D979C6DA, 176}, // in Courageous Cavern // Ground Spawns
             {0xBC0E1701C0276FCF, 176}, // in Courageous Cavern // Surfing
@@ -174,17 +174,17 @@ namespace pkNX.Game
             {0xED1F9772AA35C3CD, 186}, // in the Workout Sea // Sharpedo
             {0x9C0049D3E6129924, 192}, // in the Honeycalm Sea // Sharpedo
 
-            // DLC2
+            // DLC 2 - Crown Tundra
             {0x87E14B7187BC1CC1, 204}, // on Slippery Slope
             {0x87E1487187BC17A8, 206}, // in Freezington
             {0x87E1497187BC195B, 208}, // in Frostpoint Field
-            {0x87E14E7187BC21DA, 210}, // in the Giant’s Bed
+            {0x87E14E7187BC21DA, 210}, // in the Giant's Bed
             {0x87E14F7187BC238D, 212}, // in the Old Cemetery
             {0x87E14C7187BC1E74, 214}, // on Snowslide Slope
             {0x87E14D7187BC2027, 216}, // in the Tunnel to the Top
             {0x87E1427187BC0D76, 218}, // on the Path to the Peak
             {0x87E1437187BC0F29, 220}, // at the Crown Shrine
-            {0x87E4507187BE5B17, 222}, // at the Giant’s Foot
+            {0x87E4507187BE5B17, 222}, // at the Giant's Foot
             {0x87E44F7187BE5964, 224}, // in Roaring-Sea Caves
             {0x87E4527187BE5E7D, 226}, // at the Frigid Sea
             {0x87E4517187BE5CCA, 228}, // in Three-Point Pass
@@ -194,19 +194,19 @@ namespace pkNX.Game
 
             {0xD6EA3DE40B009E55, 204}, // on Slippery Slope
             {0xADF616908BD308DF, 208}, // in Frostpoint Field
-            {0x308C5EB6A846D1F0, 210}, // in the Giant’s Bed
+            {0x308C5EB6A846D1F0, 210}, // in the Giant's Bed
             {0x50E781F91B97C049, 212}, // in the Old Cemetery
             {0xC303110BF1EC3322, 214}, // on Snowslide Slope
             {0xB768660B0BF4C0C3, 216}, // in the Tunnel to the Top
             {0xFCB78AFCCECAF094, 218}, // on the Path to the Peak
-            {0xA345459C03EA6673, 222}, // at the Giant’s Foot
+            {0xA345459C03EA6673, 222}, // at the Giant's Foot
             {0xE4A982819ACF7292, 224}, // in Roaring-Sea Caves
             {0x18AAF85178C7B839, 226}, // at the Frigid Sea
             {0x3EC6FCDC0C77D460, 228}, // in Three-Point Pass
             {0xE5225F9325CCA74B, 230}, // at Ballimere Lake
             {0x2F1B41507D695958, 232}, // in Lakeside Cave
 
-            {0xF8A59FCA719D1EAE, 210}, // in the Giant’s Bed (Surfing), also used for 222 (in the Giant's Foot surfing)
+            {0xF8A59FCA719D1EAE, 210}, // in the Giant's Bed (Surfing), also used for 222 (in the Giant's Foot Surfing)
             {0x55D8F226A42368B7, 224}, // in Roaring-Sea Caves (Surfing)
             {0x78536116469DC44D, 226}, // at the Frigid Sea (Surfing)
             {0x9BDD6D11FFBEDA3F, 230}, // at Ballimere Lake (Surfing)
@@ -325,12 +325,12 @@ namespace pkNX.Game
             { 0xA4945486A2B97DFF, "Route 2 (Surfing)" },
             { 0xAC1187E9EC166853, "Route 9 (in Circhester Bay) (Surfing)" },
 
-            // DLC
+            // DLC 1 - Isle of Armor
             { 0x908A64718CA374E6, "Fields of Honor" },
             { 0x908A63718CA37333, "Soothing Wetlands" },
             { 0x908A62718CA37180, "Forest of Focus" },
             { 0x908A69718CA37D65, "Challenge Beach" },
-            { 0x908A68718CA37BB2, "Brawlers’ Cave" },
+            { 0x908A68718CA37BB2, "Brawlers' Cave" },
             { 0x908A67718CA379FF, "Challenge Road" },
             { 0x908A66718CA3784C, "Courageous Cavern" },
             { 0x908A6D718CA38431, "Loop Lagoon" },
@@ -355,8 +355,8 @@ namespace pkNX.Game
             { 0x32AB88FC9797DC83, "Forest of Focus (Surfing)" },
             { 0x39D078468AA0DCC1, "Challenge Beach" },
             { 0x3BFB22D0FB5B42D2, "Challenge Beach (Surfing - Ocean)" },
-            { 0x2B1DF6E85F9BAE28, "Brawlers’ Cave" },
-            { 0x36FE81B956D0DCB5, "Brawlers’ Cave (Surfing)" },
+            { 0x2B1DF6E85F9BAE28, "Brawlers' Cave" },
+            { 0x36FE81B956D0DCB5, "Brawlers' Cave (Surfing)" },
             { 0xBBAA199D0705405B, "Challenge Road" },
             { 0xFB9A7FD6D979C6DA, "Courageous Cavern" },
             { 0xBC0E1701C0276FCF, "Courageous Cavern (Surfing)" },
@@ -381,19 +381,19 @@ namespace pkNX.Game
             { 0xED1F9772AA35C3CD, "Workout Sea (Sharpedo)" },
             { 0x9C0049D3E6129924, "Honeycalm Sea (Sharpedo)" },
 
-             // DLC2
+            // DLC 2 - Crown Tundra
             { 0x87E14B7187BC1CC1, "Slippery Slope" },
             { 0x87E1487187BC17A8, "Freezington" },
             { 0x87E1497187BC195B, "Frostpoint Field" },
-            { 0x87E14E7187BC21DA, "the Giant’s Bed" },
-            { 0x87E14F7187BC238D, "the Old Cemetery" },
+            { 0x87E14E7187BC21DA, "Giant's Bed" },
+            { 0x87E14F7187BC238D, "Old Cemetery" },
             { 0x87E14C7187BC1E74, "Snowslide Slope" },
-            { 0x87E14D7187BC2027, "the Tunnel to the Top" },
-            { 0x87E1427187BC0D76, "the Path to the Peak" },
-            { 0x87E1437187BC0F29, "the Crown Shrine" },
-            { 0x87E4507187BE5B17, "the Giant’s Foot" },
+            { 0x87E14D7187BC2027, "Tunnel to the Top" },
+            { 0x87E1427187BC0D76, "Path to the Peak" },
+            { 0x87E1437187BC0F29, "Crown Shrine" },
+            { 0x87E4507187BE5B17, "Giant's Foot" },
             { 0x87E44F7187BE5964, "Roaring-Sea Caves" },
-            { 0x87E4527187BE5E7D, "the Frigid Sea" },
+            { 0x87E4527187BE5E7D, "Frigid Sea" },
             { 0x87E4517187BE5CCA, "Three-Point Pass" },
             { 0x87DA3F7187B5E9AF, "Ballimere Lake" },
             { 0x87DA407187B5EB62, "Lakeside Cave" },
@@ -401,22 +401,22 @@ namespace pkNX.Game
 
             { 0xD6EA3DE40B009E55, "Slippery Slope" },
             { 0xADF616908BD308DF, "Frostpoint Field" },
-            { 0x308C5EB6A846D1F0, "the Giant’s Bed" },
-            { 0x50E781F91B97C049, "the Old Cemetery" },
+            { 0x308C5EB6A846D1F0, "Giant's Bed" },
+            { 0x50E781F91B97C049, "Old Cemetery" },
             { 0xC303110BF1EC3322, "Snowslide Slope" },
-            { 0xB768660B0BF4C0C3, "the Tunnel to the Top" },
-            { 0xFCB78AFCCECAF094, "the Path to the Peak" },
-            { 0xA345459C03EA6673, "the Giant’s Foot" },
+            { 0xB768660B0BF4C0C3, "Tunnel to the Top" },
+            { 0xFCB78AFCCECAF094, "Path to the Peak" },
+            { 0xA345459C03EA6673, "Giant's Foot" },
             { 0xE4A982819ACF7292, "Roaring-Sea Caves" },
-            { 0x18AAF85178C7B839, "the Frigid Sea" },
+            { 0x18AAF85178C7B839, "Frigid Sea" },
             { 0x3EC6FCDC0C77D460, "Three-Point Pass" },
             { 0xE5225F9325CCA74B, "Ballimere Lake" },
             { 0x2F1B41507D695958, "Lakeside Cave" },
 
-            { 0xF8A59FCA719D1EAE,"Giant’s Bed and Giant's Foot (Surfing)" },
-            { 0x55D8F226A42368B7,"Roaring-Sea Caves (Surfing)" },
-            { 0x78536116469DC44D,"Frigid Sea (Surfing)" },
-            { 0x9BDD6D11FFBEDA3F,"Ballimere Lake (Surfing)" },
+            { 0xF8A59FCA719D1EAE, "Giant's Bed / Giant's Foot (Surfing)" },
+            { 0x55D8F226A42368B7, "Roaring-Sea Caves (Surfing)" },
+            { 0x78536116469DC44D, "Frigid Sea (Surfing)" },
+            { 0x9BDD6D11FFBEDA3F, "Ballimere Lake (Surfing)" },
         };
     }
 
