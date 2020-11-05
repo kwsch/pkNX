@@ -196,6 +196,7 @@ namespace pkNX.Structures
         {
             (int)Species.Castform,
             (int)Species.Cherrim,
+            (int)Species.Darmanitan,
             (int)Species.Meloetta,
             (int)Species.Aegislash,
             (int)Species.Xerneas,

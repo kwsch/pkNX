@@ -49,7 +49,8 @@ namespace pkNX.Structures
         public int Relearn4 { get; set; }
 
         [JsonIgnore]
-        public static readonly int[] BallToItem = {
+        public static readonly int[] BallToItem =
+        {
             000, // None
             001, // Master
             002, // Ultra

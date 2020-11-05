@@ -45,10 +45,16 @@ namespace pkNX.Randomization
                 case Meowth when galar:
                     return Util.Random.Next(3); // Kanto, Alola, Galar
 
+                // only allow Standard, not Zen Mode
+                case Darmanitan when galar:
+                {
+                    int form = Util.Random.Next(stats[species].FormeCount);
+                    return form &= 2;
+                }
+
                 // some species have 1 invalid form among several other valid forms, handle them here
                 case Pikachu when Personal.TableLength == 1192:
                 case Slowbro when galar:
-                case Darmanitan:
                 {
                     int form = Util.Random.Next(stats[species].FormeCount - 1);
                     int banned = GetInvalidForm(species, galar, Personal);
@@ -75,7 +81,6 @@ namespace pkNX.Randomization
             {
                 (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
                 (int)Slowbro when galar => 1, // Mega Slowbro
-                (int)Darmanitan => 1, // Zen Mode (battle only)
                 _ => throw new ArgumentOutOfRangeException(nameof(species))
             };
         }
