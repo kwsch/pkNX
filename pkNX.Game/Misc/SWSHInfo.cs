@@ -162,8 +162,8 @@ namespace pkNX.Game
             {0x30AAD92559FCE81E, 186}, // in the Workout Sea // Ground Spawns
             {0x6F748A46C8E3802C, 186}, // in the Workout Sea // Surfing
             {0x97A3E0687E3C5B01, 188}, // in the Stepping-Stone Sea // Surfing
-            {0xDDDFF88957FD5B5C, 188}, // in the Stepping-Stone Sea // Ground Spawns (Main Area)
-            {0xF3036CD294CE9365, 188}, // in the Stepping-Stone Sea // Ground Spawns (Area 2)
+            {0xDDDFF88957FD5B5C, 190}, // in the Insular Sea // Ground Spawns
+            {0xF3036CD294CE9365, 188}, // in the Stepping-Stone Sea // Ground Spawns
             {0xFB9BB438425D58DA, 190}, // in the Insular Sea // Surfing
             {0xC16C1E2A1B5FFE87, 192}, // in the Honeycalm Sea // Surfing
             {0x081D7EF6A1C192B1, 194}, // on Honeycalm Island // Ground Spawns
@@ -369,8 +369,8 @@ namespace pkNX.Game
             { 0x30AAD92559FCE81E, "Workout Sea" },
             { 0x6F748A46C8E3802C, "Workout Sea (Surfing)" },
             { 0x97A3E0687E3C5B01, "Stepping-Stone Sea (Surfing)" },
-            { 0xDDDFF88957FD5B5C, "Stepping-Stone Sea (Main Area)" },
-            { 0xF3036CD294CE9365, "Stepping-Stone Sea (Area 2)" },
+            { 0xDDDFF88957FD5B5C, "Insular Sea" },
+            { 0xF3036CD294CE9365, "Stepping-Stone Sea" },
             { 0xFB9BB438425D58DA, "Insular Sea (Surfing)" },
             { 0xC16C1E2A1B5FFE87, "Honeycalm Sea (Surfing)" },
             { 0x081D7EF6A1C192B1, "Honeycalm Island" },
