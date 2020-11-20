@@ -9156,5 +9156,38 @@
   <ItemGroup>
     <None Include="Sprites\Big Pokemon Sprites\b_199-1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_145-1s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_897s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_199-1s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_894s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_895s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_146-1s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_896s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_898s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_898-2s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_898-1s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Big Shiny Sprites\b_144-1s.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
