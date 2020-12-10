@@ -629,6 +629,7 @@ namespace pkNX.Structures
 
         public static readonly int[] Max_Moves =
         {
+            743, // Max Guard
             757, // Max Flare
             758, // Max Flutterby
             759, // Max Lightning
