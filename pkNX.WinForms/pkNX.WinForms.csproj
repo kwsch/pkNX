@@ -1,242 +1,74 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3CF3FA3E-B38E-4774-BA77-924A391DDC9D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net46</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>pkNX.WinForms</RootNamespace>
-    <AssemblyName>pkNX</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
+    <Company>Project Pokémon</Company>
+    <Authors>Kaphotics</Authors>
+    <Product>pkNX</Product>
+    <Description>Pokémon ROM Editor</Description>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <StartupObject>pkNX.WinForms.Program</StartupObject>
+    <AssemblyName>pkNX</AssemblyName>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\pkNX.Sprites\pkNX.Sprites.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj">
+    </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(Configuration)' == 'Release'">
+    <PackageReference Include="Costura.Fody" Version="4.1.0" />
+    <PackageReference Include="Fody" Version="6.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Controls\EncounterList8.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EncounterList8.Designer.cs">
-      <DependentUpon>EncounterList8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EncounterList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EncounterList.Designer.cs">
-      <DependentUpon>EncounterList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MegaEvoEntry.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MegaEvoEntry.Designer.cs">
-      <DependentUpon>MegaEvoEntry.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EvolutionRow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EvolutionRow.Designer.cs">
-      <DependentUpon>EvolutionRow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StatEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StatEditor.Designer.cs">
-      <DependentUpon>StatEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dumping\DumperSWSH.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dumping\DumperSWSH.Designer.cs">
-      <DependentUpon>DumperSWSH.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dumping\FlatBufferConverter.cs" />
-    <Compile Include="Dumping\GameDumperSWSH.cs" />
-    <Compile Include="MainEditor\EditorAO.cs" />
-    <Compile Include="MainEditor\EditorGG.cs" />
-    <Compile Include="MainEditor\EditorORASDEMO.cs" />
-    <Compile Include="MainEditor\EditorProvider.cs" />
-    <Compile Include="Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainEditor\EditorSM.cs" />
-    <Compile Include="MainEditor\EditorSMDEMO.cs" />
-    <Compile Include="MainEditor\EditorSWSH.cs" />
-    <Compile Include="MainEditor\EditorUU.cs" />
-    <Compile Include="MainEditor\EditorXY.cs" />
-    <Compile Include="MainEditor\EditUtil.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Ripper\FileRipper.cs" />
-    <Compile Include="Subforms\BTTE.cs">
-      <SubType>Form</SubType>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\BTTE.designer.cs">
-      <DependentUpon>BTTE.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\SSWE.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\SSWE.Designer.cs">
-      <DependentUpon>SSWE.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\TypeChart.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\TypeChart.Designer.cs">
-      <DependentUpon>TypeChart.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\TMList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\TMList.Designer.cs">
-      <DependentUpon>TMList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\ShinyRate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\ShinyRate.Designer.cs">
-      <DependentUpon>ShinyRate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\GenericEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\GenericEditor.Designer.cs">
-      <DependentUpon>GenericEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\GGWE.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\GGWE.Designer.cs">
-      <DependentUpon>GGWE.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\PokeDataUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\PokeDataUI.Designer.cs">
-      <DependentUpon>PokeDataUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Subforms\TextContainer.cs" />
-    <Compile Include="Subforms\TextEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\TextEditor.designer.cs">
-      <DependentUpon>TextEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinFormsUtil.cs" />
-    <EmbeddedResource Include="Controls\EncounterList8.resx">
-      <DependentUpon>EncounterList8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\EncounterList.resx">
-      <DependentUpon>EncounterList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\MegaEvoEntry.resx">
-      <DependentUpon>MegaEvoEntry.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\EvolutionRow.resx">
-      <DependentUpon>EvolutionRow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StatEditor.resx">
-      <DependentUpon>StatEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dumping\DumperSWSH.resx">
-      <DependentUpon>DumperSWSH.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\BTTE.resx">
-      <DependentUpon>BTTE.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\SSWE.resx">
-      <DependentUpon>SSWE.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TypeChart.resx">
-      <DependentUpon>TypeChart.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TMList.resx">
-      <DependentUpon>TMList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\ShinyRate.resx">
-      <DependentUpon>ShinyRate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\GenericEditor.resx">
-      <DependentUpon>GenericEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\GGWE.resx">
-      <DependentUpon>GGWE.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PokeDataUI.resx">
-      <DependentUpon>PokeDataUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\TextEditor.resx">
-      <DependentUpon>TextEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+    <None Include="Resources\Flatbuffers\flatc.exe" />
     <None Include="Resources\Flatbuffers\BattleTowerPoke8Archive.fbs" />
     <None Include="Resources\Flatbuffers\EncounterArchive7b.fbs" />
     <None Include="Resources\Flatbuffers\EncounterArchive8.fbs" />
@@ -253,42 +85,4 @@
     <None Include="Resources\Flatbuffers\EncounterTrade8Archive.fbs" />
     <None Include="Resources\Flatbuffers\Waza8.fbs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj">
-      <Project>{2a909229-c9c0-42ce-88e0-72d9af84afe3}</Project>
-      <Name>pkNX.Containers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj">
-      <Project>{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}</Project>
-      <Name>pkNX.Game</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj">
-      <Project>{77e3febb-9c86-4f8d-b4e0-66b7504080d5}</Project>
-      <Name>pkNX.Randomization</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-    <ProjectReference Include="..\pkNX.Sprites\pkNX.Sprites.csproj">
-      <Project>{55d82546-3dda-42e1-9a24-f6a08ee231b0}</Project>
-      <Name>pkNX.Sprites</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj">
-      <Project>{01447516-8382-4e9b-8b6c-92ff0a2d0cbf}</Project>
-      <Name>pkNX.Structures</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon.ico" />
-    <None Include="Resources\Flatbuffers\flatc.exe" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.6.0.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.5\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
-  </Target>
-  <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />
 </Project>
