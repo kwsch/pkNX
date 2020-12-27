@@ -498,38 +498,61 @@ namespace pkNX.WinForms
             var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
 
             var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"));
-            var encount_data = GetDistributionContents(Path.Combine(path, "normal_encount"));
-            var rigel1_data = GetDistributionContents(Path.Combine(path, "normal_encount_rigel1"));
-            var rigel2_data = GetDistributionContents(Path.Combine(path, "normal_encount_rigel2"));
             var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"));
             var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"));
             var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(drop_data);
             var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
-            var dist_encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(encount_data);
-            var dist_encounts_rigel1 = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(rigel1_data);
-            var dist_encounts_rigel2 = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(rigel2_data);
             var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
-            var dist_pretty_sw = dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            var dist_pretty_sh = dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            File.WriteAllLines(GetPath("nestDistPrettySword.txt"), dist_pretty_sw);
-            File.WriteAllLines(GetPath("nestDistPrettyShield.txt"), dist_pretty_sh);
+            DumpDistIfExists("normal_encount", "");
+            DumpDistIfExists("normal_encount_rigel1", "Armor");
+            DumpDistIfExists("normal_encount_rigel2", "Crown");
 
-            var dist_pretty_rigel1_sw = dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            var dist_pretty_rigel1_sh = dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            File.WriteAllLines(GetPath("nestDistArmorPrettySword.txt"), dist_pretty_rigel1_sw);
-            File.WriteAllLines(GetPath("nestDistArmorPrettyShield.txt"), dist_pretty_rigel1_sh);
+            void DumpDistIfExists(string filePath, string dest)
+            {
+                var p = Path.Combine(path, filePath);
+                if (!File.Exists(p))
+                    return;
 
-            var dist_pretty_rigel2_sw = dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            var dist_pretty_rigel2_sh = dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            File.WriteAllLines(GetPath("nestDistCrownPrettySword.txt"), dist_pretty_rigel2_sw);
-            File.WriteAllLines(GetPath("nestDistCrownPrettyShield.txt"), dist_pretty_rigel2_sh);
+                var data = GetDistributionContents(p);
+                var encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(data);
+                var pretty_sw = encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+                var pretty_sh = encounts.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+
+                File.WriteAllLines(GetPath($"nestDist{dest}PrettySword.txt"), pretty_sw);
+                File.WriteAllLines(GetPath($"nestDist{dest}PrettyShield.txt"), pretty_sh);
+
+                var dist_sw = TableUtil.GetTable(encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+                var dist_sh = TableUtil.GetTable(encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+
+                File.WriteAllText(GetPath($"nestDist{dest}_sw.txt"), dist_sw);
+                File.WriteAllText(GetPath($"nestDist{dest}_sh.txt"), dist_sh);
+
+                string[][] nestHex = new string[2][];
+                foreach (var game in new[] { 1, 2 })
+                {
+                    var tables = encounts.Tables.Where(z => z.GameVersion == game).ToList();
+                    var encounters = tables.SelectMany(z => z.GetSummary(speciesNames)).ToArray();
+
+                    var path1 = GetPath($"nestDistHex{game}.txt");
+                    File.WriteAllLines(path1, encounters);
+                    nestHex[game - 1] = encounters;
+
+                    var result = tables.Select(z => z.GetSummarySimple());
+                    var path2 = GetPath($"nestDistFormat_{game}.txt");
+                    File.WriteAllLines(path2, result);
+                }
+
+                var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
+                var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
+                var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
+
+                File.WriteAllLines(GetPath($"hex_nestDist{dest}Common.txt"), common);
+                File.WriteAllLines(GetPath($"hex_nestDist{dest}Sword.txt"), sword);
+                File.WriteAllLines(GetPath($"hex_nestDist{dest}Shield.txt"), shield);
+            }
 
             var dai_pretty_sw = dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
@@ -538,54 +561,12 @@ namespace pkNX.WinForms
             File.WriteAllLines(GetPath("nestCrystalPrettySword.txt"), dai_pretty_sw);
             File.WriteAllLines(GetPath("nestCrystalPrettyShield.txt"), dai_pretty_sh);
 
-            var dist_sw = TableUtil.GetTable( dist_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-            var dist_sh = TableUtil.GetTable(dist_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
-            File.WriteAllText(GetPath("nestDist_sw.txt"), dist_sw);
-            File.WriteAllText(GetPath("nestDist_sh.txt"), dist_sh);
-
-            var dist_rigel1_sw = TableUtil.GetTable(dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-            var dist_rigel1_sh = TableUtil.GetTable(dist_encounts_rigel1.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
-            File.WriteAllText(GetPath("nestDistArmor_sw.txt"), dist_rigel1_sw);
-            File.WriteAllText(GetPath("nestDistArmor_sh.txt"), dist_rigel1_sh);
-
-            var dist_rigel2_sw = TableUtil.GetTable(dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-            var dist_rigel2_sh = TableUtil.GetTable(dist_encounts_rigel2.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
-            File.WriteAllText(GetPath("nestDistCrown_sw.txt"), dist_rigel2_sw);
-            File.WriteAllText(GetPath("nestDistCrown_sh.txt"), dist_rigel2_sh);
-
             var dai_sw = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
             var dai_sh = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
             File.WriteAllText(GetPath("nestCrystal_sw.txt"), dai_sw);
             File.WriteAllText(GetPath("nestCrystal_sh.txt"), dai_sh);
 
-            DumpHexDist(dist_encounts, speciesNames);
             DumpHexCrystal(dai_encounts, speciesNames, itemNames);
-        }
-
-        private void DumpHexDist(NestHoleDistributionEncounter8Archive dist_encounts, string[] speciesNames)
-        {
-            string[][] nestHex = new string[2][];
-            foreach (var game in new[] { 1, 2 })
-            {
-                var tables = dist_encounts.Tables.Where(z => z.GameVersion == game).ToList();
-                var encounters = tables.SelectMany(z => z.GetSummary(speciesNames)).ToArray();
-
-                var path1 = GetPath($"nestDistHex{game}.txt");
-                File.WriteAllLines(path1, encounters);
-                nestHex[game - 1] = encounters;
-
-                var result = tables.Select(z => z.GetSummarySimple());
-                var path2 = GetPath($"nestDistFormat_{game}.txt");
-                File.WriteAllLines(path2, result);
-            }
-
-            var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
-            var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
-            var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
-
-            File.WriteAllLines(GetPath("hex_nestDistCommon.txt"), common);
-            File.WriteAllLines(GetPath("hex_nestDistSword.txt"), sword);
-            File.WriteAllLines(GetPath("hex_nestDistShield.txt"), shield);
         }
 
         private void DumpHexCrystal(NestHoleCrystalEncounter8Archive dai_encounts, string[] speciesNames, string[] itemNames)
