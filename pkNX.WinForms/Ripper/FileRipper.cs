@@ -17,10 +17,10 @@ namespace pkNX.WinForms
 
     public static class FileRipper
     {
-        public static ContainerHandler DefaultHandler { private get; set; } = new ContainerHandler();
+        public static ContainerHandler DefaultHandler { private get; set; } = new();
 
         public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>> Loaders =
-            new List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>>
+            new()
             {
                 GFPackDump,
                 NSODump,
@@ -72,8 +72,7 @@ namespace pkNX.WinForms
             if (!File.Exists(path))
                 return new FileRipperResult(RipResultCode.FileExist);
 
-            if (handler == null)
-                handler = DefaultHandler;
+            handler ??= DefaultHandler;
 
             try
             {

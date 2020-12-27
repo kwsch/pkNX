@@ -6,7 +6,7 @@ namespace pkNX.Randomization
 {
     public static class Util
     {
-        public static Random Random { get; private set; } = new Random();
+        public static Random Random { get; private set; } = new();
 
         public static void ReseedRand(int seed)
         {

@@ -20,8 +20,8 @@ namespace pkNX.Structures
             Count = count;
             if (Count == 0)
             {
-                Levels = Moves = Array.Empty<int>(); 
-                return; 
+                Levels = Moves = Array.Empty<int>();
+                return;
             }
 
             Moves = new int[Count];

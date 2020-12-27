@@ -97,7 +97,7 @@ namespace pkNX.WinForms
             }
         }
 
-        private static readonly Dictionary<string, int> LocIDTable = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> LocIDTable = new()
         {
             ["forest001"] = 39,
             ["r004d0101"] = 40,
@@ -412,7 +412,7 @@ namespace pkNX.WinForms
             }
         }
 
-        public static readonly Dictionary<int, int[]> RandomScaledRates = new Dictionary<int, int[]>
+        public static readonly Dictionary<int, int[]> RandomScaledRates = new()
         {
             [01] = new[] {100},
             [04] = new[] {60, 30, 7, 3},

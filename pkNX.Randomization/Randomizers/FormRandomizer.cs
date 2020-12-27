@@ -16,8 +16,7 @@ namespace pkNX.Randomization
 
         public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[] stats = null)
         {
-            if (stats == null)
-                stats = Personal.Table;
+            stats ??= Personal.Table;
             if (stats[species].FormeCount <= 1)
                 return 0;
             bool IsGen6 = Personal.MaxSpeciesID == 721;

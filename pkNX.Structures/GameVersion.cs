@@ -139,7 +139,7 @@
         #endregion
 
         /// <summary>
-        /// Pokémon GO (Unused)
+        /// Pokémon GO (GO -> Lets Go transfers)
         /// </summary>
         GO = 34,
 
@@ -217,7 +217,7 @@
         RB,
 
         /// <summary>
-        /// Pokémon Red/Blue/Yello identifier.
+        /// Pokémon Red/Blue/Yellow identifier.
         /// </summary>
         /// <see cref="RD"/>
         /// <see cref="GN"/>
@@ -342,9 +342,9 @@
         /// <summary>
         /// Pokémon Omega Ruby &amp; Alpha Sapphire version group.
         /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="OR"/>
         /// <see cref="AS"/>
-        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         ORAS,
 
         /// <summary>
@@ -356,11 +356,9 @@
         SM,
 
         /// <summary>
-        /// Pokémon Sun &amp; Moon Demo
+        /// Pokémon Sun &amp; Moon Demo identifier.
         /// </summary>
-        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
-        /// <see cref="SN"/>
-        /// <see cref="MN"/>
+        /// <see cref="SM"/>
         SMDEMO,
 
         /// <summary>
@@ -372,7 +370,7 @@
         USUM,
 
         /// <summary>
-        /// Pokémon Let's Go (TBD)
+        /// Pokémon Let's Go Pikachu &amp; Eevee
         /// </summary>
         /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="GP"/>
@@ -428,11 +426,18 @@
         Gen6,
 
         /// <summary>
-        /// Generation 7 Games
+        /// Generation 7 Games on the Nintendo 3DS
         /// </summary>
         /// <see cref="SM"/>
         /// <see cref="USUM"/>
         Gen7,
+
+        /// <summary>
+        /// Generation 7 Games on the Nintendo Switch
+        /// </summary>
+        /// <see cref="GG"/>
+        /// <see cref="GO"/>
+        Gen7b,
 
         /// <summary>
         /// Generation 8 Games
@@ -441,40 +446,19 @@
         Gen8,
 
         /// <summary>
-        /// Generation 1/2 Game Boy Cartridge Era Only
+        /// Pocket Monsters Stadium data origin identifier
         /// </summary>
-        /// <remarks>
-        /// Since the original run of <see cref="RBY"/> and <see cref="GSC"/> could not transfer to future games,
-        /// any special encounters (event data) can only be allowed if the savedata originated from that era.
-        /// </remarks>
-        GBCartEraOnly,
+        StadiumJ,
 
         /// <summary>
         /// Pokémon Stadium data origin identifier
         /// </summary>
-        /// <see cref="GBCartEraOnly"/>
         Stadium,
 
         /// <summary>
         /// Pokémon Stadium 2 data origin identifier
         /// </summary>
-        /// <see cref="GBCartEraOnly"/>
         Stadium2,
-
-        /// <summary>
-        /// Generation 1 Game Boy Cartridge Era Only data origin identifier
-        /// </summary>
-        EventsGBGen1,
-
-        /// <summary>
-        /// Generation 2 Game Boy Cartridge Era Only data origin identifier
-        /// </summary>
-        EventsGBGen2,
-
-        /// <summary>
-        /// Generation 1/2 3DS Virtual Console data origin identifier
-        /// </summary>
-        VCEvents,
         #endregion
     }
 }

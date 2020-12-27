@@ -9,7 +9,7 @@ namespace pkNX.Structures
     /// <remarks>They do this because the Pickup Ability no longer exists, and to ease the grind of marts.</remarks>
     public class CaptureRewardTable
     {
-        public List<CaptureRewardGroup> Table = new List<CaptureRewardGroup>();
+        public List<CaptureRewardGroup> Table = new();
 
         public CaptureRewardTable(byte[] data)
         {
@@ -33,7 +33,7 @@ namespace pkNX.Structures
 
         private static CaptureRewardEntry ReadEntry(BinaryReader br)
         {
-            return new CaptureRewardEntry
+            return new()
             {
                 Item = br.ReadInt32(),
                 Count = br.ReadInt32(),

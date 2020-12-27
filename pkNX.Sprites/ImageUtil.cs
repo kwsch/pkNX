@@ -21,9 +21,9 @@ namespace pkNX.Sprites
         {
             if (baseLayer is null)
                 return (Bitmap)overLayer;
-            Bitmap img = new Bitmap(baseLayer);
-            using (Graphics gr = Graphics.FromImage(img))
-                gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
+            Bitmap img = new(baseLayer);
+            using Graphics gr = Graphics.FromImage(img);
+            gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
             return img;
         }
 

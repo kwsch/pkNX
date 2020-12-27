@@ -139,7 +139,7 @@ namespace pkNX.Randomization
             141, // Leech Life
         };
 
-        private static readonly GenericRandomizer<int> first = new GenericRandomizer<int>(firstMoves);
+        private static readonly GenericRandomizer<int> first = new(firstMoves);
 
         public static int GetRandomFirstMoveAny()
         {

@@ -7,7 +7,7 @@ namespace pkNX.Structures
 {
     public static class Util
     {
-        public static Random Rand { get; set; } = new Random();
+        public static Random Rand { get; set; } = new();
         internal static uint Rand32() => (uint)Rand.Next(1 << 30) << 2 | (uint)Rand.Next(1 << 2);
 
         private static T[] GetArray<T>(IReadOnlyList<byte[]> entries, Func<byte[], T> del)

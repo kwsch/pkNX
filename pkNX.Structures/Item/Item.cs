@@ -33,8 +33,8 @@ namespace pkNX.Structures
         [Category(Battle), Description("Routine # to call when used; 0=unusable.")]
         public byte EffectBattle { get; set; } // Battle Type
 
-        public byte _0xC { get; set; } // 0 or 1
-        public byte _0xD { get; set; } // Classification (0-3 Battle, 4 Balls, 5 Mail)
+        public byte Unk_0xC { get; set; } // 0 or 1
+        public byte Unk_0xD { get; set; } // Classification (0-3 Battle, 4 Balls, 5 Mail)
         private byte Consumable { get; set; }
         public byte SortIndex { get; set; }
         public BattleStatusFlags CureInflict { get; set; } // Bitflags

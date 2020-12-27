@@ -11,11 +11,11 @@ namespace pkNX.WinForms
     [Serializable]
     public class SharedSettings
     {
-        public PersonalRandSettings Personal { get; set; } = new PersonalRandSettings();
-        public SpeciesSettings Species { get; set; } = new SpeciesSettings();
-        public TrainerRandSettings Trainer { get; set; } = new TrainerRandSettings();
-        public MovesetRandSettings Move { get; set; } = new MovesetRandSettings();
-        public LearnSettings Learn { get; set; } = new LearnSettings();
+        public PersonalRandSettings Personal { get; set; } = new();
+        public SpeciesSettings Species { get; set; } = new();
+        public TrainerRandSettings Trainer { get; set; } = new();
+        public MovesetRandSettings Move { get; set; } = new();
+        public LearnSettings Learn { get; set; } = new();
     }
 
     public static class EditUtil

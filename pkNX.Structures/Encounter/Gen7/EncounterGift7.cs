@@ -18,7 +18,7 @@ namespace pkNX.Structures
 
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x8); }
 
-        public bool IsEgg { get => Data[0xA] == 1; set => Data[0xA] = (byte)(value ? 1 : 0); }
+        public bool IsEgg { get => Data[0xA] == 1; set => Data[0xA] = value ? 1 : 0; }
 
         public int SpecialMove { get => BitConverter.ToUInt16(Data, 0xC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xC); }
 

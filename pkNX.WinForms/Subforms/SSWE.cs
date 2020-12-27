@@ -199,7 +199,7 @@ namespace pkNX.WinForms
             }
         }
 
-        public static readonly Dictionary<int, int[]> RandomScaledRates = new Dictionary<int, int[]>
+        public static readonly Dictionary<int, int[]> RandomScaledRates = new()
         {
             [01] = new[] {100},
             [04] = new[] {60, 30, 7, 3},

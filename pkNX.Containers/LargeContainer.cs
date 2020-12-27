@@ -14,9 +14,9 @@ namespace pkNX
     {
         public virtual int Count => Files.Length;
 
-        public Task<byte[][]> GetFiles() => new Task<byte[][]>(() => { CacheAll(); return Files; });
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new Task<byte[]>(() => GetEntry(file, subFile));
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new Task(() => SetEntry(file, value, subFile));
+        public Task<byte[][]> GetFiles() => new(() => { CacheAll(); return Files; });
+        public Task<byte[]> GetFile(int file, int subFile = 0) => new(() => GetEntry(file, subFile));
+        public Task SetFile(int file, byte[] value, int subFile = 0) => new(() => SetEntry(file, value, subFile));
 
         public string Extension => Path.GetExtension(FilePath);
         public string FileName => Path.GetFileName(FilePath);
@@ -89,12 +89,7 @@ namespace pkNX
         public void CacheAll()
         {
             for (int i = 0; i < Files.Length; i++)
-            {
-                if (Files[i] == null)
-                {
-                    Files[i] = GetCachedValue(i, 0);
-                }
-            }
+                Files[i] ??= GetCachedValue(i, 0);
 
             Reader = null;
             Stream.Close();
@@ -113,7 +108,7 @@ namespace pkNX
 
         public abstract void Dump(string path, ContainerHandler handler);
 
-        public async Task SaveAs(string path, ContainerHandler handler, CancellationToken token = new CancellationToken())
+        public async Task SaveAs(string path, ContainerHandler handler, CancellationToken token = new())
         {
             bool sameLocation = path == FilePath && Reader != null;
             var writePath = sameLocation ? Path.GetTempFileName() : path;

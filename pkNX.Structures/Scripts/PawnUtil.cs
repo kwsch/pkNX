@@ -128,7 +128,7 @@ namespace pkNX.Structures
                 var signBit = sign ? 0x40 : 0x00;
 
                 if ((bytes.Last() & 0x40) != signBit)
-                    bytes.Add((byte)(sign ? 0xFF : 0x80));
+                    bytes.Add(sign ? 0xFF : 0x80);
             }
 
             // Little endian to big endian

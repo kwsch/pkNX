@@ -119,7 +119,7 @@ namespace pkNX.WinForms.Controls
 
         private void UpdateIV(object sender, EventArgs e)
         {
-            if (UpdatingFields || !(sender is MaskedTextBox t))
+            if (UpdatingFields || sender is not MaskedTextBox t)
                 return;
             var index = Array.IndexOf(tb_iv, t);
             if (index < 0)
@@ -134,7 +134,7 @@ namespace pkNX.WinForms.Controls
 
         private void UpdateEV(object sender, EventArgs e)
         {
-            if (UpdatingFields || !(sender is MaskedTextBox t))
+            if (UpdatingFields || sender is not MaskedTextBox t)
                 return;
             var index = Array.IndexOf(tb_ev, t);
             if (index < 0)
@@ -146,7 +146,7 @@ namespace pkNX.WinForms.Controls
 
         private void UpdateAV(object sender, EventArgs e)
         {
-            if (UpdatingFields || !(sender is MaskedTextBox t) || !(PKM is IAwakened a))
+            if (UpdatingFields || sender is not MaskedTextBox t || PKM is not IAwakened a)
                 return;
             var index = Array.IndexOf(tb_av, t);
             if (index < 0)

@@ -18,7 +18,7 @@ namespace pkNX.Structures
 
         private static EvolutionMethod GetEvo(byte[] data, int offset)
         {
-            return new EvolutionMethod
+            return new()
             {
                 Method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0),
                 Argument = BitConverter.ToUInt16(data, offset + 2),

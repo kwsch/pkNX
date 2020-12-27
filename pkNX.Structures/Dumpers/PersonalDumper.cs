@@ -74,7 +74,7 @@ namespace pkNX.Structures
 
         public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
 
-        public PersonalDumperSettings Settings = new PersonalDumperSettings();
+        public PersonalDumperSettings Settings = new();
 
         public List<string> Dump(PersonalTable table)
         {
@@ -104,7 +104,7 @@ namespace pkNX.Structures
 
         private void AddDump(List<string> lines, PersonalInfo pi, int entry, string name, int species, int form)
         {
-            if (pi is PersonalInfoSWSH s && !s.IsPresentInGame)
+            if (pi is PersonalInfoSWSH {IsPresentInGame: false})
                 return;
 
             var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";

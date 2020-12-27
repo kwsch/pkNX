@@ -10,7 +10,7 @@ namespace pkNX.Structures
     /// </summary>
     public class TextConfig
     {
-        internal static readonly TextConfig Default = new TextConfig(GameVersion.Any);
+        internal static readonly TextConfig Default = new(GameVersion.Any);
         private static readonly char[] _trim_hex = { '0', 'x' };
         private readonly TextVariableCode[] Variables;
 

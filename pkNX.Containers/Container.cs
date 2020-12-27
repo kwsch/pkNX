@@ -14,7 +14,7 @@ namespace pkNX.Containers
         {
             return t switch
             {
-                ContainerType.GARC => (IFileContainer) new GARC(path),
+                ContainerType.GARC => new GARC(path),
                 ContainerType.Mini => MiniUtil.GetMini(path),
                 ContainerType.SARC => new SARC(path),
                 ContainerType.Folder => new FolderContainer(path),
@@ -32,7 +32,7 @@ namespace pkNX.Containers
         {
             var fs = new FileStream(path, FileMode.Open);
             var container = GetContainer(fs);
-            if (!(container is LargeContainer)) // not kept
+            if (container is not LargeContainer) // not kept
                 fs.Dispose();
             if (container == null)
                 return null;
@@ -47,11 +47,9 @@ namespace pkNX.Containers
         /// <param name="stream">Stream for the binary data</param>
         public static IFileContainer GetContainer(Stream stream)
         {
-#pragma warning disable IDE0068 // Use recommended dispose pattern
             var br = new BinaryReader(stream);
-#pragma warning restore IDE0068 // Use recommended dispose pattern
             var container = GetContainer(br);
-            if (!(container is LargeContainer)) // not kept
+            if (container is not LargeContainer) // not kept
                 br.Dispose();
             return container;
         }

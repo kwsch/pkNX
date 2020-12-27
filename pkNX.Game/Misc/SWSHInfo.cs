@@ -342,7 +342,7 @@ namespace pkNX.Game
             { 0x909172718CA9AB5E, "Insular Sea" },
             { 0x909175718CA9B077, "Honeycalm Sea" },
             { 0x908DEC718CA691D5, "Honeycalm Island" },
-            
+
             { 0x525D03DF0309D804, "Fields of Honor" },
             { 0xB0621052994A5089, "Fields of Honor (Surfing)" },
             { 0x91B1D1436BAF5871, "Fields of Honor (Beach)" },

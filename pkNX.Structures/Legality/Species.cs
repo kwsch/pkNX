@@ -10,7 +10,7 @@ namespace pkNX.Structures
             094, 097, 099, 101, 103, 105, 106, 107, 110, 115, 119, 121, 122, 124, 127, 128, 130, 131, 132, 134, 135, 136, 139, 141, 142, 143, 149,
         };
 
-        public static readonly int[] FinalEvolutions_6 = FinalEvolutions_1.Concat(new int[]
+        public static readonly int[] FinalEvolutions_6 = FinalEvolutions_1.Concat(new[]
         {
             154, 157, 160, 162, 164, 166, 168, 169, 171, 178, 181, 182, 184, 185, 186, 189, 192, 195, 196, 197, 199, 201, 202, 203, 205, 206, 208, 210, 211, 212, 213, 214, 217, 219, 222, 224, 225,
             226, 227, 229, 230, 232, 234, 235, 237, 241, 242, 248, 254, 257, 260, 262, 264, 267, 269, 272, 275, 277, 279, 282, 284, 286, 289, 291, 292, 295, 297, 301, 302, 303, 306, 308, 310, 311,
@@ -22,12 +22,12 @@ namespace pkNX.Structures
             703, 706, 707, 709, 711, 713, 715,
         }).ToArray();
 
-        public static readonly int[] FinalEvolutions_7 = FinalEvolutions_6.Concat(new int[]
+        public static readonly int[] FinalEvolutions_7 = FinalEvolutions_6.Concat(new[]
         {
             724, 727, 730, 733, 735, 738, 740, 741, 743, 745, 746, 748, 750, 752, 754, 756, 758, 760, 763, 764, 765, 766, 768, 770, 771, 774, 775, 776, 777, 779, 780, 781, 784,
         }).ToArray();
 
-        public static readonly int[] FinalEvolutions_8 = FinalEvolutions_7.Concat(new int[]
+        public static readonly int[] FinalEvolutions_8 = FinalEvolutions_7.Concat(new[]
         {
             812, 815, 818, 820, 823, 826, 828, 830, 832, 834, 836, 839, 841, 842, 844, 845, 847, 849, 851, 853, 855, 858, 861, 862, 863, 864, 865, 866, 867, 869, 870, 871, 873, 874, 875, 876, 877,
             879, 880, 881, 882, 883, 884, 887,
@@ -43,7 +43,7 @@ namespace pkNX.Structures
             #endregion
         };
 
-        public static readonly int[] Legendary_6 = Legendary_1.Concat(new int[]
+        public static readonly int[] Legendary_6 = Legendary_1.Concat(new[]
         {
             #region Legendary
             243, // Raikou
@@ -83,7 +83,7 @@ namespace pkNX.Structures
             #endregion
         }).ToArray();
 
-        public static readonly int[] Legendary_SM = Legendary_6.Concat(new int[]
+        public static readonly int[] Legendary_SM = Legendary_6.Concat(new[]
         {
             #region Legendary
             773, // Silvally
@@ -104,13 +104,13 @@ namespace pkNX.Structures
             #endregion
         }).ToArray();
 
-        public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new int[] { 804, 805, 806 }).ToArray(); // Poipole, Blacephalon, Stakataka
+        public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new[] { 804, 805, 806 }).ToArray(); // Poipole, Blacephalon, Stakataka
 
-        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new int[] { 888, 889, 890 }).ToArray(); // Zacian, Zamazenta, Eternatus
+        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new[] { 888, 889, 890 }).ToArray(); // Zacian, Zamazenta, Eternatus
 
         public static readonly int[] Mythical_1 = { 151 }; // Mew
 
-        public static readonly int[] Mythical_6 = Mythical_1.Concat(new int[]
+        public static readonly int[] Mythical_6 = Mythical_1.Concat(new[]
         {
             #region Mythical
             251, // Celebi
@@ -131,10 +131,10 @@ namespace pkNX.Structures
             #endregion
         }).ToArray();
 
-        public static readonly int[] Mythical_SM = Mythical_6.Concat(new int[] { 801, 802 }).ToArray(); // Magearna, Marshadow
+        public static readonly int[] Mythical_SM = Mythical_6.Concat(new[] { 801, 802 }).ToArray(); // Magearna, Marshadow
 
-        public static readonly int[] Mythical_USUM = Mythical_SM.Concat(new int[] { 807 }).ToArray(); // Zeraora
+        public static readonly int[] Mythical_USUM = Mythical_SM.Concat(new[] { 807 }).ToArray(); // Zeraora
 
-        public static readonly int[] Mythical_GG = Mythical_1.Concat(new int[] { 809 }).ToArray(); // Melmetal
+        public static readonly int[] Mythical_GG = Mythical_1.Concat(new[] { 809 }).ToArray(); // Melmetal
     }
 }

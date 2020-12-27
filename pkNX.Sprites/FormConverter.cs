@@ -30,18 +30,13 @@ namespace pkNX.Sprites
 
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
-            switch ((Species)species)
+            return (Species) species switch
             {
-                case Unown:
-                    return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
-                case Mothim: // Wormadam base form is kept
-                    return form < 3;
-                case Scatterbug:
-                case Spewpa: // Vivillon Pre-evolutions
-                    return form < 18;
-                default:
-                    return false;
-            }
+                Unown => form < (generation == 2 ? 26 : 28), // A-Z : A-Z?!
+                Mothim => form < 3, // Wormadam base form is kept
+                Scatterbug or Spewpa => form < 18,
+                _ => false
+            };
         }
 
         /// <summary>
@@ -58,7 +53,7 @@ namespace pkNX.Sprites
             return count > 1;
         }
 
-        private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
+        private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new()
         {
             (int)Unown,
             (int)Mothim, // Burmy forme carried over, not cleared

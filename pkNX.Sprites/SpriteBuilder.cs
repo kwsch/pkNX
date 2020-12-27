@@ -63,7 +63,7 @@ namespace pkNX.Sprites
             return img ?? GetBaseImageFallback(species, form, gender, shiny, gmax, generation);
         }
 
-        private Image GetBaseImageTotem(int species, int form, int gender, bool shiny, bool gmax, int generation)
+        private Image? GetBaseImageTotem(int species, int form, int gender, bool shiny, bool gmax, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
             var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, gmax, generation);
@@ -72,10 +72,10 @@ namespace pkNX.Sprites
             return ImageUtil.ToGrayscale(baseImage);
         }
 
-        private Image GetBaseImageDefault(int species, int form, int gender, bool shiny, bool gmax, int generation)
+        private Image? GetBaseImageDefault(int species, int form, int gender, bool shiny, bool gmax, int generation)
         {
             var file = GetSpriteAll(species, form, gender, shiny, gmax, generation);
-            return (Image)Resources.ResourceManager.GetObject(file);
+            return (Image?)Resources.ResourceManager.GetObject(file);
         }
 
         private Image GetBaseImageFallback(int species, int form, int gender, bool shiny, bool gmax, int generation)
@@ -88,7 +88,7 @@ namespace pkNX.Sprites
             }
 
             // try again without form
-            var baseImage = (Image)Resources.ResourceManager.GetObject(GetSpriteStringSpeciesOnly(species));
+            var baseImage = (Image?)Resources.ResourceManager.GetObject(GetSpriteStringSpeciesOnly(species));
             if (baseImage == null) // failed again
                 return Unknown;
             return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
@@ -96,7 +96,7 @@ namespace pkNX.Sprites
 
         private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.bitem_unk;
+            Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.bitem_unk;
             if (328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.bitem_tm;
             else if (1130 <= item && item <= 1229) // Gen8 TR

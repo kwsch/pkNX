@@ -11,7 +11,7 @@ namespace pkNX.Game
         private readonly TextConfig Config;
         private readonly IReadOnlyCollection<TextReference> References;
 
-        private readonly Dictionary<TextName, string[]> Cache = new Dictionary<TextName, string[]>();
+        private readonly Dictionary<TextName, string[]> Cache = new();
 
         public void ClearCache() => Cache.Clear();
 

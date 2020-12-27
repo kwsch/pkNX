@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices.ComTypes;﻿
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace pkNX.Structures
 {
+#pragma warning disable CA1819 // Properties should not return arrays
     public class NestHoleReward8Archive
     {
         public NestHoleReward8Table[] Tables { get; set; }
@@ -41,4 +40,5 @@ namespace pkNX.Structures
 
         public override string ToString() => $"{EntryID:0} - {ItemID:0000}";
     }
+#pragma warning restore CA1819 // Properties should not return arrays
 }

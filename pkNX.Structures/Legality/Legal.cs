@@ -48,7 +48,7 @@ namespace pkNX.Structures
             return MegaDictionaryAO;
         }
 
-        private static readonly Dictionary<int, int[]> MegaDictionaryXY = new Dictionary<int, int[]>
+        private static readonly Dictionary<int, int[]> MegaDictionaryXY = new()
         {
             {003, new[] {659}}, // Venusaur @ Venusaurite
             {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
@@ -80,7 +80,7 @@ namespace pkNX.Structures
             {460, new[] {674}}, // Abomasnow @ Abomasite
         };
 
-        private static readonly Dictionary<int, int[]> MegaDictionaryAO = new Dictionary<int, int[]>
+        private static readonly Dictionary<int, int[]> MegaDictionaryAO = new()
         {
             {003, new[] {659}}, // Venusaur @ Venusaurite
             {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
@@ -131,7 +131,7 @@ namespace pkNX.Structures
             {719, new[] {764}}, // Diancie @ Diancite
         };
 
-        private static readonly Dictionary<int, int[]> MegaDictionaryGG = new Dictionary<int, int[]>
+        private static readonly Dictionary<int, int[]> MegaDictionaryGG = new()
         {
             {003, new[] {659}}, // Venusaur @ Venusaurite
             {006, new[] {660, 678}}, // Charizard @ Charizardite X/Y
@@ -192,7 +192,7 @@ namespace pkNX.Structures
             503, 504, 525, 529, 583, 585, 605, 742
         };
 
-        public static readonly HashSet<int> BattleForms = new HashSet<int>
+        public static readonly HashSet<int> BattleForms = new()
         {
             (int)Species.Castform,
             (int)Species.Cherrim,
@@ -210,7 +210,7 @@ namespace pkNX.Structures
             (int)Species.Eternatus,
         };
 
-        public static readonly HashSet<int> BattleMegas = new HashSet<int>
+        public static readonly HashSet<int> BattleMegas = new()
         {
             // XY
             (int)Species.Venusaur, (int)Species.Charizard, (int)Species.Blastoise, (int)Species.Alakazam, (int)Species.Gengar,
@@ -228,8 +228,8 @@ namespace pkNX.Structures
             (int)Species.Audino, (int)Species.Diancie,
         };
 
-        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 }; // Kyogre and Groudon
-        public static readonly HashSet<int> BattleFusions = new HashSet<int> { 646, 800, 898 }; // Kyurem, Necrozma, Calyrex
-        public static HashSet<int> BattleExclusiveForms = new HashSet<int>(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
+        public static readonly HashSet<int> BattlePrimals = new() { 382, 383 }; // Kyogre and Groudon
+        public static readonly HashSet<int> BattleFusions = new() { 646, 800, 898 }; // Kyurem, Necrozma, Calyrex
+        public static HashSet<int> BattleExclusiveForms = new(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
     }
 }

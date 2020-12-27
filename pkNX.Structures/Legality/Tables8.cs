@@ -180,7 +180,7 @@ namespace pkNX.Structures
 
         internal static readonly ushort[] HeldItems_SWSH = new ushort[1].Concat(Pouch_Items_SWSH).Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
 
-        internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
+        internal static readonly HashSet<int> GalarOriginForms = new()
         {
             (int)Species.Meowth,
             (int)Species.Ponyta,
@@ -204,13 +204,13 @@ namespace pkNX.Structures
             (int)Species.Slowking,
         };
 
-        internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
+        internal static readonly HashSet<int> GalarVariantFormEvolutions = new()
         {
             (int)Species.MrMime,
             (int)Species.Weezing,
         };
 
-        internal static readonly HashSet<int> GalarForm0Evolutions = new HashSet<int>
+        internal static readonly HashSet<int> GalarForm0Evolutions = new()
         {
             (int)Species.Obstagoon,
             (int)Species.Perrserker,
@@ -220,7 +220,7 @@ namespace pkNX.Structures
             (int)Species.Runerigus,
         };
 
-        public static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
+        public static readonly HashSet<int> EvolveToGalarForms = new(GalarVariantFormEvolutions.Concat(GalarOriginForms));
 
         public static readonly int[] GigantamaxForms =
         {
@@ -260,7 +260,7 @@ namespace pkNX.Structures
             (int)Species.Urshifu,
         };
 
-        internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_SWSH = new()
         {
                            006, 008,
                  012, 014, 016, 018,
@@ -341,7 +341,7 @@ namespace pkNX.Structures
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
+        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new()
         {
             298, // Flame Plate
             299, // Splash Plate

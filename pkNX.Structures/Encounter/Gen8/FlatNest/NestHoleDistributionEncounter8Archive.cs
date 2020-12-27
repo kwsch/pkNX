@@ -5,11 +5,14 @@ using System.Linq;
 
 namespace pkNX.Structures
 {
+#pragma warning disable CA1819 // Properties should not return arrays
+    [Serializable]
     public class NestHoleDistributionEncounter8Archive
     {
         public NestHoleDistributionEncounter8Table[] Tables { get; set; }
     }
 
+    [Serializable]
     public class NestHoleDistributionEncounter8Table
     {
         public ulong TableID { get; set; }
@@ -161,6 +164,7 @@ namespace pkNX.Structures
         }
     }
 
+    [Serializable]
     public class NestHoleDistributionEncounter8
     {
         public int EntryIndex { get; set; }
@@ -207,4 +211,5 @@ namespace pkNX.Structures
 
         public override string ToString() => $"[{MinRank},{MaxRank}] {(Species)Species}-{AltForm}";
     }
+#pragma warning restore CA1819 // Properties should not return arrays
 }

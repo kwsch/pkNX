@@ -9,7 +9,7 @@ namespace pkNX.Structures
             001, 004, 007, 010, 013, 016, 029, 032, 041, 043, 060, 063, 066, 069, 074, 081, 092, 111, 116, 137, 147,
         };
 
-        public static readonly int[] BasicStarters_6 = BasicStarters_1.Concat(new int[]
+        public static readonly int[] BasicStarters_6 = BasicStarters_1.Concat(new[]
         {
             152, 155, 158, 172, 173, 174, 175, 179, 187, 220, 239, 240, 246, 252, 255, 258, 265, 270, 273, 280, 287,
             293, 298, 304, 328, 355, 363, 371, 374, 387, 390, 393, 396, 403, 406, 440, 443, 495, 498, 501, 506, 519,

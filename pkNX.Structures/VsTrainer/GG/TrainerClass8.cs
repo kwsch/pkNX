@@ -13,10 +13,10 @@ namespace pkNX.Structures
         public sealed override int SIZE => 280;
         public TrainerClass8(byte[] data = null) => Data = data ?? new byte[SIZE];
 
-        public byte _0x00 { get => Data[0]; set => Data[0] = value; } // bool?
+        public byte Unk_0x00 { get => Data[0]; set => Data[0] = value; } // bool?
         public override int Group { get => Data[1]; set => Data[1] = (byte)value; }
         public override int BallID { get => Data[2]; set => Data[2] = (byte)value; }
-        public byte _0x03 { get => Data[3]; set => Data[3] = value; } // bool?
+        public byte Unk_0x03 { get => Data[3]; set => Data[3] = value; } // bool?
 
         // model hash (name, form, variation)?
         public byte[] Hash => Data.Slice(0x8, 0x10);

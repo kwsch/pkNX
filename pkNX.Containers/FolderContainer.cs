@@ -9,9 +9,9 @@ namespace pkNX.Containers
 {
     public class FolderContainer : IFileContainer
     {
-        private readonly List<string> Paths = new List<string>();
-        private readonly List<byte[]> Data = new List<byte[]>();
-        private readonly List<bool> TrackModify = new List<bool>();
+        private readonly List<string> Paths = new();
+        private readonly List<byte[]> Data = new();
+        private readonly List<bool> TrackModify = new();
 
         public FolderContainer() { }
         public FolderContainer(IEnumerable<string> files) => AddFiles(files);
@@ -90,7 +90,7 @@ namespace pkNX.Containers
         public Task<byte[][]> GetFiles() => Task.FromResult(Paths.Select(FileMitm.ReadAllBytes).ToArray());
         public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
         public Task SetFile(int file, byte[] value, int subFile = 0) => Task.FromResult(this[file] = value);
-        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new Task(SaveAll, token);
+        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new(SaveAll, token);
 
         private void SaveAll()
         {

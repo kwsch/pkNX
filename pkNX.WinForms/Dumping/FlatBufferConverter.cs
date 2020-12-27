@@ -159,7 +159,7 @@ namespace pkNX.WinForms
         public static byte[] GetSchema(string name)
         {
             var obj = Resources.ResourceManager.GetObject(name);
-            if (!(obj is byte[] b))
+            if (obj is not byte[] b)
                 throw new FileNotFoundException(nameof(name));
             return b;
         }

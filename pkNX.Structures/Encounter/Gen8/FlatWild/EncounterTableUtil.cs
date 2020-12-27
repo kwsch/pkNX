@@ -10,9 +10,8 @@ namespace pkNX.Structures
         public static byte[][] GetBytes(IReadOnlyDictionary<ulong, byte> zone_loc, EncounterArchive8 t)
         {
             var result = new List<byte[]>();
-            for (int i = 0; i < t.EncounterTables.Length; i++)
+            foreach (var zone in t.EncounterTables)
             {
-                var zone = t.EncounterTables[i];
                 var entry = GetZoneBytes(zone, zone_loc);
                 if (entry.Length != 0)
                     result.Add(entry);

@@ -4,7 +4,8 @@ namespace pkNX.Structures
 {
     public static partial class PawnUtil
     {
-        public static readonly Dictionary<AmxOpCode, AmxOpCodeType> OpCodeTypes = new Dictionary<AmxOpCode, AmxOpCodeType> {
+        public static readonly Dictionary<AmxOpCode, AmxOpCodeType> OpCodeTypes = new()
+        {
             { AmxOpCode.NONE, AmxOpCodeType.NoParams },
             { AmxOpCode.LOAD_PRI, AmxOpCodeType.OneParam },
             { AmxOpCode.LOAD_ALT, AmxOpCodeType.OneParam },

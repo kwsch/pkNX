@@ -49,7 +49,7 @@ namespace pkNX.Containers
 
         public Task SaveAs(string path, ContainerHandler handler, CancellationToken token)
         {
-            return new Task(() =>
+            return new(() =>
             {
                 byte[] data = MiniUtil.PackMini(Files, Identifier);
                 FileMitm.WriteAllBytes(path, data);

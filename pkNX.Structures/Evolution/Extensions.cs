@@ -7,7 +7,7 @@ namespace pkNX.Structures
 {
     public static partial class Extensions
     {
-        private static readonly Dictionary<EvolutionType, EvolutionTypeArgumentType> ArgType = new Dictionary<EvolutionType, EvolutionTypeArgumentType>
+        private static readonly Dictionary<EvolutionType, EvolutionTypeArgumentType> ArgType = new()
         {
             [None] = NoArg,
             [LevelUpFriendship] = NoArg,

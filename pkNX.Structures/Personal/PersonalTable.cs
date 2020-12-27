@@ -24,44 +24,30 @@ namespace pkNX.Structures
 
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
-            switch (format)
+            return format switch
             {
-                case GameVersion.BW:
-                    return z => new PersonalInfoBW(z);
-                case GameVersion.B2W2:
-                    return z => new PersonalInfoB2W2(z);
-                case GameVersion.XY:
-                    return z => new PersonalInfoXY(z);
-                case GameVersion.ORAS:
-                    return z => new PersonalInfoORAS(z);
-                case GameVersion.SM:
-                case GameVersion.USUM:
-                    return z => new PersonalInfoSM(z);
-                case GameVersion.GG:
-                    return z => new PersonalInfoGG(z);
-                default:
-                    return z => new PersonalInfoSWSH(z);
-            }
+                GameVersion.BW => z => new PersonalInfoBW(z),
+                GameVersion.B2W2 => z => new PersonalInfoB2W2(z),
+                GameVersion.XY => z => new PersonalInfoXY(z),
+                GameVersion.ORAS => z => new PersonalInfoORAS(z),
+                GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
+                GameVersion.GG => z => new PersonalInfoGG(z),
+                _ => z => new PersonalInfoSWSH(z),
+            };
         }
 
         private static int GetEntrySize(GameVersion format)
         {
-            switch (format)
+            return format switch
             {
-                case GameVersion.BW: return PersonalInfoBW.SIZE;
-                case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
-                case GameVersion.XY: return PersonalInfoXY.SIZE;
-                case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
-                case GameVersion.SM:
-                case GameVersion.USUM:
-                case GameVersion.GG: return PersonalInfoSM.SIZE;
-
-                case GameVersion.SW:
-                case GameVersion.SH:
-                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE;
-
-                default: return -1;
-            }
+                GameVersion.BW => PersonalInfoBW.SIZE,
+                GameVersion.B2W2 => PersonalInfoB2W2.SIZE,
+                GameVersion.XY => PersonalInfoXY.SIZE,
+                GameVersion.ORAS => PersonalInfoORAS.SIZE,
+                GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
+                GameVersion.SW or GameVersion.SH or GameVersion.SWSH => PersonalInfoSWSH.SIZE,
+                _ => -1
+            };
         }
 
         public PersonalTable(byte[] data, GameVersion format)

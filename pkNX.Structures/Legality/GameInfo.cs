@@ -34,7 +34,7 @@ namespace pkNX.Structures
         {
             return game switch
             {
-                GameVersion.XY => (Action) LoadXY,
+                GameVersion.XY => LoadXY,
                 GameVersion.ORASDEMO => LoadAO,
                 GameVersion.ORAS => LoadAO,
                 GameVersion.SMDEMO => LoadSM,

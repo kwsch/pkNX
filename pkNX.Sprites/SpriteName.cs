@@ -53,7 +53,9 @@ namespace pkNX.Sprites
                         gender = 2; // Cosplay Pikachu gift can only be Female, but personal entries are set to be either Gender
                     }
                     else if (form == 8)
+                    {
                         sb.Append(GGStarter);
+                    }
                 }
                 else if (species == (int)Species.Eevee)
                 {
@@ -79,7 +81,7 @@ namespace pkNX.Sprites
         /// <summary>
         /// Species that show their default Species sprite regardless of current form
         /// </summary>
-        public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
+        public static readonly HashSet<int> SpeciesDefaultFormSprite = new()
         {
             (int)Species.Mothim,
             (int)Species.Scatterbug,
@@ -94,7 +96,7 @@ namespace pkNX.Sprites
         /// <summary>
         /// Species that show a Gender specific Sprite
         /// </summary>
-        public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
+        public static readonly HashSet<int> SpeciesGenderedSprite = new()
         {
             (int)Species.Pikachu,
             (int)Species.Hippopotas,

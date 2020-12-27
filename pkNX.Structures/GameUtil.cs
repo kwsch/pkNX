@@ -155,75 +155,48 @@ namespace pkNX.Structures
             if (g1 == g2 || g1 == Any)
                 return true;
 
-            if (g1 == g2 || g1 == Any)
-                return true;
-
-            switch (g1)
+            return g1 switch
             {
-                case RB:
-                    return g2 == RD || g2 == BU || g2 == GN;
-                case Stadium:
-                case EventsGBGen1:
-                case VCEvents:
-                case RBY:
-                    return RB.Contains(g2) || g2 == YW;
-                case Gen1:
-                    return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
+                RB => g2 is RD or BU or GN,
+                RBY or Stadium => RB.Contains(g2) || g2 == YW,
+                Gen1 => RBY.Contains(g2) || g2 == Stadium,
 
-                case GS: return g2 == GD || g2 == SV;
-                case Stadium2:
-                case EventsGBGen2:
-                case GSC:
-                    return GS.Contains(g2) || g2 == C;
-                case Gen2:
-                    return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
-                case GBCartEraOnly:
-                    return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
+                GS => g2 is GD or SV,
+                GSC or Stadium2 => GS.Contains(g2) || g2 == C,
+                Gen2 => GSC.Contains(g2) || g2 == Stadium2,
 
-                case RS: return g2 == R || g2 == S;
-                case RSE:
-                    return RS.Contains(g2) || g2 == E;
-                case FRLG: return g2 == FR || g2 == LG;
-                case COLO:
-                case XD: return g2 == CXD;
-                case CXD: return g2 == COLO || g2 == XD;
-                case RSBOX: return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
-                case Gen3:
-                    return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
+                RS => g2 is R or S,
+                RSE => RS.Contains(g2) || g2 == E,
+                FRLG => g2 is FR or LG,
+                COLO or XD => g2 == CXD,
+                CXD => g2 is COLO or XD,
+                RSBOX => RS.Contains(g2) || g2 == E || FRLG.Contains(g2),
+                Gen3 => RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX,
 
-                case DP: return g2 == D || g2 == P;
-                case HGSS: return g2 == HG || g2 == SS;
-                case DPPt:
-                    return DP.Contains(g2) || g2 == Pt;
-                case BATREV: return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
-                case Gen4:
-                    return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
+                DP => g2 is D or P,
+                HGSS => g2 is HG or SS,
+                DPPt => DP.Contains(g2) || g2 == Pt,
+                BATREV => DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2),
+                Gen4 => DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV,
 
-                case BW: return g2 == B || g2 == W;
-                case B2W2: return g2 == B2 || g2 == W2;
-                case Gen5:
-                    return BW.Contains(g2) || B2W2.Contains(g2);
+                BW => g2 is B or W,
+                B2W2 => g2 is B2 or W2,
+                Gen5 => BW.Contains(g2) || B2W2.Contains(g2),
 
-                case XY: return g2 == X || g2 == Y;
-                case ORAS: return g2 == OR || g2 == AS;
-                case Gen6:
-                    return XY.Contains(g2) || ORAS.Contains(g2);
+                XY => g2 is X or Y,
+                ORAS => g2 is OR or AS,
 
-                case SM:
-                    return g2 == SN || g2 == MN;
-                case USUM:
-                    return g2 == US || g2 == UM;
-                case GG:
-                    return g2 == GP || g2 == GE || g2 == GO;
-                case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
+                Gen6 => XY.Contains(g2) || ORAS.Contains(g2),
+                SM => g2 is SN or MN,
+                USUM => g2 is US or UM,
+                GG => g2 is GP or GE,
+                Gen7 => SM.Contains(g2) || USUM.Contains(g2),
+                Gen7b => GG.Contains(g2) || GO == g2,
 
-                case Gen8:
-                case SWSH:
-                    return g2 == SW || g2 == SH;
-
-                default: return false;
-            }
+                SWSH => g2 is SW or SH,
+                Gen8 => SWSH.Contains(g2),
+                _ => false,
+            };
         }
 
         /// <summary>

@@ -15,7 +15,7 @@
         private const byte IDENT_REFERENCE = 2;
         private const byte IDENT_ARRAY = 3;
         private const byte IDENT_REFARRAY = 4;
-        private const byte IDENT_FUNCTION = 9;
+      //private const byte IDENT_FUNCTION = 9;
         private const byte IDENT_VARARGS = 11;
 
         public static VariableType FromIdent(this byte ident)

@@ -178,11 +178,9 @@ namespace pkNX.Randomization
                 pk.Form = 0; // allow it to Mega Evolve naturally
                 return;
             }
-            else
-            {
-                pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
-                pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, false, Personal.Table);
-            }
+
+            pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
+            pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, false, Personal.Table);
         }
 
         private void TryForceEvolve(IPokeData pk)

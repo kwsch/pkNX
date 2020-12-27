@@ -197,14 +197,14 @@ namespace pkNX.Structures
         #endregion
         public static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_SM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
 
-        public static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        public static readonly HashSet<int> Totem_Alolan = new()
         {
             (int)Species.Raticate, // Normal, Alolan, Totem
             (int)Species.Marowak, // Normal, Alolan, Totem
             (int)Species.Mimikyu, // Normal, Busted, Totem, Totem_Busted
         };
 
-        public static readonly HashSet<int> Totem_SM = new HashSet<int>
+        public static readonly HashSet<int> Totem_SM = new()
         {
             (int)Species.Raticate,
             (int)Species.Gumshoos,
@@ -216,7 +216,7 @@ namespace pkNX.Structures
             (int)Species.Kommoo,
         };
 
-        public static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        public static readonly HashSet<int> Totem_USUM = new()
         {
             (int)Species.Raticate,
             (int)Species.Gumshoos,

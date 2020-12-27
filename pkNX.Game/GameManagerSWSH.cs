@@ -9,16 +9,17 @@ namespace pkNX.Game
     public class GameManagerSWSH : GameManager
     {
         public GameManagerSWSH(GameLocation rom, int language) : base(rom, language) { }
-        private GameVersion ActualGame;
+        private GameVersion ActualGame = GameVersion.SW;
         public string TitleID => ActualGame == GameVersion.SW ? Sword : Shield;
         private const string Sword = "0100ABF008968000";
         private const string Shield = "01008DB008C2C000";
 
+        public bool IsSword { get; set; } = true;
+
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
-            const bool shield = false; // todo
-            ActualGame = shield ? GameVersion.SH : GameVersion.SW;
+            ActualGame = !IsSword ? GameVersion.SH : GameVersion.SW;
             var redirect = Path.Combine(basePath, TitleID);
             FileMitm.SetRedirect(basePath, redirect);
         }

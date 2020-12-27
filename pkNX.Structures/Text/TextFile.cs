@@ -141,8 +141,7 @@ namespace pkNX.Structures
 
         private byte[][] ConvertLinesToData(string[] value)
         {
-            if (value == null)
-                value = Array.Empty<string>();
+            value ??= Array.Empty<string>();
 
             ushort key = KEY_BASE;
             var lineData = new byte[value.Length][];
