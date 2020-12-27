@@ -148,7 +148,7 @@ namespace pkNX.Structures
                 var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
 
-                return $"            new EncounterStatic8NC {{ {spec}{lvl}{abil}{loc}{ivs}{dyna}{moves}{altform}{giga} }}, // {comment}";
+                return $"            new() {{ {spec}{lvl}{abil}{loc}{ivs}{dyna}{moves}{altform}{giga} }}, // {comment}";
             }
         }
 

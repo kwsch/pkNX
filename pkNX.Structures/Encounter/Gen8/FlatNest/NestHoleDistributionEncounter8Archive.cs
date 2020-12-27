@@ -148,7 +148,7 @@ namespace pkNX.Structures
                         throw new Exception();
                 }
                 var flawless = e.FlawlessIVs;
-                return $"            new EncounterStatic8ND({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
+                return $"            new({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
             }
         }
 
