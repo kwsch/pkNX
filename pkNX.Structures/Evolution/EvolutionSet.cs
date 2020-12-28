@@ -1,4 +1,6 @@
-﻿namespace pkNX.Structures
+﻿using System;
+
+namespace pkNX.Structures
 {
     /// <summary>
     /// Table of Evolution Branch Entries
@@ -7,5 +9,7 @@
     {
         public EvolutionMethod[] PossibleEvolutions;
         public abstract byte[] Write();
+
+        protected EvolutionSet() => PossibleEvolutions = Array.Empty<EvolutionMethod>();
     }
 }

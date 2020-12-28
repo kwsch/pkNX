@@ -17,17 +17,19 @@ namespace pkNX.Randomization
         private readonly IList<int> SpecialClasses;
         private readonly IList<int> CrashClasses;
 
-        public GenericRandomizer<int> Class { get; set; }
-        public LearnsetRandomizer Learn { get; set; }
-        public SpeciesRandomizer RandSpec { get; set; }
-        public FormRandomizer RandForm { get; set; }
-        public MoveRandomizer RandMove { get; set; }
         public int ClassCount { get; set; }
-        public Func<TrainerPoke> GetBlank { get; set; }
-        public EvolutionSet[] Evos { get; set; }
+        public EvolutionSet[] Evos { get; }
 
-        private TrainerRandSettings Settings;
-        private SpeciesSettings SpecSettings;
+        // Set these before starting up
+        public GenericRandomizer<int> Class { get; set; } = null!;
+        public LearnsetRandomizer Learn { get; set; } = null!;
+        public SpeciesRandomizer RandSpec { get; set; } = null!;
+        public FormRandomizer RandForm { get; set; } = null!;
+        public MoveRandomizer RandMove { get; set; } = null!;
+        public Func<TrainerPoke> GetBlank { get; set; } = null!;
+
+        private TrainerRandSettings Settings = null!;
+        private SpeciesSettings SpecSettings = null!;
 
         public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
         {

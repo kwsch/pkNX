@@ -12,22 +12,26 @@ namespace pkNX.Containers
         private FATO FATO;
         private FATB FATB;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public GARC(BinaryReader br) => OpenRead(br);
         public GARC(string file) => OpenBinary(file);
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public GARC(IReadOnlyList<string> files, GARCVersion version = GARCVersion.VER_6)
         {
             Header = new GARCHeader(version);
             FATO = new FATO(files.Count);
             FATB = new FATB(files);
+            Files = new byte[]?[files.Count];
         }
 
         protected override void Initialize()
         {
-            Reader.BaseStream.Position = 0;
+            Reader!.BaseStream.Position = 0;
             Header = new GARCHeader(Reader);
             FATO = new FATO(Reader);
             FATB = new FATB(Reader, Header.DataOffset);
+            Files = new byte[]?[FATO.EntryCount];
         }
 
         protected override int GetFileOffset(int file, int subFile = 0)
@@ -42,12 +46,12 @@ namespace pkNX.Containers
             if (f.File is byte[] data)
                 return data;
 
-            data = f.GetFileData(Reader.BaseStream);
+            data = f.GetFileData(Reader!.BaseStream);
             f.File = data; // cache for future fetches
             return data;
         }
 
-        public override void SetEntry(int index, byte[] value, int subFile)
+        public override void SetEntry(int index, byte[]? value, int subFile)
         {
             Modified |= value != null && !GetEntry(index, subFile).SequenceEqual(value);
             var f = FATB[index].SubEntries[subFile];
@@ -94,7 +98,7 @@ namespace pkNX.Containers
         private void WriteEntry(BinaryWriter bw, int i, int DataOffset)
         {
             FATO[i].Offset = (uint)bw.BaseStream.Position;
-            FATB[i].WriteEntries(bw, Reader?.BaseStream, Header.ContentPadToNearest, DataOffset,
+            FATB[i].WriteEntries(bw, Reader!.BaseStream, Header.ContentPadToNearest, DataOffset,
                 ref Header.ContentLargestUnpadded, ref Header.ContentLargestPadded);
         }
 
@@ -108,12 +112,12 @@ namespace pkNX.Containers
             handler.Initialize(Count);
             for (int i = 0; i < Count; i++)
             {
-                FATB[i].Dump(path, i, format, Reader.BaseStream, Header.DataOffset);
+                FATB[i].Dump(path, i, format, Reader!.BaseStream, Header.DataOffset);
                 handler.StepFile(i+1);
             }
         }
 
-        public static GARC GetGARC(BinaryReader br)
+        public static GARC? GetGARC(BinaryReader br)
         {
             if (br.BaseStream.Length < 20)
                 return null;

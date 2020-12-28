@@ -10,8 +10,10 @@ namespace pkNX.Containers
     public class FolderContainer : IFileContainer
     {
         private readonly List<string> Paths = new();
-        private readonly List<byte[]> Data = new();
+        private readonly List<byte[]?> Data = new();
         private readonly List<bool> TrackModify = new();
+
+        public string? FilePath { get; set; }
 
         public FolderContainer() { }
         public FolderContainer(IEnumerable<string> files) => AddFiles(files);
@@ -19,7 +21,7 @@ namespace pkNX.Containers
         public FolderContainer(string path) => FilePath = path;
         public FolderContainer(string path, Func<string, bool> filter) : this(path) => Initialize(filter);
 
-        public void Initialize(Func<string, bool> filter = null)
+        public void Initialize(Func<string, bool>? filter = null)
         {
             if (Paths.Count > 0)
                 return; // already initialized
@@ -30,7 +32,7 @@ namespace pkNX.Containers
             AddFiles(files);
         }
 
-        public void AddFile(string file, byte[] data = null)
+        public void AddFile(string file, byte[]? data = null)
         {
             Paths.Add(file);
             Data.Add(data);
@@ -43,7 +45,7 @@ namespace pkNX.Containers
                 AddFile(f);
         }
 
-        public byte[] GetFileData(string file)
+        public byte[]? GetFileData(string file)
         {
             var index = Paths.FindIndex(z => Path.GetFileName(z) == file);
             if (index < 0)
@@ -55,8 +57,6 @@ namespace pkNX.Containers
 
         public byte[] GetFileData(int index)
         {
-            if (index < 0 || (uint)index >= Data.Count)
-                return null;
             var data = Data[index] ??= FileMitm.ReadAllBytes(Paths[index]);
             return (byte[])data.Clone();
         }
@@ -66,18 +66,20 @@ namespace pkNX.Containers
             get => GetFileData(index);
             set
             {
-                if (value != null)
-                {
-                    var current = Data[index] ??= GetFileData(index);
-                    TrackModify[index] = !value.SequenceEqual(current);
-                }
+                var current = Data[index] ??= GetFileData(index);
+                TrackModify[index] = !value.SequenceEqual(current);
+
                 Data[index] = value;
             }
         }
 
-        public string GetFileName(int index) => Paths[index];
+        public void ResetIndex(int index)
+        {
+            Data[index] = null;
+            TrackModify[index] = false;
+        }
 
-        public string FilePath { get; set; }
+        public string GetFileName(int index) => Paths[index];
 
         public bool Modified
         {

@@ -6,8 +6,8 @@ namespace pkNX.Containers
 {
     public sealed class ContainerHandler
     {
-        public event EventHandler<FileCountDeterminedEventArgs> FileCountDetermined;
-        public event EventHandler<FileProgressedEventArgs> FileProgressed;
+        public event EventHandler<FileCountDeterminedEventArgs>? FileCountDetermined;
+        public event EventHandler<FileProgressedEventArgs>? FileProgressed;
 
         private int count;
 
@@ -18,11 +18,11 @@ namespace pkNX.Containers
             FileCountDetermined?.Invoke(null, args);
         }
 
-        public void StepFile(int ctr, int total = -1, string fileName = null)
+        public void StepFile(int ctr, int total = -1, string? fileName = null)
         {
             if (total < 0)
                 total = count;
-            var args = new FileProgressedEventArgs {Current = ctr, Total = total, CurrentFile = fileName};
+            var args = new FileProgressedEventArgs {Current = ctr, Total = total, CurrentFile = fileName ?? string.Empty};
             FileProgressed?.Invoke(null, args);
         }
     }

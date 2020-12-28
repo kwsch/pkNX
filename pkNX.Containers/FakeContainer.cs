@@ -17,7 +17,7 @@ namespace pkNX.Containers
                 Backup[i] = (byte[])files[i].Clone();
         }
 
-        public string FilePath { get; set; } = string.Empty;
+        public string? FilePath { get; set; } = string.Empty;
         public bool Modified { get; set; }
         public int Count => Files.Length;
 

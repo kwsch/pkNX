@@ -34,8 +34,10 @@ namespace pkNX.Containers
             Header = new SARCHeader();
             SFAT = new SFAT(baseFolder, files);
             SFNT = new SFNT();
+            Files = new byte[]?[SFAT.Entries.Count];
         }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         /// <summary>
         /// Initializes a <see cref="SARC"/> from a file location.
         /// </summary>
@@ -53,12 +55,15 @@ namespace pkNX.Containers
         /// </summary>
         /// <param name="br"></param>
         public SARC(BinaryReader br) => OpenRead(br);
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Reads the contents of the <see cref="SARC"/> header and file info tables.
         /// </summary>
         protected override void Initialize()
         {
+            if (Reader is null)
+                throw new NullReferenceException(nameof(Reader));
             Header = new SARCHeader(Reader);
             if (!SigMatches)
                 return;
@@ -83,8 +88,8 @@ namespace pkNX.Containers
             {
                 var entr = SFAT.Entries[i];
                 if (entr.FileName == null)
-                    entr.GetFileName(Reader.BaseStream, (int)currentStringOffset);
-                entr.WriteFileName(Reader.BaseStream, (int)SFNT.StringOffset);
+                    entr.GetFileName(Reader!.BaseStream, (int)currentStringOffset);
+                entr.WriteFileName(Reader!.BaseStream, (int)SFNT.StringOffset);
                 while (Reader.BaseStream.Position % 4 != 0)
                     bw.Write((byte)0);
             }
@@ -126,12 +131,12 @@ namespace pkNX.Containers
             if (f.File is byte[] data)
                 return data;
 
-            data = f.GetFileData(Reader.BaseStream);
+            data = f.GetFileData(Reader!.BaseStream);
             f.File = data; // cache for future fetches
             return data;
         }
 
-        public override void Dump(string path, ContainerHandler handler)
+        public override void Dump(string? path, ContainerHandler handler)
         {
             path ??= FilePath;
             if (path == null)
@@ -149,12 +154,12 @@ namespace pkNX.Containers
             handler.Initialize(count);
             for (int i = 0; i < count; i++)
             {
-                SFAT.Entries[i].Dump(Reader.BaseStream, path, Header.DataOffset);
+                SFAT.Entries[i].Dump(Reader!.BaseStream, path, Header.DataOffset);
                 handler.StepFile(i + 1);
             }
         }
 
-        public static SARC GetSARC(BinaryReader br)
+        public static SARC? GetSARC(BinaryReader br)
         {
             if (br.BaseStream.Length < 20)
                 return null;

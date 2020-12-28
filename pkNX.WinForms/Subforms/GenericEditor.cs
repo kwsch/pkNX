@@ -7,7 +7,7 @@ namespace pkNX.WinForms
 {
     public sealed partial class GenericEditor<T> : Form where T : class
     {
-        public GenericEditor(DataCache<T> cache, string[] names, string title, Action randomize = null)
+        public GenericEditor(DataCache<T> cache, string[] names, string title, Action? randomize = null)
         {
             InitializeComponent();
             Cache = cache;

@@ -16,9 +16,12 @@ namespace pkNX.WinForms
     public partial class BTTE : Form
     {
         private readonly LearnsetRandomizer learn;
-        private string[][] AltForms;
+        private readonly string[][] AltForms;
+        private readonly PictureBox[] pba;
+
         private int entry = -1;
-        private PictureBox[] pba;
+        private TrainerPoke pkm = new TrainerPoke7b();
+        private bool loadingPKM;
 
         private readonly PersonalTable Personal;
         private readonly GameManager Game;
@@ -38,11 +41,15 @@ namespace pkNX.WinForms
         public BTTE(GameManager game, TrainerEditor editor)
         {
             InitializeComponent();
+            pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
 
             Stats.Personal = Personal = game.Data.PersonalData;
             Game = game;
             Trainers = editor;
             learn = new LearnsetRandomizer(game.Info, game.Data.LevelUpData.LoadAll(), Personal);
+
+            AltForms = new byte[Personal.TableLength]
+                .Select(_ => Enumerable.Range(0, 32).Select(i => i.ToString()).ToArray()).ToArray();
 
             trClass = Game.GetStrings(TextName.TrainerClasses);
             trName = Game.GetStrings(TextName.TrainerClasses);
@@ -225,11 +232,9 @@ namespace pkNX.WinForms
 
         private void Setup()
         {
-            AltForms = new byte[Personal.TableLength]
-                .Select(_ => Enumerable.Range(0, 32).Select(i => i.ToString()).ToArray()).ToArray();
             CB_TrainerID.Items.Clear();
             for (int i = 0; i < Trainers.Length; i++)
-                CB_TrainerID.Items.Add(GetEntryTitle(trName[i] ?? "UNKNOWN", i));
+                CB_TrainerID.Items.Add(GetEntryTitle(trName[i], i));
 
             CB_Trainer_Class.Items.Clear();
             for (int i = 0; i < trClass.Length; i++)
@@ -237,7 +242,6 @@ namespace pkNX.WinForms
 
             specieslist[0] = "---";
             abilitylist[0] = itemlist[0] = movelist[0] = "(None)";
-            pba = new[] {PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6};
 
             CB_Species.Items.AddRange(specieslist);
 
@@ -270,7 +274,6 @@ namespace pkNX.WinForms
 
             CB_TrainerID.SelectedIndex = 0;
             entry = 0;
-            pkm = new TrainerPoke7b();
             PopulateFields(pkm);
         }
 
@@ -311,10 +314,6 @@ namespace pkNX.WinForms
             string str = TB_TrainerName.Text;
             CB_TrainerID.Items[entry] = GetEntryTitle(str, entry);
         }
-
-        private TrainerPoke pkm;
-
-        private bool loadingPKM;
 
         private void PopulateFields(TrainerPoke pk)
         {

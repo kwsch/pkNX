@@ -14,9 +14,9 @@ namespace pkNX.Randomization
         private readonly GameInfo Game;
         private readonly PersonalTable Personal;
         private MoveRandomizer moverand;
-        public IReadOnlyList<Move> Moves { private get; set; }
+        public IReadOnlyList<Move> Moves { private get; set; } = Array.Empty<Move>();
 
-        public LearnSettings Settings { get; private set; }
+        public LearnSettings Settings { get; private set; } = new();
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
 
         public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, PersonalTable t)
@@ -24,6 +24,9 @@ namespace pkNX.Randomization
             Game = game;
             Learnsets = learnsets;
             Personal = t;
+
+            // temp, overwrite later if using it
+            moverand = new MoveRandomizer(game, Moves, Personal);
         }
 
         private static readonly int[] MetronomeMove = { 118 };
@@ -59,7 +62,7 @@ namespace pkNX.Randomization
             }
         }
 
-        public void Initialize(Move[] moves, LearnSettings settings, MovesetRandSettings moverandset, int[] bannedMoves = null)
+        public void Initialize(Move[] moves, LearnSettings settings, MovesetRandSettings moverandset, int[]? bannedMoves = null)
         {
             Moves = moves;
             Settings = settings;

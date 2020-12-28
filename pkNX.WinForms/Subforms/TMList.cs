@@ -23,7 +23,7 @@ namespace pkNX.WinForms
         }
 
         public bool Modified { get; set; }
-        public ushort[] FinalMoves { get; private set; }
+        public ushort[] FinalMoves { get; private set; } = Array.Empty<ushort>();
 
         private void SetupDGV(string[] list)
         {

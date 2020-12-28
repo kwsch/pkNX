@@ -20,7 +20,7 @@ namespace pkNX.WinForms
 
     public static class EditUtil
     {
-        public static SharedSettings Settings { get; set; }
+        public static SharedSettings Settings { get; set; } = new();
 
         public static void LoadSettings(GameVersion game)
         {
@@ -35,7 +35,7 @@ namespace pkNX.WinForms
             var reader = new XmlSerializer(typeof(SharedSettings));
             try
             {
-                Settings = (SharedSettings) reader.Deserialize(file) ?? new SharedSettings();
+                Settings = (SharedSettings?) reader.Deserialize(file) ?? new SharedSettings();
             }
             catch (Exception e)
             {

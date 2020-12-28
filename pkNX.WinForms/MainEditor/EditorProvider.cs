@@ -14,7 +14,7 @@ namespace pkNX.WinForms.Controls
         public int Language { get => ROM.Language; set => ROM.Language = value; }
 
         protected EditorBase(GameManager rom) => ROM = rom;
-        public string Location { get; internal set; }
+        public string? Location { get; internal set; }
 
         public IEnumerable<Button> GetControls(int width, int height)
         {
@@ -41,7 +41,7 @@ namespace pkNX.WinForms.Controls
 
         public void Close() => ROM.SaveAll(true);
 
-        private static EditorBase GetEditor(GameManager ROM)
+        private static EditorBase? GetEditor(GameManager ROM)
         {
             var g = ROM.Game;
             if (GameVersion.XY.Contains(g)) return new EditorXY(ROM);
@@ -55,13 +55,17 @@ namespace pkNX.WinForms.Controls
             return null;
         }
 
-        public static EditorBase GetEditor(string loc, int language)
+        public static EditorBase? GetEditor(string loc, int language)
         {
             var gl = GameLocation.GetGame(loc);
             if (gl == null)
                 return null;
-            GameManager gm = GameManager.GetManager(gl, language);
-            EditorBase editor = GetEditor(gm);
+
+            var gm = GameManager.GetManager(gl, language);
+            var editor = GetEditor(gm);
+            if (editor == null)
+                return null;
+
             editor.Location = loc;
             return editor;
         }

@@ -8,7 +8,7 @@ namespace pkNX.Containers
 
         private readonly uint Magic = MAGIC;
         private readonly int HeaderSize = 0xC;
-        private readonly ushort EntryCount;
+        public readonly ushort EntryCount;
         private readonly short Padding = -1;
 
         private FATOEntry[] Entries { get; }

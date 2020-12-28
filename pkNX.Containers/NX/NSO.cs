@@ -24,6 +24,7 @@ namespace pkNX.Containers
         public decimal CompressionRatioRO => (decimal)DecompressedRO.Length / CompressedRO.Length;
         public decimal CompressionRatioData => (decimal)DecompressedData.Length / CompressedData.Length;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public NSO(BinaryReader br) => ReadHeader(br);
 
         public NSO(byte[] data)
@@ -32,6 +33,7 @@ namespace pkNX.Containers
             using var br = new BinaryReader(ms);
             ReadHeader(br);
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private void ReadHeader(BinaryReader br)
         {

@@ -7,7 +7,7 @@ namespace pkNX.Containers
         public int Start { get; set; }
         public int End { get; set; }
         public virtual int Length { get; set; }
-        public object File { get; set; }
+        public object? File { get; set; }
         public int ParentDataPosition { get; set; }
 
         public byte[] GetFileData(Stream parent)

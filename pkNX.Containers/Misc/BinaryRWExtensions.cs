@@ -35,7 +35,7 @@ namespace pkNX.Containers
 
         public static string ReadStringBytesUntil(this BinaryReader br, byte end = 0)
         {
-            StringBuilder str = new StringBuilder();
+            StringBuilder str = new();
             byte b;
             while ((b = br.ReadByte()) != end)
                 str.Append((char)b);

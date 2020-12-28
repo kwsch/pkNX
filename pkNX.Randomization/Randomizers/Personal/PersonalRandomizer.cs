@@ -17,7 +17,7 @@ namespace pkNX.Randomization
         private readonly PersonalTable Table;
         private readonly EvolutionSet[] Evolutions;
 
-        public PersonalRandSettings Settings { get; set; }
+        public PersonalRandSettings Settings { get; set; } = new();
 
         public PersonalRandomizer(PersonalTable table, GameInfo game, EvolutionSet[] evolutions)
         {
@@ -47,7 +47,7 @@ namespace pkNX.Randomization
                 RandomizeSpecies(species);
         }
 
-        private bool[] processed;
+        private bool[] processed = Array.Empty<bool>();
 
         private void RandomizeChains()
         {
@@ -61,9 +61,12 @@ namespace pkNX.Randomization
 
         private bool AlreadyProcessed(int index)
         {
-            if (processed[index])
+            var p = processed;
+            if (p.Length <= index)
+                return false;
+            if (p[index])
                 return true;
-            processed[index] = true;
+            p[index] = true;
             return false;
         }
 

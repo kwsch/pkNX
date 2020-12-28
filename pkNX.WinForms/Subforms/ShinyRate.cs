@@ -26,8 +26,8 @@ namespace pkNX.WinForms
                 RB_Default.Checked = true;
 
             // force update labels
-            ChangePercent(null, null);
-            ChangeRerollCount(null, null);
+            ChangePercent(this, EventArgs.Empty);
+            ChangeRerollCount(this, EventArgs.Empty);
             Loaded = true;
         }
 

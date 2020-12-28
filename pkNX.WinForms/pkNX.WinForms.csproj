@@ -12,6 +12,7 @@
     <StartupObject>pkNX.WinForms.Program</StartupObject>
     <AssemblyName>pkNX</AssemblyName>
     <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace pkNX.Randomization
             Personal = t;
         }
 
-        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[] stats = null)
+        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[]? stats = null)
         {
             stats ??= Personal.Table;
             if (stats[species].FormeCount <= 1)
@@ -48,7 +48,7 @@ namespace pkNX.Randomization
                 case Darmanitan when galar:
                 {
                     int form = Util.Random.Next(stats[species].FormeCount);
-                    return form &= 2;
+                    return form & 2;
                 }
 
                 // some species have 1 invalid form among several other valid forms, handle them here

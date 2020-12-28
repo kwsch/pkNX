@@ -11,7 +11,7 @@ namespace pkNX.Containers
         public uint FileNameHash;
         public int FileNameOffset;
 
-        public string FileName { get; private set; }
+        public string? FileName { get; private set; }
 
         private static uint GetHash(string name, int length, uint multiplier)
         {
@@ -66,7 +66,7 @@ namespace pkNX.Containers
         {
             FileNameOffset = (int)(parent.Position - StringOffset) / 4;
 
-            var str = FileName.Replace(Path.DirectorySeparatorChar, '/');
+            var str = FileName?.Replace(Path.DirectorySeparatorChar, '/') ?? string.Empty;
             foreach (var b in str)
                 parent.WriteByte((byte)b);
             parent.WriteByte(0); // \0

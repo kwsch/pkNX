@@ -12,7 +12,7 @@ namespace pkNX.Randomization
         private readonly GameInfo Config;
 
         private GenericRandomizer<int> RandMove;
-        internal MovesetRandSettings Settings;
+        internal MovesetRandSettings Settings = new();
 
         public MoveRandomizer(GameInfo config, IReadOnlyList<Move> moves, PersonalTable t)
         {

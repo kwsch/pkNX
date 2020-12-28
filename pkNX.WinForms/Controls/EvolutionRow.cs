@@ -42,7 +42,7 @@ namespace pkNX.WinForms
 
         private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
 
-        private EvolutionMethod current;
+        private EvolutionMethod? current;
         private EvolutionTypeArgumentType oldMethod;
 
         public void LoadEvolution(EvolutionMethod s)
@@ -58,6 +58,8 @@ namespace pkNX.WinForms
         public void SaveEvolution()
         {
             var evo = current;
+            if (evo == null)
+                return;
             evo.Species = CB_Species.SelectedIndex;
             evo.Form = (int)NUD_Form.Value;
             evo.Level = (int)NUD_Level.Value;
@@ -65,10 +67,10 @@ namespace pkNX.WinForms
             evo.Argument = CB_Arg.SelectedIndex;
         }
 
-        public static string[] items;
-        public static string[] movelist;
-        public static string[] species;
-        public static string[] types;
+        public static string[] items = Array.Empty<string>();
+        public static string[] movelist = Array.Empty<string>();
+        public static string[] species = Array.Empty<string>();
+        public static string[] types = Array.Empty<string>();
 
         private static readonly string[] EvoMethods = Enum.GetNames(typeof(EvolutionType));
         private static readonly string[] Levels = Enumerable.Range(0, 100 + 1).Select(z => z.ToString()).ToArray();

@@ -7,7 +7,7 @@ namespace pkNX.WinForms
 {
     public partial class MegaEvoEntry : UserControl
     {
-        public static string[] items;
+        public static string[] items = Array.Empty<string>();
 
         private static readonly string[] EvoMethods = Enum.GetNames(typeof(MegaEvolutionMethod));
 
@@ -27,7 +27,7 @@ namespace pkNX.WinForms
         }
 
         public int Species { private get; set; }
-        private MegaEvolutionSet current;
+        private MegaEvolutionSet? current;
 
         private void ChangeSpecies(int form)
         {
@@ -47,6 +47,9 @@ namespace pkNX.WinForms
 
         public void SaveEvolution()
         {
+            if (current == null)
+                return;
+            
             if (CB_Method.SelectedIndex <= 0)
             {
                 current.ToForm = 0;

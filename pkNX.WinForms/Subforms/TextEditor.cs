@@ -60,13 +60,13 @@ namespace pkNX.WinForms
                 return;
 
             // Reload the form with the new data.
-            ChangeEntry(null, null);
+            ChangeEntry(this, e);
             WinFormsUtil.Alert("Imported Text from Input Path:", path);
         }
 
         public static void ExportTextFile(string fileName, bool newline, TextContainer lineData)
         {
-            using MemoryStream ms = new MemoryStream();
+            using MemoryStream ms = new();
             ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
             using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
             {
@@ -88,7 +88,6 @@ namespace pkNX.WinForms
             tw.WriteLine("Text File : " + fn);
             tw.WriteLine("~~~~~~~~~~~~~~~");
             // Write the String to the File
-            if (data == null) return;
             foreach (string line in data)
             {
                 tw.WriteLine(newline
@@ -130,7 +129,7 @@ namespace pkNX.WinForms
                 // else pray that the filename index lines up
 
                 i += 2; // Skip over the other header line
-                List<string> Lines = new List<string>();
+                List<string> Lines = new();
                 while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
                 {
                     Lines.Add(fileText[i]);
@@ -166,7 +165,7 @@ namespace pkNX.WinForms
         private void ChangeEntry(object sender, EventArgs e)
         {
             // Save All the old text
-            if (entry > -1 && sender != null)
+            if (entry > -1 && sender != this)
             {
                 try
                 {
@@ -189,7 +188,7 @@ namespace pkNX.WinForms
             dgv.Rows.Clear();
             // Clear the header columns, these are repopulated every time.
             dgv.Columns.Clear();
-            if (textArray == null || textArray.Length == 0)
+            if (textArray.Length == 0)
                 return;
             // Reset settings and columns.
             dgv.AllowUserToResizeColumns = false;
@@ -203,7 +202,7 @@ namespace pkNX.WinForms
             };
             dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-            DataGridViewTextBoxColumn dgvText = new DataGridViewTextBoxColumn
+            DataGridViewTextBoxColumn dgvText = new()
             {
                 HeaderText = "Text",
                 DisplayIndex = 1,
@@ -310,7 +309,7 @@ namespace pkNX.WinForms
             int end = all ? TextData.Length - 1 : entry;
 
             // Gather strings
-            List<string> strings = new List<string>();
+            List<string> strings = new();
             for (int i = start; i <= end; i++)
             {
                 string[] data = TextData[i];

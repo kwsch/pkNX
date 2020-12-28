@@ -35,6 +35,6 @@ namespace pkNX.WinForms
         /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
         /// </summary>
         /// <param name="cb">ComboBox to retrieve value for.</param>
-        internal static int GetIndex(ComboBox cb) => (int)(cb?.SelectedValue ?? 0);
+        internal static int GetIndex(ComboBox cb) => (int)(cb.SelectedValue ?? 0);
     }
 }

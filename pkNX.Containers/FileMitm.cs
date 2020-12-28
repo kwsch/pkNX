@@ -12,8 +12,8 @@ namespace pkNX.Containers
         public static void EnableIfSetup() => Enabled = PathOriginal != null;
         public static void Disable() => Enabled = false;
 
-        private static string PathOriginal;
-        private static string PathRedirect;
+        private static string? PathOriginal;
+        private static string? PathRedirect;
 
         public static byte[] ReadAllBytes(string path)
         {
@@ -23,6 +23,8 @@ namespace pkNX.Containers
 
         public static void WriteAllBytes(string path, byte[] data)
         {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new FileNotFoundException("Invalid filename.");
             path = GetRedirectedWritePath(path);
             File.WriteAllBytes(path, data);
         }

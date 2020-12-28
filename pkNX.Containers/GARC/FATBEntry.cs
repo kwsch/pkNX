@@ -10,15 +10,14 @@ namespace pkNX.Containers
         public readonly bool IsFolder;
         public readonly FATBSubEntry[] SubEntries;
 
-        // ReSharper disable once UnusedMember.Local -- needed to init subentries
         private FATBEntry()
         {
-            SubEntries = new FATBSubEntry[32];
-            for (int i = 0; i < SubEntries.Length; i++)
-                SubEntries[i] = new FATBSubEntry();
+            var sub = SubEntries = new FATBSubEntry[32];
+            for (int i = 0; i < sub.Length; i++)
+                sub[i] = new FATBSubEntry();
         }
 
-        public FATBEntry(string file)
+        public FATBEntry(string file) : this()
         {
             IsFolder = false;
             Vector = 1;
@@ -26,7 +25,7 @@ namespace pkNX.Containers
             SubEntries[0].File = file;
         }
 
-        public FATBEntry(IEnumerable<string> files)
+        public FATBEntry(IEnumerable<string> files) : this()
         {
             IsFolder = true;
             Vector = 0;
@@ -45,7 +44,7 @@ namespace pkNX.Containers
             }
         }
 
-        public FATBEntry(BinaryReader br, int DataOffset)
+        public FATBEntry(BinaryReader br, int DataOffset) : this()
         {
             Vector = br.ReadUInt32();
 

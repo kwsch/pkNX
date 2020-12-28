@@ -29,7 +29,7 @@ namespace pkNX.Containers
             }
         }
 
-        public string FilePath { get; set; }
+        public string? FilePath { get; set; }
         private readonly byte[][] Backup;
 
         public bool Modified { get; set; }

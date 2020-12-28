@@ -232,10 +232,10 @@ namespace pkNX.WinForms
             }
 
             // Use our own font.
-            Font _tabFont = new Font("Arial", (float)10.0, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font _tabFont = new("Arial", (float)10.0, FontStyle.Bold, GraphicsUnit.Pixel);
 
             // Draw string. Center the text.
-            StringFormat _stringFlags = new StringFormat
+            StringFormat _stringFlags = new()
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center

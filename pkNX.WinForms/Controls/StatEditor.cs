@@ -26,9 +26,9 @@ namespace pkNX.WinForms.Controls
             UpdatingFields = false;
         }
 
-        public PersonalTable Personal { private get; set; }
+        public PersonalTable? Personal { private get; set; }
         public bool UpdatingFields;
-        public StatPKM PKM { get; set; }
+        public StatPKM PKM { get; set; } = new TrainerPoke7b();
 
         private readonly MaskedTextBox[] tb_iv;
         private readonly MaskedTextBox[] tb_ev;
@@ -52,7 +52,11 @@ namespace pkNX.WinForms.Controls
             }
             UpdatingFields = false;
 
-            var pi = Personal.GetFormeEntry(PKM.Species, PKM.Form);
+            var pt = Personal;
+            if (pt == null)
+                throw new NullReferenceException("Personal table hasn't been initialized.");
+
+            var pi = pt.GetFormeEntry(PKM.Species, PKM.Form);
             var stats = PKM.GetStats(pi);
 
             Stat_HP.Text = stats[0].ToString();

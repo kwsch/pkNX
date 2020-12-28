@@ -10,6 +10,12 @@ namespace pkNX.Structures
         public int[] Moves { get; protected set; }
         public int[] Levels { get; protected set; }
 
+        protected Learnset()
+        {
+            Moves = Array.Empty<int>();
+            Levels = Array.Empty<int>();
+        }
+
         public abstract byte[] Write();
 
         /// <summary>

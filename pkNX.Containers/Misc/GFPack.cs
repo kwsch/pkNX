@@ -24,6 +24,7 @@ namespace pkNX.Containers
         public byte[][] CompressedFiles { get; set; }
         public byte[][] DecompressedFiles { get; set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public GFPack(string path) : this(FileMitm.ReadAllBytes(path)) => FilePath = path;
         public GFPack(string[] directories, string parent = @"\bin") => LoadFiles(directories, parent);
 
@@ -39,6 +40,7 @@ namespace pkNX.Containers
         }
 
         public GFPack(BinaryReader br) => ReadPack(br);
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private void ReadPack(BinaryReader br)
         {
@@ -212,8 +214,7 @@ namespace pkNX.Containers
             return type switch
             {
                 CompressionType.None => encryptedData,
-                CompressionType.Zlib => null // not implemented
-                ,
+                CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
                 _ => LZ4.Decode(encryptedData, decryptedLength)
             };
         }
@@ -223,8 +224,7 @@ namespace pkNX.Containers
             return type switch
             {
                 CompressionType.None => decryptedData,
-                CompressionType.Zlib => null // not implemented
-                ,
+                CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
                 _ => LZ4.Encode(decryptedData)
             };
         }
@@ -260,7 +260,7 @@ namespace pkNX.Containers
                 bw.Write(ft.ToBytesClass());
         }
 
-        public string FilePath { get; set; }
+        public string? FilePath { get; set; }
         public bool Modified { get; set; }
         public Task<byte[][]> GetFiles() => Task.FromResult(DecompressedFiles);
         public Task<byte[]> GetFile(int file, int subFile = 0) => Task.FromResult(this[file]);
@@ -365,8 +365,8 @@ namespace pkNX.Containers
 
     public class FileHashFolder
     {
-        public FileHashFolderInfo Folder;
-        public FileHashIndex[] Files;
+        public FileHashFolderInfo Folder = new();
+        public FileHashIndex[] Files = Array.Empty<FileHashIndex>();
         public int GetIndexFileName(ulong hash) => Array.FindIndex(Files, z => z.HashFnv1aPathFileName == hash);
         public int GetIndexFileName(string name) => Array.FindIndex(Files, z => z.IsMatch(name));
     }

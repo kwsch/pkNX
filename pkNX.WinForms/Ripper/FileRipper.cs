@@ -67,7 +67,7 @@ namespace pkNX.WinForms
             return new FileRipperResult(RipResultCode.Success) {ResultPath = resultPath};
         }
 
-        public static FileRipperResult TryOpenFile(string path, ContainerHandler handler = null)
+        public static FileRipperResult TryOpenFile(string path, ContainerHandler? handler = null)
         {
             if (!File.Exists(path))
                 return new FileRipperResult(RipResultCode.FileExist);
@@ -115,7 +115,7 @@ namespace pkNX.WinForms
     public class FileRipperResult
     {
         public readonly RipResultCode Code;
-        public string ResultPath;
+        public string? ResultPath;
 
         public FileRipperResult(RipResultCode code) => Code = code;
     }

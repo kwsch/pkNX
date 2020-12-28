@@ -17,7 +17,7 @@ namespace pkNX.WinForms
             set => CB_Lang.SelectedIndex = value;
         }
 
-        private EditorBase Editor;
+        private EditorBase? Editor;
 
         public Main()
         {

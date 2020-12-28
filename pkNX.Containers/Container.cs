@@ -28,7 +28,7 @@ namespace pkNX.Containers
         /// Gets a <see cref="IFileContainer"/> for the stream.
         /// </summary>
         /// <param name="path">Path to the binary data</param>
-        public static IFileContainer GetContainer(string path)
+        public static IFileContainer? GetContainer(string path)
         {
             var fs = new FileStream(path, FileMode.Open);
             var container = GetContainer(fs);
@@ -45,7 +45,7 @@ namespace pkNX.Containers
         /// Gets a <see cref="IFileContainer"/> for the stream.
         /// </summary>
         /// <param name="stream">Stream for the binary data</param>
-        public static IFileContainer GetContainer(Stream stream)
+        public static IFileContainer? GetContainer(Stream stream)
         {
             var br = new BinaryReader(stream);
             var container = GetContainer(br);
@@ -58,9 +58,9 @@ namespace pkNX.Containers
         /// Gets a <see cref="IFileContainer"/> for the stream within the <see cref="BinaryReader"/>.
         /// </summary>
         /// <param name="br">Reader for the binary data</param>
-        public static IFileContainer GetContainer(BinaryReader br)
+        public static IFileContainer? GetContainer(BinaryReader br)
         {
-            IFileContainer container;
+            IFileContainer? container;
             if ((container = GARC.GetGARC(br)) != null)
                 return container;
             if ((container = MiniUtil.GetMini(br)) != null)

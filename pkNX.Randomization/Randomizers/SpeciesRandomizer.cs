@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using pkNX.Structures;
 
 namespace pkNX.Randomization
@@ -9,7 +10,7 @@ namespace pkNX.Randomization
         private readonly int MaxSpeciesID;
         private readonly GameInfo Game;
 
-        private SpeciesSettings s;
+        private SpeciesSettings s = new();
 
         public SpeciesRandomizer(GameInfo game, PersonalTable t)
         {
@@ -31,7 +32,7 @@ namespace pkNX.Randomization
         }
 
         #region Random Species Filtering Parameters
-        private GenericRandomizer<int> RandSpec;
+        private GenericRandomizer<int> RandSpec = new(Array.Empty<int>());
         private int loopctr;
         private const int l = 10; // tweakable scalars
         private const int h = 11;

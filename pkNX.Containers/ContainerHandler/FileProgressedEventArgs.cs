@@ -6,6 +6,6 @@ namespace pkNX.Containers
     {
         public int Current { get; set; }
         public int Total { get; set; }
-        public string CurrentFile { get; set; }
+        public string? CurrentFile { get; set; }
     }
 }

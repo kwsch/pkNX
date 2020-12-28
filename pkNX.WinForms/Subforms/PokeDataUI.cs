@@ -14,6 +14,8 @@ namespace pkNX.WinForms
 {
     public partial class PokeDataUI : Form
     {
+        private readonly bool Loaded;
+
         public PokeDataUI(PokeEditor editor, GameManager rom)
         {
             ROM = rom;
@@ -36,6 +38,10 @@ namespace pkNX.WinForms
             abilities[0] = items[0] = movelist[0] = "";
 
             var pt = ROM.Data.PersonalData;
+            cPersonal = pt[0];
+            cLearnset = Editor.Learn[0];
+            cEvos = Editor.Evolve[0];
+            cMega = Editor.Mega.Length > 0 ? Editor.Mega[0] : Array.Empty<MegaEvolutionSet>();
 
             var altForms = pt.GetFormList(species, pt.MaxSpeciesID);
             entryNames = pt.GetPersonalEntryList(altForms, species, pt.MaxSpeciesID, out baseForms, out formVal);
@@ -45,10 +51,10 @@ namespace pkNX.WinForms
 
             InitEvo(Editor.Evolve[0].PossibleEvolutions.Length);
 
-            if (Editor.Mega != null)
-                InitMega(2);
+            Megas = Editor.Mega != null ? InitMega(2) : Array.Empty<MegaEvoEntry>();
 
             CB_Species.SelectedIndex = 1;
+            Loaded = true;
 
             PG_Personal.SelectedObject = EditUtil.Settings.Personal;
             PG_Evolution.SelectedObject = EditUtil.Settings.Species;
@@ -78,6 +84,7 @@ namespace pkNX.WinForms
         public Learnset cLearnset;
         public EvolutionSet cEvos;
         public MegaEvolutionSet[] cMega;
+        private readonly MegaEvoEntry[] Megas;
 
         public void InitPersonal()
         {
@@ -138,7 +145,7 @@ namespace pkNX.WinForms
                 dgvLevel.Width = 45;
                 dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvMove = new DataGridViewComboBoxColumn();
+            DataGridViewComboBoxColumn dgvMove = new();
             {
                 dgvMove.HeaderText = "Move";
                 dgvMove.DisplayIndex = 1;
@@ -152,7 +159,7 @@ namespace pkNX.WinForms
             dgv.Columns.Add(dgvMove);
         }
 
-        private static EvolutionRow[] EvoRows;
+        private static EvolutionRow[] EvoRows = Array.Empty<EvolutionRow>();
 
         public void InitEvo(int rows)
         {
@@ -171,24 +178,24 @@ namespace pkNX.WinForms
             }
         }
 
-        private MegaEvoEntry[] Megas;
-
-        public void InitMega(int count)
+        public MegaEvoEntry[] InitMega(int count)
         {
-            Megas = new MegaEvoEntry[count];
+            var result = new MegaEvoEntry[count];
             MegaEvoEntry.items = items;
 
             for (int i = 0; i < count; i++)
             {
                 var row = new MegaEvoEntry();
                 flowLayoutPanel1.Controls.Add(row);
-                Megas[i] = row;
+                result[i] = row;
             }
+
+            return result;
         }
 
         public void UpdateIndex(object sender, EventArgs e)
         {
-            if (cPersonal != null)
+            if (Loaded)
                 SaveCurrent();
             LoadIndex(CB_Species.SelectedIndex);
         }
@@ -205,7 +212,7 @@ namespace pkNX.WinForms
             if (Editor.Mega != null)
                 LoadMegas(Editor.Mega[index], spec);
             Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
-            Bitmap bigImg = new Bitmap(rawImg.Width * 2, rawImg.Height * 2);
+            Bitmap bigImg = new(rawImg.Width * 2, rawImg.Height * 2);
             for (int x = 0; x < rawImg.Width; x++)
             {
                 for (int y = 0; y < rawImg.Height; y++)
@@ -403,8 +410,8 @@ namespace pkNX.WinForms
         public void SaveLearnset()
         {
             var pkm = cLearnset;
-            List<int> moves = new List<int>();
-            List<int> levels = new List<int>();
+            List<int> moves = new();
+            List<int> levels = new();
             for (int i = 0; i < dgv.Rows.Count - 1; i++)
             {
                 int move = Array.IndexOf(movelist, dgv.Rows[i].Cells[1].Value);

@@ -89,8 +89,8 @@ namespace pkNX.WinForms
             dgv.Rows[row].Cells[0].Value = SpriteUtil.GetSprite(sp, form, 0, 0, false, false, false);
         }
 
-        private EncounterSlot7b[] Slots;
-        public static string[] species;
+        private EncounterSlot7b[]? Slots;
+        public static string[] species = Array.Empty<string>();
 
         public void LoadSlots(EncounterSlot7b[] slots)
         {

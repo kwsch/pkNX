@@ -18,7 +18,7 @@ namespace pkNX.WinForms
         public GGWE(GameManager rom, EncounterArchive7b obj)
         {
             InitializeComponent();
-            if (obj?.EncounterTables?[0]?.GroundTable == null)
+            if (obj.EncounterTables.Length == 0 || obj.EncounterTables[0].GroundTable.Length == 0)
             {
                 WinFormsUtil.Error("Bad data provided.", $"Unable to parse to {nameof(EncounterArchive7b)} data.");
                 Close();
@@ -80,7 +80,7 @@ namespace pkNX.WinForms
         private static IEnumerable<string> GetScreenedNames(IEnumerable<string> names)
         {
             int ctr = 0;
-            string prev = null;
+            string? prev = null;
             foreach (var name in names)
             {
                 if (name != prev)
