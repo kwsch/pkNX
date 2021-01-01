@@ -64,11 +64,11 @@ namespace pkNX.Structures
                             curMin = i;
 
                         if (i == max)
-                            yield return $"            new EncounterStatic8N(Nest{index:00},{curMin},{i},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
+                            yield return $"            new(Nest{index:000},{curMin},{i},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
                     }
                     else if (curMin != -1)
                     {
-                        yield return $"            new EncounterStatic8N(Nest{index:00},{curMin},{i - 1},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
+                        yield return $"            new(Nest{index:000},{curMin},{i - 1},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{gender}{altform}{giga} }},{comment}";
                         curMin = -1;
                     }
                 }

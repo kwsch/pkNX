@@ -48,7 +48,7 @@ namespace pkNX.Structures
             var moves = $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
             var game = Version != 0 ? Version == 1 ? ", Version = GameVersion.SW" : ", Version = GameVersion.SH" : "";
             var g = IsGigantamax ? ", CanGigantamax = true" : "";
-            return $"            new EncounterStatic8U({(int)Species:000},{AltForm},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
+            return $"            new({(int)Species:000},{AltForm},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
         }
     }
 }

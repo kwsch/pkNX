@@ -347,7 +347,7 @@ namespace pkNX.WinForms
             foreach (var game in new[] { 1, 2 })
             {
                 var tables = nest_encounts.Tables.Where(z => z.GameVersion == game).ToList();
-                var entries = tables.Select((_, x) => $"private const int Nest{x:00} = {x + 100_000};");
+                var entries = tables.Select((_, x) => $"private const int Nest{x:000} = {x + 100_000};");
                 var encounters = tables.SelectMany((z, x) => z.GetSummary(speciesNames, x)).ToArray();
 
                 var path1 = GetPath($"nestHex{game}.txt");

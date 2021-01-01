@@ -138,7 +138,7 @@ namespace pkNX.Structures
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {Ball}";
 
             return
-                $"            new EncounterTrade8({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{shiny}{nature}{giga}{relearn}{altform}{ball} }},{comment}";
+                $"            new({(int)Species:000},{Level:00},{Memory:00},{TextVar:000},{Feeling:00},{Intensity}) {{ {ability}{tid}{ivs}{dyna}{otgender}{gender}{shiny}{nature}{giga}{relearn}{altform}{ball} }},{comment}";
         }
     }
 }
