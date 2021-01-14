@@ -72,26 +72,26 @@ namespace pkNX.Structures
         // scenarios that are set for specific story encounters, most don't work on encounters that are not meant to have them
         public enum Scenario
         {
-            None = 0,
-            Zacian_Zamazenta_1 = 1,
-            _2 = 2,
-            _3 = 3,
-            Eternatus_1 = 4,
-            Eternatus_2 = 5,
-            Eternatus_3 = 6,
-            Zacian_Zamazenta_2 = 7,
-            Motostoke_Gym_Challenge = 8,
-            Max_Raid_Battle_1 = 9,
-            Max_Raid_Battle_2 = 10,
-            Max_Raid_Battle_3 = 11,
-            Max_Raid_Battle_4 = 12,
-            Zacian_Zamazenta_3 = 13,
-            Fast_Slowpoke = 14,
-            Regigigas_Raid_Battle = 15,
-            Special_Raid_Battle = 16,
-            Calyrex = 17,
-            Glastrier_Spectrier = 18,
-            Calyrex_Fusion = 19,
+            None,
+            Legendary_Pokémon,
+            _2,
+            _3,
+            Eternatus,
+            Eternamax_Eternatus_1,
+            Eternamax_Eternatus_2,
+            Zacian_Zamazenta_Fog,
+            Motostoke_Gym_Challenge,
+            Max_Raid_Battle_1,
+            Max_Raid_Battle_2,
+            Max_Raid_Battle_3,
+            Max_Raid_Battle_4,
+            Zacian_Zamazenta_Boss,
+            Fast_Slowpoke,
+            Regigigas_Raid_Battle,
+            Special_Raid_Battle,
+            Calyrex,
+            Glastrier_Spectrier,
+            Calyrex_Fusion,
         }
 
         public string GetSummary(IReadOnlyList<string> species)
@@ -121,7 +121,7 @@ namespace pkNX.Structures
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
 
             return
-                $"            new EncounterStatic8 {{ Species = {(int)Species:000}, Level = {Level:00}, Location = -01{moves}{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna} }},{comment}";
+                $"            new(SWSH) {{ Species = {(int)Species:000}, Level = {Level:00}, Location = -01{moves}{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna} }},{comment}";
         }
     }
 }

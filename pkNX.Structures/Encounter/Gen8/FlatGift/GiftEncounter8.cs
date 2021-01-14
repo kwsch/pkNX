@@ -118,7 +118,7 @@ namespace pkNX.Structures
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {(int)Ball}";
 
             return
-                $"            new EncounterStatic8 {{ Gift = true, Species = {(int)Species:000}, Level = {Level:00}, Location = -01{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna}{ball} }},{comment}";
+                $"            new(SWSH) {{ Gift = true, Species = {(int)Species:000}, Level = {Level:00}, Location = -01{ivs}{shiny}{gender}{ability}{nature}{altform}{giga}{dyna}{ball} }},{comment}";
         }
     }
 }
