@@ -397,6 +397,8 @@ namespace pkNX.Game
 
             new(GameFile.DynamaxDens, ContainerType.SingleFile, "bin", "appli", "chika", "data_table", "underground_exploration_poke.bin"),
 
+            new(GameFile.Placement, ContainerType.SingleFile, "bin", "archive", "field", "resident", "placement.gfpak"),
+
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)

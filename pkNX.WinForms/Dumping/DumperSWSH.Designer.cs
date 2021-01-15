@@ -62,6 +62,7 @@
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.B_Distribution_Nests = new System.Windows.Forms.Button();
             this.B_OpenFolder = new System.Windows.Forms.Button();
+            this.B_Placement = new System.Windows.Forms.Button();
             this.TC_Options.SuspendLayout();
             this.Tab_General.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -105,6 +106,7 @@
             this.flowLayoutPanel1.Controls.Add(this.B_Static);
             this.flowLayoutPanel1.Controls.Add(this.B_Gift);
             this.flowLayoutPanel1.Controls.Add(this.B_Nest);
+            this.flowLayoutPanel1.Controls.Add(this.B_Placement);
             this.flowLayoutPanel1.Controls.Add(this.B_Trade);
             this.flowLayoutPanel1.Controls.Add(this.B_ItemInfo);
             this.flowLayoutPanel1.Controls.Add(this.B_Moves);
@@ -178,7 +180,7 @@
             // 
             // B_Trade
             // 
-            this.B_Trade.Location = new System.Drawing.Point(3, 125);
+            this.B_Trade.Location = new System.Drawing.Point(132, 125);
             this.B_Trade.Name = "B_Trade";
             this.B_Trade.Size = new System.Drawing.Size(123, 55);
             this.B_Trade.TabIndex = 14;
@@ -188,7 +190,7 @@
             // 
             // B_ItemInfo
             // 
-            this.B_ItemInfo.Location = new System.Drawing.Point(132, 125);
+            this.B_ItemInfo.Location = new System.Drawing.Point(261, 125);
             this.B_ItemInfo.Name = "B_ItemInfo";
             this.B_ItemInfo.Size = new System.Drawing.Size(123, 55);
             this.B_ItemInfo.TabIndex = 6;
@@ -198,7 +200,7 @@
             // 
             // B_Moves
             // 
-            this.B_Moves.Location = new System.Drawing.Point(261, 125);
+            this.B_Moves.Location = new System.Drawing.Point(3, 186);
             this.B_Moves.Name = "B_Moves";
             this.B_Moves.Size = new System.Drawing.Size(123, 55);
             this.B_Moves.TabIndex = 7;
@@ -208,7 +210,7 @@
             // 
             // B_BattleTower
             // 
-            this.B_BattleTower.Location = new System.Drawing.Point(3, 186);
+            this.B_BattleTower.Location = new System.Drawing.Point(132, 186);
             this.B_BattleTower.Name = "B_BattleTower";
             this.B_BattleTower.Size = new System.Drawing.Size(123, 55);
             this.B_BattleTower.TabIndex = 15;
@@ -218,7 +220,7 @@
             // 
             // B_MaxDens
             // 
-            this.B_MaxDens.Location = new System.Drawing.Point(132, 186);
+            this.B_MaxDens.Location = new System.Drawing.Point(261, 186);
             this.B_MaxDens.Name = "B_MaxDens";
             this.B_MaxDens.Size = new System.Drawing.Size(123, 55);
             this.B_MaxDens.TabIndex = 16;
@@ -436,6 +438,16 @@
             this.B_OpenFolder.UseVisualStyleBackColor = true;
             this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
             // 
+            // B_Placement
+            // 
+            this.B_Placement.Location = new System.Drawing.Point(3, 125);
+            this.B_Placement.Name = "B_Placement";
+            this.B_Placement.Size = new System.Drawing.Size(123, 55);
+            this.B_Placement.TabIndex = 17;
+            this.B_Placement.Text = "Placement";
+            this.B_Placement.UseVisualStyleBackColor = true;
+            this.B_Placement.Click += new System.EventHandler(this.B_Placement_Click);
+            // 
             // DumperSWSH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -496,5 +508,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.Button B_Distribution_Nests;
         private System.Windows.Forms.Button B_MaxDens;
+        private System.Windows.Forms.Button B_Placement;
     }
 }

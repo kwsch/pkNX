@@ -42,6 +42,12 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
+        private void B_Placement_Click(object sender, EventArgs e)
+        {
+            Dumper.DumpPlacement();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_Gift_Click(object sender, EventArgs e)
         {
             Dumper.DumpGifts();

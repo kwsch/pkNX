@@ -331,6 +331,43 @@ namespace pkNX.WinForms
             File.WriteAllBytes(GetPath("encounter_sh_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_symbol_sh), "sh"));
         }
 
+        public void DumpPlacement()
+        {
+            var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(ROM.GetFile(GameFile.EncounterStatic)[0]);
+            var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
+            var species_names = ROM.GetStrings(TextName.SpeciesNames);
+            var weathers = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
+            var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
+            var zone_names = new AHTB(placement.GetDataFileName("ZoneNameHashTable.tbl")).ToDictionary();
+            var zone_descs = SWSHInfo.Zones;
+            var obj_names = new AHTB(placement.GetDataFileName("ObjectNameHashTable.tbl")).ToDictionary();
+            var vanish_flags = new AHTB(placement.GetDataFileName("VanishFlagAutoTable.tbl")).ToDictionary();
+            var wild_area = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0101.bin"));
+            var isle_of_armor = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0201.bin"));
+            var crown_tundra = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0301.bin"));
+
+            File.WriteAllLines(GetPath("Placement_WildArea.txt"), wild_area.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+            File.WriteAllLines(GetPath("Placement_IsleOfArmor.txt"), isle_of_armor.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+            File.WriteAllLines(GetPath("Placement_CrownTundra.txt"), crown_tundra.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+
+            var placement_all = new List<string>();
+            foreach (var area in area_names)
+            {
+                if (placement.GetIndexFileName($"{area.Value}.bin") >= 0)
+                {
+                    placement_all.Add("==================================");
+                    placement_all.Add(area.Value);
+                    placement_all.Add("==================================");
+                    placement_all.Add(string.Empty);
+                    var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName($"{area.Value}.bin"));
+                    placement_all.AddRange(data.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+                    placement_all.Add(string.Empty);
+                }
+            }
+
+            File.WriteAllLines(GetPath("Placement_all.txt"), placement_all);
+        }
+
         public void DumpNestEntries()
         {
             var speciesNames = ROM.GetStrings(TextName.SpeciesNames);

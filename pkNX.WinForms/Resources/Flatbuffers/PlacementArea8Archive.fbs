@@ -1,0 +1,92 @@
+namespace pkNX.Structures;
+
+table PlacementArea8 {
+    Table:[PlacementZone8];
+}
+
+table PlacementZone8 {
+    Meta:PlacementZoneMeta8;
+    Field_01:uint;
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:uint;
+    Field_05:uint;
+    Field_06:uint;
+    Field_07:uint;
+    Field_08:uint;
+    Field_09:uint;
+    Field_0A:uint;
+    Field_0B:uint;
+    Field_0C:uint;
+    Field_0D:uint;
+    Field_0E:uint;
+    Field_0F:uint;
+    Field_11:uint;
+    Field_12:uint;
+    Field_13:uint;
+    Field_14:uint;
+    Field_15:uint;
+    Field_16:uint;
+    Field_17:uint;
+    Field_18:uint;
+    Field_19:uint;
+    Field_1A:uint;
+    StaticObjects:[PlacementZoneStaticObjectsHolder8];
+    Field_1C:uint;
+    // More tables exist here
+}
+
+table PlacementZoneMeta8 {
+    Field_00:uint;
+    ZoneID:ulong;
+}
+
+table PlacementZoneStaticObjectsHolder8 {
+    Object:PlacementZoneStaticObject8;
+}
+
+table PlacementZoneStaticObject8 {
+    Identifier:PlacementZoneStaticObjectIdenfitier8;
+    Field_01:uint;
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:byte;
+    Spawns:[PlacementZoneStaticObjectSpawn8];
+    Field_05:PlacementZoneStaticObjectUnknown8;
+    Field_06:PlacementZoneStaticObjectUnknown8;
+}
+
+table PlacementZoneStaticObjectIdenfitier8 {
+    LocationX:float;
+    LocationY:float;
+    LocationZ:float;
+    Field_3:uint;
+    Field_4:uint;
+    Field_5:uint;
+    Field_6:float;
+    Field_7:float;
+    Field_8:float;
+    SpawnerID:ulong;
+    Field_A:ulong;
+    Field_B:ulong;
+}
+
+table PlacementZoneStaticObjectUnknown8 {
+    Field_0:uint;
+    Field_1:uint;
+    Field_2:uint;
+    Field_3:uint;
+    Field_4:float;
+}
+
+table PlacementZoneStaticObjectSpawn8 {
+    SpawnID:ulong;
+    Description:string;
+    Field_02:ulong;
+    Field_03:uint;
+    Field_04:PlacementZoneStaticObjectUnknown8;
+}
+
+root_type PlacementArea8;
+
+file_extension "bin";

@@ -163,6 +163,9 @@
   <data name="NestHoleReward8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\flatbuffers\nestholereward8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="PlacementArea8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flatbuffers\placementarea8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Waza8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Flatbuffers\Waza8.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
