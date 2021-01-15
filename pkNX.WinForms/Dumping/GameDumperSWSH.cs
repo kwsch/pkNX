@@ -349,6 +349,23 @@ namespace pkNX.WinForms
             File.WriteAllLines(GetPath("Placement_WildArea.txt"), wild_area.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
             File.WriteAllLines(GetPath("Placement_IsleOfArmor.txt"), isle_of_armor.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
             File.WriteAllLines(GetPath("Placement_CrownTundra.txt"), crown_tundra.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+
+            var placement_all = new List<string>();
+            foreach (var area in area_names)
+            {
+                if (placement.GetIndexFileName($"{area.Value}.bin") >= 0)
+                {
+                    placement_all.Add("==================================");
+                    placement_all.Add(area.Value);
+                    placement_all.Add("==================================");
+                    placement_all.Add(string.Empty);
+                    var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName($"{area.Value}.bin"));
+                    placement_all.AddRange(data.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+                    placement_all.Add(string.Empty);
+                }
+            }
+
+            File.WriteAllLines(GetPath("Placement_all.txt"), placement_all);
         }
 
         public void DumpNestEntries()
