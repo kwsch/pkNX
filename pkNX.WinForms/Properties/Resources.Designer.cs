@@ -22,7 +22,7 @@ namespace pkNX.WinForms.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace pkNX.WinForms.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("pkNX.WinForms.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace pkNX.WinForms.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] BattleTowerPoke8Archive {
+        public static byte[] BattleTowerPoke8Archive {
             get {
                 object obj = ResourceManager.GetObject("BattleTowerPoke8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -73,7 +73,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] BattleTowerTrainer8Archive {
+        public static byte[] BattleTowerTrainer8Archive {
             get {
                 object obj = ResourceManager.GetObject("BattleTowerTrainer8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -83,7 +83,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterArchive7b {
+        public static byte[] EncounterArchive7b {
             get {
                 object obj = ResourceManager.GetObject("EncounterArchive7b", resourceCulture);
                 return ((byte[])(obj));
@@ -93,7 +93,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterArchive8 {
+        public static byte[] EncounterArchive8 {
             get {
                 object obj = ResourceManager.GetObject("EncounterArchive8", resourceCulture);
                 return ((byte[])(obj));
@@ -103,7 +103,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterGift8Archive {
+        public static byte[] EncounterGift8Archive {
             get {
                 object obj = ResourceManager.GetObject("EncounterGift8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -113,7 +113,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterNest8Archive {
+        public static byte[] EncounterNest8Archive {
             get {
                 object obj = ResourceManager.GetObject("EncounterNest8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -123,7 +123,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterStatic8Archive {
+        public static byte[] EncounterStatic8Archive {
             get {
                 object obj = ResourceManager.GetObject("EncounterStatic8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -133,7 +133,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterTrade8Archive {
+        public static byte[] EncounterTrade8Archive {
             get {
                 object obj = ResourceManager.GetObject("EncounterTrade8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -143,7 +143,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] EncounterUnderground8Archive {
+        public static byte[] EncounterUnderground8Archive {
             get {
                 object obj = ResourceManager.GetObject("EncounterUnderground8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -153,7 +153,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] flatc {
+        public static byte[] flatc {
             get {
                 object obj = ResourceManager.GetObject("flatc", resourceCulture);
                 return ((byte[])(obj));
@@ -163,7 +163,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] NestHoleCrystalEncounter8Archive {
+        public static byte[] NestHoleCrystalEncounter8Archive {
             get {
                 object obj = ResourceManager.GetObject("NestHoleCrystalEncounter8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -173,7 +173,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] NestHoleDistributionEncounter8Archive {
+        public static byte[] NestHoleDistributionEncounter8Archive {
             get {
                 object obj = ResourceManager.GetObject("NestHoleDistributionEncounter8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -183,7 +183,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] NestHoleDistributionReward8Archive {
+        public static byte[] NestHoleDistributionReward8Archive {
             get {
                 object obj = ResourceManager.GetObject("NestHoleDistributionReward8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -193,7 +193,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] NestHoleLevel8Archive {
+        public static byte[] NestHoleLevel8Archive {
             get {
                 object obj = ResourceManager.GetObject("NestHoleLevel8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -203,7 +203,7 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] NestHoleReward8Archive {
+        public static byte[] NestHoleReward8Archive {
             get {
                 object obj = ResourceManager.GetObject("NestHoleReward8Archive", resourceCulture);
                 return ((byte[])(obj));
@@ -213,7 +213,17 @@ namespace pkNX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Waza8 {
+        public static byte[] PlacementArea8Archive {
+            get {
+                object obj = ResourceManager.GetObject("PlacementArea8Archive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Waza8 {
             get {
                 object obj = ResourceManager.GetObject("Waza8", resourceCulture);
                 return ((byte[])(obj));

@@ -163,5 +163,8 @@
 
         /// <summary> Dynamax Adventure Dens </summary>
         DynamaxDens,
+
+        /// <summary> Area Placement Archive </summary>
+        Placement,
     }
 }

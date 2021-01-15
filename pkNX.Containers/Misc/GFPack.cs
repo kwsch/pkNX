@@ -101,26 +101,22 @@ namespace pkNX.Containers
 
         public int GetIndexFileName(ulong hash)
         {
-            var folder_ind = 0;
             foreach (var f in HashInFolder)
             {
                 int index = f.GetIndexFileName(hash);
                 if (index >= 0)
-                    return folder_ind + index;
-                folder_ind += f.Files.Length;
+                    return f.Files[index].Index;
             }
             return -1;
         }
 
         public int GetIndexFileName(string name)
         {
-            var folder_ind = 0;
             foreach (var f in HashInFolder)
             {
                 int index = f.GetIndexFileName(name);
                 if (index >= 0)
-                    return folder_ind + index;
-                folder_ind += f.Files.Length;
+                    return f.Files[index].Index;
             }
             return -1;
         }

@@ -160,7 +160,7 @@ namespace pkNX.WinForms
         {
             var obj = Resources.ResourceManager.GetObject(name);
             if (obj is not byte[] b)
-                throw new FileNotFoundException(nameof(name));
+                throw new FileNotFoundException(name);
             return b;
         }
 
