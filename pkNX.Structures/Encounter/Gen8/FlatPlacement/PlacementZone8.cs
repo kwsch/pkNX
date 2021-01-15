@@ -1,11 +1,10 @@
-using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace pkNX.Structures
 {
-
-    public class PlacementZone8
+    public sealed class PlacementZone8
     {
         public PlacementZoneMeta8 Meta { get; set; }
         public uint Field_01 { get; set; }
@@ -34,44 +33,47 @@ namespace pkNX.Structures
         public uint Field_19 { get; set; }
         public uint Field_1A { get; set; }
 
+#pragma warning disable CA1819 // Properties should not return arrays
         public PlacementZoneStaticObjectsHolder8[] StaticObjects { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
         public uint Field_1C { get; set; }
+
         // More tables exist here
 
-        public IEnumerable<string> GetSummary(EncounterStatic8[] statics, IReadOnlyList<string> species, IReadOnlyDictionary<ulong, string> zone_names, IReadOnlyDictionary<ulong, string> zone_descs, IReadOnlyDictionary<ulong, string> objects, IReadOnlyList<string> weathers) 
+        public IEnumerable<string> GetSummary(EncounterStatic8[] statics,
+            IReadOnlyList<string> species,
+            IReadOnlyDictionary<ulong, string> zone_names,
+            IReadOnlyDictionary<ulong, string> zone_descs,
+            IReadOnlyDictionary<ulong, string> objects,
+            IReadOnlyList<string> weathers)
         {
-
-            if (zone_descs.ContainsKey(Meta.ZoneID))
-            {
-                yield return $"{zone_names[Meta.ZoneID]} ({zone_descs[Meta.ZoneID]}):";
-            }
-            else
-            {
-                yield return $"{zone_names[Meta.ZoneID]}:";
-            }
+            var zoneID = Meta.ZoneID;
+            var name = zone_names[zoneID];
+            yield return zone_descs.TryGetValue(zoneID, out var desc)
+                ? $"{name} ({desc}):"
+                : $"{name}:";
 
             foreach (var so in StaticObjects)
             {
                 var obj = so.Object;
-                yield return $"    {objects[obj.Identifier.SpawnerID]}:";
-                yield return $"        Location: ({obj.Identifier.LocationX}, {obj.Identifier.LocationY}, {obj.Identifier.LocationZ})";
-                if (obj.Spawns.All(z => z.SpawnID == obj.Spawns[0].SpawnID))
+                var ident = obj.Identifier;
+                yield return $"    {objects[ident.SpawnerID]}:";
+                yield return $"        Location: ({ident.LocationX}, {ident.LocationY}, {ident.LocationZ})";
+
+                var s = obj.Spawns;
+                if (Array.TrueForAll(s, z => z.SpawnID == s[0].SpawnID))
                 {
-                    yield return $"        All Weather:";
-                    foreach (var line in obj.Spawns[0].GetSummary(statics, species))
-                    {
+                    yield return "        All Weather:";
+                    foreach (var line in s[0].GetSummary(statics, species))
                         yield return $"            {line}";
-                    }
-                } 
+                }
                 else
                 {
-                    for (var i = 0; i < obj.Spawns.Length; i++)
+                    for (var i = 0; i < s.Length; i++)
                     {
                         yield return $"        {weathers[i]}:";
-                        foreach (var line in obj.Spawns[i].GetSummary(statics, species))
-                        {
+                        foreach (var line in s[i].GetSummary(statics, species))
                             yield return $"            {line}";
-                        }
                     }
                 }
             }
@@ -80,32 +82,33 @@ namespace pkNX.Structures
         }
     }
 
-    public class PlacementZoneMeta8
+    public sealed class PlacementZoneMeta8
     {
         public uint Field_00 { get; set; }
         public ulong ZoneID { get; set; }
         // More tables exist here
     }
 
-    public class PlacementZoneStaticObjectsHolder8
+    public sealed class PlacementZoneStaticObjectsHolder8
     {
         public PlacementZoneStaticObject8 Object { get; set; }
     }
 
-    public class PlacementZoneStaticObject8
+    public sealed class PlacementZoneStaticObject8
     {
-        public PlacementZoneStaticObjectIdentifier8 Identifier;
+        public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; }
         public uint Field_01 { get; set; }
         public uint Field_02 { get; set; }
         public uint Field_03 { get; set; }
         public byte Field_04 { get; set; }
+#pragma warning disable CA1819 // Properties should not return arrays
         public PlacementZoneStaticObjectSpawn8[] Spawns { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
         public PlacementZoneStaticObjectUnknown8 Field_06 { get; set; }
         public PlacementZoneStaticObjectUnknown8 Field_07 { get; set; }
-
     }
 
-    public class PlacementZoneStaticObjectIdentifier8
+    public sealed class PlacementZoneStaticObjectIdentifier8
     {
         public float LocationX { get; set; }
         public float LocationY { get; set; }
@@ -121,7 +124,7 @@ namespace pkNX.Structures
         public ulong Field_B { get; set; }
     }
 
-    public class PlacementZoneStaticObjectSpawn8
+    public sealed class PlacementZoneStaticObjectSpawn8
     {
         public ulong SpawnID { get; set; }
         public string Description { get; set; }
@@ -131,14 +134,13 @@ namespace pkNX.Structures
 
         public IEnumerable<string> GetSummary(EncounterStatic8[] statics, IReadOnlyList<string> species)
         {
-            var enc = statics.First(z => z.EncounterID == SpawnID);
+            var enc = Array.Find(statics, z => z.EncounterID == SpawnID);
             yield return $"{species[(int)enc.Species]}{(enc.AltForm == 0 ? string.Empty : "-" + enc.AltForm)} Lv. {enc.Level}";
             yield return $"EncounterID: {SpawnID:X016}";
         }
-
     }
 
-    public class PlacementZoneStaticObjectUnknown8
+    public sealed class PlacementZoneStaticObjectUnknown8
     {
         public uint Field_0 { get; set; }
         public uint Field_1 { get; set; }
@@ -146,5 +148,4 @@ namespace pkNX.Structures
         public uint Field_3 { get; set; }
         public float Field_4 { get; set; }
     }
-
 }

@@ -49,7 +49,7 @@ namespace pkNX.WinForms
         {
             if (current == null)
                 return;
-            
+
             if (CB_Method.SelectedIndex <= 0)
             {
                 current.ToForm = 0;
