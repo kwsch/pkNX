@@ -71,8 +71,13 @@ namespace pkNX.Randomization
         [Category(Misc), Description("Requires the randomized species to have a similar typing as the original species. Note: might not be used by all randomizers.")]
         public bool Type { get; set; } = false;
 
+        /// <summary>Makes the appearance of Legendary Pokémon to appear on boosted rates (percent). Ignored if 0 or Legends setting on Species is False.</summary>
         [Category(Misc), Description("Makes the appearance of Legendary Pokémon to appear on boosted rates (percent). Ignored if 0 or Legends setting on Species is False.")]
         public float LegendsChance { get; set; } = 2.5f;
+
+        /// <summary>Makes the appearance of Event (Mythical) Pokémon to appear on boosted rates (percent). Ignored if 0 or Legends setting on Species is False.</summary>
+        [Category(Misc), Description("Makes the appearance of Event (Mythical) Pokémon to appear on boosted rates (percent).")]
+        public float EventsChance { get; set; } = 2.5f;
 
         /// <summary>
         /// Gets an array of Species according to the specified settings.
