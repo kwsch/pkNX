@@ -28,11 +28,14 @@ namespace pkNX.Randomization
         {
             s = settings;
             var list = s.GetSpecies(Game.MaxSpeciesID, Game.Generation).Except(banlist);
+            var legends = Game.Generation == 8 ? Legal.Legendary_8 : Legal.Legendary_1;
             RandSpec = new GenericRandomizer<int>(list.ToArray());
+            RandLegend = new GenericRandomizer<int>(legends.ToArray());
         }
 
         #region Random Species Filtering Parameters
         private GenericRandomizer<int> RandSpec = new(Array.Empty<int>());
+        private GenericRandomizer<int> RandLegend = new(Array.Empty<int>());
         private int loopctr;
         private const int l = 10; // tweakable scalars
         private const int h = 11;
@@ -92,6 +95,12 @@ namespace pkNX.Randomization
         private bool GetNewSpecies(int currentSpecies, PersonalInfo oldpkm, out int newSpecies)
         {
             newSpecies = RandSpec.Next();
+
+            if ((Util.Random.Next(0, 100 + 1) < s.LegendsChance) && s.Legends)
+            {
+                newSpecies = RandLegend.Next();
+            }
+
             var pkm = SpeciesStat[newSpecies];
 
             if (IsSpeciesReplacementBad(newSpecies, currentSpecies)) // no A->A randomization

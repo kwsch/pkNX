@@ -106,7 +106,21 @@ namespace pkNX.Structures
 
         public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new[] { 804, 805, 806 }).ToArray(); // Poipole, Blacephalon, Stakataka
 
-        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new[] { 888, 889, 890 }).ToArray(); // Zacian, Zamazenta, Eternatus
+        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new[] 
+        {
+            #region Legendary
+            888, // Zacian
+            889, // Zamazenta
+            890, // Eternatus
+            891, // Kubfu
+            892, // Urshifu
+            894, // Regieleki
+            895, // Regidrago
+            896, // Glastrier
+            897, // Spectrier
+            898, // Calyrex
+            #endregion
+        }).ToArray();
 
         public static readonly int[] Mythical_1 = { 151 }; // Mew
 
@@ -136,5 +150,7 @@ namespace pkNX.Structures
         public static readonly int[] Mythical_USUM = Mythical_SM.Concat(new[] { 807 }).ToArray(); // Zeraora
 
         public static readonly int[] Mythical_GG = Mythical_1.Concat(new[] { 809 }).ToArray(); // Melmetal
+
+        public static readonly int[] Mythical_8 = Mythical_USUM.Concat(new[] { 809, 893 }).ToArray(); // Melmetal, Zarude
     }
 }
