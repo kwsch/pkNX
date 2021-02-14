@@ -28,11 +28,20 @@ namespace pkNX.Randomization
         {
             s = settings;
             var list = s.GetSpecies(Game.MaxSpeciesID, Game.Generation).Except(banlist);
+
+            legends = Game.Generation == 8 ? Legal.Legendary_8 : Legal.Legendary_1;
+            events = Game.Generation == 8 ? Legal.Mythical_8 : Legal.Mythical_GG;
             RandSpec = new GenericRandomizer<int>(list.ToArray());
+            RandLegend = new GenericRandomizer<int>(legends.ToArray());
+            RandEvent = new GenericRandomizer<int>(events.ToArray());
         }
 
         #region Random Species Filtering Parameters
         private GenericRandomizer<int> RandSpec = new(Array.Empty<int>());
+        private GenericRandomizer<int> RandLegend = new(Array.Empty<int>());
+        private GenericRandomizer<int> RandEvent = new(Array.Empty<int>());
+        private int[] legends;
+        private int[] events;
         private int loopctr;
         private const int l = 10; // tweakable scalars
         private const int h = 11;
@@ -91,7 +100,24 @@ namespace pkNX.Randomization
 
         private bool GetNewSpecies(int currentSpecies, PersonalInfo oldpkm, out int newSpecies)
         {
+            bool isLegend = false;
+
             newSpecies = RandSpec.Next();
+
+            // If we randomly got a legendary or mythical, not really a need to reroll
+            if (legends.Contains(newSpecies) || events.Contains(newSpecies)) isLegend = true;
+
+            if ((Util.Random.Next(0, 100 + 1) < s.LegendsChance) && s.Legends)
+            {
+                if (!isLegend) newSpecies = RandLegend.Next();
+                isLegend = true;
+            }
+
+            if ((Util.Random.Next(0, 100 + 1) < s.EventsChance) && s.Events)
+            {
+                if (!isLegend) newSpecies = RandEvent.Next();
+            }
+
             var pkm = SpeciesStat[newSpecies];
 
             if (IsSpeciesReplacementBad(newSpecies, currentSpecies)) // no A->A randomization
