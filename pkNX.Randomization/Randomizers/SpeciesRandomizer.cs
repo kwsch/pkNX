@@ -40,8 +40,8 @@ namespace pkNX.Randomization
         private GenericRandomizer<int> RandSpec = new(Array.Empty<int>());
         private GenericRandomizer<int> RandLegend = new(Array.Empty<int>());
         private GenericRandomizer<int> RandEvent = new(Array.Empty<int>());
-        private int[] legends;
-        private int[] events;
+        private int[] legends = Array.Empty<int>();
+        private int[] events = Array.Empty<int>();
         private int loopctr;
         private const int l = 10; // tweakable scalars
         private const int h = 11;

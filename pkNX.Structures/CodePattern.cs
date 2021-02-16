@@ -12,7 +12,7 @@ namespace pkNX.Structures
         /// <param name="pattern">Pattern to look for</param>
         /// <param name="startIndex">Starting offset to look from</param>
         /// <param name="length">Amount of entries to look through</param>
-        /// <returns>Index the pattern occurrs at; if not found, returns -1.</returns>
+        /// <returns>Index the pattern occurs at; if not found, returns -1.</returns>
         public static int IndexOfBytes(byte[] array, byte[] pattern, int startIndex = 0, int length = -1)
         {
             int len = pattern.Length;

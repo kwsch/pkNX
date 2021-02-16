@@ -74,13 +74,14 @@ namespace pkNX.Randomization
         private int[] GetRandomMoves(int[] Types, int movecount = 4)
         {
             int[] moves = new int[movecount];
+            int i = 0;
             if (Settings.STAB)
             {
-                for (int i = 0; i < Settings.STABCount; i++)
+                for (; i < Settings.STABCount; i++)
                     moves[i] = GetRandomSTABMove(Types);
             }
 
-            for (int i = 0; i < moves.Length; i++) // remainder of moves
+            for (; i < moves.Length; i++) // remainder of moves
                 moves[i] = RandMove.Next();
             return moves;
         }
