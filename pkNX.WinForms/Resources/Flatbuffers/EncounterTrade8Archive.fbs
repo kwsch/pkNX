@@ -17,7 +17,7 @@ table EncounterTrade8 {
   Hash1:ulong;
   TrainerID:uint;
   Memory:byte;
-  TextVar:ubyte;
+  TextVar:ushort;
   Feeling:byte;
   Intensity:byte;
   Hash2:ulong;
