@@ -277,7 +277,7 @@ namespace pkNX.WinForms
             // format matches past gen and PKHeX's expected format
             var data = ROM.GetFilteredFolder(GameFile.Evolutions).GetFiles().Result;
             var mini = MiniUtil.PackMini(data, "ss");
-            var bin = GetPath(Path.Combine("bin", "evos_swsh.pkl"));
+            var bin = GetPath(Path.Combine("bin", "evos_ss.pkl"));
             File.WriteAllBytes(bin, mini);
         }
 
