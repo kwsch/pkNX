@@ -186,8 +186,7 @@ namespace pkNX.WinForms.Controls
             FileMitm.WriteAllBytes(path, data);
         }
 
-        public void EditWild_SW() => PopWildEdit("k");
-        public void EditWild_SH() => PopWildEdit("t");
+        public void EditWild() => PopWildEdit(Game == GameVersion.SW ? "k" : "t");
 
         private void PopWildEdit(string file)
         {
