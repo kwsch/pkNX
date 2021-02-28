@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -119,9 +119,20 @@ namespace pkNX.WinForms
 
         private static void RunFlatC(string args)
         {
-            var fcp = Path.Combine(FlatPath, "flatc.exe");
-            if (!File.Exists(fcp))
-                File.WriteAllBytes(fcp, Resources.flatc);
+            String fcp = "";
+            // If there's a flatc on the path, prefer it.
+            foreach (var path in Environment.GetEnvironmentVariable("PATH").Split(Path.PathSeparator))
+            {
+                var fullPath = Path.Combine(path, "flatc");
+                if (File.Exists(fullPath))
+                    fcp = fullPath;
+            }
+            if (string.IsNullOrEmpty(fcp))
+            {
+                fcp = Path.Combine(FlatPath, "flatc.exe");
+                if (!File.Exists(fcp))
+                    File.WriteAllBytes(fcp, Resources.flatc);
+            }
 
             using var process = new Process
             {
@@ -130,8 +141,8 @@ namespace pkNX.WinForms
                     WorkingDirectory = FlatPath,
                     WindowStyle = ProcessWindowStyle.Hidden,
                     CreateNoWindow = true,
-                    FileName = "cmd.exe",
-                    Arguments = $"/C flatc {args} & exit",
+                    FileName = fcp,
+                    Arguments = args,
                 }
             };
             process.Start();
