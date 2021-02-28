@@ -97,12 +97,14 @@ namespace pkNX.Game
                 case FILECOUNT_SWSH_2:
                     return GameVersion.SW; // todo: differentiate between SW/SH
                 case FILECOUNT_SWSH_3:
+                {
                     // Unlike SM and USUM, the file structure between these two games are identical,
                     // so we identify the game by the size of the main binary.
                     var main = Path.Combine(exefs, "main");
-                    if (new FileInfo(main).Length == 21163058)
-                        return GameVersion.SW; 
+                    if (new FileInfo(main).Length is 21163058 or 21163221) // 1.3.0 vs 1.3.1
+                        return GameVersion.SW;
                     return GameVersion.SH;
+                }
                 default:
                     return GameVersion.Invalid;
             }
