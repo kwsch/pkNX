@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BattleTowerPoke8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\battletowerpoke8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\BattleTowerPoke8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="BattleTowerTrainer8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\battletowertrainer8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\BattleTowerTrainer8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="EncounterArchive7b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Flatbuffers\EncounterArchive7b.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -140,7 +140,7 @@
     <value>..\Resources\Flatbuffers\EncounterStatic8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="EncounterTrade8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\encountertrade8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\EncounterTrade8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="EncounterUnderground8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Flatbuffers\EncounterUnderground8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -149,22 +149,22 @@
     <value>..\Resources\Flatbuffers\flatc.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NestHoleCrystalEncounter8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\nestholecrystalencounter8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\NestHoleCrystalEncounter8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NestHoleDistributionEncounter8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\nestholedistributionencounter8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\NestHoleDistributionEncounter8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NestHoleDistributionReward8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\nestholedistributionreward8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\NestHoleDistributionReward8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NestHoleLevel8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\nestholelevel8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\NestHoleLevel8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NestHoleReward8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\nestholereward8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\NestHoleReward8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PlacementArea8Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\flatbuffers\placementarea8archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\Flatbuffers\PlacementArea8Archive.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Waza8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Flatbuffers\Waza8.fbs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
