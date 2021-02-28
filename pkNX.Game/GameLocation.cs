@@ -49,7 +49,7 @@ namespace pkNX.Game
                 return null;
 
             var files = Directory.GetFiles(romfs, "*", SearchOption.AllDirectories);
-            var game = GetGameFromCount(files.Length, romfs);
+            var game = GetGameFromCount(files.Length, romfs, exefs);
             if (game == GameVersion.Invalid)
                 return null;
             return new GameLocation(romfs, exefs, game);
@@ -67,7 +67,7 @@ namespace pkNX.Game
         private const int FILECOUNT_SWSH_2 = 46867; // Ver. 1.2.0 update (Isle of Armor)
         private const int FILECOUNT_SWSH_3 = 50494; // Ver. 1.3.0 update (Crown Tundra)
 
-        private static GameVersion GetGameFromCount(int fileCount, string romfs)
+        private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
         {
             switch (fileCount)
             {
@@ -95,8 +95,14 @@ namespace pkNX.Game
                 case FILECOUNT_SWSH:
                 case FILECOUNT_SWSH_1:
                 case FILECOUNT_SWSH_2:
-                case FILECOUNT_SWSH_3:
                     return GameVersion.SW; // todo: differentiate between SW/SH
+                case FILECOUNT_SWSH_3:
+                    // Unlike SM and USUM, the file structure between these two games are identical,
+                    // so we identify the game by the size of the main binary.
+                    var main = Path.Combine(exefs, "main");
+                    if (new FileInfo(main).Length == 21163058)
+                        return GameVersion.SW; 
+                    return GameVersion.SH;
                 default:
                     return GameVersion.Invalid;
             }
