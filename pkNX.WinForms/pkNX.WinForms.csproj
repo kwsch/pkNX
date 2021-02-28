@@ -13,6 +13,7 @@
     <AssemblyName>pkNX</AssemblyName>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>

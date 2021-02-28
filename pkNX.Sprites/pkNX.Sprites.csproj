@@ -4,6 +4,7 @@
     <TargetFrameworks>net5.0;net461</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
