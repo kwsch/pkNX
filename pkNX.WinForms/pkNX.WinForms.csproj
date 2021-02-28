@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net46</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>pkNX.WinForms</RootNamespace>
     <Company>Project Pokémon</Company>
@@ -13,6 +13,7 @@
     <AssemblyName>pkNX</AssemblyName>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -85,5 +86,9 @@
     <None Include="Resources\Flatbuffers\NestHoleLevel8Archive.fbs" />
     <None Include="Resources\Flatbuffers\EncounterTrade8Archive.fbs" />
     <None Include="Resources\Flatbuffers\Waza8.fbs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
 </Project>

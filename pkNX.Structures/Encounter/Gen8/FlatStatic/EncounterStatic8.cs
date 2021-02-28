@@ -73,7 +73,7 @@ namespace pkNX.Structures
         public enum Scenario
         {
             None,
-            Legendary_Pokémon,
+            Legendary_Pokemon,
             _2,
             _3,
             Eternatus,
