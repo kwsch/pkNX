@@ -9,9 +9,9 @@ namespace pkNX.Game
     public class GameManagerSWSH : GameManager
     {
         public GameManagerSWSH(GameLocation rom, int language) : base(rom, language) { }
-        public string TitleID => Game == GameVersion.SW ? Sword : Shield;
-        private const string Sword = "0100ABF008968000";
-        private const string Shield = "01008DB008C2C000";
+        private string Main => Path.Combine(PathExeFS, "main.npdm");
+        private GameVersion ActualGame => TitleID == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
+        private string TitleID => BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
 
         protected override void SetMitm()
         {

@@ -126,7 +126,7 @@ namespace pkNX.Structures
             if (Gen4.Contains(game)) return 493;
             if (Gen5.Contains(game)) return 649;
             if (Gen6.Contains(game)) return Legal.MaxSpeciesID_6;
-            if (Gen7.Contains(game))
+            if (Gen7.Contains(game) || Gen7b.Contains(game))
             {
                 if (SM.Contains(game))
                     return 802;

@@ -62,8 +62,7 @@ namespace pkNX.Game
                 GameVersion.UM => UM,
                 GameVersion.XY => XY,
                 GameVersion.GG => GG,
-                GameVersion.SW => SW,
-                GameVersion.SH => SH,
+                GameVersion.SWSH => SWSH,
                 GameVersion.ORASDEMO => AO,
                 GameVersion.ORAS => AO,
                 GameVersion.SMDEMO => SMDEMO,
@@ -344,12 +343,14 @@ namespace pkNX.Game
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)
+            #endregion
         };
 
+        #region Gen 8
         /// <summary>
         /// Sword
         /// </summary>
-        private static readonly GameFileReference[] SW =
+        private static readonly GameFileReference[] SWSH =
         {
             new(GameFile.TrainerData, "bin", "trainer", "trainer_data"),
             new(GameFile.TrainerPoke, "bin", "trainer", "trainer_poke"),
@@ -403,11 +404,6 @@ namespace pkNX.Game
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)
         };
-
-        /// <summary>
-        /// Shield
-        /// </summary>
-        private static readonly GameFileReference[] SH = SW;
         #endregion
 
         #region Split Versions
