@@ -31,9 +31,10 @@ namespace pkNX.Randomization
 
             legends = Game.Generation == 8 ? Legal.Legendary_8 : Legal.Legendary_1;
             events = Game.Generation == 8 ? Legal.Mythical_8 : Legal.Mythical_GG;
+
             RandSpec = new GenericRandomizer<int>(list.ToArray());
-            RandLegend = new GenericRandomizer<int>(legends.ToArray());
-            RandEvent = new GenericRandomizer<int>(events.ToArray());
+            RandLegend = new GenericRandomizer<int>(legends.Except(banlist).ToArray());
+            RandEvent = new GenericRandomizer<int>(events.Except(banlist).ToArray());
         }
 
         #region Random Species Filtering Parameters
