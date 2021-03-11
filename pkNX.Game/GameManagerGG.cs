@@ -10,7 +10,6 @@ namespace pkNX.Game
     {
         public GameManagerGG(GameLocation rom, int language) : base(rom, language) { }
         private string Main => Path.Combine(PathExeFS, "main.npdm");
-        private GameVersion ActualGame => TitleID == "010003F003A34000" ? GameVersion.GP : GameVersion.GE;
         private string TitleID => BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
 
         protected override void SetMitm()

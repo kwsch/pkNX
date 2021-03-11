@@ -31,7 +31,7 @@ namespace pkNX.Structures
                 GameVersion.XY => z => new PersonalInfoXY(z),
                 GameVersion.ORAS => z => new PersonalInfoORAS(z),
                 GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
-                GameVersion.GG => z => new PersonalInfoGG(z),
+                GameVersion.GP or GameVersion.GE or GameVersion.GG => z => new PersonalInfoGG(z),
                 _ => z => new PersonalInfoSWSH(z),
             };
         }
@@ -44,7 +44,7 @@ namespace pkNX.Structures
                 GameVersion.B2W2 => PersonalInfoB2W2.SIZE,
                 GameVersion.XY => PersonalInfoXY.SIZE,
                 GameVersion.ORAS => PersonalInfoORAS.SIZE,
-                GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
+                GameVersion.SM or GameVersion.USUM or GameVersion.GP or GameVersion.GE or GameVersion.GG => PersonalInfoSM.SIZE,
                 GameVersion.SW or GameVersion.SH or GameVersion.SWSH => PersonalInfoSWSH.SIZE,
                 _ => -1
             };

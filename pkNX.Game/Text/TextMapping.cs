@@ -17,6 +17,8 @@ namespace pkNX.Game
                 GameVersion.MN => SM,
                 GameVersion.US => USUM,
                 GameVersion.UM => USUM,
+                GameVersion.GP => GG,
+                GameVersion.GE => GG,
                 GameVersion.GG => GG,
                 GameVersion.SW => SWSH,
                 GameVersion.SH => SWSH,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using pkNX.Structures;
 
 namespace pkNX.Game
@@ -69,6 +70,9 @@ namespace pkNX.Game
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
         {
+            string Main = Path.Combine(exefs, "main.npdm");
+            string TitleID = BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+
             switch (fileCount)
             {
                 case FILECOUNT_XY: return GameVersion.XY;
@@ -91,13 +95,13 @@ namespace pkNX.Game
                 }
 
                 case FILECOUNT_GG:
-                    return GameVersion.GG;
+                    return TitleID == "010003F003A34000" ? GameVersion.GP : GameVersion.GE;
 
                 case FILECOUNT_SWSH:
                 case FILECOUNT_SWSH_1:
                 case FILECOUNT_SWSH_2:
                 case FILECOUNT_SWSH_3:
-                    return GameVersion.SWSH;
+                    return TitleID == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
 
                 default:
                     return GameVersion.Invalid;

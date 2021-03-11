@@ -40,6 +40,8 @@ namespace pkNX.Structures
                 GameVersion.SMDEMO => LoadSM,
                 GameVersion.SM => LoadSM,
                 GameVersion.USUM => LoadUSUM,
+                GameVersion.GP => LoadGG,
+                GameVersion.GE => LoadGG,
                 GameVersion.GG => LoadGG,
                 GameVersion.SW => LoadSWSH,
                 GameVersion.SH => LoadSWSH,

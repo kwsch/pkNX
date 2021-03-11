@@ -218,8 +218,7 @@ namespace pkNX.WinForms.Controls
                 file[0] = objs.SelectMany(z => z.Write()).ToArray();
         }
 
-        public void EditWild_GP() => PopWildEdit(GameFile.WildData1);
-        public void EditWild_GE() => PopWildEdit(GameFile.WildData2);
+        public void EditWild() => PopWildEdit(ROM.Game == GameVersion.GP ? GameFile.WildData1 : GameFile.WildData2);
 
         private void PopWildEdit(GameFile type)
         {
