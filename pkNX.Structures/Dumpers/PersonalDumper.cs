@@ -70,8 +70,6 @@ namespace pkNX.Structures
         private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
         private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
 
-        private static readonly int[] ArmorTutorIndexes = { 0x325, 0x327, 0x32C, 0x324, 0x323, 0x32D, 0x32B, 0x32A, 0x32F, 0x32E, 0x31D, 0x326, 0x320, 0x329, 0x31F, 0x328, 0x31E, 0x322 };
-
         public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
 
         public PersonalDumperSettings Settings = new();
@@ -161,7 +159,7 @@ namespace pkNX.Structures
             {
                 if (!armor[i])
                     continue;
-                var move = ArmorTutorIndexes[i];
+                var move = Legal.Tutors_SWSH_1[i];
                 lines.Add($"- {Moves[move]}");
                 count++;
 

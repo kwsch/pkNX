@@ -102,6 +102,10 @@ namespace pkNX.WinForms
                         CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
                     for (int i = TMs.Count / 2; i < TMs.Count; i++)
                         CLB_TM.Items.Add($"TR{i-100:00} {movelist[TMs[i]]}");
+                    for (int i = 0; i < Legal.TypeTutor8.Length; i++)
+                        CLB_TypeTutor.Items.Add(movelist[Legal.TypeTutor8[i]]);
+                    for (int i = 0; i < Legal.Tutors_SWSH_1.Length; i++)
+                        CLB_SpecialTutor.Items.Add(movelist[Legal.Tutors_SWSH_1[i]]);
                 }
                 else
                 {
@@ -300,11 +304,12 @@ namespace pkNX.WinForms
             {
                 MT_GoID.Text = gg.GoSpecies.ToString("000");
                 CHK_Variant.Checked = gg.LocalVariant;
-                GB_ZMove.Visible = CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible =
+                GB_ZMove.Visible = CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible = L_TypeTutors.Visible = CLB_TypeTutor.Visible = CLB_SpecialTutor.Visible =
                 L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
             if (pkm is PersonalInfoSWSH swsh)
             {
+                L_TM.Text = "TMs/TRs:";
                 MT_GoID.Text = swsh.SpriteIndex.ToString("000");
                 TB_RegionalDex.Text = swsh.PokeDexIndex.ToString("000");
                 TB_ArmorDex.Text = swsh.ArmorDexIndex.ToString("000");
@@ -317,6 +322,10 @@ namespace pkNX.WinForms
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)
                 CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
+            for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
+                CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);
+            for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
+                CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
         }
 
         public void SavePersonal()
@@ -384,6 +393,10 @@ namespace pkNX.WinForms
 
             for (int i = 0; i < CLB_TM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TM.GetItemChecked(i);
+            for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
+                pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
+            for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
+                pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
         }
 
         public void LoadLearnset(Learnset pkm)

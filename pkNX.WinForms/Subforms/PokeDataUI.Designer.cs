@@ -123,7 +123,10 @@
             this.L_EVYield = new System.Windows.Forms.Label();
             this.L_BaseStats = new System.Windows.Forms.Label();
             this.Tab_Learn = new System.Windows.Forms.TabPage();
+            this.CLB_SpecialTutor = new System.Windows.Forms.CheckedListBox();
+            this.L_TypeTutors = new System.Windows.Forms.Label();
             this.L_TM = new System.Windows.Forms.Label();
+            this.CLB_TypeTutor = new System.Windows.Forms.CheckedListBox();
             this.CLB_TM = new System.Windows.Forms.CheckedListBox();
             this.L_LevelUp = new System.Windows.Forms.Label();
             this.dgv = new System.Windows.Forms.DataGridView();
@@ -172,7 +175,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(456, -1);
+            this.B_Save.Location = new System.Drawing.Point(514, -1);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 0;
@@ -190,7 +193,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(534, 766);
+            this.tabControl1.Size = new System.Drawing.Size(592, 766);
             this.tabControl1.TabIndex = 1;
             // 
             // Tab_Personal
@@ -283,7 +286,7 @@
             this.Tab_Personal.Location = new System.Drawing.Point(4, 22);
             this.Tab_Personal.Name = "Tab_Personal";
             this.Tab_Personal.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Personal.Size = new System.Drawing.Size(526, 740);
+            this.Tab_Personal.Size = new System.Drawing.Size(584, 740);
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
@@ -1170,17 +1173,39 @@
             // 
             // Tab_Learn
             // 
+            this.Tab_Learn.Controls.Add(this.CLB_SpecialTutor);
+            this.Tab_Learn.Controls.Add(this.L_TypeTutors);
             this.Tab_Learn.Controls.Add(this.L_TM);
+            this.Tab_Learn.Controls.Add(this.CLB_TypeTutor);
             this.Tab_Learn.Controls.Add(this.CLB_TM);
             this.Tab_Learn.Controls.Add(this.L_LevelUp);
             this.Tab_Learn.Controls.Add(this.dgv);
             this.Tab_Learn.Location = new System.Drawing.Point(4, 22);
             this.Tab_Learn.Name = "Tab_Learn";
             this.Tab_Learn.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Learn.Size = new System.Drawing.Size(526, 740);
+            this.Tab_Learn.Size = new System.Drawing.Size(584, 740);
             this.Tab_Learn.TabIndex = 1;
             this.Tab_Learn.Text = "Learnset";
             this.Tab_Learn.UseVisualStyleBackColor = true;
+            // 
+            // CLB_SpecialTutor
+            // 
+            this.CLB_SpecialTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_SpecialTutor.FormattingEnabled = true;
+            this.CLB_SpecialTutor.Location = new System.Drawing.Point(433, 176);
+            this.CLB_SpecialTutor.Name = "CLB_SpecialTutor";
+            this.CLB_SpecialTutor.Size = new System.Drawing.Size(147, 304);
+            this.CLB_SpecialTutor.TabIndex = 10;
+            // 
+            // L_TypeTutors
+            // 
+            this.L_TypeTutors.AutoSize = true;
+            this.L_TypeTutors.Location = new System.Drawing.Point(430, 18);
+            this.L_TypeTutors.Name = "L_TypeTutors";
+            this.L_TypeTutors.Size = new System.Drawing.Size(70, 13);
+            this.L_TypeTutors.TabIndex = 9;
+            this.L_TypeTutors.Text = "Tutor Moves:";
             // 
             // L_TM
             // 
@@ -1190,6 +1215,16 @@
             this.L_TM.Size = new System.Drawing.Size(31, 13);
             this.L_TM.TabIndex = 7;
             this.L_TM.Text = "TMs:";
+            // 
+            // CLB_TypeTutor
+            // 
+            this.CLB_TypeTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_TypeTutor.FormattingEnabled = true;
+            this.CLB_TypeTutor.Location = new System.Drawing.Point(433, 34);
+            this.CLB_TypeTutor.Name = "CLB_TypeTutor";
+            this.CLB_TypeTutor.Size = new System.Drawing.Size(147, 139);
+            this.CLB_TypeTutor.TabIndex = 8;
             // 
             // CLB_TM
             // 
@@ -1219,7 +1254,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(0, 34);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(282, 669);
+            this.dgv.Size = new System.Drawing.Size(282, 664);
             this.dgv.TabIndex = 1;
             // 
             // Tab_Evo
@@ -1227,7 +1262,7 @@
             this.Tab_Evo.Controls.Add(this.flowLayoutPanel1);
             this.Tab_Evo.Location = new System.Drawing.Point(4, 22);
             this.Tab_Evo.Name = "Tab_Evo";
-            this.Tab_Evo.Size = new System.Drawing.Size(526, 740);
+            this.Tab_Evo.Size = new System.Drawing.Size(584, 740);
             this.Tab_Evo.TabIndex = 2;
             this.Tab_Evo.Text = "Evolve";
             this.Tab_Evo.UseVisualStyleBackColor = true;
@@ -1237,7 +1272,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 740);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(584, 740);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // Tab_Extra
@@ -1246,7 +1281,7 @@
             this.Tab_Extra.Location = new System.Drawing.Point(4, 22);
             this.Tab_Extra.Name = "Tab_Extra";
             this.Tab_Extra.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Extra.Size = new System.Drawing.Size(526, 740);
+            this.Tab_Extra.Size = new System.Drawing.Size(584, 740);
             this.Tab_Extra.TabIndex = 3;
             this.Tab_Extra.Text = "Enhancements";
             this.Tab_Extra.UseVisualStyleBackColor = true;
@@ -1260,7 +1295,7 @@
             this.TC_Rand.Location = new System.Drawing.Point(3, 3);
             this.TC_Rand.Name = "TC_Rand";
             this.TC_Rand.SelectedIndex = 0;
-            this.TC_Rand.Size = new System.Drawing.Size(520, 734);
+            this.TC_Rand.Size = new System.Drawing.Size(578, 734);
             this.TC_Rand.TabIndex = 0;
             // 
             // Tab_RStats
@@ -1272,7 +1307,7 @@
             this.Tab_RStats.Location = new System.Drawing.Point(4, 22);
             this.Tab_RStats.Name = "Tab_RStats";
             this.Tab_RStats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_RStats.Size = new System.Drawing.Size(512, 708);
+            this.Tab_RStats.Size = new System.Drawing.Size(570, 708);
             this.Tab_RStats.TabIndex = 1;
             this.Tab_RStats.Text = "Randomize Personal";
             this.Tab_RStats.UseVisualStyleBackColor = true;
@@ -1332,7 +1367,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_Personal.Location = new System.Drawing.Point(6, 35);
             this.PG_Personal.Name = "PG_Personal";
-            this.PG_Personal.Size = new System.Drawing.Size(503, 670);
+            this.PG_Personal.Size = new System.Drawing.Size(561, 670);
             this.PG_Personal.TabIndex = 0;
             this.PG_Personal.ToolbarVisible = false;
             // 
@@ -1344,7 +1379,7 @@
             this.Tab_RLearn.Controls.Add(this.B_RandLearn);
             this.Tab_RLearn.Location = new System.Drawing.Point(4, 22);
             this.Tab_RLearn.Name = "Tab_RLearn";
-            this.Tab_RLearn.Size = new System.Drawing.Size(512, 708);
+            this.Tab_RLearn.Size = new System.Drawing.Size(570, 708);
             this.Tab_RLearn.TabIndex = 2;
             this.Tab_RLearn.Text = "Randomize Learn";
             this.Tab_RLearn.UseVisualStyleBackColor = true;
@@ -1359,7 +1394,7 @@
             this.tabControl2.Location = new System.Drawing.Point(6, 32);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(503, 673);
+            this.tabControl2.Size = new System.Drawing.Size(561, 673);
             this.tabControl2.TabIndex = 6;
             // 
             // Tab_Learnset
@@ -1368,7 +1403,7 @@
             this.Tab_Learnset.Location = new System.Drawing.Point(4, 22);
             this.Tab_Learnset.Name = "Tab_Learnset";
             this.Tab_Learnset.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Learnset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Learnset.Size = new System.Drawing.Size(553, 647);
             this.Tab_Learnset.TabIndex = 0;
             this.Tab_Learnset.Text = "Learn Settings";
             this.Tab_Learnset.UseVisualStyleBackColor = true;
@@ -1378,7 +1413,7 @@
             this.PG_Learn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_Learn.Location = new System.Drawing.Point(3, 3);
             this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(489, 641);
+            this.PG_Learn.Size = new System.Drawing.Size(547, 641);
             this.PG_Learn.TabIndex = 2;
             this.PG_Learn.ToolbarVisible = false;
             // 
@@ -1388,7 +1423,7 @@
             this.Tab_Moveset.Location = new System.Drawing.Point(4, 22);
             this.Tab_Moveset.Name = "Tab_Moveset";
             this.Tab_Moveset.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Moveset.Size = new System.Drawing.Size(495, 647);
+            this.Tab_Moveset.Size = new System.Drawing.Size(553, 647);
             this.Tab_Moveset.TabIndex = 1;
             this.Tab_Moveset.Text = "Moveset Settings";
             this.Tab_Moveset.UseVisualStyleBackColor = true;
@@ -1398,7 +1433,7 @@
             this.PG_Move.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_Move.Location = new System.Drawing.Point(3, 3);
             this.PG_Move.Name = "PG_Move";
-            this.PG_Move.Size = new System.Drawing.Size(489, 641);
+            this.PG_Move.Size = new System.Drawing.Size(547, 641);
             this.PG_Move.TabIndex = 3;
             this.PG_Move.ToolbarVisible = false;
             // 
@@ -1440,7 +1475,7 @@
             this.Tab_REvo.Controls.Add(this.PG_Evolution);
             this.Tab_REvo.Location = new System.Drawing.Point(4, 22);
             this.Tab_REvo.Name = "Tab_REvo";
-            this.Tab_REvo.Size = new System.Drawing.Size(512, 708);
+            this.Tab_REvo.Size = new System.Drawing.Size(570, 708);
             this.Tab_REvo.TabIndex = 3;
             this.Tab_REvo.Text = "Randomize Evo";
             this.Tab_REvo.UseVisualStyleBackColor = true;
@@ -1482,7 +1517,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_Evolution.Location = new System.Drawing.Point(6, 32);
             this.PG_Evolution.Name = "PG_Evolution";
-            this.PG_Evolution.Size = new System.Drawing.Size(503, 673);
+            this.PG_Evolution.Size = new System.Drawing.Size(561, 673);
             this.PG_Evolution.TabIndex = 2;
             this.PG_Evolution.ToolbarVisible = false;
             // 
@@ -1501,7 +1536,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 766);
+            this.ClientSize = new System.Drawing.Size(592, 766);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
@@ -1658,5 +1693,8 @@
         private System.Windows.Forms.TextBox TB_CrownDex;
         private System.Windows.Forms.Label L_CrownDex;
         private System.Windows.Forms.Button B_EveryLevel;
+        private System.Windows.Forms.Label L_TypeTutors;
+        private System.Windows.Forms.CheckedListBox CLB_TypeTutor;
+        private System.Windows.Forms.CheckedListBox CLB_SpecialTutor;
     }
 }

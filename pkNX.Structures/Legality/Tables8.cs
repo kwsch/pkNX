@@ -180,6 +180,23 @@ namespace pkNX.Structures
 
         internal static readonly ushort[] HeldItems_SWSH = new ushort[1].Concat(Pouch_Items_SWSH).Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
 
+        public static readonly int[] TypeTutor8 =
+        {
+            520, 519, 518, // Pledge
+            338, 307, 308, // Elemental Beam
+            434, // Draco Meteor
+            796, // Steel Beam
+        };
+
+        public static readonly int[] Tutors_SWSH_1 =
+        {
+            805, 807, 812, 804,
+            803, 813, 811, 810,
+            815, 814, 797, 806,
+            800, 809, 799, 808,
+            798, 802,
+        };
+
         internal static readonly HashSet<int> GalarOriginForms = new()
         {
             (int)Species.Meowth,
