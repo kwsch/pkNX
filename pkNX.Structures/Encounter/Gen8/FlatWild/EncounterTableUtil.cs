@@ -7,24 +7,36 @@ namespace pkNX.Structures
 {
     public static class EncounterTable8Util
     {
-        public static byte[][] GetBytes(IReadOnlyDictionary<ulong, byte> zone_loc, EncounterArchive8 t)
+        public static byte[][] GetBytes(IReadOnlyDictionary<ulong, byte> zone_loc, EncounterArchive8 t, bool hiddenTreeFix = false)
         {
-            var result = new List<byte[]>();
+            var result = new List<DumpableLocation>();
             foreach (var zone in t.EncounterTables)
             {
-                var entry = GetZoneBytes(zone, zone_loc);
-                if (entry.Length != 0)
-                    result.Add(entry);
+                var entry = GetDumpable(zone, zone_loc);
+                if (entry.Slots.Count == 0)
+                    continue;
+                result.Add(entry);
             }
 
-            return result.ToArray();
+            if (hiddenTreeFix)
+            {
+                // The Berry Trees in Bridge Field are right against the map boundary, and can be accessed on the adjacent Map ID (Stony Wilderness)
+                // Copy the two Berry Tree encounters from Bridge to Stony, as these aren't overworld (wandering) crossover encounters.
+                var bridge = result.Find(z => z.Location == 142);
+                var stony = result.Find(z => z.Location == 144);
+
+                foreach (var s in bridge.Slots.Where(z => z.EncounterType == SWSHEncounterType.Shaking_Trees))
+                    stony.Slots.Add(s);
+            }
+
+            return result.ConvertAll(z => z.Serialize()).ToArray();
         }
 
-        private static byte[] GetZoneBytes(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc)
+        private static DumpableLocation GetDumpable(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc)
         {
             // Don't dump data that we can't correlate to a zone
             if (!zoneLoc.TryGetValue(zone.ZoneID, out var tmp))
-                return Array.Empty<byte>();
+                return DumpableLocation.Empty;
 
             byte locID = tmp;
             var list = new List<Slot8>();
@@ -36,6 +48,9 @@ namespace pkNX.Structures
                 var max = table.LevelMax;
                 foreach (var s in table.Slots)
                 {
+                    if (s.Species == 0)
+                        continue;
+
                     var s8 = new Slot8(s.Species, s.Form, min, max) {EncounterType = weather};
                     var match = list.Find(z => z.Equals(s8));
                     if (match == null)
@@ -45,7 +60,23 @@ namespace pkNX.Structures
                 }
             }
 
-            return SerializeSlot8(locID, list);
+            return new DumpableLocation(list, locID);
+        }
+
+        private class DumpableLocation
+        {
+            public static readonly DumpableLocation Empty = new(new(), 0);
+
+            public readonly List<Slot8> Slots;
+            public readonly byte Location;
+
+            public DumpableLocation(List<Slot8> slots, byte location)
+            {
+                Slots = slots;
+                Location = location;
+            }
+
+            public byte[] Serialize() => SerializeSlot8(Location, Slots);
         }
 
         private static byte[] SerializeSlot8(byte locID, IEnumerable<Slot8> list)
