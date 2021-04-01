@@ -48,6 +48,8 @@ namespace pkNX.Structures
                 var rank = $"{e.MinRank + 1}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {e.Level}";
+                if (e.Field_13 == 6 && e.Field_14 == 6) // related to whether or not the raid boss can be caught; enums/bitflags?
+                    yield return "\tCatchable: No";
                 if (e.ShinyLock == 1)
                     yield return "\tShiny: Never";
                 else if (e.ShinyLock == 2)
@@ -151,7 +153,10 @@ namespace pkNX.Structures
                         throw new Exception();
                 }
                 var flawless = e.FlawlessIVs;
-                return $"            new({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
+                var line = $"            new({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
+                if (e.Field_13 == 6 && e.Field_14 == 6)
+                    line = line.Insert(12, "//").Remove(10, 2); // comment out uncatchable encounters
+                return line;
             }
         }
 
