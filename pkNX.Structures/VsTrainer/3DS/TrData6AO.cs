@@ -17,7 +17,7 @@ namespace pkNX.Structures
         public override int Item3 { get => BitConverter.ToUInt16(Data, 0x0C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         public override int Item4 { get => BitConverter.ToUInt16(Data, 0x0E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0E); }
         public override uint AI { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
-        public override bool Heal { get => Data[0x14] == 1; set => Data[0x14] = value ? 1 : 0; }
+        public override bool Heal { get => Data[0x14] == 1; set => Data[0x14] = value ? (byte)1 : (byte)0; }
         public override int Money { get => Data[0x15]; set => Data[0x15] = (byte)value; }
         public override int Gift { get => BitConverter.ToUInt16(Data, 0x16); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
     }
