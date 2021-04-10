@@ -24,21 +24,25 @@ namespace pkNX.Sprites
         public abstract Bitmap Transparent { get; }
         public abstract Bitmap Drag { get; }
         public abstract Bitmap UnknownItem { get; }
+        public abstract Bitmap None { get; }
+        public abstract Bitmap ItemTM { get; }
+        public abstract Bitmap ItemTR { get; }
 
         private const double UnknownFormTransparency = 0.5;
         private const double ShinyTransparency = 0.7;
         private const double EggUnderLayerTransparency = 0.33;
 
-        protected virtual string GetSpriteStringSpeciesOnly(int species) => $"_{species}";
-        protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, bool gmax, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny, gmax);
-        protected virtual string GetItemResourceName(int item) => $"item_{item}";
-        protected virtual Image Unknown => Resources.unknown;
-        protected virtual Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources._490_e : Resources.egg;
+        protected abstract string GetSpriteStringSpeciesOnly(int species);
+
+        protected abstract string GetSpriteAll(int species, int form, int gender, bool shiny, bool gmax, int generation);
+        protected abstract string GetItemResourceName(int item);
+        protected abstract Bitmap Unknown { get; }
+        protected abstract Bitmap GetEggSprite(int species);
 
         public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, bool isGigantamax, int generation = -1)
         {
             if (species == 0)
-                return Resources._0;
+                return None;
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, isGigantamax, generation);
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, isGigantamax, generation);
@@ -98,9 +102,9 @@ namespace pkNX.Sprites
         {
             Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.bitem_unk;
             if (328 <= item && item <= 419) // gen2/3/4 TM
-                itemimg = Resources.bitem_tm;
+                itemimg = ItemTM;
             else if (1130 <= item && item <= 1229) // Gen8 TR
-                itemimg = Resources.bitem_tr;
+                itemimg = ItemTR;
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
             int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
@@ -141,29 +145,6 @@ namespace pkNX.Sprites
     }
 
     /// <summary>
-    /// 30 high, 40 wide sprite builder
-    /// </summary>
-    public class SpriteBuilder3040 : SpriteBuilder
-    {
-        public override int Height => 30;
-        public override int Width => 40;
-
-        protected override int ItemShiftX => 22;
-        protected override int ItemShiftY => 15;
-        protected override int ItemMaxSize => 15;
-        protected override int EggItemShiftX => 9;
-        protected override int EggItemShiftY => 2;
-
-        public override Bitmap Hover => Resources.slotHover;
-        public override Bitmap View => Resources.slotView;
-        public override Bitmap Set => Resources.slotSet;
-        public override Bitmap Delete => Resources.slotDel;
-        public override Bitmap Transparent => Resources.slotTrans;
-        public override Bitmap Drag => Resources.slotDrag;
-        public override Bitmap UnknownItem => Resources.helditem;
-    }
-
-    /// <summary>
     /// 56 high, 68 wide sprite builder
     /// </summary>
     public class SpriteBuilder5668 : SpriteBuilder
@@ -180,8 +161,8 @@ namespace pkNX.Sprites
         protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
         protected override string GetSpriteAll(int species, int form, int gender, bool shiny, bool gmax, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny, gmax);
         protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
-        protected override Image Unknown => Resources.b_unknown;
-        protected override Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources.b_490_e : Resources.b_egg;
+        protected override Bitmap Unknown => Resources.b_unknown;
+        protected override Bitmap GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources.b_490_e : Resources.b_egg;
 
         public override Bitmap Hover => Resources.slotHover68;
         public override Bitmap View => Resources.slotView68;
@@ -190,5 +171,8 @@ namespace pkNX.Sprites
         public override Bitmap Transparent => Resources.slotTrans68;
         public override Bitmap Drag => Resources.slotDrag68;
         public override Bitmap UnknownItem => Resources.bitem_unk;
+        public override Bitmap None => Resources.b_0;
+        public override Bitmap ItemTM => Resources.bitem_tm;
+        public override Bitmap ItemTR => Resources.bitem_tr;
     }
 }

@@ -5,9 +5,8 @@ namespace pkNX.Sprites
 {
     public static class SpriteUtil
     {
-        public static readonly SpriteBuilder3040 SB17 = new();
         public static readonly SpriteBuilder5668 SB8 = new();
-        public static SpriteBuilder Spriter { get; set; } = SB17;
+        public static SpriteBuilder Spriter { get; set; } = SB8;
 
         public static Image GetBallSprite(int ball)
         {
@@ -20,6 +19,6 @@ namespace pkNX.Sprites
             return Spriter.GetSprite(species, form, gender, item, isegg, shiny, gmax, generation);
         }
 
-        public static void Initialize(bool big) => Spriter = big ? (SpriteBuilder)SB8 : SB17;
+        public static void Initialize() => Spriter = SB8;
     }
 }

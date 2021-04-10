@@ -146,7 +146,7 @@ namespace pkNX.WinForms
             Menu_Current.Enabled = true;
             EditUtil.LoadSettings(Editor.Game);
             EditUtil.SaveSettings(Editor.Game);
-            SpriteUtil.Initialize(editor.Game.GetMaxSpeciesID() >= 809);
+            SpriteUtil.Initialize();
             System.Media.SystemSounds.Asterisk.Play();
         }
 

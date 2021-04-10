@@ -117,7 +117,7 @@ namespace pkNX.WinForms
             {
                 PopulateFields(pk);
                 // Visual to display what slot is currently loaded.
-                GetSlotColor(slot, Sprites.Properties.Resources.slotView);
+                GetSlotColor(slot, Sprites.Properties.Resources.slotView68);
             }
             else
             {
@@ -144,7 +144,7 @@ namespace pkNX.WinForms
             }
 
             GetQuickFiller(pba[slot], pk);
-            GetSlotColor(slot, Sprites.Properties.Resources.slotSet);
+            GetSlotColor(slot, Sprites.Properties.Resources.slotSet68);
         }
 
         private void ClickDelete(object sender, EventArgs e)
@@ -155,7 +155,7 @@ namespace pkNX.WinForms
                 Trainers[entry].Team.RemoveAt(slot);
 
             PopulateTeam(Trainers[entry].Team);
-            GetSlotColor(slot, Sprites.Properties.Resources.slotDel);
+            GetSlotColor(slot, Sprites.Properties.Resources.slotDel68);
         }
 
         private void PopulateTeam(IList<TrainerPoke> team)
