@@ -14,7 +14,7 @@ namespace pkNX.Game
             BL	-44 // branch if less (loop)
             B	[....] // branch (no loop), PID is done!
 
-            Patch creation: accept input for reroll count=1-4091
+            Patch creation: accept input for reroll count=1-2
             Get u32: ((count & 0xFFF) << 10) | 0b111000100_000000000000_1010011111
             Convert to bytes, this is our new "CMP W20, XXX" instruction
 
