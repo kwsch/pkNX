@@ -14,7 +14,7 @@ namespace pkNX.Randomization
             Personal = t;
         }
 
-        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[]? stats = null)
+        public int GetRandomForme(int species, bool mega, bool fused PersonalInfo[]? stats = null)
         {
             stats ??= Personal.Table;
             if (stats[species].FormeCount <= 1)
