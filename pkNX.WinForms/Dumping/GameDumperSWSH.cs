@@ -541,6 +541,10 @@ namespace pkNX.WinForms
             var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
             var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
+            int index = dai_data[0];
+
+            System.Diagnostics.Debug.Assert(dai_data[0] == drop_data[0] && dai_data[0] == bonus_data[0], "BCAT Index should be the same for all files!");
+
             DumpDistIfExists("normal_encount", "");
             DumpDistIfExists("normal_encount_rigel1", "Armor");
             DumpDistIfExists("normal_encount_rigel2", "Crown");
@@ -571,7 +575,7 @@ namespace pkNX.WinForms
                 foreach (var game in new[] { 1, 2 })
                 {
                     var tables = encounts.Tables.Where(z => z.GameVersion == game).ToList();
-                    var encounters = tables.SelectMany(z => z.GetSummary(speciesNames)).ToArray();
+                    var encounters = tables.SelectMany(z => z.GetSummary(speciesNames, index)).ToArray();
 
                     var path1 = GetPath($"nestDistHex{game}.txt");
                     File.WriteAllLines(path1, encounters);

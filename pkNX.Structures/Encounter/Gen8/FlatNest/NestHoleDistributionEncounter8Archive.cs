@@ -111,20 +111,21 @@ namespace pkNX.Structures
             }
         }
 
-        public IEnumerable<string> GetSummary(IReadOnlyList<string> species)
+        public IEnumerable<string> GetSummary(IReadOnlyList<string> species, int index)
         {
             foreach (var entry in Entries)
             {
                 if (entry.Exists)
-                    yield return Summary(entry);
+                    yield return Summary(entry, index);
             }
             yield return string.Empty;
 
-            string Summary(NestHoleDistributionEncounter8 e)
+            string Summary(NestHoleDistributionEncounter8 e, int index)
             {
                 var comment = $" // {species[e.Species]}{(e.AltForm == 0 ? string.Empty : "-" + e.AltForm)}";
                 var gender = e.Gender == 0 ? string.Empty : $", Gender = {e.Gender - 1}";
                 var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
+                var istr = $", Index = {index}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
                 var moves = $", Moves = new[]{{ {e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000} }}";
                 var shiny = e.ShinyLock switch
@@ -153,7 +154,7 @@ namespace pkNX.Structures
                         throw new Exception();
                 }
                 var flawless = e.FlawlessIVs;
-                var line = $"            new({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{gender}{altform}{giga}{shiny} }},{comment}";
+                var line = $"            new({e.Level:00},{e.DynamaxLevel:00},{flawless}) {{ Species = {e.Species:000}, Ability = {ability}{moves}{istr}{gender}{altform}{giga}{shiny} }},{comment}";
                 if (e.Field_13 == 6 && e.Field_14 == 6)
                     line = line.Insert(12, "//").Remove(10, 2); // comment out uncatchable encounters
                 return line;
