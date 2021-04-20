@@ -46,7 +46,7 @@ namespace pkNX.Game
             var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom", StringComparison.CurrentCultureIgnoreCase));
             var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe", StringComparison.CurrentCultureIgnoreCase));
 
-            if (romfs == null || exefs == null)
+            if (romfs == null && exefs == null)
                 return null;
 
             var files = Directory.GetFiles(romfs, "*", SearchOption.AllDirectories);
@@ -70,8 +70,7 @@ namespace pkNX.Game
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
         {
-            string Main = Path.Combine(exefs, "main.npdm");
-            string TitleID = BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+            string GetTitleID() => BitConverter.ToString(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
 
             switch (fileCount)
             {
@@ -86,6 +85,7 @@ namespace pkNX.Game
                         return GameVersion.SN;
                     return GameVersion.MN;
                 }
+
                 case FILECOUNT_USUM:
                 {
                     var encdata = Path.Combine(romfs, "a", "0", "8", "2");
@@ -95,13 +95,26 @@ namespace pkNX.Game
                 }
 
                 case FILECOUNT_GG:
-                    return TitleID == "010003F003A34000" ? GameVersion.GP : GameVersion.GE;
+                {
+                    if (exefs == null)
+                    {
+                        bool eevee = Directory.Exists(Path.Combine(romfs, "bin", "movies", "EEVEE_GO"));
+                        if (eevee)
+                            return GameVersion.GE;
+                        return GameVersion.GP;
+                    }
+                    return GetTitleID() == "010003F003A34000" ? GameVersion.GP : GameVersion.GE;
+                }
 
                 case FILECOUNT_SWSH:
                 case FILECOUNT_SWSH_1:
                 case FILECOUNT_SWSH_2:
                 case FILECOUNT_SWSH_3:
-                    return TitleID == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
+                {
+                    if (exefs == null)
+                        return GameVersion.SWSH;
+                    return GetTitleID() == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
+                }
 
                 default:
                     return GameVersion.Invalid;

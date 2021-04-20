@@ -9,12 +9,17 @@ namespace pkNX.Game
     public class GameManagerGG : GameManager
     {
         public GameManagerGG(GameLocation rom, int language) : base(rom, language) { }
-        private string Main => Path.Combine(PathExeFS, "main.npdm");
-        private string TitleID => BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+        private GameVersion ActualGame;
+        private string TitleID => ActualGame == GameVersion.GP ? Pikachu : Eevee;
+        private const string Pikachu = "010003F003A34000";
+        private const string Eevee = "0100187003A36000";
 
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
+            // unlike SWSH, LGPE has a unique opening movie in romfs to differentiate between versions
+            bool eevee = Directory.Exists(Path.Combine(PathRomFS, "bin", "movies", "EEVEE_GO"));
+            ActualGame = eevee ? GameVersion.GE : GameVersion.GP;
             var redirect = Path.Combine(basePath, TitleID);
             FileMitm.SetRedirect(basePath, redirect);
         }

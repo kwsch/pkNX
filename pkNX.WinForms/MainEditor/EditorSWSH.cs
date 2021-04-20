@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
@@ -186,7 +187,18 @@ namespace pkNX.WinForms.Controls
             FileMitm.WriteAllBytes(path, data);
         }
 
-        public void EditWild() => PopWildEdit(ROM.Game == GameVersion.SW ? "k" : "t");
+        public void EditWild()
+        {
+            if (ROM.PathExeFS == null)
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "No ExeFS data found. Please choose which game's encounter tables you wish to edit.", "Yes for Sword, No for Shield.");
+                if (dr == DialogResult.Cancel)
+                    return;
+                PopWildEdit(dr == DialogResult.Yes ? "k" : "t");
+            }
+            else
+                PopWildEdit(ROM.Game == GameVersion.SW ? "k" : "t");
+        }
 
         private void PopWildEdit(string file)
         {

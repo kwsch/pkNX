@@ -9,12 +9,12 @@ namespace pkNX.Game
     public class GameManagerSWSH : GameManager
     {
         public GameManagerSWSH(GameLocation rom, int language) : base(rom, language) { }
-        private string Main => Path.Combine(PathExeFS, "main.npdm");
-        private string TitleID => BitConverter.ToString(File.ReadAllBytes(Main).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+        private string GetTitleID() => BitConverter.ToString(File.ReadAllBytes(Path.Combine(PathExeFS, "main.npdm")).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
 
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
+            var TitleID = PathExeFS != null ? GetTitleID() : "0100ABF008968000"; // no way to differentiate without exefs, so default to Sword
             var redirect = Path.Combine(basePath, TitleID);
             FileMitm.SetRedirect(basePath, redirect);
         }
