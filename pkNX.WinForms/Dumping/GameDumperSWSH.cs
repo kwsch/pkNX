@@ -509,13 +509,15 @@ namespace pkNX.WinForms
             File.WriteAllText(GetPath("MaxDens_hex.txt"), string.Join(Environment.NewLine, pkhex));
         }
 
-        public static byte[] GetDistributionContents(string path)
+        public static byte[] GetDistributionContents(string path, out int index)
         {
             var archive = File.ReadAllBytes(path);
 
             // Validate Header
             if (archive.Length < 0x20 || archive.Length != 4 + BitConverter.ToInt32(archive, 0x10) || BitConverter.ToInt32(archive, 0x8) != 0x20)
                 throw new ArgumentException();
+
+            index = archive[0];
 
             // TODO: Eventually validate CRC16 over Data[:-4], CRC stored at Data[-4:]
 
@@ -534,16 +536,14 @@ namespace pkNX.WinForms
             var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
             var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
 
-            var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"));
-            var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"));
-            var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"));
+            var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"), out int dai_index);
+            var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"), out int drop_index);
+            var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"), out int bonus_index);
             var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(drop_data);
             var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
             var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
-            int index = dai_data[0];
-
-            System.Diagnostics.Debug.Assert(dai_data[0] == drop_data[0] && dai_data[0] == bonus_data[0], "BCAT Index should be the same for all files!");
+            System.Diagnostics.Debug.Assert(dai_index == drop_index && drop_index == bonus_index, "BCAT Index should be the same for all files!");
 
             DumpDistIfExists("normal_encount", "");
             DumpDistIfExists("normal_encount_rigel1", "Armor");
@@ -555,7 +555,7 @@ namespace pkNX.WinForms
                 if (!File.Exists(p))
                     return;
 
-                var data = GetDistributionContents(p);
+                var data = GetDistributionContents(p, out int index);
                 var encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(data);
                 var pretty_sw = encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                     z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
