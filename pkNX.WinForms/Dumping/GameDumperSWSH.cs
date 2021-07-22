@@ -325,10 +325,10 @@ namespace pkNX.WinForms
             File.WriteAllLines(GetPath("Encounters_Shield.txt"), EncounterTable8Util.GetLines(encount_sh, zones, subtables, species));
             File.WriteAllLines(GetPath("Encounters_Symbol_Shield.txt"), EncounterTable8Util.GetLines(encount_symbol_sh, zones, subtables, species));
 
-            File.WriteAllBytes(GetPath("encounter_sw_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_sw, true), "sw"));
-            File.WriteAllBytes(GetPath("encounter_sh_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_sh, true), "sh"));
-            File.WriteAllBytes(GetPath("encounter_sw_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_symbol_sw), "sw"));
-            File.WriteAllBytes(GetPath("encounter_sh_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, encount_symbol_sh), "sh"));
+            File.WriteAllBytes(GetPath("encounter_sw_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, SWSHInfo.ZoneType, encount_sw, true), "sw"));
+            File.WriteAllBytes(GetPath("encounter_sh_hidden.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, SWSHInfo.ZoneType, encount_sh, true), "sh"));
+            File.WriteAllBytes(GetPath("encounter_sw_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, SWSHInfo.ZoneType, encount_symbol_sw), "sw"));
+            File.WriteAllBytes(GetPath("encounter_sh_symbol.pkl"), MiniUtil.PackMini(EncounterTable8Util.GetBytes(SWSHInfo.ZoneLocations, SWSHInfo.ZoneType, encount_symbol_sh), "sh"));
         }
 
         public void DumpPlacement()
