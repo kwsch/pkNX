@@ -48,7 +48,7 @@ namespace pkNX.Structures
             {
                 var weather = (SWSHEncounterType)(1 << i);
 
-                if (RestrictedWeather(locID, weather, slottype))
+                if (!IsPermittedWeather(locID, weather, slottype))
                     continue;
 
                 var table = zone.SubTables[i];
@@ -71,44 +71,44 @@ namespace pkNX.Structures
             return new DumpableLocation(list, locID, slottype);
         }
 
-        private static bool RestrictedWeather(byte locID, SWSHEncounterType weather, byte slottype)
+        private static bool IsPermittedWeather(byte locID, SWSHEncounterType weather, byte slotType)
         {
             // Only keep fishing slots for any encounters that are FishingOnly.
-            if (slottype == (byte)SWSHSlotType.OnlyFishing)
-                return weather != SWSHEncounterType.Fishing;
+            if (slotType == (byte)SWSHSlotType.OnlyFishing)
+                return weather == SWSHEncounterType.Fishing;
 
             // Otherwise, keep all fishing and shaking tree encounters.
             if (weather == SWSHEncounterType.Shaking_Trees || weather == SWSHEncounterType.Fishing)
-                return false;
+                return true;
 
             // If we didn't find the weather in the general table, only allow Normal.
             if (!WeatherbyArea.TryGetValue(locID, out var permit))
                 permit = SWSHEncounterType.Normal;
+            if (permit.HasFlag(weather))
+                return true;
 
             // Check bleed conditions first.
-            if (slottype == (byte)SWSHSlotType.SymbolMain || slottype == (byte)SWSHSlotType.SymbolMain2 || slottype == (byte)SWSHSlotType.SymbolMain3)
+            if (slotType is (byte)SWSHSlotType.SymbolMain or (byte)SWSHSlotType.SymbolMain2 or (byte)SWSHSlotType.SymbolMain3)
             {
-                if (WeatherBleedSymbol.TryGetValue(locID, out var permitsymbol))
-                    return !permitsymbol.HasFlag(weather) && !permit.HasFlag(weather);
+                if (WeatherBleedSymbol.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
             }
-            if (slottype == (byte)SWSHSlotType.Surfing)
+            if (slotType == (byte)SWSHSlotType.Surfing)
             {
-                if (WeatherBleedSymbolSurfing.TryGetValue(locID, out var permitsurf))
-                    return !permitsurf.HasFlag(weather) && !permit.HasFlag(weather);
+                if (WeatherBleedSymbolSurfing.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
             }
-            if (slottype == (byte)SWSHSlotType.Sharpedo)
+            if (slotType == (byte)SWSHSlotType.Sharpedo)
             {
-                if (WeatherBleedSymbolSharpedo.TryGetValue(locID, out var permitsharpedo))
-                    return !permitsharpedo.HasFlag(weather) && !permit.HasFlag(weather);
+                if (WeatherBleedSymbolSharpedo.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
             }
-            if (slottype == (byte)SWSHSlotType.HiddenMain || slottype == (byte)SWSHSlotType.HiddenMain2 || slottype == (byte)SWSHSlotType.HiddenMain3)
+            if (slotType is (byte)SWSHSlotType.HiddenMain or (byte)SWSHSlotType.HiddenMain2 or (byte)SWSHSlotType.HiddenMain3)
             {
-                if (WeatherBleedHiddenGrass.TryGetValue(locID, out var permithidden))
-                    return !permithidden.HasFlag(weather) && !permit.HasFlag(weather);
+                if (WeatherBleedHiddenGrass.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
             }
 
-            if (!permit.HasFlag(weather))
-                return true;
             return false;
         }
 
@@ -149,7 +149,6 @@ namespace pkNX.Structures
                 bw.Write((byte) max);
                 bw.Write((byte) slots.Length);
                 bw.Write(slotType);
-                bw.Write((byte) 0);
 
                 foreach (var slot in slots)
                     bw.Write((ushort)(slot.Species | (slot.Form << 11)));
