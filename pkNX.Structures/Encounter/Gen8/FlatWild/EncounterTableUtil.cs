@@ -7,12 +7,12 @@ namespace pkNX.Structures
 {
     public static class EncounterTable8Util
     {
-        public static byte[][] GetBytes(IReadOnlyDictionary<ulong, byte> zone_loc, EncounterArchive8 t, bool hiddenTreeFix = false)
+        public static byte[][] GetBytes(IReadOnlyDictionary<ulong, byte> zone_loc, IReadOnlyDictionary<ulong, byte> zone_type, EncounterArchive8 t, bool hiddenTreeFix = false)
         {
             var result = new List<DumpableLocation>();
             foreach (var zone in t.EncounterTables)
             {
-                var entry = GetDumpable(zone, zone_loc);
+                var entry = GetDumpable(zone, zone_loc, zone_type);
                 if (entry.Slots.Count == 0)
                     continue;
                 result.Add(entry);
@@ -32,10 +32,14 @@ namespace pkNX.Structures
             return result.ConvertAll(z => z.Serialize()).ToArray();
         }
 
-        private static DumpableLocation GetDumpable(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc)
+        private static DumpableLocation GetDumpable(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc, IReadOnlyDictionary<ulong, byte> zoneType)
         {
             // Don't dump data that we can't correlate to a zone
             if (!zoneLoc.TryGetValue(zone.ZoneID, out var tmp))
+                return DumpableLocation.Empty;
+
+            // Try to get the table type. Skip inaccessible tables.
+            if (!zoneType.TryGetValue(zone.ZoneID, out var slottype) || slottype == (byte)SWSHSlotType.Inaccessible)
                 return DumpableLocation.Empty;
 
             byte locID = tmp;
@@ -43,6 +47,10 @@ namespace pkNX.Structures
             for (int i = 0; i < zone.SubTables.Length; i++)
             {
                 var weather = (SWSHEncounterType)(1 << i);
+
+                if (!IsPermittedWeather(locID, weather, slottype))
+                    continue;
+
                 var table = zone.SubTables[i];
                 var min = table.LevelMin;
                 var max = table.LevelMax;
@@ -60,26 +68,69 @@ namespace pkNX.Structures
                 }
             }
 
-            return new DumpableLocation(list, locID);
+            return new DumpableLocation(list, locID, slottype);
+        }
+
+        private static bool IsPermittedWeather(byte locID, SWSHEncounterType weather, byte slotType)
+        {
+            // Only keep fishing slots for any encounters that are FishingOnly.
+            if (slotType == (byte)SWSHSlotType.OnlyFishing)
+                return weather == SWSHEncounterType.Fishing;
+
+            // Otherwise, keep all fishing and shaking tree encounters.
+            if (weather == SWSHEncounterType.Shaking_Trees || weather == SWSHEncounterType.Fishing)
+                return true;
+
+            // If we didn't find the weather in the general table, only allow Normal.
+            if (!WeatherbyArea.TryGetValue(locID, out var permit))
+                permit = SWSHEncounterType.Normal;
+            if (permit.HasFlag(weather))
+                return true;
+
+            // Check bleed conditions first.
+            if (slotType is (byte)SWSHSlotType.SymbolMain or (byte)SWSHSlotType.SymbolMain2 or (byte)SWSHSlotType.SymbolMain3)
+            {
+                if (WeatherBleedSymbol.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
+            }
+            if (slotType == (byte)SWSHSlotType.Surfing)
+            {
+                if (WeatherBleedSymbolSurfing.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
+            }
+            if (slotType == (byte)SWSHSlotType.Sharpedo)
+            {
+                if (WeatherBleedSymbolSharpedo.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
+            }
+            if (slotType is (byte)SWSHSlotType.HiddenMain or (byte)SWSHSlotType.HiddenMain2 or (byte)SWSHSlotType.HiddenMain3)
+            {
+                if (WeatherBleedHiddenGrass.TryGetValue(locID, out permit) && permit.HasFlag(weather))
+                    return true;
+            }
+
+            return false;
         }
 
         private class DumpableLocation
         {
-            public static readonly DumpableLocation Empty = new(new(), 0);
+            public static readonly DumpableLocation Empty = new(new(), 0, 0);
 
             public readonly List<Slot8> Slots;
             public readonly byte Location;
+            public readonly byte SlotType;
 
-            public DumpableLocation(List<Slot8> slots, byte location)
+            public DumpableLocation(List<Slot8> slots, byte location, byte slotType)
             {
                 Slots = slots;
                 Location = location;
+                SlotType = slotType;
             }
 
-            public byte[] Serialize() => SerializeSlot8(Location, Slots);
+            public byte[] Serialize() => SerializeSlot8(Location, Slots, SlotType);
         }
 
-        private static byte[] SerializeSlot8(byte locID, IEnumerable<Slot8> list)
+        private static byte[] SerializeSlot8(byte locID, IEnumerable<Slot8> list, byte slotType)
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
@@ -97,7 +148,7 @@ namespace pkNX.Structures
                 bw.Write((byte) min);
                 bw.Write((byte) max);
                 bw.Write((byte) slots.Length);
-                bw.Write((byte) 0);
+                bw.Write(slotType);
 
                 foreach (var slot in slots)
                     bw.Write((ushort)(slot.Species | (slot.Form << 11)));
@@ -124,7 +175,37 @@ namespace pkNX.Structures
             Heavy_Fog = 1 << 8,
             Shaking_Trees = 1 << 9,
             Fishing = 1 << 10,
-        };
+
+            All = Normal | Overcast | Raining | Thunderstorm | Intense_Sun | Snowing | Snowstorm | Sandstorm | Heavy_Fog,
+            Stormy = Raining | Thunderstorm,
+            Icy = Snowing | Snowstorm,
+            All_IoA = Normal | Overcast | Stormy | Intense_Sun | Sandstorm | Heavy_Fog,         // IoA can have everything but snow
+            All_CT = Normal | Overcast | Stormy | Intense_Sun | Icy | Heavy_Fog,                // CT can have everything but sand
+            No_Sun_Sand = Normal | Overcast | Stormy | Icy | Heavy_Fog,                         // Everything but sand and sun
+            All_Ballimere = Normal | Overcast | Stormy | Intense_Sun | Snowing | Heavy_Fog,     // All Ballimere Lake weather
+        }
+
+        private enum SWSHSlotType
+        {
+            SymbolMain,
+            SymbolMain2,
+            SymbolMain3,
+
+            HiddenMain, // Table with the tree/fishing slots
+            HiddenMain2,
+            HiddenMain3,
+
+            Surfing,
+            Surfing2,
+            Sky,
+            Sky2,
+            Ground,
+            Ground2,
+            Sharpedo,
+
+            OnlyFishing,
+            Inaccessible,
+        }
 
         private class Slot8 : IEquatable<Slot8>
         {
@@ -247,5 +328,100 @@ namespace pkNX.Structures
 
             yield return string.Empty;
         }
+
+        private static readonly Dictionary<int, SWSHEncounterType> WeatherbyArea = new()
+        {
+            { 68, SWSHEncounterType.Intense_Sun }, // Route 6
+            { 88, SWSHEncounterType.Snowing }, // Route 8 (Steamdrift Way)
+            { 90, SWSHEncounterType.Snowing }, // Route 9
+            { 92, SWSHEncounterType.Snowing }, // Route 9 (Circhester Bay)
+            { 94, SWSHEncounterType.Overcast }, // Route 9 (Outer Spikemuth)
+            { 106, SWSHEncounterType.Snowstorm }, // Route 10
+            { 122, SWSHEncounterType.All }, // Rolling Fields
+            { 124, SWSHEncounterType.All }, // Dappled Grove
+            { 126, SWSHEncounterType.All }, // Watchtower Ruins
+            { 128, SWSHEncounterType.All }, // East Lake Axewell
+            { 130, SWSHEncounterType.All }, // West Lake Axewell
+            { 132, SWSHEncounterType.All }, // Axew's Eye
+            { 134, SWSHEncounterType.All }, // South Lake Miloch
+            { 136, SWSHEncounterType.All }, // Giant's Seat
+            { 138, SWSHEncounterType.All }, // North Lake Miloch
+            { 140, SWSHEncounterType.All }, // Motostoke Riverbank
+            { 142, SWSHEncounterType.All }, // Bridge Field
+            { 144, SWSHEncounterType.All }, // Stony Wilderness
+            { 146, SWSHEncounterType.All }, // Dusty Bowl
+            { 148, SWSHEncounterType.All }, // Giant's Mirror
+            { 150, SWSHEncounterType.All }, // Hammerlocke Hills
+            { 152, SWSHEncounterType.All }, // Giant's Cap
+            { 154, SWSHEncounterType.All }, // Lake of Outrage
+            { 164, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Fields of Honor
+            { 166, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Soothing Wetlands
+            { 168, SWSHEncounterType.All_IoA }, // Forest of Focus
+            { 170, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Challenge Beach
+            { 174, SWSHEncounterType.All_IoA }, // Challenge Road
+            { 178, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Loop Lagoon
+            { 180, SWSHEncounterType.All_IoA }, // Training Lowlands
+            { 184, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Raining | SWSHEncounterType.Sandstorm | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Potbottom Desert
+            { 186, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Workout Sea
+            { 188, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Stepping-Stone Sea
+            { 190, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Insular Sea
+            { 192, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Honeycalm Sea
+            { 194, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Stormy | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Heavy_Fog }, // Honeycalm Island
+            { 204, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Icy | SWSHEncounterType.Heavy_Fog }, // Slippery Slope
+            { 208, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Icy | SWSHEncounterType.Heavy_Fog }, // Frostpoint Field
+            { 210, SWSHEncounterType.All_CT }, // Giant's Bed
+            { 212, SWSHEncounterType.All_CT }, // Old Cemetery
+            { 214, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Icy | SWSHEncounterType.Heavy_Fog }, // Snowslide Slope
+            { 216, SWSHEncounterType.Overcast }, // Tunnel to the Top
+            { 218, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Icy | SWSHEncounterType.Heavy_Fog }, // Path to the Peak
+            { 222, SWSHEncounterType.All_CT }, // Giant's Foot
+            { 224, SWSHEncounterType.Overcast }, // Roaring-Sea Caves
+            { 226, SWSHEncounterType.No_Sun_Sand }, // Frigid Sea
+            { 228, SWSHEncounterType.All_CT }, // Three-Point Pass
+            { 230, SWSHEncounterType.All_Ballimere }, // Ballimere Lake
+            { 232, SWSHEncounterType.Overcast }, // Lakeside Cave
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for standard symbol encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, SWSHEncounterType> WeatherBleedSymbol = new()
+        {
+            { 166, SWSHEncounterType.All_IoA }, // Soothing Wetlands from Forest of Focus
+            { 170, SWSHEncounterType.All_IoA }, // Challenge Beach from Forest of Focus
+            { 182, SWSHEncounterType.All_IoA }, // Warm-Up Tunnel from Training Lowlands
+            { 208, SWSHEncounterType.All_CT }, // Frostpoint Field from Giant's Bed
+            { 216, SWSHEncounterType.Normal | SWSHEncounterType.Overcast | SWSHEncounterType.Intense_Sun | SWSHEncounterType.Icy | SWSHEncounterType.Heavy_Fog }, // Tunnel to the Top from Path to the Peak
+            { 224, SWSHEncounterType.All_CT }, // Roaring-Sea Caves from Three-Point Pass
+            { 230, SWSHEncounterType.All_CT }, // Ballimere Lake from Giant's Bed
+            { 232, SWSHEncounterType.All_Ballimere }, // Lakeside Cave from Ballimere Lake
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for surfing symbol encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, SWSHEncounterType> WeatherBleedSymbolSurfing = new()
+        {
+            { 192, SWSHEncounterType.All_IoA }, // Honeycalm Sea from Training Lowlands
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for Sharpedo symbol encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, SWSHEncounterType> WeatherBleedSymbolSharpedo = new()
+        {
+            { 192, SWSHEncounterType.All_IoA }, // Honeycalm Sea from Training Lowlands
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations, for standard hidden grass encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, SWSHEncounterType> WeatherBleedHiddenGrass = new()
+        {
+            { 166, SWSHEncounterType.All_IoA }, // Soothing Wetlands from Forest of Focus
+            { 170, SWSHEncounterType.All_IoA }, // Challenge Beach from Forest of Focus
+            { 208, SWSHEncounterType.All_CT }, // Frostpoint Field from Giant's Bed
+            { 230, SWSHEncounterType.All_CT }, // Ballimere Lake from Giant's Bed
+        };
     }
 }
