@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static pkNX.Structures.EncounterTable8Util.SWSHSlotType;
 
 namespace pkNX.Structures
 {
@@ -87,30 +88,18 @@ namespace pkNX.Structures
             if (permit.HasFlag(weather))
                 return true;
 
-            // Check bleed conditions first.
-            if (slotType is (byte)SWSHSlotType.SymbolMain or (byte)SWSHSlotType.SymbolMain2 or (byte)SWSHSlotType.SymbolMain3)
-            {
-                if (WeatherBleedSymbol.TryGetValue(locID, out permit) && permit.HasFlag(weather))
-                    return true;
-            }
-            if (slotType == (byte)SWSHSlotType.Surfing)
-            {
-                if (WeatherBleedSymbolSurfing.TryGetValue(locID, out permit) && permit.HasFlag(weather))
-                    return true;
-            }
-            if (slotType == (byte)SWSHSlotType.Sharpedo)
-            {
-                if (WeatherBleedSymbolSharpedo.TryGetValue(locID, out permit) && permit.HasFlag(weather))
-                    return true;
-            }
-            if (slotType is (byte)SWSHSlotType.HiddenMain or (byte)SWSHSlotType.HiddenMain2 or (byte)SWSHSlotType.HiddenMain3)
-            {
-                if (WeatherBleedHiddenGrass.TryGetValue(locID, out permit) && permit.HasFlag(weather))
-                    return true;
-            }
-
-            return false;
+            // Check bleed conditions otherwise.
+            return IsWeatherBleedPossible((SWSHSlotType)slotType, permit, locID);
         }
+
+        private static bool IsWeatherBleedPossible(SWSHSlotType type, SWSHEncounterType permit, int location) => type switch
+        {
+            SymbolMain or SymbolMain2 or SymbolMain3 => WeatherBleedSymbol        .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            HiddenMain or HiddenMain2                => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            _ => false
+        };
 
         private class DumpableLocation
         {
@@ -185,7 +174,7 @@ namespace pkNX.Structures
             All_Ballimere = Normal | Overcast | Stormy | Intense_Sun | Snowing | Heavy_Fog,     // All Ballimere Lake weather
         }
 
-        private enum SWSHSlotType
+        public enum SWSHSlotType : ushort
         {
             SymbolMain,
             SymbolMain2,
@@ -193,7 +182,6 @@ namespace pkNX.Structures
 
             HiddenMain, // Table with the tree/fishing slots
             HiddenMain2,
-            HiddenMain3,
 
             Surfing,
             Surfing2,

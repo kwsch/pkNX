@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static pkNX.Game.SWSHSlotType;
 
 namespace pkNX.Game
 {
@@ -421,210 +422,210 @@ namespace pkNX.Game
 
         public static readonly IReadOnlyDictionary<ulong, byte> ZoneType = new Dictionary<ulong, byte>
         {
-            {0x078BC1FF1A657844, (byte)SWSHSlotType.HiddenMain}, // on Route 1
-            {0x10355EFF1F4DB0B5, (byte)SWSHSlotType.HiddenMain}, // on Route 2
-            {0x776776717EA4483E, (byte)SWSHSlotType.HiddenMain}, // in the Rolling Fields (in a Wild Area)
-            {0x776777717EA449F1, (byte)SWSHSlotType.HiddenMain}, // in the Dappled Grove (in a Wild Area)
-            {0x776778717EA44BA4, (byte)SWSHSlotType.HiddenMain}, // at Watchtower Ruins (in a Wild Area)
-            {0x776779717EA44D57, (byte)SWSHSlotType.HiddenMain}, // at East Lake Axewell (in a Wild Area)
-            {0x77677A717EA44F0A, (byte)SWSHSlotType.HiddenMain}, // at West Lake Axewell (in a Wild Area)
-            {0x77677B717EA450BD, (byte)SWSHSlotType.HiddenMain}, // on Axew's Eye (in a Wild Area)
-            {0x77676C717EA43740, (byte)SWSHSlotType.HiddenMain}, // at South Lake Miloch (in a Wild Area)
-            {0x77676D717EA438F3, (byte)SWSHSlotType.HiddenMain}, // near the Giant's Seat (in a Wild Area)
-            {0x776AFA717EA75E61, (byte)SWSHSlotType.HiddenMain}, // at North Lake Miloch (in a Wild Area)
-            {0x194B97FF2492111A, (byte)SWSHSlotType.HiddenMain}, // on Route 3
-            {0x776E81717EAA799D, (byte)SWSHSlotType.HiddenMain}, // at the Motostoke Riverbank (in a Wild Area)
-            {0x776E7E717EAA7484, (byte)SWSHSlotType.HiddenMain}, // in Bridge Field (in a Wild Area)
-            {0xDBCF5CFF0180B073, (byte)SWSHSlotType.HiddenMain}, // on Route 4
-            {0x8F67CD45F405D66E, (byte)SWSHSlotType.HiddenMain}, // in the Slumbering Weald
-            {0xE0D6E5E78C91F4A7, (byte)SWSHSlotType.OnlyFishing}, // in the city of Motostoke
-            {0xE4E595FF06C510D8, (byte)SWSHSlotType.HiddenMain}, // on Route 5
-            {0x1C7150C0594994E5, (byte)SWSHSlotType.OnlyFishing}, // in the town of Hulbury
-            {0x7D3B7A45E97D4A51, (byte)SWSHSlotType.HiddenMain}, // in Galar Mine No. 2
-            {0x75D83E45E5AA7953, (byte)SWSHSlotType.HiddenMain}, // in Galar Mine
-            {0x7D3B7745E97D4538, (byte)SWSHSlotType.HiddenMain}, // in the Motostoke Outskirts
-            {0xA88AC04602050B95, (byte)SWSHSlotType.HiddenMain}, // in Glimwood Tangle
-            {0xEDFC32FF0C0A1B29, (byte)SWSHSlotType.HiddenMain}, // on Route 6
-            {0xF55F6BFF0FDCE70E, (byte)SWSHSlotType.HiddenMain}, // on Route 7
-            {0x449AE0FF3D19D777, (byte)SWSHSlotType.HiddenMain}, // on Route 8
-            {0x4BFDF9FF40EC6CFC, (byte)SWSHSlotType.HiddenMain}, // on Route 8 (on Steamdrift Way)
-            {0x4BFDFCFF40EC7215, (byte)SWSHSlotType.HiddenMain}, // on Route 9
-            {0x4BFDF6FF40EC67E3, (byte)SWSHSlotType.HiddenMain}, // on Route 9 (in Circhester Bay)
-            {0x4BFDFBFF40EC7062, (byte)SWSHSlotType.HiddenMain}, // on Route 9 (in Outer Spikemuth)
-            {0xB332930807F9D48A, (byte)SWSHSlotType.HiddenMain}, // on Route 10 // Near Station
-            {0x7771E5717EAD5960, (byte)SWSHSlotType.HiddenMain}, // in the Stony Wilderness (in a Wild Area)
-            {0x7771E8717EAD5E79, (byte)SWSHSlotType.HiddenMain}, // in Dusty Bowl (in a Wild Area)
-            {0x7771E7717EAD5CC6, (byte)SWSHSlotType.HiddenMain}, // around the Giant's Mirror (in a Wild Area)
-            {0x7771EA717EAD61DF, (byte)SWSHSlotType.HiddenMain}, // on the Hammerlocke Hills (in a Wild Area)
-            {0x7771E9717EAD602C, (byte)SWSHSlotType.HiddenMain}, // near the Giant's Cap (in a Wild Area)
-            {0x7771EC717EAD6545, (byte)SWSHSlotType.HiddenMain}, // at the Lake of Outrage (in a Wild Area)
-            {0x10355BFF1F4DAB9C, (byte)SWSHSlotType.HiddenMain2}, // on Route 2
-            {0xB332920807F9D2D7, (byte)SWSHSlotType.HiddenMain}, // on Route 10
-            {0x8F67CB45F405D308, (byte)SWSHSlotType.HiddenMain2}, // in the Slumbering Weald
+            {0x078BC1FF1A657844, (byte)HiddenMain}, // on Route 1
+            {0x10355EFF1F4DB0B5, (byte)HiddenMain}, // on Route 2
+            {0x776776717EA4483E, (byte)HiddenMain}, // in the Rolling Fields (in a Wild Area)
+            {0x776777717EA449F1, (byte)HiddenMain}, // in the Dappled Grove (in a Wild Area)
+            {0x776778717EA44BA4, (byte)HiddenMain}, // at Watchtower Ruins (in a Wild Area)
+            {0x776779717EA44D57, (byte)HiddenMain}, // at East Lake Axewell (in a Wild Area)
+            {0x77677A717EA44F0A, (byte)HiddenMain}, // at West Lake Axewell (in a Wild Area)
+            {0x77677B717EA450BD, (byte)HiddenMain}, // on Axew's Eye (in a Wild Area)
+            {0x77676C717EA43740, (byte)HiddenMain}, // at South Lake Miloch (in a Wild Area)
+            {0x77676D717EA438F3, (byte)HiddenMain}, // near the Giant's Seat (in a Wild Area)
+            {0x776AFA717EA75E61, (byte)HiddenMain}, // at North Lake Miloch (in a Wild Area)
+            {0x194B97FF2492111A, (byte)HiddenMain}, // on Route 3
+            {0x776E81717EAA799D, (byte)HiddenMain}, // at the Motostoke Riverbank (in a Wild Area)
+            {0x776E7E717EAA7484, (byte)HiddenMain}, // in Bridge Field (in a Wild Area)
+            {0xDBCF5CFF0180B073, (byte)HiddenMain}, // on Route 4
+            {0x8F67CD45F405D66E, (byte)HiddenMain}, // in the Slumbering Weald
+            {0xE0D6E5E78C91F4A7, (byte)OnlyFishing}, // in the city of Motostoke
+            {0xE4E595FF06C510D8, (byte)HiddenMain}, // on Route 5
+            {0x1C7150C0594994E5, (byte)OnlyFishing}, // in the town of Hulbury
+            {0x7D3B7A45E97D4A51, (byte)HiddenMain}, // in Galar Mine No. 2
+            {0x75D83E45E5AA7953, (byte)HiddenMain}, // in Galar Mine
+            {0x7D3B7745E97D4538, (byte)HiddenMain}, // in the Motostoke Outskirts
+            {0xA88AC04602050B95, (byte)HiddenMain}, // in Glimwood Tangle
+            {0xEDFC32FF0C0A1B29, (byte)HiddenMain}, // on Route 6
+            {0xF55F6BFF0FDCE70E, (byte)HiddenMain}, // on Route 7
+            {0x449AE0FF3D19D777, (byte)HiddenMain}, // on Route 8
+            {0x4BFDF9FF40EC6CFC, (byte)HiddenMain}, // on Route 8 (on Steamdrift Way)
+            {0x4BFDFCFF40EC7215, (byte)HiddenMain}, // on Route 9
+            {0x4BFDF6FF40EC67E3, (byte)HiddenMain}, // on Route 9 (in Circhester Bay)
+            {0x4BFDFBFF40EC7062, (byte)HiddenMain}, // on Route 9 (in Outer Spikemuth)
+            {0xB332930807F9D48A, (byte)HiddenMain}, // on Route 10 // Near Station
+            {0x7771E5717EAD5960, (byte)HiddenMain}, // in the Stony Wilderness (in a Wild Area)
+            {0x7771E8717EAD5E79, (byte)HiddenMain}, // in Dusty Bowl (in a Wild Area)
+            {0x7771E7717EAD5CC6, (byte)HiddenMain}, // around the Giant's Mirror (in a Wild Area)
+            {0x7771EA717EAD61DF, (byte)HiddenMain}, // on the Hammerlocke Hills (in a Wild Area)
+            {0x7771E9717EAD602C, (byte)HiddenMain}, // near the Giant's Cap (in a Wild Area)
+            {0x7771EC717EAD6545, (byte)HiddenMain}, // at the Lake of Outrage (in a Wild Area)
+            {0x10355BFF1F4DAB9C, (byte)HiddenMain2}, // on Route 2
+            {0xB332920807F9D2D7, (byte)HiddenMain}, // on Route 10
+            {0x8F67CB45F405D308, (byte)HiddenMain2}, // in the Slumbering Weald
 
-            {0xCD6E4FBCE1466F32, (byte)SWSHSlotType.SymbolMain}, // on Route 1
-            {0xDF686EC613544BD1, (byte)SWSHSlotType.SymbolMain}, // on Route 2
-            {0xD602B2A66C268F7C, (byte)SWSHSlotType.SymbolMain}, // in the Rolling Fields (in a Wild Area)
-            {0x458C9CA2C0087385, (byte)SWSHSlotType.SymbolMain}, // in the Dappled Grove (in a Wild Area)
-            {0xE20E6AE30AAA57D2, (byte)SWSHSlotType.SymbolMain}, // at Watchtower Ruins (in a Wild Area)
-            {0xEEEEAC06BAC8D0B3, (byte)SWSHSlotType.SymbolMain}, // at East Lake Axewell (in a Wild Area)
-            {0xF8D1E527F7B21FA0, (byte)SWSHSlotType.SymbolMain}, // at West Lake Axewell (in a Wild Area)
-            {0xB6CFE90E0378FD79, (byte)SWSHSlotType.SymbolMain}, // on Axew's Eye (in a Wild Area)
-            {0x520D8DD522E9A4C6, (byte)SWSHSlotType.SymbolMain}, // at South Lake Miloch (in a Wild Area)
-            {0xBC7237A0392D8837, (byte)SWSHSlotType.SymbolMain}, // near the Giant's Seat (in a Wild Area)
-            {0xB67C706F5BAE9E35, (byte)SWSHSlotType.SymbolMain}, // at North Lake Miloch (in a Wild Area)
-            {0xDA910F69A1B92FED, (byte)SWSHSlotType.Surfing}, // at West Lake Axewell (in a Wild Area) // Surfing
-            {0x7C17DB1B430F9543, (byte)SWSHSlotType.Surfing}, // at South Lake Miloch (in a Wild Area) // Surfing
-            {0xCC0F8A437312B8AC, (byte)SWSHSlotType.Surfing}, // at East Lake Axewell (in a Wild Area) // Surfing
-            {0x8BE2F6160986FB8E, (byte)SWSHSlotType.Surfing}, // at North Lake Miloch (in a Wild Area) // Surfing
-            {0x0E8392C0A57D5830, (byte)SWSHSlotType.SymbolMain}, // on Route 3
-            {0x82A7A328A26B9057, (byte)SWSHSlotType.SymbolMain}, // in Galar Mine
-            {0x5B2BC38E044EC2B7, (byte)SWSHSlotType.SymbolMain}, // on Route 4
-            {0x8D68276C03A332BE, (byte)SWSHSlotType.SymbolMain}, // on Route 5
-            {0x16D2FC4840A658A5, (byte)SWSHSlotType.SymbolMain}, // in Galar Mine No. 2
-            {0x3D6D58A96894575E, (byte)SWSHSlotType.SymbolMain}, // in the Motostoke Outskirts
-            {0x6AA652641154B119, (byte)SWSHSlotType.SymbolMain}, // at the Motostoke Riverbank (in a Wild Area)
-            {0x36A5DC94335E1E72, (byte)SWSHSlotType.SymbolMain}, // in Bridge Field (in a Wild Area)
-            {0xE503416A1C05765D, (byte)SWSHSlotType.SymbolMain}, // on Route 6
-            {0x201EF8E9D2A32D71, (byte)SWSHSlotType.Inaccessible}, // in Glimwood Tangle
-            {0x42312695C904658C, (byte)SWSHSlotType.SymbolMain}, // on Route 7
-            {0x1B95A78295F6F213, (byte)SWSHSlotType.SymbolMain}, // on Route 8
-            {0xAADAC3CB6A1DFE8A, (byte)SWSHSlotType.SymbolMain}, // on Route 8 (on Steamdrift Way)
-            {0x9116B224702CDCF1, (byte)SWSHSlotType.SymbolMain}, // on Route 9
-            {0xCDD3B5660D2E5E67, (byte)SWSHSlotType.SymbolMain}, // on Route 9 (in Circhester Bay)
-            {0x5A3B8F8147272058, (byte)SWSHSlotType.SymbolMain}, // on Route 9 (in Outer Spikemuth)
-            {0xA93101EA38598995, (byte)SWSHSlotType.Surfing}, // on Route 9  // Surfing
-            {0x0181225223DE5420, (byte)SWSHSlotType.SymbolMain}, // on Route 10 // Near Station
-            {0x1F0F1AE1818C4326, (byte)SWSHSlotType.SymbolMain}, // in the Stony Wilderness (in a Wild Area)
-            {0xAD11B3F3B2AC662D, (byte)SWSHSlotType.SymbolMain}, // in Dusty Bowl (in a Wild Area)
-            {0xCD9719B2E64F2AA4, (byte)SWSHSlotType.SymbolMain}, // around the Giant's Mirror (in a Wild Area)
-            {0xCD48625EDC10CBFB, (byte)SWSHSlotType.SymbolMain}, // on the Hammerlocke Hills (in a Wild Area)
-            {0x712F3056573E23FA, (byte)SWSHSlotType.SymbolMain}, // near the Giant's Cap (in a Wild Area)
-            {0x593196758BA16B61, (byte)SWSHSlotType.SymbolMain}, // at the Lake of Outrage (in a Wild Area)
-            {0xF79DE930E6F50533, (byte)SWSHSlotType.SymbolMain}, // on Route 10
-            {0xA26A4595F72EDAEA, (byte)SWSHSlotType.SymbolMain2}, // on Route 2 // high level
-            {0x56580C94EDFCE664, (byte)SWSHSlotType.Ground}, // on Route 3 // just rolycoly and trubbish, probably trash
-            {0xCB38FEA3F71C3958, (byte)SWSHSlotType.Sky}, // in the Rolling Fields (in a Wild Area) // Flying Spawns butterfree/pidove
-            {0x1F174D36062B8C38, (byte)SWSHSlotType.Ground}, // in the Rolling Fields (in a Wild Area)  // Underground Spawns digglet/roggenrola
-            {0x23017513039A78E7, (byte)SWSHSlotType.SymbolMain2}, // in the Rolling Fields (in a Wild Area)  // ? Second full table, has pancham instead of bunnelby 
-            {0xF1BA4AAD9AAB2C1A, (byte)SWSHSlotType.Sky}, // at Watchtower Ruins (in a Wild Area) // Flying Spawns woobat/noibat
-            {0x3D2E746F9D3F5CB5, (byte)SWSHSlotType.Sky}, // at East Lake Axewell (in a Wild Area) // Flying Spawns bufferfree/pidove
-            {0x6E121A9CE4F58F1E, (byte)SWSHSlotType.Sky2}, // at East Lake Axewell (in a Wild Area) // More Flying Spawns bufferfree/pidove, different rates than above
-            {0x3171A0C61793816E, (byte)SWSHSlotType.Sky}, // at South Lake Miloch (in a Wild Area) // Flying Spawns wingull/drifloon
-            {0x198E4023A1B2DDEF, (byte)SWSHSlotType.SymbolMain2}, // at South Lake Miloch (in a Wild Area) // ? Second table, has mostly machop/stunky/tyrogue
-            {0xFAB1C08E70C0F1CA, (byte)SWSHSlotType.Surfing}, // at the Motostoke Riverbank (in a Wild Area) // Surfing
-            {0xB9F76CEE459CEC07, (byte)SWSHSlotType.Surfing}, // in Bridge Field (in a Wild Area) // Surfing
-            {0x5F4E0AB29FD3F13A, (byte)SWSHSlotType.Sky}, // in Bridge Field (in a Wild Area) // Flying Spawns noibat/woobat/tranquill
-            {0xF603DEA4177200EA, (byte)SWSHSlotType.SymbolMain2}, // in the Stony Wilderness (in a Wild Area) // ? Second full table
-            {0x76EE4E28DD28374E, (byte)SWSHSlotType.Sky}, // in the Stony Wilderness (in a Wild Area) // Flying Spawns tranquill/sigilyph
-            {0x3F264B6FCB5647B4, (byte)SWSHSlotType.Sky}, // around the Giant's Mirror (in a Wild Area) // Flying Spawns tranquill/corvisquire
-            {0x2D887A1CA9B1B99A, (byte)SWSHSlotType.Sky}, // in Dusty Bowl (in a Wild Area) // Flying Spawns braviary
-            {0x2BE7E6A8901ECC20, (byte)SWSHSlotType.Ground}, // around the Giant's Mirror (in a Wild Area) // Underground Spawns dugtrio/excadrill/boldore
-            {0x39F0170769BF4524, (byte)SWSHSlotType.Surfing}, // in Dusty Bowl (in a Wild Area) // Surfing. Also used for 148,around the Giant's Mirror (in a Wild Area) surfing.
-            {0xB2067FBCF8D5C7BA, (byte)SWSHSlotType.Ground}, // near the Giant's Cap (in a Wild Area) // Underground Spawns rolycoly/rhyhorn/boldore
-            {0x48B9525945EE48B5, (byte)SWSHSlotType.SymbolMain3}, // in the Stony Wilderness (in a Wild Area) // ? third full table
-            {0xB5756B87989661E1, (byte)SWSHSlotType.SymbolMain2}, // near the Giant's Cap (in a Wild Area) // ? second full table
-            {0x7AB83D18C831DDEB, (byte)SWSHSlotType.SymbolMain3}, // near the Giant's Cap (in a Wild Area) // ? third full table
-            {0xDBEF8A8593377AAA, (byte)SWSHSlotType.Ground2}, // near the Giant's Cap (in a Wild Area) // Underground Spawns Solrock
-            {0x066F97F8765BC22D, (byte)SWSHSlotType.Sky}, // on the Hammerlocke Hills (in a Wild Area) // Flying Spawns Unfezant/Corvisquire
-            {0x87A97AFF94BC6CF2, (byte)SWSHSlotType.Surfing}, // at the Lake of Outrage (in a Wild Area) // Surfing
-            {0x94289204B628522C, (byte)SWSHSlotType.SymbolMain}, // in the Slumbering Weald  // early
-            {0x5D02F15C043B872E, (byte)SWSHSlotType.SymbolMain2}, // in the Slumbering Weald // late
-            {0xA4945486A2B97DFF, (byte)SWSHSlotType.Surfing}, // on Route 2 // Surfing
-            {0xAC1187E9EC166853, (byte)SWSHSlotType.Surfing}, // on Route 9 (in Circhester Bay) // Surfing
+            {0xCD6E4FBCE1466F32, (byte)SymbolMain}, // on Route 1
+            {0xDF686EC613544BD1, (byte)SymbolMain}, // on Route 2
+            {0xD602B2A66C268F7C, (byte)SymbolMain}, // in the Rolling Fields (in a Wild Area)
+            {0x458C9CA2C0087385, (byte)SymbolMain}, // in the Dappled Grove (in a Wild Area)
+            {0xE20E6AE30AAA57D2, (byte)SymbolMain}, // at Watchtower Ruins (in a Wild Area)
+            {0xEEEEAC06BAC8D0B3, (byte)SymbolMain}, // at East Lake Axewell (in a Wild Area)
+            {0xF8D1E527F7B21FA0, (byte)SymbolMain}, // at West Lake Axewell (in a Wild Area)
+            {0xB6CFE90E0378FD79, (byte)SymbolMain}, // on Axew's Eye (in a Wild Area)
+            {0x520D8DD522E9A4C6, (byte)SymbolMain}, // at South Lake Miloch (in a Wild Area)
+            {0xBC7237A0392D8837, (byte)SymbolMain}, // near the Giant's Seat (in a Wild Area)
+            {0xB67C706F5BAE9E35, (byte)SymbolMain}, // at North Lake Miloch (in a Wild Area)
+            {0xDA910F69A1B92FED, (byte)Surfing}, // at West Lake Axewell (in a Wild Area) // Surfing
+            {0x7C17DB1B430F9543, (byte)Surfing}, // at South Lake Miloch (in a Wild Area) // Surfing
+            {0xCC0F8A437312B8AC, (byte)Surfing}, // at East Lake Axewell (in a Wild Area) // Surfing
+            {0x8BE2F6160986FB8E, (byte)Surfing}, // at North Lake Miloch (in a Wild Area) // Surfing
+            {0x0E8392C0A57D5830, (byte)SymbolMain}, // on Route 3
+            {0x82A7A328A26B9057, (byte)SymbolMain}, // in Galar Mine
+            {0x5B2BC38E044EC2B7, (byte)SymbolMain}, // on Route 4
+            {0x8D68276C03A332BE, (byte)SymbolMain}, // on Route 5
+            {0x16D2FC4840A658A5, (byte)SymbolMain}, // in Galar Mine No. 2
+            {0x3D6D58A96894575E, (byte)SymbolMain}, // in the Motostoke Outskirts
+            {0x6AA652641154B119, (byte)SymbolMain}, // at the Motostoke Riverbank (in a Wild Area)
+            {0x36A5DC94335E1E72, (byte)SymbolMain}, // in Bridge Field (in a Wild Area)
+            {0xE503416A1C05765D, (byte)SymbolMain}, // on Route 6
+            {0x201EF8E9D2A32D71, (byte)Inaccessible}, // in Glimwood Tangle
+            {0x42312695C904658C, (byte)SymbolMain}, // on Route 7
+            {0x1B95A78295F6F213, (byte)SymbolMain}, // on Route 8
+            {0xAADAC3CB6A1DFE8A, (byte)SymbolMain}, // on Route 8 (on Steamdrift Way)
+            {0x9116B224702CDCF1, (byte)SymbolMain}, // on Route 9
+            {0xCDD3B5660D2E5E67, (byte)SymbolMain}, // on Route 9 (in Circhester Bay)
+            {0x5A3B8F8147272058, (byte)SymbolMain}, // on Route 9 (in Outer Spikemuth)
+            {0xA93101EA38598995, (byte)Surfing}, // on Route 9  // Surfing
+            {0x0181225223DE5420, (byte)SymbolMain}, // on Route 10 // Near Station
+            {0x1F0F1AE1818C4326, (byte)SymbolMain}, // in the Stony Wilderness (in a Wild Area)
+            {0xAD11B3F3B2AC662D, (byte)SymbolMain}, // in Dusty Bowl (in a Wild Area)
+            {0xCD9719B2E64F2AA4, (byte)SymbolMain}, // around the Giant's Mirror (in a Wild Area)
+            {0xCD48625EDC10CBFB, (byte)SymbolMain}, // on the Hammerlocke Hills (in a Wild Area)
+            {0x712F3056573E23FA, (byte)SymbolMain}, // near the Giant's Cap (in a Wild Area)
+            {0x593196758BA16B61, (byte)SymbolMain}, // at the Lake of Outrage (in a Wild Area)
+            {0xF79DE930E6F50533, (byte)SymbolMain}, // on Route 10
+            {0xA26A4595F72EDAEA, (byte)SymbolMain2}, // on Route 2 // high level
+            {0x56580C94EDFCE664, (byte)Ground}, // on Route 3 // just rolycoly and trubbish, probably trash
+            {0xCB38FEA3F71C3958, (byte)Sky}, // in the Rolling Fields (in a Wild Area) // Flying Spawns butterfree/pidove
+            {0x1F174D36062B8C38, (byte)Ground}, // in the Rolling Fields (in a Wild Area)  // Underground Spawns digglet/roggenrola
+            {0x23017513039A78E7, (byte)SymbolMain2}, // in the Rolling Fields (in a Wild Area)  // ? Second full table, has pancham instead of bunnelby 
+            {0xF1BA4AAD9AAB2C1A, (byte)Sky}, // at Watchtower Ruins (in a Wild Area) // Flying Spawns woobat/noibat
+            {0x3D2E746F9D3F5CB5, (byte)Sky}, // at East Lake Axewell (in a Wild Area) // Flying Spawns bufferfree/pidove
+            {0x6E121A9CE4F58F1E, (byte)Sky2}, // at East Lake Axewell (in a Wild Area) // More Flying Spawns bufferfree/pidove, different rates than above
+            {0x3171A0C61793816E, (byte)Sky}, // at South Lake Miloch (in a Wild Area) // Flying Spawns wingull/drifloon
+            {0x198E4023A1B2DDEF, (byte)SymbolMain2}, // at South Lake Miloch (in a Wild Area) // ? Second table, has mostly machop/stunky/tyrogue
+            {0xFAB1C08E70C0F1CA, (byte)Surfing}, // at the Motostoke Riverbank (in a Wild Area) // Surfing
+            {0xB9F76CEE459CEC07, (byte)Surfing}, // in Bridge Field (in a Wild Area) // Surfing
+            {0x5F4E0AB29FD3F13A, (byte)Sky}, // in Bridge Field (in a Wild Area) // Flying Spawns noibat/woobat/tranquill
+            {0xF603DEA4177200EA, (byte)SymbolMain2}, // in the Stony Wilderness (in a Wild Area) // ? Second full table
+            {0x76EE4E28DD28374E, (byte)Sky}, // in the Stony Wilderness (in a Wild Area) // Flying Spawns tranquill/sigilyph
+            {0x3F264B6FCB5647B4, (byte)Sky}, // around the Giant's Mirror (in a Wild Area) // Flying Spawns tranquill/corvisquire
+            {0x2D887A1CA9B1B99A, (byte)Sky}, // in Dusty Bowl (in a Wild Area) // Flying Spawns braviary
+            {0x2BE7E6A8901ECC20, (byte)Ground}, // around the Giant's Mirror (in a Wild Area) // Underground Spawns dugtrio/excadrill/boldore
+            {0x39F0170769BF4524, (byte)Surfing}, // in Dusty Bowl (in a Wild Area) // Surfing. Also used for 148,around the Giant's Mirror (in a Wild Area) surfing.
+            {0xB2067FBCF8D5C7BA, (byte)Ground}, // near the Giant's Cap (in a Wild Area) // Underground Spawns rolycoly/rhyhorn/boldore
+            {0x48B9525945EE48B5, (byte)SymbolMain3}, // in the Stony Wilderness (in a Wild Area) // ? third full table
+            {0xB5756B87989661E1, (byte)SymbolMain2}, // near the Giant's Cap (in a Wild Area) // ? second full table
+            {0x7AB83D18C831DDEB, (byte)SymbolMain3}, // near the Giant's Cap (in a Wild Area) // ? third full table
+            {0xDBEF8A8593377AAA, (byte)Ground2}, // near the Giant's Cap (in a Wild Area) // Underground Spawns Solrock
+            {0x066F97F8765BC22D, (byte)Sky}, // on the Hammerlocke Hills (in a Wild Area) // Flying Spawns Unfezant/Corvisquire
+            {0x87A97AFF94BC6CF2, (byte)Surfing}, // at the Lake of Outrage (in a Wild Area) // Surfing
+            {0x94289204B628522C, (byte)SymbolMain}, // in the Slumbering Weald  // early
+            {0x5D02F15C043B872E, (byte)SymbolMain2}, // in the Slumbering Weald // late
+            {0xA4945486A2B97DFF, (byte)Surfing}, // on Route 2 // Surfing
+            {0xAC1187E9EC166853, (byte)Surfing}, // on Route 9 (in Circhester Bay) // Surfing
 
             // DLC 1 - Isle of Armor
-            {0x908A64718CA374E6, (byte)SWSHSlotType.HiddenMain}, // in the Fields of Honor
-            {0x908A63718CA37333, (byte)SWSHSlotType.HiddenMain}, // in the Soothing Wetlands
-            {0x908A62718CA37180, (byte)SWSHSlotType.HiddenMain}, // in the Forest of Focus
-            {0x908A69718CA37D65, (byte)SWSHSlotType.HiddenMain}, // on Challenge Beach
-            {0x908A68718CA37BB2, (byte)SWSHSlotType.Inaccessible}, // in Brawlers' Cave
-            {0x908A67718CA379FF, (byte)SWSHSlotType.HiddenMain}, // on Challenge Road
-            {0x908A66718CA3784C, (byte)SWSHSlotType.OnlyFishing}, // in Courageous Cavern // Only fishing?
-            {0x908A6D718CA38431, (byte)SWSHSlotType.HiddenMain}, // in Loop Lagoon
-            {0x908A6C718CA3827E, (byte)SWSHSlotType.HiddenMain}, // in the Training Lowlands
-            {0x90875F718CA13690, (byte)SWSHSlotType.Inaccessible}, // in Warm-Up Tunnel
-            {0x908760718CA13843, (byte)SWSHSlotType.Inaccessible}, // in the Potbottom Desert
-            {0x909170718CA9A7F8, (byte)SWSHSlotType.HiddenMain}, // in the Workout Sea
-            {0x909173718CA9AD11, (byte)SWSHSlotType.HiddenMain}, // in the Stepping-Stone Sea
-            {0x909172718CA9AB5E, (byte)SWSHSlotType.HiddenMain}, // in the Insular Sea
-            {0x909175718CA9B077, (byte)SWSHSlotType.OnlyFishing}, // in the Honeycalm Sea // Only fishing?
-            {0x908DEC718CA691D5, (byte)SWSHSlotType.HiddenMain}, // on Honeycalm Island
+            {0x908A64718CA374E6, (byte)HiddenMain}, // in the Fields of Honor
+            {0x908A63718CA37333, (byte)HiddenMain}, // in the Soothing Wetlands
+            {0x908A62718CA37180, (byte)HiddenMain}, // in the Forest of Focus
+            {0x908A69718CA37D65, (byte)HiddenMain}, // on Challenge Beach
+            {0x908A68718CA37BB2, (byte)Inaccessible}, // in Brawlers' Cave
+            {0x908A67718CA379FF, (byte)HiddenMain}, // on Challenge Road
+            {0x908A66718CA3784C, (byte)OnlyFishing}, // in Courageous Cavern // Only fishing?
+            {0x908A6D718CA38431, (byte)HiddenMain}, // in Loop Lagoon
+            {0x908A6C718CA3827E, (byte)HiddenMain}, // in the Training Lowlands
+            {0x90875F718CA13690, (byte)Inaccessible}, // in Warm-Up Tunnel
+            {0x908760718CA13843, (byte)Inaccessible}, // in the Potbottom Desert
+            {0x909170718CA9A7F8, (byte)HiddenMain}, // in the Workout Sea
+            {0x909173718CA9AD11, (byte)HiddenMain}, // in the Stepping-Stone Sea
+            {0x909172718CA9AB5E, (byte)HiddenMain}, // in the Insular Sea
+            {0x909175718CA9B077, (byte)OnlyFishing}, // in the Honeycalm Sea // Only fishing?
+            {0x908DEC718CA691D5, (byte)HiddenMain}, // on Honeycalm Island
 
-            {0x525D03DF0309D804, (byte)SWSHSlotType.SymbolMain}, // in the Fields of Honor // Ground Spawns
-            {0xB0621052994A5089, (byte)SWSHSlotType.Surfing}, // in the Fields of Honor // Surfing
-            {0x91B1D1436BAF5871, (byte)SWSHSlotType.Ground}, // in the Fields of Honor // Beach Slowpoke
-            {0xC449DFAB894F632C, (byte)SWSHSlotType.Ground}, // in Loop Lagoon // Beach
-            {0x273693DD91D7BD10, (byte)SWSHSlotType.Ground}, // on Challenge Beach // Beach
-            {0xD61582D408C39E60, (byte)SWSHSlotType.Surfing}, // on Challenge Beach // Surfing (River)
-            {0xBECC9623CD3E8C77, (byte)SWSHSlotType.SymbolMain}, // in the Soothing Wetlands // Ground Spawns
-            {0x1C051CB6F97C2068, (byte)SWSHSlotType.Ground}, // in the Soothing Wetlands // Puddles
-            {0xBC028EF260AD9406, (byte)SWSHSlotType.SymbolMain}, // in the Forest of Focus // Ground Spawns
-            {0x32AB88FC9797DC83, (byte)SWSHSlotType.Surfing}, // in the Forest of Focus // Surfing
-            {0x39D078468AA0DCC1, (byte)SWSHSlotType.SymbolMain}, // on Challenge Beach // Ground Spawns
-            {0x3BFB22D0FB5B42D2, (byte)SWSHSlotType.Surfing2}, // on Challenge Beach // Surfing (Ocean)
-            {0x2B1DF6E85F9BAE28, (byte)SWSHSlotType.SymbolMain}, // in Brawlers' Cave // Ground Spawns
-            {0x36FE81B956D0DCB5, (byte)SWSHSlotType.Surfing}, // in Brawlers' Cave // Surfing
-            {0xBBAA199D0705405B, (byte)SWSHSlotType.SymbolMain}, // on Challenge Road // Ground Spawns
-            {0xFB9A7FD6D979C6DA, (byte)SWSHSlotType.SymbolMain}, // in Courageous Cavern // Ground Spawns
-            {0xBC0E1701C0276FCF, (byte)SWSHSlotType.Surfing}, // in Courageous Cavern // Surfing
-            {0xAC2ED08E980FCFC5, (byte)SWSHSlotType.SymbolMain}, // in Loop Lagoon // Ground Spawns
-            {0x7D2E205E8E300EE1, (byte)SWSHSlotType.Surfing}, // in Loop Lagoon // Water Spawns
-            {0x67E3FF10EB64FB79, (byte)SWSHSlotType.Ground}, // in the Training Lowlands // Beach
-            {0x85E286D82C666BBC, (byte)SWSHSlotType.SymbolMain}, // in the Training Lowlands // Ground Spawns
-            {0x95E125D2EE3ED656, (byte)SWSHSlotType.SymbolMain}, // in Warm-up Tunnel
-            {0xA7F495799F209587, (byte)SWSHSlotType.SymbolMain}, // in the Potbottom Desert
-            {0x30AAD92559FCE81E, (byte)SWSHSlotType.SymbolMain}, // in the Workout Sea // Ground Spawns
-            {0x6F748A46C8E3802C, (byte)SWSHSlotType.Surfing}, // in the Workout Sea // Surfing
-            {0x97A3E0687E3C5B01, (byte)SWSHSlotType.Surfing}, // in the Stepping-Stone Sea // Surfing
-            {0xDDDFF88957FD5B5C, (byte)SWSHSlotType.SymbolMain}, // in the Insular Sea // Ground Spawns
-            {0xF3036CD294CE9365, (byte)SWSHSlotType.SymbolMain}, // in the Stepping-Stone Sea // Ground Spawns
-            {0xFB9BB438425D58DA, (byte)SWSHSlotType.Surfing}, // in the Insular Sea // Surfing
-            {0xC16C1E2A1B5FFE87, (byte)SWSHSlotType.Surfing}, // in the Honeycalm Sea // Surfing
-            {0x081D7EF6A1C192B1, (byte)SWSHSlotType.SymbolMain}, // on Honeycalm Island // Ground Spawns
-            {0x86EFBF49516B5555, (byte)SWSHSlotType.Surfing}, // on Honeycalm Island // Surfing
-            {0x39AB700A9F1AB71F, (byte)SWSHSlotType.Surfing}, // in the Training Lowlands // Surfing
-            {0x96C6A2A36131F383, (byte)SWSHSlotType.Sharpedo}, // in the Stepping-Stone Sea // Sharpedo
-            {0xC92D06352150C78A, (byte)SWSHSlotType.Sharpedo}, // in the Insular Sea // Sharpedo
-            {0xED1F9772AA35C3CD, (byte)SWSHSlotType.Sharpedo}, // in the Workout Sea // Sharpedo
-            {0x9C0049D3E6129924, (byte)SWSHSlotType.Sharpedo}, // in the Honeycalm Sea // Sharpedo
+            {0x525D03DF0309D804, (byte)SymbolMain}, // in the Fields of Honor // Ground Spawns
+            {0xB0621052994A5089, (byte)Surfing}, // in the Fields of Honor // Surfing
+            {0x91B1D1436BAF5871, (byte)Ground}, // in the Fields of Honor // Beach Slowpoke
+            {0xC449DFAB894F632C, (byte)Ground}, // in Loop Lagoon // Beach
+            {0x273693DD91D7BD10, (byte)Ground}, // on Challenge Beach // Beach
+            {0xD61582D408C39E60, (byte)Surfing}, // on Challenge Beach // Surfing (River)
+            {0xBECC9623CD3E8C77, (byte)SymbolMain}, // in the Soothing Wetlands // Ground Spawns
+            {0x1C051CB6F97C2068, (byte)Ground}, // in the Soothing Wetlands // Puddles
+            {0xBC028EF260AD9406, (byte)SymbolMain}, // in the Forest of Focus // Ground Spawns
+            {0x32AB88FC9797DC83, (byte)Surfing}, // in the Forest of Focus // Surfing
+            {0x39D078468AA0DCC1, (byte)SymbolMain}, // on Challenge Beach // Ground Spawns
+            {0x3BFB22D0FB5B42D2, (byte)Surfing2}, // on Challenge Beach // Surfing (Ocean)
+            {0x2B1DF6E85F9BAE28, (byte)SymbolMain}, // in Brawlers' Cave // Ground Spawns
+            {0x36FE81B956D0DCB5, (byte)Surfing}, // in Brawlers' Cave // Surfing
+            {0xBBAA199D0705405B, (byte)SymbolMain}, // on Challenge Road // Ground Spawns
+            {0xFB9A7FD6D979C6DA, (byte)SymbolMain}, // in Courageous Cavern // Ground Spawns
+            {0xBC0E1701C0276FCF, (byte)Surfing}, // in Courageous Cavern // Surfing
+            {0xAC2ED08E980FCFC5, (byte)SymbolMain}, // in Loop Lagoon // Ground Spawns
+            {0x7D2E205E8E300EE1, (byte)Surfing}, // in Loop Lagoon // Water Spawns
+            {0x67E3FF10EB64FB79, (byte)Ground}, // in the Training Lowlands // Beach
+            {0x85E286D82C666BBC, (byte)SymbolMain}, // in the Training Lowlands // Ground Spawns
+            {0x95E125D2EE3ED656, (byte)SymbolMain}, // in Warm-up Tunnel
+            {0xA7F495799F209587, (byte)SymbolMain}, // in the Potbottom Desert
+            {0x30AAD92559FCE81E, (byte)SymbolMain}, // in the Workout Sea // Ground Spawns
+            {0x6F748A46C8E3802C, (byte)Surfing}, // in the Workout Sea // Surfing
+            {0x97A3E0687E3C5B01, (byte)Surfing}, // in the Stepping-Stone Sea // Surfing
+            {0xDDDFF88957FD5B5C, (byte)SymbolMain}, // in the Insular Sea // Ground Spawns
+            {0xF3036CD294CE9365, (byte)SymbolMain}, // in the Stepping-Stone Sea // Ground Spawns
+            {0xFB9BB438425D58DA, (byte)Surfing}, // in the Insular Sea // Surfing
+            {0xC16C1E2A1B5FFE87, (byte)Surfing}, // in the Honeycalm Sea // Surfing
+            {0x081D7EF6A1C192B1, (byte)SymbolMain}, // on Honeycalm Island // Ground Spawns
+            {0x86EFBF49516B5555, (byte)Surfing}, // on Honeycalm Island // Surfing
+            {0x39AB700A9F1AB71F, (byte)Surfing}, // in the Training Lowlands // Surfing
+            {0x96C6A2A36131F383, (byte)Sharpedo}, // in the Stepping-Stone Sea // Sharpedo
+            {0xC92D06352150C78A, (byte)Sharpedo}, // in the Insular Sea // Sharpedo
+            {0xED1F9772AA35C3CD, (byte)Sharpedo}, // in the Workout Sea // Sharpedo
+            {0x9C0049D3E6129924, (byte)Sharpedo}, // in the Honeycalm Sea // Sharpedo
 
             // DLC 2 - Crown Tundra
-            {0x87E14B7187BC1CC1, (byte)SWSHSlotType.HiddenMain}, // on Slippery Slope
-            {0x87E1487187BC17A8, (byte)SWSHSlotType.Inaccessible}, // in Freezington
-            {0x87E1497187BC195B, (byte)SWSHSlotType.HiddenMain}, // in Frostpoint Field
-            {0x87E14E7187BC21DA, (byte)SWSHSlotType.HiddenMain}, // in the Giant's Bed
-            {0x87E14F7187BC238D, (byte)SWSHSlotType.HiddenMain}, // in the Old Cemetery
-            {0x87E14C7187BC1E74, (byte)SWSHSlotType.HiddenMain}, // on Snowslide Slope
-            {0x87E14D7187BC2027, (byte)SWSHSlotType.Inaccessible}, // in the Tunnel to the Top
-            {0x87E1427187BC0D76, (byte)SWSHSlotType.Inaccessible}, // on the Path to the Peak
-            {0x87E1437187BC0F29, (byte)SWSHSlotType.Inaccessible}, // at the Crown Shrine
-            {0x87E4507187BE5B17, (byte)SWSHSlotType.HiddenMain}, // at the Giant's Foot
-            {0x87E44F7187BE5964, (byte)SWSHSlotType.Inaccessible}, // in Roaring-Sea Caves
-            {0x87E4527187BE5E7D, (byte)SWSHSlotType.HiddenMain}, // at the Frigid Sea
-            {0x87E4517187BE5CCA, (byte)SWSHSlotType.HiddenMain}, // in Three-Point Pass
-            {0x87DA3F7187B5E9AF, (byte)SWSHSlotType.HiddenMain}, // at Ballimere Lake
-            {0x87DA407187B5EB62, (byte)SWSHSlotType.Inaccessible}, // in Lakeside Cave
-            {0x87DA417187B5ED15, (byte)SWSHSlotType.Inaccessible}, // at Dyna Tree Hill
+            {0x87E14B7187BC1CC1, (byte)HiddenMain}, // on Slippery Slope
+            {0x87E1487187BC17A8, (byte)Inaccessible}, // in Freezington
+            {0x87E1497187BC195B, (byte)HiddenMain}, // in Frostpoint Field
+            {0x87E14E7187BC21DA, (byte)HiddenMain}, // in the Giant's Bed
+            {0x87E14F7187BC238D, (byte)HiddenMain}, // in the Old Cemetery
+            {0x87E14C7187BC1E74, (byte)HiddenMain}, // on Snowslide Slope
+            {0x87E14D7187BC2027, (byte)Inaccessible}, // in the Tunnel to the Top
+            {0x87E1427187BC0D76, (byte)Inaccessible}, // on the Path to the Peak
+            {0x87E1437187BC0F29, (byte)Inaccessible}, // at the Crown Shrine
+            {0x87E4507187BE5B17, (byte)HiddenMain}, // at the Giant's Foot
+            {0x87E44F7187BE5964, (byte)Inaccessible}, // in Roaring-Sea Caves
+            {0x87E4527187BE5E7D, (byte)HiddenMain}, // at the Frigid Sea
+            {0x87E4517187BE5CCA, (byte)HiddenMain}, // in Three-Point Pass
+            {0x87DA3F7187B5E9AF, (byte)HiddenMain}, // at Ballimere Lake
+            {0x87DA407187B5EB62, (byte)Inaccessible}, // in Lakeside Cave
+            {0x87DA417187B5ED15, (byte)Inaccessible}, // at Dyna Tree Hill
 
-            {0xD6EA3DE40B009E55, (byte)SWSHSlotType.SymbolMain}, // on Slippery Slope
-            {0xADF616908BD308DF, (byte)SWSHSlotType.SymbolMain}, // in Frostpoint Field
-            {0x308C5EB6A846D1F0, (byte)SWSHSlotType.SymbolMain}, // in the Giant's Bed
-            {0x50E781F91B97C049, (byte)SWSHSlotType.SymbolMain}, // in the Old Cemetery
-            {0xC303110BF1EC3322, (byte)SWSHSlotType.SymbolMain}, // on Snowslide Slope
-            {0xB768660B0BF4C0C3, (byte)SWSHSlotType.SymbolMain}, // in the Tunnel to the Top
-            {0xFCB78AFCCECAF094, (byte)SWSHSlotType.SymbolMain}, // on the Path to the Peak
-            {0xA345459C03EA6673, (byte)SWSHSlotType.SymbolMain}, // at the Giant's Foot
-            {0xE4A982819ACF7292, (byte)SWSHSlotType.SymbolMain}, // in Roaring-Sea Caves
-            {0x18AAF85178C7B839, (byte)SWSHSlotType.SymbolMain}, // at the Frigid Sea
-            {0x3EC6FCDC0C77D460, (byte)SWSHSlotType.SymbolMain}, // in Three-Point Pass
-            {0xE5225F9325CCA74B, (byte)SWSHSlotType.SymbolMain}, // at Ballimere Lake
-            {0x2F1B41507D695958, (byte)SWSHSlotType.SymbolMain}, // in Lakeside Cave
+            {0xD6EA3DE40B009E55, (byte)SymbolMain}, // on Slippery Slope
+            {0xADF616908BD308DF, (byte)SymbolMain}, // in Frostpoint Field
+            {0x308C5EB6A846D1F0, (byte)SymbolMain}, // in the Giant's Bed
+            {0x50E781F91B97C049, (byte)SymbolMain}, // in the Old Cemetery
+            {0xC303110BF1EC3322, (byte)SymbolMain}, // on Snowslide Slope
+            {0xB768660B0BF4C0C3, (byte)SymbolMain}, // in the Tunnel to the Top
+            {0xFCB78AFCCECAF094, (byte)SymbolMain}, // on the Path to the Peak
+            {0xA345459C03EA6673, (byte)SymbolMain}, // at the Giant's Foot
+            {0xE4A982819ACF7292, (byte)SymbolMain}, // in Roaring-Sea Caves
+            {0x18AAF85178C7B839, (byte)SymbolMain}, // at the Frigid Sea
+            {0x3EC6FCDC0C77D460, (byte)SymbolMain}, // in Three-Point Pass
+            {0xE5225F9325CCA74B, (byte)SymbolMain}, // at Ballimere Lake
+            {0x2F1B41507D695958, (byte)SymbolMain}, // in Lakeside Cave
 
-            {0xF8A59FCA719D1EAE, (byte)SWSHSlotType.Surfing}, // in the Giant's Bed (Surfing), also used for 222 (in the Giant's Foot Surfing)
-            {0x55D8F226A42368B7, (byte)SWSHSlotType.Surfing}, // in Roaring-Sea Caves (Surfing)
-            {0x78536116469DC44D, (byte)SWSHSlotType.Surfing}, // at the Frigid Sea (Surfing)
-            {0x9BDD6D11FFBEDA3F, (byte)SWSHSlotType.Surfing}, // at Ballimere Lake (Surfing)
+            {0xF8A59FCA719D1EAE, (byte)Surfing}, // in the Giant's Bed (Surfing), also used for 222 (in the Giant's Foot Surfing)
+            {0x55D8F226A42368B7, (byte)Surfing}, // in Roaring-Sea Caves (Surfing)
+            {0x78536116469DC44D, (byte)Surfing}, // at the Frigid Sea (Surfing)
+            {0x9BDD6D11FFBEDA3F, (byte)Surfing}, // at Ballimere Lake (Surfing)
         };
     }
 
@@ -643,7 +644,7 @@ namespace pkNX.Game
         Fishing,
     };
 
-    public enum SWSHSlotType
+    public enum SWSHSlotType: ushort
     {
         SymbolMain,
         SymbolMain2,
@@ -651,7 +652,6 @@ namespace pkNX.Game
 
         HiddenMain, // Table with the tree/fishing slots
         HiddenMain2,
-        HiddenMain3,
 
         Surfing,
         Surfing2,
