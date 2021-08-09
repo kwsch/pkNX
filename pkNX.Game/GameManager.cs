@@ -53,8 +53,6 @@ namespace pkNX.Game
             ROM = rom;
             Language = language;
             FileMap = new GameFileMapping(rom);
-            SetMitm();
-            Initialize();
             Text = new TextManager(Game);
             Info = new GameInfo(Game);
         }
@@ -98,7 +96,11 @@ namespace pkNX.Game
                 Initialize();
         }
 
-        protected abstract void Initialize();
+        public virtual void Initialize()
+        {
+            SetMitm();
+        }
+
         protected abstract void Terminate();
         protected abstract void SetMitm();
 

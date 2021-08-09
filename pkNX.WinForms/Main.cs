@@ -105,10 +105,19 @@ namespace pkNX.WinForms
 
         private void OpenPath(string path)
         {
-            if (Directory.Exists(path))
-                OpenFolder(path);
-            else
-                OpenFile(path);
+            try
+            {
+                if (Directory.Exists(path))
+                    OpenFolder(path);
+                else
+                    OpenFile(path);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                WinFormsUtil.Error($"Failed to open -- {path}", ex.Message);
+            }
         }
 
         private static void OpenFile(string path)
@@ -128,9 +137,23 @@ namespace pkNX.WinForms
         {
             var editor = EditorBase.GetEditor(path, Language);
             if (editor == null)
+            {
                 WinFormsUtil.Alert("Invalid folder loaded." + Environment.NewLine + "Unable to recognize game data.", path);
+            }
             else
-                LoadROM(editor);
+            {
+                try
+                {
+                    editor.Initialize();
+                    LoadROM(editor);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    WinFormsUtil.Error("Failed to initialize ROM data." + Environment.NewLine + "Please ensure your dump is correctly set up, with updated patches merged in (if applicable).", ex.Message, ex.StackTrace);
+                }
+            }
         }
 
         private void LoadROM(EditorBase editor)

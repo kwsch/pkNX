@@ -24,8 +24,10 @@ namespace pkNX.Game
             FileMitm.SetRedirect(basePath, redirect);
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             // initialize gametext
             GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
 

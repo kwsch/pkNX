@@ -21,8 +21,10 @@ namespace pkNX.Game
 
         private FakeContainer Learn;
 
-        protected override void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             // initialize gametext
             ResetText();
 

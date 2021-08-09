@@ -16,6 +16,8 @@ namespace pkNX.WinForms.Controls
         protected EditorBase(GameManager rom) => ROM = rom;
         public string? Location { get; internal set; }
 
+        public void Initialize() => ROM.Initialize();
+
         public IEnumerable<Button> GetControls(int width, int height)
         {
             var type = GetType();
