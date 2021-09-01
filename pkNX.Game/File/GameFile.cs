@@ -166,5 +166,8 @@
 
         /// <summary> Area Placement Archive </summary>
         Placement,
+
+        /// <summary> Shop Inventory Lists </summary>
+        Shops,
     }
 }
