@@ -106,7 +106,7 @@ namespace pkNX.Structures
 
         public static readonly int[] Legendary_USUM = Legendary_SM.Concat(new[] { 804, 805, 806 }).ToArray(); // Poipole, Blacephalon, Stakataka
 
-        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new[] 
+        public static readonly int[] Legendary_8 = Legendary_USUM.Concat(new[]
         {
             #region Legendary
             888, // Zacian

@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms.Controls
 {

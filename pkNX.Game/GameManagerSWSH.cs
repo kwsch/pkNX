@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.Game
 {
@@ -40,7 +41,7 @@ namespace pkNX.Game
             {
                 MoveData = new DataCache<Move>(move)
                 {
-                    Create = Waza8Reader.ReadPlaceholder,
+                    Create = (data) => FlatBufferConverter.DeserializeFrom<Waza8>(data),
                     Write = _ => throw new ArgumentException(),
                 },
                 LevelUpData = new DataCache<Learnset>(Learn)

@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms.Controls
 {
@@ -234,7 +235,7 @@ namespace pkNX.WinForms.Controls
             const string nest = "nest_hole_encount.bin";
             var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNest8Archive>(data_table.GetDataFileName(nest));
 
-            var arr = nest_encounts.Tables;
+            var arr = nest_encounts.Table;
             var cache = new DataCache<EncounterNest8Table>(arr);
             var games = new[] {"Sword", "Shield"};
             var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
@@ -280,7 +281,7 @@ namespace pkNX.WinForms.Controls
             byte[] originalData = data_table.GetDataFileName(nest);
             var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(originalData);
 
-            var arr = nest_drops.Tables;
+            var arr = nest_drops.Table;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
 
@@ -310,7 +311,7 @@ namespace pkNX.WinForms.Controls
             const string nest = "nest_hole_bonus_rewards.bin";
             var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName(nest));
 
-            var arr = nest_bonus.Tables;
+            var arr = nest_bonus.Table;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
 
@@ -357,15 +358,15 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
-                    if (t.Species >= Species.Zacian && t.Species <= Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                    if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (int)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
                     t.Moves = new[] { 0, 0, 0, 0 };
                     if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
@@ -405,23 +406,23 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in gifts)
                 {
                     // swap gmax gifts and kubfu for other gmax capable species
-                    if (t.CanGigantamax || t.Species == Species.Kubfu)
+                    if (t.CanGigantamax || t.Species == (int)Species.Kubfu)
                     {
-                        t.Species = (Species)Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                        t.AltForm = t.Species == Species.Pikachu || t.Species == Species.Meowth ? 0 : frand.GetRandomForme((int)t.Species, false, false, false, false, ROM.Data.PersonalData.Table); // Pikachu & Meowth altforms can't gmax
+                        t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
+                        t.Form = (byte)(t.Species == (int)Species.Pikachu || t.Species == (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, ROM.Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
                     }
                     else
                     {
-                        t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                        t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        t.Species = srand.GetRandomSpecies(t.Species);
+                        t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterGift8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (byte)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
                     if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
@@ -460,22 +461,22 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in trades)
                 {
                     // what you receive
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
-                    t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.AbilityNumber = (byte)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (int)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
                     t.Relearn1 = 0;
                     if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
 
                     // what you trade
-                    t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.RequiredSpecies);
-                    t.RequiredForm = frand.GetRandomForme((int)t.RequiredSpecies, false, false, true, true, ROM.Data.PersonalData.Table);
-                    t.RequiredNature = Nature.Random25; // any
+                    t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
+                    t.RequiredForm = (byte)frand.GetRandomForme(t.RequiredSpecies, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.RequiredNature = (int)Nature.Random25; // any
                 }
             }
 
@@ -493,7 +494,7 @@ namespace pkNX.WinForms.Controls
             var data = arc[0];
             var objs = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(data);
 
-            var table = objs.PokemonTables;
+            var table = objs.Table;
             var names = Enumerable.Range(0, table.Length).Select(z => $"{z:000}").ToArray();
             var cache = new DirectCache<EncounterUnderground8>(table);
 
@@ -511,8 +512,8 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in table)
                 {
                     // what you receive
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = (byte)frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
                 }

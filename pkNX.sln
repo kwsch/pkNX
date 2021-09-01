@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Randomization", "pkNX.Randomization\pkNX.Randomization.csproj", "{77E3FEBB-9C86-4F8D-B4E0-66B7504080D5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures", "pkNX.Str
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Containers", "pkNX.Containers\pkNX.Containers.csproj", "{2A909229-C9C0-42CE-88E0-72D9AF84AFE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.WinForms", "pkNX.WinForms\pkNX.WinForms.csproj", "{3CF3FA3E-B38E-4774-BA77-924A391DDC9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.WinForms", "pkNX.WinForms\pkNX.WinForms.csproj", "{3CF3FA3E-B38E-4774-BA77-924A391DDC9D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{01447516-8382-4E9B-8B6C-92FF0A2D0CBF} = {01447516-8382-4E9B-8B6C-92FF0A2D0CBF}
 		{2A909229-C9C0-42CE-88E0-72D9AF84AFE3} = {2A909229-C9C0-42CE-88E0-72D9AF84AFE3}
@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests", "pkNX.Tests\pk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Game", "pkNX.Game\pkNX.Game.csproj", "{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Sprites", "pkNX.Sprites\pkNX.Sprites.csproj", "{55D82546-3DDA-42E1-9A24-F6A08EE231B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Sprites", "pkNX.Sprites\pkNX.Sprites.csproj", "{55D82546-3DDA-42E1-9A24-F6A08EE231B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers", "pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj", "{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,10 @@ Global
 		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D82546-3DDA-42E1-9A24-F6A08EE231B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

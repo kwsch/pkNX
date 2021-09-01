@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms
 {
@@ -168,8 +169,8 @@ namespace pkNX.WinForms
                 {
                     if (boost)
                     {
-                        sub.LevelMin = Legal.GetModifiedLevel(sub.LevelMin, (double)NUD_LevelBoost.Value);
-                        sub.LevelMax = Legal.GetModifiedLevel(sub.LevelMax, (double)NUD_LevelBoost.Value);
+                        sub.LevelMin = (byte)Legal.GetModifiedLevel(sub.LevelMin, (double)NUD_LevelBoost.Value);
+                        sub.LevelMax = (byte)Legal.GetModifiedLevel(sub.LevelMax, (double)NUD_LevelBoost.Value);
                     }
                     ApplyRand(sub.Slots);
                 }
@@ -192,19 +193,19 @@ namespace pkNX.WinForms
                     }
 
                     s.Species = rand.GetRandomSpecies(s.Species);
-                    s.Form = fr.GetRandomForme(s.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    s.Form = (byte)fr.GetRandomForme(s.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     if (fill)
                         s.Probability = RandomScaledRates[slots.Count][i];
                 }
             }
         }
 
-        public static readonly Dictionary<int, int[]> RandomScaledRates = new()
+        public static readonly Dictionary<int, byte[]> RandomScaledRates = new()
         {
-            [01] = new[] {100},
-            [04] = new[] {60, 30, 7, 3},
-            [05] = new[] {40, 30, 18, 10, 2},
-            [10] = new[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
+            [01] = new byte[] {100},
+            [04] = new byte[] {60, 30, 7, 3},
+            [05] = new byte[] {40, 30, 18, 10, 2},
+            [10] = new byte[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
         };
 
         private void TC_Tables_DrawItem(object sender, DrawItemEventArgs e)

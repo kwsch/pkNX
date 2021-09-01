@@ -135,6 +135,9 @@ namespace pkNX
                 File.Move(writePath, path);
             }
 
+            Stream?.Dispose();
+            Reader?.Dispose();
+
             Stream = stream;
             Reader = new BinaryReader(Stream);
         }
