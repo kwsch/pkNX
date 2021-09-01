@@ -36,6 +36,8 @@ namespace pkNX.Structures
         public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string name = null)
         {
             var t = arr[0].GetType();
+            if (t.Name.StartsWith("tableReader_")) // flatbuffer generated wrapper
+                t = t.BaseType;
             var list = GetTableRaw(arr, t).ToArray();
 
             // slap in name to column header
@@ -87,7 +89,7 @@ namespace pkNX.Structures
             if (obj is ulong u)
                 return u.ToString("X16");
             if (obj is IEnumerable x)
-                return string.Join("|", JoinEnumerator(x.GetEnumerator()).Select(v => v?.ToString() ?? string.Empty));
+                return string.Join("|", JoinEnumerator(x.GetEnumerator()).Select(GetFormattedString));
             return obj.ToString();
         }
 

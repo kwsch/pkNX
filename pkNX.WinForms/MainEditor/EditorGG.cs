@@ -325,7 +325,7 @@ namespace pkNX.WinForms.Controls
             var data = arc[0];
             int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
             var shop = FlatBufferConverter.DeserializeFrom<ShopInventory>(data);
-            if (shop2)
+            if (!shop2)
             {
                 var table = shop.Shop1;
                 var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();

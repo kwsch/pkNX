@@ -1,4 +1,5 @@
-﻿using FlatSharp.Attributes;
+﻿using System.Linq;
+using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -21,6 +22,8 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public ulong Hash { get; set; }
         [FlatBufferItem(1)] public Inventory Inventory { get; set; }
+
+        public override string ToString() => $"{Hash:X16} - {Inventory}";
     }
 
     [FlatBufferTable]
@@ -28,11 +31,15 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public ulong Hash { get; set; }
         [FlatBufferItem(1)] public Inventory[] Inventories { get; set; }
+
+        public override string ToString() => $"{Hash:X16} - {string.Join(", ", Inventories.Select(z => z.ToString()))}";
     }
 
     [FlatBufferTable]
     public class Inventory
     {
         [FlatBufferItem(0)] public int[] Items { get; set; }
+
+        public override string ToString() => $"{string.Join(",", Items.Select(z => z.ToString()))}";
     }
 }
