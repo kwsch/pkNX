@@ -103,9 +103,13 @@ namespace pkNX.WinForms.Controls
             using var form = new GenericEditor<Move7>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
             form.ShowDialog();
             if (!form.Modified)
+            {
                 cache.CancelEdits();
-            else
-                cache.Save();
+                return;
+            }
+
+            cache.Save();
+            ROM.Data.MoveData.ClearAll(); // force reload if used again
         }
 
         public void EditGift()

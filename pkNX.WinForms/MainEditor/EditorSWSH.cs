@@ -443,6 +443,26 @@ namespace pkNX.WinForms.Controls
             arc[0] = FlatBufferConverter.SerializeFrom(shop);
         }
 
+        public void EditMoves()
+        {
+            var obj = ROM[GameFile.MoveStats]; // mini
+            var cache = new DataCache<Waza8>(obj)
+            {
+                Create = FlatBufferConverter.DeserializeFrom<Waza8>,
+                Write = FlatBufferConverter.SerializeFrom,
+            };
+            using var form = new GenericEditor<Waza8>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+
+            cache.Save();
+            ROM.Data.MoveData.ClearAll(); // force reload if used again
+        }
+
         public void EditGift()
         {
             var arc = ROM.GetFile(GameFile.EncounterGift);

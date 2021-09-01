@@ -14,38 +14,41 @@ namespace pkNX.Structures.FlatBuffers
     {
         public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
+        // Type mismatch; FlatBuffer must use the correct struct type for each field
+        // We need to alias these and hide them from any PropertyGrid, so mark Browsable(false).
+
         [FlatBufferItem(00)] public uint   Version { get; set; }
         [FlatBufferItem(01)] public uint   MoveID { get; set; }
         [FlatBufferItem(02)] public bool   CanUseMove { get; set; }
-        [FlatBufferItem(03)] public byte   FType { get; set; }
-        [FlatBufferItem(04)] public byte   FQuality { get; set; }
-        [FlatBufferItem(05)] public byte   FCategory { get; set; }
-        [FlatBufferItem(06)] public byte   FPower { get; set; }
-        [FlatBufferItem(07)] public byte   FAccuracy { get; set; }
-        [FlatBufferItem(08)] public byte   FPP { get; set; }
-        [FlatBufferItem(09)] public byte   FPriority { get; set; }
-        [FlatBufferItem(10)] public byte   FHitMin { get; set; }
-        [FlatBufferItem(11)] public byte   FHitMax { get; set; }
-        [FlatBufferItem(12)] public ushort FInflict { get; set; }
-        [FlatBufferItem(13)] public byte   FInflictPercent { get; set; }
-        [FlatBufferItem(14)] public byte   FRawInflictCount { get; set; }
-        [FlatBufferItem(15)] public byte   FTurnMin { get; set; }
-        [FlatBufferItem(16)] public byte   FTurnMax { get; set; }
-        [FlatBufferItem(17)] public byte   FCritStage { get; set; }
-        [FlatBufferItem(18)] public byte   FFlinch { get; set; }
-        [FlatBufferItem(19)] public ushort FEffectSequence { get; set; }
-        [FlatBufferItem(20)] public byte   FRecoil { get; set; }
-        [FlatBufferItem(21)] public byte   FRawHealing { get; set; }
-        [FlatBufferItem(22)] public byte   FRawTarget { get; set; }
-        [FlatBufferItem(23)] public byte   FStat1 { get; set; }
-        [FlatBufferItem(24)] public byte   FStat2 { get; set; }
-        [FlatBufferItem(25)] public byte   FStat3 { get; set; }
-        [FlatBufferItem(26)] public byte   FStat1Stage { get; set; }
-        [FlatBufferItem(27)] public byte   FStat2Stage { get; set; }
-        [FlatBufferItem(28)] public byte   FStat3Stage { get; set; }
-        [FlatBufferItem(29)] public byte   FStat1Percent { get; set; }
-        [FlatBufferItem(30)] public byte   FStat2Percent { get; set; }
-        [FlatBufferItem(31)] public byte   FStat3Percent { get; set; }
+        [FlatBufferItem(03), Browsable(false)] public byte   FType { get; set; }
+        [FlatBufferItem(04), Browsable(false)] public byte   FQuality { get; set; }
+        [FlatBufferItem(05), Browsable(false)] public byte   FCategory { get; set; }
+        [FlatBufferItem(06), Browsable(false)] public byte   FPower { get; set; }
+        [FlatBufferItem(07), Browsable(false)] public byte   FAccuracy { get; set; }
+        [FlatBufferItem(08), Browsable(false)] public byte   FPP { get; set; }
+        [FlatBufferItem(09), Browsable(false)] public byte   FPriority { get; set; }
+        [FlatBufferItem(10), Browsable(false)] public byte   FHitMin { get; set; }
+        [FlatBufferItem(11), Browsable(false)] public byte   FHitMax { get; set; }
+        [FlatBufferItem(12), Browsable(false)] public ushort FInflict { get; set; }
+        [FlatBufferItem(13), Browsable(false)] public byte   FInflictPercent { get; set; }
+        [FlatBufferItem(14), Browsable(false)] public byte   FRawInflictCount { get; set; }
+        [FlatBufferItem(15), Browsable(false)] public byte   FTurnMin { get; set; }
+        [FlatBufferItem(16), Browsable(false)] public byte   FTurnMax { get; set; }
+        [FlatBufferItem(17), Browsable(false)] public byte   FCritStage { get; set; }
+        [FlatBufferItem(18), Browsable(false)] public byte   FFlinch { get; set; }
+        [FlatBufferItem(19), Browsable(false)] public ushort FEffectSequence { get; set; }
+        [FlatBufferItem(20), Browsable(false)] public byte   FRecoil { get; set; }
+        [FlatBufferItem(21), Browsable(false)] public byte   FRawHealing { get; set; }
+        [FlatBufferItem(22), Browsable(false)] public byte   FRawTarget { get; set; }
+        [FlatBufferItem(23), Browsable(false)] public byte   FStat1 { get; set; }
+        [FlatBufferItem(24), Browsable(false)] public byte   FStat2 { get; set; }
+        [FlatBufferItem(25), Browsable(false)] public byte   FStat3 { get; set; }
+        [FlatBufferItem(26), Browsable(false)] public byte   FStat1Stage { get; set; }
+        [FlatBufferItem(27), Browsable(false)] public byte   FStat2Stage { get; set; }
+        [FlatBufferItem(28), Browsable(false)] public byte   FStat3Stage { get; set; }
+        [FlatBufferItem(29), Browsable(false)] public byte   FStat1Percent { get; set; }
+        [FlatBufferItem(30), Browsable(false)] public byte   FStat2Percent { get; set; }
+        [FlatBufferItem(31), Browsable(false)] public byte   FStat3Percent { get; set; }
         [FlatBufferItem(32)] public byte   GigantamaxPower { get; set; }
         [FlatBufferItem(33)] public bool   Flag_MakesContact { get; set; }
         [FlatBufferItem(34)] public bool   Flag_Charge { get; set; }
