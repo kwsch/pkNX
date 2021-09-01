@@ -256,7 +256,7 @@ namespace pkNX.WinForms.Controls
                     foreach (var p in t.Entries)
                     {
                         p.Species = srand.GetRandomSpecies(p.Species);
-                        p.AltForm = frand.GetRandomForme(p.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        p.Form = frand.GetRandomForme(p.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                         p.Ability = 4; // "A4" -- 1, 2, or H
                         p.Gender = 0; // random
                         p.IsGigantamax = false; // don't allow gmax flag on non-gmax species
@@ -361,7 +361,7 @@ namespace pkNX.WinForms.Controls
                     if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     t.Nature = (int)Nature.Random25;
@@ -524,7 +524,7 @@ namespace pkNX.WinForms.Controls
                 {
                     // what you receive
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.AbilityNumber = (byte)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
@@ -575,7 +575,7 @@ namespace pkNX.WinForms.Controls
                 {
                     // what you receive
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.AltForm = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
                 }

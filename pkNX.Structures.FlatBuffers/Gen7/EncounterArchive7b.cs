@@ -1,4 +1,5 @@
-﻿using FlatSharp.Attributes;
+﻿using System.ComponentModel;
+using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -9,26 +10,26 @@
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterArchive7b
     {
         [FlatBufferItem(0)] public EncounterTable7b[] EncounterTables { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterTable7b
     {
-        [FlatBufferItem(0)] public ulong ZoneID { get; set; }
-        [FlatBufferItem(1)] public int TrainerRankMin { get; set; }
-        [FlatBufferItem(2)] public int TrainerRankMax { get; set; }
+        [FlatBufferItem(00)] public ulong ZoneID { get; set; }
+        [FlatBufferItem(01)] public int TrainerRankMin { get; set; }
+        [FlatBufferItem(02)] public int TrainerRankMax { get; set; }
 
-        [FlatBufferItem(3)] public bool GroundSpawnAllowed { get; set; }
-        [FlatBufferItem(4)] public int GroundSpawnCountMax { get; set; }
-        [FlatBufferItem(5)] public int GroundSpawnDuration { get; set; }
-        [FlatBufferItem(6)] public int GroundTableEncounterRate { get; set; }
-        [FlatBufferItem(7)] public int GroundTableLevelMin { get; set; }
-        [FlatBufferItem(8)] public int GroundTableLevelMax { get; set; }
-        [FlatBufferItem(9)] public int GroundTableRandChanceTotal { get; set; }
+        [FlatBufferItem(03)] public bool GroundSpawnAllowed { get; set; }
+        [FlatBufferItem(04)] public int GroundSpawnCountMax { get; set; }
+        [FlatBufferItem(05)] public int GroundSpawnDuration { get; set; }
+        [FlatBufferItem(06)] public int GroundTableEncounterRate { get; set; }
+        [FlatBufferItem(07)] public int GroundTableLevelMin { get; set; }
+        [FlatBufferItem(08)] public int GroundTableLevelMax { get; set; }
+        [FlatBufferItem(09)] public int GroundTableRandChanceTotal { get; set; }
         [FlatBufferItem(10)] public EncounterSlot7b[] GroundTable { get; set; }
 
         [FlatBufferItem(11)] public bool WaterSpawnAllowed { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -10,25 +11,25 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterUnderground8Archive : IFlatBufferArchive<EncounterUnderground8>
     {
         [FlatBufferItem(0)] public EncounterUnderground8[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterUnderground8
     {
-        [FlatBufferItem(0)] public bool HasFlagRequirement { get; set; }
-        [FlatBufferItem(1)] public ulong FlagRequirementID { get; set; }
-        [FlatBufferItem(2)] public byte Field_02 { get; set; } // all zero, Gender?
-        [FlatBufferItem(3)] public byte AltForm { get; set; }
-        [FlatBufferItem(4)] public uint GigantamaxState { get; set; }
-        [FlatBufferItem(5)] public uint Ball { get; set; }
-        [FlatBufferItem(6)] public uint IndexNum { get; set; }
-        [FlatBufferItem(7)] public uint Level { get; set; }
-        [FlatBufferItem(8)] public int Species { get; set; }
-        [FlatBufferItem(9)] public ulong UiMessageID { get; set; }
+        [FlatBufferItem(00)] public bool HasFlagRequirement { get; set; }
+        [FlatBufferItem(01)] public ulong FlagRequirementID { get; set; }
+        [FlatBufferItem(02)] public byte Field_02 { get; set; } // all zero, Gender?
+        [FlatBufferItem(03)] public byte Form { get; set; }
+        [FlatBufferItem(04)] public uint GigantamaxState { get; set; }
+        [FlatBufferItem(05)] public uint Ball { get; set; }
+        [FlatBufferItem(06)] public uint IndexNum { get; set; }
+        [FlatBufferItem(07)] public uint Level { get; set; }
+        [FlatBufferItem(08)] public int Species { get; set; }
+        [FlatBufferItem(09)] public ulong UiMessageID { get; set; }
         [FlatBufferItem(10)] public uint OT_Gender { get; set; }
         [FlatBufferItem(11)] public byte Version { get; set; }
         [FlatBufferItem(12)] public uint Shiny { get; set; }
@@ -53,11 +54,11 @@ namespace pkNX.Structures.FlatBuffers
         public string GetSummary(IReadOnlyList<string> species)
         {
             var gender = Gender == 0 ? string.Empty : $", Gender = {Gender - 1}";
-            var comment = $" // {species[Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var comment = $" // {species[Species]}{(Form == 0 ? string.Empty : "-" + Form)}";
             var moves = $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
             var game = Version != 0 ? Version == 1 ? ", Version = GameVersion.SW" : ", Version = GameVersion.SH" : "";
             var g = IsGigantamax ? ", CanGigantamax = true" : "";
-            return $"            new({Species:000},{AltForm},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
+            return $"            new({Species:000},{Form},{Level:00}) {{ Ability = A{Ability}{gender}{moves}{g}{game} }},{comment}";
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using FlatSharp.Attributes;
@@ -13,13 +14,13 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleCrystalEncounter8Archive : IFlatBufferArchive<NestHoleCrystalEncounter8Table>
     {
         [FlatBufferItem(0)] public NestHoleCrystalEncounter8Table[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleCrystalEncounter8Table
     {
         [FlatBufferItem(0)] public ulong TableID { get; set; }
@@ -49,7 +50,7 @@ namespace pkNX.Structures.FlatBuffers
             {
                 var encounter_rank = GetEncounterRank(e.Level); // TODO: How is this actually encoded?
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
-                var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
+                var form = e.Form != 0 ? $"-{e.Form}" : string.Empty;
                 var rank = $"{encounter_rank}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {e.Level}";
@@ -132,7 +133,7 @@ namespace pkNX.Structures.FlatBuffers
             {
                 // Comment
                 var crystal = items[(int)(1279 + x)];
-                var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
+                var form = e.Form != 0 ? $"-{e.Form}" : string.Empty;
                 var gprefix = e.IsGigantamax ? "Gigantamax " : string.Empty;
                 var comment = $"{crystal} {gprefix}{species[e.Species]}{form}";
 
@@ -154,7 +155,7 @@ namespace pkNX.Structures.FlatBuffers
                 var dyna = $", DynamaxLevel = {e.DynamaxLevel}";
                 var moves = $", Moves = new[] {{{e.Move0:000},{e.Move1:000},{e.Move2:000},{e.Move3:000}}}";
                 var ivs = $", IVs = new[] {{{e.IV_Hp},{e.IV_Atk},{e.IV_Def},{e.IV_Spe},{e.IV_SpAtk},{e.IV_SpDef}}}";
-                var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
+                var altform = e.Form == 0 ? string.Empty : $", Form = {e.Form}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
 
                 return $"            new() {{ {spec}{lvl}{abil}{loc}{ivs}{dyna}{moves}{altform}{giga} }}, // {comment}";
@@ -170,19 +171,19 @@ namespace pkNX.Structures.FlatBuffers
         }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleCrystalEncounter8
     {
-        [FlatBufferItem(0)] public int EntryIndex { get; set; }
-        [FlatBufferItem(1)] public int Species { get; set; }
-        [FlatBufferItem(2)] public int AltForm { get; set; }
-        [FlatBufferItem(3)] public int Level { get; set; }
-        [FlatBufferItem(4)] public byte DynamaxLevel { get; set; }
-        [FlatBufferItem(5)] public byte Ability { get; set; }
-        [FlatBufferItem(6)] public bool IsGigantamax { get; set; }
-        [FlatBufferItem(7)] public ulong DropTableID { get; set; }
-        [FlatBufferItem(8)] public ulong BonusTableID { get; set; }
-        [FlatBufferItem(9)] public byte Field_09 { get; set; }
+        [FlatBufferItem(00)] public int EntryIndex { get; set; }
+        [FlatBufferItem(01)] public int Species { get; set; }
+        [FlatBufferItem(02)] public int Form { get; set; }
+        [FlatBufferItem(03)] public int Level { get; set; }
+        [FlatBufferItem(04)] public byte DynamaxLevel { get; set; }
+        [FlatBufferItem(05)] public byte Ability { get; set; }
+        [FlatBufferItem(06)] public bool IsGigantamax { get; set; }
+        [FlatBufferItem(07)] public ulong DropTableID { get; set; }
+        [FlatBufferItem(08)] public ulong BonusTableID { get; set; }
+        [FlatBufferItem(09)] public byte Field_09 { get; set; }
         [FlatBufferItem(10)] public byte Field_0A { get; set; }
         [FlatBufferItem(11)] public byte Field_0B { get; set; }
         [FlatBufferItem(12)] public byte Field_0C { get; set; }

@@ -10,13 +10,13 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleReward8Archive : IFlatBufferArchive<NestHoleReward8Table>
     {
         [FlatBufferItem(0)] public NestHoleReward8Table[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleReward8Table : INestHoleRewardTable
     {
         [FlatBufferItem(0)] public ulong TableID { get; set; }
@@ -26,7 +26,7 @@ namespace pkNX.Structures.FlatBuffers
         public INestHoleReward[] Rewards => Entries;
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleReward8 : INestHoleReward
     {
         [FlatBufferItem(0)] public uint EntryID { get; set; }

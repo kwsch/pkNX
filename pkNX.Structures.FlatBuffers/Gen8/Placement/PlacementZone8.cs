@@ -117,16 +117,16 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable]
     public class PlacementZoneStaticObjectIdentifier8
     {
-        [FlatBufferItem(0)] public float LocationX { get; set; }
-        [FlatBufferItem(1)] public float LocationY { get; set; }
-        [FlatBufferItem(2)] public float LocationZ { get; set; }
-        [FlatBufferItem(3)] public uint Field_3 { get; set; }
-        [FlatBufferItem(4)] public uint Field_4 { get; set; }
-        [FlatBufferItem(5)] public uint Field_5 { get; set; }
-        [FlatBufferItem(6)] public float Field_6 { get; set; }
-        [FlatBufferItem(7)] public float Field_7 { get; set; }
-        [FlatBufferItem(8)] public float Field_8 { get; set; }
-        [FlatBufferItem(9)] public ulong SpawnerID { get; set; }
+        [FlatBufferItem(00)] public float LocationX { get; set; }
+        [FlatBufferItem(01)] public float LocationY { get; set; }
+        [FlatBufferItem(02)] public float LocationZ { get; set; }
+        [FlatBufferItem(03)] public uint Field_3 { get; set; }
+        [FlatBufferItem(04)] public uint Field_4 { get; set; }
+        [FlatBufferItem(05)] public uint Field_5 { get; set; }
+        [FlatBufferItem(06)] public float Field_6 { get; set; }
+        [FlatBufferItem(07)] public float Field_7 { get; set; }
+        [FlatBufferItem(08)] public float Field_8 { get; set; }
+        [FlatBufferItem(09)] public ulong SpawnerID { get; set; }
         [FlatBufferItem(10)] public ulong Field_A { get; set; }
         [FlatBufferItem(11)] public ulong Field_B { get; set; }
     }
@@ -143,7 +143,7 @@ namespace pkNX.Structures.FlatBuffers
         public IEnumerable<string> GetSummary(EncounterStatic8[] statics, IReadOnlyList<string> species)
         {
             var enc = Array.Find(statics, z => z.EncounterID == SpawnID);
-            yield return $"{species[enc.Species]}{(enc.AltForm == 0 ? string.Empty : "-" + enc.AltForm)} Lv. {enc.Level}";
+            yield return $"{species[enc.Species]}{(enc.Form == 0 ? string.Empty : "-" + enc.Form)} Lv. {enc.Level}";
             yield return $"EncounterID: {SpawnID:X016}";
         }
     }

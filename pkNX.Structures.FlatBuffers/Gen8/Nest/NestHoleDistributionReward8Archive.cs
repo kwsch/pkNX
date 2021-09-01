@@ -1,4 +1,5 @@
-﻿using FlatSharp.Attributes;
+﻿using System.ComponentModel;
+using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -9,13 +10,13 @@
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionReward8Archive : IFlatBufferArchive<NestHoleDistributionReward8Table>
     {
         public NestHoleDistributionReward8Table[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionReward8Table : INestHoleRewardTable
     {
         [FlatBufferItem(0)] public ulong TableID { get; set; }
@@ -24,7 +25,7 @@ namespace pkNX.Structures.FlatBuffers
         public INestHoleReward[] Rewards => Entries;
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionReward8 : INestHoleReward
     {
         [FlatBufferItem(0)] public byte Value0 { get; set; }

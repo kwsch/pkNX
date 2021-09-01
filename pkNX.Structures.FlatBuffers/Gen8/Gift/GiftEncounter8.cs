@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -12,7 +13,7 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterGift8
     {
         [FlatBufferItem(00)] public int IsEgg { get; set; }

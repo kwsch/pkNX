@@ -1,4 +1,5 @@
-﻿using FlatSharp.Attributes;
+﻿using System.ComponentModel;
+using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -9,13 +10,13 @@
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class BattleTowerTrainer8Archive
     {
         [FlatBufferItem(0)] public BattleTowerTrainer8[] Entries { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class BattleTowerTrainer8
     {
         [FlatBufferItem(0)] public ulong Hash0 { get; set; }

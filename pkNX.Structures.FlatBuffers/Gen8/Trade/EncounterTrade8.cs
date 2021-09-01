@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -12,10 +13,10 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterTrade8
     {
-        [FlatBufferItem(00)] public byte AltForm { get; set; }
+        [FlatBufferItem(00)] public byte Form { get; set; }
         [FlatBufferItem(01)] public byte DynamaxLevel { get; set; }
         [FlatBufferItem(02)] public int BallItemID { get; set; }
         [FlatBufferItem(03)] public int Field_03 { get; set; }
@@ -105,7 +106,7 @@ namespace pkNX.Structures.FlatBuffers
 
         public string GetSummary(IReadOnlyList<string> species)
         {
-            var comment = $" // {species[Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var comment = $" // {species[Species]}{(Form == 0 ? string.Empty : "-" + Form)}";
             const string iv = ", IVs = TradeIVs";
 
             var ability = AbilityNumber switch
@@ -126,7 +127,7 @@ namespace pkNX.Structures.FlatBuffers
             var otgender = $", OTGender = {OTGender}";
             var gender = Gender == (int)FixedGender.Random ? string.Empty : $", Gender = {Gender - 1}";
             var nature = Nature == (int)Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
-            var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm}";
+            var altform = Form == 0 ? string.Empty : $", Form = {Form}";
             var shiny = ShinyLock == (int)Shiny.Never ? string.Empty : $", Shiny = Shiny.{ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var tid = $"TID7 = {TrainerID}";

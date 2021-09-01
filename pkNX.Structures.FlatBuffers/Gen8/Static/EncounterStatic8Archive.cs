@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -8,7 +9,7 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterStatic8Archive : IFlatBufferArchive<EncounterStatic8>
     {
         [FlatBufferItem(0)] public EncounterStatic8[] Table { get; set; }

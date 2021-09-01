@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using FlatSharp.Attributes;
@@ -13,13 +14,13 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterNest8Archive : IFlatBufferArchive<EncounterNest8Table>
     {
         [FlatBufferItem(0)] public EncounterNest8Table[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterNest8Table
     {
         [FlatBufferItem(0)] public ulong TableID { get; set; }
@@ -46,9 +47,9 @@ namespace pkNX.Structures.FlatBuffers
 
             IEnumerable<string> Summary(EncounterNest8 e)
             {
-                var comment = $" // {species[e.Species]}{(e.AltForm == 0 ? string.Empty : "-" + e.AltForm)}";
+                var comment = $" // {species[e.Species]}{(e.Form == 0 ? string.Empty : "-" + e.Form)}";
                 var gender = e.Gender == 0 ? string.Empty : $", Gender = {e.Gender - 1}";
-                var altform = e.AltForm == 0 ? string.Empty : $", Form = {e.AltForm}";
+                var altform = e.Form == 0 ? string.Empty : $", Form = {e.Form}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
                 var ability = e.Ability switch
                 {
@@ -100,7 +101,7 @@ namespace pkNX.Structures.FlatBuffers
             IEnumerable<string> PrettySummary(EncounterNest8 e)
             {
                 var giga = e.IsGigantamax ? "Gigantamax " : string.Empty;
-                var form = e.AltForm != 0 ? $"-{e.AltForm}" : string.Empty;
+                var form = e.Form != 0 ? $"-{e.Form}" : string.Empty;
                 var rank = $"{e.MinRank + 1}-Star";
                 yield return $"{rank} {giga}{species[e.Species]}{form}";
                 yield return $"\tLv. {15 + (10 * e.MinRank)}-{20 + (10 * e.MaxRank)}";
@@ -153,19 +154,19 @@ namespace pkNX.Structures.FlatBuffers
         }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterNest8
     {
-        [FlatBufferItem(0)] public int EntryIndex { get; set; }
-        [FlatBufferItem(1)] public int Species { get; set; }
-        [FlatBufferItem(2)] public int AltForm { get; set; }
-        [FlatBufferItem(3)] public ulong LevelTableID { get; set; }
-        [FlatBufferItem(4)] public byte Ability { get; set; }
-        [FlatBufferItem(5)] public bool IsGigantamax { get; set; }
-        [FlatBufferItem(6)] public ulong DropTableID { get; set; }
-        [FlatBufferItem(7)] public ulong BonusTableID { get; set; }
-        [FlatBufferItem(8)] public uint[] Probabilities { get; set; }
-        [FlatBufferItem(9)] public byte Gender { get; set; }
+        [FlatBufferItem(00)] public int EntryIndex { get; set; }
+        [FlatBufferItem(01)] public int Species { get; set; }
+        [FlatBufferItem(02)] public int Form { get; set; }
+        [FlatBufferItem(03)] public ulong LevelTableID { get; set; }
+        [FlatBufferItem(04)] public byte Ability { get; set; }
+        [FlatBufferItem(05)] public bool IsGigantamax { get; set; }
+        [FlatBufferItem(06)] public ulong DropTableID { get; set; }
+        [FlatBufferItem(07)] public ulong BonusTableID { get; set; }
+        [FlatBufferItem(08)] public uint[] Probabilities { get; set; }
+        [FlatBufferItem(09)] public byte Gender { get; set; }
         [FlatBufferItem(10)] public byte FlawlessIVs { get; set; }
 
         public FixedAbility AbilityPermitted

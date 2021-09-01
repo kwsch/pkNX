@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using FlatSharp.Attributes;
@@ -13,13 +14,13 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionEncounter8Archive : IFlatBufferArchive<NestHoleDistributionEncounter8Table>
     {
         public NestHoleDistributionEncounter8Table[] Table { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionEncounter8Table
     {
         [FlatBufferItem(0)] public ulong TableID { get; set; }
@@ -177,19 +178,19 @@ namespace pkNX.Structures.FlatBuffers
         }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionEncounter8
     {
-        [FlatBufferItem(0)] public int EntryIndex { get; set; }
-        [FlatBufferItem(1)] public int Species { get; set; }
-        [FlatBufferItem(2)] public int Form { get; set; }
-        [FlatBufferItem(3)] public int Level { get; set; }
-        [FlatBufferItem(4)] public ushort DynamaxLevel { get; set; }
-        [FlatBufferItem(5)] public uint Field_05 { get; set; } // probably EVs
-        [FlatBufferItem(6)] public uint Field_06 { get; set; }
-        [FlatBufferItem(7)] public uint Field_07 { get; set; }
-        [FlatBufferItem(8)] public uint Field_08 { get; set; }
-        [FlatBufferItem(9)] public uint Field_09 { get; set; }
+        [FlatBufferItem(00)] public int EntryIndex { get; set; }
+        [FlatBufferItem(01)] public int Species { get; set; }
+        [FlatBufferItem(02)] public int Form { get; set; }
+        [FlatBufferItem(03)] public int Level { get; set; }
+        [FlatBufferItem(04)] public ushort DynamaxLevel { get; set; }
+        [FlatBufferItem(05)] public uint Field_05 { get; set; } // probably EVs
+        [FlatBufferItem(06)] public uint Field_06 { get; set; }
+        [FlatBufferItem(07)] public uint Field_07 { get; set; }
+        [FlatBufferItem(08)] public uint Field_08 { get; set; }
+        [FlatBufferItem(09)] public uint Field_09 { get; set; }
         [FlatBufferItem(10)] public uint Field_0A { get; set; }
         [FlatBufferItem(11)] public byte Ability { get; set; }
         [FlatBufferItem(12)] public bool IsGigantamax { get; set; }

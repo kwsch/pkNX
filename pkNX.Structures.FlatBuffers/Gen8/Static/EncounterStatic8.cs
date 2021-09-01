@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -11,19 +12,19 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class EncounterStatic8
     {
-        [FlatBufferItem(0)] public ulong BackgroundFarTypeID { get; set; }
-        [FlatBufferItem(1)] public ulong BackgroundNearTypeID { get; set; }
-        [FlatBufferItem(2)] public byte EV_Spe { get; set; }
-        [FlatBufferItem(3)] public byte EV_Atk { get; set; }
-        [FlatBufferItem(4)] public byte EV_Def { get; set; }
-        [FlatBufferItem(5)] public byte EV_Hp { get; set; }
-        [FlatBufferItem(6)] public byte EV_SpAtk { get; set; }
-        [FlatBufferItem(7)] public byte EV_SpDef { get; set; }
-        [FlatBufferItem(8)] public byte AltForm { get; set; }
-        [FlatBufferItem(9)] public byte DynamaxLevel { get; set; }
+        [FlatBufferItem(00)] public ulong BackgroundFarTypeID { get; set; }
+        [FlatBufferItem(01)] public ulong BackgroundNearTypeID { get; set; }
+        [FlatBufferItem(02)] public byte EV_Spe { get; set; }
+        [FlatBufferItem(03)] public byte EV_Atk { get; set; }
+        [FlatBufferItem(04)] public byte EV_Def { get; set; }
+        [FlatBufferItem(05)] public byte EV_Hp { get; set; }
+        [FlatBufferItem(06)] public byte EV_SpAtk { get; set; }
+        [FlatBufferItem(07)] public byte EV_SpDef { get; set; }
+        [FlatBufferItem(08)] public byte Form { get; set; }
+        [FlatBufferItem(09)] public byte DynamaxLevel { get; set; }
         [FlatBufferItem(10)] public int Field_0A { get; set; }
         [FlatBufferItem(11)] public ulong EncounterID { get; set; }
         [FlatBufferItem(12)] public byte Field_0C { get; set; }
@@ -114,7 +115,7 @@ namespace pkNX.Structures.FlatBuffers
 
         public string GetSummary(IReadOnlyList<string> species)
         {
-            var comment = $" // {species[Species]}{(AltForm == 0 ? string.Empty : "-" + AltForm)}";
+            var comment = $" // {species[Species]}{(Form == 0 ? string.Empty : "-" + Form)}";
             var ability = Ability switch
             {
                 0 => string.Empty,
@@ -132,7 +133,7 @@ namespace pkNX.Structures.FlatBuffers
 
             var gender = Gender == (int)FixedGender.Random ? string.Empty : $", Gender = {Gender - 1}";
             var nature = (Nature)Nature == Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
-            var altform = AltForm == 0 ? string.Empty : $", Form = {AltForm:00}";
+            var altform = Form == 0 ? string.Empty : $", Form = {Form:00}";
             var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
             var shiny = (Shiny)ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";

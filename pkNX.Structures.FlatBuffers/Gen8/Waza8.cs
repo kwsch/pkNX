@@ -1,4 +1,5 @@
-﻿using FlatSharp.Attributes;
+﻿using System.ComponentModel;
+using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -8,21 +9,21 @@
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class Waza8 : IMove
     {
         public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
-        [FlatBufferItem(0)]  public uint   Version { get; set; }
-        [FlatBufferItem(1)]  public uint   MoveID { get; set; }
-        [FlatBufferItem(2)]  public bool   CanUseMove { get; set; }
-        [FlatBufferItem(3)]  public byte   FType { get; set; }
-        [FlatBufferItem(4)]  public byte   FQuality { get; set; }
-        [FlatBufferItem(5)]  public byte   FCategory { get; set; }
-        [FlatBufferItem(6)]  public byte   FPower { get; set; }
-        [FlatBufferItem(7)]  public byte   FAccuracy { get; set; }
-        [FlatBufferItem(8)]  public byte   FPP { get; set; }
-        [FlatBufferItem(9)]  public byte   FPriority { get; set; }
+        [FlatBufferItem(00)] public uint   Version { get; set; }
+        [FlatBufferItem(01)] public uint   MoveID { get; set; }
+        [FlatBufferItem(02)] public bool   CanUseMove { get; set; }
+        [FlatBufferItem(03)] public byte   FType { get; set; }
+        [FlatBufferItem(04)] public byte   FQuality { get; set; }
+        [FlatBufferItem(05)] public byte   FCategory { get; set; }
+        [FlatBufferItem(06)] public byte   FPower { get; set; }
+        [FlatBufferItem(07)] public byte   FAccuracy { get; set; }
+        [FlatBufferItem(08)] public byte   FPP { get; set; }
+        [FlatBufferItem(09)] public byte   FPriority { get; set; }
         [FlatBufferItem(10)] public byte   FHitMin { get; set; }
         [FlatBufferItem(11)] public byte   FHitMax { get; set; }
         [FlatBufferItem(12)] public ushort FInflict { get; set; }
