@@ -7,14 +7,14 @@ namespace pkNX.Randomization
 {
     public class MoveRandomizer : Randomizer
     {
-        private readonly IReadOnlyList<Move> MoveData;
+        private readonly IReadOnlyList<IMove> MoveData;
         private readonly PersonalTable SpeciesStat;
         private readonly GameInfo Config;
 
         private GenericRandomizer<int> RandMove;
         internal MovesetRandSettings Settings = new();
 
-        public MoveRandomizer(GameInfo config, IReadOnlyList<Move> moves, PersonalTable t)
+        public MoveRandomizer(GameInfo config, IReadOnlyList<IMove> moves, PersonalTable t)
         {
             Config = config;
             var maxMoveId = config.MaxMoveID;
@@ -115,7 +115,7 @@ namespace pkNX.Randomization
 
         public void ReorderMovesPower(IList<int> moves) => ReorderMovesPower(moves, MoveData);
 
-        private static void ReorderMovesPower(IList<int> moves, IReadOnlyList<Move> movedata)
+        private static void ReorderMovesPower(IList<int> moves, IReadOnlyList<IMove> movedata)
         {
             var data = moves.Select((Move, Index) => new { Index, Move, Data = movedata[Move] });
             var powered = data.Where(z => z.Data.Power > 1).ToList();

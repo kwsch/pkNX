@@ -12,7 +12,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable]
-    public sealed class PlacementZone8
+    public class PlacementZone8
     {
         [FlatBufferItem(0)] public PlacementZoneMeta8 Meta { get; set; }
         [FlatBufferItem(1)] public uint Field_01 { get; set; }
@@ -88,7 +88,7 @@ namespace pkNX.Structures.FlatBuffers
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneMeta8
+    public class PlacementZoneMeta8
     {
         [FlatBufferItem(0)] public uint Field_00 { get; set; }
         [FlatBufferItem(1)] public ulong ZoneID { get; set; }
@@ -96,13 +96,13 @@ namespace pkNX.Structures.FlatBuffers
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneStaticObjectsHolder8
+    public class PlacementZoneStaticObjectsHolder8
     {
         [FlatBufferItem(0)] public PlacementZoneStaticObject8 Object { get; set; }
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneStaticObject8
+    public class PlacementZoneStaticObject8
     {
         [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; }
         [FlatBufferItem(1)] public uint Field_01 { get; set; }
@@ -115,7 +115,7 @@ namespace pkNX.Structures.FlatBuffers
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneStaticObjectIdentifier8
+    public class PlacementZoneStaticObjectIdentifier8
     {
         [FlatBufferItem(0)] public float LocationX { get; set; }
         [FlatBufferItem(1)] public float LocationY { get; set; }
@@ -132,7 +132,7 @@ namespace pkNX.Structures.FlatBuffers
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneStaticObjectSpawn8
+    public class PlacementZoneStaticObjectSpawn8
     {
         [FlatBufferItem(0)] public ulong SpawnID { get; set; }
         [FlatBufferItem(1)] public string Description { get; set; }
@@ -149,7 +149,7 @@ namespace pkNX.Structures.FlatBuffers
     }
 
     [FlatBufferTable]
-    public sealed class PlacementZoneStaticObjectUnknown8
+    public class PlacementZoneStaticObjectUnknown8
     {
         [FlatBufferItem(0)] public uint Field_0 { get; set; }
         [FlatBufferItem(1)] public uint Field_1 { get; set; }

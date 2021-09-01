@@ -2,7 +2,7 @@
 
 namespace pkNX.Structures
 {
-    public class Move7 : Move
+    public class Move7 : Move3DS
     {
         protected override int SIZE => 0x28;
         public Move7() { }

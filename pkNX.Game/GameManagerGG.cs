@@ -35,7 +35,7 @@ namespace pkNX.Game
             var personal = GetFilteredFolder(GameFile.PersonalStats, z => Path.GetFileNameWithoutExtension(z) == "personal_total");
             Data = new GameData
             {
-                MoveData = new DataCache<Move>(this[GameFile.MoveStats]) // mini
+                MoveData = new DataCache<IMove>(this[GameFile.MoveStats]) // mini
                 {
                     Create = z => new Move7(z),
                     Write = z => z.Write(),

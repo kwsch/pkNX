@@ -39,10 +39,10 @@ namespace pkNX.Game
             ((FolderContainer)move).Initialize();
             Data = new GameData
             {
-                MoveData = new DataCache<Move>(move)
+                MoveData = new DataCache<IMove>(move)
                 {
-                    Create = (data) => FlatBufferConverter.DeserializeFrom<Waza8>(data),
-                    Write = _ => throw new ArgumentException(),
+                    Create = FlatBufferConverter.DeserializeFrom<Waza8>,
+                    Write = z => FlatBufferConverter.SerializeFrom((Waza8)z),
                 },
                 LevelUpData = new DataCache<Learnset>(Learn)
                 {

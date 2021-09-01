@@ -1,5 +1,4 @@
-﻿using System;
-using FlatSharp.Attributes;
+﻿using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -10,8 +9,10 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable]
-    public class Waza8 : Move
+    public class Waza8 : IMove
     {
+        public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
+
         [FlatBufferItem(0)]  public uint   Version { get; set; }
         [FlatBufferItem(1)]  public uint   MoveID { get; set; }
         [FlatBufferItem(2)]  public bool   CanUseMove { get; set; }
@@ -64,49 +65,46 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(49)] public bool   Flag_Dance { get; set; }
         [FlatBufferItem(50)] public bool   Flag_Metronome { get; set; }
 
-        public Waza8() : base(Array.Empty<byte>()) {}
+        public int Type           { get => FType; set => FType = (byte)value; }
+        public int Quality        { get => FQuality        ; set => FQuality        = (byte)value; }
+        public int Category       { get => FCategory       ; set => FCategory       = (byte)value; }
+        public int Power          { get => FPower          ; set => FPower          = (byte)value; }
+        public int Accuracy       { get => FAccuracy       ; set => FAccuracy       = (byte)value; }
+        public int PP             { get => FPP             ; set => FPP             = (byte)value; }
+        public int Priority       { get => FPriority       ; set => FPriority       = (byte)value; }
+        public int HitMin         { get => FHitMin         ; set => FHitMin         = (byte)value; }
+        public int HitMax         { get => FHitMax         ; set => FHitMax         = (byte)value; }
+        public int Inflict        { get => FInflict        ; set => FInflict        = (ushort)value; }
+        public int InflictPercent { get => FInflictPercent ; set => FInflictPercent = (byte)value; }
+        public int TurnMin        { get => FTurnMin        ; set => FTurnMin        = (byte)value; }
+        public int TurnMax        { get => FTurnMax        ; set => FTurnMax        = (byte)value; }
+        public int CritStage      { get => FCritStage      ; set => FCritStage      = (byte)value; }
+        public int Flinch         { get => FFlinch         ; set => FFlinch         = (byte)value; }
+        public int EffectSequence { get => FEffectSequence ; set => FEffectSequence = (ushort)value; }
+        public int Recoil         { get => FRecoil         ; set => FRecoil         = (byte)value; }
+        public int Stat1          { get => FStat1          ; set => FStat1          = (byte)value; }
+        public int Stat2          { get => FStat2          ; set => FStat2          = (byte)value; }
+        public int Stat3          { get => FStat3          ; set => FStat3          = (byte)value; }
+        public int Stat1Stage     { get => FStat1Stage     ; set => FStat1Stage     = (byte)value; }
+        public int Stat2Stage     { get => FStat2Stage     ; set => FStat2Stage     = (byte)value; }
+        public int Stat3Stage     { get => FStat3Stage     ; set => FStat3Stage     = (byte)value; }
+        public int Stat1Percent   { get => FStat1Percent   ; set => FStat1Percent   = (byte)value; }
+        public int Stat2Percent   { get => FStat2Percent   ; set => FStat2Percent   = (byte)value; }
+        public int Stat3Percent   { get => FStat3Percent   ; set => FStat3Percent   = (byte)value; }
 
-        protected override int SIZE => -1;
-        public override int Type           { get => FType; set => FType = (byte)value; }
-        public override int Quality        { get => FQuality        ; set => FQuality        = (byte)value; }
-        public override int Category       { get => FCategory       ; set => FCategory       = (byte)value; }
-        public override int Power          { get => FPower          ; set => FPower          = (byte)value; }
-        public override int Accuracy       { get => FAccuracy       ; set => FAccuracy       = (byte)value; }
-        public override int PP             { get => FPP             ; set => FPP             = (byte)value; }
-        public override int Priority       { get => FPriority       ; set => FPriority       = (byte)value; }
-        public override int HitMin         { get => FHitMin         ; set => FHitMin         = (byte)value; }
-        public override int HitMax         { get => FHitMax         ; set => FHitMax         = (byte)value; }
-        public override int Inflict        { get => FInflict        ; set => FInflict        = (ushort)value; }
-        public override int InflictPercent { get => FInflictPercent ; set => FInflictPercent = (byte)value; }
-        public override int TurnMin        { get => FTurnMin        ; set => FTurnMin        = (byte)value; }
-        public override int TurnMax        { get => FTurnMax        ; set => FTurnMax        = (byte)value; }
-        public override int CritStage      { get => FCritStage      ; set => FCritStage      = (byte)value; }
-        public override int Flinch         { get => FFlinch         ; set => FFlinch         = (byte)value; }
-        public override int EffectSequence { get => FEffectSequence ; set => FEffectSequence = (ushort)value; }
-        public override int Recoil         { get => FRecoil         ; set => FRecoil         = (byte)value; }
-        public override int Stat1          { get => FStat1          ; set => FStat1          = (byte)value; }
-        public override int Stat2          { get => FStat2          ; set => FStat2          = (byte)value; }
-        public override int Stat3          { get => FStat3          ; set => FStat3          = (byte)value; }
-        public override int Stat1Stage     { get => FStat1Stage     ; set => FStat1Stage     = (byte)value; }
-        public override int Stat2Stage     { get => FStat2Stage     ; set => FStat2Stage     = (byte)value; }
-        public override int Stat3Stage     { get => FStat3Stage     ; set => FStat3Stage     = (byte)value; }
-        public override int Stat1Percent   { get => FStat1Percent   ; set => FStat1Percent   = (byte)value; }
-        public override int Stat2Percent   { get => FStat2Percent   ; set => FStat2Percent   = (byte)value; }
-        public override int Stat3Percent   { get => FStat3Percent   ; set => FStat3Percent   = (byte)value; }
-
-        public override MoveInflictDuration InflictCount
+        public MoveInflictDuration InflictCount
         {
             get => (MoveInflictDuration)FRawInflictCount;
             set => FRawInflictCount = (byte)value;
         }
 
-        public override Heal Healing
+        public Heal Healing
         {
             get => (Heal)FRawHealing;
             set => FRawHealing = (byte)value;
         }
 
-        public override MoveTarget Target
+        public MoveTarget Target
         {
             get => (MoveTarget)FRawTarget;
             set => FRawTarget = (byte)value;
