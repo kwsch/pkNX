@@ -11,18 +11,18 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    // map_data.prmb
-    // map_placement_data.prmb
+    // poke_memory_data.prmb
+    // this is oddly similar to the map data FlatBuffer, assumed the same schema to encode an excel table?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class MapContainer
+    public class MemoryTable
     {
-        [FlatBufferItem(0)] public SubTable0[] Field0 { get; set; }
-        [FlatBufferItem(1)] public MapUnion[] Field1 { get; set; }
-        [FlatBufferItem(2)] public SubTable2[] Field2 { get; set; }
+        [FlatBufferItem(0)] public MemoryQuadInt[] QuadTable { get; set; }
+        [FlatBufferItem(1)] public MemoryUnion[] MainTable { get; set; }
+        [FlatBufferItem(2)] public MemoryTable2[] DualTable { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class SubTable0
+    public class MemoryQuadInt
     {
         [FlatBufferItem(0)] public int Field0 { get; set; }
         [FlatBufferItem(1)] public int Field1 { get; set; }
@@ -32,11 +32,11 @@ namespace pkNX.Structures.FlatBuffers
         public override string ToString() => $"{Field0}|{Field1}|{Field2}|{Field3}";
     }
 
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class MapUnion
+	[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class MemoryUnion
     {
 #nullable enable
-        [FlatBufferItem(0)] public FlatBufferUnion<ST1_1, ST1_2, ST1_3, ST1_4>? Field1 { get; set; }
+        [FlatBufferItem(0)] public FlatBufferUnion<MT1_1, MT1_2, MT1_3, MT1_4>? Field1 { get; set; }
 #nullable disable
         public override string ToString() => Field1?.Discriminator switch
         {
@@ -47,21 +47,21 @@ namespace pkNX.Structures.FlatBuffers
         };
     }
 
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class ST1_1 {[FlatBufferItem(0)] public int Value { get; set; } }
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class ST1_2 {[FlatBufferItem(0)] public byte Dummy { get; set; } }
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class ST1_3 {[FlatBufferItem(0)] public string Name { get; set; } }
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class ST1_4 {[FlatBufferItem(0)] public ulong Hash { get; set; } }
+	[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class MT1_1 {[FlatBufferItem(0)] public int Value { get; set; } }
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class MT1_2 {[FlatBufferItem(0)] public byte Dummy { get; set; } }
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class MT1_3 {[FlatBufferItem(0)] public string Name { get; set; } }
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class MT1_4 {[FlatBufferItem(0)] public ulong Hash { get; set; } }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class SubTable2
+    public class MemoryTable2
     {
         [FlatBufferItem(0)] public ulong Hash { get; set; }
-        [FlatBufferItem(1)] public DualHash[] Pairs { get; set; }
+        [FlatBufferItem(1)] public MemoryDualHash[] Pairs { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class DualHash
-    {
+    public class MemoryDualHash
+	{
         [FlatBufferItem(0)] public ulong Hash0 { get; set; }
         [FlatBufferItem(1)] public ulong Hash1 { get; set; }
 
