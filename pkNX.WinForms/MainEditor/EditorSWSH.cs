@@ -198,7 +198,9 @@ namespace pkNX.WinForms.Controls
                 PopWildEdit(dr == DialogResult.Yes ? "k" : "t");
             }
             else
+            {
                 PopWildEdit(ROM.Game == GameVersion.SW ? "k" : "t");
+            }
         }
 
         private void PopWildEdit(string file)
@@ -461,6 +463,22 @@ namespace pkNX.WinForms.Controls
 
             cache.Save();
             ROM.Data.MoveData.ClearAll(); // force reload if used again
+        }
+
+        public void EditItems()
+        {
+            var obj = ROM[GameFile.ItemStats]; // mini
+            var data = obj[0];
+            var items = Item8.GetArray(data);
+            var cache = new DataCache<Item8>(items);
+            using var form = new GenericEditor<Item8>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+            obj[0] = Item8.SetArray(items, data);
         }
 
         public void EditGift()

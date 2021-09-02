@@ -14,10 +14,29 @@ namespace pkNX.Structures
             Data = data;
         }
 
-        public PouchID Pouch => (PouchID)(Data[0x11] & 0xF);
-        public int ItemSprite => BitConverter.ToInt16(Data, 0x1A);
-        public GroupIndexType GroupType => (GroupIndexType)Data[0x1C];
-        public byte GroupIndex => Data[0x1D];
+        public PouchID Pouch
+        {
+            get => (PouchID)(Data[0x11] & 0xF);
+            set => Data[0x11] = (byte)((Data[0x11] & 0xF0) | ((byte)value & 0xF));
+        }
+
+        public int ItemSprite
+        {
+            get => BitConverter.ToInt16(Data, 0x1A);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A);
+        }
+
+        public GroupIndexType GroupType
+        {
+            get => (GroupIndexType)Data[0x1C];
+            set => Data[0x1C] = (byte)value;
+        }
+
+        public byte GroupIndex
+        {
+            get => Data[0x1D];
+            set => Data[0x1D] = value;
+        }
 
         public static Item8[] GetArray(byte[] bin)
         {
@@ -33,6 +52,26 @@ namespace pkNX.Structures
             }
 
             return result;
+        }
+
+        public static byte[] SetArray(Item8[] array, byte[] bin)
+        {
+            bin = (byte[])bin.Clone();
+            if (array.Length != BitConverter.ToInt16(bin, 0))
+                throw new ArgumentException("Incompatible sizes");
+
+            int maxEntryIndex = BitConverter.ToUInt16(bin, 4);
+            int entriesStart = (int)BitConverter.ToUInt32(bin, 0x40);
+            for (int i = 0; i < array.Length; i++)
+            {
+                var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
+                if (entryIndex >= maxEntryIndex) { throw new ArgumentException(); }
+
+                var data = array[i].Data;
+                data.CopyTo(bin, entriesStart + (entryIndex * SIZE));
+            }
+
+            return bin;
         }
 
         public enum PouchID : byte
