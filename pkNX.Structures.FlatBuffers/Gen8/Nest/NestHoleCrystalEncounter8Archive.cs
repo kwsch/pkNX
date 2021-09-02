@@ -56,7 +56,7 @@ namespace pkNX.Structures.FlatBuffers
                 yield return $"\tLv. {e.Level}";
                 yield return $"\tDynamax Level: {e.DynamaxLevel}";
                 yield return $"\tDynamax Boost: {e.DynamaxBoost:0.0}x";
-                yield return $"\tIVs: {e.IV_Hp}/{e.IV_Atk}/{e.IV_Def}/{e.IV_SpAtk}/{e.IV_SpDef}/{e.IV_Spe}";
+                yield return $"\tIVs: {e.IV_HP}/{e.IV_ATK}/{e.IV_DEF}/{e.IV_SPA}/{e.IV_SPD}/{e.IV_SPE}";
                 /*yield return $"\tGender: {new[] { "Random", "Male", "Female", "Genderless" }[e.Gender]}";
 
                 var ability = e.Ability switch
@@ -154,7 +154,7 @@ namespace pkNX.Structures.FlatBuffers
                 var abil = $", Ability = {ability}";
                 var dyna = $", DynamaxLevel = {e.DynamaxLevel}";
                 var moves = $", Moves = new[] {{{e.Move0:000},{e.Move1:000},{e.Move2:000},{e.Move3:000}}}";
-                var ivs = $", IVs = new[] {{{e.IV_Hp},{e.IV_Atk},{e.IV_Def},{e.IV_Spe},{e.IV_SpAtk},{e.IV_SpDef}}}";
+                var ivs = $", IVs = new[] {{{e.IV_HP},{e.IV_ATK},{e.IV_DEF},{e.IV_SPE},{e.IV_SPA},{e.IV_SPD}}}";
                 var altform = e.Form == 0 ? string.Empty : $", Form = {e.Form}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
 
@@ -189,12 +189,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(12)] public byte Field_0C { get; set; }
         [FlatBufferItem(13)] public byte Field_0D { get; set; }
         [FlatBufferItem(14)] public byte Nature { get; set; }
-        [FlatBufferItem(15)] public short IV_Hp { get; set; }
-        [FlatBufferItem(16)] public short IV_Atk { get; set; }
-        [FlatBufferItem(17)] public short IV_Def { get; set; }
-        [FlatBufferItem(18)] public short IV_SpAtk { get; set; }
-        [FlatBufferItem(19)] public short IV_SpDef { get; set; }
-        [FlatBufferItem(20)] public short IV_Spe { get; set; }
+        [FlatBufferItem(15)] public short IV_HP { get; set; }
+        [FlatBufferItem(16)] public short IV_ATK { get; set; }
+        [FlatBufferItem(17)] public short IV_DEF { get; set; }
+        [FlatBufferItem(18)] public short IV_SPA { get; set; }
+        [FlatBufferItem(19)] public short IV_SPD { get; set; }
+        [FlatBufferItem(20)] public short IV_SPE { get; set; }
         [FlatBufferItem(21)] public uint Field_15 { get; set; }
         [FlatBufferItem(22)] public uint Move0 { get; set; }
         [FlatBufferItem(23)] public uint Move1 { get; set; }

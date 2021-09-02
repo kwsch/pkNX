@@ -34,12 +34,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(12)] public uint Field_0C { get; set; }
         [FlatBufferItem(13)] public uint Nature { get; set; }
         [FlatBufferItem(14)] public uint Field_0E { get; set; }
-        [FlatBufferItem(15)] public uint IV_Hp { get; set; }
-        [FlatBufferItem(16)] public uint IV_Atk { get; set; }
-        [FlatBufferItem(17)] public uint IV_Def { get; set; }
-        [FlatBufferItem(18)] public uint IV_SpAtk { get; set; }
-        [FlatBufferItem(19)] public uint IV_SpDef { get; set; }
-        [FlatBufferItem(20)] public uint IV_Spe { get; set; }
+        [FlatBufferItem(15)] public uint IV_HP { get; set; }
+        [FlatBufferItem(16)] public uint IV_ATK { get; set; }
+        [FlatBufferItem(17)] public uint IV_DEF { get; set; }
+        [FlatBufferItem(18)] public uint IV_SPA { get; set; }
+        [FlatBufferItem(19)] public uint IV_SPD { get; set; }
+        [FlatBufferItem(20)] public uint IV_SPE { get; set; }
         [FlatBufferItem(21)] public uint Field_15 { get; set; }
         [FlatBufferItem(22)] public uint Move0 { get; set; }
         [FlatBufferItem(23)] public uint Move1 { get; set; }

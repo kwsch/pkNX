@@ -370,7 +370,7 @@ namespace pkNX.WinForms.Controls
                     t.Gender = (int)FixedGender.Random;
                     t.ShinyLock = (int)Shiny.Random;
                     t.Moves = new[] { 0, 0, 0, 0 };
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -540,7 +540,7 @@ namespace pkNX.WinForms.Controls
                     t.Nature = (int)Nature.Random25;
                     t.Gender = (byte)FixedGender.Random;
                     t.ShinyLock = (int)Shiny.Random;
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -587,7 +587,7 @@ namespace pkNX.WinForms.Controls
                     t.Gender = (int)FixedGender.Random;
                     t.ShinyLock = (int)Shiny.Random;
                     t.Relearn1 = 0;
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
 
                     // what you trade

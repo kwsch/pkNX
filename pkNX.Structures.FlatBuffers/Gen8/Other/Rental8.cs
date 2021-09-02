@@ -19,12 +19,12 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class Rental8
     {
-        [FlatBufferItem(00)] public byte EV_Spe { get; set; }
-        [FlatBufferItem(01)] public byte EV_Atk { get; set; }
-        [FlatBufferItem(02)] public byte EV_Def { get; set; }
-        [FlatBufferItem(03)] public byte EV_Hp { get; set; }
-        [FlatBufferItem(04)] public byte EV_SpAtk { get; set; }
-        [FlatBufferItem(05)] public byte EV_SpDef { get; set; }
+        [FlatBufferItem(00)] public byte EV_SPE { get; set; }
+        [FlatBufferItem(01)] public byte EV_ATK { get; set; }
+        [FlatBufferItem(02)] public byte EV_DEF { get; set; }
+        [FlatBufferItem(03)] public byte EV_HP { get; set; }
+        [FlatBufferItem(04)] public byte EV_SPA { get; set; }
+        [FlatBufferItem(05)] public byte EV_SPD { get; set; }
         [FlatBufferItem(06)] public byte Form { get; set; }
         [FlatBufferItem(07)] public int Ball { get; set; }
         [FlatBufferItem(08)] public ulong Hash1 { get; set; }
@@ -35,12 +35,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(13)] public uint TrainerID { get; set; } // maybe?? no entries have this
         [FlatBufferItem(14)] public int Nature { get; set; }
         [FlatBufferItem(15)] public int Gender { get; set; }
-        [FlatBufferItem(16)] public sbyte IV_Spe { get; set; }
-        [FlatBufferItem(17)] public sbyte IV_Atk { get; set; }
-        [FlatBufferItem(18)] public sbyte IV_Def { get; set; }
-        [FlatBufferItem(19)] public sbyte IV_Hp { get; set; }
-        [FlatBufferItem(20)] public sbyte IV_SpAtk { get; set; }
-        [FlatBufferItem(21)] public sbyte IV_SpDef { get; set; }
+        [FlatBufferItem(16)] public sbyte IV_SPE { get; set; }
+        [FlatBufferItem(17)] public sbyte IV_ATK { get; set; }
+        [FlatBufferItem(18)] public sbyte IV_DEF { get; set; }
+        [FlatBufferItem(19)] public sbyte IV_HP { get; set; }
+        [FlatBufferItem(20)] public sbyte IV_SPA { get; set; }
+        [FlatBufferItem(21)] public sbyte IV_SPD { get; set; }
         [FlatBufferItem(22)] public int Ability { get; set; } // 0,1,2(Hidden)
         [FlatBufferItem(23)] public int Move1 { get; set; }
         [FlatBufferItem(24)] public int Move2 { get; set; }

@@ -17,12 +17,12 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public ulong BackgroundFarTypeID { get; set; }
         [FlatBufferItem(01)] public ulong BackgroundNearTypeID { get; set; }
-        [FlatBufferItem(02)] public byte EV_Spe { get; set; }
-        [FlatBufferItem(03)] public byte EV_Atk { get; set; }
-        [FlatBufferItem(04)] public byte EV_Def { get; set; }
-        [FlatBufferItem(05)] public byte EV_Hp { get; set; }
-        [FlatBufferItem(06)] public byte EV_SpAtk { get; set; }
-        [FlatBufferItem(07)] public byte EV_SpDef { get; set; }
+        [FlatBufferItem(02)] public byte EV_SPE { get; set; }
+        [FlatBufferItem(03)] public byte EV_ATK { get; set; }
+        [FlatBufferItem(04)] public byte EV_DEF { get; set; }
+        [FlatBufferItem(05)] public byte EV_HP { get; set; }
+        [FlatBufferItem(06)] public byte EV_SPA { get; set; }
+        [FlatBufferItem(07)] public byte EV_SPD { get; set; }
         [FlatBufferItem(08)] public byte Form { get; set; }
         [FlatBufferItem(09)] public byte DynamaxLevel { get; set; }
         [FlatBufferItem(10)] public int Field_0A { get; set; }
@@ -36,12 +36,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(18)] public uint ShinyLock { get; set; }
         [FlatBufferItem(19)] public uint Nature { get; set; }
         [FlatBufferItem(20)] public byte Gender { get; set; }
-        [FlatBufferItem(21)] public sbyte IV_Spe { get; set; }
-        [FlatBufferItem(22)] public sbyte IV_Atk { get; set; }
-        [FlatBufferItem(23)] public sbyte IV_Def { get; set; }
-        [FlatBufferItem(24)] public sbyte IV_Hp { get; set; }
-        [FlatBufferItem(25)] public sbyte IV_SpAtk { get; set; }
-        [FlatBufferItem(26)] public sbyte IV_SpDef { get; set; }
+        [FlatBufferItem(21)] public sbyte IV_SPE { get; set; }
+        [FlatBufferItem(22)] public sbyte IV_ATK { get; set; }
+        [FlatBufferItem(23)] public sbyte IV_DEF { get; set; }
+        [FlatBufferItem(24)] public sbyte IV_HP { get; set; }
+        [FlatBufferItem(25)] public sbyte IV_SPA { get; set; }
+        [FlatBufferItem(26)] public sbyte IV_SPD { get; set; }
         [FlatBufferItem(27)] public int Ability { get; set; }
         [FlatBufferItem(28)] public int Move0 { get; set; }
         [FlatBufferItem(29)] public int Move1 { get; set; }
@@ -50,16 +50,16 @@ namespace pkNX.Structures.FlatBuffers
 
         public int[] IVs
         {
-            get => new int[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            get => new int[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
                 if (value?.Length != 6) return;
-                IV_Hp =    (sbyte)value[0];
-                IV_Atk =   (sbyte)value[1];
-                IV_Def =   (sbyte)value[2];
-                IV_Spe =   (sbyte)value[3];
-                IV_SpAtk = (sbyte)value[4];
-                IV_SpDef = (sbyte)value[5];
+                IV_HP =    (sbyte)value[0];
+                IV_ATK =   (sbyte)value[1];
+                IV_DEF =   (sbyte)value[2];
+                IV_SPE =   (sbyte)value[3];
+                IV_SPA = (sbyte)value[4];
+                IV_SPD = (sbyte)value[5];
             }
         }
 

@@ -40,12 +40,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(21)] public int ShinyLock { get; set; }
         [FlatBufferItem(22)] public int Nature { get; set; }
         [FlatBufferItem(23)] public byte Gender { get; set; }
-        [FlatBufferItem(24)] public sbyte IV_Spe { get; set; }
-        [FlatBufferItem(25)] public sbyte IV_Atk { get; set; }
-        [FlatBufferItem(26)] public sbyte IV_Def { get; set; }
-        [FlatBufferItem(27)] public sbyte IV_Hp { get; set; }
-        [FlatBufferItem(28)] public sbyte IV_SpAtk { get; set; }
-        [FlatBufferItem(29)] public sbyte IV_SpDef { get; set; }
+        [FlatBufferItem(24)] public sbyte IV_SPE { get; set; }
+        [FlatBufferItem(25)] public sbyte IV_ATK { get; set; }
+        [FlatBufferItem(26)] public sbyte IV_DEF { get; set; }
+        [FlatBufferItem(27)] public sbyte IV_HP { get; set; }
+        [FlatBufferItem(28)] public sbyte IV_SPA { get; set; }
+        [FlatBufferItem(29)] public sbyte IV_SPD { get; set; }
         [FlatBufferItem(30)] public byte AbilityNumber { get; set; }
         [FlatBufferItem(31)] public ushort Relearn1 { get; set; }
         [FlatBufferItem(32)] public ushort Relearn2 { get; set; }
@@ -91,16 +91,16 @@ namespace pkNX.Structures.FlatBuffers
 
         public int[] IVs
         {
-            get => new int[] { IV_Hp, IV_Atk, IV_Def, IV_Spe, IV_SpAtk, IV_SpDef };
+            get => new int[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
                 if (value?.Length != 6) return;
-                IV_Hp =    (sbyte)value[0];
-                IV_Atk =   (sbyte)value[1];
-                IV_Def =   (sbyte)value[2];
-                IV_Spe =   (sbyte)value[3];
-                IV_SpAtk = (sbyte)value[4];
-                IV_SpDef = (sbyte)value[5];
+                IV_HP =    (sbyte)value[0];
+                IV_ATK =   (sbyte)value[1];
+                IV_DEF =   (sbyte)value[2];
+                IV_SPE =   (sbyte)value[3];
+                IV_SPA = (sbyte)value[4];
+                IV_SPD = (sbyte)value[5];
             }
         }
 
