@@ -49,7 +49,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(24)] public float Field_24 {get; set;}
         [FlatBufferItem(25)] public float Field_25 {get; set;}
         [FlatBufferItem(26)] public float Field_26 {get; set;}
-        [FlatBufferItem(27)] public float Field_27 {get; set;}
+        [FlatBufferItem(27)] public float GrassShakeRadius {get; set;}
         [FlatBufferItem(28)] public float Field_28 {get; set;} // unused default, assumed float
         [FlatBufferItem(29)] public int Field_29 {get; set;}
         [FlatBufferItem(30)] public int Field_30 {get; set;} // unused default, assumed int

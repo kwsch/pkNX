@@ -646,11 +646,12 @@ namespace pkNX.WinForms.Controls
 
         public void EditSymbolBehave()
         {
+            bool altRand = Control.ModifierKeys == Keys.Alt;
             var obj = ROM.GetFile(GameFile.SymbolBehave);
             var data = obj[0];
             var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
             var cache = new DataCache<SymbolBehave>(root.Table);
-            var names = root.Table.Select((z, i) => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
+            var names = root.Table.Select(z => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
             using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
@@ -659,8 +660,11 @@ namespace pkNX.WinForms.Controls
 
             void Randomize()
             {
+                var mode = altRand
+                    ? "WaterDash" // Sharpedo dash homing -- good luck running!
+                    : "Anawohoru"; // Diglett - Disappear when approached, pop out elsewhere
                 foreach (var t in root.Table)
-                    t.Behavior = "WaterDash"; // good luck running!
+                    t.Behavior = mode;
             }
         }
 
