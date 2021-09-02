@@ -30,7 +30,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(12)] public byte Field_0C { get; set; }
         [FlatBufferItem(13)] public bool CanGigantamax { get; set; }
         [FlatBufferItem(14)] public int HeldItem { get; set; }
-        [FlatBufferItem(15)] public int Level { get; set; }
+        [FlatBufferItem(15)] public byte Level { get; set; }
         [FlatBufferItem(16)] public Scenario EncounterScenario { get; set; }
         [FlatBufferItem(17)] public int Species { get; set; }
         [FlatBufferItem(18)] public uint ShinyLock { get; set; }

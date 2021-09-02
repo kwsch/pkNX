@@ -23,7 +23,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(04)] public ulong Hash0 { get; set; }
         [FlatBufferItem(05)] public bool CanGigantamax { get; set; }
         [FlatBufferItem(06)] public int HeldItem { get; set; }
-        [FlatBufferItem(07)] public int Level { get; set; }
+        [FlatBufferItem(07)] public byte Level { get; set; }
         [FlatBufferItem(08)] public int Species { get; set; }
         [FlatBufferItem(09)] public ulong Hash1 { get; set; }
         [FlatBufferItem(10)] public int TrainerID { get; set; }
