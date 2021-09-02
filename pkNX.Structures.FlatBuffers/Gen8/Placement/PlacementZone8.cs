@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -11,7 +12,7 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8
     {
         [FlatBufferItem(0)] public PlacementZoneMeta8 Meta { get; set; }
@@ -87,7 +88,7 @@ namespace pkNX.Structures.FlatBuffers
         }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneMeta8
     {
         [FlatBufferItem(0)] public uint Field_00 { get; set; }
@@ -95,13 +96,13 @@ namespace pkNX.Structures.FlatBuffers
         // More tables exist here
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObjectsHolder8
     {
         [FlatBufferItem(0)] public PlacementZoneStaticObject8 Object { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObject8
     {
         [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; }
@@ -114,7 +115,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(7)] public PlacementZoneStaticObjectUnknown8 Field_07 { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObjectIdentifier8
     {
         [FlatBufferItem(00)] public float LocationX { get; set; }
@@ -131,7 +132,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(11)] public ulong Field_B { get; set; }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObjectSpawn8
     {
         [FlatBufferItem(0)] public ulong SpawnID { get; set; }
@@ -148,7 +149,7 @@ namespace pkNX.Structures.FlatBuffers
         }
     }
 
-    [FlatBufferTable]
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObjectUnknown8
     {
         [FlatBufferItem(0)] public uint Field_0 { get; set; }
