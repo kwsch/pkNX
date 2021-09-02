@@ -650,7 +650,7 @@ namespace pkNX.WinForms.Controls
             var data = obj[0];
             var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
             var cache = new DataCache<SymbolBehave>(root.Table);
-            var names = root.Table.Select((z, i) => $"{i:000} {z.Hash1:X16}").ToArray();
+            var names = root.Table.Select((z, i) => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
             using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor");
             form.ShowDialog();
             if (!form.Modified)
