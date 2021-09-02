@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static pkNX.Structures.EncounterTable8Util.SWSHSlotType;
+using static pkNX.Structures.FlatBuffers.EncounterTable8Util.SWSHSlotType;
 
 namespace pkNX.Structures.FlatBuffers
 {
