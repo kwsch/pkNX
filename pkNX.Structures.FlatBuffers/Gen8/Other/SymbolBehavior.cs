@@ -24,11 +24,11 @@ namespace pkNX.Structures.FlatBuffers
 
         [FlatBufferItem(00)] public float Field_00 {get; set;}
         [FlatBufferItem(01)] public float Field_01 {get; set;}
-        [FlatBufferItem(02)] public string Field_02 {get; set;}
+        [FlatBufferItem(02)] public string ModelPart {get; set;}
         [FlatBufferItem(03)] public float Field_03 {get; set;}
         [FlatBufferItem(04)] public ulong Hash1 {get; set;}
         [FlatBufferItem(05)] public ulong Hash2 {get; set;}
-        [FlatBufferItem(06)] public float Field_06 {get; set;}
+        [FlatBufferItem(06)] public float HitboxRadius {get; set;}
         [FlatBufferItem(07)] public float Field_07 {get; set;}
         [FlatBufferItem(08)] public float Field_08 {get; set;} // unused default, assumed float
         [FlatBufferItem(09)] public float Field_09 {get; set;}
@@ -53,7 +53,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(28)] public float Field_28 {get; set;} // unused default, assumed float
         [FlatBufferItem(29)] public int Field_29 {get; set;}
         [FlatBufferItem(30)] public int Field_30 {get; set;} // unused default, assumed int
-        [FlatBufferItem(31)] public string Field_31 {get; set;}
+        [FlatBufferItem(31)] public string Behavior {get; set;}
         [FlatBufferItem(32)] public int Field_32 {get; set;}
         [FlatBufferItem(33)] public int Field_33 {get; set;} // unused default, assumed int
         [FlatBufferItem(34)] public int Field_34 {get; set;} // unused default, assumed int

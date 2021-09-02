@@ -651,11 +651,17 @@ namespace pkNX.WinForms.Controls
             var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
             var cache = new DataCache<SymbolBehave>(root.Table);
             var names = root.Table.Select((z, i) => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
-            using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor");
+            using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
                 return;
             obj[0] = FlatBufferConverter.SerializeFrom(root);
+
+            void Randomize()
+            {
+                foreach (var t in root.Table)
+                    t.Behavior = "WaterDash"; // good luck running!
+            }
         }
 
         public void EditMasterDump()
