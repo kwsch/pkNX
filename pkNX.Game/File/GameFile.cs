@@ -169,5 +169,8 @@
 
         /// <summary> Shop Inventory Lists </summary>
         Shops,
+
+        /// <summary> Rental Team Pokémon </summary>
+        Rentals,
     }
 }

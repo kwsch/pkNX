@@ -465,6 +465,23 @@ namespace pkNX.WinForms.Controls
             ROM.Data.MoveData.ClearAll(); // force reload if used again
         }
 
+        public void EditRental()
+        {
+            var obj = ROM[GameFile.Rentals];
+            var data = obj[0];
+            var rentals = FlatBufferConverter.DeserializeFrom<Rental8Archive>(data);
+            var cache = new DataCache<Rental8>(rentals.Table);
+            var names = rentals.Table.Select((z, i) => $"{i:000} {z.Hash1:X16}").ToArray();
+            using var form = new GenericEditor<Rental8>(cache, names, "Rental Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+            obj[0] = FlatBufferConverter.SerializeFrom(rentals);
+        }
+
         public void EditItems()
         {
             var obj = ROM[GameFile.ItemStats]; // mini
