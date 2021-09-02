@@ -17,7 +17,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class NestHoleDistributionEncounter8Archive : IFlatBufferArchive<NestHoleDistributionEncounter8Table>
     {
-        public NestHoleDistributionEncounter8Table[] Table { get; set; }
+        [FlatBufferItem(0)] public NestHoleDistributionEncounter8Table[] Table { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
