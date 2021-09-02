@@ -163,6 +163,7 @@
             // 
             // FLP_Controls
             // 
+            this.FLP_Controls.AutoScroll = true;
             this.FLP_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Controls.Location = new System.Drawing.Point(0, 24);
             this.FLP_Controls.Name = "FLP_Controls";

@@ -644,6 +644,20 @@ namespace pkNX.WinForms.Controls
                 arc[0] = FlatBufferConverter.SerializeFrom(objs);
         }
 
+        public void EditSymbolBehave()
+        {
+            var obj = ROM.GetFile(GameFile.SymbolBehave);
+            var data = obj[0];
+            var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
+            var cache = new DataCache<SymbolBehave>(root.Table);
+            var names = root.Table.Select((z, i) => $"{i:000} {z.Hash1:X16}").ToArray();
+            using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+            obj[0] = FlatBufferConverter.SerializeFrom(root);
+        }
+
         public void EditMasterDump()
         {
             using var md = new DumperSWSH((GameManagerSWSH)ROM);

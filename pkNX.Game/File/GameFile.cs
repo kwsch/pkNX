@@ -172,5 +172,8 @@
 
         /// <summary> Rental Team Pokémon </summary>
         Rentals,
+
+        /// <summary> Symbol Behavior Definition </summary>
+        SymbolBehave,
     }
 }

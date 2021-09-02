@@ -88,7 +88,7 @@ namespace pkNX.Structures
                 return string.Empty;
             if (obj is ulong u)
                 return u.ToString("X16");
-            if (obj is IEnumerable x)
+            if (obj is IEnumerable x and not string)
                 return string.Join("|", JoinEnumerator(x.GetEnumerator()).Select(GetFormattedString));
             return obj.ToString();
         }
