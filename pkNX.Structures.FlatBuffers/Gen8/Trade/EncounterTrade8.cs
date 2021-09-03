@@ -126,9 +126,9 @@ namespace pkNX.Structures.FlatBuffers
 
             var otgender = $", OTGender = {OTGender}";
             var gender = Gender == (int)FixedGender.Random ? string.Empty : $", Gender = {Gender - 1}";
-            var nature = Nature == (int)Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
-            var altform = Form == 0 ? string.Empty : $", Form = {Form}";
-            var shiny = ShinyLock == (int)Shiny.Never ? string.Empty : $", Shiny = Shiny.{ShinyLock}";
+            var nature = Nature == (int)Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{(Nature)Nature}";
+            var altform = Form == 0 ? string.Empty : $", Form = {Form:00}";
+            var shiny = ShinyLock == (int)Shiny.Never ? string.Empty : $", Shiny = {(Shiny)ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var tid = $"TID7 = {TrainerID}";
             var dyna = $", DynamaxLevel = {DynamaxLevel}";

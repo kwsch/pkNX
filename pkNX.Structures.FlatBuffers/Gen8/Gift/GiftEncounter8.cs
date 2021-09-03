@@ -116,9 +116,9 @@ namespace pkNX.Structures.FlatBuffers
             };
 
             var gender = (FixedGender)Gender == FixedGender.Random ? string.Empty : $", Gender = {Gender - 1}";
-            var nature = Nature == (int)Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
+            var nature = Nature == (int)Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{(Nature)Nature}";
             var altform = Form == 0 ? string.Empty : $", Form = {Form:00}";
-            var shiny = (Shiny)ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
+            var shiny = (Shiny)ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {(Shiny)ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
             var ball = Ball == Ball.Poke ? string.Empty : $", Ball = {(int)Ball}";

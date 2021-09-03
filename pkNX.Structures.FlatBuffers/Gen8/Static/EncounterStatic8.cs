@@ -132,10 +132,10 @@ namespace pkNX.Structures.FlatBuffers
             };
 
             var gender = Gender == (int)FixedGender.Random ? string.Empty : $", Gender = {Gender - 1}";
-            var nature = (Nature)Nature == Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{Nature}";
+            var nature = (Nature)Nature == Structures.Nature.Random25 ? string.Empty : $", Nature = Nature.{(Nature)Nature}";
             var altform = Form == 0 ? string.Empty : $", Form = {Form:00}";
             var moves = Move0 == 0 ? string.Empty : $", Moves = new[] {{{Move0:000},{Move1:000},{Move2:000},{Move3:000}}}";
-            var shiny = (Shiny)ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {ShinyLock}";
+            var shiny = (Shiny)ShinyLock == Shiny.Random ? string.Empty : $", Shiny = {(Shiny)ShinyLock}";
             var giga = !CanGigantamax ? string.Empty : ", CanGigantamax = true";
             var dyna = DynamaxLevel == 0 ? string.Empty : $", DynamaxLevel = {DynamaxLevel}";
 

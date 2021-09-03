@@ -167,7 +167,7 @@
             this.FLP_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Controls.Location = new System.Drawing.Point(0, 24);
             this.FLP_Controls.Name = "FLP_Controls";
-            this.FLP_Controls.Size = new System.Drawing.Size(413, 238);
+            this.FLP_Controls.Size = new System.Drawing.Size(413, 268);
             this.FLP_Controls.TabIndex = 13;
             // 
             // Main
@@ -175,7 +175,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 262);
+            this.ClientSize = new System.Drawing.Size(413, 292);
             this.Controls.Add(this.FLP_Controls);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.menuStrip1);
