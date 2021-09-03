@@ -13,6 +13,38 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class PlacementArea8Archive : IFlatBufferArchive<PlacementZone8>
+    {
+        [FlatBufferItem(00)] public PlacementZone8[] Table { get; set; }
+        [FlatBufferItem(01)] public ulong Hash { get; set; }
+
+        // More tables exist here
+        [FlatBufferItem(06)] public float Field_06 { get; set; }
+        [FlatBufferItem(07)] public float Field_07 { get; set; }
+
+        [FlatBufferItem(12)] public float Field_12 { get; set; }
+        [FlatBufferItem(13)] public float Field_13 { get; set; }
+        [FlatBufferItem(14)] public float Field_14 { get; set; }
+        [FlatBufferItem(15)] public float Field_15 { get; set; }
+        [FlatBufferItem(16)] public float Field_16 { get; set; }
+        [FlatBufferItem(17)] public float Field_17 { get; set; }
+
+        [FlatBufferItem(20)] public float Field_20 { get; set; }
+        [FlatBufferItem(21)] public float Field_21 { get; set; }
+        [FlatBufferItem(22)] public float Field_22 { get; set; }
+        [FlatBufferItem(23)] public float Field_23 { get; set; }
+
+        [FlatBufferItem(26)] public float Field_26 { get; set; }
+        [FlatBufferItem(27)] public byte Field_27 { get; set; }
+        [FlatBufferItem(28)] public byte Field_28 { get; set; }
+
+        [FlatBufferItem(30)] public byte Field_30 { get; set; }
+        [FlatBufferItem(31)] public float Field_31 { get; set; }
+        [FlatBufferItem(32)] public float Field_32 { get; set; }
+        [FlatBufferItem(33)] public byte Field_33 { get; set; }
+    }
+
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8
     {
         [FlatBufferItem(0)] public PlacementZoneMeta8 Meta { get; set; }
@@ -65,6 +97,11 @@ namespace pkNX.Structures.FlatBuffers
                 var ident = obj.Identifier;
                 yield return $"    {objects[ident.SpawnerID]}:";
                 yield return $"        Location: ({ident.LocationX}, {ident.LocationY}, {ident.LocationZ})";
+                if (obj.Spawns?.Length == 0)
+                {
+                    yield return "        No spawns."; // shouldn't hit here, if we have a holder we should have a spawn to hold.
+                    yield break;
+                }
 
                 var s = obj.Spawns;
                 if (Array.TrueForAll(s, z => z.SpawnID == s[0].SpawnID))
@@ -137,15 +174,21 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public ulong SpawnID { get; set; }
         [FlatBufferItem(1)] public string Description { get; set; }
-        [FlatBufferItem(2)] public ulong Field_02 { get; set; }
+        [FlatBufferItem(2)] public ulong Field_02 { get; set; } // default hash for all, likely empty string
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
         [FlatBufferItem(4)] public PlacementZoneStaticObjectUnknown8 Field_04 { get; set; }
 
         public IEnumerable<string> GetSummary(EncounterStatic8[] statics, IReadOnlyList<string> species)
         {
-            var enc = Array.Find(statics, z => z.EncounterID == SpawnID);
+            var index = Array.FindIndex(statics, z => z.EncounterID == SpawnID);
+            var enc = statics[index];
             yield return $"{species[enc.Species]}{(enc.Form == 0 ? string.Empty : "-" + enc.Form)} Lv. {enc.Level}";
+            yield return $"Index: {index}";
             yield return $"EncounterID: {SpawnID:X016}";
+            if (Field_02 != 0xCBF29CE484222645)
+                yield return $"Hash: {Field_02:X16}";
+            yield return $"Value: {Field_03}";
+            yield return $"Unknown: {Field_04}";
         }
     }
 
@@ -157,5 +200,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(2)] public uint Field_2 { get; set; }
         [FlatBufferItem(3)] public uint Field_3 { get; set; }
         [FlatBufferItem(4)] public float Field_4 { get; set; }
+
+        public override string ToString() => $"{Field_0} {Field_1} {Field_2} {Field_3} {Field_4}";
     }
 }

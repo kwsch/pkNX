@@ -8,13 +8,13 @@ using FlatSharp.Attributes;
 #nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
-namespace pkNX.Structures.FlatBuffers.Gen8.Other
+namespace pkNX.Structures.FlatBuffers
 {
     // script_id_record.bin
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class ScriptMeta
+    public class ScriptMeta : IFlatBufferArchive<ScriptMetaEntry>
     {
-        [FlatBufferItem(0)] public ScriptMetaEntry[] Commands { get; set; }
+        [FlatBufferItem(0)] public ScriptMetaEntry[] Table { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -22,6 +22,6 @@ namespace pkNX.Structures.FlatBuffers.Gen8.Other
     {
         [FlatBufferItem(0)] public ulong Hash { get; set; }
         [FlatBufferItem(1)] public string PathAMX { get; set; }
-        [FlatBufferItem(2)] public string Field2 { get; set; }
+        [FlatBufferItem(2)] public string PathText { get; set; }
     }
 }

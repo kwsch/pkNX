@@ -13,7 +13,7 @@ namespace pkNX.Structures
         /// <typeparam name="T">Object Type</typeparam>
         /// <param name="arr">Array of type T</param>
         /// <returns>2 dimensional sheet of cells</returns>
-        public static string GetTable<T>(IEnumerable<T> arr) where T : new() => string.Join(Environment.NewLine, GetTableRaw(arr));
+        public static string GetTable<T>(IEnumerable<T> arr) where T : class => string.Join(Environment.NewLine, GetTableRaw(arr));
 
         private const string sep = "\t";
         private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr) => Table(arr).Select(row => string.Join(sep, row));
