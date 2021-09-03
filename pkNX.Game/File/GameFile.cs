@@ -166,5 +166,14 @@
 
         /// <summary> Area Placement Archive </summary>
         Placement,
+
+        /// <summary> Shop Inventory Lists </summary>
+        Shops,
+
+        /// <summary> Rental Team Pokémon </summary>
+        Rentals,
+
+        /// <summary> Symbol Behavior Definition </summary>
+        SymbolBehave,
     }
 }

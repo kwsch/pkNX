@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms.Controls
 {
@@ -102,9 +103,13 @@ namespace pkNX.WinForms.Controls
             using var form = new GenericEditor<Move7>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
             form.ShowDialog();
             if (!form.Modified)
+            {
                 cache.CancelEdits();
-            else
-                cache.Save();
+                return;
+            }
+
+            cache.Save();
+            ROM.Data.MoveData.ClearAll(); // force reload if used again
         }
 
         public void EditGift()
@@ -312,6 +317,68 @@ namespace pkNX.WinForms.Controls
             chart.Data.CopyTo(nso.DecompressedRO, ofs);
             data = nso.Write();
             FileMitm.WriteAllBytes(path, data);
+        }
+
+        public void EditShop1() => EditShop(false);
+
+        public void EditShop2() => EditShop(true);
+
+        private void EditShop(bool shop2)
+        {
+            var arc = ROM.GetFile(GameFile.Shops);
+            var data = arc[0];
+            int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+            var shop = FlatBufferConverter.DeserializeFrom<ShopInventory>(data);
+            if (!shop2)
+            {
+                var table = shop.Shop1;
+                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var cache = new DirectCache<Shop1>(table);
+                using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
+                form.ShowDialog();
+                if (!form.Modified)
+                {
+                    arc.CancelEdits();
+                    return;
+                }
+
+                void Randomize()
+                {
+                    foreach (var shopDefinition in table)
+                    {
+                        var items = shopDefinition.Inventory.Items;
+                        for (int i = 0; i < items.Length; i++)
+                            items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    }
+                }
+            }
+            else
+            {
+                var table = shop.Shop2;
+                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var cache = new DirectCache<Shop2>(table);
+                using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
+                form.ShowDialog();
+                if (!form.Modified)
+                {
+                    arc.CancelEdits();
+                    return;
+                }
+
+                void Randomize()
+                {
+                    foreach (var shopDefinition in table)
+                    {
+                        foreach (var inv in shopDefinition.Inventories)
+                        {
+                            var items = inv.Items;
+                            for (int i = 0; i < items.Length; i++)
+                                items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                        }
+                    }
+                }
+            }
+            arc[0] = FlatBufferConverter.SerializeFrom(shop);
         }
     }
 }

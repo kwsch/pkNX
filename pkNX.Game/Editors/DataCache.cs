@@ -45,6 +45,13 @@ namespace pkNX.Game
             return Cache;
         }
 
+        public void ClearAll()
+        {
+            Cached = false;
+            for (int i = 0; i < Cache.Length; i++)
+                Cache[i] = null;
+        }
+
         /// <summary>
         /// Pushes changes back to the <see cref="IFileContainer"/>.
         /// </summary>

@@ -14,7 +14,7 @@ namespace pkNX.Randomization
         private readonly GameInfo Game;
         private readonly PersonalTable Personal;
         private MoveRandomizer moverand;
-        public IReadOnlyList<Move> Moves { private get; set; } = Array.Empty<Move>();
+        public IReadOnlyList<IMove> Moves { private get; set; } = Array.Empty<IMove>();
 
         public LearnSettings Settings { get; private set; } = new();
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
@@ -62,7 +62,7 @@ namespace pkNX.Randomization
             }
         }
 
-        public void Initialize(Move[] moves, LearnSettings settings, MovesetRandSettings moverandset, int[]? bannedMoves = null)
+        public void Initialize(IMove[] moves, LearnSettings settings, MovesetRandSettings moverandset, int[]? bannedMoves = null)
         {
             Moves = moves;
             Settings = settings;
@@ -148,7 +148,7 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        public int[] GetHighPoweredMoves(IReadOnlyList<Move> movedata, int species, int form, int count = 4)
+        public int[] GetHighPoweredMoves(IReadOnlyList<IMove> movedata, int species, int form, int count = 4)
         {
             int index = Personal.GetFormeIndex(species, form);
             var learn = Learnsets[index];

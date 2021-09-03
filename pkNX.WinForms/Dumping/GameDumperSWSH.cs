@@ -5,6 +5,8 @@ using System.Linq;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
+
 // ReSharper disable StringLiteralTypo
 
 namespace pkNX.WinForms
@@ -214,7 +216,7 @@ namespace pkNX.WinForms
             var pokes = FlatBufferConverter.DeserializeFrom<BattleTowerPoke8Archive>(pk_table_path);
             var trainers = FlatBufferConverter.DeserializeFrom<BattleTowerTrainer8Archive>(tr_table_path);
 
-            var pk = TableUtil.GetTable(pokes.Entries);
+            var pk = TableUtil.GetTable(pokes.Table);
             var tr = TableUtil.GetTable(trainers.Entries);
 
             File.WriteAllText(GetPath("towerPoke.txt"), pk);
@@ -383,7 +385,7 @@ namespace pkNX.WinForms
             string[][] nestHex = new string[2][];
             foreach (var game in new[] { 1, 2 })
             {
-                var tables = nest_encounts.Tables.Where(z => z.GameVersion == game).ToList();
+                var tables = nest_encounts.Table.Where(z => z.GameVersion == game).ToList();
                 var entries = tables.Select((_, x) => $"private const int Nest{x:000} = {x + 100_000};");
                 var encounters = tables.SelectMany((z, x) => z.GetSummary(speciesNames, x)).ToArray();
 
@@ -404,10 +406,10 @@ namespace pkNX.WinForms
             File.WriteAllLines(GetPath("nestSword.txt"), sword);
             File.WriteAllLines(GetPath("nestShield.txt"), shield);
 
-            var nest_pretty_sw = nest_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, x));
-            var nest_pretty_sh = nest_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, x));
+            var nest_pretty_sw = nest_encounts.Table.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, x));
+            var nest_pretty_sh = nest_encounts.Table.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, x));
             File.WriteAllLines(GetPath("nestPrettySword.txt"), nest_pretty_sw);
             File.WriteAllLines(GetPath("nestPrettyShield.txt"), nest_pretty_sh);
         }
@@ -500,12 +502,12 @@ namespace pkNX.WinForms
         {
             var file = ROM.GetFile(GameFile.DynamaxDens)[0];
             var encounters = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(file);
-            var lines = TableUtil.GetTable(encounters.PokemonTables);
+            var lines = TableUtil.GetTable(encounters.Table);
             var table = GetPath("MaxDens.txt");
             File.WriteAllText(table, lines);
 
             var names = ROM.GetStrings(TextName.SpeciesNames);
-            var pkhex = encounters.PokemonTables.Select(z => z.GetSummary(names));
+            var pkhex = encounters.Table.Select(z => z.GetSummary(names));
             File.WriteAllText(GetPath("MaxDens_hex.txt"), string.Join(Environment.NewLine, pkhex));
         }
 
@@ -557,16 +559,16 @@ namespace pkNX.WinForms
 
                 var data = GetDistributionContents(p, out int index);
                 var encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(data);
-                var pretty_sw = encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-                var pretty_sh = encounts.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+                var pretty_sw = encounts.Table.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, dist_drops.Table, dist_bonus.Table, x));
+                var pretty_sh = encounts.Table.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                    z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, dist_drops.Table, dist_bonus.Table, x));
 
                 File.WriteAllLines(GetPath($"nestDist{dest}PrettySword.txt"), pretty_sw);
                 File.WriteAllLines(GetPath($"nestDist{dest}PrettyShield.txt"), pretty_sh);
 
-                var dist_sw = TableUtil.GetTable(encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-                var dist_sh = TableUtil.GetTable(encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+                var dist_sw = TableUtil.GetTable(encounts.Table.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+                var dist_sh = TableUtil.GetTable(encounts.Table.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
 
                 File.WriteAllText(GetPath($"nestDist{dest}_sw.txt"), dist_sw);
                 File.WriteAllText(GetPath($"nestDist{dest}_sh.txt"), dist_sh);
@@ -574,7 +576,7 @@ namespace pkNX.WinForms
                 string[][] nestHex = new string[2][];
                 foreach (var game in new[] { 1, 2 })
                 {
-                    var tables = encounts.Tables.Where(z => z.GameVersion == game).ToList();
+                    var tables = encounts.Table.Where(z => z.GameVersion == game).ToList();
                     var encounters = tables.SelectMany(z => z.GetSummary(speciesNames, index)).ToArray();
 
                     var path1 = GetPath($"nestDistHex{game}.txt");
@@ -595,15 +597,15 @@ namespace pkNX.WinForms
                 File.WriteAllLines(GetPath($"hex_nestDist{dest}Shield.txt"), shield);
             }
 
-            var dai_pretty_sw = dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
-            var dai_pretty_sh = dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
-                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Tables, nest_bonus.Tables, dist_drops.Tables, dist_bonus.Tables, x));
+            var dai_pretty_sw = dai_encounts.Table.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, dist_drops.Table, dist_bonus.Table, x));
+            var dai_pretty_sh = dai_encounts.Table.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
+                z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, dist_drops.Table, dist_bonus.Table, x));
             File.WriteAllLines(GetPath("nestCrystalPrettySword.txt"), dai_pretty_sw);
             File.WriteAllLines(GetPath("nestCrystalPrettyShield.txt"), dai_pretty_sh);
 
-            var dai_sw = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
-            var dai_sh = TableUtil.GetTable(dai_encounts.Tables.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
+            var dai_sw = TableUtil.GetTable(dai_encounts.Table.Where(z => z.GameVersion == 1).SelectMany(z => z.Entries));
+            var dai_sh = TableUtil.GetTable(dai_encounts.Table.Where(z => z.GameVersion == 2).SelectMany(z => z.Entries));
             File.WriteAllText(GetPath("nestCrystal_sw.txt"), dai_sw);
             File.WriteAllText(GetPath("nestCrystal_sh.txt"), dai_sh);
 
@@ -615,7 +617,7 @@ namespace pkNX.WinForms
             string[][] nestHex = new string[2][];
             foreach (var game in new[] { 1, 2 })
             {
-                var tables = dai_encounts.Tables.Where(z => z.GameVersion == game).ToList();
+                var tables = dai_encounts.Table.Where(z => z.GameVersion == game).ToList();
                 var encounters = tables.SelectMany(z => z.GetSummary(speciesNames, itemNames)).ToArray();
 
                 var path1 = GetPath($"nestCrystalHex{game}.txt");

@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms.Controls
 {
@@ -197,7 +198,9 @@ namespace pkNX.WinForms.Controls
                 PopWildEdit(dr == DialogResult.Yes ? "k" : "t");
             }
             else
+            {
                 PopWildEdit(ROM.Game == GameVersion.SW ? "k" : "t");
+            }
         }
 
         private void PopWildEdit(string file)
@@ -234,7 +237,7 @@ namespace pkNX.WinForms.Controls
             const string nest = "nest_hole_encount.bin";
             var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNest8Archive>(data_table.GetDataFileName(nest));
 
-            var arr = nest_encounts.Tables;
+            var arr = nest_encounts.Table;
             var cache = new DataCache<EncounterNest8Table>(arr);
             var games = new[] {"Sword", "Shield"};
             var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
@@ -255,7 +258,7 @@ namespace pkNX.WinForms.Controls
                     foreach (var p in t.Entries)
                     {
                         p.Species = srand.GetRandomSpecies(p.Species);
-                        p.AltForm = frand.GetRandomForme(p.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        p.Form = frand.GetRandomForme(p.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                         p.Ability = 4; // "A4" -- 1, 2, or H
                         p.Gender = 0; // random
                         p.IsGigantamax = false; // don't allow gmax flag on non-gmax species
@@ -280,7 +283,7 @@ namespace pkNX.WinForms.Controls
             byte[] originalData = data_table.GetDataFileName(nest);
             var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(originalData);
 
-            var arr = nest_drops.Tables;
+            var arr = nest_drops.Table;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
 
@@ -310,7 +313,7 @@ namespace pkNX.WinForms.Controls
             const string nest = "nest_hole_bonus_rewards.bin";
             var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName(nest));
 
-            var arr = nest_bonus.Tables;
+            var arr = nest_bonus.Table;
             var cache = new DataCache<NestHoleReward8Table>(arr);
             var names = arr.Select(z => $"{z.TableID}").ToArray();
 
@@ -357,17 +360,17 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
-                    if (t.Species >= Species.Zacian && t.Species <= Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                    if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (int)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
                     t.Moves = new[] { 0, 0, 0, 0 };
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -378,6 +381,121 @@ namespace pkNX.WinForms.Controls
                 arc.CancelEdits();
             else
                 arc[0] = FlatBufferConverter.SerializeFrom(objs);
+        }
+
+        public void EditShop1() => EditShop(false);
+
+        public void EditShop2() => EditShop(true);
+
+        private void EditShop(bool shop2)
+        {
+            var arc = ROM.GetFile(GameFile.Shops);
+            var data = arc[0];
+            int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+            var shop = FlatBufferConverter.DeserializeFrom<ShopInventory>(data);
+            if (!shop2)
+            {
+                var table = shop.Shop1;
+                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var cache = new DirectCache<Shop1>(table);
+                using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
+                form.ShowDialog();
+                if (!form.Modified)
+                {
+                    arc.CancelEdits();
+                    return;
+                }
+
+                void Randomize()
+                {
+                    foreach (var shopDefinition in table)
+                    {
+                        var items = shopDefinition.Inventory.Items;
+                        for (int i = 0; i < items.Length; i++)
+                            items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                    }
+                }
+            }
+            else
+            {
+                var table = shop.Shop2;
+                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var cache = new DirectCache<Shop2>(table);
+                using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
+                form.ShowDialog();
+                if (!form.Modified)
+                {
+                    arc.CancelEdits();
+                    return;
+                }
+
+                void Randomize()
+                {
+                    foreach (var shopDefinition in table)
+                    {
+                        foreach (var inv in shopDefinition.Inventories)
+                        {
+                            var items = inv.Items;
+                            for (int i = 0; i < items.Length; i++)
+                                items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                        }
+                    }
+                }
+            }
+            arc[0] = FlatBufferConverter.SerializeFrom(shop);
+        }
+
+        public void EditMoves()
+        {
+            var obj = ROM[GameFile.MoveStats]; // mini
+            var cache = new DataCache<Waza8>(obj)
+            {
+                Create = FlatBufferConverter.DeserializeFrom<Waza8>,
+                Write = FlatBufferConverter.SerializeFrom,
+            };
+            using var form = new GenericEditor<Waza8>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+
+            cache.Save();
+            ROM.Data.MoveData.ClearAll(); // force reload if used again
+        }
+
+        public void EditRental()
+        {
+            var obj = ROM[GameFile.Rentals];
+            var data = obj[0];
+            var rentals = FlatBufferConverter.DeserializeFrom<Rental8Archive>(data);
+            var cache = new DataCache<Rental8>(rentals.Table);
+            var names = rentals.Table.Select((z, i) => $"{i:000} {z.Hash1:X16}").ToArray();
+            using var form = new GenericEditor<Rental8>(cache, names, "Rental Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+            obj[0] = FlatBufferConverter.SerializeFrom(rentals);
+        }
+
+        public void EditItems()
+        {
+            var obj = ROM[GameFile.ItemStats]; // mini
+            var data = obj[0];
+            var items = Item8.GetArray(data);
+            var cache = new DataCache<Item8>(items);
+            using var form = new GenericEditor<Item8>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
+            form.ShowDialog();
+            if (!form.Modified)
+            {
+                cache.CancelEdits();
+                return;
+            }
+            obj[0] = Item8.SetArray(items, data);
         }
 
         public void EditGift()
@@ -405,24 +523,24 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in gifts)
                 {
                     // swap gmax gifts and kubfu for other gmax capable species
-                    if (t.CanGigantamax || t.Species == Species.Kubfu)
+                    if (t.CanGigantamax || t.Species == (int)Species.Kubfu)
                     {
-                        t.Species = (Species)Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                        t.AltForm = t.Species == Species.Pikachu || t.Species == Species.Meowth ? 0 : frand.GetRandomForme((int)t.Species, false, false, false, false, ROM.Data.PersonalData.Table); // Pikachu & Meowth altforms can't gmax
+                        t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
+                        t.Form = (byte)(t.Species == (int)Species.Pikachu || t.Species == (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, ROM.Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
                     }
                     else
                     {
-                        t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                        t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        t.Species = srand.GetRandomSpecies(t.Species);
+                        t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterGift8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (byte)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
             }
@@ -460,22 +578,22 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in trades)
                 {
                     // what you receive
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
-                    t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.AbilityNumber = (byte)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
-                    t.Nature = Nature.Random25;
-                    t.Gender = FixedGender.Random;
-                    t.ShinyLock = Shiny.Random;
+                    t.Nature = (int)Nature.Random25;
+                    t.Gender = (int)FixedGender.Random;
+                    t.ShinyLock = (int)Shiny.Random;
                     t.Relearn1 = 0;
-                    if (t.IV_Hp != -4 && t.IVs.Any(z => z != 31))
+                    if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
 
                     // what you trade
-                    t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.RequiredSpecies);
-                    t.RequiredForm = frand.GetRandomForme((int)t.RequiredSpecies, false, false, true, true, ROM.Data.PersonalData.Table);
-                    t.RequiredNature = Nature.Random25; // any
+                    t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
+                    t.RequiredForm = (byte)frand.GetRandomForme(t.RequiredSpecies, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.RequiredNature = (int)Nature.Random25; // any
                 }
             }
 
@@ -493,7 +611,7 @@ namespace pkNX.WinForms.Controls
             var data = arc[0];
             var objs = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(data);
 
-            var table = objs.PokemonTables;
+            var table = objs.Table;
             var names = Enumerable.Range(0, table.Length).Select(z => $"{z:000}").ToArray();
             var cache = new DirectCache<EncounterUnderground8>(table);
 
@@ -511,8 +629,8 @@ namespace pkNX.WinForms.Controls
                 foreach (var t in table)
                 {
                     // what you receive
-                    t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.AltForm = (byte)frand.GetRandomForme((int)t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Species = srand.GetRandomSpecies(t.Species);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
                     t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
                 }
@@ -524,6 +642,30 @@ namespace pkNX.WinForms.Controls
                 arc.CancelEdits();
             else
                 arc[0] = FlatBufferConverter.SerializeFrom(objs);
+        }
+
+        public void EditSymbolBehave()
+        {
+            bool altRand = Control.ModifierKeys == Keys.Alt;
+            var obj = ROM.GetFile(GameFile.SymbolBehave);
+            var data = obj[0];
+            var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
+            var cache = new DataCache<SymbolBehave>(root.Table);
+            var names = root.Table.Select(z => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
+            using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor", Randomize);
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+            obj[0] = FlatBufferConverter.SerializeFrom(root);
+
+            void Randomize()
+            {
+                var mode = altRand
+                    ? "WaterDash" // Sharpedo dash homing -- good luck running!
+                    : "Anawohoru"; // Diglett - Disappear when approached, pop out elsewhere
+                foreach (var t in root.Table)
+                    t.Behavior = mode;
+            }
         }
 
         public void EditMasterDump()

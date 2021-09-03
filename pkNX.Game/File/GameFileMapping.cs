@@ -343,6 +343,7 @@ namespace pkNX.Game
 
             new(GameFile.WildData1, ContainerType.SingleFile, "bin", "field", "param", "encount", "encount_data_p.bin"),
             new(GameFile.WildData2, ContainerType.SingleFile, "bin", "field", "param", "encount", "encount_data_e.bin"),
+            new(GameFile.Shops, ContainerType.SingleFile, "bin", "app", "shop", "shop_data.bin"),
 
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
@@ -403,6 +404,9 @@ namespace pkNX.Game
             new(GameFile.DynamaxDens, ContainerType.SingleFile, "bin", "appli", "chika", "data_table", "underground_exploration_poke.bin"),
 
             new(GameFile.Placement, ContainerType.SingleFile, "bin", "archive", "field", "resident", "placement.gfpak"),
+            new(GameFile.Shops, ContainerType.SingleFile, "bin", "appli", "shop", "bin", "shop_data.bin"),
+            new(GameFile.Rentals, ContainerType.SingleFile, "bin", "script_event_data", "rental.bin"),
+            new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "field", "param", "symbol_encount_mons_param", "symbol_encount_mons_param.bin")
 
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using pkNX.Sprites;
-using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms
 {
@@ -125,13 +125,14 @@ namespace pkNX.WinForms
         {
             int sp = Array.IndexOf(species, dgv.Rows[row].Cells[1].Value ?? species[0]);
             string formstr = (dgv.Rows[row].Cells[2].Value ?? 0).ToString();
-            int.TryParse(formstr, out var form);
+            short.TryParse(formstr, out var form);
             string probstr = (dgv.Rows[row].Cells[3].Value ?? 0).ToString();
             int.TryParse(probstr, out var prob);
 
             if (sp == 0)
             {
-                s.Species = s.Form = s.Probability = 0;
+                s.Species = s.Probability = 0;
+                s.Form = 0;
                 return;
             }
 

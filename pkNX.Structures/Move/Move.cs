@@ -1,10 +1,10 @@
 namespace pkNX.Structures
 {
-    public abstract class Move
+    public abstract class Move3DS : IMove
     {
         protected readonly byte[] Data;
         protected abstract int SIZE { get; }
-        protected Move(byte[] data = null) => Data = data ?? new byte[SIZE];
+        protected Move3DS(byte[] data = null) => Data = data ?? new byte[SIZE];
 
         public byte[] Write() => Data;
 
@@ -37,5 +37,40 @@ namespace pkNX.Structures
         public abstract int Stat1Percent { get; set; }
         public abstract int Stat2Percent { get; set; }
         public abstract int Stat3Percent { get; set; }
+    }
+
+    public interface IMove
+    {
+        byte[] Write();
+
+        public int Type { get; set; }
+        public int Quality { get; set; }
+        public int Category { get; set; }
+        public int Power { get; set; }
+        public int Accuracy { get; set; }
+        public int PP { get; set; }
+        public int Priority { get; set; }
+        public int HitMin { get; set; }
+        public int HitMax { get; set; }
+        public int Inflict { get; set; }
+        public int InflictPercent { get; set; }
+        public MoveInflictDuration InflictCount { get; set; }
+        public int TurnMin { get; set; }
+        public int TurnMax { get; set; }
+        public int CritStage { get; set; }
+        public int Flinch { get; set; }
+        public int EffectSequence { get; set; }
+        public int Recoil { get; set; }
+        public Heal Healing { get; set; }
+        public MoveTarget Target { get; set; }
+        public int Stat1 { get; set; }
+        public int Stat2 { get; set; }
+        public int Stat3 { get; set; }
+        public int Stat1Stage { get; set; }
+        public int Stat2Stage { get; set; }
+        public int Stat3Stage { get; set; }
+        public int Stat1Percent { get; set; }
+        public int Stat2Percent { get; set; }
+        public int Stat3Percent { get; set; }
     }
 }
