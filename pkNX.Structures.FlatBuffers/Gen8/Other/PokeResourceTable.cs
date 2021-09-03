@@ -12,36 +12,36 @@ namespace pkNX.Structures.FlatBuffers
 {
     // poke_resource_table.gfbpmcatalog
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PokeResourceTable : IFlatBufferArchive<Inner>
+    public class PokeResourceTable : IFlatBufferArchive<PokeModelConfig>
     {
-        [FlatBufferItem(00)] public DualInt Dual { get; set; }
-        [FlatBufferItem(01)] public Inner[] Table { get; set; }
+        [FlatBufferItem(00)] public PokeResourceMeta Meta { get; set; }
+        [FlatBufferItem(01)] public PokeModelConfig[] Table { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class Inner
-    {
-        [FlatBufferItem(00)] public EightBytes Field_00 { get; set; }
-        [FlatBufferItem(01)] public string Model { get; set; }
-        [FlatBufferItem(02)] public string Config { get; set; }
-        [FlatBufferItem(03)] public string ArcPack { get; set; }
-        [FlatBufferItem(04)] public AnimationConfigStringTuple[] Animations { get; set; }
-    }
-
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class DualInt
+    public class PokeResourceMeta
     {
         [FlatBufferItem(00)] public int Field0 { get; set; } = 4;
         [FlatBufferItem(01)] public int Field1 { get; set; } = 2;
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class EightBytes
+    public class PokeModelConfig
     {
-        [FlatBufferItem(00)] public ushort Field_00 { get; set; }
-        [FlatBufferItem(01)] public ushort Field_01 { get; set; }
-        [FlatBufferItem(02)] public byte Field_02 { get; set; }
-        [FlatBufferItem(03)] public byte Field_03 { get; set; }
+        [FlatBufferItem(00)] public PokeModelMeta Meta { get; set; }
+        [FlatBufferItem(01)] public string ModelPath { get; set; }
+        [FlatBufferItem(02)] public string ConfigPath { get; set; }
+        [FlatBufferItem(03)] public string ArchivePath { get; set; }
+        [FlatBufferItem(04)] public AnimationConfigStringTuple[] Animations { get; set; }
+    }
+
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class PokeModelMeta
+    {
+        [FlatBufferItem(00)] public ushort Species { get; set; }
+        [FlatBufferItem(01)] public ushort Form { get; set; }
+        [FlatBufferItem(02)] public byte Gender { get; set; }
+        [FlatBufferItem(03)] public byte Shiny { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
