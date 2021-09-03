@@ -45,6 +45,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(26)] public int Ability { get; set; }
         [FlatBufferItem(27)] public int SpecialMove { get; set; }
 
+        public Species SpeciesID => (Species)Species;
+
         public static readonly int[] BallToItem =
         {
             000, // None

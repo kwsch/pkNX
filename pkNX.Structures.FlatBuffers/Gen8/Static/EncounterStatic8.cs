@@ -48,6 +48,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(30)] public int Move2 { get; set; }
         [FlatBufferItem(31)] public int Move3 { get; set; }
 
+        public Species SpeciesID => (Species)Species;
+
         public int[] IVs
         {
             get => new int[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };

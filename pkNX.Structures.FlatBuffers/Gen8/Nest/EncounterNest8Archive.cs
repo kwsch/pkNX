@@ -169,6 +169,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(09)] public byte Gender { get; set; }
         [FlatBufferItem(10)] public byte FlawlessIVs { get; set; }
 
+        public Species SpeciesID => (Species)Species;
+
         public FixedAbility AbilityPermitted
         {
             get => (FixedAbility) Ability;

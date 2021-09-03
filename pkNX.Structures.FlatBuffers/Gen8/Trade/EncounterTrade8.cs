@@ -52,6 +52,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(33)] public ushort Relearn3 { get; set; }
         [FlatBufferItem(34)] public ushort Relearn4 { get; set; }
 
+        public Species SpeciesID => (Species)Species;
+
         public static readonly int[] BallToItem =
         {
             000, // None
