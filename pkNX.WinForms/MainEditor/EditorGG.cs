@@ -332,7 +332,7 @@ namespace pkNX.WinForms.Controls
             if (!shop2)
             {
                 var table = shop.Shop1;
-                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var names = table.Select((z, i) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop1>(table);
                 using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
                 form.ShowDialog();
@@ -355,7 +355,7 @@ namespace pkNX.WinForms.Controls
             else
             {
                 var table = shop.Shop2;
-                var names = table.Select((z, i) => $"{i:000} {z.Hash:X16}").ToArray();
+                var names = table.Select((z, i) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop2>(table);
                 using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
                 form.ShowDialog();
