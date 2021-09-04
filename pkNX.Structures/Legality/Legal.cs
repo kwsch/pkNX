@@ -33,8 +33,11 @@ namespace pkNX.Structures
             if (GameVersion.SM.Contains(game) || GameVersion.USUM.Contains(game))
                 return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
 
+            if (GameVersion.GG.Contains(game))
+                return HeldItems_GG.Select(i => (int)i).Where(i => i != 0).ToArray();
+
             if (GameVersion.SWSH.Contains(game))
-                return HeldItems_SWSH.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
+                return HeldItems_SWSH.Select(i => (int)i).Where(i => i != 0).ToArray();
 
             return new int[1];
         }

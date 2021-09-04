@@ -344,8 +344,9 @@ namespace pkNX.WinForms.Controls
 
                 void Randomize()
                 {
-                    foreach (var shopDefinition in table)
+                    for (int s = 1; s < table.Length; s++) // skip first table with TMs (unobtainable otherwise)
                     {
+                        var shopDefinition = table[s];
                         var items = shopDefinition.Inventory.Items;
                         for (int i = 0; i < items.Length; i++)
                             items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];

@@ -9,7 +9,6 @@ namespace pkNX.Structures
         internal const int MaxItemID_7b = 1057; // Magmar Candy
         internal const int MaxGameID_7b = (int)GameVersion.GE;
         internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
-        internal static readonly ushort[] HeldItems_GG = new ushort[1];
         public const int AwakeningMax = 200;
 
         #region Met Locations
@@ -181,6 +180,8 @@ namespace pkNX.Structures
             895, // Leaf Letter (E)
             896, // Small Bouquet
         };
+
+        internal static readonly ushort[] HeldItems_GG = Pouch_Candy_GG.Concat(Pouch_Medicine_GG).Concat(Pouch_PowerUp_GG).Concat(Pouch_Catching_GG).Concat(Pouch_Battle_GG).Concat(Pouch_Regular_GG).ToArray();
 
         #endregion
 

@@ -178,7 +178,7 @@ namespace pkNX.Structures
             1105, 1106, 1107, 1108,
         };
 
-        internal static readonly ushort[] HeldItems_SWSH = new ushort[1].Concat(Pouch_Items_SWSH).Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
+        internal static readonly ushort[] HeldItems_SWSH = Pouch_Items_SWSH.Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
 
         public static readonly int[] TypeTutor8 =
         {

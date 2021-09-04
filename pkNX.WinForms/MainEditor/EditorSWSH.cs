@@ -412,7 +412,11 @@ namespace pkNX.WinForms.Controls
                     {
                         var items = shopDefinition.Inventory.Items;
                         for (int i = 0; i < items.Length; i++)
+                        {
+                            if (Legal.Pouch_TMHM_SM.Contains((ushort)items[i]) || items[i] == 1230) // skip TMs
+                                continue;
                             items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
+                        }
                     }
                 }
             }

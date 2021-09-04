@@ -229,7 +229,7 @@ namespace pkNX.Randomization
 
         private void UpdatePKMFromSettings(TrainerPoke pk)
         {
-            if (Settings.AllowRandomHeldItems)
+            if (Settings.AllowRandomHeldItems && pk is not TrainerPoke7b)
                 pk.HeldItem = PossibleHeldItems[Util.Random.Next(PossibleHeldItems.Length)];
             if (Settings.BoostLevel)
                 BoostLevel(pk, Settings.LevelBoostRatio);
