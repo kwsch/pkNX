@@ -96,14 +96,10 @@ namespace pkNX.Game
 
                 case FILECOUNT_GG:
                 {
-                    if (exefs == null)
-                    {
-                        bool eevee = Directory.Exists(Path.Combine(romfs, "bin", "movies", "EEVEE_GO"));
-                        if (eevee)
-                            return GameVersion.GE;
-                        return GameVersion.GP;
-                    }
-                    return GetTitleID() == "010003F003A34000" ? GameVersion.GP : GameVersion.GE;
+                    bool eevee = Directory.Exists(Path.Combine(romfs, "bin", "movies", "EEVEE_GO"));
+                    if (eevee)
+                        return GameVersion.GE;
+                    return GameVersion.GP;
                 }
 
                 case FILECOUNT_SWSH:
