@@ -181,7 +181,7 @@ namespace pkNX.Structures
             896, // Small Bouquet
         };
 
-        internal static readonly ushort[] HeldItems_GG = Pouch_Candy_GG.Concat(Pouch_Medicine_GG).Concat(Pouch_PowerUp_GG).Concat(Pouch_Catching_GG).Concat(Pouch_Battle_GG).Concat(Pouch_Regular_GG).ToArray();
+        internal static readonly ushort[] HeldItems_GG = Pouch_Candy_GG.Concat(Pouch_Medicine_GG).Concat(Pouch_PowerUp_GG).Concat(Pouch_Catching_GG).Concat(Pouch_Battle_GG).Concat(Pouch_Regular_GG_Item).ToArray();
 
         #endregion
 
