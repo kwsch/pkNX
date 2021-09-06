@@ -492,13 +492,28 @@ namespace pkNX.WinForms.Controls
             var data = obj[0];
             var items = Item8.GetArray(data);
             var cache = new DataCache<Item8>(items);
-            using var form = new GenericEditor<Item8>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
+            using var form = new GenericEditor<Item8>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
             {
                 cache.CancelEdits();
                 return;
             }
+
+            void Randomize()
+            {
+                var tradeEvos = new[] { 221, 226, 227, 233, 235, 252, 321, 322, 323, 324, 325, 573, 646, 647 };
+                foreach (var item in items)
+                {
+                    if (item.ItemSprite == -1 || !tradeEvos.Contains(item.ItemID))
+                        continue;
+
+                    item.Boost0 = 8; // evo stone
+                    item.EffectField = 6; // use effect
+                    item.CanUseOnPokemon = true;
+                }
+            }
+
             obj[0] = Item8.SetArray(items, data);
         }
 

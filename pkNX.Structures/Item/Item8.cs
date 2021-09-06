@@ -14,10 +14,34 @@ namespace pkNX.Structures
             Data = data;
         }
 
+        public int Price
+        {
+            get => BitConverter.ToInt16(Data, 0x00);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00);
+        }
+
+        public int PriceWatts
+        {
+            get => BitConverter.ToInt16(Data, 0x04);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04);
+        }
+
+        public int PriceAlternate // BP, Dynite Ore
+        {
+            get => BitConverter.ToInt16(Data, 0x08);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
+        }
+
         public PouchID Pouch
         {
             get => (PouchID)(Data[0x11] & 0xF);
             set => Data[0x11] = (byte)((Data[0x11] & 0xF0) | ((byte)value & 0xF));
+        }
+
+        public byte EffectField
+        {
+            get => Data[0x13];
+            set => Data[0x13] = value;
         }
 
         public int ItemSprite
@@ -32,10 +56,40 @@ namespace pkNX.Structures
             set => Data[0x1C] = (byte)value;
         }
 
+        public bool CanUseOnPokemon
+        {
+            get => Data[0x15] == 1;
+            set => Data[0x15] = (byte)(value ? 1 : 0);
+        }
+
         public byte GroupIndex
         {
             get => Data[0x1D];
             set => Data[0x1D] = value;
+        }
+
+        public byte Boost0
+        {
+            get => Data[0x1F];
+            set => Data[0x1F] = value;
+        }
+
+        public byte Boost1
+        {
+            get => Data[0x20];
+            set => Data[0x20] = value;
+        }
+
+        public byte Boost2
+        {
+            get => Data[0x21];
+            set => Data[0x21] = value;
+        }
+
+        public byte Boost3
+        {
+            get => Data[0x22];
+            set => Data[0x22] = value;
         }
 
         public static Item8[] GetArray(byte[] bin)
@@ -94,6 +148,7 @@ namespace pkNX.Structures
             _2 = 2, // unused?
             Berries = 3,
             TM = 4,
+            Gems = 5, // only for Normal Gem, rest are unused items
         }
     }
 }
