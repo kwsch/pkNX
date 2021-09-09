@@ -25,6 +25,14 @@ namespace pkNX.WinForms
             return result;
         }
 
+        private string GetPath(string parent, string path)
+        {
+            Directory.CreateDirectory(DumpFolder);
+            var result = Path.Combine(DumpFolder, parent, path);
+            Directory.CreateDirectory(Directory.GetParent(result).FullName); // double check :(
+            return result;
+        }
+
         public void DumpDummiedMoves()
         {
             // get dummied moves
@@ -355,16 +363,22 @@ namespace pkNX.WinForms
             var placement_all = new List<string>();
             foreach (var area in area_names)
             {
-                if (placement.GetIndexFileName($"{area.Value}.bin") >= 0)
-                {
-                    placement_all.Add("==================================");
-                    placement_all.Add(area.Value);
-                    placement_all.Add("==================================");
-                    placement_all.Add(string.Empty);
-                    var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName($"{area.Value}.bin"));
-                    placement_all.AddRange(data.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
-                    placement_all.Add(string.Empty);
-                }
+                var areaName = area.Value;
+                var fileName = $"{areaName}.bin";
+                if (placement.GetIndexFileName(fileName) < 0)
+                    continue;
+
+                placement_all.Add("==================================");
+                placement_all.Add(areaName);
+                placement_all.Add("==================================");
+                placement_all.Add(string.Empty);
+
+                var bin = placement.GetDataFileName(fileName);
+                var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(bin);
+                placement_all.AddRange(data.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
+                placement_all.Add(string.Empty);
+
+                File.WriteAllBytes(GetPath("areas", fileName), bin);
             }
 
             File.WriteAllLines(GetPath("Placement_all.txt"), placement_all);
