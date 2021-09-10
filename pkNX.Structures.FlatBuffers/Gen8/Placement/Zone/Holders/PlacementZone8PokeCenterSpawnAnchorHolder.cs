@@ -10,7 +10,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F12Holder
+    public class PlacementZone8PokeCenterSpawnAnchorHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F12 Field_00 { get; set; }
     }
@@ -18,5 +18,6 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F12
     {
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
     }
 }

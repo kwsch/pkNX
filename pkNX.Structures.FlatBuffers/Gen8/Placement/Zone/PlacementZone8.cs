@@ -21,13 +21,13 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(03)] public PlacementZone8WarpHolder[] Warps { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F04Holder[] Field_04 { get; set; }
         [FlatBufferItem(05)] public PlacementZone8ParticleHolder[] Particles { get; set; }
-        [FlatBufferItem(06)] public PlacementZone8_F06Holder[] Field_06 { get; set; }
+        [FlatBufferItem(06)] public PlacementZone8FieldItemHolder[] Field_06 { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F07Holder[] Field_07 { get; set; }
         [FlatBufferItem(08)] public PlacementZone8_F08Holder[] Field_08 { get; set; }
         [FlatBufferItem(09)] public PlacementZone8_F09Holder[] Field_09 { get; set; }
-        [FlatBufferItem(10)] public PlacementZone8_F10Holder[] Field_10 { get; set; }
-        [FlatBufferItem(11)] public PlacementZone8_F11Holder[] Field_11 { get; set; }
-        [FlatBufferItem(12)] public PlacementZone8_F12Holder[] Field_12 { get; set; }
+        [FlatBufferItem(10)] public PlacementZone8TreeHolder[] Field_10 { get; set; }
+        [FlatBufferItem(11)] public PlacementZone8FlightAnchorHolder[] Field_11 { get; set; }
+        [FlatBufferItem(12)] public PlacementZone8PokeCenterSpawnAnchorHolder[] Field_12 { get; set; }
         [FlatBufferItem(13)] public PlacementZone8_F13Holder[] Field_13 { get; set; }
         [FlatBufferItem(14)] public PlacementZone8_F14Holder[] Field_14 { get; set; }
         [FlatBufferItem(15)] public PlacementZone8_F15Holder[] Field_15 { get; set; }
@@ -117,9 +117,9 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneMetaTripleXYZ8
     {
-        [FlatBufferItem(00)] public float Field_00 { get; set; }
-        [FlatBufferItem(01)] public float Field_01 { get; set; }
-        [FlatBufferItem(02)] public float Field_02 { get; set; }
+        [FlatBufferItem(00)] public float LocationX { get; set; }
+        [FlatBufferItem(01)] public float LocationY { get; set; }
+        [FlatBufferItem(02)] public float LocationZ { get; set; }
         [FlatBufferItem(03)] public float Field_03 { get; set; } // assumed
         [FlatBufferItem(04)] public float Field_04 { get; set; }
         [FlatBufferItem(05)] public float Field_05 { get; set; } // assumed
