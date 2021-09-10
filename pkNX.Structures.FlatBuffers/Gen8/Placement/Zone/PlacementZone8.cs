@@ -28,7 +28,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(10)] public PlacementZone8TreeHolder[] Field_10 { get; set; }
         [FlatBufferItem(11)] public PlacementZone8FlightAnchorHolder[] Field_11 { get; set; }
         [FlatBufferItem(12)] public PlacementZone8PokeCenterSpawnAnchorHolder[] Field_12 { get; set; }
-        [FlatBufferItem(13)] public PlacementZone8_F13Holder[] Field_13 { get; set; }
+        [FlatBufferItem(13)] public PlacementZone8NPCHolder[] Field_13 { get; set; }
         [FlatBufferItem(14)] public PlacementZone8_F14Holder[] Field_14 { get; set; }
         [FlatBufferItem(15)] public PlacementZone8_F15Holder[] Field_15 { get; set; }
         [FlatBufferItem(16)] public PlacementZone8_F16Holder[] Field_16 { get; set; }
