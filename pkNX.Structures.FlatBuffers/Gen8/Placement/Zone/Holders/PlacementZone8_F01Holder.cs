@@ -9,14 +9,15 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
+    // GateHolder?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F1Holder
+    public class PlacementZone8_F01Holder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F1 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F01 Field_00 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F1
+    public class PlacementZone8_F01
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public string Model { get; set; }

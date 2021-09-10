@@ -16,33 +16,33 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8
     {
         [FlatBufferItem(00)] public PlacementZoneMeta8 Meta { get; set; }
-        [FlatBufferItem(01)] public PlacementZone8_F1Holder[] Field_01 { get; set; }
-        [FlatBufferItem(02)] public uint Field_02 { get; set; }
+        [FlatBufferItem(01)] public PlacementZone8_F01Holder[] Field_01 { get; set; }
+        [FlatBufferItem(02)] public PlacementZone8SpeciesHolder[] Field_02 { get; set; }
         [FlatBufferItem(03)] public PlacementZone8WarpHolder[] Warps { get; set; }
-        [FlatBufferItem(04)] public uint Field_04 { get; set; }
+        [FlatBufferItem(04)] public PlacementZone8_F04Holder[] Field_04 { get; set; }
         [FlatBufferItem(05)] public PlacementZone8ParticleHolder[] Particles { get; set; }
-        [FlatBufferItem(06)] public uint Field_06 { get; set; }
-        [FlatBufferItem(07)] public PlacementZone8_F7Holder[] Field_07 { get; set; }
-        [FlatBufferItem(08)] public uint Field_08 { get; set; }
-        [FlatBufferItem(09)] public uint Field_09 { get; set; }
-        [FlatBufferItem(10)] public uint Field_10 { get; set; }
-        [FlatBufferItem(11)] public uint Field_11 { get; set; }
-        [FlatBufferItem(12)] public uint Field_12 { get; set; }
-        [FlatBufferItem(13)] public uint Field_13 { get; set; }
-        [FlatBufferItem(14)] public uint Field_14 { get; set; }
-        [FlatBufferItem(15)] public uint Field_15 { get; set; }
-        [FlatBufferItem(16)] public uint Field_16 { get; set; }
-        [FlatBufferItem(17)] public uint Field_17 { get; set; }
-        [FlatBufferItem(18)] public uint Field_18 { get; set; }
-        [FlatBufferItem(19)] public uint Field_19 { get; set; }
-        [FlatBufferItem(20)] public uint Field_20 { get; set; }
-        [FlatBufferItem(21)] public uint Field_21 { get; set; }
-        [FlatBufferItem(22)] public uint Field_22 { get; set; }
-        [FlatBufferItem(23)] public uint Field_23 { get; set; }
-        [FlatBufferItem(24)] public uint Field_24 { get; set; }
-        [FlatBufferItem(25)] public uint Field_25 { get; set; }
+        [FlatBufferItem(06)] public PlacementZone8_F06Holder[] Field_06 { get; set; }
+        [FlatBufferItem(07)] public PlacementZone8_F07Holder[] Field_07 { get; set; }
+        [FlatBufferItem(08)] public PlacementZone8_F08Holder[] Field_08 { get; set; }
+        [FlatBufferItem(09)] public PlacementZone8_F09Holder[] Field_09 { get; set; }
+        [FlatBufferItem(10)] public PlacementZone8_F10Holder[] Field_10 { get; set; }
+        [FlatBufferItem(11)] public PlacementZone8_F11Holder[] Field_11 { get; set; }
+        [FlatBufferItem(12)] public PlacementZone8_F12Holder[] Field_12 { get; set; }
+        [FlatBufferItem(13)] public PlacementZone8_F13Holder[] Field_13 { get; set; }
+        [FlatBufferItem(14)] public PlacementZone8_F14Holder[] Field_14 { get; set; }
+        [FlatBufferItem(15)] public PlacementZone8_F15Holder[] Field_15 { get; set; }
+        [FlatBufferItem(16)] public PlacementZone8_F16Holder[] Field_16 { get; set; }
+        [FlatBufferItem(17)] public PlacementZone8_F17Holder[] Field_17 { get; set; }
+        [FlatBufferItem(18)] public PlacementZone8_F18Holder[] Field_18 { get; set; }
+        [FlatBufferItem(19)] public PlacementZone8_F19Holder[] Field_19 { get; set; }
+        [FlatBufferItem(20)] public PlacementZone8_F20Holder[] Field_20 { get; set; }
+        [FlatBufferItem(21)] public PlacementZone8_F21Holder[] Field_21 { get; set; }
+        [FlatBufferItem(22)] public PlacementZone8_F22Holder[] Field_22 { get; set; }
+        [FlatBufferItem(23)] public PlacementZone8_F23Holder[] Field_23 { get; set; }
+        [FlatBufferItem(24)] public PlacementZone8_F24Holder[] Field_24 { get; set; }
+        [FlatBufferItem(25)] public PlacementZone8_F25Holder[] Field_25 { get; set; }
         [FlatBufferItem(26)] public PlacementZone8StaticObjectsHolder[] StaticObjects { get; set; }
-        [FlatBufferItem(27)] public uint Field_27 { get; set; }
+        [FlatBufferItem(27)] public PlacementZone8_F27Holder[] Field_27 { get; set; }
 
         // More tables exist here
 

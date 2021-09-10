@@ -10,13 +10,13 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F7Holder
+    public class PlacementZone8_F07Holder
     {
-        [FlatBufferItem(0)] public PlacementZone8_F7 Field_00 { get; set; }
+        [FlatBufferItem(0)] public PlacementZone8_F07 Field_00 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F7
+    public class PlacementZone8_F07
     {
         [FlatBufferItem(0)] public PlacementZoneDeepX8 Field_00 { get; set; }
         [FlatBufferItem(1)] public ulong Field_01 { get; set; }
