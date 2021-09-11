@@ -15,6 +15,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public byte Field_00 { get; set; }
         [FlatBufferItem(01)] public PlacementAreaUnknownTiny8 Field_01 { get; set; }
         [FlatBufferItem(02)] public float Field_02 { get; set; }
+
+        public override string ToString() => $"{Field_00}, {Field_02}: {Field_01}";
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -23,5 +25,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public float Field_00 { get; set; }
         [FlatBufferItem(01)] public float Field_01 { get; set; }
         [FlatBufferItem(02)] public float Field_02 { get; set; }
+
+        public override string ToString() => $"{Field_00}, {Field_01}, {Field_02}";
     }
 }

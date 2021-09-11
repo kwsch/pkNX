@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -691,6 +692,34 @@ namespace pkNX.WinForms.Controls
         {
             using var md = new DumperSWSH((GameManagerSWSH)ROM);
             md.ShowDialog();
+        }
+
+        public void EditPlacement()
+        {
+            var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
+            var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
+
+            List<PlacementArea8Archive> areas = new();
+            List<string> names = new();
+            foreach (var area in area_names)
+            {
+                var areaName = area.Value;
+                var fileName = $"{areaName}.bin";
+                if (placement.GetIndexFileName(fileName) < 0)
+                    continue;
+
+                var bin = placement.GetDataFileName(fileName);
+                var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(bin);
+
+                names.Add(areaName);
+                areas.Add(data);
+            }
+
+            var arr = areas.ToArray();
+            var nameArr = names.ToArray();
+            var cache = new DataCache<PlacementArea8Archive>(arr);
+            var gen = new GenericEditor<PlacementArea8Archive>(cache, nameArr, "Placement", canSave: false);
+            gen.ShowDialog();
         }
     }
 }
