@@ -16,10 +16,10 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8
     {
         [FlatBufferItem(00)] public PlacementZoneMeta8 Meta { get; set; }
-        [FlatBufferItem(01)] public PlacementZone8_F01Holder[] Field_01 { get; set; }
-        [FlatBufferItem(02)] public PlacementZone8SpeciesHolder[] Field_02 { get; set; }
+        [FlatBufferItem(01)] public PlacementZone8UnitObjectHolder[] UnitObjects { get; set; }
+        [FlatBufferItem(02)] public PlacementZone8SpeciesHolder[] Critters { get; set; }
         [FlatBufferItem(03)] public PlacementZone8WarpHolder[] Warps { get; set; }
-        [FlatBufferItem(04)] public PlacementZone8_F04Holder[] Field_04 { get; set; }
+        [FlatBufferItem(04)] public PlacementZone8StepJumpHolder[] StepJumps { get; set; }
         [FlatBufferItem(05)] public PlacementZone8ParticleHolder[] Particles { get; set; }
         [FlatBufferItem(06)] public PlacementZone8FieldItemHolder[] FieldItems { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F07Holder[] Field_07 { get; set; }
@@ -43,6 +43,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(25)] public PlacementZone8_F25Holder[] Field_25 { get; set; }
         [FlatBufferItem(26)] public PlacementZone8StaticObjectsHolder[] StaticObjects { get; set; }
         [FlatBufferItem(27)] public PlacementZone8_F27Holder[] Unused { get; set; }
+
+        public override string ToString() => Meta.ZoneID.ToString("X16");
 
         // More tables exist here
 
