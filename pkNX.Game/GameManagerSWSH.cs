@@ -10,13 +10,15 @@ namespace pkNX.Game
     public class GameManagerSWSH : GameManager
     {
         public GameManagerSWSH(GameLocation rom, int language) : base(rom, language) { }
-        private string GetTitleID() => BitConverter.ToString(File.ReadAllBytes(Path.Combine(PathExeFS, "main.npdm")).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+        private string npdmPath => Path.Combine(PathExeFS, "main.npdm");
+        private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(npdmPath), 0x290).ToString("X16");
+
 
         protected override void SetMitm()
         {
             var basePath = Path.GetDirectoryName(ROM.RomFS);
-            var TitleID = PathExeFS != null ? GetTitleID() : "0100ABF008968000"; // no way to differentiate without exefs, so default to Sword
-            var redirect = Path.Combine(basePath, TitleID);
+            var tid = ROM.ExeFS != null ? TitleID : "0100ABF008968000"; // no way to differentiate without exefs, so default to Sword
+            var redirect = Path.Combine(basePath, tid);
             FileMitm.SetRedirect(basePath, redirect);
         }
 
