@@ -9,9 +9,14 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
-    // trainer signs?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F09Holder
+    public class PlacementZone8TrainerTipHolder
+    {
+        [FlatBufferItem(00)] public PlacementZoneTrainerTip Field_00 { get; set; }
+    }
+
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class PlacementZoneTrainerTip
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public float Field_01 { get; set; }
@@ -27,6 +32,11 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8_F09
     {
         [FlatBufferItem(00)] public uint Field_00 { get; set; }
+        // 1
+        // 2
+        // 3
+        // 4
+        // 5
         [FlatBufferItem(06)] public float Field_06 { get; set; }
     }
 

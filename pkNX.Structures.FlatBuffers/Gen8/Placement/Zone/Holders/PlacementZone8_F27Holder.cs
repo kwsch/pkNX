@@ -9,6 +9,7 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
+    // No maps have data for this.
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F27Holder
     {

@@ -9,6 +9,7 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers
 {
+    // Trigger tiles?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F07Holder
     {

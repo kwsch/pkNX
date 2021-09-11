@@ -21,28 +21,28 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(03)] public PlacementZone8WarpHolder[] Warps { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F04Holder[] Field_04 { get; set; }
         [FlatBufferItem(05)] public PlacementZone8ParticleHolder[] Particles { get; set; }
-        [FlatBufferItem(06)] public PlacementZone8FieldItemHolder[] Field_06 { get; set; }
+        [FlatBufferItem(06)] public PlacementZone8FieldItemHolder[] FieldItems { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F07Holder[] Field_07 { get; set; }
         [FlatBufferItem(08)] public PlacementZone8_F08Holder[] Field_08 { get; set; }
-        [FlatBufferItem(09)] public PlacementZone8_F09Holder[] Field_09 { get; set; }
+        [FlatBufferItem(09)] public PlacementZone8TrainerTipHolder[] TrainerTips { get; set; }
         [FlatBufferItem(10)] public PlacementZone8TreeHolder[] Field_10 { get; set; }
-        [FlatBufferItem(11)] public PlacementZone8FlightAnchorHolder[] Field_11 { get; set; }
-        [FlatBufferItem(12)] public PlacementZone8PokeCenterSpawnAnchorHolder[] Field_12 { get; set; }
+        [FlatBufferItem(11)] public PlacementZone8FlightAnchorHolder[] FlyTo { get; set; }
+        [FlatBufferItem(12)] public PlacementZone8PokeCenterSpawnAnchorHolder[] PokeCenterAnchor { get; set; }
         [FlatBufferItem(13)] public PlacementZone8NPCHolder[] Field_13 { get; set; }
-        [FlatBufferItem(14)] public PlacementZone8_F14Holder[] Field_14 { get; set; }
+        [FlatBufferItem(14)] public PlacementZone8AdvancedTipHolder[] AdvancedTips { get; set; }
         [FlatBufferItem(15)] public PlacementZone8_F15Holder[] Field_15 { get; set; }
         [FlatBufferItem(16)] public PlacementZone8_F16Holder[] Field_16 { get; set; }
         [FlatBufferItem(17)] public PlacementZone8_F17Holder[] Field_17 { get; set; }
-        [FlatBufferItem(18)] public PlacementZone8_F18Holder[] Field_18 { get; set; }
-        [FlatBufferItem(19)] public PlacementZone8_F19Holder[] Field_19 { get; set; }
-        [FlatBufferItem(20)] public PlacementZone8_F20Holder[] Field_20 { get; set; }
-        [FlatBufferItem(21)] public PlacementZone8_F21Holder[] Field_21 { get; set; }
-        [FlatBufferItem(22)] public PlacementZone8_F22Holder[] Field_22 { get; set; }
-        [FlatBufferItem(23)] public PlacementZone8_F23Holder[] Field_23 { get; set; }
+        [FlatBufferItem(18)] public PlacementZone8FishingPointHolder[] FishingPoint { get; set; }
+        [FlatBufferItem(19)] public PlacementZone8HiddenItemHolder[] HiddenItems { get; set; }
+        [FlatBufferItem(20)] public PlacementZone8SymbolSpawnHolder[] Symbols { get; set; }
+        [FlatBufferItem(21)] public PlacementZone8NestHoleHolder[] Nests { get; set; }
+        [FlatBufferItem(22)] public PlacementZone8BerryTreeHolder[] BerryTrees { get; set; }
+        [FlatBufferItem(23)] public PlacementZone8LadderHolder[] Ladders { get; set; }
         [FlatBufferItem(24)] public PlacementZone8_F24Holder[] Field_24 { get; set; }
         [FlatBufferItem(25)] public PlacementZone8_F25Holder[] Field_25 { get; set; }
         [FlatBufferItem(26)] public PlacementZone8StaticObjectsHolder[] StaticObjects { get; set; }
-        [FlatBufferItem(27)] public PlacementZone8_F27Holder[] Field_27 { get; set; }
+        [FlatBufferItem(27)] public PlacementZone8_F27Holder[] Unused { get; set; }
 
         // More tables exist here
 
