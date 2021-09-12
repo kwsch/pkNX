@@ -15,10 +15,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public PlacementZone8_F21_A Field_00 { get; set; }
         // 1
         [FlatBufferItem(02)] public int Field_02 { get; set; } // 0,2,6,270,64,12
-        [FlatBufferItem(03)] public ulong Nest1 { get; set; }
-        [FlatBufferItem(04)] public ulong Nest2 { get; set; }
+        [FlatBufferItem(03)] public ulong Common { get; set; }
+        [FlatBufferItem(04)] public ulong Rare { get; set; }
         // 5
-        [FlatBufferItem(06)] public ulong Hash { get; set; } // unused?
+
+        [Description("If a flag hash is specified, the savefile value must be true in order for the nest to be enabled.")]
+        [FlatBufferItem(06)] public ulong EnableSpawns { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

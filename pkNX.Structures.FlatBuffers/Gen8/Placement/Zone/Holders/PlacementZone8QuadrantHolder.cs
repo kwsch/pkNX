@@ -11,7 +11,7 @@ namespace pkNX.Structures.FlatBuffers
 {
     // highplace?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F17Holder
+    public class PlacementZone8QuadrantHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F17 Field_00 { get; set; }
     }

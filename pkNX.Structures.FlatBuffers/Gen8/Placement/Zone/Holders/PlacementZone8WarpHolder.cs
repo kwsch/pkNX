@@ -13,6 +13,8 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8WarpHolder
     {
         [FlatBufferItem(00)] public PlacementZoneWarp8 Field_00 { get; set; }
+
+        public override string ToString() => $"{Field_00.OtherAreaName} via {Field_00.ModelName}";
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

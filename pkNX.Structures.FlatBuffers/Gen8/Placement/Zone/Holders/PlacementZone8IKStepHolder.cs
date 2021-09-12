@@ -11,7 +11,7 @@ namespace pkNX.Structures.FlatBuffers
 {
     // IK_Step
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F25Holder
+    public class PlacementZone8IKStepHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F25 Field_00 { get; set; }
         [FlatBufferItem(01)] public byte Field_01 { get; set; }

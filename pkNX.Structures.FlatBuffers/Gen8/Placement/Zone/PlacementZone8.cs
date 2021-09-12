@@ -22,27 +22,27 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(04)] public PlacementZone8StepJumpHolder[] StepJumps { get; set; }
         [FlatBufferItem(05)] public PlacementZone8ParticleHolder[] Particles { get; set; }
         [FlatBufferItem(06)] public PlacementZone8FieldItemHolder[] FieldItems { get; set; }
-        [FlatBufferItem(07)] public PlacementZone8_F07Holder[] Field_07 { get; set; }
-        [FlatBufferItem(08)] public PlacementZone8_F08Holder[] Field_08 { get; set; }
+        [FlatBufferItem(07)] public PlacementZone8TriggerHolder[] Triggers { get; set; }
+        [FlatBufferItem(08)] public PlacementZone8TrainerHolder[] Trainers { get; set; }
         [FlatBufferItem(09)] public PlacementZone8TrainerTipHolder[] TrainerTips { get; set; }
-        [FlatBufferItem(10)] public PlacementZone8TreeHolder[] Field_10 { get; set; }
+        [FlatBufferItem(10)] public PlacementZone8EnvironmentHolder[] Environments { get; set; }
         [FlatBufferItem(11)] public PlacementZone8FlightAnchorHolder[] FlyTo { get; set; }
         [FlatBufferItem(12)] public PlacementZone8PokeCenterSpawnAnchorHolder[] PokeCenterAnchor { get; set; }
-        [FlatBufferItem(13)] public PlacementZone8NPCHolder[] Field_13 { get; set; }
+        [FlatBufferItem(13)] public PlacementZone8NPCHolder[] NPCType1 { get; set; }
         [FlatBufferItem(14)] public PlacementZone8AdvancedTipHolder[] AdvancedTips { get; set; }
-        [FlatBufferItem(15)] public PlacementZone8_F15Holder[] Field_15 { get; set; }
-        [FlatBufferItem(16)] public PlacementZone8_F16Holder[] Field_16 { get; set; }
-        [FlatBufferItem(17)] public PlacementZone8_F17Holder[] Field_17 { get; set; }
+        [FlatBufferItem(15)] public PlacementZone8MovementPathHolder[] Paths { get; set; }
+        [FlatBufferItem(16)] public PlacementZone8OtherNPCHolder[] NPCType2 { get; set; }
+        [FlatBufferItem(17)] public PlacementZone8QuadrantHolder[] Quadrants { get; set; }
         [FlatBufferItem(18)] public PlacementZone8FishingPointHolder[] FishingPoint { get; set; }
         [FlatBufferItem(19)] public PlacementZone8HiddenItemHolder[] HiddenItems { get; set; }
         [FlatBufferItem(20)] public PlacementZone8SymbolSpawnHolder[] Symbols { get; set; }
         [FlatBufferItem(21)] public PlacementZone8NestHoleHolder[] Nests { get; set; }
         [FlatBufferItem(22)] public PlacementZone8BerryTreeHolder[] BerryTrees { get; set; }
         [FlatBufferItem(23)] public PlacementZone8LadderHolder[] Ladders { get; set; }
-        [FlatBufferItem(24)] public PlacementZone8_F24Holder[] Field_24 { get; set; }
-        [FlatBufferItem(25)] public PlacementZone8_F25Holder[] Field_25 { get; set; }
+        [FlatBufferItem(24)] public PlacementZone8PopupHolder[] Popups { get; set; }
+        [FlatBufferItem(25)] public PlacementZone8IKStepHolder[] IKStep { get; set; }
         [FlatBufferItem(26)] public PlacementZone8StaticObjectsHolder[] StaticObjects { get; set; }
-        [FlatBufferItem(27)] public PlacementZone8_F27Holder[] Unused { get; set; }
+        [FlatBufferItem(27)] public PlacementZone8UnusedHolder[] Unused { get; set; }
 
         public override string ToString() => Meta.ZoneID.ToString("X16");
 
@@ -114,6 +114,8 @@ namespace pkNX.Structures.FlatBuffers
         // 13
         // 14
         [FlatBufferItem(15)] public int Num_15 { get; set; }
+
+        public override string ToString() => $"{Field_00.Hash_09:X16}";
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -131,5 +133,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(09)] public ulong Hash_09 { get; set; }
         [FlatBufferItem(10)] public ulong Hash_10 { get; set; }
         [FlatBufferItem(11)] public ulong Hash_11 { get; set; }
+
+        public override string ToString() => $"{Hash_09:X16}";
     }
 }

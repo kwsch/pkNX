@@ -20,9 +20,9 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
+        [FlatBufferItem(02)] public ulong Message { get; set; }
         [FlatBufferItem(03)] public uint Field_03 { get; set; }
-        [FlatBufferItem(04)] public ulong Hash_04 { get; set; }
+        [FlatBufferItem(04)] public ulong WorkValue { get; set; }
         [FlatBufferItem(05)] public uint Field_05 { get; set; }
         [FlatBufferItem(06)] public uint Field_06 { get; set; }
         // 7

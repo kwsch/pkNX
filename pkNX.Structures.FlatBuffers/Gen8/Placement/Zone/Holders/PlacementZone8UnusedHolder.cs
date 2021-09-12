@@ -11,7 +11,7 @@ namespace pkNX.Structures.FlatBuffers
 {
     // No maps have data for this.
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F27Holder
+    public class PlacementZone8UnusedHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F27 Field_00 { get; set; }
     }

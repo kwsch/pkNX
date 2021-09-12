@@ -11,7 +11,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8TreeHolder
+    public class PlacementZone8EnvironmentHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F10 Field_00 { get; set; }
     }

@@ -11,7 +11,7 @@ namespace pkNX.Structures.FlatBuffers
 {
     // more NPCs? Trainers?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F16Holder
+    public class PlacementZone8OtherNPCHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F16 Field_00 { get; set; }
         [FlatBufferItem(01)] public uint Field_01 { get; set; }

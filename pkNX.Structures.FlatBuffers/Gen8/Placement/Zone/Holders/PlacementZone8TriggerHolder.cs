@@ -11,16 +11,16 @@ namespace pkNX.Structures.FlatBuffers
 {
     // Trigger tiles?
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F07Holder
+    public class PlacementZone8TriggerHolder
     {
-        [FlatBufferItem(0)] public PlacementZone8_F07 Field_00 { get; set; }
+        [FlatBufferItem(0)] public PlacementZone8Trigger Object { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F07
+    public class PlacementZone8Trigger
     {
         [FlatBufferItem(0)] public PlacementZoneDeepX8 Field_00 { get; set; }
-        [FlatBufferItem(1)] public ulong Field_01 { get; set; }
+        [FlatBufferItem(1)] public ulong TriggerName { get; set; }
 
         [FlatBufferItem(3)] public PlacementZoneDeepY8 Field_03 { get; set; }
     }
