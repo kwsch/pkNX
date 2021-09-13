@@ -23,6 +23,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(1)] public ulong TriggerName { get; set; }
         [FlatBufferItem(2)] public uint Field_02 { get; set; }
         [FlatBufferItem(3)] public PlacementZoneDeepY8 Field_03 { get; set; }
+        [FlatBufferItem(4)] public uint Field_04 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

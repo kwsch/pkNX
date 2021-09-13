@@ -52,6 +52,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(06)] public uint Field_06 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
         [FlatBufferItem(08)] public uint Field_08 { get; set; }
+        [FlatBufferItem(09)] public uint Field_09 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
