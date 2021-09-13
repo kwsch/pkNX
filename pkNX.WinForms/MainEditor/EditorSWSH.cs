@@ -696,7 +696,8 @@ namespace pkNX.WinForms.Controls
 
         public void EditPlacement()
         {
-            var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
+            var arc = ROM.GetFile(GameFile.Placement);
+            var placement = new GFPack(arc[0]);
             var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
 
             List<PlacementArea8Archive> areas = new();
@@ -718,8 +719,25 @@ namespace pkNX.WinForms.Controls
             var arr = areas.ToArray();
             var nameArr = names.ToArray();
             var cache = new DataCache<PlacementArea8Archive>(arr);
-            var gen = new GenericEditor<PlacementArea8Archive>(cache, nameArr, "Placement", canSave: false);
-            gen.ShowDialog();
+            var form = new GenericEditor<PlacementArea8Archive>(cache, nameArr, "Placement", canSave: true);
+            form.ShowDialog();
+            if (!form.Modified)
+                return;
+
+            // Stuff files back into the gfpak and save
+            foreach (var area in area_names)
+            {
+                var areaName = area.Value;
+                var fileName = $"{areaName}.bin";
+                if (placement.GetIndexFileName(fileName) < 0)
+                    continue;
+
+                var data = areas[0];
+                areas.RemoveAt(0);
+                var bin = FlatBufferConverter.SerializeFrom(data);
+                placement.SetDataFileName(fileName, bin);
+            }
+            arc[0] = placement.Write();
         }
     }
 }

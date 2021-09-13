@@ -23,7 +23,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(06)] public float Field_06 { get; set; }
         [FlatBufferItem(07)] public float Field_07 { get; set; }
         [FlatBufferItem(08)] public float Field_08 { get; set; }
-        
+
         [FlatBufferItem(09)] public ulong Field_09 { get; set; } // unused, assumed to be same shape as other v3f-hash triplets
         [FlatBufferItem(10)] public ulong Field_10 { get; set; }
         [FlatBufferItem(11)] public ulong Field_11 { get; set; }
