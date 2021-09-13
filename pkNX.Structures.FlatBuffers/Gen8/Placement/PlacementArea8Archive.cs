@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -16,23 +17,23 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public PlacementZone8[] Table { get; set; }
         [FlatBufferItem(01)] public ulong Hash { get; set; }
         [FlatBufferItem(02)] public string Description { get; set; }
-        // 3 is table?
+        [FlatBufferItem(03)] public string OtherDescription { get; set; }
         [FlatBufferItem(04)] public PlacementArea8_F04 Unknown { get; set; }
-        // none have 5
+        [FlatBufferItem(05)] public float Field_05 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(06)] public float Field_06 { get; set; }
         [FlatBufferItem(07)] public float Field_07 { get; set; }
-        // none have 8
-        // none have 9
-        // none have 10
-        // none have 11
+        [FlatBufferItem(08)] public float Field_08 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(09)] public float Field_09 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(10)] public float Field_10 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(11)] public float Field_11 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(12)] public float Field_12 { get; set; }
         [FlatBufferItem(13)] public float Field_13 { get; set; }
         [FlatBufferItem(14)] public float Field_14 { get; set; }
         [FlatBufferItem(15)] public float Field_15 { get; set; }
         [FlatBufferItem(16)] public float Field_16 { get; set; }
         [FlatBufferItem(17)] public float Field_17 { get; set; }
-        // none have 18
-        // none have 19
+        [FlatBufferItem(18)] public float Field_18 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(19)] public float Field_19 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(20)] public float Field_20 { get; set; }
         [FlatBufferItem(21)] public float Field_21 { get; set; }
         [FlatBufferItem(22)] public float Field_22 { get; set; }
