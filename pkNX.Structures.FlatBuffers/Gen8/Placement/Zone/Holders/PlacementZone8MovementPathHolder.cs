@@ -17,7 +17,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(01)] public ulong PathName { get; set; }
         [FlatBufferItem(02)] public uint Field_02 { get; set; }
         [FlatBufferItem(03)] public uint Field_03 { get; set; }
-        // 4
+        [FlatBufferItem(04)] public bool Field_04 { get; set; }
         [FlatBufferItem(05)] public PlacementZone8_V3f[] Field_05 { get; set; }
     }
 

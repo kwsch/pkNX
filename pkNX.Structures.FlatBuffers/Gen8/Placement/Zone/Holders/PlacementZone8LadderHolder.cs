@@ -20,17 +20,17 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(1)] public PlacementZone8_F23_Sub Field_01 { get; set; }
-        // 2
-        [FlatBufferItem(3)] public int Field_03 { get; set; }
+        [FlatBufferItem(2)] public int Field_02 { get; set; } // 1
+        [FlatBufferItem(3)] public int Field_03 { get; set; } // 10
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F23_Sub
     {
-        [FlatBufferItem(00)] public int Field_00 { get; set; }
-        // 1
-        // 2
-        // 3
-        [FlatBufferItem(04)] public float Field_04 { get; set; }
+        [FlatBufferItem(00)] public int Field_00 { get; set; } // 10 or -20
+        [FlatBufferItem(01)] public float Field_01 { get; set; } // unused
+        [FlatBufferItem(02)] public float Field_02 { get; set; } // unused
+        [FlatBufferItem(03)] public float Field_03 { get; set; } // unused
+        [FlatBufferItem(04)] public float Field_04 { get; set; } // 10
     }
 }

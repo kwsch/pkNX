@@ -31,9 +31,9 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8HiddenItemValue
     {
         [FlatBufferItem(00)] public int Field_00 { get; set; }
-        // 1
-        // 2
-        // 3
+        [FlatBufferItem(01)] public float Field_01 { get; set; } // unused
+        [FlatBufferItem(02)] public float Field_02 { get; set; } // unused
+        [FlatBufferItem(03)] public float Field_03 { get; set; } // unused
         [FlatBufferItem(04)] public float Field_04 { get; set; }
     }
 

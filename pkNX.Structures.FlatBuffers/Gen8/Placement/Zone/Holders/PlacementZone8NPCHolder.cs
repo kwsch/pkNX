@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -25,7 +26,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(04)] public ulong WorkValue { get; set; }
         [FlatBufferItem(05)] public uint Field_05 { get; set; }
         [FlatBufferItem(06)] public uint Field_06 { get; set; }
-        // 7
+        [FlatBufferItem(07)] public byte Field_07 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(08)] public byte Byte_08 { get; set; }
         [FlatBufferItem(09)] public ulong Hash_09 { get; set; }
     }

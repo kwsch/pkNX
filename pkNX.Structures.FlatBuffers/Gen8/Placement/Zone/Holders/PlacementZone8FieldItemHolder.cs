@@ -31,11 +31,10 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(09)] public PlacementZone8FieldItem_A Field_09 { get; set; }
     }
 
-    // union???
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8FieldItem_A
     {
-        [FlatBufferItem(00)] public byte Field_00 { get; set; }
-        // 1
+        [FlatBufferItem(00)] public bool Field_00 { get; set; }
+        [FlatBufferItem(01)] public FlatDummyObject Field_01 { get; set; }
     }
 }

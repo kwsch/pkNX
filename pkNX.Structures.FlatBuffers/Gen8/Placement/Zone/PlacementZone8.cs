@@ -42,7 +42,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(24)] public PlacementZone8PopupHolder[] Popups { get; set; }
         [FlatBufferItem(25)] public PlacementZone8IKStepHolder[] IKStep { get; set; }
         [FlatBufferItem(26)] public PlacementZone8StaticObjectsHolder[] StaticObjects { get; set; }
-        [FlatBufferItem(27)] public PlacementZone8UnusedHolder[] Unused { get; set; }
+        [FlatBufferItem(27)] public PlacementZone8RotomRallyEntry[] RotomRally { get; set; }
 
         public override string ToString() => Meta.ZoneID.ToString("X16");
 
