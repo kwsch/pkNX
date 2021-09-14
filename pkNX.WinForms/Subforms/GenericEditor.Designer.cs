@@ -56,6 +56,8 @@
             // 
             // CB_EntryName
             // 
+            this.CB_EntryName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_EntryName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_EntryName.FormattingEnabled = true;
             this.CB_EntryName.Location = new System.Drawing.Point(82, 0);
             this.CB_EntryName.Name = "CB_EntryName";
