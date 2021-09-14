@@ -101,8 +101,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public ulong ZoneID { get; set; }
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
-        // 3 empty table?
-        // 4
+        [FlatBufferItem(03)] public FlatDummyEntry[] Field_03 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(04)] public uint Field_04 { get; set; }
         [FlatBufferItem(05)] public string Music { get; set; }
         [FlatBufferItem(06)] public float Field_06 { get; set; }
         [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
@@ -111,8 +111,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(10)] public byte Field_10 { get; set; }
         [FlatBufferItem(11)] public byte Field_11 { get; set; }
         [FlatBufferItem(12)] public ulong Hash_12 { get; set; }
-        // 13
-        // 14
+        [FlatBufferItem(13)] public byte Field_13 { get; set; }
+        [FlatBufferItem(14)] public byte Field_14 { get; set; }
         [FlatBufferItem(15)] public int Num_15 { get; set; }
 
         public override string ToString() => $"{Field_00.Hash_09:X16}";
