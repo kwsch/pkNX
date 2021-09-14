@@ -712,7 +712,7 @@ namespace pkNX.WinForms.Controls
                 var bin = placement.GetDataFileName(fileName);
                 var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(bin);
 
-                names.Add(areaName);
+                names.Add(fileName);
                 areas.Add(data);
             }
 
@@ -725,17 +725,11 @@ namespace pkNX.WinForms.Controls
                 return;
 
             // Stuff files back into the gfpak and save
-            foreach (var area in area_names)
+            for (int i = 0; i < arr.Length; i++)
             {
-                var areaName = area.Value;
-                var fileName = $"{areaName}.bin";
-                if (placement.GetIndexFileName(fileName) < 0)
-                    continue;
-
-                var data = areas[0];
-                areas.RemoveAt(0);
-                var bin = FlatBufferConverter.SerializeFrom(data);
-                placement.SetDataFileName(fileName, bin);
+                var obj = arr[i];
+                var bin = FlatBufferConverter.SerializeFrom(obj);
+                placement.SetDataFileName(nameArr[i], bin);
             }
             arc[0] = placement.Write();
         }
