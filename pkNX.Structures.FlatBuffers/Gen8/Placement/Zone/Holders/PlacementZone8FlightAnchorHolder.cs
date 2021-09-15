@@ -13,11 +13,11 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8FlightAnchorHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F11 FlightAnchor { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8FlightAnchor FlightAnchor { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZone8_F11
+    public class PlacementZone8FlightAnchor
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Placement { get; set; }
         [FlatBufferItem(01)] public ulong UnlockFlagHash { get; set; }

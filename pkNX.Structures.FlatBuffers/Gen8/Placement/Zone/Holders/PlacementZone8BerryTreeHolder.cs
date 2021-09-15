@@ -66,14 +66,14 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone_F22_Inner
     {
         [FlatBufferItem(00)] public float Field_00 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
-        [FlatBufferItem(01, DefaultValue = 150f)] public float Field_01 { get; set; }
+        [FlatBufferItem(01)] public float Field_01 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8BerryTreeRandom
     {
         [FlatBufferItem(0)] public ulong Hash { get; set; }
-        [FlatBufferItem(1)] public uint Field_01 { get; set; } // rate
-        [FlatBufferItem(2)] public uint Field_02 { get; set; }
+        [FlatBufferItem(1)] public uint Rate { get; set; }
+        [FlatBufferItem(2)] public uint Quantity { get; set; } // always 1?
     }
 }

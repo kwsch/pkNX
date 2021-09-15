@@ -23,7 +23,7 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; }
         [FlatBufferItem(1)] public uint Field_01 { get; set; }
-        [FlatBufferItem(2)] public uint Field_02 { get; set; }
+        [FlatBufferItem(2)] public uint Rate { get; set; } // usually 100, but 
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
         [FlatBufferItem(4)] public byte Field_04 { get; set; }
         [FlatBufferItem(5)] public PlacementZoneStaticObjectSpawn8[] Spawns { get; set; }
@@ -52,7 +52,7 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZoneStaticObjectSpawn8
     {
         [FlatBufferItem(0)] public ulong SpawnID { get; set; }
-        [FlatBufferItem(1)] public string Description { get; set; }
+        [FlatBufferItem(1)] public string Behavior { get; set; } // passed to Lua script for animating
         [FlatBufferItem(2)] public ulong Field_02 { get; set; } // default hash for all, likely empty string
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
         [FlatBufferItem(4)] public PlacementZoneStaticObjectUnknown8 Field_04 { get; set; }
@@ -74,12 +74,12 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObjectUnknown8
     {
-        [FlatBufferItem(0)] public uint Field_0 { get; set; }
-        [FlatBufferItem(1)] public uint Field_1 { get; set; }
-        [FlatBufferItem(2)] public uint Field_2 { get; set; }
-        [FlatBufferItem(3)] public uint Field_3 { get; set; }
-        [FlatBufferItem(4)] public float Field_4 { get; set; }
+        [FlatBufferItem(0)] public uint Field_00 { get; set; }
+        [FlatBufferItem(1)] public float Field_01 { get; set; } // unused, assumed same shape as other i4f
+        [FlatBufferItem(2)] public float Field_02 { get; set; } // unused, assumed same shape as other i4f
+        [FlatBufferItem(3)] public float Field_03 { get; set; } // unused, assumed same shape as other i4f
+        [FlatBufferItem(4)] public float Field_04 { get; set; }
 
-        public override string ToString() => $"{Field_0} {Field_1} {Field_2} {Field_3} {Field_4}";
+        public override string ToString() => $"{Field_00} {Field_01} {Field_02} {Field_03} {Field_04}";
     }
 }

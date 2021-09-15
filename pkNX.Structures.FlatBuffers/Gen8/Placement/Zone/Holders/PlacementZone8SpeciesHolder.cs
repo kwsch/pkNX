@@ -33,9 +33,9 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(10)] public FlatDummyEntry[] Field_10 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
         [FlatBufferItem(11)] public float Field_11 { get; set; }
         [FlatBufferItem(12)] public PlacementZone8_F02_Nine Field_12 { get; set; }
-        [FlatBufferItem(13)] public int Field_13 { get; set; }
-        [FlatBufferItem(14)] public int Field_14 { get; set; }
-        [FlatBufferItem(15)] public byte Num_15 { get; set; }
+        [FlatBufferItem(13)] public int Field_13 { get; set; } // 0, 1, 3, 4
+        [FlatBufferItem(14)] public int Field_14 { get; set; } // 6, 11, 14 or 0
+        [FlatBufferItem(15)] public byte Num_15 { get; set; } // 0 or 1 (bool?)
 
         public override string ToString() => $"{(Species)Species}{(Form != 0 ? $"-{Form}" : "")}";
     }
@@ -87,7 +87,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F02_IntFloat Field_04 { get; set; }
-        [FlatBufferItem(05)] public byte Num_05 { get; set; }
+        [FlatBufferItem(05)] public byte Num_05 { get; set; } // 0 or 1 (bool?)
         [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F02_IntFloat Field_07 { get; set; }
     }

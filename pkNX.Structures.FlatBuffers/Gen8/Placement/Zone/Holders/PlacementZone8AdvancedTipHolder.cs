@@ -65,7 +65,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F14_Union
     {
-        [FlatBufferItem(00, DefaultValue = true)] public bool Field_00 { get; set; } = true;
+        [FlatBufferItem(00)] public bool Field_00 { get; set; } = true;
         [FlatBufferItem(01)] public PlacementZone8_F14_Sub Field_01 { get; set; }
     }
 
@@ -73,6 +73,6 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8_F14_Sub
     {
         [FlatBufferItem(00)] public float Field_00 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
-        [FlatBufferItem(01, DefaultValue = 130f)] public float Field_01 { get; set; }
+        [FlatBufferItem(01)] public float Field_01 { get; set; }
     }
 }

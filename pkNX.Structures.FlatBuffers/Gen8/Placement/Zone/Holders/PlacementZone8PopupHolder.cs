@@ -40,7 +40,7 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public ulong Hash_00 { get; set; }
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public uint Hash_02 { get; set; }
+        [FlatBufferItem(02)] public uint Field_02 { get; set; } // multiples of 10, usually +10 from previous entry.
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
