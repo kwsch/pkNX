@@ -12,6 +12,14 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8ParticleHolder
     {
+        [FlatBufferItem(00)] public PlacementZone8Particle Field_00 { get; set; }
+
+        public override string ToString() => Field_00.ParticleFile;
+    }
+
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class PlacementZone8Particle
+    {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public string ParticleFile { get; set; }
         [FlatBufferItem(02)] public uint Number { get; set; } // 1200 for birds?
