@@ -90,7 +90,7 @@ namespace pkNX.Randomization
                 case EvolutionType.TradeHeldItem:
                     evo.Method = EvolutionType.LevelUpHeldItemDay;
                     return;
-                case EvolutionType.TradeSpecies:
+                case EvolutionType.TradeShelmetKarrablast:
                     evo.Method = EvolutionType.LevelUpWithTeammate;
                     if (species == (int)Species.Karrablast)
                         evo.Argument = (int)Species.Shelmet; // Karrablast with Shelmet
