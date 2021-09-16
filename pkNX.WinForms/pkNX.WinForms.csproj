@@ -17,20 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj"/>
-    <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj"/>
-    <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj"/>
-    <ProjectReference Include="..\pkNX.Sprites\pkNX.Sprites.csproj"/>
-    <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj"/>
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj"/>
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(Configuration)' == 'Release'">
-    <PackageReference Include="Costura.Fody" Version="4.1.0" />
-    <PackageReference Include="Fody" Version="6.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj" />
+    <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj" />
+    <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj" />
+    <ProjectReference Include="..\pkNX.Sprites\pkNX.Sprites.csproj" />
+    <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
+    <ProjectReference Include="..\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
