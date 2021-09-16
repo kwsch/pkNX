@@ -14,21 +14,21 @@ namespace pkNX.Structures
             Data = data;
         }
 
-        public int Price
+        public uint Price
         {
-            get => BitConverter.ToUInt16(Data, 0x00);
+            get => BitConverter.ToUInt32(Data, 0x00);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x00);
         }
 
-        public int PriceWatts
+        public uint PriceWatts
         {
-            get => BitConverter.ToUInt16(Data, 0x04);
+            get => BitConverter.ToUInt32(Data, 0x04);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x04);
         }
 
-        public int PriceAlternate // BP, Dynite Ore
+        public uint PriceAlternate // BP, Dynite Ore
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
+            get => BitConverter.ToUInt32(Data, 0x08);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x08);
         }
 
