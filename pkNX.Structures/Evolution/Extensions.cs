@@ -16,7 +16,7 @@ namespace pkNX.Structures
             [LevelUp] = Level,
             [Trade] = NoArg,
             [TradeHeldItem] = Items,
-            [TradeSpecies] = EvolutionTypeArgumentType.Species,
+            [TradeShelmetKarrablast] = NoArg,
             [UseItem] = Items,
 
             [LevelUpATK] = Level,
