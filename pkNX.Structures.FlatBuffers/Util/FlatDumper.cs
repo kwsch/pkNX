@@ -11,5 +11,13 @@ namespace pkNX.Structures.FlatBuffers
             var table = obj.Table;
             return TableUtil.GetTable(table);
         }
+
+        public static string GetSchema<T>() where T : class, new()
+        {
+            var t = typeof(T);
+            var obj = new T();
+            var dump = new FlatSchemaDump(obj);
+            return dump.GetSingleFileSchema(t);
+        }
     }
 }
