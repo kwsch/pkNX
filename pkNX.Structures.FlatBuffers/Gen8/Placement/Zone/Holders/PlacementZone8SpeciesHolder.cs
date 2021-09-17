@@ -24,7 +24,8 @@ namespace pkNX.Structures.FlatBuffers
         [Description("Gender Model to load: Male and Genderless 0, Female 1")]
         [FlatBufferItem(04)] public uint Gender { get; set; }
 
-        [FlatBufferItem(05)] public uint Unused1 { get; set; }
+        [Description("Color Model to load: Normal 0, Shiny 1")]
+        [FlatBufferItem(05)] public uint Shiny { get; set; }
         [FlatBufferItem(06)] public uint Unused2 { get; set; }
 
         [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
