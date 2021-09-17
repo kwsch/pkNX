@@ -42,7 +42,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(02)] public uint Field_02 { get; set; }
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public byte Field_04 { get; set; }
-        [FlatBufferItem(05)] public ulong Field_05 { get; set; }
+        [FlatBufferItem(05)] public float Field_05 { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
