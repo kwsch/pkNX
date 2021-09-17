@@ -101,7 +101,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public ulong ZoneID { get; set; }
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
-        [FlatBufferItem(03)] public FlatDummyEntry[] Field_03 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(03)] public string Field_03 { get; set; } // none have this
         [FlatBufferItem(04)] public uint Field_04 { get; set; }
         [FlatBufferItem(05)] public string Music { get; set; }
         [FlatBufferItem(06)] public float Field_06 { get; set; }

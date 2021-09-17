@@ -27,7 +27,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(04)] public float Field_04 { get; set; }
         [FlatBufferItem(05)] public float Field_05 { get; set; }
         [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
-        [FlatBufferItem(07)] public FlatDummyEntry[] Field_07 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(07)] public string Field_07 { get; set; } // none have this
         [FlatBufferItem(08)] public PlacementZone8_F24_Table[] Hash_08 { get; set; }
         [FlatBufferItem(09)] public float Field_09 { get; set; }
         [FlatBufferItem(10)] public float Field_10 { get; set; }
