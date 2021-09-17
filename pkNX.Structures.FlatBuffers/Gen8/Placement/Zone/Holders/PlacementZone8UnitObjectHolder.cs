@@ -28,8 +28,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(02)] public string Animation { get; set; }
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
-        [FlatBufferItem(05)] public FlatDummyEntry[] Field_05 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
-        [FlatBufferItem(06)] public FlatDummyEntry[] Field_06 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(05)] public string Field_05 { get; set; } // none have this
+        [FlatBufferItem(06)] public string Field_06 { get; set; } // none have this
         [FlatBufferItem(07)] public float Field_07 { get; set; }
         [FlatBufferItem(08)] public float Field_08 { get; set; }
         [FlatBufferItem(09)] public float Field_09 { get; set; }

@@ -31,15 +31,15 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
         [FlatBufferItem(01)] public string Model { get; set; }
-        [FlatBufferItem(02)] public FlatDummyEntry[] Field_02 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(02)] public string Field_02 { get; set; } // none have this
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
-        [FlatBufferItem(05)] public FlatDummyEntry[] Field_05 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
-        [FlatBufferItem(06)] public FlatDummyEntry[] Field_06 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(05)] public string Field_05 { get; set; } // none have this
+        [FlatBufferItem(06)] public string Field_06 { get; set; } // none have this
         [FlatBufferItem(07)] public float Field_07 { get; set; }
         [FlatBufferItem(08)] public float Field_08 { get; set; }
         [FlatBufferItem(09)] public float Field_09 { get; set; }
-        [FlatBufferItem(10)] public uint Field_10 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(10)] public float Field_10 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(11)] public PlacementZone8_F14_B Field_11 { get; set; }
         [FlatBufferItem(12)] public uint Field_12 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(13)] public PlacementZone8_F14_B Field_13 { get; set; }

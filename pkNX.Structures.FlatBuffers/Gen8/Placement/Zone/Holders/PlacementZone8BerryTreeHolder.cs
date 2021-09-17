@@ -24,20 +24,19 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public PlacementZone8_F22_0_0 Field_00 { get; set; }
     }
 
-    // field0 has a hash for Berry Trees
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F22_0_0
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
-        [FlatBufferItem(01)] public FlatDummyEntry[] Field_01 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
-        [FlatBufferItem(02)] public FlatDummyEntry[] Field_02 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+        [FlatBufferItem(01)] public string Field_01 { get; set; } // none have this
+        [FlatBufferItem(02)] public string Field_02 { get; set; } // none have this
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
-        [FlatBufferItem(05)] public FlatDummyEntry[] Field_05 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
-        [FlatBufferItem(06)] public FlatDummyEntry[] Field_06 { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
-        [FlatBufferItem(07)] public uint Field_07 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
-        [FlatBufferItem(08)] public uint Field_08 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
-        [FlatBufferItem(09)] public uint Field_09 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(05)] public string Field_05 { get; set; } // none have this
+        [FlatBufferItem(06)] public string Field_06 { get; set; } // none have this
+        [FlatBufferItem(07)] public float Field_07 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(08)] public float Field_08 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
+        [FlatBufferItem(09)] public float Field_09 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(10)] public float Field_10 { get; set; }
         [FlatBufferItem(11)] public PlacementZone8_F22_Sub Field_11 { get; set; }
         [FlatBufferItem(12)] public uint Field_12 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
@@ -48,7 +47,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F22_Sub
     {
-        [FlatBufferItem(00)] public int Field_00 { get; set; }
+        [FlatBufferItem(00)] public uint Field_00 { get; set; }
         [FlatBufferItem(01)] public float Field_01 { get; set; } // unused in all
         [FlatBufferItem(02)] public float Field_02 { get; set; } // unused in all
         [FlatBufferItem(03)] public float Field_03 { get; set; } // unused in all
