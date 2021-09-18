@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -14,34 +13,34 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8BerryTreeHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F22_0 Field_00 { get; set; } // meta
-        [FlatBufferItem(01)] public PlacementZone8BerryTreeRandom[] Field_01 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F22_0 Field_00 { get; set; } = new(); // meta
+        [FlatBufferItem(01)] public PlacementZone8BerryTreeRandom[] Field_01 { get; set; } = Array.Empty<PlacementZone8BerryTreeRandom>();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F22_0
     {
-        [FlatBufferItem(00)] public PlacementZone8_F22_0_0 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F22_0_0 Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F22_0_0
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
-        [FlatBufferItem(01)] public string Field_01 { get; set; } // none have this
-        [FlatBufferItem(02)] public string Field_02 { get; set; } // none have this
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
+        [FlatBufferItem(01)] public string Field_01 { get; set; } = ""; // none have this
+        [FlatBufferItem(02)] public string Field_02 { get; set; } = ""; // none have this
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
-        [FlatBufferItem(05)] public string Field_05 { get; set; } // none have this
-        [FlatBufferItem(06)] public string Field_06 { get; set; } // none have this
+        [FlatBufferItem(05)] public string Field_05 { get; set; } = ""; // none have this
+        [FlatBufferItem(06)] public string Field_06 { get; set; } = ""; // none have this
         [FlatBufferItem(07)] public float Field_07 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(08)] public float Field_08 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(09)] public float Field_09 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(10)] public float Field_10 { get; set; }
-        [FlatBufferItem(11)] public PlacementZone8_F22_Sub Field_11 { get; set; }
+        [FlatBufferItem(11)] public PlacementZone8_F22_Sub Field_11 { get; set; } = new();
         [FlatBufferItem(12)] public uint Field_12 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
-        [FlatBufferItem(13)] public PlacementZone8_F22_Sub Field_13 { get; set; }
-        [FlatBufferItem(14)] public PlacementZone8_F22_BoolObject14 Field_14 { get; set; }
+        [FlatBufferItem(13)] public PlacementZone8_F22_Sub Field_13 { get; set; } = new();
+        [FlatBufferItem(14)] public PlacementZone8_F22_BoolObject14 Field_14 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -58,7 +57,7 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8_F22_BoolObject14
     {
         [FlatBufferItem(0)] public byte Type { get; set; }
-        [FlatBufferItem(1)] public PlacementZone_F22_Inner Object { get; set; }
+        [FlatBufferItem(1)] public PlacementZone_F22_Inner Object { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

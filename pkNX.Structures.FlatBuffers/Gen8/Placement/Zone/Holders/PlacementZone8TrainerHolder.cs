@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -14,14 +13,14 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8TrainerHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F08 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F08 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public float Field_01 { get; set; }
         [FlatBufferItem(02)] public ulong TrainerID { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public ulong MovementPath { get; set; }
         [FlatBufferItem(05)] public PlacementZone8_F08_ArrayEntry[] Unknown { get; set; } = Array.Empty<PlacementZone8_F08_ArrayEntry>();
         [FlatBufferItem(06)] public uint Field_06 { get; set; }
-        [FlatBufferItem(07)] public PlacementZone8_F08_Nine Field_07 { get; set; }
+        [FlatBufferItem(07)] public PlacementZone8_F08_Nine Field_07 { get; set; } = new();
         [FlatBufferItem(08)] public uint Field_08 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(09)] public uint Field_09 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(10)] public uint Field_10 { get; set; }
@@ -58,20 +57,20 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F08
     {
-        [FlatBufferItem(0)] public PlacementZone8_F08_A Field_00 { get; set; }
+        [FlatBufferItem(0)] public PlacementZone8_F08_A Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F08_A
     {
-        [FlatBufferItem(0)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(0)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(1)] public ulong Hash_01 { get; set; }
         [FlatBufferItem(2)] public ulong Hash_02 { get; set; }
         [FlatBufferItem(3)] public ulong Hash_03 { get; set; }
-        [FlatBufferItem(4)] public PlacementZone8_F08_IntFloat Field_04 { get; set; }
+        [FlatBufferItem(4)] public PlacementZone8_F08_IntFloat Field_04 { get; set; } = new();
         [FlatBufferItem(5)] public uint Field_06 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(6)] public ulong Hash_06 { get; set; }
-        [FlatBufferItem(7)] public PlacementZone8_F08_IntFloat Field_07 { get; set; }
+        [FlatBufferItem(7)] public PlacementZone8_F08_IntFloat Field_07 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

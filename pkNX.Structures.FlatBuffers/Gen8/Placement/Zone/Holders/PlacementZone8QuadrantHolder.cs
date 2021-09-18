@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -14,15 +13,15 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8QuadrantHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F17 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F17 Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F17
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public PlacementZone8_F17_Sub Field_02 { get; set; }
+        [FlatBufferItem(02)] public PlacementZone8_F17_Sub Field_02 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

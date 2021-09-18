@@ -23,5 +23,7 @@ namespace pkNX.Structures.FlatBuffers
         }
 
         public override string ToString() => "UNUSED OBJECT: NO FIELD DATA";
+
+        public FlatDummyObject Clone() => this;
     }
 }

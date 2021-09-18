@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -14,7 +13,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8IKStepHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F25 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F25 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public byte Field_01 { get; set; }
         [FlatBufferItem(02)] public byte Field_02 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(03)] public byte Field_03 { get; set; }
@@ -23,9 +22,9 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F25
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public ulong Field_01 { get; set; }
-        [FlatBufferItem(02)] public PlacementZone8_F25_X Field_02 { get; set; }
+        [FlatBufferItem(02)] public PlacementZone8_F25_X Field_02 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

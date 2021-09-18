@@ -5,7 +5,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -13,18 +12,18 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8SymbolSpawnHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8SymbolSpawn Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8SymbolSpawn Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8SymbolSpawn
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public int Field_01 { get; set; }
-        [FlatBufferItem(02)] public PlacementZone8_F20_Sub Field_02 { get; set; }
-        [FlatBufferItem(03)] public PlacementZone8_F20_Sub Field_03 { get; set; }
-        [FlatBufferItem(04)] public PlacementZone8_F20_Sub Field_04 { get; set; }
-        [FlatBufferItem(05)] public PlacementZone8_F20_Sub Field_05 { get; set; }
+        [FlatBufferItem(02)] public PlacementZone8_F20_Sub Field_02 { get; set; } = new();
+        [FlatBufferItem(03)] public PlacementZone8_F20_Sub Field_03 { get; set; } = new();
+        [FlatBufferItem(04)] public PlacementZone8_F20_Sub Field_04 { get; set; } = new();
+        [FlatBufferItem(05)] public PlacementZone8_F20_Sub Field_05 { get; set; } = new();
         [FlatBufferItem(06)] public int Field_06 { get; set; }
         [FlatBufferItem(07)] public ulong SymbolHash { get; set; }
     }

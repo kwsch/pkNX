@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -15,7 +14,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8OtherNPCHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8_F16 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F16 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public uint Field_01 { get; set; }
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
@@ -26,7 +25,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(08)] public uint Field_08 { get; set; }
         [FlatBufferItem(09)] public uint Field_09 { get; set; }
         [FlatBufferItem(10)] public float Field_10 { get; set; }
-        [FlatBufferItem(11)] public PlacementZone8_F02_Nine Field_11 { get; set; }
+        [FlatBufferItem(11)] public PlacementZone8_F02_Nine Field_11 { get; set; } = new();
         [FlatBufferItem(12)] public uint Field_12 { get; set; }
         [FlatBufferItem(13)] public uint Field_13 { get; set; }
         [FlatBufferItem(14)] public uint Field_14 { get; set; }
@@ -48,20 +47,20 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F16
     {
-        [FlatBufferItem(00)] public PlacementZone8_F16_A Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8_F16_A Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F16_A
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
-        [FlatBufferItem(04)] public PlacementZone8_F16_IntFloat Field_04 { get; set; }
+        [FlatBufferItem(04)] public PlacementZone8_F16_IntFloat Field_04 { get; set; } = new();
         [FlatBufferItem(05)] public byte Byte_05 { get; set; }
         [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
-        [FlatBufferItem(07)] public PlacementZone8_F16_IntFloat Field_07 { get; set; }
+        [FlatBufferItem(07)] public PlacementZone8_F16_IntFloat Field_07 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

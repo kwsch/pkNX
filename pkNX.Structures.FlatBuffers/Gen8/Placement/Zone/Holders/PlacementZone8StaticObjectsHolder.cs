@@ -7,7 +7,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -15,20 +14,20 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8StaticObjectsHolder
     {
-        [FlatBufferItem(0)] public PlacementZoneStaticObject8 Object { get; set; }
+        [FlatBufferItem(0)] public PlacementZoneStaticObject8 Object { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObject8
     {
-        [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; }
+        [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; } = new();
         [FlatBufferItem(1)] public uint Field_01 { get; set; }
         [FlatBufferItem(2)] public uint Rate { get; set; } // usually 100, but 
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
         [FlatBufferItem(4)] public byte Field_04 { get; set; }
-        [FlatBufferItem(5)] public PlacementZoneStaticObjectSpawn8[] Spawns { get; set; }
-        [FlatBufferItem(6)] public PlacementZoneStaticObjectUnknown8 Field_06 { get; set; }
-        [FlatBufferItem(7)] public PlacementZoneStaticObjectUnknown8 Field_07 { get; set; }
+        [FlatBufferItem(5)] public PlacementZoneStaticObjectSpawn8[] Spawns { get; set; } = Array.Empty<PlacementZoneStaticObjectSpawn8>();
+        [FlatBufferItem(6)] public PlacementZoneStaticObjectUnknown8 Field_06 { get; set; } = new();
+        [FlatBufferItem(7)] public PlacementZoneStaticObjectUnknown8 Field_07 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -52,10 +51,10 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZoneStaticObjectSpawn8
     {
         [FlatBufferItem(0)] public ulong SpawnID { get; set; }
-        [FlatBufferItem(1)] public string Behavior { get; set; } // passed to Lua script for animating
+        [FlatBufferItem(1)] public string Behavior { get; set; } = ""; // passed to Lua script for animating
         [FlatBufferItem(2)] public ulong Field_02 { get; set; } // default hash for all, likely empty string
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
-        [FlatBufferItem(4)] public PlacementZoneStaticObjectUnknown8 Field_04 { get; set; }
+        [FlatBufferItem(4)] public PlacementZoneStaticObjectUnknown8 Field_04 { get; set; } = new();
 
         public IEnumerable<string> GetSummary(EncounterStatic8[] statics, IReadOnlyList<string> species)
         {

@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -14,11 +13,11 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementArea8Archive : IFlatBufferArchive<PlacementZone8>
     {
-        [FlatBufferItem(00)] public PlacementZone8[] Table { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8[] Table { get; set; } = Array.Empty<PlacementZone8>();
         [FlatBufferItem(01)] public ulong Hash { get; set; }
-        [FlatBufferItem(02)] public string Description { get; set; }
-        [FlatBufferItem(03)] public string OtherDescription { get; set; }
-        [FlatBufferItem(04)] public PlacementArea8_F04 Unknown { get; set; }
+        [FlatBufferItem(02)] public string Description { get; set; } = "";
+        [FlatBufferItem(03)] public string OtherDescription { get; set; } = "";
+        [FlatBufferItem(04)] public PlacementArea8_F04 Unknown { get; set; } = new();
         [FlatBufferItem(05)] public float Field_05 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(06)] public float Field_06 { get; set; }
         [FlatBufferItem(07)] public float Field_07 { get; set; }
@@ -38,7 +37,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(21)] public float Field_21 { get; set; }
         [FlatBufferItem(22)] public float Field_22 { get; set; }
         [FlatBufferItem(23)] public float Field_23 { get; set; }
-        [FlatBufferItem(24)] public PlacementArea8_F24 Field_24 { get; set; }
+        [FlatBufferItem(24)] public PlacementArea8_F24 Field_24 { get; set; } = new();
         [FlatBufferItem(25)] public uint  Field_25 { get; set; } // 3000
         [FlatBufferItem(26)] public float Field_26 { get; set; }
         [FlatBufferItem(27)] public byte  Field_27 { get; set; }

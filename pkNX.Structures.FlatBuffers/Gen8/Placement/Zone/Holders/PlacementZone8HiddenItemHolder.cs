@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -5,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -13,15 +13,15 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8HiddenItemHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8HiddenItem Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZone8HiddenItem Field_00 { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8HiddenItem
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
-        [FlatBufferItem(01)] public PlacementZone8HiddenItemValue Field_01 { get; set; }
-        [FlatBufferItem(02)] public PlacementZone8HiddenItemChance[] Field_02 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
+        [FlatBufferItem(01)] public PlacementZone8HiddenItemValue Field_01 { get; set; } = new();
+        [FlatBufferItem(02)] public PlacementZone8HiddenItemChance[] Field_02 { get; set; } = Array.Empty<PlacementZone8HiddenItemChance>();
         [FlatBufferItem(03)] public int Field_03 { get; set; }
         [FlatBufferItem(04)] public uint Field_04 { get; set; }
         [FlatBufferItem(05)] public float Field_05 { get; set; }

@@ -5,7 +5,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -13,7 +12,7 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementArea8_F24
     {
         [FlatBufferItem(00)] public byte Field_00 { get; set; }
-        [FlatBufferItem(01)] public PlacementAreaUnknownTiny8 Field_01 { get; set; }
+        [FlatBufferItem(01)] public PlacementAreaUnknownTiny8 Field_01 { get; set; } = new();
         [FlatBufferItem(02)] public float Field_02 { get; set; }
 
         public override string ToString() => $"{Field_00}, {Field_02}: {Field_01}";

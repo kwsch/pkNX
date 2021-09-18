@@ -6,14 +6,13 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers
 {
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8WarpHolder
     {
-        [FlatBufferItem(00)] public PlacementZoneWarp8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneWarp8 Field_00 { get; set; } = new();
 
         public override string ToString() => $"{Field_00.OtherAreaName} via {Field_00.ModelName}";
     }
@@ -21,18 +20,18 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneWarp8
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public string OtherAreaName { get; set; }
-        [FlatBufferItem(03)] public string ModelName { get; set; }
-        [FlatBufferItem(04)] public string Animation { get; set; }
+        [FlatBufferItem(02)] public string OtherAreaName { get; set; } = "";
+        [FlatBufferItem(03)] public string ModelName { get; set; } = "";
+        [FlatBufferItem(04)] public string Animation { get; set; } = "";
         [FlatBufferItem(05)] public int Field_05 { get; set; }
         [FlatBufferItem(06)] public float Field_06 { get; set; }
         [FlatBufferItem(07)] public bool Field_07 { get; set; }
         [FlatBufferItem(08)] public ulong Hash_08 { get; set; }
-        [FlatBufferItem(09)] public PlacementZoneWarpDetails8 SubMeta { get; set; }
-        [FlatBufferItem(10)] public string SoundEffect1 { get; set; }
-        [FlatBufferItem(11)] public string SoundEffect2 { get; set; }
+        [FlatBufferItem(09)] public PlacementZoneWarpDetails8 SubMeta { get; set; } = new();
+        [FlatBufferItem(10)] public string SoundEffect1 { get; set; } = "";
+        [FlatBufferItem(11)] public string SoundEffect2 { get; set; } = "";
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
