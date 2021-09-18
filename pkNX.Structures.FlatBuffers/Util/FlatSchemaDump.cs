@@ -18,17 +18,27 @@ namespace pkNX.Structures.FlatBuffers
         public string GetSingleFileSchema(Type type) =>
 $@"namespace {type.Namespace};
 {string.Join(Environment.NewLine + Environment.NewLine, GeneratedSchemas)}
-root_type {type.Name};";
+root_type {GetName(type)};";
 
         private void Recurse(Type t)
         {
             var type = GetType(t);
-            if (type.IsValueType || type == typeof(string))
+            if ((type.IsValueType && !type.IsEnum) || type == typeof(string))
                 return;
-            var name = type.Name;
+            var name = GetName(type);
             if (GeneratedClasses.Contains(name))
                 return;
 
+            if (type.IsEnum)
+                AddEnum(type, name);
+            else if (type.IsGenericType)
+                AddGeneric(type, name);
+            else
+                AddTable(type, name);
+        }
+
+        private void AddTable(Type type, string name)
+        {
             var props = type.GetTypeInfo().DeclaredProperties.ToArray();
             var lines = props.Select(GetPropLine);
 
@@ -44,6 +54,44 @@ root_type {type.Name};";
                 Recurse(p.PropertyType);
         }
 
+        private void AddGeneric(Type type, string name)
+        {
+            // Create a union schema first, then execute the inner types.
+            var types = type.GenericTypeArguments;
+            var names = types.Select(z => GetName(GetType(z)));
+            var schema = $"union {name} {{ {string.Join(", ", names)} }}";
+            GeneratedClasses.Add(name);
+            GeneratedSchemas.Add(schema);
+
+            foreach (var t in types)
+                Recurse(t);
+        }
+
+        private void AddEnum(Type type, string name)
+        {
+            var underlying = type.GetEnumUnderlyingType();
+            var underlyingName = Aliases[underlying];
+            var kvps = GetEnumMembers(type);
+            var schema = $@"enum {GetName(type)} : {underlyingName} {{
+  {string.Join(Environment.NewLine + "  ", kvps)}
+}}";
+            GeneratedClasses.Add(name);
+            GeneratedSchemas.Add(schema);
+        }
+
+        private static IEnumerable<string> GetEnumMembers(Type type)
+        {
+            var names = type.GetEnumNames();
+            var values = type.GetEnumValues(); // not index-able, for shame. need to iterate
+            int ctr = 0;
+            foreach (var v in values)
+            {
+                var name = names[ctr++];
+                var value = Convert.ChangeType(v, Type.GetTypeCode(type));
+                yield return $"{name} = {value},";
+            }
+        }
+
         private static Type GetType(Type t)
         {
             if (t.IsArray)
@@ -51,6 +99,21 @@ root_type {type.Name};";
             if (t.Namespace == "Generated")
                 return t.BaseType ?? throw new NullReferenceException("Base type should not be null.");
             return t;
+        }
+
+        private static string GetName(Type t)
+        {
+            var name = t.Name;
+            if (!name.Contains('`'))
+                return name;
+            // generated class names get normalized
+            if (!t.IsGenericType)
+                return t.Name;
+
+            var types = t.GenericTypeArguments;
+            var names = types.Select(z => GetName(GetType(z)));
+            var typeConcat = string.Concat(names);
+            return t.Name.Replace("`", "") + typeConcat;
         }
 
         private static string GetPropLine(PropertyInfo p)
@@ -61,7 +124,7 @@ root_type {type.Name};";
 
             var realType = GetType(type);
             if (!Aliases.TryGetValue(realType, out var tn))
-                tn = realType.Name;
+                tn = GetName(realType);
             if (array)
                 tn = $"[{tn}]";
             return $"{name}:{tn};";
