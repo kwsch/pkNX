@@ -36,12 +36,12 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public float LocationX { get; set; }
         [FlatBufferItem(01)] public float LocationY { get; set; }
         [FlatBufferItem(02)] public float LocationZ { get; set; }
-        [FlatBufferItem(03)] public uint Field_3 { get; set; }
-        [FlatBufferItem(04)] public uint Field_4 { get; set; }
-        [FlatBufferItem(05)] public uint Field_5 { get; set; }
-        [FlatBufferItem(06)] public float Field_6 { get; set; }
-        [FlatBufferItem(07)] public float Field_7 { get; set; }
-        [FlatBufferItem(08)] public float Field_8 { get; set; }
+        [FlatBufferItem(03)] public float RotationX { get; set; } // assumed
+        [FlatBufferItem(04)] public float RotationY { get; set; }
+        [FlatBufferItem(05)] public float RotationZ { get; set; } // assumed
+        [FlatBufferItem(06)] public float ScaleX  { get; set; }
+        [FlatBufferItem(07)] public float ScaleY  { get; set; }
+        [FlatBufferItem(08)] public float ScaleZ  { get; set; }
         [FlatBufferItem(09)] public ulong SpawnerID { get; set; }
         [FlatBufferItem(10)] public ulong Field_A { get; set; }
         [FlatBufferItem(11)] public ulong Field_B { get; set; }

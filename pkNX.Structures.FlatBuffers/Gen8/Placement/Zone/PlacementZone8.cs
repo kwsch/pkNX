@@ -125,15 +125,22 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(00)] public float LocationX { get; set; }
         [FlatBufferItem(01)] public float LocationY { get; set; }
         [FlatBufferItem(02)] public float LocationZ { get; set; }
-        [FlatBufferItem(03)] public float Field_03  { get; set; } // assumed
-        [FlatBufferItem(04)] public float Field_04  { get; set; }
-        [FlatBufferItem(05)] public float Field_05  { get; set; } // assumed
-        [FlatBufferItem(06)] public float Field_06  { get; set; }
-        [FlatBufferItem(07)] public float Field_07  { get; set; }
-        [FlatBufferItem(08)] public float Field_08  { get; set; }
+        [FlatBufferItem(03)] public float RotationX { get; set; } // assumed
+        [FlatBufferItem(04)] public float RotationY { get; set; }
+        [FlatBufferItem(05)] public float RotationZ { get; set; } // assumed
+        [FlatBufferItem(06)] public float ScaleX    { get; set; }
+        [FlatBufferItem(07)] public float ScaleY    { get; set; }
+        [FlatBufferItem(08)] public float ScaleZ    { get; set; }
         [FlatBufferItem(09)] public ulong Hash_09   { get; set; }
         [FlatBufferItem(10)] public ulong Hash_10   { get; set; }
         [FlatBufferItem(11)] public ulong Hash_11   { get; set; }
+
+        public void Upscale(float factor)
+        {
+            ScaleX *= factor;
+            ScaleY *= factor;
+            ScaleZ *= factor;
+        }
 
         public override string ToString() => $"{Hash_09:X16}";
 
@@ -142,12 +149,12 @@ namespace pkNX.Structures.FlatBuffers
             LocationX = LocationX,
             LocationY = LocationY,
             LocationZ = LocationZ,
-            Field_03 = Field_03,
-            Field_04 = Field_04,
-            Field_05 = Field_05,
-            Field_06 = Field_06,
-            Field_07 = Field_07,
-            Field_08 = Field_08,
+            RotationX = RotationX,
+            RotationY = RotationY,
+            RotationZ = RotationZ,
+            ScaleX = ScaleX,
+            ScaleY = ScaleY,
+            ScaleZ = ScaleZ,
             Hash_09 = Hash_09,
             Hash_10 = Hash_10,
             Hash_11 = Hash_11,
