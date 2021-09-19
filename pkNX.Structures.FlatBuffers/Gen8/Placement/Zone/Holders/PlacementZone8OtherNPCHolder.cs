@@ -31,6 +31,27 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(14)] public uint Field_14 { get; set; }
         [FlatBufferItem(15)] public uint Field_15 { get; set; }
         [FlatBufferItem(16)] public uint Field_16 { get; set; }
+
+        public PlacementZone8OtherNPCHolder Clone() => new()
+        {
+            Field_00 = Field_00.Clone(),
+            Field_01 = Field_01,
+            Hash_02 = Hash_02,
+            Hash_03 = Hash_03,
+            Field_04 = Field_04,
+            Hash_05 = Hash_05,
+            Field_06 = Field_06,
+            Field_07 = Field_07,
+            Field_08 = Field_08,
+            Field_09 = Field_09,
+            Field_10 = Field_10,
+            Field_11 = Field_11.Clone(),
+            Field_12 = Field_12,
+            Field_13 = Field_13,
+            Field_14 = Field_14,
+            Field_15 = Field_15,
+            Field_16 = Field_16,
+        };
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -48,6 +69,11 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8_F16
     {
         [FlatBufferItem(00)] public PlacementZone8_F16_A Field_00 { get; set; } = new();
+
+        public PlacementZone8_F16 Clone() => new()
+        {
+            Field_00 = Field_00.Clone(),
+        };
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -61,6 +87,18 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(05)] public byte Byte_05 { get; set; }
         [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F16_IntFloat Field_07 { get; set; } = new();
+
+        public PlacementZone8_F16_A Clone() => new()
+        {
+            Field_00 = Field_00.Clone(),
+            Hash_01 = Hash_01,
+            Hash_02 = Hash_02,
+            Hash_03 = Hash_03,
+            Field_04 = Field_04.Clone(),
+            Byte_05 = Byte_05,
+            Hash_06 = Hash_06,
+            Field_07 = Field_07.Clone()
+        };
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -71,5 +109,14 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(02)] public float Field_02 { get; set; }
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
+
+        public PlacementZone8_F16_IntFloat Clone() => new()
+        {
+            Field_00 = Field_00,
+            Field_01 = Field_01,
+            Field_02 = Field_02,
+            Field_03 = Field_03,
+            Field_04 = Field_04
+        };
     }
 }
