@@ -35,12 +35,8 @@ namespace pkNX.Structures.FlatBuffers
 
         public readonly Dictionary<ulong, string> Models = new()
         {
-            // { 0xFAB9E0BC5EB53C61, "???" },
-            // { 0xAF66C64C8606E02A, "???" },
-            // { 0xAF66C94C8606E543, "???" },
-            // { 0x6778893672622C8E, "???" },
+            // { 0xFAB9E0BC5EB53C61, "???" }, // CROSS_SHADOW_CHR_0
             { 0x6E0EF08728A00183, "Allister" },
-            { 0x46DD9B2B85198218, "Alternate Hiker" },
             { 0x6F31044210C526CA, "Artist" },
             { 0x17C135EB3A312C5A, "Avery" },
             { 0xF5A2F864A1EA03C8, "Backpacker" },
@@ -53,6 +49,7 @@ namespace pkNX.Structures.FlatBuffers
             { 0x75616746BD4D626C, "Cabbie" },
             { 0x5EC6DF381EF1AC4F, "Cafe Master" },
             { 0x4B75CAF6B6D9821E, "Cameraman" },
+            { 0x46DD9B2B85198218, "Camping King" },
             { 0xAD1F1CBFF500E7EA, "Cara Liss" },
             { 0xCA7C32F9B2364791, "Chef" },
             { 0xEEF53504D3C99ABC, "Child (F)" },
@@ -106,6 +103,7 @@ namespace pkNX.Structures.FlatBuffers
             { 0x2E8D2F2916BE7C7B, "Hop" },
             { 0x23D846291019B890, "Hop (Gym Outfit)" },
             { 0x2E53B82FF113D3D0, "Hop's Mother" },
+            { 0x6778893672622C8E, "Hop's Poké Ball" },
             { 0x50F70038EB311D7F, "Hyde" },
             { 0x92F76E5098674167, "Jack" },
             { 0x9DAEC40F62597D12, "Kabu" },
@@ -138,8 +136,8 @@ namespace pkNX.Structures.FlatBuffers
             { 0x0711270D2F2871C3, "Nessa" },
             { 0xD9244B1D4E2EA67D, "Office Worker (F)" },
             { 0xA0727E7FCB024401, "Office Worker (M)" },
-            { 0xB172CE7745D249F0, "Old Woman" },
             { 0x65270056A7A9437D, "Old Man" },
+            { 0xB172CE7745D249F0, "Old Woman" },
             { 0x70C43DC41CB92D6B, "Oleana" },
             { 0x929145895D09467D, "Opal" },
             { 0x43C7B6AD72ECEEE9, "Opal" },
@@ -164,6 +162,8 @@ namespace pkNX.Structures.FlatBuffers
             { 0x8647F49FC658C046, "Rose" },
             { 0x8E70DD9FCAD3FEF1, "Rose (Casual)" },
             { 0xCDAA7C271FA2DB1F, "Rotomi" },
+            { 0xAF66C64C8606E02A, "Rusted Sword" },
+            { 0xAF66C94C8606E543, "Rusted Shield" },
             { 0x8D72924BAD918727, "Schoolboy" },
             { 0x0A466C0B77D1159E, "Schoolgirl" },
             { 0x69C39C997BCD88B4, "Shielbert" },
