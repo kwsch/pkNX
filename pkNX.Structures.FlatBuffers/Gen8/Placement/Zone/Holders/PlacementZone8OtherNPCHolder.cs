@@ -15,7 +15,7 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8OtherNPCHolder
     {
         [FlatBufferItem(00)] public PlacementZone8_F16 Field_00 { get; set; } = new();
-        [FlatBufferItem(01)] public uint Field_01 { get; set; }
+        [FlatBufferItem(01)] public uint ModelVariant { get; set; }
         [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F16_ArrayEntry[] Field_04 { get; set; } = Array.Empty<PlacementZone8_F16_ArrayEntry>(); // a_0201.bin[0].[76] @ AAE8
@@ -32,10 +32,16 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(15)] public uint Field_15 { get; set; }
         [FlatBufferItem(16)] public uint Field_16 { get; set; }
 
+        public override string ToString()
+        {
+            var ident = Field_00.Field_00.Identifier;
+            return $"{ident.ObjectNameHash:X16} v{ModelVariant} @ {ident.Location3f}";
+        }
+
         public PlacementZone8OtherNPCHolder Clone() => new()
         {
             Field_00 = Field_00.Clone(),
-            Field_01 = Field_01,
+            ModelVariant = ModelVariant,
             Hash_02 = Hash_02,
             Hash_03 = Hash_03,
             Field_04 = Field_04,
@@ -79,23 +85,23 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_F16_A
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Identifier { get; set; } = new();
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public ulong Hash_02 { get; set; }
+        [FlatBufferItem(02)] public ulong ModelHash { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F16_IntFloat Field_04 { get; set; } = new();
-        [FlatBufferItem(05)] public byte Byte_05 { get; set; }
+        [FlatBufferItem(05)] public bool Flag_05 { get; set; }
         [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F16_IntFloat Field_07 { get; set; } = new();
 
         public PlacementZone8_F16_A Clone() => new()
         {
-            Field_00 = Field_00.Clone(),
+            Identifier = Identifier.Clone(),
             Hash_01 = Hash_01,
-            Hash_02 = Hash_02,
+            ModelHash = ModelHash,
             Hash_03 = Hash_03,
             Field_04 = Field_04.Clone(),
-            Byte_05 = Byte_05,
+            Flag_05 = Flag_05,
             Hash_06 = Hash_06,
             Field_07 = Field_07.Clone()
         };
