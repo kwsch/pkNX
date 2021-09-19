@@ -65,7 +65,7 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(0)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
         [FlatBufferItem(1)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(2)] public ulong Hash_02 { get; set; }
+        [FlatBufferItem(2)] public ulong HashModel { get; set; }
         [FlatBufferItem(3)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(4)] public PlacementZone8_F08_IntFloat Field_04 { get; set; } = new();
         [FlatBufferItem(5)] public uint Field_06 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
