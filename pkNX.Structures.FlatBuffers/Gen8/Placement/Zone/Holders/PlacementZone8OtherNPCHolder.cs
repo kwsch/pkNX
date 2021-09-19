@@ -20,14 +20,14 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F16_ArrayEntry[] Field_04 { get; set; } = Array.Empty<PlacementZone8_F16_ArrayEntry>(); // a_0201.bin[0].[76] @ AAE8
         [FlatBufferItem(05)] public ulong Hash_05 { get; set; }
-        [FlatBufferItem(06)] public byte Field_06 { get; set; }
+        [FlatBufferItem(06)] public bool IsSitting { get; set; }
         [FlatBufferItem(07)] public byte Field_07 { get; set; }
         [FlatBufferItem(08)] public uint Field_08 { get; set; }
         [FlatBufferItem(09)] public uint Field_09 { get; set; }
         [FlatBufferItem(10)] public float Field_10 { get; set; }
         [FlatBufferItem(11)] public PlacementZone8_F02_Nine Field_11 { get; set; } = new();
         [FlatBufferItem(12)] public uint Field_12 { get; set; }
-        [FlatBufferItem(13)] public uint Field_13 { get; set; }
+        [FlatBufferItem(13)] public uint ModelAnimation { get; set; }
         [FlatBufferItem(14)] public uint Field_14 { get; set; }
         [FlatBufferItem(15)] public uint Field_15 { get; set; }
         [FlatBufferItem(16)] public uint Field_16 { get; set; }
@@ -46,14 +46,14 @@ namespace pkNX.Structures.FlatBuffers
             Hash_03 = Hash_03,
             Field_04 = Field_04,
             Hash_05 = Hash_05,
-            Field_06 = Field_06,
+            IsSitting = IsSitting,
             Field_07 = Field_07,
             Field_08 = Field_08,
             Field_09 = Field_09,
             Field_10 = Field_10,
             Field_11 = Field_11.Clone(),
             Field_12 = Field_12,
-            Field_13 = Field_13,
+            ModelAnimation = ModelAnimation,
             Field_14 = Field_14,
             Field_15 = Field_15,
             Field_16 = Field_16,
