@@ -15,15 +15,15 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public PlacementZone8UnitObject Object { get; set; } = new();
 
-        public override string ToString() => Object.Model;
+        public override string ToString() => Object.NameModel;
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8UnitObject
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
-        [FlatBufferItem(01)] public string Model { get; set; } = "";
-        [FlatBufferItem(02)] public string Animation { get; set; } = "";
+        [FlatBufferItem(01)] public string NameModel { get; set; } = "";
+        [FlatBufferItem(02)] public string NameAnimation { get; set; } = "";
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
         [FlatBufferItem(05)] public string Field_05 { get; set; } = ""; // none have this

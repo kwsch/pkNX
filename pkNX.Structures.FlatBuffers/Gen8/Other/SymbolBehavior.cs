@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using FlatSharp.Attributes;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
@@ -14,7 +14,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class SymbolBehaveRoot : IFlatBufferArchive<SymbolBehave>
     {
-        [FlatBufferItem(00)] public SymbolBehave[] Table { get; set; }
+        [FlatBufferItem(00)] public SymbolBehave[] Table { get; set; } = Array.Empty<SymbolBehave>();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -24,7 +24,7 @@ namespace pkNX.Structures.FlatBuffers
 
         [FlatBufferItem(00)] public float Field_00 {get; set;}
         [FlatBufferItem(01)] public float Field_01 {get; set;}
-        [FlatBufferItem(02)] public string ModelPart {get; set;}
+        [FlatBufferItem(02)] public string ModelPart {get; set;} = "";
         [FlatBufferItem(03)] public float Field_03 {get; set;}
         [FlatBufferItem(04)] public ulong Hash1 {get; set;}
         [FlatBufferItem(05)] public ulong Hash2 {get; set;}
@@ -44,7 +44,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(19)] public float Field_19 {get; set;}
         [FlatBufferItem(20)] public float Field_20 {get; set;}
         [FlatBufferItem(21)] public float Field_21 {get; set;}
-        [FlatBufferItem(22)] public string SpeciesNameJPN {get; set;}
+        [FlatBufferItem(22)] public string SpeciesNameJPN {get; set;} = ""; // internal name
         [FlatBufferItem(23)] public float Field_23 {get; set;}
         [FlatBufferItem(24)] public float Field_24 {get; set;}
         [FlatBufferItem(25)] public float Field_25 {get; set;}
@@ -53,7 +53,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(28)] public float Field_28 {get; set;} // unused default, assumed float
         [FlatBufferItem(29)] public int Field_29 {get; set;}
         [FlatBufferItem(30)] public int Field_30 {get; set;} // unused default, assumed int
-        [FlatBufferItem(31)] public string Behavior {get; set;}
+        [FlatBufferItem(31)] public string Behavior {get; set;} = "";
         [FlatBufferItem(32)] public int Field_32 {get; set;}
         [FlatBufferItem(33)] public int Field_33 {get; set;} // unused default, assumed int
         [FlatBufferItem(34)] public int Field_34 {get; set;} // unused default, assumed int

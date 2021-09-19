@@ -29,9 +29,9 @@ namespace pkNX.Structures.FlatBuffers
     public class PokeModelConfig
     {
         [FlatBufferItem(00)] public PokeModelMeta Meta { get; set; }
-        [FlatBufferItem(01)] public string ModelPath { get; set; }
-        [FlatBufferItem(02)] public string ConfigPath { get; set; }
-        [FlatBufferItem(03)] public string ArchivePath { get; set; }
+        [FlatBufferItem(01)] public string PathModel { get; set; }
+        [FlatBufferItem(02)] public string PathConfig { get; set; }
+        [FlatBufferItem(03)] public string PathArchive { get; set; }
         [FlatBufferItem(04)] public AnimationConfigStringTuple[] Animations { get; set; }
     }
 

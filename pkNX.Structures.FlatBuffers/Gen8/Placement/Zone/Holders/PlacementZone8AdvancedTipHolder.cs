@@ -30,8 +30,8 @@ namespace pkNX.Structures.FlatBuffers
     public class PlacementZone8_F14
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; }
-        [FlatBufferItem(01)] public string Model { get; set; }
-        [FlatBufferItem(02)] public string Field_02 { get; set; } // none have this
+        [FlatBufferItem(01)] public string NameModel { get; set; }
+        [FlatBufferItem(02)] public string NameAnimation { get; set; } // none have this
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public float Field_04 { get; set; }
         [FlatBufferItem(05)] public string Field_05 { get; set; } // none have this

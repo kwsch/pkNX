@@ -35,7 +35,7 @@ namespace pkNX.Structures.FlatBuffers
         public override string ToString()
         {
             var ident = Field_00.Field_00.Identifier;
-            return $"{ident.ObjectNameHash:X16} v{ModelVariant} @ {ident.Location3f}";
+            return $"{ident.HashObjectName:X16} v{ModelVariant} @ {ident.Location3f}";
         }
 
         public PlacementZone8OtherNPCHolder Clone() => new()
@@ -87,23 +87,23 @@ namespace pkNX.Structures.FlatBuffers
     {
         [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Identifier { get; set; } = new();
         [FlatBufferItem(01)] public ulong Hash_01 { get; set; }
-        [FlatBufferItem(02)] public ulong ModelHash { get; set; }
+        [FlatBufferItem(02)] public ulong HashModel { get; set; }
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F16_IntFloat Field_04 { get; set; } = new();
         [FlatBufferItem(05)] public bool Flag_05 { get; set; }
-        [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
+        [FlatBufferItem(06)] public ulong HashMessage { get; set; }
         [FlatBufferItem(07)] public PlacementZone8_F16_IntFloat Field_07 { get; set; } = new();
 
         public PlacementZone8_F16_A Clone() => new()
         {
             Identifier = Identifier.Clone(),
             Hash_01 = Hash_01,
-            ModelHash = ModelHash,
+            HashModel = HashModel,
             Hash_03 = Hash_03,
             Field_04 = Field_04.Clone(),
             Flag_05 = Flag_05,
-            Hash_06 = Hash_06,
-            Field_07 = Field_07.Clone()
+            HashMessage = HashMessage,
+            Field_07 = Field_07.Clone(),
         };
     }
 
