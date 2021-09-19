@@ -116,7 +116,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(14)] public byte Field_14 { get; set; }
         [FlatBufferItem(15)] public int Num_15 { get; set; }
 
-        public override string ToString() => $"{Field_00.Hash_09:X16}";
+        public override string ToString() => $"{Field_00.ObjectNameHash:X16}";
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -131,7 +131,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(06)] public float ScaleX    { get; set; }
         [FlatBufferItem(07)] public float ScaleY    { get; set; }
         [FlatBufferItem(08)] public float ScaleZ    { get; set; }
-        [FlatBufferItem(09)] public ulong Hash_09   { get; set; }
+        [FlatBufferItem(09)] public ulong ObjectNameHash { get; set; }
         [FlatBufferItem(10)] public ulong Hash_10   { get; set; }
         [FlatBufferItem(11)] public ulong Hash_11   { get; set; }
 
@@ -142,7 +142,7 @@ namespace pkNX.Structures.FlatBuffers
             ScaleZ *= factor;
         }
 
-        public override string ToString() => $"{Hash_09:X16}";
+        public override string ToString() => $"{ObjectNameHash:X16}";
 
         public PlacementZoneMetaTripleXYZ8 Clone() => new()
         {
@@ -155,7 +155,7 @@ namespace pkNX.Structures.FlatBuffers
             ScaleX = ScaleX,
             ScaleY = ScaleY,
             ScaleZ = ScaleZ,
-            Hash_09 = Hash_09,
+            ObjectNameHash = ObjectNameHash,
             Hash_10 = Hash_10,
             Hash_11 = Hash_11,
         };
