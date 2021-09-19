@@ -101,6 +101,7 @@ namespace pkNX.WinForms
 
             var result = new HashSet<string>();
             var list = new List<string>();
+            var gf = new List<string>();
             foreach (var f in files)
             {
                 var bytes = File.ReadAllBytes(f);
@@ -141,12 +142,32 @@ namespace pkNX.WinForms
                         list.AddRange(summaries);
                     }
                 }
+
+                for (var i = 0; i < pak.HashAbsolute.Length; i++)
+                {
+                    var x = pak.HashAbsolute[i];
+                    gf.Add($"{x.HashFnv1aPathFull:X16}\t{f}.Absolute[{i}]");
+                }
+
+                for (var i = 0; i < pak.HashInFolder.Length; i++)
+                {
+                    var x = pak.HashInFolder[i];
+                    var folder = x.Folder;
+                    gf.Add($"{folder.HashFnv1aPathFolderName:X16}\t{f}.Folder[{i}] ({folder.FileCount})");
+                    for (int j = 0; j < x.Files.Length; j++)
+                    {
+                        var y = x.Files[j];
+                        gf.Add($"{y.HashFnv1aPathFileName:X16}\t{f}.Folder[{i}][{j}] ({y.Index})");
+                    }
+                }
             }
 
             var outname = GetPath("ahtb.txt");
             var outname2 = GetPath("ahtblist.txt");
+            var outname3 = GetPath("gfpakhash.txt");
             File.WriteAllLines(outname, result);
             File.WriteAllLines(outname2, list);
+            File.WriteAllLines(outname3, gf);
         }
 
         public static Dictionary<ulong, string> ReadAHTB(byte[] bytes)
