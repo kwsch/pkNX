@@ -24,10 +24,12 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8_V3f
     {
-        [FlatBufferItem(00)] public float Field_00 { get; set; }
-        [FlatBufferItem(01)] public float Field_01 { get; set; }
-        [FlatBufferItem(02)] public float Field_02 { get; set; }
+        [FlatBufferItem(00)] public float LocationX { get; set; }
+        [FlatBufferItem(01)] public float LocationY { get; set; }
+        [FlatBufferItem(02)] public float LocationZ { get; set; }
 
-        public override string ToString() => $"({Field_00}, {Field_01}, {Field_02})";
+        public string Location3f => $"({LocationX}, {LocationY}, {LocationZ})";
+
+        public override string ToString() => Location3f;
     }
 }

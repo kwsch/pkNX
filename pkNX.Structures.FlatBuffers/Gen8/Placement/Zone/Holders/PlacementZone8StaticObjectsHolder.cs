@@ -20,7 +20,7 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZoneStaticObject8
     {
-        [FlatBufferItem(0)] public PlacementZoneStaticObjectIdentifier8 Identifier { get; set; } = new();
+        [FlatBufferItem(0)] public PlacementZoneMetaTripleXYZ8 Identifier { get; set; } = new();
         [FlatBufferItem(1)] public uint Field_01 { get; set; }
         [FlatBufferItem(2)] public uint Rate { get; set; } // usually 100, but 
         [FlatBufferItem(3)] public uint Field_03 { get; set; }
@@ -28,23 +28,6 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(5)] public PlacementZoneStaticObjectSpawn8[] Spawns { get; set; } = Array.Empty<PlacementZoneStaticObjectSpawn8>();
         [FlatBufferItem(6)] public PlacementZoneStaticObjectUnknown8 Field_06 { get; set; } = new();
         [FlatBufferItem(7)] public PlacementZoneStaticObjectUnknown8 Field_07 { get; set; } = new();
-    }
-
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementZoneStaticObjectIdentifier8
-    {
-        [FlatBufferItem(00)] public float LocationX { get; set; }
-        [FlatBufferItem(01)] public float LocationY { get; set; }
-        [FlatBufferItem(02)] public float LocationZ { get; set; }
-        [FlatBufferItem(03)] public float RotationX { get; set; } // assumed
-        [FlatBufferItem(04)] public float RotationY { get; set; }
-        [FlatBufferItem(05)] public float RotationZ { get; set; } // assumed
-        [FlatBufferItem(06)] public float ScaleX  { get; set; }
-        [FlatBufferItem(07)] public float ScaleY  { get; set; }
-        [FlatBufferItem(08)] public float ScaleZ  { get; set; }
-        [FlatBufferItem(09)] public ulong SpawnerID { get; set; }
-        [FlatBufferItem(10)] public ulong Field_A { get; set; }
-        [FlatBufferItem(11)] public ulong Field_B { get; set; }
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

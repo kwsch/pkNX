@@ -12,13 +12,13 @@ namespace pkNX.Structures.FlatBuffers
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8SymbolSpawnHolder
     {
-        [FlatBufferItem(00)] public PlacementZone8SymbolSpawn Field_00 { get; set; } = new();
+        [FlatBufferItem(00)] public PlacementZone8SymbolSpawn Object { get; set; } = new();
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlacementZone8SymbolSpawn
     {
-        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Field_00 { get; set; } = new();
+        [FlatBufferItem(00)] public PlacementZoneMetaTripleXYZ8 Identifier { get; set; } = new();
         [FlatBufferItem(01)] public int Field_01 { get; set; }
         [FlatBufferItem(02)] public PlacementZone8_F20_Sub Field_02 { get; set; } = new();
         [FlatBufferItem(03)] public PlacementZone8_F20_Sub Field_03 { get; set; } = new();

@@ -60,16 +60,32 @@ namespace pkNX.Structures.FlatBuffers
                 ? $"{name} ({desc}):"
                 : $"{name}:";
 
+            foreach (var sym in Symbols)
+            {
+                var obj = sym.Object;
+                var ident = obj.Identifier;
+                yield return $"    {objects[ident.ObjectNameHash]}:";
+                yield return $"        Location: {ident.Location3f}";
+                if (obj.SymbolHash is (0xCBF29CE484222645 or 0))
+                {
+                    yield return "        No symbols."; // shouldn't hit here, if we have a holder we should have a symbol to hold.
+                    break;
+                }
+
+                var line = $"SymbolHash: {obj.SymbolHash:X16}, ObjectHash:{obj.Identifier.ObjectNameHash:X16}, {nameof(PlacementZone8SymbolSpawn.Field_06)}: {obj.Field_06}, {nameof(PlacementZone8SymbolSpawn.Field_01)}: {obj.Field_01}";
+                yield return $"            {line}";
+            }
+
             foreach (var so in StaticObjects)
             {
                 var obj = so.Object;
                 var ident = obj.Identifier;
-                yield return $"    {objects[ident.SpawnerID]}:";
-                yield return $"        Location: ({ident.LocationX}, {ident.LocationY}, {ident.LocationZ})";
+                yield return $"    {objects[ident.ObjectNameHash]}:";
+                yield return $"        Location: {ident.Location3f}";
                 if (obj.Spawns.Length == 0)
                 {
                     yield return "        No spawns."; // shouldn't hit here, if we have a holder we should have a spawn to hold.
-                    yield break;
+                    break;
                 }
 
                 var s = obj.Spawns;
@@ -135,6 +151,8 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(10)] public ulong Hash_10   { get; set; }
         [FlatBufferItem(11)] public ulong Hash_11   { get; set; }
 
+        public string Location3f => $"({LocationX}, {LocationY}, {LocationZ})";
+
         public void Upscale(float factor)
         {
             ScaleX *= factor;
@@ -142,7 +160,7 @@ namespace pkNX.Structures.FlatBuffers
             ScaleZ *= factor;
         }
 
-        public override string ToString() => $"{ObjectNameHash:X16}";
+        public override string ToString() => $"{ObjectNameHash:X16} @ {Location3f}";
 
         public PlacementZoneMetaTripleXYZ8 Clone() => new()
         {
