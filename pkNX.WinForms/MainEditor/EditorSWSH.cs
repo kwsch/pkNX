@@ -563,6 +563,40 @@ namespace pkNX.WinForms.Controls
                     if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                         t.IVs = new[] {-1,-1,-1,-1,-1,-1};
                 }
+
+                UpdateStarters(); // update placement critter data to match new randomized species
+            }
+
+            void UpdateStarters()
+            {
+                var container = ROM.GetFile(GameFile.Placement);
+                var placement = new GFPack(container[0]);
+
+                // a_r0501_i0101.bin for Toxel
+                // a_r0501_i0101.bin for Type: Null
+                // a_wr0201_i0101.bin for Bulbasaur, Squirtle, Porygon, and Kubfu
+                // a_wr0301_i0401.bin for Cosmog
+                // a_d0901.bin for Poipole
+                const string file = "a_0101.bin";
+                var table = placement.GetDataFileName(file);
+                var obj = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(table);
+                var critters = obj.Table[0].Critters;
+
+                // Grookey
+                critters[3].Species = (uint)gifts[0].Species;
+                critters[3].Form = gifts[0].Form;
+
+                // Scorbunny
+                critters[1].Species = (uint)gifts[3].Species;
+                critters[1].Form = gifts[3].Form;
+
+                // Sobble
+                critters[2].Species = (uint)gifts[4].Species;
+                critters[2].Form = gifts[4].Form;
+
+                var bin = FlatBufferConverter.SerializeFrom(obj);
+                placement.SetDataFileName(file, bin);
+                container[0] = placement.Write();
             }
 
             using var form = new GenericEditor<EncounterGift8>(cache, names, "Gift Pokémon Editor", Randomize);
