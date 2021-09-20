@@ -21,19 +21,19 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(03)] public ulong Hash_03 { get; set; }
         [FlatBufferItem(04)] public PlacementZone8_F16_ArrayEntry[] Field_04 { get; set; } = Array.Empty<PlacementZone8_F16_ArrayEntry>(); // a_0201.bin[0].[76] @ AAE8
         [FlatBufferItem(05)] public ulong Hash_05 { get; set; }
-        [FlatBufferItem(06)] public bool IsSitting { get; set; }
-        [FlatBufferItem(07)] public byte Field_07 { get; set; }
+        [FlatBufferItem(06)] public bool Flag_06 { get; set; }
+        [FlatBufferItem(07)] public bool Flag_07 { get; set; }
         [FlatBufferItem(08)] public uint Field_08 { get; set; }
-        [FlatBufferItem(09)] public uint Field_09 { get; set; }
+        [FlatBufferItem(09)] public FlatModelState State { get; set; }
         [FlatBufferItem(10)] public float Field_10 { get; set; }
         [FlatBufferItem(11)] public PlacementZone8_F02_Nine Field_11 { get; set; } = new();
         [FlatBufferItem(12)] public uint Field_12 { get; set; }
-        [FlatBufferItem(13)] public uint ModelAnimation { get; set; }
+        [FlatBufferItem(13)] public uint AnimationIndexPrimary { get; set; }
         [FlatBufferItem(14)] public uint Field_14 { get; set; }
         [FlatBufferItem(15)] public uint Field_15 { get; set; }
         [FlatBufferItem(16)] public uint Field_16 { get; set; }
 
-        public readonly Dictionary<ulong, string> Models = new()
+        public static readonly Dictionary<ulong, string> Models = new()
         {
             // { 0xFAB9E0BC5EB53C61, "???" }, // CROSS_SHADOW_CHR_0
             { 0x6E0EF08728A00183, "Allister" },
@@ -200,14 +200,14 @@ namespace pkNX.Structures.FlatBuffers
             Hash_03 = Hash_03,
             Field_04 = Field_04,
             Hash_05 = Hash_05,
-            IsSitting = IsSitting,
-            Field_07 = Field_07,
+            Flag_06 = Flag_06,
+            Flag_07 = Flag_07,
             Field_08 = Field_08,
-            Field_09 = Field_09,
+            State = State,
             Field_10 = Field_10,
             Field_11 = Field_11.Clone(),
             Field_12 = Field_12,
-            ModelAnimation = ModelAnimation,
+            AnimationIndexPrimary = AnimationIndexPrimary,
             Field_14 = Field_14,
             Field_15 = Field_15,
             Field_16 = Field_16,
@@ -223,6 +223,13 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(03)] public float Field_03 { get; set; }
         [FlatBufferItem(04)] public byte Field_04 { get; set; }
         [FlatBufferItem(05)] public float Field_05 { get; set; }
+    }
+
+    [FlatBufferEnum(typeof(uint))]
+    public enum FlatModelState : uint
+    {
+        Standing = 0,
+        Sitting = 2,
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

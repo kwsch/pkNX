@@ -160,6 +160,8 @@ namespace pkNX.Structures.FlatBuffers
             ScaleZ *= factor;
         }
 
+        public void ResetScale() => ScaleX = ScaleY = ScaleZ = 1;
+
         public override string ToString() => $"{HashObjectName:X16} @ {Location3f}";
 
         public PlacementZoneMetaTripleXYZ8 Clone() => new()

@@ -372,7 +372,8 @@ namespace pkNX.WinForms
             var zone_names = new AHTB(placement.GetDataFileName("ZoneNameHashTable.tbl")).ToDictionary();
             var zone_descs = SWSHInfo.Zones;
             var obj_names = new AHTB(placement.GetDataFileName("ObjectNameHashTable.tbl")).ToDictionary();
-            var vanish_flags = new AHTB(placement.GetDataFileName("VanishFlagAutoTable.tbl")).ToDictionary();
+          //var vanish_flags = new AHTB(placement.GetDataFileName("VanishFlagAutoTable.tbl")).ToDictionary();
+          //var x = placement.GetDataFileName("template_data.bin"); // flatbuffer skybox
             var wild_area = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0101.bin"));
             var isle_of_armor = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0201.bin"));
             var crown_tundra = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0301.bin"));

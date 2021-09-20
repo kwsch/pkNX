@@ -75,7 +75,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(05)] public byte Field_05 { get; set; }
         [FlatBufferItem(06)] public uint Field_06 { get => 0; set { if (value != 0) throw new ArgumentException("Not Observed"); } } // unused
         [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
-        [FlatBufferItem(08)] public uint Field_08 { get; set; }
+        [FlatBufferItem(08)] public uint AnimationIndexSecondary { get; set; }
         [FlatBufferItem(09)] public uint Field_09 { get; set; }
 
         public PlacementZone8_F02_Nine Clone() => new()
@@ -88,7 +88,7 @@ namespace pkNX.Structures.FlatBuffers
             Field_05 = Field_05,
             Field_06 = Field_06,
             Hash_07 = Hash_07,
-            Field_08 = Field_08,
+            AnimationIndexSecondary = AnimationIndexSecondary,
             Field_09 = Field_09,
         };
     }
