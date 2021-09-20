@@ -573,7 +573,7 @@ namespace pkNX.WinForms.Controls
                 var placement = new GFPack(container[0]);
 
                 // a_r0501_i0101.bin for Toxel
-                // a_r0501_i0101.bin for Type: Null
+                // a_bt0101.bin for Type: Null
                 // a_wr0201_i0101.bin for Bulbasaur, Squirtle, Porygon, and Kubfu
                 // a_wr0301_i0401.bin for Cosmog
                 // a_d0901.bin for Poipole
