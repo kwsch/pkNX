@@ -23,7 +23,7 @@ namespace pkNX.Game
 
         internal IFileContainer GetFile(GameFile file, int language)
         {
-            if (file == GameFile.GameText || file == GameFile.StoryText)
+            if (file is GameFile.GameText or GameFile.StoryText)
                 file += language + 1; // shift to localized language
 
             if (Cache.TryGetValue(file, out var container))
@@ -67,6 +67,7 @@ namespace pkNX.Game
                 GameVersion.SW => SWSH,
                 GameVersion.SH => SWSH,
                 GameVersion.SWSH => SWSH,
+                GameVersion.PLA => PLA,
                 GameVersion.ORASDEMO => AO,
                 GameVersion.ORAS => AO,
                 GameVersion.SMDEMO => SMDEMO,
@@ -407,6 +408,58 @@ namespace pkNX.Game
             new(GameFile.Shops, ContainerType.SingleFile, "bin", "appli", "shop", "bin", "shop_data.bin"),
             new(GameFile.Rentals, ContainerType.SingleFile, "bin", "script_event_data", "rental.bin"),
             new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "field", "param", "symbol_encount_mons_param", "symbol_encount_mons_param.bin")
+
+            // Cutscenes    bin\demo
+            // Models       bin\archive\pokemon
+            // pretty much everything is obviously named :)
+        };
+
+        /// <summary>
+        /// Sword
+        /// </summary>
+        private static readonly GameFileReference[] PLA =
+        {
+            new(GameFile.TrainerData, "bin", "trainer"),
+
+            new(GameFile.GameText0, 0, "bin", "message", "JPN", "common"),
+            new(GameFile.GameText1, 1, "bin", "message", "JPN_KANJI", "common"),
+            new(GameFile.GameText2, 2, "bin", "message", "English", "common"),
+            new(GameFile.GameText3, 3, "bin", "message", "French", "common"),
+            new(GameFile.GameText4, 4, "bin", "message", "Italian", "common"),
+            new(GameFile.GameText5, 5, "bin", "message", "German", "common"),
+            // 6 unused lang
+            new(GameFile.GameText6, 7, "bin", "message", "Spanish", "common"),
+            new(GameFile.GameText7, 8, "bin", "message", "Korean", "common"),
+            new(GameFile.GameText8, 9, "bin", "message", "Simp_Chinese", "common"),
+            new(GameFile.GameText9, 10, "bin", "message", "Trad_Chinese", "common"),
+
+            new(GameFile.StoryText0, 0, "bin", "message", "JPN", "script"),
+            new(GameFile.StoryText1, 1, "bin", "message", "JPN_KANJI", "script"),
+            new(GameFile.StoryText2, 2, "bin", "message", "English", "script"),
+            new(GameFile.StoryText3, 3, "bin", "message", "French", "script"),
+            new(GameFile.StoryText4, 4, "bin", "message", "Italian", "script"),
+            new(GameFile.StoryText5, 5, "bin", "message", "German", "script"),
+            // 6 unused lang
+            new(GameFile.StoryText6, 7, "bin", "message", "Spanish", "script"),
+            new(GameFile.StoryText7, 8, "bin", "message", "Korean", "script"),
+            new(GameFile.StoryText8, 9, "bin", "message", "Simp_Chinese", "script"),
+            new(GameFile.StoryText9, 10, "bin", "message", "Trad_Chinese", "script"),
+
+            new(GameFile.ItemStats, ContainerType.SingleFile, "bin", "pml", "item", "item.dat"),
+            new(GameFile.Evolutions, "bin", "pml", "evolution"),
+            new(GameFile.PersonalStats, ContainerType.SingleFile, "bin", "pml", "personal", "personal_data_total.perbin"),
+            new(GameFile.MoveStats, "bin", "pml", "waza"),
+            new(GameFile.EncounterStatic, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_event_encount.bin"),
+            new(GameFile.EncounterTrade, ContainerType.SingleFile, "bin", "script_event_data", "field_trade.bin"),
+            new(GameFile.EncounterGift, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
+            new(GameFile.Learnsets, ContainerType.SingleFile, "bin", "pml", "waza_oboe", "waza_oboe_total.wazaoboe"),
+
+            new(GameFile.Resident, ContainerType.SingleFile, "bin", "archive", "field", "resident_release.gfpak"),
+
+            new(GameFile.EncounterRateTable, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_encount.bin"),
+            new(GameFile.PokeMisc, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
+            new(GameFile.Outbreak, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
+            new(GameFile.MoveShop, ContainerType.SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
 
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon

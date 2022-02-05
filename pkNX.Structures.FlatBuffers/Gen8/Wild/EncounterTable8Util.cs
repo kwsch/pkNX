@@ -40,7 +40,7 @@ namespace pkNX.Structures.FlatBuffers
                 return DumpableLocation.Empty;
 
             // Try to get the table type. Skip inaccessible tables.
-            if (!zoneType.TryGetValue(zone.ZoneID, out var slottype) || slottype == (byte)SWSHSlotType.Inaccessible)
+            if (!zoneType.TryGetValue(zone.ZoneID, out var slottype) || slottype == (byte)Inaccessible)
                 return DumpableLocation.Empty;
 
             byte locID = tmp;
@@ -75,11 +75,11 @@ namespace pkNX.Structures.FlatBuffers
         private static bool IsPermittedWeather(byte locID, SWSHEncounterType weather, byte slotType)
         {
             // Only keep fishing slots for any encounters that are FishingOnly.
-            if (slotType == (byte)SWSHSlotType.OnlyFishing)
+            if (slotType == (byte)OnlyFishing)
                 return weather == SWSHEncounterType.Fishing;
 
             // Otherwise, keep all fishing and shaking tree encounters.
-            if (weather == SWSHEncounterType.Shaking_Trees || weather == SWSHEncounterType.Fishing)
+            if (weather is SWSHEncounterType.Shaking_Trees or SWSHEncounterType.Fishing)
                 return true;
 
             // If we didn't find the weather in the general table, only allow Normal.
@@ -103,7 +103,7 @@ namespace pkNX.Structures.FlatBuffers
 
         private class DumpableLocation
         {
-            public static readonly DumpableLocation Empty = new(new(), 0, 0);
+            public static readonly DumpableLocation Empty = new(new List<Slot8>(), 0, 0);
 
             public readonly List<Slot8> Slots;
             public readonly byte Location;
@@ -150,9 +150,11 @@ namespace pkNX.Structures.FlatBuffers
         }
 
         [Flags]
+#pragma warning disable RCS1154 // Sort enum members.
         private enum SWSHEncounterType
+#pragma warning restore RCS1154 // Sort enum members.
         {
-            None,
+            None = 0,
             Normal = 1,
             Overcast = 1 << 1,
             Raining = 1 << 2,

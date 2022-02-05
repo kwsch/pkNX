@@ -361,7 +361,7 @@ namespace pkNX.WinForms.Controls
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
-                    if (t.Species >= (int)Species.Zacian && t.Species <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
+                    if (t.Species is >= (int)Species.Zacian and <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
                     t.Species = srand.GetRandomSpecies(t.Species);
                     t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
@@ -397,7 +397,7 @@ namespace pkNX.WinForms.Controls
             if (!shop2)
             {
                 var table = shop.Shop1;
-                var names = table.Select((z, i) => $"{(z.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+                var names = table.Select((z, _) => $"{(z.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop1>(table);
                 using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
                 form.ShowDialog();
@@ -424,7 +424,7 @@ namespace pkNX.WinForms.Controls
             else
             {
                 var table = shop.Shop2;
-                var names = table.Select((z, i) => $"{(z.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+                var names = table.Select((z, _) => $"{(z.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop2>(table);
                 using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
                 form.ShowDialog();
@@ -546,7 +546,7 @@ namespace pkNX.WinForms.Controls
                     if (t.CanGigantamax || t.Species == (int)Species.Kubfu)
                     {
                         t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                        t.Form = (byte)(t.Species == (int)Species.Pikachu || t.Species == (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, ROM.Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
+                        t.Form = (byte)(t.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, ROM.Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
                     }
                     else
                     {

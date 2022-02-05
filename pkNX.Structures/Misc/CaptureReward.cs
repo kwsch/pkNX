@@ -31,22 +31,19 @@ namespace pkNX.Structures
                 g.Entries.Add(ReadEntry(br));
         }
 
-        private static CaptureRewardEntry ReadEntry(BinaryReader br)
+        private static CaptureRewardEntry ReadEntry(BinaryReader br) => new()
         {
-            return new()
-            {
-                Item = br.ReadInt32(),
-                Count = br.ReadInt32(),
-                Rate = br.ReadInt32(),
-            };
-        }
+            Item = br.ReadInt32(),
+            Count = br.ReadInt32(),
+            Rate = br.ReadInt32(),
+        };
 
         private void ReadHeader(BinaryReader br)
         {
             while (true)
             {
                 var count = br.ReadInt32();
-                if (Table.Count != 0 && Table[Table.Count - 1].CaptureCount > count)
+                if (Table.Count != 0 && Table[^1].CaptureCount > count)
                 {
                     br.BaseStream.Position -= 4;
                     break;

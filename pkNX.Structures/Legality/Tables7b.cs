@@ -41,7 +41,7 @@ namespace pkNX.Structures
             40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077,
         };
 
-        internal static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+        internal static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
 
         #endregion
 

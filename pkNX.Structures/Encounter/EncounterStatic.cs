@@ -86,7 +86,7 @@ namespace pkNX.Structures
                 str += $"Gender = {Gender - 1}, ";
             if (HeldItem > 0)
                 str += $"HeldItem = {HeldItem}, ";
-            if (Nature >= 0 && Nature < Nature.Random25)
+            if (Nature is >= 0 and < Nature.Random25)
                 str += $"Nature = {Nature - 1}, ";
 
             str += " },";

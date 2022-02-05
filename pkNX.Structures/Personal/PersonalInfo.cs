@@ -7,7 +7,7 @@ namespace pkNX.Structures
     /// </summary>
     public abstract class PersonalInfo
     {
-        protected byte[] Data;
+        public byte[] Data;
         public abstract byte[] Write();
         public abstract int HP { get; set; }
         public abstract int ATK { get; set; }

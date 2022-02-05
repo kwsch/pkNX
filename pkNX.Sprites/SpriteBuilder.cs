@@ -101,9 +101,9 @@ namespace pkNX.Sprites
         private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
             Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.bitem_unk;
-            if (328 <= item && item <= 419) // gen2/3/4 TM
+            if (item is >= 328 and <= 419) // gen2/3/4 TM
                 itemimg = ItemTM;
-            else if (1130 <= item && item <= 1229) // Gen8 TR
+            else if (item is >= 1130 and <= 1229) // Gen8 TR
                 itemimg = ItemTR;
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge

@@ -15,10 +15,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the default Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static ulong HashFnv1_64(IEnumerable<char> input)
+        public static ulong HashFnv1_64(IEnumerable<char> input, ulong hash = kOffsetBasis_64)
         {
-            ulong hash = kOffsetBasis_64;
             foreach (var c in input)
             {
                 hash *= kFnvPrime_64;
@@ -31,10 +31,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the default Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static ulong HashFnv1_64(IEnumerable<byte> input)
+        public static ulong HashFnv1_64(IEnumerable<byte> input, ulong hash = kOffsetBasis_64)
         {
-            ulong hash = kOffsetBasis_64;
             foreach (var c in input)
             {
                 hash *= kFnvPrime_64;
@@ -47,10 +47,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the alternative Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static ulong HashFnv1a_64(IEnumerable<char> input)
+        public static ulong HashFnv1a_64(IEnumerable<char> input, ulong hash = kOffsetBasis_64)
         {
-            ulong hash = kOffsetBasis_64;
             foreach (var c in input)
             {
                 hash ^= c;
@@ -63,10 +63,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the alternative Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static ulong HashFnv1a_64(IEnumerable<byte> input)
+        public static ulong HashFnv1a_64(IEnumerable<byte> input, ulong hash = kOffsetBasis_64)
         {
-            ulong hash = kOffsetBasis_64;
             foreach (var c in input)
             {
                 hash ^= c;
@@ -83,10 +83,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the default Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static uint HashFnv1_32(IEnumerable<char> input)
+        public static uint HashFnv1_32(IEnumerable<char> input, uint hash = kOffsetBasis_32)
         {
-            uint hash = kOffsetBasis_32;
             foreach (var c in input)
             {
                 hash *= kFnvPrime_32;
@@ -99,10 +99,10 @@ namespace pkNX.Containers
         /// Gets the hash code of the input sequence via the alternative Fnv1 method.
         /// </summary>
         /// <param name="input">Input sequence</param>
+        /// <param name="hash">Initial hash value</param>
         /// <returns>Computed hash code</returns>
-        public static uint HashFnv1a_32(IEnumerable<char> input)
+        public static uint HashFnv1a_32(IEnumerable<char> input, uint hash = kOffsetBasis_32)
         {
-            uint hash = kOffsetBasis_32;
             foreach (var c in input)
             {
                 hash ^= c;

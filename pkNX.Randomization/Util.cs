@@ -22,9 +22,7 @@ namespace pkNX.Randomization
             for (int i = 0; i < n; i++)
             {
                 int r = i + (int)(Random.NextDouble() * (n - i));
-                var t = array[r];
-                array[r] = array[i];
-                array[i] = t;
+                (array[r], array[i]) = (array[i], array[r]);
             }
         }
 
@@ -50,8 +48,8 @@ namespace pkNX.Randomization
             return string.IsNullOrWhiteSpace(str) ? 0 : Convert.ToUInt32(str, 16);
         }
 
-        private static bool IsHex(char c) => (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
-        private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
+        private static bool IsHex(char c) => c is >= '0' and <= '9' or >= 'A' and <= 'F' or >= 'a' and <= 'f';
+        private static string TitleCase(string word) => char.ToUpper(word[0]) + word[1..].ToLower();
 
         /// <summary>
         /// Filters the string down to only valid hex characters, returning a new string.

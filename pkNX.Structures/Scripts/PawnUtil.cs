@@ -141,7 +141,7 @@ namespace pkNX.Structures
         public static string[] ParseScript(uint[] cmd, int sanity = -1)
         {
             // sub_148CBC Moon v1.0
-            List<string> parse = new List<string>();
+            List<string> parse = new();
             const int sanityMode = 0; // todo
 
             string ErrorNear(int line, string error)
@@ -288,7 +288,7 @@ namespace pkNX.Structures
                         }
                 }
 
-                if (opcode == AmxOpCode.RET || opcode == AmxOpCode.RETN || opcode == AmxOpCode.IRETN)
+                if (opcode is AmxOpCode.RET or AmxOpCode.RETN or AmxOpCode.IRETN)
                 {
                     // Newline after return
                     instrLine += Environment.NewLine;
@@ -315,7 +315,7 @@ namespace pkNX.Structures
         {
             static string FormatParameter(int param)
             {
-                if (param < -100 || param > 100)
+                if (param is < -100 or > 100)
                     return $"0x{param:X4}";
                 return param.ToString();
             }

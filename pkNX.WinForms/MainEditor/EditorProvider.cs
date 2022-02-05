@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using pkNX.Game;
@@ -28,15 +29,26 @@ namespace pkNX.WinForms.Controls
                 if (!m.Name.StartsWith(prefix))
                     continue;
 
-                var name = m.Name.Substring(prefix.Length);
+                var name = m.Name[prefix.Length..];
                 var b = new Button
                 {
                     Width = width,
                     Height = height,
                     Name = $"B_{name}",
-                    Text = m.Name.Substring(prefix.Length),
+                    Text = m.Name[prefix.Length..],
                 };
-                b.Click += (s, e) => m.Invoke(this, null);
+                b.Click += (s, e) =>
+                {
+                    try
+                    {
+                        m.Invoke(this, null);
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
+                        WinFormsUtil.Error(exception.Message, exception.StackTrace);
+                    }
+                };
                 yield return b;
             }
         }
@@ -54,6 +66,7 @@ namespace pkNX.WinForms.Controls
             if (GameVersion.USUM.Contains(g)) return new EditorUU(ROM);
             if (GameVersion.GG.Contains(g)) return new EditorGG(ROM);
             if (GameVersion.SWSH.Contains(g)) return new EditorSWSH(ROM);
+            if (GameVersion.PLA.Contains(g)) return new EditorPLA(ROM);
             return null;
         }
 

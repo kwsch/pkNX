@@ -63,7 +63,7 @@ namespace pkNX.Randomization
                 }
             }
 
-            if (Personal.TableLength == 980 && (species == (int)Pikachu || species == (int)Eevee)) // gg tableB -- no starters, they crash trainer battles.
+            if (Personal.TableLength == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
                 return 0;
             if (alola && Legal.EvolveToAlolanForms.Contains(species))
                 return Util.Random.Next(2);
@@ -74,14 +74,11 @@ namespace pkNX.Randomization
             return 0;
         }
 
-        public int GetInvalidForm(int species, bool galar, PersonalTable stats)
+        public static int GetInvalidForm(int species, bool galar, PersonalTable stats) => species switch
         {
-            return species switch
-            {
-                (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
-                (int)Slowbro when galar => 1, // Mega Slowbro
-                _ => throw new ArgumentOutOfRangeException(nameof(species))
-            };
-        }
+            (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
+            (int)Slowbro when galar => 1, // Mega Slowbro
+            _ => throw new ArgumentOutOfRangeException(nameof(species))
+        };
     }
 }

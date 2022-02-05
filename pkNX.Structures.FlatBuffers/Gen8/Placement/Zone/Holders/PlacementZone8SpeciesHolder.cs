@@ -6,7 +6,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -110,25 +109,22 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(11)] public FlatDummyObject Field_11 { get; set; } = new(); // no fields present in any existing
         [FlatBufferItem(12)] public ulong Hash_12 { get; set; }
 
-        public PlacementZone8_F02 Clone()
+        public PlacementZone8_F02 Clone() => new()
         {
-            return new()
-            {
-                Field_00 = Field_00.Clone(),
-                Hash_01 = Hash_01,
-                Hash_02 = Hash_02,
-                Hash_03 = Hash_03,
-                Hash_04 = Hash_04,
-                Field_05 = Field_05,
-                Field_06 = Field_06,
-                Field_07 = Field_07,
-                Field_08 = Field_08,
-                Field_09 = Field_09.Clone(),
-                Field_10 = Field_10,
-                Field_11 = Field_11.Clone(),
-                Hash_12 = Hash_12,
-            };
-        }
+            Field_00 = Field_00.Clone(),
+            Hash_01 = Hash_01,
+            Hash_02 = Hash_02,
+            Hash_03 = Hash_03,
+            Hash_04 = Hash_04,
+            Field_05 = Field_05,
+            Field_06 = Field_06,
+            Field_07 = Field_07,
+            Field_08 = Field_08,
+            Field_09 = Field_09.Clone(),
+            Field_10 = Field_10,
+            Field_11 = Field_11.Clone(),
+            Hash_12 = Hash_12,
+        };
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

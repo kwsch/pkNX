@@ -55,7 +55,7 @@ namespace pkNX.Game
                 },
                 EvolutionData = new DataCache<EvolutionSet>(GetFilteredFolder(GameFile.Evolutions))
                 {
-                    Create = (data) => new EvolutionSet7(data),
+                    Create = data => new EvolutionSet7(data),
                     Write = evo => evo.Write(),
                 },
             };

@@ -15,11 +15,7 @@ namespace pkNX.Structures
         public static int GetModifiedLevel(int level, double factor)
         {
             int newlvl = (int)(level * factor);
-            if (newlvl < 1)
-                return 1;
-            if (newlvl > 100)
-                return 100;
-            return newlvl;
+            return Math.Max(1, Math.Min(newlvl, 100));
         }
 
         public static int[] GetRandomItemList(GameVersion game)

@@ -628,40 +628,4 @@ namespace pkNX.Game
             {0x9BDD6D11FFBEDA3F, (byte)Surfing}, // at Ballimere Lake (Surfing)
         };
     }
-
-    public enum SWSHEncounterType
-    {
-        Normal_Weather,
-        Overcast,
-        Raining,
-        Thunderstorm,
-        Intense_Sun,
-        Snowing,
-        Snowstorm,
-        Sandstorm,
-        Heavy_Fog,
-        Shaking_Trees,
-        Fishing,
-    };
-
-    public enum SWSHSlotType: ushort
-    {
-        SymbolMain,
-        SymbolMain2,
-        SymbolMain3,
-
-        HiddenMain, // Table with the tree/fishing slots
-        HiddenMain2,
-
-        Surfing,
-        Surfing2,
-        Sky,
-        Sky2,
-        Ground,
-        Ground2,
-        Sharpedo,
-
-        OnlyFishing,
-        Inaccessible,
-    };
 }

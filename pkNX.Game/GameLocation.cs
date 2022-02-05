@@ -67,6 +67,8 @@ namespace pkNX.Game
         private const int FILECOUNT_SWSH_1 = 41951; // Ver. 1.1.0 update (Galarian Slowpoke)
         private const int FILECOUNT_SWSH_2 = 46867; // Ver. 1.2.0 update (Isle of Armor)
         private const int FILECOUNT_SWSH_3 = 50494; // Ver. 1.3.0 update (Crown Tundra)
+        private const int FILECOUNT_LA = 18_370;
+        private const int FILECOUNT_LA_1 = 18_371; // Ver. 1.0.1
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
         {
@@ -111,6 +113,9 @@ namespace pkNX.Game
                         return GameVersion.SWSH;
                     return GetTitleID() == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
                 }
+
+                case FILECOUNT_LA or FILECOUNT_LA_1:
+                    return GameVersion.PLA;
 
                 default:
                     return GameVersion.Invalid;

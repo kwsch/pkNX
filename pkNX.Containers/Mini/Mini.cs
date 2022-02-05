@@ -47,14 +47,11 @@ namespace pkNX.Containers
                 Files[i] = (byte[]) Backup[i].Clone();
         }
 
-        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token)
+        public Task SaveAs(string path, ContainerHandler handler, CancellationToken token) => new(() =>
         {
-            return new(() =>
-            {
-                byte[] data = MiniUtil.PackMini(Files, Identifier);
-                FileMitm.WriteAllBytes(path, data);
-            }, token);
-        }
+            byte[] data = MiniUtil.PackMini(Files, Identifier);
+            FileMitm.WriteAllBytes(path, data);
+        }, token);
 
         public void Dump(string path, ContainerHandler handler)
         {

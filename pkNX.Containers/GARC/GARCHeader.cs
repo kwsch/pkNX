@@ -27,12 +27,12 @@ namespace pkNX.Containers
 
         public GARCHeader(GARCVersion version)
         {
-            if (version == GARCVersion.VER_6)
-                Version = VER_6;
-            else if (version == GARCVersion.VER_4)
-                Version = VER_4;
-            else
-                Version = (ushort)version;
+            Version = version switch
+            {
+                GARCVersion.VER_6 => VER_6,
+                GARCVersion.VER_4 => VER_4,
+                _ => (ushort)version,
+            };
             HeaderSize = VER6 ? 0x24 : 0x1C;
         }
 

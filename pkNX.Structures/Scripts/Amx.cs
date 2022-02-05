@@ -70,8 +70,8 @@ namespace pkNX.Structures
         }
 
         public Function LookupFunction(uint pc) => Array.Find(Functions, f => f.Within(pc));
-        public TableRecord LookupPublic(string name) => Array.Find(this.Publics, t => t.Name == name);
-        public TableRecord LookupPublic(uint addr) => Array.Find(this.Publics, t => t.Address == addr);
+        public TableRecord LookupPublic(string name) => Array.Find(Publics, t => t.Name == name);
+        public TableRecord LookupPublic(uint addr) => Array.Find(Publics, t => t.Address == addr);
 
         public Function[] Functions { get; protected set; }
         public TableRecord[] Publics { get; protected set; }

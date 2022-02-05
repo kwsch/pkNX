@@ -24,14 +24,13 @@ namespace pkNX.Game
 
         private static byte GetEffectiveness(int rv)
         {
-            if (rv < 2) // 2%
-                return (byte)TypeEffectiveness.Immune;
-            if (rv < 19) // 17%
-                return (byte)TypeEffectiveness.NotVery;
-            if (rv < 36) // 17%
-                return (byte)TypeEffectiveness.Super;
-
-            return (byte)TypeEffectiveness.Normal;
+            return rv switch
+            {
+                <  2 => (byte)TypeEffectiveness.Immune,  // 2%
+                < 19 => (byte)TypeEffectiveness.NotVery, // 17%
+                < 36 => (byte)TypeEffectiveness.Super,   // 17%
+                   _ => (byte)TypeEffectiveness.Normal,
+            };
         }
 
         private static readonly uint[] Colors =
@@ -42,7 +41,7 @@ namespace pkNX.Game
             0, // unused
             0xFFFFFFFF,
             0, 0, 0, // unused
-            0xFF008000
+            0xFF008000,
         };
 
         public static byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, byte[] vals, out int width, out int height)

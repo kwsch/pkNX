@@ -46,6 +46,7 @@ namespace pkNX.Structures
                 GameVersion.SW => LoadSWSH,
                 GameVersion.SH => LoadSWSH,
                 GameVersion.SWSH => LoadSWSH,
+                GameVersion.PLA => LoadPLA,
                 _ => throw new ArgumentException(nameof(game))
             };
         }
@@ -108,6 +109,16 @@ namespace pkNX.Structures
             MaxItemID = Legal.MaxItemID_8;
             HeldItems = Legal.HeldItems_SWSH;
             MaxAbilityID = Legal.MaxAbilityID_8;
+        }
+
+        private void LoadPLA()
+        {
+            SWSH = true;
+            MaxSpeciesID = Legal.MaxSpeciesID_8a;
+            MaxMoveID = Legal.MaxMoveID_8a;
+            MaxItemID = Legal.MaxItemID_8a;
+            HeldItems = Legal.HeldItems_SWSH;
+            MaxAbilityID = Legal.MaxAbilityID_8a;
         }
     }
 }

@@ -10,7 +10,6 @@ using FlatSharp.Attributes;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 #nullable disable
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -147,7 +146,7 @@ namespace pkNX.Structures.FlatBuffers
 
             string GetItemName(uint itemID)
             {
-                if (1130 <= itemID && itemID < 1230) // TR
+                if (itemID is >= 1130 and < 1230) // TR
                     return $"{items[(int) itemID]} {moves[tmtrs[100 + (int) itemID - 1130]]}";
                 return items[(int) itemID];
             }

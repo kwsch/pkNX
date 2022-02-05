@@ -16,7 +16,7 @@ namespace pkNX.Structures
         public const int MaxGameID_6 = 27; // OR
 
         #region Met Locations
-        public static readonly int[] Met_XYc = {0, 60002, 30002,};
+        public static readonly int[] Met_XYc = {0, 60002, 30002};
 
         public static readonly int[] Met_XY_0 =
         {
@@ -46,7 +46,7 @@ namespace pkNX.Structures
             40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
         };
 
-        public static readonly int[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004,};
+        public static readonly int[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
 
         #endregion
 

@@ -13,13 +13,13 @@ namespace pkNX.Structures
         /// List of possible <see cref="GameVersion"/> values that are stored in PKM data.
         /// </summary>
         /// <remarks>Ordered roughly by most recent games first.</remarks>
-        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z is < RB and > 0).Reverse().ToArray();
 
         /// <summary>
         /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
         /// </summary>
         /// <param name="game">Game to check</param>
-        public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
+        public static bool IsValidSavedVersion(this GameVersion game) => game is > 0 and <= RB;
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
@@ -194,7 +194,7 @@ namespace pkNX.Structures
                 Gen7b => GG.Contains(g2) || GO == g2,
 
                 SWSH => g2 is SW or SH,
-                Gen8 => SWSH.Contains(g2),
+                Gen8 => SWSH.Contains(g2) || PLA == g2,
                 _ => false,
             };
         }

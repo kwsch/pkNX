@@ -1,12 +1,11 @@
-namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum CellType
 {
-    public enum CellType
-    {
-        None,
-        Bool,
-        Float,
-        Character,
-        Tag,
-        Function
-    };
+    None,
+    Bool,
+    Float,
+    Character,
+    Tag,
+    Function,
 }

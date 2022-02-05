@@ -175,5 +175,20 @@
 
         /// <summary> Symbol Behavior Definition </summary>
         SymbolBehave,
+
+        /// <summary> Area Resident Archive </summary>
+        Resident,
+
+        /// <summary> "PokeEncount" Rate Multipler Archive </summary>
+        EncounterRateTable,
+
+        /// <summary> huge_outbreak.bin </summary>
+        Outbreak,
+
+        /// <summary> wazashop_table.bin </summary>
+        MoveShop,
+
+        /// <summary> "PokeMisc" Details about a given Species-Form not stored in <see cref="PersonalStats"/> </summary>
+        PokeMisc,
     }
 }

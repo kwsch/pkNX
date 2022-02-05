@@ -16,22 +16,19 @@ namespace pkNX.Structures
             PossibleEvolutions = data.GetArray(GetEvo, ENTRY_SIZE);
         }
 
-        private static EvolutionMethod GetEvo(byte[] data, int offset)
+        private static EvolutionMethod GetEvo(byte[] data, int offset) => new()
         {
-            return new()
-            {
-                Method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0),
-                Argument = BitConverter.ToUInt16(data, offset + 2),
-                Species = BitConverter.ToUInt16(data, offset + 4),
-                Form = (sbyte)data[offset + 6],
-                Level = data[offset + 7],
-            };
-        }
+            Method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0),
+            Argument = BitConverter.ToUInt16(data, offset + 2),
+            Species = BitConverter.ToUInt16(data, offset + 4),
+            Form = (sbyte)data[offset + 6],
+            Level = data[offset + 7],
+        };
 
         public override byte[] Write()
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter bw = new BinaryWriter(ms);
+            using MemoryStream ms = new();
+            using BinaryWriter bw = new(ms);
             foreach (EvolutionMethod evo in PossibleEvolutions)
             {
                 bw.Write((ushort)evo.Method);

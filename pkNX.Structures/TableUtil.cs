@@ -90,7 +90,16 @@ namespace pkNX.Structures
                 return u.ToString("X16");
             if (obj is IEnumerable x and not string)
                 return string.Join("|", JoinEnumerator(x.GetEnumerator()).Select(GetFormattedString));
-            return obj.ToString();
+
+            var objType = obj.GetType();
+            if (objType.IsEnum)
+                return obj.ToString();
+            var mi = objType.GetMethods().First(z => z.Name == nameof(obj.ToString));
+            if (mi.DeclaringType == objType)
+                return obj.ToString();
+
+            var props = objType.GetProperties();
+            return string.Join("|", props.Select(z => GetFormattedString(z.GetValue(obj))));
         }
 
         private static IEnumerable<object> JoinEnumerator(IEnumerator x)

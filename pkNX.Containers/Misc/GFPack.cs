@@ -127,6 +127,10 @@ namespace pkNX.Containers
             return DecompressedFiles[index];
         }
 
+        public byte[] GetDataFull(ulong hash) => DecompressedFiles[GetIndexFull(hash)];
+
+        public byte[] GetDataFullPath(string path) => GetDataFull(FnvHash.HashFnv1a_64(path));
+
         public void SetDataFileName(string name, byte[] data)
         {
             int index = GetIndexFileName(name);
@@ -169,7 +173,7 @@ namespace pkNX.Containers
             for (var i = 0; i < files.Length; i++)
             {
                 var file = files[i];
-                var namelong = file.Substring(file.IndexOf(parent, StringComparison.Ordinal));
+                var namelong = file[file.IndexOf(parent, StringComparison.Ordinal)..];
                 ulong hashFull = FnvHash.HashFnv1a_64(namelong);
 
                 HashAbsolute[i] = new FileHashAbsolute { HashFnv1aPathFull = hashFull };
@@ -211,7 +215,13 @@ namespace pkNX.Containers
             {
                 CompressionType.None => encryptedData,
                 CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
-                _ => LZ4.Decode(encryptedData, decryptedLength)
+                CompressionType.Lz4 => LZ4.Decode(encryptedData, decryptedLength),
+                CompressionType.OodleKraken => Oodle.Decompress(encryptedData, decryptedLength)!,
+                CompressionType.OodleLeviathan => Oodle.Decompress(encryptedData, decryptedLength)!,
+                CompressionType.OodleMermaid => Oodle.Decompress(encryptedData, decryptedLength)!,
+                CompressionType.OodleSelkie => Oodle.Decompress(encryptedData, decryptedLength)!,
+                CompressionType.OodleHydra => Oodle.Decompress(encryptedData, decryptedLength)!,
+                _ => throw new ArgumentOutOfRangeException(nameof(type)),
             };
         }
 
@@ -221,7 +231,13 @@ namespace pkNX.Containers
             {
                 CompressionType.None => decryptedData,
                 CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
-                _ => LZ4.Encode(decryptedData)
+                CompressionType.Lz4 => LZ4.Encode(decryptedData),
+                CompressionType.OodleKraken => Oodle.Compress(decryptedData, out _, OodleFormat.Kraken).ToArray(),
+                CompressionType.OodleLeviathan => Oodle.Compress(decryptedData, out _, OodleFormat.Leviathan).ToArray(),
+                CompressionType.OodleMermaid => Oodle.Compress(decryptedData, out _, OodleFormat.Mermaid).ToArray(),
+                CompressionType.OodleSelkie => Oodle.Compress(decryptedData, out _, OodleFormat.Selkie).ToArray(),
+                CompressionType.OodleHydra => Oodle.Compress(decryptedData, out _, OodleFormat.Hydra).ToArray(),
+                _ => throw new ArgumentOutOfRangeException(nameof(type)),
             };
         }
 
@@ -280,7 +296,7 @@ namespace pkNX.Containers
                     var data = DecompressedFiles[f.Index];
 
                     var subfolder = HashInFolder.Length == 1 ? fn : Path.Combine(dirName.ToString("X16"), fn);
-                    var loc = Path.Combine(path ?? FilePath, subfolder);
+                    var loc = Path.Combine(path, subfolder);
                     FileMitm.WriteAllBytes(loc, data);
                 }
             }
@@ -416,5 +432,10 @@ namespace pkNX.Containers
         None = 0,
         Zlib = 1,
         Lz4 = 2,
+        OodleKraken = 3,
+        OodleLeviathan = 4,
+        OodleMermaid = 5,
+        OodleSelkie = 6,
+        OodleHydra = 7,
     }
 }

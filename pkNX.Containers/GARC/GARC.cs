@@ -127,7 +127,7 @@ namespace pkNX.Containers
             br.BaseStream.Position = 10;
             var ver = br.ReadUInt16();
 
-            if (ver == 0x0600 || ver == 0x0400)
+            if (ver is 0x0600 or 0x0400)
                 return new GARC(br);
             return null;
         }

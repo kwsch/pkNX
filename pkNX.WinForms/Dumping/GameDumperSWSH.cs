@@ -58,7 +58,7 @@ namespace pkNX.WinForms
 
             var pt = ROM.Data.PersonalData;
             var altForms = pt.GetFormList(s, pt.MaxSpeciesID);
-            var entryNames = pt.GetPersonalEntryList(altForms, s, pt.MaxSpeciesID, out var _, out _);
+            var entryNames = pt.GetPersonalEntryList(altForms, s, pt.MaxSpeciesID, out _, out _);
             var moveNames = ROM.GetStrings(TextName.MoveNames);
 
             var pd = new PersonalDumperSWSH

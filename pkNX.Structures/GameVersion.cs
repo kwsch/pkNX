@@ -202,6 +202,12 @@
         /// Pokémon Shield (NX)
         /// </summary>
         SH = 45,
+
+        PLA,
+        HOME,
+        BD,
+        SP,
+
         #endregion
 
         // The following values are not actually stored values in pkm data,

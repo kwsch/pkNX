@@ -192,7 +192,7 @@ namespace pkNX.Structures
                         int bracket = line.IndexOf(']', i);
                         if (bracket < 0)
                             throw new ArgumentException("Variable text is not capped properly: " + line);
-                        string varText = line.Substring(i, bracket - i);
+                        string varText = line[i..bracket];
                         var varValues = GetVariableValues(varText);
                         foreach (ushort v in varValues) bw.Write(v);
                         i += 1 + varText.Length;
@@ -257,12 +257,12 @@ namespace pkNX.Structures
             while (i < data.Length)
             {
                 ushort val = BitConverter.ToUInt16(data, i);
-                if (val == KEY_TERMINATOR) break;
+                if (val == KEY_TERMINATOR)
+                    break;
                 i += 2;
 
                 switch (val)
                 {
-                    case KEY_TERMINATOR: return s.ToString();
                     case KEY_VARIABLE: s.Append(GetVariableString(Config, data, ref i)); break;
                     case '\n': s.Append(@"\n"); break;
                     case '\\': s.Append(@"\\"); break;
@@ -358,7 +358,7 @@ namespace pkNX.Structures
             var vals = new List<ushort>();
             int bracket = text.IndexOf('(');
             bool noArgs = bracket < 0;
-            string variable = noArgs ? text : text.Substring(0, bracket);
+            string variable = noArgs ? text : text[..bracket];
             ushort varVal = Config.GetVariableNumber(variable);
 
             if (!noArgs)

@@ -12,6 +12,13 @@ namespace pkNX.Structures
         public const int MaxBallID_8 = (int)Ball.Beast;
         public const int MaxGameID_8 = (int)GameVersion.SH;
 
+        public const int MaxSpeciesID_8a = 898; // Calyrex
+        public const int MaxMoveID_8a = 826; // Eerie Spell
+        public const int MaxItemID_8a = 1607; // Reins of Unity
+        public const int MaxAbilityID_8a = 267; // As One
+        public const int MaxBallID_8a = (int)Ball.Beast;
+        public const int MaxGameID_8a = (int)GameVersion.SH;
+
         #region Met Locations
         internal static readonly int[] Met_SWSH_0 =
         {
@@ -62,7 +69,7 @@ namespace pkNX.Structures
             40081, 40082, 40083, 40084, 40085, 40086,
         };
 
-        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
         #endregion
 
         internal static readonly ushort[] Pouch_Regular_SWSH =
@@ -195,6 +202,18 @@ namespace pkNX.Structures
             815, 814, 797, 806,
             800, 809, 799, 808,
             798, 802,
+        };
+
+        public static readonly int[] MoveShop8a =
+        {
+            0xCE, 0x1A8, 0x1A6, 0x1A7, 0x12D, 0xF9, 0xBF, 0x20B,
+            0x14C, 0x1BE, 0x81, 0xA1, 0x159, 0x1D2, 0x33D, 0x74,
+            0x153, 0x15B, 0x9C, 0x260, 7, 9, 8, 0x199, 0x18E, 0x1AB,
+            0x1AC, 0x8D, 0x194, 0x9D, 0x1A5, 0x1BA, 0xE7, 0x253,
+            0x160, 0x1C3, 0x19C, 0xC4, 0xBC, 0x19E, 0xF7, 0x22B,
+            0x1AE, 0x25D, 0x1A0, 0x191, 0x210, 0x29B, 0xE0, 0x1BC,
+            0xC8, 0x247, 0x3F, 0x35, 0x55, 0x3A, 0x5E, 0x18F, 0x1B2,
+            0x31C, 0x158,
         };
 
         internal static readonly HashSet<int> GalarOriginForms = new()

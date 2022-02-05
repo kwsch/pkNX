@@ -23,6 +23,7 @@ namespace pkNX.Game
                 GameVersion.SW => SWSH,
                 GameVersion.SH => SWSH,
                 GameVersion.SWSH => SWSH,
+                GameVersion.PLA => PLA,
                 _ => null
             };
         }
@@ -149,6 +150,33 @@ namespace pkNX.Game
         };
 
         private static readonly TextReference[] SWSH =
+        {
+            new("iteminfo.dat", TextName.ItemFlavor),
+            new("itemname.dat", TextName.ItemNames),
+            new("monsname.dat", TextName.SpeciesNames),
+            new("place_name_indirect.dat", TextName.metlist_00000),
+            new("place_name_spe.dat", TextName.metlist_30000),
+            new("place_name_out.dat", TextName.metlist_40000),
+            new("place_name_per.dat", TextName.metlist_60000),
+            new("seikaku.dat", TextName.Natures),
+            new("tokusei.dat", TextName.AbilityNames),
+            new("tokuseiinfo.dat", TextName.AbilityFlavor),
+            new("trname.dat", TextName.TrainerNames),
+            new("trtype.dat", TextName.TrainerClasses),
+            new("trmsg.dat", TextName.TrainerText),
+            new("typename.dat", TextName.Types),
+            new("wazainfo.dat", TextName.MoveFlavor),
+            new("wazaname.dat", TextName.MoveNames),
+            new("zkn_form.dat", TextName.Forms),
+            new("zkn_type.dat", TextName.SpeciesClassifications),
+            new("zukan_comment_A.dat", TextName.PokedexEntry1),
+            new("zukan_comment_B.dat", TextName.PokedexEntry2),
+            new("ribbon.dat", TextName.RibbonMark),
+            new("poke_memory_feeling.dat", TextName.MemoryFeelings),
+        };
+
+
+        private static readonly TextReference[] PLA =
         {
             new("iteminfo.dat", TextName.ItemFlavor),
             new("itemname.dat", TextName.ItemNames),

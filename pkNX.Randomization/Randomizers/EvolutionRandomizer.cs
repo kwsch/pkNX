@@ -113,10 +113,10 @@ namespace pkNX.Randomization
             }
         }
 
-        private void MakeEvolveEveryLevel(EvolutionSet evos, int species)
+        private static void MakeEvolveEveryLevel(EvolutionSet evos, int species)
         {
             var evoSet = evos.PossibleEvolutions;
-            var evoNew = new EvolutionMethod()
+            evoSet[0] = new EvolutionMethod
             {
                 Argument = 0, // clear
                 Form = 0, // randomized later
@@ -124,8 +124,6 @@ namespace pkNX.Randomization
                 Method = EvolutionType.LevelUp,
                 Species = species, // randomized later
             };
-
-            evoSet[0] = evoNew;
 
             if (evoSet[1].HasData) // has other branched evolutions; remove them
             {

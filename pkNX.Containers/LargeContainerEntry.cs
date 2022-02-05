@@ -14,7 +14,7 @@ namespace pkNX.Containers
         {
             parent.Seek(Start + ParentDataPosition, SeekOrigin.Begin);
             byte[] data = new byte[Length];
-            parent.Read(data, 0, Length);
+            _ = parent.Read(data, 0, Length);
             return data;
         }
 

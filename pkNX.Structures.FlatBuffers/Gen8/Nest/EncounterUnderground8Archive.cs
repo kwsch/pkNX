@@ -7,7 +7,6 @@ using FlatSharp.Attributes;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 #nullable disable
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
 {

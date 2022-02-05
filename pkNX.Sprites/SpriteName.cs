@@ -9,11 +9,11 @@ namespace pkNX.Sprites
         public static bool AllowShinySprite { get; set; } = true;
         public static bool AllowGigantamaxSprite { get; set; } = true;
 
-        private const string Separator = "_";
-        private const string Cosplay = "c";
-        private const string Shiny = "s";
+        private const char Separator = '_';
+        private const char Cosplay = 'c';
+        private const char Shiny = 's';
         private const string Gigantamax = "gmax";
-        private const string GGStarter = "p";
+        private const char GGStarter = 'p';
 
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
 
@@ -25,15 +25,15 @@ namespace pkNX.Sprites
             if (SpeciesDefaultFormSprite.Contains(species) && !gmax) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            if (gmax && (species == (int)Species.Toxtricity || species == (int)Species.Alcremie)) // same sprites for all altform gmaxes
+            if (gmax && species is (int)Species.Toxtricity or (int)Species.Alcremie) // same sprites for all altform gmaxes
                 form = 0;
 
             switch (form)
             {
-                case 30 when species >= (int)Species.Scatterbug && species <= (int)Species.Vivillon: // save file specific
+                case 30 when species is >= (int)Species.Scatterbug and <= (int)Species.Vivillon: // save file specific
                     form = 0;
                     break;
-                case 31 when species == (int)Species.Unown || species == (int)Species.Deerling || species == (int)Species.Sawsbuck: // Random
+                case 31 when species is (int)Species.Unown or (int)Species.Deerling or (int)Species.Sawsbuck: // Random
                     form = 0;
                     break;
             }
@@ -43,7 +43,8 @@ namespace pkNX.Sprites
 
             if (form != 0)
             {
-                sb.Append(Separator); sb.Append(form);
+                sb.Append(Separator)
+                    .Append(form);
 
                 if (species == (int)Species.Pikachu)
                 {

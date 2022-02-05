@@ -10,7 +10,6 @@ using FlatSharp.Attributes;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 #nullable disable
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers
 {
@@ -98,26 +97,21 @@ namespace pkNX.Structures.FlatBuffers
 
             string GetItemName(uint itemID)
             {
-                if (1130 <= itemID && itemID < 1230) // TR
+                if (itemID is >= 1130 and < 1230) // TR
                     return $"{items[(int)itemID]} {moves[tmtrs[100 + (int)itemID - 1130]]}";
                 return items[(int)itemID];
             }
         }
 
-        private static int GetEncounterRank(int level)
+        private static int GetEncounterRank(int level) => level switch
         {
-            if (15 <= level && level <= 20)
-                return 1;
-            if (25 <= level && level <= 30)
-                return 2;
-            if (35 <= level && level <= 40)
-                return 3;
-            if (45 <= level && level <= 50)
-                return 4;
-            if (55 <= level && level <= 60)
-                return 5;
-            return 0;
-        }
+            >= 15 and <= 20 => 1,
+            >= 25 and <= 30 => 2,
+            >= 35 and <= 40 => 3,
+            >= 45 and <= 50 => 4,
+            >= 55 and <= 60 => 5,
+            _ => 0,
+        };
 
         public IEnumerable<string> GetSummary(IReadOnlyList<string> species, IReadOnlyList<string> items)
         {

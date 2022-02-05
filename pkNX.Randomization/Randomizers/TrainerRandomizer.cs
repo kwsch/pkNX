@@ -255,7 +255,7 @@ namespace pkNX.Randomization
                         return;
 
                     c.Species = AllowedGigantamaxes[Util.Random.Next(AllowedGigantamaxes.Length)];
-                    c.Form = c.Species == (int)Species.Pikachu || c.Species == (int)Species.Meowth ? 0 : RandForm.GetRandomForme(c.Species, false, false, false, false, Personal.Table); // Pikachu & Meowth altforms can't gmax
+                    c.Form = c.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : RandForm.GetRandomForme(c.Species, false, false, false, false, Personal.Table); // Pikachu & Meowth altforms can't gmax
                 }
                 if (Settings.MaxDynamaxLevel && c.CanDynamax)
                     c.DynamaxLevel = 10;
