@@ -460,6 +460,8 @@ namespace pkNX.WinForms
             var allLandItems = new List<LandmarkItemSpawn8a>();
             var allLandMarks = new List<LandmarkItem8a>();
             var allUnown = new List<PlacementUnnnEntry>();
+            var allMkrg = new List<PlacementMkrgEntry>();
+            var allSearchItem = new List<PlacementSearchItem>();
             foreach (var areaNameList in PLAInfo.AreaNames)
             {
                 var instance = AreaInstance8a.Create(resident, areaNameList);
@@ -490,6 +492,8 @@ namespace pkNX.WinForms
                 allLandItems.AddRange(instance.LandItems);
                 allLandMarks.AddRange(instance.LandMarks);
                 allUnown.AddRange(instance.Unown);
+                allMkrg.AddRange(instance.Mikaruge);
+                allSearchItem.AddRange(instance.SearchItem);
 
                 foreach (var subArea in instance.SubAreas)
                 {
@@ -499,6 +503,9 @@ namespace pkNX.WinForms
                     allLocations.AddRange(subArea.Locations);
                     allLandItems.AddRange(subArea.LandItems);
                     allLandMarks.AddRange(subArea.LandMarks);
+                    allUnown.AddRange(subArea.Unown);
+                    allMkrg.AddRange(subArea.Mikaruge);
+                    allSearchItem.AddRange(subArea.SearchItem);
                 }
             }
 
@@ -518,6 +525,8 @@ namespace pkNX.WinForms
             File.WriteAllText(GetPath(wild, "allLandMarks.csv"), TableUtil.GetTable(allLandMarks));
             File.WriteAllText(GetPath(wild, "allLandMarkSpawns.csv"), TableUtil.GetTable(allLandMarks));
             File.WriteAllText(GetPath(wild, "allUnown.csv"), TableUtil.GetTable(allUnown));
+            File.WriteAllText(GetPath(wild, "allMkrg.csv"), TableUtil.GetTable(allMkrg));
+            File.WriteAllText(GetPath(wild, "allSearchItem.csv"), TableUtil.GetTable(allSearchItem));
         }
 
         public void DumpResident()
@@ -610,6 +619,14 @@ namespace pkNX.WinForms
                         mkrg_all.Add(string.Empty);
                         File.WriteAllLines(GetPath(placement, $"Mikaruge_{areaName}.txt"), mkrg_lines);
                     }
+                    if (subArea.SearchItem.Length != 0)
+                    {
+                        var mkrg_lines = GetSearchItemLines(areaName, map, subArea.SearchItem, subArea.Locations);
+
+                        mkrg_all.AddRange(mkrg_lines);
+                        mkrg_all.Add(string.Empty);
+                        File.WriteAllLines(GetPath(placement, $"SearchItem_{areaName}.txt"), mkrg_lines);
+                    }
 
                     // Debug for Visualization
                     if (new[] { "ha_area01", "ha_area02", "ha_area03", "ha_area04", "ha_area05" }.Contains(areaName))
@@ -684,11 +701,35 @@ namespace pkNX.WinForms
             return result;
         }
 
+        private static IReadOnlyList<string> GetSearchItemLines(string areaName,
+            IReadOnlyDictionary<string, (string Name, int Index)> map,
+            IEnumerable<PlacementSearchItem> mkrgs,
+            IReadOnlyList<PlacementLocation8a> locations)
+        {
+            var result = new List<string> { $"Area: {areaName}" };
+            foreach (var psi in mkrgs)
+            {
+                var contained = GetNearbyLocationNames(psi, locations, map);
+                result.Add($"\t{psi} // Containing Locations: {contained}");
+            }
+            return result;
+        }
+
         private static string GetNearbyLocationNames(PlacementSpawner8a spawner,
             IReadOnlyList<PlacementLocation8a> locations,
             IReadOnlyDictionary<string, (string Name, int Index)> map)
         {
             var containedBy = spawner.GetContainingLocations(locations);
+            var placeNames = containedBy.Select(z => z.PlaceName).Distinct();
+            var localized = placeNames.Select(pn => map[pn].Name);
+            return string.Join(", ", localized);
+        }
+
+        private static string GetNearbyLocationNames(PlacementSearchItem mkrg,
+            IReadOnlyList<PlacementLocation8a> locations,
+            IReadOnlyDictionary<string, (string Name, int Index)> map)
+        {
+            var containedBy = mkrg.GetContainingLocations(locations);
             var placeNames = containedBy.Select(z => z.PlaceName).Distinct();
             var localized = placeNames.Select(pn => map[pn].Name);
             return string.Join(", ", localized);

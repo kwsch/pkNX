@@ -16,6 +16,7 @@ public sealed class AreaInstance8a
     public readonly LandmarkItem8a[] LandMarks;
     public readonly PlacementUnnnEntry[] Unown;
     public readonly PlacementMkrgEntry[] Mikaruge;
+    public readonly PlacementSearchItem[] SearchItem;
 
     public readonly EncounterDataArchive8a Encounters;
 
@@ -36,6 +37,7 @@ public sealed class AreaInstance8a
         var l_markf = resident.GetDataFullPath($"bin/field/param/placement/{areaName}/landmark_item/landmark_item.bin");
         var unnf = resident.GetDataFullPath($"bin/field/param/placement/{areaName}/unnn/unnn.bin");
         var mkrgf = resident.GetDataFullPath($"bin/field/param/placement/{areaName}/mkrg/mkrg.bin");
+        var psif = resident.GetDataFullPath($"bin/field/param/placement/{areaName}/search_item/search_item.bin");
 
         Locations = FlatBufferConverter.DeserializeFrom<PlacementLocationArchive8a>(locationf).Table;
         Spawners = FlatBufferConverter.DeserializeFrom<PlacementSpawnerArchive8a>(spawnerf).Table;
@@ -44,6 +46,7 @@ public sealed class AreaInstance8a
         LandMarks = FlatBufferConverter.DeserializeFrom<LandmarkItemTable8a>(l_markf).Table;
         Unown = FlatBufferConverter.DeserializeFrom<PlacementUnnnTable>(unnf).Table;
         Mikaruge = FlatBufferConverter.DeserializeFrom<PlacementMkrgTable>(mkrgf).Table;
+        SearchItem = FlatBufferConverter.DeserializeFrom<PlacementSearchItemTable>(psif).Table;
 
         AreaName = areaName;
 

@@ -190,5 +190,8 @@
 
         /// <summary> "PokeMisc" Details about a given Species-Form not stored in <see cref="PersonalStats"/> </summary>
         PokeMisc,
+
+        /// <summary> Gives bonus rolls based on met thresholds. </summary>
+        ShinyRolls,
     }
 }

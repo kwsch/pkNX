@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
@@ -105,6 +104,20 @@ internal class EditorPLA : EditorBase
         }
 
         obj[0] = Item8a.SetArray(items, data);
+    }
+
+    public void EditShinyRate()
+    {
+        var obj = ROM.GetFile(GameFile.ShinyRolls); // flatbuffer
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<PokemonRare8aTable>(data);
+        var cache = new DataCache<PokemonRare8aEntry>(root.Table);
+        var names = root.Table.Select(z => z.Name).ToArray();
+        using var form = new GenericEditor<PokemonRare8aEntry>(cache, names, "Shiny Rate Editor");
+        form.ShowDialog();
+        if (!form.Modified)
+            return;
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
     public void EditSymbolBehave()

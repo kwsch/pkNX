@@ -26,7 +26,12 @@ public class PokemonRare8aEntry
     [FlatBufferItem(01)] public ulong Hash { get; set; }
     [FlatBufferItem(02)] public byte UnusedValue { get; set; } // none have this
     [FlatBufferItem(03)] public string Option { get; set; } = string.Empty;
-    [FlatBufferItem(04)] public string Value { get; set; } = string.Empty;
-    [FlatBufferItem(05)] public string[] Field_05 { get; set; } = Array.Empty<string>();
+    [FlatBufferItem(04)] public string Field_04 { get; set; } = string.Empty;
+    [FlatBufferItem(05)] public string[] Parameters { get; set; } = Array.Empty<string>();
     [FlatBufferItem(06)] public FlatDummyEntry[] UnusedArray { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+    public string ConfiguredValue
+    {
+        get => Parameters[0];
+        set => Parameters[0] = value;
+    }
 }
