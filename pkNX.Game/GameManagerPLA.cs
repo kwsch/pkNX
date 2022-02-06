@@ -9,7 +9,7 @@ namespace pkNX.Game
     {
         public GameManagerPLA(GameLocation rom, int language) : base(rom, language) { }
         private string PathNPDM => Path.Combine(PathExeFS, "main.npdm");
-        private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(PathNPDM), 0x290).ToString("X16");
+        private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(PathNPDM), 0x470).ToString("X16");
 
         protected override void SetMitm()
         {
