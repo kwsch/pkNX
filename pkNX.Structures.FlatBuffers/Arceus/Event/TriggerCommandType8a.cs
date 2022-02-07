@@ -20,6 +20,9 @@ public enum TriggerCommandType8a : ulong
     CallTriggerBoot = 0xA6C73C7E028A667B, // "call_trigger_boot"
     DemoPlay = 0xC68C92A921029B81, // "demo_play"
     EndNushiBattle = 0xF4F2BE33D270D1F7, // "end_nushi_battle"
+    FadeIn = 0xFB3E07E0FFD1B25B, // "fade_in"
+    FadeOut = 0xA9BA3A52A69DD7A8, // "fade_out
+    FadeWait = 0xECC548B7B9448DD5, // "fade_wait"
     FinishRealTimeEvent = 0x6C0A8D2940D8F34A, // "finish_real_time_event"
     FlagReset = 0x861AC906050FBC07, // "flag_reset"
     FlagSet = 0x2719CB6B0BCC8398, // "flag_set"

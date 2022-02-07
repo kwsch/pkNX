@@ -1088,6 +1088,10 @@ namespace pkNX.WinForms
             const string outFolder = "event_trigger";
             Directory.CreateDirectory(GetPath(outFolder));
 
+            var unknownTriggers = new List<ulong>();
+            var unknownConditions = new List<ulong>();
+            var unknownCommands = new List<ulong>();
+
             var allLines = new List<string>();
 
             foreach (var f in eventTriggerFiles)
@@ -1107,9 +1111,31 @@ namespace pkNX.WinForms
 
                 allLines.AddRange(curLines);
                 allLines.Add(string.Empty);
+
+                foreach (var trg in table.Table)
+                {
+                    if (!Enum.IsDefined(typeof(TriggerType8a), trg.Meta.TriggerTypeID) && !unknownTriggers.Contains((ulong)trg.Meta.TriggerTypeID))
+                        unknownTriggers.Add((ulong)trg.Meta.TriggerTypeID);
+
+                    foreach (var cond in trg.Conditions)
+                    {
+                        if (!Enum.IsDefined(typeof(ConditionType8a), cond.ConditionTypeID) && !unknownConditions.Contains((ulong)cond.ConditionTypeID))
+                            unknownConditions.Add((ulong)cond.ConditionTypeID);
+                    }
+
+                    foreach (var cmd in trg.Commands)
+                    {
+                        if (!Enum.IsDefined(typeof(TriggerCommandType8a), cmd.CommandTypeID) && !unknownCommands.Contains((ulong)cmd.CommandTypeID))
+                            unknownCommands.Add((ulong)cmd.CommandTypeID);
+                    }
+                }
             }
 
             File.WriteAllLines(GetPath(outFolder, "triggerAll.txt"), allLines);
+
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownTypes.txt"), unknownTriggers.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownConditions.txt"), unknownConditions.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownCommands.txt"), unknownCommands.OrderBy(x => x).Select(x => $"0x{x:X16},"));
         }
 
         public void DumpMoveShop()

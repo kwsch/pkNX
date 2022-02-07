@@ -22,6 +22,7 @@ public enum TriggerType8a : ulong
     EventBattleWin = 0x78891EA1EB1719B7, // "event_battle_win"
     FinishEventKisekaeHome = 0xEC5C94E0F6AF0025, // "finish_event_kisekae_home"
     FinishEventScript = 0x2E632ED350D2BC4D, // "finish_event_script"
+    FinishFastTravel = 0x114FE10EEDD9D9BE, // "finish_fast_travel"
     FinishNushiBattle = 0x3B78EA5ACF12B68F, // "finish_nushi_battle"
     FinishRideMiniGame = 0x43264D2AEB95F420, // "finish_ride_mini_game"
     FinishSelectArea = 0xAB29E81B22E196F1, // "finish_select_area"
