@@ -33,6 +33,7 @@ public enum ConditionType8a : ulong
     PokeTotalNum = 0x892E20D02629F1FA, // "poke_total_num"
     Probability = 0x5E53C6367A2D36BC, // "probability"
     ProgressWorkCondition = 0x43C4820F12B5385C, // "progress_work_condition"
+    ProgressWorkConditionHash = 0x409A7F367B037545, // "progress_work_condition_hash"
     QuestProgressCondition = 0x2041C674206FE0A7, // "quest_progress_condition"
     TimeZone = 0x46EBE59F660B132B, // "time_zone"
     TimeZoneAfternoon = 0x8E0F436D4E20E310, // "time_zone_afternoon"
