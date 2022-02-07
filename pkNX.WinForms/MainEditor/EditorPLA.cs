@@ -120,6 +120,20 @@ internal class EditorPLA : EditorBase
         obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
+    public void EditSwarmDetail()
+    {
+        var obj = ROM.GetFile(GameFile.SwarmDetail); // flatbuffer
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<MassOutbreakTable8a>(data);
+        var cache = new DataCache<MassOutbreak8a>(root.Table);
+        var names = root.Table.Select(z => z.WorkValueName).ToArray();
+        using var form = new GenericEditor<MassOutbreak8a>(cache, names, "Shiny Rate Editor");
+        form.ShowDialog();
+        if (!form.Modified)
+            return;
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
+    }
+
     public void EditSymbolBehave()
     {
         var obj = ROM.GetFile(GameFile.SymbolBehave);

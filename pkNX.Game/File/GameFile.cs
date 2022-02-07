@@ -193,5 +193,8 @@
 
         /// <summary> Gives bonus rolls based on met thresholds. </summary>
         ShinyRolls,
+
+        /// <summary> Gives detail for swarms including shiny roll count bonus. </summary>
+        SwarmDetail,
     }
 }
