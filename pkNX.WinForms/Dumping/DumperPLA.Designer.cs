@@ -59,6 +59,7 @@
             this.Tab_Future = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.B_OpenFolder = new System.Windows.Forms.Button();
+            this.B_EventTriggers = new System.Windows.Forms.Button();
             this.TC_Options.SuspendLayout();
             this.Tab_General.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -294,6 +295,7 @@
             this.flowLayoutPanel3.Controls.Add(this.B_Outbreak);
             this.flowLayoutPanel3.Controls.Add(this.B_MoveShop);
             this.flowLayoutPanel3.Controls.Add(this.B_ScriptCommandNames);
+            this.flowLayoutPanel3.Controls.Add(this.B_EventTriggers);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
@@ -399,6 +401,16 @@
             this.B_OpenFolder.UseVisualStyleBackColor = true;
             this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
             // 
+            // B_EventTriggers
+            // 
+            this.B_EventTriggers.Location = new System.Drawing.Point(132, 125);
+            this.B_EventTriggers.Name = "B_EventTriggers";
+            this.B_EventTriggers.Size = new System.Drawing.Size(123, 55);
+            this.B_EventTriggers.TabIndex = 22;
+            this.B_EventTriggers.Text = "Event Triggers";
+            this.B_EventTriggers.UseVisualStyleBackColor = true;
+            this.B_EventTriggers.Click += new System.EventHandler(this.B_EventTriggers_Click);
+            // 
             // DumperPLA
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -455,5 +467,6 @@
         private System.Windows.Forms.Button B_Placement;
         private System.Windows.Forms.Button B_Resident;
         private System.Windows.Forms.Button B_DumpDrops;
+        private System.Windows.Forms.Button B_EventTriggers;
     }
 }
