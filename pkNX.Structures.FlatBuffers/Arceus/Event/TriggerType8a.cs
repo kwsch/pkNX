@@ -31,6 +31,7 @@ public enum TriggerType8a : ulong
     GameOverAfterward = 0x5F2F50327A48756D, // "game_over_afterward"
     GetMkrg = 0x9FE3F0D2163599C7, // "get_mkrg"
     NpcTalk = 0xAB00E1A6F5D27687, // "npc_talk"
+    PokeSelectMenuAfter = 0x3C6FC069B47DBF4C, // "poke_select_menu_after"
     PosEnter = 0xBD5314EC693575D4, // "pos_enter"
     PosExit = 0xC01E67CA2AAD4DFA, // "pos_exit"
     PosStay = 0xDB75191D739E26DF, // "pos_stay"
