@@ -20,6 +20,7 @@ public enum TriggerType8a : ulong
     DoorEvent = 0xF8026805B0390A1E, // "door_event"
     EventBattleLose = 0x956AB57BCBE24AC2, // "event_battle_lose"
     EventBattleWin = 0x78891EA1EB1719B7, // "event_battle_win"
+    FinishCraTutorial = 0xCB28FF671A2BF67C, // "finish_cra_tutorial"
     FinishEventKisekaeHome = 0xEC5C94E0F6AF0025, // "finish_event_kisekae_home"
     FinishEventScript = 0x2E632ED350D2BC4D, // "finish_event_script"
     FinishFastTravel = 0x114FE10EEDD9D9BE, // "finish_fast_travel"

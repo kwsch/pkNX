@@ -21,6 +21,7 @@ public enum TriggerCommandType8a : ulong
     CallRealTimeEvent = 0x1608695374913BA9, // "call_real_time_event"
     CallTrainerBattle = 0x81FE18C0B68BFC12, // "call_trainer_battle"
     CallTriggerBoot = 0xA6C73C7E028A667B, // "call_trigger_boot"
+    CraCall = 0x8520F45674D19E44, // "cra_call"
     CreateFieldObjectRequest = 0x0D9BB98942D0BCF6, // "create_field_object_request"
     CreateFieldObjectRequestCategory = 0x4E3742139786576F, // "create_field_object_request_category"
     CreateFieldObjectRequestSet = 0xA7C532B0D5AF6F59, // "create_field_object_request_set"
