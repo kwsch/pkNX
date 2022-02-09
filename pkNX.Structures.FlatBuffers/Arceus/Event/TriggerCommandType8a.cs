@@ -10,6 +10,7 @@ public enum TriggerCommandType8a : ulong
 {
     AgunomuThrowEnd = 0xFA1DFCCE926904E0, // "agunomu_throw_end"
     AgunomuThrowStart = 0xB0F3255086108A01, // "agunomu_throw_start"
+    AdventureResultInit = 0xE716459F5EBE2E94, // "adventure_result_init"
     AllPokeRecover = 0x35AE11B202B33FAB, // "all_poke_recover"
     AutoSaveNg = 0x396A9D10B0C06938, // "auto_save_ng"
     AutoSaveNgReset = 0x5A23A70C90B2E3C0, // "auto_save_ng_reset"
