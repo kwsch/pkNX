@@ -28,6 +28,7 @@ public enum TriggerCommandType8a : ulong
     CreateFieldObjectRequestCategory = 0x4E3742139786576F, // "create_field_object_request_category"
     CreateFieldObjectRequestSet = 0xA7C532B0D5AF6F59, // "create_field_object_request_set"
     DemoPlay = 0xC68C92A921029B81, // "demo_play"
+    DemoPlayD220 = 0xB651089382810DEA, // "demo_play_d220"
     EndNushiBattle = 0xF4F2BE33D270D1F7, // "end_nushi_battle"
     FadeIn = 0xFB3E07E0FFD1B25B, // "fade_in"
     FadeOut = 0xA9BA3A52A69DD7A8, // "fade_out
@@ -45,8 +46,11 @@ public enum TriggerCommandType8a : ulong
     LeaveWildPokemon = 0x635B9BF9C7B6BEA3, // "leave_wild_pokemon"
     MapChange = 0x1223758E1F82495E, // "map_change"
     MapChangeGameOver = 0xA93595533A427B98, // "map_change_game_over"
+    MapChangeDoorId = 0xF688862E367CF429, // "map_change_door_id"
     MoneyAdd = 0x5195731EE2BCA693, // "money_add"
     PlayerAnimationStateReset = 0x3221105676A499B3, // "player_animation_state_reset"
+    PlayerPinchRecover = 0x836C7B20B1BC4A14, // "player_pinch_recover"
+    PlayerWarpXyz = 0x5F5F59AA1A454253, // "player_warp_xyz"
     PokeAdd = 0x82E032DE25CE78E0, // "poke_add"
     PokeBoxCall = 0x1F24A4FCF859527B, // "poke_box_call"
     PokePassEvolution = 0x36C4EA8E0C07226A, // "poke_pass_evolution
@@ -74,10 +78,14 @@ public enum TriggerCommandType8a : ulong
     SpawnWildPokemon = 0x39A6CB761A05967B, // "spawn_wild_pokemon"
     StartNushiBattle = 0x081BF500D5709C9C, // "start_nushi_battle"
     StartWormhole = 0x2156F9E8ED44730D, // "start_wormhole"
+    TerrainSuspend = 0xAEC1A8869FBFFAB1, // "terrain_suspend"
     TimeChange = 0x48D69D8788B2FE61, // "time_change"
     TimeLock = 0xF7911B293C7F980E, // "time_lock"
     TimeRelease = 0x6A28CB95A4BBFF62, // "time_release"
     TriggerCommandPreset = 0x8CD4CD78EA36EF55, // "trigger_command_preset"
+    WeatherOverrideEnd = 0x0B590FB0E4757ECE, // "weather_override_end"
+    WeatherOverrideStart = 0xD7000A2DA20F2AEB, // "weather_override_start
+    WeatherOverrideStartNowDepending = 0xE4B9EFCF8B1793D1, // "weather_override_start_now_depending"
     WorkAdd = 0xB956CAA67E5EB58C, // "work_add"
     WorkSet = 0x555FCEA6D6C83ADB, // "work_set"
 

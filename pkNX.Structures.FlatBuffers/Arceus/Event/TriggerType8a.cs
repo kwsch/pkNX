@@ -41,7 +41,9 @@ public enum TriggerType8a : ulong
     TrainerBanditWin = 0x2E11B56C5A55E9E8, // "trainer_bandit_win"
     TrainerBattleLose = 0x7DACDFC0F3964597, // "trainer_battle_lose"
     TrainerBattleWin = 0xB7942BC60882A228, // "trainer_battle_win"
+    WildPokeAvoidThrowable = 0xCAAD203D7ABFF4F6, // "wild_poke_avoid_throwable"
     WildPokeEscape = 0xE22F524AAE64337F, // "wild_poke_escape"
+    WildPokeHitThrowable = 0x4A182F2782FFD34E, // "wild_poke_hit_throwable"
 
     None = 0xCBF29CE484222645, // ""
 }

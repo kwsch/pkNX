@@ -17,6 +17,7 @@ public enum ConditionType8a : ulong
     ItemNum = 0x4218EEEA9BFE8019, // "item_num"
     MkrgCondition = 0xF8ADF49E06E61C30, // "mkrg_condition
     MoonType = 0x9C765A1AAAC34605, // "moon_type"
+    MydressupParts = 0x6E4AB6860240F386, // "mydressup_parts"
     NpcPassPokeForm = 0xDD65C7864951449B, // "npc_pass_poke_form"
     NpcPassPokeIndividualNum = 0xCE6FB5F32B6297C5, // "npc_pass_poke_individual_num"
     NpcPassPokeMonsNum = 0x26D399D556EE1C2D, // "npc_pass_poke_mons_num"
