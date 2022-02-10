@@ -39,7 +39,7 @@ public class TrData8a
     [FlatBufferItem(21)] public byte Field_21 { get; set; } // byte
     [FlatBufferItem(22)] public TrPoke8a[] Team { get; set; } = Array.Empty<TrPoke8a>();
 
-    public string TeamSummary => Environment.NewLine + string.Join(Environment.NewLine, Team.Select(z => z.ToString()));
+    public string TeamSummary => Environment.NewLine + string.Join(Environment.NewLine, Team.Select(z => "\t" + z));
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -63,7 +63,7 @@ public class TrPoke8a
 
     public override string ToString()
     {
-        return $"{(Species)Species}{(Form == 0 ? "" : $"-{Form}")}|({Move_01},{Move_02},{Move_03},{Move_04})|{Level}|{Nature}|{Gender}|({GV_09}/{GV_10}/{GV_11}/{GV_12}/{GV_13}/{GV_14})";
+        return $"{((Species)Species) + (Form == 0 ? "" : $"-{Form}"),-15}|({Move_01,4},{Move_02,4},{Move_03,4},{Move_04,4})|{Level,2}|{Nature,8}|{Gender}|({GV_09}/{GV_10}/{GV_11}/{GV_12}/{GV_13}/{GV_14})";
     }
 }
 
