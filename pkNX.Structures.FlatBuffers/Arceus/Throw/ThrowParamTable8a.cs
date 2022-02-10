@@ -23,10 +23,10 @@ public class ThrowParamTable8a : IFlatBufferArchive<ThrowParam8a>
 public class ThrowParam8a
 {
     [FlatBufferItem(00)] public ulong Hash { get; set; }
-    [FlatBufferItem(01)] public float Field_01 { get; set; }
-    [FlatBufferItem(02)] public float Field_02 { get; set; }
-    [FlatBufferItem(03)] public float Field_03 { get; set; }
-    [FlatBufferItem(04)] public float Field_04 { get; set; }
+    [FlatBufferItem(01)] public float Velocity { get; set; } // more speed
+    [FlatBufferItem(02)] public float Arc { get; set; } // more arc
+    [FlatBufferItem(03)] public float GravityDirection { get; set; } // higher values make it fall less, and go less forward
+    [FlatBufferItem(04)] public float ThrowAngle { get; set; } // higher values go straight up?
 
-    public string Dump() => $"{Hash:X16}\t{Field_01}\t{Field_02}\t{Field_03}\t{Field_04}";
+    public string Dump() => $"{Hash:X16}\t{Velocity}\t{Arc}\t{GravityDirection}\t{ThrowAngle}";
 }

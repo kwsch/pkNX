@@ -45,7 +45,7 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
-    public void EditThrowableParam()
+    public void EditThrowable_Param()
     {
         var itemNames = ROM.GetStrings(TextName.ItemNames);
         var obj = ROM.GetFile(GameFile.ThrowableParam);
@@ -56,10 +56,14 @@ internal class EditorPLA : EditorBase
         using var form = new GenericEditor<ThrowableParam8a>(cache, names, "Throwable Param Editor", canSave: true);
         form.ShowDialog();
         if (!form.Modified)
+        {
             cache.CancelEdits();
+            return;
+        }
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    public void EditThrowParam()
+    public void EditThrow_Param()
     {
         var obj = ROM.GetFile(GameFile.ThrowParam);
         var data = obj[0];
@@ -69,10 +73,14 @@ internal class EditorPLA : EditorBase
         using var form = new GenericEditor<ThrowParam8a>(cache, names, "Throw Param Editor", canSave: true);
         form.ShowDialog();
         if (!form.Modified)
+        {
             cache.CancelEdits();
+            return;
+        }
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    public void EditThrowResourceSetDictionary()
+    public void EditThrow_ResourceSet_Dictionary()
     {
         var obj = ROM.GetFile(GameFile.ThrowableResourceSet);
         var data = obj[0];
@@ -82,10 +90,14 @@ internal class EditorPLA : EditorBase
         using var form = new GenericEditor<ThrowableResourceSetEntry8a>(cache, names, "Throwable ResourceSet Dictionary Editor", canSave: true);
         form.ShowDialog();
         if (!form.Modified)
+        {
             cache.CancelEdits();
+            return;
+        }
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    public void EditThrowResourceDictionary()
+    public void EditThrow_Resource_Dictionary()
     {
         var obj = ROM.GetFile(GameFile.ThrowableResource);
         var data = obj[0];
@@ -95,10 +107,14 @@ internal class EditorPLA : EditorBase
         using var form = new GenericEditor<ThrowableResourceEntry8a>(cache, names, "Throwable Resource Dictionary Editor", canSave: true);
         form.ShowDialog();
         if (!form.Modified)
+        {
             cache.CancelEdits();
+            return;
+        }
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    public void EditThrowPermissionSetParam()
+    public void EditThrow_PermissionSet_Param()
     {
         var obj = ROM.GetFile(GameFile.ThrowPermissionSet);
         var data = obj[0];
@@ -108,7 +124,11 @@ internal class EditorPLA : EditorBase
         using var form = new GenericEditor<ThrowPermissionSetEntry8a>(cache, names, "Throw Permission Editor", canSave: true);
         form.ShowDialog();
         if (!form.Modified)
+        {
             cache.CancelEdits();
+            return;
+        }
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
     public void NotWorking_EditItems()

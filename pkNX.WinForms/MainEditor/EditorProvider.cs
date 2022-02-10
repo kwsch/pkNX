@@ -35,7 +35,7 @@ namespace pkNX.WinForms.Controls
                     Width = width,
                     Height = height,
                     Name = $"B_{name}",
-                    Text = m.Name[prefix.Length..],
+                    Text = name.Replace('_', ' '),
                 };
                 b.Click += (s, e) =>
                 {
