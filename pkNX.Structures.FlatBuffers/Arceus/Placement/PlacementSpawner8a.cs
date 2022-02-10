@@ -24,8 +24,8 @@ public class PlacementSpawner8a : ISlotTableConsumer
     [FlatBufferItem(4)] public float Scalar { get; set; }
     [FlatBufferItem(5)] public PlacementV3f8a Field_05 { get; set; } = new();
     [FlatBufferItem(6)] public PlacementV3f8a Field_06 { get; set; } = new();
-    [FlatBufferItem(7)] public int Field_07 { get; set; }
-    [FlatBufferItem(8)] public int Field_08 { get; set; }
+    [FlatBufferItem(7)] public int MinSpawnCount { get; set; }
+    [FlatBufferItem(8)] public int MaxSpawnCount { get; set; }
     [FlatBufferItem(9)] public int Field_09 { get; set; }
     [FlatBufferItem(10)] public bool Field_10 { get; set; }
     [FlatBufferItem(11)] public bool Field_11 { get; set; }
@@ -210,7 +210,7 @@ public class PlacementSpawner8a : ISlotTableConsumer
         }
     }
 
-    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Field_03}\", {Scalar}, {Field_05}, {Field_06}, {Field_07}, {Field_08}, {Field_09}, {Field_10}, {Field_11}, {Field_12}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {Field_16}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {Field_22_Value})";
+    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Field_03}\", {Scalar}, {Field_05}, {Field_06}, {MinSpawnCount}, {MaxSpawnCount}, {Field_09}, {Field_10}, {Field_11}, {Field_12}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {Field_16}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {Field_22_Value})";
 
     public bool UsesTable(ulong table) => Field_20_Value.EncounterTableID == table;
 }
