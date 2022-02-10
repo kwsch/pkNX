@@ -45,6 +45,72 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
+    public void EditThrowableParam()
+    {
+        var itemNames = ROM.GetStrings(TextName.ItemNames);
+        var obj = ROM.GetFile(GameFile.ThrowableParam);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ThrowableParamTable8a>(data);
+        var names = root.Table.Select(z => itemNames[z.ItemID]).ToArray();
+        var cache = new DataCache<ThrowableParam8a>(root.Table);
+        using var form = new GenericEditor<ThrowableParam8a>(cache, names, "Throwable Param Editor", canSave: true);
+        form.ShowDialog();
+        if (!form.Modified)
+            cache.CancelEdits();
+    }
+
+    public void EditThrowParam()
+    {
+        var obj = ROM.GetFile(GameFile.ThrowParam);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ThrowParamTable8a>(data);
+        var names = root.Table.Select(z => z.Hash.ToString("X16")).ToArray();
+        var cache = new DataCache<ThrowParam8a>(root.Table);
+        using var form = new GenericEditor<ThrowParam8a>(cache, names, "Throw Param Editor", canSave: true);
+        form.ShowDialog();
+        if (!form.Modified)
+            cache.CancelEdits();
+    }
+
+    public void EditThrowResourceSetDictionary()
+    {
+        var obj = ROM.GetFile(GameFile.ThrowableResourceSet);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ThrowableResourceSetDictionary8a>(data);
+        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
+        var cache = new DataCache<ThrowableResourceSetEntry8a>(root.Table);
+        using var form = new GenericEditor<ThrowableResourceSetEntry8a>(cache, names, "Throwable ResourceSet Dictionary Editor", canSave: true);
+        form.ShowDialog();
+        if (!form.Modified)
+            cache.CancelEdits();
+    }
+
+    public void EditThrowResourceDictionary()
+    {
+        var obj = ROM.GetFile(GameFile.ThrowableResource);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ThrowableResourceDictionary8a>(data);
+        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
+        var cache = new DataCache<ThrowableResourceEntry8a>(root.Table);
+        using var form = new GenericEditor<ThrowableResourceEntry8a>(cache, names, "Throwable Resource Dictionary Editor", canSave: true);
+        form.ShowDialog();
+        if (!form.Modified)
+            cache.CancelEdits();
+    }
+
+    public void EditThrowPermissionSetParam()
+    {
+        var obj = ROM.GetFile(GameFile.ThrowPermissionSet);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ThrowPermissionSetDictionary8a>(data);
+        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
+        var cache = new DataCache<ThrowPermissionSetEntry8a>(root.Table);
+        using var form = new GenericEditor<ThrowPermissionSetEntry8a>(cache, names, "Throw Permission Editor", canSave: true);
+        form.ShowDialog();
+        if (!form.Modified)
+            cache.CancelEdits();
+    }
+
     public void NotWorking_EditItems()
     {
         var obj = ROM.GetFilteredFolder(GameFile.ItemStats, z => new FileInfo(z).Length == 36);

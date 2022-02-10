@@ -196,5 +196,11 @@
 
         /// <summary> Gives detail for swarms including shiny roll count bonus. </summary>
         SwarmDetail,
+
+        ThrowableParam,
+        ThrowParam,
+        ThrowableResourceSet,
+        ThrowableResource,
+        ThrowPermissionSet,
     }
 }

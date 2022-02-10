@@ -463,6 +463,12 @@ namespace pkNX.Game
             new(GameFile.ShinyRolls, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_rare.bin"),
             new(GameFile.SwarmDetail, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
 
+            new(GameFile.ThrowableParam, ContainerType.SingleFile, "bin", "capture", "throwable_param_table.bin"),
+            new(GameFile.ThrowParam, ContainerType.SingleFile, "bin", "capture", "throw_param_table.bin"),
+            new(GameFile.ThrowableResourceSet, ContainerType.SingleFile, "bin", "capture", "throwable_resourceset_dictionary.bin"),
+            new(GameFile.ThrowableResource, ContainerType.SingleFile, "bin", "capture", "throwable_resource_dictionary.bin"),
+            new(GameFile.ThrowPermissionSet, ContainerType.SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),
+
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)

@@ -24,8 +24,8 @@ public class ThrowableParam8a
 {
     [FlatBufferItem(00)] public int    ItemID { get; set; }
     [FlatBufferItem(01)] public ulong  Hash_01 { get; set; }
-    [FlatBufferItem(02)] public ulong  Hash_02 { get; set; }
-    [FlatBufferItem(03)] public ulong  Hash_03 { get; set; }
+    [FlatBufferItem(02)] public ulong  ThrowPermissionSet  { get; set; }
+    [FlatBufferItem(03)] public ulong  ThrowParam          { get; set; }
     [FlatBufferItem(04)] public ulong  Hash_04 { get; set; }
     [FlatBufferItem(05)] public int    Field_05 { get; set; }
     [FlatBufferItem(06)] public float  Field_06 { get; set; }
