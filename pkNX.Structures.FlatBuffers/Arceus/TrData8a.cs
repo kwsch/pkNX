@@ -51,20 +51,19 @@ public class TrPoke8a
     [FlatBufferItem(03)] public TrPoke8aMove Move_02 { get; set; } = new();
     [FlatBufferItem(04)] public TrPoke8aMove Move_03 { get; set; } = new();
     [FlatBufferItem(05)] public TrPoke8aMove Move_04 { get; set; } = new();
-    [FlatBufferItem(06)] public int Field_06 { get; set; }
-    [FlatBufferItem(07)] public int Field_07 { get; set; }
-    [FlatBufferItem(08)] public int Field_08 { get; set; }
-    [FlatBufferItem(09)] public int Field_09 { get; set; }
-    [FlatBufferItem(10)] public int Field_10 { get; set; }
-    [FlatBufferItem(11)] public int Field_11 { get; set; }
-    [FlatBufferItem(12)] public int Field_12 { get; set; }
-    [FlatBufferItem(13)] public int Field_13 { get; set; }
-    [FlatBufferItem(14)] public int Field_14 { get; set; }
-    [FlatBufferItem(15)] public int Field_15 { get; set; }
+    [FlatBufferItem(06)] public int Level { get; set; }
+    [FlatBufferItem(07)] public NatureType8a Nature { get; set; }
+    [FlatBufferItem(08)] public int Gender { get; set; }
+    [FlatBufferItem(09)] public int GV_09 { get; set; }
+    [FlatBufferItem(10)] public int GV_10 { get; set; }
+    [FlatBufferItem(11)] public int GV_11 { get; set; }
+    [FlatBufferItem(12)] public int GV_12 { get; set; }
+    [FlatBufferItem(13)] public int GV_13 { get; set; }
+    [FlatBufferItem(14)] public int GV_14 { get; set; }
 
     public override string ToString()
     {
-        return $"{Species}{(Form == 0 ? "" : $"-{Form}")}|{Move_01}|{Move_02}|{Move_03}|{Move_04}|{Field_06}|{Field_07}|{Field_08}|{Field_09}|{Field_10}|{Field_11}|{Field_12}|{Field_13}|{Field_14}|{Field_15}";
+        return $"{(Species)Species}{(Form == 0 ? "" : $"-{Form}")}|({Move_01},{Move_02},{Move_03},{Move_04})|{Level}|{Nature}|{Gender}|({GV_09}/{GV_10}/{GV_11}/{GV_12}/{GV_13}/{GV_14})";
     }
 }
 
@@ -72,8 +71,8 @@ public class TrPoke8a
 public class TrPoke8aMove
 {
     [FlatBufferItem(00)] public int  Move { get; set; }
-    [FlatBufferItem(01)] public bool Flag { get; set; }
-    public override string ToString() => $"{Move}{(Flag?"*":"")}";
+    [FlatBufferItem(01)] public bool Mastered { get; set; }
+    public override string ToString() => $"{Move}{(Mastered ? "*":"")}";
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
