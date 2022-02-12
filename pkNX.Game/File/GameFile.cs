@@ -217,5 +217,6 @@
         SizeScaleConfig,
 
         AppConfigList,
+        HaShop,
     }
 }

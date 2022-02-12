@@ -99,25 +99,41 @@ internal class EditorPLA : EditorBase
         PopFlat<ThrowPermissionSetDictionary8a, ThrowPermissionSetEntry8a>(GameFile.ThrowPermissionSet, "Throw Permission Editor", z => z.Hash_00.ToString("X16"));
     }
 
+    public void EditHa_Shop_Data()
+    {
+        var itemNames = ROM.GetStrings(TextName.ItemNames);
+        PopFlat<HaShopTable8a, HaShopItem8a>(GameFile.HaShop, "ha_shop_data Editor", z => itemNames[z.ItemID]);
+    }
+
     public void EditApp_Config_List()
     {
         PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", z => z.OriginalPath);
     }
 
-    public void NotWorking_EditItems()
+    public void EditStatic()
     {
-        var obj = ROM.GetFilteredFolder(GameFile.ItemStats, z => new FileInfo(z).Length == 36);
-        var cache = new DataCache<Item>(obj)
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<EventEncount8aArchive, EventEncount8a>(GameFile.EncounterStatic, "Static Encounter Editor", z => $"{z.EncounterName} ({GetDetail(z, names)})");
+
+        static string GetDetail(EventEncount8a z, string[] names)
         {
-            Create = Item.FromBytes,
-            Write = item => item.Write(),
-        };
-        using var form = new GenericEditor<Item>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
-        form.ShowDialog();
-        if (!form.Modified)
-            cache.CancelEdits();
-        else
-            cache.Save();
+            if (z.Table is not { Length: not 0 } x)
+                return "No Entries";
+            var s = x[0];
+            return $"{names[s.Species]}{(s.Form == 0 ? "" : $"-{s.Form}")} @ lv {s.Level}";
+        }
+    }
+
+    public void EditGift()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeAdd8aArchive, PokeAdd8a>(GameFile.EncounterGift, "Gift Encounter Editor", z => $"{names[z.Species]} @ lv {z.Level}");
+    }
+
+    public void EditMiscSpeciesInfo()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeMiscTable8a, PokeMisc8a>(GameFile.PokeMisc, "Misc Species Info Editor", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
     }
 
     public void EditSpawns()

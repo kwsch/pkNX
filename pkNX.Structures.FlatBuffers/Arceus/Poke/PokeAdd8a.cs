@@ -26,7 +26,7 @@ public class PokeAdd8a
     [FlatBufferItem(01)] public int Species { get; set; }
     [FlatBufferItem(02)] public int Form { get; set; }
     [FlatBufferItem(03)] public int Gender { get; set; }
-    [FlatBufferItem(04)] public int ShinyLock { get; set; }
+    [FlatBufferItem(04)] public ShinyType8a ShinyLock { get; set; }
     [FlatBufferItem(05)] public int Level { get; set; }
     [FlatBufferItem(06)] public int AbilityRandType { get; set; }
     [FlatBufferItem(07)] public int Nature { get; set; }
@@ -58,7 +58,7 @@ public class PokeAdd8a
     public string Dump(string[] speciesNames)
     {
         var natureStr = Nature == -1 ? "" : $", Nature = {Nature}";
-        var shinyStr = $", Shiny = {(ShinyLock == 2 ? "Never" : ShinyLock.ToString())}";
+        var shinyStr = $", Shiny = {ShinyLock}";
         var gvStr = "";
         if (GV_HP != 0)
             gvStr += $", GV_HP = {GV_HP}";

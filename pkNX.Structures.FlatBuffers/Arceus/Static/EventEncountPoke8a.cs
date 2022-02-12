@@ -16,7 +16,7 @@ public class EventEncountPoke8a
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public int Form { get; set; }
     [FlatBufferItem(02)] public int Gender { get; set; }
-    [FlatBufferItem(03)] public int ShinyLock { get; set; }
+    [FlatBufferItem(03)] public ShinyType8a ShinyLock { get; set; }
     [FlatBufferItem(04)] public int Level { get; set; }
     [FlatBufferItem(05)] public int AbilityRandType { get; set; }
     [FlatBufferItem(06)] public int Nature { get; set; }
@@ -59,7 +59,7 @@ public class EventEncountPoke8a
     public string Dump(string[] speciesNames, string argEncounterName)
     {
         var natureStr = Nature == -1 ? "" : $", Nature = (int){(NatureType8a)Nature}";
-        var shinyStr = $", Shiny = {(ShinyLock == 2 ? "Never" : ShinyLock.ToString())}";
+        var shinyStr = $", Shiny = {ShinyLock}";
         var gvStr = "";
         if (HasGVs)
             gvStr = $", GVs = new[]{{{GV_HP},{GV_ATK},{GV_DEF},{GV_SPE},{GV_SPA},{GV_SPD}}}";

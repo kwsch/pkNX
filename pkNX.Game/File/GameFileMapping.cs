@@ -467,6 +467,7 @@ namespace pkNX.Game
             new(GameFile.ThrowableResourceSet, ContainerType.SingleFile, "bin", "capture", "throwable_resourceset_dictionary.bin"),
             new(GameFile.ThrowableResource, ContainerType.SingleFile, "bin", "capture", "throwable_resource_dictionary.bin"),
             new(GameFile.ThrowPermissionSet, ContainerType.SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),
+            new(GameFile.HaShop, ContainerType.SingleFile, "bin", "appli", "shop", "bin", "ha_shop_data.bin"),
 
             new(GameFile.ShinyRolls, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_rare.bin"),
             new(GameFile.WormholeConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_wormhole_config.bin"),

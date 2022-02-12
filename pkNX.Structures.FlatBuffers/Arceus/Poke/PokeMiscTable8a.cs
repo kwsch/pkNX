@@ -19,7 +19,7 @@ public class PokeMiscTable8a : IFlatBufferArchive<PokeMisc8a>
     [FlatBufferItem(0)] public PokeMisc8a[] Table { get; set; } = Array.Empty<PokeMisc8a>();
 
     public PokeMisc8a GetEntry(int species, int form) =>
-        Array.Find(Table, z => z.Species == species && z.Form == z.Form) ??
+        Array.Find(Table, z => z.Species == species && z.Form == form) ??
         throw new IndexOutOfRangeException($"{species}-{form} is not in {nameof(PokeMiscTable8a)}.");
 }
 
