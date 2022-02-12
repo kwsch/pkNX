@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
@@ -10,7 +12,16 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorPLA : EditorBase
 {
-    protected internal EditorPLA(GameManager rom) : base(rom) { }
+    protected internal EditorPLA(GameManager rom) : base(rom) => CheckOodleDllPresence();
+
+    private static void CheckOodleDllPresence()
+    {
+        const string file = $"{Oodle.OodleLibraryPath}.dll";
+        var dir = Application.StartupPath;
+        var path = Path.Combine(dir, file);
+        if (!File.Exists(path))
+            WinFormsUtil.Alert($"{file} not found in the executable folder", "Some decompression functions may cause errors.");
+    }
 
     public void EditCommon()
     {
@@ -45,15 +56,14 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
-    public void EditThrowable_Param()
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
     {
-        var itemNames = ROM.GetStrings(TextName.ItemNames);
-        var obj = ROM.GetFile(GameFile.ThrowableParam);
+        var obj = ROM.GetFile(file);
         var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ThrowableParamTable8a>(data);
-        var names = root.Table.Select(z => itemNames[z.ItemID]).ToArray();
-        var cache = new DataCache<ThrowableParam8a>(root.Table);
-        using var form = new GenericEditor<ThrowableParam8a>(cache, names, "Throwable Param Editor", canSave: true);
+        var root = FlatBufferConverter.DeserializeFrom<T1>(data);
+        var names = root.Table.Select(getName).ToArray();
+        var cache = new DataCache<T2>(root.Table);
+        using var form = new GenericEditor<T2>(cache, names, title, canSave: canSave);
         form.ShowDialog();
         if (!form.Modified)
         {
@@ -61,74 +71,37 @@ internal class EditorPLA : EditorBase
             return;
         }
         obj[0] = FlatBufferConverter.SerializeFrom(root);
+    }
+
+    public void EditThrowable_Param()
+    {
+        var itemNames = ROM.GetStrings(TextName.ItemNames);
+        PopFlat<ThrowableParamTable8a, ThrowableParam8a>(GameFile.ThrowableParam, "Throwable Param Editor", z => itemNames[z.ItemID]);
     }
 
     public void EditThrow_Param()
     {
-        var obj = ROM.GetFile(GameFile.ThrowParam);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ThrowParamTable8a>(data);
-        var names = root.Table.Select(z => z.Hash.ToString("X16")).ToArray();
-        var cache = new DataCache<ThrowParam8a>(root.Table);
-        using var form = new GenericEditor<ThrowParam8a>(cache, names, "Throw Param Editor", canSave: true);
-        form.ShowDialog();
-        if (!form.Modified)
-        {
-            cache.CancelEdits();
-            return;
-        }
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        PopFlat<ThrowParamTable8a, ThrowParam8a>(GameFile.ThrowParam, "Throw Param Editor", z => z.Hash.ToString("X16"));
     }
 
     public void EditThrow_ResourceSet_Dictionary()
     {
-        var obj = ROM.GetFile(GameFile.ThrowableResourceSet);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ThrowableResourceSetDictionary8a>(data);
-        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
-        var cache = new DataCache<ThrowableResourceSetEntry8a>(root.Table);
-        using var form = new GenericEditor<ThrowableResourceSetEntry8a>(cache, names, "Throwable ResourceSet Dictionary Editor", canSave: true);
-        form.ShowDialog();
-        if (!form.Modified)
-        {
-            cache.CancelEdits();
-            return;
-        }
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        PopFlat<ThrowableResourceSetDictionary8a, ThrowableResourceSetEntry8a>(GameFile.ThrowableResourceSet, "Throwable ResourceSet Dictionary Editor", z => z.Hash_00.ToString("X16"));
     }
 
     public void EditThrow_Resource_Dictionary()
     {
-        var obj = ROM.GetFile(GameFile.ThrowableResource);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ThrowableResourceDictionary8a>(data);
-        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
-        var cache = new DataCache<ThrowableResourceEntry8a>(root.Table);
-        using var form = new GenericEditor<ThrowableResourceEntry8a>(cache, names, "Throwable Resource Dictionary Editor", canSave: true);
-        form.ShowDialog();
-        if (!form.Modified)
-        {
-            cache.CancelEdits();
-            return;
-        }
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        PopFlat<ThrowableResourceDictionary8a, ThrowableResourceEntry8a>(GameFile.ThrowableResource, "Throwable Resource Dictionary Editor", z => z.Hash_00.ToString("X16"));
     }
 
     public void EditThrow_PermissionSet_Param()
     {
-        var obj = ROM.GetFile(GameFile.ThrowPermissionSet);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ThrowPermissionSetDictionary8a>(data);
-        var names = root.Table.Select(z => z.Hash_00.ToString("X16")).ToArray();
-        var cache = new DataCache<ThrowPermissionSetEntry8a>(root.Table);
-        using var form = new GenericEditor<ThrowPermissionSetEntry8a>(cache, names, "Throw Permission Editor", canSave: true);
-        form.ShowDialog();
-        if (!form.Modified)
-        {
-            cache.CancelEdits();
-            return;
-        }
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        PopFlat<ThrowPermissionSetDictionary8a, ThrowPermissionSetEntry8a>(GameFile.ThrowPermissionSet, "Throw Permission Editor", z => z.Hash_00.ToString("X16"));
+    }
+
+    public void EditApp_Config_List()
+    {
+        PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", z => z.OriginalPath);
     }
 
     public void NotWorking_EditItems()
@@ -192,19 +165,34 @@ internal class EditorPLA : EditorBase
         obj[0] = Item8a.SetArray(items, data);
     }
 
-    public void EditShinyRate()
+    public void PopFlatConfig(GameFile file, string title)
     {
-        var obj = ROM.GetFile(GameFile.ShinyRolls); // flatbuffer
+        var obj = ROM.GetFile(file); // flatbuffer
         var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<PokemonRare8aTable>(data);
-        var cache = new DataCache<PokemonRare8aEntry>(root.Table);
+        var root = FlatBufferConverter.DeserializeFrom<ConfigureTable8a>(data);
+        var cache = new DataCache<Configure8aEntry>(root.Table);
         var names = root.Table.Select(z => z.Name).ToArray();
-        using var form = new GenericEditor<PokemonRare8aEntry>(cache, names, "Shiny Rate Editor");
+        using var form = new GenericEditor<Configure8aEntry>(cache, names, title);
         form.ShowDialog();
         if (!form.Modified)
             return;
         obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
+
+    public void EditShinyRate() => PopFlatConfig(GameFile.ShinyRolls, "Shiny Rate Editor");
+    public void EditWormholeRate() => PopFlatConfig(GameFile.WormholeConfig, "Wormhole Config Editor");
+    public void EditCapture_Config() => PopFlatConfig(GameFile.CaptureConfig, "CaptureConfig Editor");
+    public void EditBattle_Logic_Config() => PopFlatConfig(GameFile.BattleLogicConfig, "Battle Logic Config Editor");
+    public void EditEvent_Farm_Config() => PopFlatConfig(GameFile.EventFarmConfig, "Event Farm Config Editor");
+    public void EditPlayer_Config() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
+    public void EditField_Landmark_Config() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
+    public void EditBattle_View_Config() => PopFlatConfig(GameFile.BattleViewConfig, "Battle View Config Editor");
+    public void EditAICommon_Config() => PopFlatConfig(GameFile.AICommonConfig, "AI Common Config Editor");
+    public void EdiField_Spawner_Config() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
+    public void EditOutbreak_Config() => PopFlatConfig(GameFile.OutbreakConfig, "Outbreak Config Editor");
+    public void EditEvolution_Config() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
+    public void EditBall_Throw_Config() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
+    public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
     public void EditSwarmDetail()
     {

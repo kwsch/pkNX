@@ -14,7 +14,7 @@ namespace pkNX.Containers
         /// <summary>
         /// Oodle Library Path
         /// </summary>
-        private const string OodleLibraryPath = "oo2core_8_win64";
+        public const string OodleLibraryPath = "oo2core_8_win64";
 
         /// <summary>
         /// Oodle64 Decompression Method

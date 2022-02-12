@@ -12,23 +12,16 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PokemonRare8aTable : IFlatBufferArchive<PokemonRare8aEntry>
-{
-    public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
-
-    [FlatBufferItem(0)] public PokemonRare8aEntry[] Table { get; set; } = Array.Empty<PokemonRare8aEntry>();
-}
-
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PokemonRare8aEntry
+public class Configure8aEntry
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(01)] public ulong Hash { get; set; }
-    [FlatBufferItem(02)] public byte UnusedValue { get; set; } // none have this
-    [FlatBufferItem(03)] public string Option { get; set; } = string.Empty;
-    [FlatBufferItem(04)] public string Field_04 { get; set; } = string.Empty;
+    [FlatBufferItem(02)] public int Value { get; set; } // none have this
+    [FlatBufferItem(03)] public string DebugMin { get; set; } = string.Empty;
+    [FlatBufferItem(04)] public string DebugMax { get; set; } = string.Empty;
     [FlatBufferItem(05)] public string[] Parameters { get; set; } = Array.Empty<string>();
     [FlatBufferItem(06)] public FlatDummyEntry[] UnusedArray { get; set; } = Array.Empty<FlatDummyEntry>(); // none have this
+
     public string ConfiguredValue
     {
         get => Parameters[0];
