@@ -460,7 +460,6 @@ namespace pkNX.Game
             new(GameFile.PokeMisc, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
             new(GameFile.Outbreak, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
             new(GameFile.MoveShop, ContainerType.SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
-            new(GameFile.ShinyRolls, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_rare.bin"),
             new(GameFile.SwarmDetail, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
 
             new(GameFile.ThrowableParam, ContainerType.SingleFile, "bin", "capture", "throwable_param_table.bin"),
@@ -468,6 +467,23 @@ namespace pkNX.Game
             new(GameFile.ThrowableResourceSet, ContainerType.SingleFile, "bin", "capture", "throwable_resourceset_dictionary.bin"),
             new(GameFile.ThrowableResource, ContainerType.SingleFile, "bin", "capture", "throwable_resource_dictionary.bin"),
             new(GameFile.ThrowPermissionSet, ContainerType.SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),
+
+            new(GameFile.ShinyRolls, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_rare.bin"),
+            new(GameFile.WormholeConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_wormhole_config.bin"),
+            new(GameFile.CaptureConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "common_capture_config.bin"),
+            new(GameFile.BattleLogicConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "battle_logic_config.bin"),
+            new(GameFile.PlayerConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "player_config.bin"),
+            new(GameFile.EventFarmConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "event_farm_config.bin"),
+            new(GameFile.AppConfigList, ContainerType.SingleFile, "bin", "misc", "app_config", "app_config_list.bin"),
+            new(GameFile.FieldLandmarkConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_landmark_config.bin"),
+            new(GameFile.BattleViewConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "battle_view_config.bin"),
+            new(GameFile.AICommonConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "ai_common_config.bin"),
+            new(GameFile.FieldSpawnerConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_spawner_config.bin"),
+            new(GameFile.OutbreakConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_huge_outbreak.bin"),
+            new(GameFile.EvolutionConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_evolution_config.bin"),
+            new(GameFile.BallThrowConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "field_my_poke_ball_config.bin"),
+            new(GameFile.SizeScaleConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_size_category_adjust_scale_config.bin"),
+            new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_ai.bin"),
 
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon

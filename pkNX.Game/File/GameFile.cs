@@ -191,9 +191,6 @@
         /// <summary> "PokeMisc" Details about a given Species-Form not stored in <see cref="PersonalStats"/> </summary>
         PokeMisc,
 
-        /// <summary> Gives bonus rolls based on met thresholds. </summary>
-        ShinyRolls,
-
         /// <summary> Gives detail for swarms including shiny roll count bonus. </summary>
         SwarmDetail,
 
@@ -202,5 +199,23 @@
         ThrowableResourceSet,
         ThrowableResource,
         ThrowPermissionSet,
+
+        /// <summary> Gives bonus rolls based on met thresholds. </summary>
+        ShinyRolls,
+        WormholeConfig,
+        CaptureConfig,
+        BattleLogicConfig,
+        PlayerConfig,
+        EventFarmConfig,
+        FieldLandmarkConfig,
+        BattleViewConfig,
+        AICommonConfig,
+        FieldSpawnerConfig,
+        OutbreakConfig,
+        EvolutionConfig,
+        BallThrowConfig,
+        SizeScaleConfig,
+
+        AppConfigList,
     }
 }
