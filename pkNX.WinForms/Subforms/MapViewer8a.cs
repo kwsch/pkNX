@@ -39,11 +39,11 @@ namespace pkNX.WinForms.Subforms
                     continue;
 
                 var species = e.Species;
-                if (!nameList.Any(z => z.Value == species))
+                if (nameList.All(z => z.Value != species))
                     nameList.Add(new(speciesNames[species], species));
             }
 
-            nameList.Sort((x, y) => x.Text.CompareTo(y.Text));
+            nameList.Sort((x, y) => string.Compare(x.Text, y.Text, StringComparison.InvariantCulture));
 
             CB_Species.DisplayMember = nameof(ComboItem.Text);
             CB_Species.ValueMember = nameof(ComboItem.Value);
