@@ -225,48 +225,6 @@ namespace pkNX.WinForms
             return editor;
         }
 
-        public void DumpTrainers()
-        {
-            var trc = ROM.GetStrings(TextName.TrainerClasses);
-            var trn = ROM.GetStrings(TextName.TrainerNames);
-            var m = ROM.GetStrings(TextName.MoveNames);
-            var s = ROM.GetStrings(TextName.SpeciesNames);
-
-            var tr = GetTrainerEditor();
-            var result = new List<string>();
-            for (int i = 0; i < tr.Length; i++)
-            {
-                var t = tr[i];
-
-                // some battles with Avery and Klara have out of bounds trclasses -- set back to "Pokémon Trainer"
-                if (t.Self.Class > trc.Length)
-                    t.Self.Class = 1;
-
-                result.Add($"{i:000} - {trc[t.Self.Class]}: {trn[i]}");
-                const int MoneyScalar = 80;
-                result.Add($"AI: {t.Self.AI} | Mode: {t.Self.Mode} | Money: {t.Self.Money * MoneyScalar}");
-                result.Add($"Pokémon Count: {t.Self.NumPokemon}");
-
-                result.Add("---");
-                for (int j = 0; j < t.Team.Count; j++)
-                {
-                    IEnumerable<string> moves = t.Team[j].Moves.Where(z => z != 0).Select(z => m[z]).ToArray();
-                    if (!moves.Any()) moves = new[] { "Default Level Up" };
-                    int form = t.Team[j].Form;
-                    var formstr = form != 0 ? $"-{form}" : "";
-                    var str = $"{j + 1}: Lv{t.Team[j].Level:00} {s[t.Team[j].Species]}{formstr} : {string.Join(" / ", moves)}";
-                    result.Add(str);
-                }
-                result.Add("---");
-
-                result.Add("=========");
-                result.Add("");
-            }
-
-            var outname = GetPath("trparse.txt");
-            File.WriteAllLines(outname, result);
-        }
-
         public void DumpDrops()
         {
             var names = ROM.GetStrings(TextName.ItemNames);

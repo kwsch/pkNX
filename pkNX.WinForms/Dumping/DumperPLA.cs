@@ -29,12 +29,6 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void B_DumpTrainers_Click(object sender, EventArgs e)
-        {
-            Dumper.DumpTrainers();
-            System.Media.SystemSounds.Asterisk.Play();
-        }
-
         private void B_Wild_Click(object sender, EventArgs e)
         {
             Dumper.DumpWilds();

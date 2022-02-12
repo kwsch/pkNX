@@ -32,7 +32,6 @@
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.B_ParsePKMDetails = new System.Windows.Forms.Button();
-            this.B_DumpTrainers = new System.Windows.Forms.Button();
             this.B_Wild = new System.Windows.Forms.Button();
             this.B_Static = new System.Windows.Forms.Button();
             this.B_Gift = new System.Windows.Forms.Button();
@@ -96,7 +95,6 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.B_ParsePKMDetails);
-            this.flowLayoutPanel1.Controls.Add(this.B_DumpTrainers);
             this.flowLayoutPanel1.Controls.Add(this.B_Wild);
             this.flowLayoutPanel1.Controls.Add(this.B_Static);
             this.flowLayoutPanel1.Controls.Add(this.B_Gift);
@@ -122,19 +120,9 @@
             this.B_ParsePKMDetails.UseVisualStyleBackColor = true;
             this.B_ParsePKMDetails.Click += new System.EventHandler(this.B_ParsePersonal_Click);
             // 
-            // B_DumpTrainers
-            // 
-            this.B_DumpTrainers.Location = new System.Drawing.Point(132, 3);
-            this.B_DumpTrainers.Name = "B_DumpTrainers";
-            this.B_DumpTrainers.Size = new System.Drawing.Size(123, 55);
-            this.B_DumpTrainers.TabIndex = 2;
-            this.B_DumpTrainers.Text = "Trainers";
-            this.B_DumpTrainers.UseVisualStyleBackColor = true;
-            this.B_DumpTrainers.Click += new System.EventHandler(this.B_DumpTrainers_Click);
-            // 
             // B_Wild
             // 
-            this.B_Wild.Location = new System.Drawing.Point(261, 3);
+            this.B_Wild.Location = new System.Drawing.Point(132, 3);
             this.B_Wild.Name = "B_Wild";
             this.B_Wild.Size = new System.Drawing.Size(123, 55);
             this.B_Wild.TabIndex = 11;
@@ -144,7 +132,7 @@
             // 
             // B_Static
             // 
-            this.B_Static.Location = new System.Drawing.Point(3, 64);
+            this.B_Static.Location = new System.Drawing.Point(261, 3);
             this.B_Static.Name = "B_Static";
             this.B_Static.Size = new System.Drawing.Size(123, 55);
             this.B_Static.TabIndex = 10;
@@ -154,7 +142,7 @@
             // 
             // B_Gift
             // 
-            this.B_Gift.Location = new System.Drawing.Point(132, 64);
+            this.B_Gift.Location = new System.Drawing.Point(3, 64);
             this.B_Gift.Name = "B_Gift";
             this.B_Gift.Size = new System.Drawing.Size(123, 55);
             this.B_Gift.TabIndex = 9;
@@ -164,7 +152,7 @@
             // 
             // B_ItemInfo
             // 
-            this.B_ItemInfo.Location = new System.Drawing.Point(261, 64);
+            this.B_ItemInfo.Location = new System.Drawing.Point(132, 64);
             this.B_ItemInfo.Name = "B_ItemInfo";
             this.B_ItemInfo.Size = new System.Drawing.Size(123, 55);
             this.B_ItemInfo.TabIndex = 6;
@@ -174,7 +162,7 @@
             // 
             // B_Moves
             // 
-            this.B_Moves.Location = new System.Drawing.Point(3, 125);
+            this.B_Moves.Location = new System.Drawing.Point(261, 64);
             this.B_Moves.Name = "B_Moves";
             this.B_Moves.Size = new System.Drawing.Size(123, 55);
             this.B_Moves.TabIndex = 7;
@@ -184,7 +172,7 @@
             // 
             // B_Details
             // 
-            this.B_Details.Location = new System.Drawing.Point(132, 125);
+            this.B_Details.Location = new System.Drawing.Point(3, 125);
             this.B_Details.Name = "B_Details";
             this.B_Details.Size = new System.Drawing.Size(123, 55);
             this.B_Details.TabIndex = 15;
@@ -194,7 +182,7 @@
             // 
             // B_Placement
             // 
-            this.B_Placement.Location = new System.Drawing.Point(261, 125);
+            this.B_Placement.Location = new System.Drawing.Point(132, 125);
             this.B_Placement.Name = "B_Placement";
             this.B_Placement.Size = new System.Drawing.Size(123, 55);
             this.B_Placement.TabIndex = 18;
@@ -204,7 +192,7 @@
             // 
             // B_Resident
             // 
-            this.B_Resident.Location = new System.Drawing.Point(3, 186);
+            this.B_Resident.Location = new System.Drawing.Point(261, 125);
             this.B_Resident.Name = "B_Resident";
             this.B_Resident.Size = new System.Drawing.Size(123, 55);
             this.B_Resident.TabIndex = 19;
@@ -214,7 +202,7 @@
             // 
             // B_DumpDrops
             // 
-            this.B_DumpDrops.Location = new System.Drawing.Point(132, 186);
+            this.B_DumpDrops.Location = new System.Drawing.Point(3, 186);
             this.B_DumpDrops.Name = "B_DumpDrops";
             this.B_DumpDrops.Size = new System.Drawing.Size(123, 55);
             this.B_DumpDrops.TabIndex = 20;
@@ -428,7 +416,6 @@
         private System.Windows.Forms.TabPage Tab_General;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button B_ParsePKMDetails;
-        private System.Windows.Forms.Button B_DumpTrainers;
         private System.Windows.Forms.Button B_ItemInfo;
         private System.Windows.Forms.Button B_Moves;
         private System.Windows.Forms.TabPage Tab_PKHeX;
