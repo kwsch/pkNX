@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.WinForms.Subforms;
@@ -56,21 +58,24 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
-    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
     {
         var obj = ROM.GetFile(file);
         var data = obj[0];
         var root = FlatBufferConverter.DeserializeFrom<T1>(data);
-        var names = root.Table.Select(getName).ToArray();
-        var cache = new DataCache<T2>(root.Table);
-        using var form = new GenericEditor<T2>(cache, names, title, canSave: canSave);
-        form.ShowDialog();
-        if (!form.Modified)
-        {
-            cache.CancelEdits();
+        var arr = root.Table;
+        if (!PopFlat(arr, title, getName, rand, canSave))
             return;
-        }
         obj[0] = FlatBufferConverter.SerializeFrom(root);
+    }
+
+    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = false) where T2 : class
+    {
+        var names = arr.Select(getName).ToArray();
+        var cache = new DataCache<T2>(arr);
+        using var form = new GenericEditor<T2>(cache, names, title, randomize: rand, canSave: canSave);
+        form.ShowDialog();
+        return form.Modified;
     }
 
     public void EditThrowable_Param()
@@ -113,7 +118,13 @@ internal class EditorPLA : EditorBase
     public void EditStatic()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EventEncount8aArchive, EventEncount8a>(GameFile.EncounterStatic, "Static Encounter Editor", z => $"{z.EncounterName} ({GetDetail(z, names)})");
+        var obj = ROM.GetFile(GameFile.EncounterStatic);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<EventEncount8aArchive>(data);
+        var entries = root.Table;
+        var result = PopFlat(entries, "Static Encounter Editor", z => $"{z.EncounterName} ({GetDetail(z, names)})", () => Randomize(entries));
+        if (result)
+            obj[0] = FlatBufferConverter.SerializeFrom(root);
 
         static string GetDetail(EventEncount8a z, string[] names)
         {
@@ -122,12 +133,72 @@ internal class EditorPLA : EditorBase
             var s = x[0];
             return $"{names[s.Species]}{(s.Form == 0 ? "" : $"-{s.Form}")} @ lv {s.Level}";
         }
+
+        void Randomize(IEnumerable<EventEncount8a> arr)
+        {
+            var pt = ROM.Data.PersonalData;
+            int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
+                .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+            var spec = EditUtil.Settings.Species;
+            var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+            var frand = new FormRandomizer(ROM.Data.PersonalData);
+            srand.Initialize(spec, ban);
+            foreach (var entry in arr)
+            {
+                if (entry.Table is not { Length: > 0 } x)
+                    continue;
+                var t = x[0];
+                if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
+                    continue;
+                t.Species = srand.GetRandomSpecies(t.Species);
+                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                t.Nature = (int)Nature.Serious;
+                t.Gender = (int)FixedGender.Random;
+                t.ShinyLock = ShinyType8a.Random;
+                t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
+                t.Mastered1 = t.Mastered2 = t.Mastered3 = t.Mastered4 = true;
+                t.IV_HP = t.IV_ATK = t.IV_DEF = t.IV_SPA = t.IV_SPD = t.IV_SPE = 31;
+                t.GV_HP = t.GV_ATK = t.GV_DEF = t.GV_SPA = t.GV_SPD = t.GV_SPE = 31;
+            }
+        }
     }
 
     public void EditGift()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAdd8aArchive, PokeAdd8a>(GameFile.EncounterGift, "Gift Encounter Editor", z => $"{names[z.Species]} @ lv {z.Level}");
+        var obj = ROM.GetFile(GameFile.EncounterGift);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<PokeAdd8aArchive>(data);
+        var entries = root.Table;
+        var result = PopFlat(entries, "Gift Encounter Editor", z => $"{names[z.Species]} @ lv {z.Level}", () => Randomize(entries));
+        if (result)
+            obj[0] = FlatBufferConverter.SerializeFrom(root);
+
+        void Randomize(IEnumerable<PokeAdd8a> arr)
+        {
+            var pt = ROM.Data.PersonalData;
+            int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
+                .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
+                .Where(z => !z.Present).Select(z => z.Species).ToArray();
+
+            var spec = EditUtil.Settings.Species;
+            var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
+            var frand = new FormRandomizer(ROM.Data.PersonalData);
+            srand.Initialize(spec, ban);
+            foreach (var t in arr)
+            {
+                if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
+                    continue;
+                t.Species = srand.GetRandomSpecies(t.Species);
+                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                t.Nature = NatureType8a.Random;
+                t.Gender = (int)FixedGender.Random;
+                t.ShinyLock = ShinyType8a.Random;
+                t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
+            }
+        }
     }
 
     public void EditMiscSpeciesInfo()

@@ -29,18 +29,18 @@ public class PokeAdd8a
     [FlatBufferItem(04)] public ShinyType8a ShinyLock { get; set; }
     [FlatBufferItem(05)] public int Level { get; set; }
     [FlatBufferItem(06)] public int AbilityRandType { get; set; }
-    [FlatBufferItem(07)] public int Nature { get; set; }
+    [FlatBufferItem(07)] public NatureType8a Nature { get; set; }
     [FlatBufferItem(08)] public int Height { get; set; }
     [FlatBufferItem(09)] public int Weight { get; set; }
     [FlatBufferItem(10)] public bool IsOybn { get; set; }
-    [FlatBufferItem(11)] public int Field_11 { get; set; } // All Entries have empty
-    [FlatBufferItem(12)] public int Field_12 { get; set; } // All Entries have empty
-    [FlatBufferItem(13)] public int Field_13 { get; set; } // All Entries have empty
-    [FlatBufferItem(14)] public int Field_14 { get; set; } // All Entries have empty
-    [FlatBufferItem(15)] public int Field_15 { get; set; } // All Entries have empty
-    [FlatBufferItem(16)] public int Field_16 { get; set; } // All Entries have empty
-    [FlatBufferItem(17)] public int Field_17 { get; set; } // All Entries have empty
-    [FlatBufferItem(18)] public int Field_18 { get; set; } // All Entries have empty
+    [FlatBufferItem(11)] public int Move1 { get; set; }
+    [FlatBufferItem(12)] public bool Mastered1 { get; set; }
+    [FlatBufferItem(13)] public int Move2 { get; set; }
+    [FlatBufferItem(14)] public bool Mastered2 { get; set; }
+    [FlatBufferItem(15)] public int Move3 { get; set; }
+    [FlatBufferItem(16)] public bool Mastered3 { get; set; }
+    [FlatBufferItem(17)] public int Move4 { get; set; }
+    [FlatBufferItem(18)] public bool Mastered4 { get; set; }
     [FlatBufferItem(19)] public int IV_HP { get; set; }
     [FlatBufferItem(20)] public int IV_ATK { get; set; }
     [FlatBufferItem(21)] public int IV_DEF { get; set; }
@@ -57,7 +57,7 @@ public class PokeAdd8a
 
     public string Dump(string[] speciesNames)
     {
-        var natureStr = Nature == -1 ? "" : $", Nature = {Nature}";
+        var natureStr = Nature == NatureType8a.Random ? "" : $", Nature = {Nature}";
         var shinyStr = $", Shiny = {ShinyLock}";
         var gvStr = "";
         if (GV_HP != 0)
