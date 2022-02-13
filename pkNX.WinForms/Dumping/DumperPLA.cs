@@ -111,6 +111,12 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
+        private void B_EventTriggers_Click(object sender, EventArgs e)
+        {
+            Dumper.DumpEventTriggers();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_GetDex_Click(object sender, EventArgs e)
         {
             Dumper.DumpDex();
@@ -135,6 +141,5 @@ namespace pkNX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
         #endregion
-
     }
 }

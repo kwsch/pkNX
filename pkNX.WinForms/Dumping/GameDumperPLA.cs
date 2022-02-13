@@ -990,6 +990,65 @@ namespace pkNX.WinForms
             File.WriteAllText(path, text);
         }
 
+        public void DumpEventTriggers()
+        {
+            var eventTriggerDir = Path.Combine(ROM.PathRomFS, "bin", "event", "event_progress", "trigger");
+            var eventTriggerFiles = Directory.EnumerateFiles(eventTriggerDir, "*", SearchOption.AllDirectories).Where(p => Path.GetExtension(p) == ".bin");
+
+
+            const string outFolder = "event_trigger";
+            Directory.CreateDirectory(GetPath(outFolder));
+
+            var unknownTriggers = new List<ulong>();
+            var unknownConditions = new List<ulong>();
+            var unknownCommands = new List<ulong>();
+
+            var allLines = new List<string>();
+
+            foreach (var f in eventTriggerFiles)
+            {
+                if (Path.GetFileName(f) == "trigger_preset.bin")
+                    continue;
+
+                var table = FlatBufferConverter.DeserializeFrom<TriggerTable8a>(f);
+
+                var curLines = new List<string>();
+                curLines.Add($"File: {Path.GetFileName(f)}");
+
+                foreach (var line in Trigger8aUtil.GetTriggerTableSummary(table))
+                    curLines.Add($"\t{line}");
+
+                File.WriteAllLines(GetPath(outFolder, $"trigger_{Path.GetFileNameWithoutExtension(f).Replace("trigger_", string.Empty)}.txt"), curLines);
+
+                allLines.AddRange(curLines);
+                allLines.Add(string.Empty);
+
+                foreach (var trg in table.Table)
+                {
+                    if (!Enum.IsDefined(typeof(TriggerType8a), trg.Meta.TriggerTypeID) && !unknownTriggers.Contains((ulong)trg.Meta.TriggerTypeID))
+                        unknownTriggers.Add((ulong)trg.Meta.TriggerTypeID);
+
+                    foreach (var cond in trg.Conditions)
+                    {
+                        if (!Enum.IsDefined(typeof(ConditionType8a), cond.ConditionTypeID) && !unknownConditions.Contains((ulong)cond.ConditionTypeID))
+                            unknownConditions.Add((ulong)cond.ConditionTypeID);
+                    }
+
+                    foreach (var cmd in trg.Commands)
+                    {
+                        if (!Enum.IsDefined(typeof(TriggerCommandType8a), cmd.CommandTypeID) && !unknownCommands.Contains((ulong)cmd.CommandTypeID))
+                            unknownCommands.Add((ulong)cmd.CommandTypeID);
+                    }
+                }
+            }
+
+            File.WriteAllLines(GetPath(outFolder, "triggerAll.txt"), allLines);
+
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownTypes.txt"), unknownTriggers.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownConditions.txt"), unknownConditions.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+            File.WriteAllLines(GetPath(outFolder, "triggerUnknownCommands.txt"), unknownCommands.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+        }
+
         public void DumpMoveShop()
         {
             var file = ROM.GetFile(GameFile.MoveShop).FilePath;

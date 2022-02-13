@@ -138,11 +138,12 @@ public class PlacementSpawner8a : ISlotTableConsumer
             result[FnvHash.HashFnv1a_64($"sky_{i:00}")] = $"sky_{i:00}";
             result[FnvHash.HashFnv1a_64($"ex_mkrg_{i:00}")] = $"ex_mkrg_{i:00}";
             result[FnvHash.HashFnv1a_64($"ex_unnn_{i:00}")] = $"ex_unnn_{i:00}";
+            result[FnvHash.HashFnv1a_64($"ex_trs_{i:00}")] = $"ex_trs_{i:00}";
         }
 
         result[FnvHash.HashFnv1a_64($"ha_area01_s01_ev001")] = $"ha_area01_s01_ev001";
-        result[FnvHash.HashFnv1a_64($"ha_area02_s02_ev001")] = $"ha_area01_s02_ev001";
-        result[FnvHash.HashFnv1a_64($"ha_area02_s02_ev002")] = $"ha_area01_s02_ev002";
+        result[FnvHash.HashFnv1a_64($"ha_area02_s02_ev001")] = $"ha_area02_s02_ev001";
+        result[FnvHash.HashFnv1a_64($"ha_area02_s02_ev002")] = $"ha_area02_s02_ev002";
         result[FnvHash.HashFnv1a_64($"ha_area03_s03_ev001")] = $"ha_area03_s03_ev001";
         result[FnvHash.HashFnv1a_64($"ha_area04_ev001")] = $"ha_area04_ev001";
         result[FnvHash.HashFnv1a_64($"ha_area05_s03_ev001")] = $"ha_area05_s03_ev001";
@@ -152,6 +153,12 @@ public class PlacementSpawner8a : ISlotTableConsumer
         result[FnvHash.HashFnv1a_64($"area03_s04_ev003")] = $"area03_s04_ev003";
         result[FnvHash.HashFnv1a_64($"area03_s04_ev004")] = $"area03_s04_ev004";
         result[FnvHash.HashFnv1a_64($"area03_s04_ev005")] = $"area03_s04_ev005";
+
+        // 1.0.2
+        result[FnvHash.HashFnv1a_64($"ha_area01_s01_1000")] = $"ha_area01_s01_1000";
+        result[FnvHash.HashFnv1a_64($"ha_area02_s02_1000")] = $"ha_area02_s02_1000";
+        result[FnvHash.HashFnv1a_64($"ha_area05_s03_1000")] = $"ha_area05_s03_1000";
+
 
         for (var wh = 1; wh < 8; wh++)
         {
