@@ -23,12 +23,12 @@ public class MassOutbreakTable8a : IFlatBufferArchive<MassOutbreak8a>
 public class MassOutbreak8a : IFlatBufferArchive<MassOutbreakInfo8a>
 {
     [FlatBufferItem(0)] public ulong Hash { get; set; }
-    [FlatBufferItem(1)] public int Field_01 { get; set; }
-    [FlatBufferItem(2)] public MassOutbreakInfo8a[] Table { get; set; } = Array.Empty<MassOutbreakInfo8a>();
-    [FlatBufferItem(3)] public string WorkValueName { get; set; } = string.Empty;
-    [FlatBufferItem(4)] public int SwarmEntryCount { get; set; }
-    [FlatBufferItem(5)] public int SwarmMinCount { get; set; }
-    [FlatBufferItem(6)] public int SwarmMaxCount { get; set; }
+    [FlatBufferItem(1)] public int OutbreakChangeChance { get; set; } // rand(100) < value -> spawn/de-spawn
+    [FlatBufferItem(2)] public MassOutbreakInfo8a[] Table { get; set; } = Array.Empty<MassOutbreakInfo8a>(); // parameters to check if able to activate
+    [FlatBufferItem(3)] public string WorkValueName { get; set; } = string.Empty; // savefile block to set the result of new outbreak indexes
+    [FlatBufferItem(4)] public int RandEntryCount { get; set; } // rand value to write to the save file, and pick out which outbreak to spawn
+    [FlatBufferItem(5)] public int SpawnMinCount { get; set; }
+    [FlatBufferItem(6)] public int SpawnMaxCount { get; set; }
     [FlatBufferItem(7)] public int ShinyRollBonus { get; set; }
 }
 
