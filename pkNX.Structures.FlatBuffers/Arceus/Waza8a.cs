@@ -88,11 +88,11 @@ public class Waza8a : IMove
     [FlatBufferItem(66)] public bool Flag_CureFrostbite         { get; set; } // byte
     [FlatBufferItem(67)] public int  DamagePercentStatused      { get; set; } // int
     [FlatBufferItem(68)] public byte CanStyle                   { get; set; } // byte
-    [FlatBufferItem(69)] public int  ActionSpeedMod             { get; set; } // int
-    [FlatBufferItem(70)] public int  AgileActionSpeedMod        { get; set; } // int
-    [FlatBufferItem(71)] public int  StrongActionSpeedMod       { get; set; } // int
-    [FlatBufferItem(72)] public int  TargetActionSpeedMod       { get; set; } // int
-    [FlatBufferItem(73)] public int  StrongTargetActionSpeedMod { get; set; } // int
+    [FlatBufferItem(69)] public int  ActSpeedModUser            { get; set; } // int
+    [FlatBufferItem(70)] public int  ActSpeedModUserAgile       { get; set; } // int
+    [FlatBufferItem(71)] public int  ActSpeedModUserStrong      { get; set; } // int
+    [FlatBufferItem(72)] public int  ActSpeedModTarget          { get; set; } // int
+    [FlatBufferItem(73)] public int  ActSpeedModTargetAgile     { get; set; } // int
     [FlatBufferItem(74)] public byte AgilePower               { get; set; } // byte
     [FlatBufferItem(75)] public byte AgileRawHealing          { get; set; } // byte
     [FlatBufferItem(76)] public byte AgileTurnMax             { get; set; } // byte
