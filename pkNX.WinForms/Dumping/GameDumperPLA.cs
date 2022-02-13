@@ -161,15 +161,15 @@ namespace pkNX.WinForms
                 var pak = new GFPack(f);
                 foreach (var bytes in pak.DecompressedFiles)
                 {
-                    if (AHTB.IsAHTB(bytes))
-                    {
-                        var tbl = new AHTB(bytes);
-                        var summaries = tbl.Summary;
-                        foreach (var t in tbl.ShortSummary)
-                            result.Add(t);
-                        list.Add(Path.GetFileName(f));
-                        list.AddRange(summaries);
-                    }
+                    if (!AHTB.IsAHTB(bytes))
+                        continue;
+
+                    var tbl = new AHTB(bytes);
+                    var summaries = tbl.Summary;
+                    foreach (var t in tbl.ShortSummary)
+                        result.Add(t);
+                    list.Add(Path.GetFileName(f));
+                    list.AddRange(summaries);
                 }
 
                 for (var i = 0; i < pak.HashAbsolute.Length; i++)
@@ -197,32 +197,6 @@ namespace pkNX.WinForms
             File.WriteAllLines(outname, result);
             File.WriteAllLines(outname2, list);
             File.WriteAllLines(outname3, gf);
-        }
-
-        public static Dictionary<ulong, string> ReadAHTB(byte[] bytes)
-        {
-            if (!AHTB.IsAHTB(bytes))
-                throw new ArgumentException();
-
-            var tbl = new AHTB(bytes);
-            return tbl.ToDictionary();
-        }
-
-        private TrainerEditor GetTrainerEditor()
-        {
-            var editor = new TrainerEditor
-            {
-                ReadClass = data => new TrainerClass8(data),
-                ReadPoke = data => new TrainerPoke8(data),
-                ReadTrainer = data => new TrainerData8(data),
-                ReadTeam = TrainerPoke8.ReadTeam,
-                WriteTeam = TrainerPoke8.WriteTeam,
-                TrainerData = ROM.GetFilteredFolder(GameFile.TrainerData),
-                TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerPoke),
-                TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
-            };
-            editor.Initialize();
-            return editor;
         }
 
         public void DumpDrops()
@@ -386,7 +360,7 @@ namespace pkNX.WinForms
             File.WriteAllLines(fn, lines);
 
             var f2 = GetPath("StaticEncountersPKHeX.txt");
-            File.WriteAllLines(f2, statics.Table.SelectMany(z => z.Table?.Select(x => x.Dump(speciesNames, z.EncounterName))).OrderBy(z => z));
+            File.WriteAllLines(f2, statics.Table.SelectMany(z => z.Table.Select(x => x.Dump(speciesNames, z.EncounterName))).OrderBy(z => z));
         }
 
         public void DumpWilds()
@@ -791,8 +765,8 @@ namespace pkNX.WinForms
 
             for (var species = 0; species <= 980; species++)
             {
-                var entries = dexResearch.Table.Where(e => e.Species == species);
-                if (!entries.Any())
+                var entries = Array.FindAll(dexResearch.Table, z => z.Species == species);
+                if (entries.Length == 0)
                     continue;
 
                 var dexInd = GetDexIndex(species);
@@ -942,27 +916,6 @@ namespace pkNX.WinForms
             File.WriteAllLines(p1, l1);
             File.WriteAllLines(p2, l2);
             File.WriteAllLines(p3, l3);
-        }
-
-        public void DumpEggEntries()
-        {
-        }
-
-        public static byte[] GetDistributionContents(string path, out int index)
-        {
-            var archive = File.ReadAllBytes(path);
-
-            // Validate Header
-            if (archive.Length < 0x20 || archive.Length != 4 + BitConverter.ToInt32(archive, 0x10) || BitConverter.ToInt32(archive, 0x8) != 0x20)
-                throw new ArgumentException();
-
-            index = archive[0];
-
-            // TODO: Eventually validate CRC16 over Data[:-4], CRC stored at Data[-4:]
-
-            var data = new byte[archive.Length - 0x24];
-            Array.Copy(archive, 0x20, data, 0, data.Length);
-            return data;
         }
 
         private static readonly string[] LanguageCodes = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2" };

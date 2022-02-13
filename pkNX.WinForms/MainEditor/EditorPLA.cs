@@ -201,6 +201,18 @@ internal class EditorPLA : EditorBase
         }
     }
 
+    public void EditPersonal_Raw()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PersonalTableLA, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+    }
+
+    public void EditLearnset_Raw()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<Learnset8a, Learnset8aMeta>(GameFile.Learnsets, "Learnset Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+    }
+
     public void EditMiscSpeciesInfo()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);

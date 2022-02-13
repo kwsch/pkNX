@@ -134,12 +134,6 @@ namespace pkNX.WinForms
             Dumper.DumpFlavorText();
             System.Media.SystemSounds.Asterisk.Play();
         }
-
-        private void B_EggMove_Click(object sender, EventArgs e)
-        {
-            Dumper.DumpEggEntries();
-            System.Media.SystemSounds.Asterisk.Play();
-        }
         #endregion
 
     }
