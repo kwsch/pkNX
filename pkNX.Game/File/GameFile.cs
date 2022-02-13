@@ -191,9 +191,6 @@
         /// <summary> "PokeMisc" Details about a given Species-Form not stored in <see cref="PersonalStats"/> </summary>
         PokeMisc,
 
-        /// <summary> Gives detail for swarms including shiny roll count bonus. </summary>
-        SwarmDetail,
-
         ThrowableParam,
         ThrowParam,
         ThrowableResourceSet,

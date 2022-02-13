@@ -20,23 +20,23 @@ public class PlacementSpawner8a : ISlotTableConsumer
     [FlatBufferItem(0)] public ulong SpawnerID { get; set; }
     [FlatBufferItem(1)] public ulong Field_01 { get; set; }
     [FlatBufferItem(2)] public PlacementParameters8a[] Field_02 { get; set; } = { new() };
-    [FlatBufferItem(3)] public string Field_03 { get; set; } = string.Empty;
-    [FlatBufferItem(4)] public float Scalar { get; set; }
-    [FlatBufferItem(5)] public PlacementV3f8a Field_05 { get; set; } = new();
-    [FlatBufferItem(6)] public PlacementV3f8a Field_06 { get; set; } = new();
+    [FlatBufferItem(3)] public string Shape { get; set; } = string.Empty; // only set by Wormhole spawners
+    [FlatBufferItem(4)] public float Scalar { get; set; } // how big of a radius they can spawn in?
+    [FlatBufferItem(5)] public PlacementV3f8a Field_05 { get; set; } = new(); // always default values
+    [FlatBufferItem(6)] public PlacementV3f8a Field_06 { get; set; } = new(); // always default values
     [FlatBufferItem(7)] public int MinSpawnCount { get; set; }
     [FlatBufferItem(8)] public int MaxSpawnCount { get; set; }
-    [FlatBufferItem(9)] public int Field_09 { get; set; }
-    [FlatBufferItem(10)] public bool MassOutbreakSpawnerOnly { get; set; }
-    [FlatBufferItem(11)] public bool Field_11 { get; set; }
-    [FlatBufferItem(12)] public bool Field_12 { get; set; }
+    [FlatBufferItem(9)] public int Field_09 { get; set; } // 2 for a single tangela spawner, and 8 for a single lickitung spawner
+    [FlatBufferItem(10)] public bool IsMassOutbreak { get; set; }
+    [FlatBufferItem(11)] public bool IsWater { get; set; }
+    [FlatBufferItem(12)] public bool IsSky { get; set; }
     [FlatBufferItem(13)] public ulong GroupID { get; set; }
     [FlatBufferItem(14)] public float Field_14 { get; set; }
     [FlatBufferItem(15)] public float Field_15 { get; set; }
-    [FlatBufferItem(16)] public int Field_16 { get; set; }
-    [FlatBufferItem(17)] public float Field_17 { get; set; }
-    [FlatBufferItem(18)] public float Field_18 { get; set; }
-    [FlatBufferItem(19)] public float Field_19 { get; set; }
+    [FlatBufferItem(16)] public int ParentLink { get; set; } // 1 for Alpha parents, 2 for Children -- a [2] uses Behavior2 to alter [1]'s actions (run over to the player) to defend.
+    [FlatBufferItem(17)] public float Field_17 { get; set; } // always -1
+    [FlatBufferItem(18)] public float Field_18 { get; set; } // always -1
+    [FlatBufferItem(19)] public float Field_19 { get; set; } // always -1
     [FlatBufferItem(20)] public PlacementSpawnerF208a[] Field_20 { get; set; } = { new() };
     [FlatBufferItem(21)] public PlacementSpawnerF218a[] Field_21 { get; set; } = { new() };
     [FlatBufferItem(22)] public string[] Field_22 { get; set; } = { string.Empty };
@@ -210,7 +210,7 @@ public class PlacementSpawner8a : ISlotTableConsumer
         }
     }
 
-    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Field_03}\", {Scalar}, {Field_05}, {Field_06}, {MinSpawnCount}, {MaxSpawnCount}, {Field_09}, {MassOutbreakSpawnerOnly}, {Field_11}, {Field_12}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {Field_16}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {Field_22_Value})";
+    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Shape}\", {Scalar}, {Field_05}, {Field_06}, {MinSpawnCount}, {MaxSpawnCount}, {Field_09}, {IsMassOutbreak}, {IsWater}, {IsSky}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {ParentLink}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {Field_22_Value})";
 
     public bool UsesTable(ulong table) => Field_20_Value.EncounterTableID == table;
 }

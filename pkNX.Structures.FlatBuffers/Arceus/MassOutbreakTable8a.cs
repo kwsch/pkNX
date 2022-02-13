@@ -20,11 +20,11 @@ public class MassOutbreakTable8a : IFlatBufferArchive<MassOutbreak8a>
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class MassOutbreak8a : IFlatBufferArchive<MassOutbreakInfo8a>
+public class MassOutbreak8a : IFlatBufferArchive<MassOutbreakCondition8a>
 {
-    [FlatBufferItem(0)] public ulong Hash { get; set; }
+    [FlatBufferItem(0)] public ulong AlphaLevelBoostEntryHash { get; set; } // oybn_settings; all entries are identical so this is useless
     [FlatBufferItem(1)] public int OutbreakChangeChance { get; set; } // rand(100) < value -> spawn/de-spawn
-    [FlatBufferItem(2)] public MassOutbreakInfo8a[] Table { get; set; } = Array.Empty<MassOutbreakInfo8a>(); // parameters to check if able to activate
+    [FlatBufferItem(2)] public MassOutbreakCondition8a[] Table { get; set; } = Array.Empty<MassOutbreakCondition8a>(); // parameters to check if able to activate
     [FlatBufferItem(3)] public string WorkValueName { get; set; } = string.Empty; // savefile block to set the result of new outbreak indexes
     [FlatBufferItem(4)] public int RandEntryCount { get; set; } // rand value to write to the save file, and pick out which outbreak to spawn
     [FlatBufferItem(5)] public int SpawnMinCount { get; set; }
@@ -33,7 +33,7 @@ public class MassOutbreak8a : IFlatBufferArchive<MassOutbreakInfo8a>
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class MassOutbreakInfo8a
+public class MassOutbreakCondition8a : IHasCondition8a
 {
     [FlatBufferItem(0)] public ConditionType8a ConditionTypeID { get; set; }
     [FlatBufferItem(1)] public Condition8a ConditionID { get; set; }

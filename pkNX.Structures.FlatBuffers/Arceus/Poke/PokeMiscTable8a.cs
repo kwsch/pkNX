@@ -29,12 +29,12 @@ public class PokeMisc8a
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public int Form { get; set; }
     [FlatBufferItem(02)] public int Field_02 { get; set; }
-    [FlatBufferItem(03)] public float Field_03 { get; set; }
-    [FlatBufferItem(04)] public float Field_04 { get; set; }
-    [FlatBufferItem(05)] public int Field_05 { get; set; }
+    [FlatBufferItem(03)] public float Field_03 { get; set; } // scale factor when not alpha
+    [FlatBufferItem(04)] public float Field_04 { get; set; } // scale factor when alpha (forced 255)
+    [FlatBufferItem(05)] public int Field_05 { get; set; } // similar scale amplification like Field 6, but not used for levels
     [FlatBufferItem(06)] public int OybnLevelIndex { get; set; }
-    [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
-    [FlatBufferItem(08)] public ulong Hash_08 { get; set; }
+    [FlatBufferItem(07)] public ulong PokeDropItemRegular { get; set; }
+    [FlatBufferItem(08)] public ulong PokeDropItemAlpha { get; set; }
     [FlatBufferItem(09)] public string Value { get; set; } = string.Empty;
     [FlatBufferItem(10)] public int[] Field_10 { get; set; } = Array.Empty<int>();
     [FlatBufferItem(11)] public int Field_11 { get; set; }

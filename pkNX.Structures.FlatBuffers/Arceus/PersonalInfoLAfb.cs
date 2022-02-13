@@ -73,7 +73,7 @@ public class PersonalInfoLAfb
     [FlatBufferItem(42)] public byte EggGroup2 { get; set; } // byte
     [FlatBufferItem(43)] public ushort HatchSpecies { get; set; } // ushort
     [FlatBufferItem(44)] public ushort LocalFormIndex { get; set; } // ushort
-    [FlatBufferItem(45)] public byte Field_45 { get; set; } // byte
+    [FlatBufferItem(45)] public bool Field_45 { get; set; } // byte
     [FlatBufferItem(46)] public ushort Field_46 { get; set; } // ushort
     [FlatBufferItem(47)] public byte Field_47 { get; set; } // byte
     [FlatBufferItem(48)] public byte BaseFriendship { get; set; } // byte

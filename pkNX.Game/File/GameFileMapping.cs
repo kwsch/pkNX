@@ -460,7 +460,6 @@ namespace pkNX.Game
             new(GameFile.PokeMisc, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
             new(GameFile.Outbreak, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
             new(GameFile.MoveShop, ContainerType.SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
-            new(GameFile.SwarmDetail, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
 
             new(GameFile.ThrowableParam, ContainerType.SingleFile, "bin", "capture", "throwable_param_table.bin"),
             new(GameFile.ThrowParam, ContainerType.SingleFile, "bin", "capture", "throw_param_table.bin"),

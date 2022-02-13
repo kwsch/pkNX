@@ -281,32 +281,15 @@ internal class EditorPLA : EditorBase
     public void EditBall_Throw_Config() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
     public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
-    public void EditSwarmDetail()
+    public void EditOutbreakDetail()
     {
-        var obj = ROM.GetFile(GameFile.SwarmDetail); // flatbuffer
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<MassOutbreakTable8a>(data);
-        var cache = new DataCache<MassOutbreak8a>(root.Table);
-        var names = root.Table.Select(z => z.WorkValueName).ToArray();
-        using var form = new GenericEditor<MassOutbreak8a>(cache, names, "Shiny Rate Editor");
-        form.ShowDialog();
-        if (!form.Modified)
-            return;
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
     }
 
     public void EditSymbolBehave()
     {
-        var obj = ROM.GetFile(GameFile.SymbolBehave);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<PokeAIArchive8a>(data);
-        var cache = new DataCache<PokeAI8a>(root.Table);
-        var names = root.Table.Select(z => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
-        using var form = new GenericEditor<PokeAI8a>(cache, names, "Symbol Behavior Editor", canSave: false);
-        form.ShowDialog();
-        if (!form.Modified)
-            return;
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor",             z => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}", canSave: false);
     }
 
     public void EditMasterDump()
