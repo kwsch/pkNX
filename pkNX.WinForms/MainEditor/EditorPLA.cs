@@ -69,7 +69,7 @@ internal class EditorPLA : EditorBase
         obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = false) where T2 : class
+    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T2 : class
     {
         var names = arr.Select(getName).ToArray();
         var cache = new DataCache<T2>(arr);
