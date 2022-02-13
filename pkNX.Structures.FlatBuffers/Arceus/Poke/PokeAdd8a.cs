@@ -54,6 +54,8 @@ public class PokeAdd8a
     [FlatBufferItem(29)] public int GV_SPA { get; set; }
     [FlatBufferItem(30)] public int GV_SPD { get; set; }
     [FlatBufferItem(31)] public int GV_SPE { get; set; }
+    [FlatBufferItem(32)] public int TryInsertParty { get; set; } // 1 if party attempted, 0 -> straight to box
+    [FlatBufferItem(33)] public int Ball { get; set; } // 0 is use default game ball (LAPoke); is set to 37 (Origin) for box legends.
 
     public string Dump(string[] speciesNames)
     {
