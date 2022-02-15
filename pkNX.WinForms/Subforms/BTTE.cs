@@ -25,6 +25,7 @@ namespace pkNX.WinForms
 
         private readonly PersonalTable Personal;
         private readonly GameManager Game;
+        private readonly GameData Data;
         private readonly TrainerEditor Trainers;
 
         private readonly string[] abilitylist;
@@ -38,15 +39,16 @@ namespace pkNX.WinForms
 
         private readonly CheckBox[] AIBits;
 
-        public BTTE(GameManager game, TrainerEditor editor)
+        public BTTE(GameData data, TrainerEditor editor, GameManager game)
         {
+            Game = game;
+            Data = data;
+            Trainers = editor;
             InitializeComponent();
             pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
 
-            Stats.Personal = Personal = game.Data.PersonalData;
-            Game = game;
-            Trainers = editor;
-            learn = new LearnsetRandomizer(game.Info, game.Data.LevelUpData.LoadAll(), Personal);
+            Stats.Personal = Personal = data.PersonalData;
+            learn = new LearnsetRandomizer(game.Info, data.LevelUpData.LoadAll(), Personal);
 
             AltForms = new byte[Personal.TableLength]
                 .Select(_ => Enumerable.Range(0, 32).Select(i => i.ToString()).ToArray()).ToArray();
@@ -540,7 +542,7 @@ namespace pkNX.WinForms
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var movedata = Game.Data.MoveData.LoadAll();
+            var movedata = Data.MoveData.LoadAll();
             var moves = learn.GetHighPoweredMoves(movedata, pkm.Species, pkm.Form, 4);
             SetMoves(moves);
         }
@@ -581,7 +583,7 @@ namespace pkNX.WinForms
 
         private TrainerRandomizer GetRandomizer()
         {
-            var moves = Game.Data.MoveData.LoadAll();
+            var moves = Data.MoveData.LoadAll();
             var rmove = new MoveRandomizer(Game.Info, moves, Personal);
             int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
             rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
@@ -589,7 +591,7 @@ namespace pkNX.WinForms
 
             if (Game.Info.SWSH)
             {
-                var pt = Game.Data.PersonalData;
+                var pt = Data.PersonalData;
                 ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
@@ -599,7 +601,7 @@ namespace pkNX.WinForms
             var rform = new FormRandomizer(Personal);
             rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject, ban);
             learn.Moves = moves;
-            var evos = Game.Data.EvolutionData;
+            var evos = Data.EvolutionData;
             var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll(), evos.LoadAll())
             {
                 ClassCount = CB_Trainer_Class.Items.Count,

@@ -15,11 +15,13 @@ namespace pkNX.WinForms
     public partial class PokeDataUI : Form
     {
         private readonly bool Loaded;
+        private readonly GameData Data;
 
-        public PokeDataUI(PokeEditor editor, GameManager rom)
+        public PokeDataUI(PokeEditor editor, GameManager rom, GameData data)
         {
             ROM = rom;
             Editor = editor;
+            Data = data;
             InitializeComponent();
 
             helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
@@ -37,7 +39,7 @@ namespace pkNX.WinForms
             species[0] = "---";
             abilities[0] = items[0] = movelist[0] = "";
 
-            var pt = ROM.Data.PersonalData;
+            var pt = Data.PersonalData;
             cPersonal = pt[0];
             cLearnset = Editor.Learn[0];
             cEvos = Editor.Evolve[0];
@@ -520,7 +522,7 @@ namespace pkNX.WinForms
 
             if (ROM.Info.SWSH)
             {
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
@@ -556,7 +558,7 @@ namespace pkNX.WinForms
 
             if (ROM.Info.SWSH)
             {
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
@@ -575,7 +577,7 @@ namespace pkNX.WinForms
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            var moves = ROM.Data.MoveData.LoadAll();
+            var moves = Data.MoveData.LoadAll();
             int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves.Length);
             rand.Initialize(moves, settings, moveset, banned);
             rand.Execute();
@@ -594,7 +596,7 @@ namespace pkNX.WinForms
             }
             var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, moveset);
+            rand.Initialize(Data.MoveData.LoadAll(), settings, moveset);
             rand.ExecuteExpandOnly();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -605,7 +607,7 @@ namespace pkNX.WinForms
             var settings = (LearnSettings)PG_Learn.SelectedObject;
             var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
             var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
-            rand.Initialize(ROM.Data.MoveData.LoadAll(), settings, moveset);
+            rand.Initialize(Data.MoveData.LoadAll(), settings, moveset);
             rand.ExecuteMetronome();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();

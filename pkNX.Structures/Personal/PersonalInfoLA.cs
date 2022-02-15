@@ -5,11 +5,11 @@ namespace pkNX.Structures
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
     /// </summary>
-    public sealed class PersonalInfoLA : PersonalInfo
+    public sealed class PersonalInfoLA_Bin : PersonalInfo
     {
         public const int SIZE = 0xB0;
 
-        public PersonalInfoLA(byte[] data)
+        public PersonalInfoLA_Bin(byte[] data)
         {
             Data = data;
             LoadTMHM();

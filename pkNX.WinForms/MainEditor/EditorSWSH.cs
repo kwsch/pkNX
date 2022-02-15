@@ -13,7 +13,8 @@ namespace pkNX.WinForms.Controls
 {
     internal class EditorSWSH : EditorBase
     {
-        protected internal EditorSWSH(GameManager rom) : base(rom) { }
+        private readonly GameData Data;
+        protected internal EditorSWSH(GameManagerSWSH rom) : base(rom) => Data = rom.Data;
 
         public void EditCommon()
         {
@@ -51,7 +52,7 @@ namespace pkNX.WinForms.Controls
                 TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
             };
             editor.Initialize();
-            using var form = new BTTE(ROM, editor);
+            using var form = new BTTE(Data, editor, ROM);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -63,13 +64,13 @@ namespace pkNX.WinForms.Controls
         {
             var editor = new PokeEditor
             {
-                Evolve = ROM.Data.EvolutionData,
-                Learn = ROM.Data.LevelUpData,
-                Mega = ROM.Data.MegaEvolutionData,
-                Personal = ROM.Data.PersonalData,
+                Evolve = Data.EvolutionData,
+                Learn = Data.LevelUpData,
+                Mega = Data.MegaEvolutionData,
+                Personal = Data.PersonalData,
                 TMHM = Legal.TMHM_SWSH,
             };
-            using var form = new PokeDataUI(editor, ROM);
+            using var form = new PokeDataUI(editor, ROM, Data);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -143,7 +144,7 @@ namespace pkNX.WinForms.Controls
             }
 
             var moves = list.GetMoves();
-            var allowed = Legal.GetAllowedMoves(ROM.Game, ROM.Data.MoveData.Length);
+            var allowed = Legal.GetAllowedMoves(ROM.Game, Data.MoveData.Length);
             var names = ROM.GetStrings(TextName.MoveNames);
             using var editor = new TMList(moves, allowed, names);
             editor.ShowDialog();
@@ -218,7 +219,7 @@ namespace pkNX.WinForms.Controls
                 h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(hdo);
             }
 
-            using var form = new SSWE(ROM, s, h);
+            using var form = new SSWE((GameManagerSWSH)ROM, s, h);
             form.ShowDialog();
             if (!form.Modified)
                 return;
@@ -245,21 +246,21 @@ namespace pkNX.WinForms.Controls
 
             void Randomize()
             {
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, ban);
                 foreach (var t in arr)
                 {
                     foreach (var p in t.Entries)
                     {
                         p.Species = srand.GetRandomSpecies(p.Species);
-                        p.Form = frand.GetRandomForme(p.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        p.Form = frand.GetRandomForme(p.Species, false, false, true, true, Data.PersonalData.Table);
                         p.Ability = 4; // "A4" -- 1, 2, or H
                         p.Gender = 0; // random
                         p.IsGigantamax = false; // don't allow gmax flag on non-gmax species
@@ -350,21 +351,21 @@ namespace pkNX.WinForms.Controls
             void Randomize()
             {
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, ban);
                 foreach (var t in encounters)
                 {
                     if (t.Species is >= (int)Species.Zacian and <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                         continue;
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     t.Nature = (int)Nature.Random25;
@@ -467,7 +468,7 @@ namespace pkNX.WinForms.Controls
             }
 
             cache.Save();
-            ROM.Data.MoveData.ClearAll(); // force reload if used again
+            Data.MoveData.ClearAll(); // force reload if used again
         }
 
         public void EditRental()
@@ -531,14 +532,14 @@ namespace pkNX.WinForms.Controls
             void Randomize()
             {
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, ban);
                 foreach (var t in gifts)
                 {
@@ -546,12 +547,12 @@ namespace pkNX.WinForms.Controls
                     if (t.CanGigantamax || t.Species == (int)Species.Kubfu)
                     {
                         t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                        t.Form = (byte)(t.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, ROM.Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
+                        t.Form = (byte)(t.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
                     }
                     else
                     {
                         t.Species = srand.GetRandomSpecies(t.Species);
-                        t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                        t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                     }
 
                     t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
@@ -620,20 +621,20 @@ namespace pkNX.WinForms.Controls
             void Randomize()
             {
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, ban);
                 foreach (var t in trades)
                 {
                     // what you receive
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                     t.AbilityNumber = (byte)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                     t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
@@ -646,7 +647,7 @@ namespace pkNX.WinForms.Controls
 
                     // what you trade
                     t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
-                    t.RequiredForm = (byte)frand.GetRandomForme(t.RequiredSpecies, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.RequiredForm = (byte)frand.GetRandomForme(t.RequiredSpecies, false, false, true, true, Data.PersonalData.Table);
                     t.RequiredNature = (int)Nature.Random25; // any
                 }
             }
@@ -671,20 +672,20 @@ namespace pkNX.WinForms.Controls
 
             void Randomize()
             {
-                var pt = ROM.Data.PersonalData;
+                var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                     .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, ban);
                 foreach (var t in table)
                 {
                     // what you receive
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                     t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                     t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
                 }

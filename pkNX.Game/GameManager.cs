@@ -39,11 +39,6 @@ namespace pkNX.Game
         public GameVersion Game => ROM.Game;
 
         /// <summary>
-        /// Generally useful game data that can be used by multiple editors.
-        /// </summary>
-        public GameData Data { get; protected set; }
-
-        /// <summary>
         /// Initializes a new <see cref="GameManager"/> for the input <see cref="GameLocation"/> with initial <see cref="Language"/>.
         /// </summary>
         /// <param name="rom"></param>

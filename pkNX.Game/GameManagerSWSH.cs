@@ -13,6 +13,10 @@ namespace pkNX.Game
         private string npdmPath => Path.Combine(PathExeFS, "main.npdm");
         private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(npdmPath), 0x290).ToString("X16");
 
+        /// <summary>
+        /// Generally useful game data that can be used by multiple editors.
+        /// </summary>
+        public GameData Data { get; protected set; }
 
         protected override void SetMitm()
         {

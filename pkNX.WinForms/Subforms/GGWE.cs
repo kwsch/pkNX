@@ -13,10 +13,10 @@ namespace pkNX.WinForms
     public sealed partial class GGWE : Form
     {
         private readonly EncounterArchive7b Tables;
-        private readonly GameManager ROM;
+        private readonly GameManagerGG ROM;
         private int entry = -1;
 
-        public GGWE(GameManager rom, EncounterArchive7b obj)
+        public GGWE(GameManagerGG rom, EncounterArchive7b obj)
         {
             InitializeComponent();
             if (obj.EncounterTables.Length == 0 || obj.EncounterTables[0].GroundTable.Length == 0)

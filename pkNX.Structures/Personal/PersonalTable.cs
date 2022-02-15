@@ -46,7 +46,6 @@ namespace pkNX.Structures
                 GameVersion.ORAS => PersonalInfoORAS.SIZE,
                 GameVersion.SM or GameVersion.USUM or GameVersion.GP or GameVersion.GE or GameVersion.GG => PersonalInfoSM.SIZE,
                 GameVersion.SW or GameVersion.SH or GameVersion.SWSH => PersonalInfoSWSH.SIZE,
-                GameVersion.PLA => PersonalInfoLA.SIZE,
                 _ => -1
             };
         }

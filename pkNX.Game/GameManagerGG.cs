@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
@@ -13,6 +12,11 @@ namespace pkNX.Game
         private string TitleID => ActualGame == GameVersion.GP ? Pikachu : Eevee;
         private const string Pikachu = "010003F003A34000";
         private const string Eevee = "0100187003A36000";
+
+        /// <summary>
+        /// Generally useful game data that can be used by multiple editors.
+        /// </summary>
+        public GameData Data { get; protected set; }
 
         protected override void SetMitm()
         {

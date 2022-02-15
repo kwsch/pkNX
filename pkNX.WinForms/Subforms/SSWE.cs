@@ -15,12 +15,12 @@ namespace pkNX.WinForms
     {
         private readonly EncounterArchive8 Symbols;
         private readonly EncounterArchive8 Hidden;
-        private readonly GameManager ROM;
+        private readonly GameManagerSWSH ROM;
         private ulong entry;
 
         private readonly EncounterList8[] SL;
 
-        public SSWE(GameManager rom, EncounterArchive8 sym, EncounterArchive8 hid)
+        public SSWE(GameManagerSWSH rom, EncounterArchive8 sym, EncounterArchive8 hid)
         {
             InitializeComponent();
             Symbols = sym;

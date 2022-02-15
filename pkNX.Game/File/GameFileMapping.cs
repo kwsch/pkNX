@@ -52,252 +52,19 @@ namespace pkNX.Game
                 Cache.Remove(m.Key);
         }
 
-        public static IReadOnlyCollection<GameFileReference> GetMapping(GameVersion game)
+        public static IReadOnlyCollection<GameFileReference> GetMapping(GameVersion game) => game switch
         {
-            return game switch
-            {
-                GameVersion.SN => SN,
-                GameVersion.MN => MN,
-                GameVersion.US => US,
-                GameVersion.UM => UM,
-                GameVersion.XY => XY,
-                GameVersion.GP => GG,
-                GameVersion.GE => GG,
-                GameVersion.GG => GG,
-                GameVersion.SW => SWSH,
-                GameVersion.SH => SWSH,
-                GameVersion.SWSH => SWSH,
-                GameVersion.PLA => PLA,
-                GameVersion.ORASDEMO => AO,
-                GameVersion.ORAS => AO,
-                GameVersion.SMDEMO => SMDEMO,
-                _ => null
-            };
-        }
-
-        #region Games
-        private static readonly GameFileReference[] XY =
-        {
-            new(005, GameFile.MoveSprites),
-            new(012, GameFile.Encounters),
-            new(038, GameFile.TrainerData),
-            new(039, GameFile.TrainerClass),
-            new(040, GameFile.TrainerPoke),
-            new(041, GameFile.MapGameRegion),
-            new(042, GameFile.MapMatrix),
-
-            new(072, GameFile.GameText0),
-            new(073, GameFile.GameText1),
-            new(074, GameFile.GameText2),
-            new(075, GameFile.GameText3),
-            new(076, GameFile.GameText4),
-            new(077, GameFile.GameText5),
-            new(078, GameFile.GameText6),
-            new(079, GameFile.GameText7),
-            new(080, GameFile.StoryText0),
-            new(081, GameFile.StoryText1),
-            new(082, GameFile.StoryText2),
-            new(083, GameFile.StoryText3),
-            new(084, GameFile.StoryText4),
-            new(085, GameFile.StoryText5),
-            new(086, GameFile.StoryText6),
-            new(087, GameFile.StoryText7),
-
-            new(104, GameFile.Wallpaper),
-            new(165, GameFile.TitleScreen),
-            new(203, GameFile.FacilityPokeNormal),
-            new(204, GameFile.FacilityTrainerNormal),
-            new(205, GameFile.FacilityPokeSuper),
-            new(206, GameFile.FacilityTrainerSuper),
-            new(212, GameFile.MoveStats),
-            new(213, GameFile.EggMoves),
-            new(214, GameFile.Learnsets),
-            new(215, GameFile.Evolutions),
-            new(216, GameFile.MegaEvolutions),
-            new(218, GameFile.PersonalStats),
-            new(220, GameFile.ItemStats),
+            GameVersion.GP => GG,
+            GameVersion.GE => GG,
+            GameVersion.GG => GG,
+            GameVersion.SW => SWSH,
+            GameVersion.SH => SWSH,
+            GameVersion.SWSH => SWSH,
+            GameVersion.PLA => PLA,
+            _ => null,
         };
-
-        private static readonly GameFileReference[] AO =
-        {
-            new(013, GameFile.Encounters),
-            new(036, GameFile.TrainerData),
-            new(037, GameFile.TrainerClass),
-            new(038, GameFile.TrainerPoke),
-            new(039, GameFile.MapGameRegion),
-            new(040, GameFile.MapMatrix),
-
-            new(071, GameFile.GameText0),
-            new(072, GameFile.GameText1),
-            new(073, GameFile.GameText2),
-            new(074, GameFile.GameText3),
-            new(075, GameFile.GameText4),
-            new(076, GameFile.GameText5),
-            new(077, GameFile.GameText6),
-            new(078, GameFile.GameText7),
-            new(079, GameFile.StoryText0),
-            new(080, GameFile.StoryText1),
-            new(081, GameFile.StoryText2),
-            new(082, GameFile.StoryText3),
-            new(083, GameFile.StoryText4),
-            new(084, GameFile.StoryText5),
-            new(085, GameFile.StoryText6),
-            new(086, GameFile.StoryText7),
-
-            new(103, GameFile.Wallpaper),
-            new(152, GameFile.TitleScreen),
-            new(182, GameFile.FacilityPokeNormal),
-            new(183, GameFile.FacilityTrainerNormal),
-            new(184, GameFile.FacilityPokeSuper),
-            new(185, GameFile.FacilityTrainerSuper),
-            new(189, GameFile.MoveStats),
-            new(190, GameFile.EggMoves),
-            new(191, GameFile.Learnsets),
-            new(192, GameFile.Evolutions),
-            new(193, GameFile.MegaEvolutions),
-            new(195, GameFile.PersonalStats),
-            new(197, GameFile.ItemStats),
-        };
-        #endregion
 
         #region Gen7
-        private static readonly GameFileReference[] SMDEMO =
-        {
-            new(011, GameFile.MoveStats),
-            new(012, GameFile.EggMoves),
-            new(013, GameFile.Learnsets),
-            new(014, GameFile.Evolutions),
-            new(015, GameFile.MegaEvolutions),
-            new(017, GameFile.PersonalStats),
-            new(019, GameFile.ItemStats),
-
-            new(030, GameFile.GameText0),
-            new(031, GameFile.GameText1),
-            new(032, GameFile.GameText2),
-            new(033, GameFile.GameText3),
-            new(034, GameFile.GameText4),
-            new(035, GameFile.GameText5),
-            new(036, GameFile.GameText6),
-            new(037, GameFile.GameText7),
-            new(038, GameFile.GameText8),
-            new(039, GameFile.GameText9),
-            new(040, GameFile.StoryText0),
-            new(041, GameFile.StoryText1),
-            new(042, GameFile.StoryText2),
-            new(043, GameFile.StoryText3),
-            new(044, GameFile.StoryText4),
-            new(045, GameFile.StoryText5),
-            new(046, GameFile.StoryText6),
-            new(047, GameFile.StoryText7),
-            new(048, GameFile.StoryText8),
-            new(049, GameFile.StoryText9),
-
-            new(076, GameFile.ZoneData),
-            new(091, GameFile.WorldData),
-
-            new(101, GameFile.TrainerClass),
-            new(102, GameFile.TrainerData),
-            new(103, GameFile.TrainerPoke),
-        };
-
-        private static readonly GameFileReference[] SM =
-        {
-            new(011, GameFile.MoveStats),
-            new(012, GameFile.EggMoves),
-            new(013, GameFile.Learnsets),
-            new(014, GameFile.Evolutions),
-            new(015, GameFile.MegaEvolutions),
-            new(017, GameFile.PersonalStats),
-            new(019, GameFile.ItemStats),
-
-            new(030, GameFile.GameText0),
-            new(031, GameFile.GameText1),
-            new(032, GameFile.GameText2),
-            new(033, GameFile.GameText3),
-            new(034, GameFile.GameText4),
-            new(035, GameFile.GameText5),
-            new(036, GameFile.GameText6),
-            new(037, GameFile.GameText7),
-            new(038, GameFile.GameText8),
-            new(039, GameFile.GameText9),
-            new(040, GameFile.StoryText0),
-            new(041, GameFile.StoryText1),
-            new(042, GameFile.StoryText2),
-            new(043, GameFile.StoryText3),
-            new(044, GameFile.StoryText4),
-            new(045, GameFile.StoryText5),
-            new(046, GameFile.StoryText6),
-            new(047, GameFile.StoryText7),
-            new(048, GameFile.StoryText8),
-            new(049, GameFile.StoryText9),
-
-            new(077, GameFile.ZoneData),
-            new(091, GameFile.WorldData),
-
-            new(104, GameFile.TrainerClass),
-            new(105, GameFile.TrainerData),
-            new(106, GameFile.TrainerPoke),
-
-            new(155, GameFile.EncounterStatic),
-
-            new(267, GameFile.Pickup),
-
-            new(277, GameFile.FacilityPokeNormal),
-            new(278, GameFile.FacilityTrainerNormal),
-            new(279, GameFile.FacilityPokeSuper),
-            new(280, GameFile.FacilityTrainerSuper),
-        };
-
-        /// <summary>
-        /// Ultra Sun &amp; Ultra Moon
-        /// </summary>
-        private static readonly GameFileReference[] UU =
-        {
-            new(011, GameFile.MoveStats),
-            new(012, GameFile.EggMoves),
-            new(013, GameFile.Learnsets),
-            new(014, GameFile.Evolutions),
-            new(015, GameFile.MegaEvolutions),
-            new(017, GameFile.PersonalStats),
-            new(019, GameFile.ItemStats),
-
-            new(030, GameFile.GameText0),
-            new(031, GameFile.GameText1),
-            new(032, GameFile.GameText2),
-            new(033, GameFile.GameText3),
-            new(034, GameFile.GameText4),
-            new(035, GameFile.GameText5),
-            new(036, GameFile.GameText6),
-            new(037, GameFile.GameText7),
-            new(038, GameFile.GameText8),
-            new(039, GameFile.GameText9),
-            new(040, GameFile.StoryText0),
-            new(041, GameFile.StoryText1),
-            new(042, GameFile.StoryText2),
-            new(043, GameFile.StoryText3),
-            new(044, GameFile.StoryText4),
-            new(045, GameFile.StoryText5),
-            new(046, GameFile.StoryText6),
-            new(047, GameFile.StoryText7),
-            new(048, GameFile.StoryText8),
-            new(049, GameFile.StoryText9),
-
-            new(077, GameFile.ZoneData),
-            new(091, GameFile.WorldData),
-
-            new(105, GameFile.TrainerClass),
-            new(106, GameFile.TrainerData),
-            new(107, GameFile.TrainerPoke),
-
-            new(159, GameFile.EncounterStatic),
-
-            new(271, GameFile.Pickup),
-
-            new(281, GameFile.FacilityPokeNormal),
-            new(282, GameFile.FacilityTrainerNormal),
-            new(283, GameFile.FacilityPokeSuper),
-            new(284, GameFile.FacilityTrainerSuper),
-        };
 
         /// <summary>
         /// Let's Go Pikachu &amp; Let's Go Eevee
@@ -446,7 +213,7 @@ namespace pkNX.Game
             new(GameFile.StoryText9, 10, "bin", "message", "Trad_Chinese", "script"),
 
             new(GameFile.ItemStats, ContainerType.SingleFile, "bin", "pml", "item", "item.dat"),
-            new(GameFile.Evolutions, "bin", "pml", "evolution"),
+            new(GameFile.Evolutions, ContainerType.SingleFile, "bin", "pml", "evolution", "evolution_data_total.evobin"),
             new(GameFile.PersonalStats, ContainerType.SingleFile, "bin", "pml", "personal", "personal_data_total.perbin"),
             new(GameFile.MoveStats, "bin", "pml", "waza"),
             new(GameFile.EncounterStatic, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_event_encount.bin"),
@@ -489,13 +256,6 @@ namespace pkNX.Game
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)
         };
-        #endregion
-
-        #region Split Versions
-        private static readonly GameFileReference[] SN = SM.Concat(new[] {new GameFileReference(082, GameFile.Encounters)}).ToArray();
-        private static readonly GameFileReference[] MN = SM.Concat(new[] {new GameFileReference(083, GameFile.Encounters)}).ToArray();
-        private static readonly GameFileReference[] US = UU.Concat(new[] {new GameFileReference(082, GameFile.Encounters)}).ToArray();
-        private static readonly GameFileReference[] UM = UU.Concat(new[] {new GameFileReference(083, GameFile.Encounters)}).ToArray();
         #endregion
     }
 }

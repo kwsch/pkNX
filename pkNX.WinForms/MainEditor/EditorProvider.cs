@@ -55,20 +55,13 @@ namespace pkNX.WinForms.Controls
 
         public void Close() => ROM.SaveAll(true);
 
-        private static EditorBase? GetEditor(GameManager ROM)
+        private static EditorBase? GetEditor(GameManager ROM) => ROM switch
         {
-            var g = ROM.Game;
-            if (GameVersion.XY.Contains(g)) return new EditorXY(ROM);
-            if (g == GameVersion.ORASDEMO) return new EditorORASDEMO(ROM);
-            if (GameVersion.ORAS.Contains(g)) return new EditorAO(ROM);
-            if (g == GameVersion.SMDEMO) return new EditorSMDEMO(ROM);
-            if (GameVersion.SM.Contains(g)) return new EditorSM(ROM);
-            if (GameVersion.USUM.Contains(g)) return new EditorUU(ROM);
-            if (GameVersion.GG.Contains(g)) return new EditorGG(ROM);
-            if (GameVersion.SWSH.Contains(g)) return new EditorSWSH(ROM);
-            if (GameVersion.PLA.Contains(g)) return new EditorPLA(ROM);
-            return null;
-        }
+            GameManagerGG gg => new EditorGG(gg),
+            GameManagerSWSH swsh => new EditorSWSH(swsh),
+            GameManagerPLA pla => new EditorPLA(pla),
+            _ => null,
+        };
 
         public static EditorBase? GetEditor(string loc, int language)
         {

@@ -12,7 +12,8 @@ namespace pkNX.WinForms.Controls
 {
     internal class EditorGG : EditorBase
     {
-        protected internal EditorGG(GameManager rom) : base(rom) { }
+        private readonly GameData Data;
+        protected internal EditorGG(GameManagerGG rom) : base(rom) => Data = rom.Data;
 
         public void EditCommon()
         {
@@ -50,7 +51,7 @@ namespace pkNX.WinForms.Controls
                 TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
             };
             editor.Initialize();
-            using var form = new BTTE(ROM, editor);
+            using var form = new BTTE(Data, editor, ROM);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -62,13 +63,13 @@ namespace pkNX.WinForms.Controls
         {
             var editor = new PokeEditor
             {
-                Evolve = ROM.Data.EvolutionData,
-                Learn = ROM.Data.LevelUpData,
-                Mega = ROM.Data.MegaEvolutionData,
-                Personal = ROM.Data.PersonalData,
+                Evolve = Data.EvolutionData,
+                Learn = Data.LevelUpData,
+                Mega = Data.MegaEvolutionData,
+                Personal = Data.PersonalData,
                 TMHM = Legal.TMHM_GG,
             };
-            using var form = new PokeDataUI(editor, ROM);
+            using var form = new PokeDataUI(editor, ROM, Data);
             form.ShowDialog();
             if (!form.Modified)
                 editor.CancelEdits();
@@ -109,7 +110,7 @@ namespace pkNX.WinForms.Controls
             }
 
             cache.Save();
-            ROM.Data.MoveData.ClearAll(); // force reload if used again
+            Data.MoveData.ClearAll(); // force reload if used again
         }
 
         public void EditGift()
@@ -124,13 +125,13 @@ namespace pkNX.WinForms.Controls
             {
                 var spec = EditUtil.Settings.Species;
                 spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec);
                 foreach (var t in objs)
                 {
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.Shiny = Shiny.Random;
@@ -160,14 +161,14 @@ namespace pkNX.WinForms.Controls
             {
                 var spec = EditUtil.Settings.Species;
                 spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec, 808, 809); // can only catch 1-151 in wild
                 foreach (var t in objs)
                 {
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
                     t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
                     t.RequiredForm = 0; // can't catch wild alolan forms
                     t.Nature = Nature.Random - 1;
                     t.Gender = FixedGender.Random;
@@ -198,14 +199,14 @@ namespace pkNX.WinForms.Controls
             {
                 var spec = EditUtil.Settings.Species;
                 spec.Gen2 = spec.Gen3 = spec.Gen4 = spec.Gen5 = spec.Gen6 = spec.Gen7 = false;
-                var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-                var frand = new FormRandomizer(ROM.Data.PersonalData);
+                var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+                var frand = new FormRandomizer(Data.PersonalData);
                 srand.Initialize(spec);
                 for (int i = 2; i < objs.Length; i++) // skip starters
                 {
                     var t = objs[i];
                     t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, ROM.Data.PersonalData.Table);
+                    t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
                     t.Nature = Nature.Random25;
                     t.Gender = FixedGender.Random;
                     t.Shiny = Shiny.Random;
@@ -231,7 +232,7 @@ namespace pkNX.WinForms.Controls
             var data = file[0];
             var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(data);
 
-            using var form = new GGWE(ROM, obj);
+            using var form = new GGWE((GameManagerGG)ROM, obj);
             if (form.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -273,7 +274,7 @@ namespace pkNX.WinForms.Controls
             }
 
             var moves = list.GetMoves();
-            var allowed = Legal.GetAllowedMoves(ROM.Game, ROM.Data.MoveData.Length);
+            var allowed = Legal.GetAllowedMoves(ROM.Game, Data.MoveData.Length);
             var names = ROM.GetStrings(TextName.MoveNames);
             using var editor = new TMList(moves, allowed, names);
             editor.ShowDialog();
@@ -332,7 +333,7 @@ namespace pkNX.WinForms.Controls
             if (!shop2)
             {
                 var table = shop.Shop1;
-                var names = table.Select((z, i) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+                var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop1>(table);
                 using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
                 form.ShowDialog();

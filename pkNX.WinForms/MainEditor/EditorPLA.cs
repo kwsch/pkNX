@@ -14,7 +14,13 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorPLA : EditorBase
 {
-    protected internal EditorPLA(GameManager rom) : base(rom) => CheckOodleDllPresence();
+    private readonly GameData8a Data;
+
+    protected internal EditorPLA(GameManagerPLA rom) : base(rom)
+    {
+        Data = rom.Data;
+        CheckOodleDllPresence();
+    }
 
     private static void CheckOodleDllPresence()
     {
@@ -136,14 +142,14 @@ internal class EditorPLA : EditorBase
 
         void Randomize(IEnumerable<EventEncount8a> arr)
         {
-            var pt = ROM.Data.PersonalData;
+            var pt = Data.PersonalData;
             int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                 .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
             var spec = EditUtil.Settings.Species;
-            var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-            var frand = new FormRandomizer(ROM.Data.PersonalData);
+            var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+            var frand = new FormRandomizer(Data.PersonalData);
             srand.Initialize(spec, ban);
             foreach (var entry in arr)
             {
@@ -153,7 +159,7 @@ internal class EditorPLA : EditorBase
                 if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
                     continue;
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                 t.Nature = (int)Nature.Serious;
                 t.Gender = (int)FixedGender.Random;
                 t.ShinyLock = ShinyType8a.Random;
@@ -178,21 +184,21 @@ internal class EditorPLA : EditorBase
 
         void Randomize(IEnumerable<PokeAdd8a> arr)
         {
-            var pt = ROM.Data.PersonalData;
+            var pt = Data.PersonalData;
             int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
                 .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
             var spec = EditUtil.Settings.Species;
-            var srand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
-            var frand = new FormRandomizer(ROM.Data.PersonalData);
+            var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+            var frand = new FormRandomizer(Data.PersonalData);
             srand.Initialize(spec, ban);
             foreach (var t in arr)
             {
                 if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
                     continue;
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
                 t.Nature = NatureType8a.Random;
                 t.Gender = (int)FixedGender.Random;
                 t.ShinyLock = ShinyType8a.Random;
@@ -244,7 +250,7 @@ internal class EditorPLA : EditorBase
         }
 
         cache.Save();
-        ROM.Data.MoveData.ClearAll(); // force reload if used again
+        Data.MoveData.ClearAll(); // force reload if used again
     }
 
     public void EditItems()

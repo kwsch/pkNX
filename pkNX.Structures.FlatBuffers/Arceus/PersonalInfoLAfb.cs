@@ -30,7 +30,7 @@ public class PersonalInfoLAfb
 {
     [FlatBufferItem(00)] public ushort Species { get; set; } // ushort
     [FlatBufferItem(01)] public ushort Form { get; set; } // ushort
-    [FlatBufferItem(02)] public byte IsPresentInGame { get; set; } // byte
+    [FlatBufferItem(02)] public bool IsPresentInGame { get; set; } // byte
     [FlatBufferItem(03)] public byte Type1 { get; set; } // byte
     [FlatBufferItem(04)] public byte Type2 { get; set; } // byte
     [FlatBufferItem(05)] public ushort Ability1 { get; set; } // ushort
@@ -97,11 +97,11 @@ public static class PersonalConverter
         return data;
     }
 
-    public static PersonalInfoLA[] FromArceus(PersonalTableLA table)
+    public static PersonalInfoLA_Bin[] FromArceus(PersonalTableLA table)
     {
         var max = table.Table.Max(z => z.Species);
-        var baseForms = new PersonalInfoLA[max + 1];
-        var formTable = new List<PersonalInfoLA>();
+        var baseForms = new PersonalInfoLA_Bin[max + 1];
+        var formTable = new List<PersonalInfoLA_Bin>();
 
         for (int i = 0; i <= max; i++)
         {
@@ -117,9 +117,9 @@ public static class PersonalConverter
     }
 
     // ugly converter to be a data-backed object
-    private static PersonalInfoLA GetObj(PersonalInfoLAfb e, List<PersonalInfoLAfb> forms, ushort max, List<PersonalInfoLA> formTable, int f = 0)
+    private static PersonalInfoLA_Bin GetObj(PersonalInfoLAfb e, List<PersonalInfoLAfb> forms, ushort max, List<PersonalInfoLA_Bin> formTable, int f = 0)
     {
-        var result = new PersonalInfoLA(new byte[PersonalInfoLA.SIZE])
+        var result = new PersonalInfoLA_Bin(new byte[PersonalInfoLA_Bin.SIZE])
         {
             HP = e.Stat_HP,
             ATK = e.Stat_ATK,
@@ -134,7 +134,7 @@ public static class PersonalConverter
             Ability1 = e.Ability1,
             Ability2 = e.Ability2,
             AbilityH = e.AbilityH,
-            IsPresentInGame = e.IsPresentInGame == 1,
+            IsPresentInGame = e.IsPresentInGame,
             Item1 = e.Item1,
             Item2 = e.Item2,
             Height = e.Height,

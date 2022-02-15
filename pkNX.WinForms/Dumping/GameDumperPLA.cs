@@ -49,7 +49,7 @@ namespace pkNX.WinForms
 
             var lrd = ROM.GetFile(GameFile.Learnsets)[0];
             var lr = FlatBufferConverter.DeserializeFrom<Learnset8a>(lrd);
-            var evd = ROM.GetFilteredFolder(GameFile.Evolutions)[0];
+            var evd = ROM.GetFile(GameFile.Evolutions)[0];
             var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(evd);
             var pt = GetPersonal();
             var altForms = pt.GetFormList(s, pt.MaxSpeciesID);
