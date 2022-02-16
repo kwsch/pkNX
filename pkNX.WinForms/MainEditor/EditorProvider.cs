@@ -45,6 +45,8 @@ namespace pkNX.WinForms.Controls
                     }
                     catch (Exception exception)
                     {
+                        if (exception.InnerException is { } x)
+                            exception = x;
                         Console.WriteLine(exception);
                         WinFormsUtil.Error(exception.Message, exception.StackTrace);
                     }
