@@ -229,7 +229,7 @@ internal class EditorPLA : EditorBase
     {
         var residentpak = ROM.GetFile(GameFile.Resident)[0];
         var resident = new GFPack(residentpak);
-        using var form = new MapViewer8a(ROM, resident);
+        using var form = new MapViewer8a((GameManagerPLA)ROM, resident);
         form.ShowDialog();
     }
 
