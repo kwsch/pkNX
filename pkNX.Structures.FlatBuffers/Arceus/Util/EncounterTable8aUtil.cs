@@ -17,7 +17,7 @@ namespace pkNX.Structures.FlatBuffers
             if (area.Locations.Length == 0)
                 yield break;
 
-            foreach (var table in area.Encounters.Table)
+            foreach (var table in area.Encounters)
             {
                 var slots = table.Table.Where(z => z.ShinyLock is ShinyType8a.Random).ToList();
                 if (slots.Count == 0)
@@ -180,7 +180,7 @@ namespace pkNX.Structures.FlatBuffers
         {
             yield return $"Area: {area.AreaName}";
 
-            foreach (var enctable in area.Encounters.Table) {
+            foreach (var enctable in area.Encounters) {
                 foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, map))
                     yield return $"\t{line}";
 

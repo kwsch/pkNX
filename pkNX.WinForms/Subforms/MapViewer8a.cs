@@ -13,6 +13,7 @@ namespace pkNX.WinForms.Subforms
     {
         private readonly GameManagerPLA ROM;
         private readonly GFPack Resident;
+        private readonly AreaSettingsTable8a Settings;
 
         public readonly AreaInstance8a[] Areas;
         private readonly bool Loading = true;
@@ -21,9 +22,11 @@ namespace pkNX.WinForms.Subforms
         {
             ROM = rom;
             Resident = resident;
+            Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
+
             InitializeComponent();
 
-            Areas = PLAInfo.AreaNames.Select(z => AreaInstance8a.Create(Resident, z)).ToArray();
+            Areas = ResidentAreaSet.AreaNames.Select(z => AreaInstance8a.Create(Resident, z, Settings)).ToArray();
             var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
             CB_Map.Items.AddRange(Areas.Select(z => z.ParentArea?.AreaName ?? z.AreaName).ToArray());
 
@@ -133,7 +136,7 @@ namespace pkNX.WinForms.Subforms
             foreach (var s in area.Spawners.Concat(area.SubAreas.SelectMany(z => z.Spawners)))
             {
                 var table = s.Field_20_Value.EncounterTableID;
-                var slots = Array.Find(area.Encounters.Table, z => z.TableID == table);
+                var slots = Array.Find(area.Encounters, z => z.TableID == table);
                 if (slots == null)
                     continue;
 
@@ -146,7 +149,7 @@ namespace pkNX.WinForms.Subforms
             foreach (var s in area.Wormholes.Concat(area.SubAreas.SelectMany(z => z.Wormholes)))
             {
                 var table = s.Field_20_Value.EncounterTableID;
-                var slots = Array.Find(area.Encounters.Table, z => z.TableID == table);
+                var slots = Array.Find(area.Encounters, z => z.TableID == table);
                 if (slots == null)
                     continue;
 
@@ -164,7 +167,7 @@ namespace pkNX.WinForms.Subforms
                     if (l.LandmarkItemSpawnTableID != table)
                         continue;
                     var st = l.EncounterTableID;
-                    var slots = Array.Find(area.Encounters.Table, z => z.TableID == st);
+                    var slots = Array.Find(area.Encounters, z => z.TableID == st);
                     if (slots == null)
                         continue;
 

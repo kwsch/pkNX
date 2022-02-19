@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -17,6 +18,8 @@ public class AreaSettingsTable8a : IFlatBufferArchive<AreaSettings8a>
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
     [FlatBufferItem(0)] public AreaSettings8a[] Table { get; set; } = Array.Empty<AreaSettings8a>();
+
+    public AreaSettings8a Find(string name) => Table.First(z => z.Name == name);
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

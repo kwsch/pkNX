@@ -375,6 +375,7 @@ namespace pkNX.WinForms
 
             var residentpak = ROM.GetFile(GameFile.Resident)[0];
             var resident = new GFPack(residentpak);
+            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
 
             const string wild = "wild";
             Directory.CreateDirectory(GetPath(wild));
@@ -394,9 +395,9 @@ namespace pkNX.WinForms
             var allUnown = new List<PlacementUnnnEntry>();
             var allMkrg = new List<PlacementMkrgEntry>();
             var allSearchItem = new List<PlacementSearchItem>();
-            foreach (var areaNameList in PLAInfo.AreaNames)
+            foreach (var areaNameList in ResidentAreaSet.AreaNames)
             {
-                var instance = AreaInstance8a.Create(resident, areaNameList);
+                var instance = AreaInstance8a.Create(resident, areaNameList, settings);
                 var lines = EncounterTable8aUtil.GetLines(multipliers, misc, speciesName, instance, map).ToList();
                 File.WriteAllLines(GetPath(wild, $"Encounters_{instance.AreaName}.txt"), lines);
 
@@ -417,7 +418,7 @@ namespace pkNX.WinForms
                 all.AddRange(lines);
                 all.Add(string.Empty);
 
-                allSlots.AddRange(instance.Encounters.Table.SelectMany(z => z.Table));
+                allSlots.AddRange(instance.Encounters.SelectMany(z => z.Table));
                 allSpawners.AddRange(instance.Spawners);
                 allWormholes.AddRange(instance.Wormholes);
                 allLocations.AddRange(instance.Locations);
@@ -429,7 +430,7 @@ namespace pkNX.WinForms
 
                 foreach (var subArea in instance.SubAreas)
                 {
-                    allSlots.AddRange(subArea.Encounters.Table.SelectMany(z => z.Table));
+                    allSlots.AddRange(subArea.Encounters.SelectMany(z => z.Table));
                     allSpawners.AddRange(subArea.Spawners);
                     allWormholes.AddRange(subArea.Wormholes);
                     allLocations.AddRange(subArea.Locations);
@@ -503,6 +504,7 @@ namespace pkNX.WinForms
         {
             var residentpak = ROM.GetFile(GameFile.Resident)[0];
             var resident = new GFPack(residentpak);
+            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
 
             Dictionary<string, (string Name, int Index)> map = GetPlaceNameMap();
 
@@ -513,9 +515,9 @@ namespace pkNX.WinForms
             const string placement = "placement";
             Directory.CreateDirectory(GetPath(placement));
 
-            foreach (var areaNameList in PLAInfo.AreaNames)
+            foreach (var areaNameList in ResidentAreaSet.AreaNames)
             {
-                var area = AreaInstance8a.Create(resident, areaNameList);
+                var area = AreaInstance8a.Create(resident, areaNameList, settings);
                 foreach (var subArea in new[] { area }.Concat(area.SubAreas))
                 {
                     var areaName = subArea.AreaName;
@@ -995,7 +997,6 @@ namespace pkNX.WinForms
             var eventTriggerDir = Path.Combine(ROM.PathRomFS, "bin", "event", "event_progress", "trigger");
             var eventTriggerFiles = Directory.EnumerateFiles(eventTriggerDir, "*", SearchOption.AllDirectories).Where(p => Path.GetExtension(p) == ".bin");
 
-
             const string outFolder = "event_trigger";
             Directory.CreateDirectory(GetPath(outFolder));
 
@@ -1012,8 +1013,7 @@ namespace pkNX.WinForms
 
                 var table = FlatBufferConverter.DeserializeFrom<TriggerTable8a>(f);
 
-                var curLines = new List<string>();
-                curLines.Add($"File: {Path.GetFileName(f)}");
+                var curLines = new List<string> { $"File: {Path.GetFileName(f)}" };
 
                 foreach (var line in Trigger8aUtil.GetTriggerTableSummary(table))
                     curLines.Add($"\t{line}");

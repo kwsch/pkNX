@@ -137,6 +137,13 @@ namespace pkNX.Containers
             DecompressedFiles[index] = data;
         }
 
+        public void SetDataFullPath(string path, byte[] data)
+        {
+            var hash = FnvHash.HashFnv1a_64(path);
+            int index = GetIndexFull(hash);
+            DecompressedFiles[index] = data;
+        }
+
         public void LoadFiles(string[] directories, string parent, CompressionType type = CompressionType.Lz4)
         {
             var groups = directories.Select(Directory.GetFiles).ToArray();
