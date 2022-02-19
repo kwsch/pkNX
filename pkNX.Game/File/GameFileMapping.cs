@@ -221,7 +221,7 @@ namespace pkNX.Game
             new(GameFile.EncounterGift, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
             new(GameFile.Learnsets, ContainerType.SingleFile, "bin", "pml", "waza_oboe", "waza_oboe_total.wazaoboe"),
 
-            new(GameFile.Resident, ContainerType.SingleFile, "bin", "archive", "field", "resident_release.gfpak"),
+            new(GameFile.Resident, ContainerType.GFPack, "bin", "archive", "field", "resident_release.gfpak"),
 
             new(GameFile.EncounterRateTable, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_encount.bin"),
             new(GameFile.PokeMisc, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),

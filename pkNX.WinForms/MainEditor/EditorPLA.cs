@@ -123,15 +123,13 @@ internal class EditorPLA : EditorBase
 
     public void EditArea_Weather()
     {
-        var res = ROM.GetFile(GameFile.Resident);
-        var gfp = new GFPack(res[0]);
+        var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
         var data = gfp[2065];
         var obj = FlatBufferConverter.DeserializeFrom<AreaWeatherTable8a>(data);
         var result = PopFlat(obj.Table, "Area Weather Editor", z => z.Hash.ToString("X16"));
         if (!result)
             return;
         gfp[2065] = FlatBufferConverter.SerializeFrom(obj);
-        res[0] = gfp.Write();
     }
 
     public void EditStatic()
@@ -240,8 +238,7 @@ internal class EditorPLA : EditorBase
 
     public void EditSpawns()
     {
-        var residentpak = ROM.GetFile(GameFile.Resident)[0];
-        var resident = new GFPack(residentpak);
+        var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         using var form = new MapViewer8a((GameManagerPLA)ROM, resident);
         form.ShowDialog();
     }

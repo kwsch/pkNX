@@ -24,8 +24,7 @@ public partial class AreaEditor8a : Form
     {
         ROM = rom;
 
-        var residentpak = ROM.GetFile(GameFile.Resident)[0];
-        Resident = new GFPack(residentpak);
+        Resident = (GFPack)ROM.GetFile(GameFile.Resident);
         var bin_settings = Resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
         Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 
@@ -74,8 +73,17 @@ public partial class AreaEditor8a : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        SaveArea();
-        ROM.GetFile(GameFile.Resident)[0] = Resident.Write();
+        Save = true;
         Close();
+    }
+
+    private bool Save;
+
+    private void AreaEditor8a_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        if (Save)
+            SaveArea();
+        else
+            Resident.CancelEdits();
     }
 }

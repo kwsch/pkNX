@@ -373,8 +373,7 @@ namespace pkNX.WinForms
             var miscdata = ROM.GetFile(GameFile.PokeMisc)[0];
             var misc = FlatBufferConverter.DeserializeFrom<PokeMiscTable8a>(miscdata);
 
-            var residentpak = ROM.GetFile(GameFile.Resident)[0];
-            var resident = new GFPack(residentpak);
+            var resident = (GFPack)ROM.GetFile(GameFile.Resident);
             var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
             var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 
@@ -465,8 +464,7 @@ namespace pkNX.WinForms
 
         public void DumpResident()
         {
-            var residentpak = ROM.GetFile(GameFile.Resident)[0];
-            var resident = new GFPack(residentpak);
+            var resident = (GFPack)ROM.GetFile(GameFile.Resident);
             var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
             var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
             var dir = GetPath("Resident");
@@ -504,8 +502,7 @@ namespace pkNX.WinForms
 
         public void DumpPlacement()
         {
-            var residentpak = ROM.GetFile(GameFile.Resident)[0];
-            var resident = new GFPack(residentpak);
+            var resident = (GFPack)ROM.GetFile(GameFile.Resident);
             var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
             var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 

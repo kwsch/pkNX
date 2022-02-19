@@ -31,10 +31,10 @@
             this.CB_Area = new System.Windows.Forms.ComboBox();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
+            this.Edit_Encounters = new pkNX.WinForms.Controls.EncounterTableEditor8a();
             this.Tab_Regular = new System.Windows.Forms.TabPage();
             this.Tab_Wormhole = new System.Windows.Forms.TabPage();
             this.Tab_Landmarks = new System.Windows.Forms.TabPage();
-            this.Edit_Encounters = new pkNX.WinForms.Controls.EncounterTableEditor8a();
             this.Tab_Randomize = new System.Windows.Forms.TabPage();
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
@@ -76,6 +76,14 @@
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
             // 
+            // Edit_Encounters
+            // 
+            this.Edit_Encounters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Edit_Encounters.Location = new System.Drawing.Point(3, 3);
+            this.Edit_Encounters.Name = "Edit_Encounters";
+            this.Edit_Encounters.Size = new System.Drawing.Size(671, 449);
+            this.Edit_Encounters.TabIndex = 0;
+            // 
             // Tab_Regular
             // 
             this.Tab_Regular.Location = new System.Drawing.Point(4, 22);
@@ -103,14 +111,6 @@
             this.Tab_Landmarks.TabIndex = 3;
             this.Tab_Landmarks.Text = "*Landmarks";
             this.Tab_Landmarks.UseVisualStyleBackColor = true;
-            // 
-            // Edit_Encounters
-            // 
-            this.Edit_Encounters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Edit_Encounters.Location = new System.Drawing.Point(3, 3);
-            this.Edit_Encounters.Name = "Edit_Encounters";
-            this.Edit_Encounters.Size = new System.Drawing.Size(671, 449);
-            this.Edit_Encounters.TabIndex = 0;
             // 
             // Tab_Randomize
             // 
@@ -142,6 +142,7 @@
             this.Controls.Add(this.CB_Area);
             this.Name = "AreaEditor8a";
             this.Text = "Area Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AreaEditor8a_FormClosing);
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Encounters.ResumeLayout(false);
             this.ResumeLayout(false);
