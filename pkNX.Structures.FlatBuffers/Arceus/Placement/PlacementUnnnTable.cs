@@ -40,7 +40,7 @@ public class PlacementUnnnEntry
     public IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias)
     {
         var c = Parameters.Coordinates;
-        return GetIntersectingLocations(locations, bias, c, 0 + bias);
+        return GetIntersectingLocations(locations, bias, c, 0);
     }
 
     private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, PlacementV3f8a c, float scalar)
@@ -50,7 +50,7 @@ public class PlacementUnnnEntry
         {
             if (!loc.IsNamedPlace)
                 continue;
-            if (loc.IntersectsSphere(c.X, c.Y, c.Z, scalar))
+            if (loc.IntersectsSphere(c.X, c.Y, c.Z, scalar + bias))
                 result.Add(loc);
         }
 

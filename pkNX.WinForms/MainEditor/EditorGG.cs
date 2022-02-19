@@ -357,7 +357,7 @@ namespace pkNX.WinForms.Controls
             else
             {
                 var table = shop.Shop2;
-                var names = table.Select((z, i) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+                var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
                 var cache = new DirectCache<Shop2>(table);
                 using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
                 form.ShowDialog();

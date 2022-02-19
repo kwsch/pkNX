@@ -27,9 +27,10 @@ public class EncounterTable8a
 
     private static Dictionary<ulong, string> GenerateTableMap()
     {
-        var result = new Dictionary<ulong, string>();
-
-        result[0xCBF29CE484222645] = "";
+        var result = new Dictionary<ulong, string>
+        {
+            [0xCBF29CE484222645] = "",
+        };
 
         var prefixes = new[] { "eve", "fly", "gmk", "lnd", "mas", "oyb", "swm", "whl" };
         var kinds = new[] { "ex", "no", "ra" };

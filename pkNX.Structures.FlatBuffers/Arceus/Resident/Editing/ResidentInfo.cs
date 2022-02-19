@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers;
 /// <summary>
 /// Manually entered metadata about the interesting areas.
 /// </summary>
-public class ResidentAreaSet
+public sealed class ResidentAreaSet
 {
     public readonly string ParentName;
     public readonly IReadOnlyList<string> SubAreas;

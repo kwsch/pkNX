@@ -154,9 +154,7 @@ namespace pkNX.WinForms
             for (int i = 0; i < TextData.Length; i++)
             {
                 try { TextData[i] = textLines[i]; }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e) { WinFormsUtil.Error($"The input Text File (# {i}) failed to convert:", e.ToString()); return false; }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             return true;
@@ -171,9 +169,7 @@ namespace pkNX.WinForms
                 {
                     TextData[entry] = GetCurrentDGLines();
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex) { WinFormsUtil.Error(ex.ToString()); }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             // Reset
@@ -235,9 +231,7 @@ namespace pkNX.WinForms
         {
             int currentRow = 0;
             try { currentRow = dgv.CurrentRow.Index; }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { dgv.Rows.Add(); }
-#pragma warning restore CA1031 // Do not catch general exception types
             if (dgv.Rows.Count != 1 && (currentRow < dgv.Rows.Count - 1 || currentRow == 0))
             {
                 if (ModifierKeys != Keys.Control && currentRow != 0)

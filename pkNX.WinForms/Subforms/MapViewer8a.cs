@@ -22,7 +22,8 @@ namespace pkNX.WinForms.Subforms
         {
             ROM = rom;
             Resident = resident;
-            Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
+            var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
+            Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 
             InitializeComponent();
 
@@ -52,7 +53,8 @@ namespace pkNX.WinForms.Subforms
             Loading = false;
             CB_Map.SelectedIndex = 0;
         }
-        public class ComboItem
+
+        private class ComboItem
         {
             public ComboItem(string text, int value)
             {

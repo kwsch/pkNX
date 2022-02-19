@@ -233,6 +233,12 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
+    public void EditAreas()
+    {
+        using var form = new AreaEditor8a((GameManagerPLA)ROM);
+        form.ShowDialog();
+    }
+
     public void EditMoves()
     {
         var obj = ROM[GameFile.MoveStats]; // folder

@@ -98,6 +98,7 @@ namespace pkNX.Containers
         }
 
         public int GetIndexFull(ulong hash) => Array.FindIndex(HashAbsolute, z => z.HashFnv1aPathFull == hash);
+        public int GetIndexFull(string path) => GetIndexFull(FnvHash.HashFnv1a_64(path));
 
         public int GetIndexFileName(ulong hash)
         {

@@ -375,7 +375,8 @@ namespace pkNX.WinForms
 
             var residentpak = ROM.GetFile(GameFile.Resident)[0];
             var resident = new GFPack(residentpak);
-            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
+            var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
+            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 
             const string wild = "wild";
             Directory.CreateDirectory(GetPath(wild));
@@ -466,7 +467,8 @@ namespace pkNX.WinForms
         {
             var residentpak = ROM.GetFile(GameFile.Resident)[0];
             var resident = new GFPack(residentpak);
-            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
+            var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
+            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
             var dir = GetPath("Resident");
             var props = typeof(AreaSettings8a).GetProperties();
             foreach (var x in settings.Table)
@@ -504,7 +506,8 @@ namespace pkNX.WinForms
         {
             var residentpak = ROM.GetFile(GameFile.Resident)[0];
             var resident = new GFPack(residentpak);
-            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(resident[2042]);
+            var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
+            var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
 
             Dictionary<string, (string Name, int Index)> map = GetPlaceNameMap();
 
