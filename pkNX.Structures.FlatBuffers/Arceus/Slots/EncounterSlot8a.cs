@@ -8,6 +8,8 @@ namespace pkNX.Structures.FlatBuffers;
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class EncounterSlot8a
 {
+    public override string ToString() => $"{(Species)Species}{(Form == 0 ? "" : $"-{Form}")}{(Oybn.IsOybnAny ? "*" : "")} - {BaseProbability}={ShinyLock}";
+
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public ulong SlotID { get; set; }
     [FlatBufferItem(02)] public int Gender { get; set; }
@@ -81,6 +83,7 @@ public class EncounterSlot8a
             return default_mults.GetTimeMultiplier(time);
         return 1.0f;
     }
+
     public float GetWeatherModifier(int weather, EncounterMultiplier8a default_mults)
     {
         // If the slot has defined an override factor, use it; otherwise, fall back on the default multiplier for (species, form).
