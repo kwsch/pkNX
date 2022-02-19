@@ -121,6 +121,19 @@ internal class EditorPLA : EditorBase
         PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", z => z.OriginalPath);
     }
 
+    public void EditArea_Weather()
+    {
+        var res = ROM.GetFile(GameFile.Resident);
+        var gfp = new GFPack(res[0]);
+        var data = gfp[2065];
+        var obj = FlatBufferConverter.DeserializeFrom<AreaWeatherTable8a>(data);
+        var result = PopFlat(obj.Table, "Area Weather Editor", z => z.Hash.ToString("X16"));
+        if (!result)
+            return;
+        gfp[2065] = FlatBufferConverter.SerializeFrom(obj);
+        res[0] = gfp.Write();
+    }
+
     public void EditStatic()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
