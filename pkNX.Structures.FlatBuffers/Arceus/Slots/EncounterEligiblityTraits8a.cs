@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -12,7 +11,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class EncounterEligiblityTraits8a : IHasCondition8a
+public class EncounterEligiblityTraits8a : IHasCondition8a, ISlotModifierTime, ISlotModifierWeather
 {
     [FlatBufferItem(0)] public ConditionType8a ConditionTypeID { get; set; }
     [FlatBufferItem(1)] public Condition8a ConditionID { get; set; }
@@ -33,30 +32,4 @@ public class EncounterEligiblityTraits8a : IHasCondition8a
     [FlatBufferItem(16)] public float WeatherMultiplier_6 { get; set; }
     [FlatBufferItem(17)] public float WeatherMultiplier_7 { get; set; }
     [FlatBufferItem(18)] public float WeatherMultiplier_8 { get; set; }
-
-    public float GetTimeMultiplier(int index) => index switch
-    {
-        0 => TimeOfDayMultiplier_0,
-        1 => TimeOfDayMultiplier_1,
-        2 => TimeOfDayMultiplier_2,
-        3 => TimeOfDayMultiplier_3,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
-    };
-
-    public float GetWeatherMultiplier(int index) => index switch
-    {
-        0 => 1.0f, // "No Weather" results in no modification of rate for all species/forms
-        1 => WeatherMultiplier_1,
-        2 => WeatherMultiplier_2,
-        3 => WeatherMultiplier_3,
-        4 => WeatherMultiplier_4,
-        5 => WeatherMultiplier_5,
-        6 => WeatherMultiplier_6,
-        7 => WeatherMultiplier_7,
-        8 => WeatherMultiplier_8,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
-    };
-
-    public bool HasTimeModifier(int index) => GetTimeMultiplier(index) != -1.0f;
-    public bool HasWeatherModifier(int index) => index != 0 && GetWeatherMultiplier(index) != -1.0f;
 }

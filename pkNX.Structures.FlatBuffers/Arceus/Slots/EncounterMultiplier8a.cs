@@ -12,7 +12,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class EncounterMultiplier8a
+public class EncounterMultiplier8a : ISlotModifierTime, ISlotModifierWeather
 {
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public int Form { get; set; }

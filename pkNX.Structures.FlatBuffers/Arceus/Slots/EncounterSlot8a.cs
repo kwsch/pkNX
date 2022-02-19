@@ -74,6 +74,7 @@ public class EncounterSlot8a
 
     public float GetTimeModifier(int time, EncounterMultiplier8a default_mults)
     {
+        // If the slot has defined an override factor, use it; otherwise, fall back on the default multiplier for (species, form).
         if (Eligibility.HasTimeModifier(time))
             return Eligibility.GetTimeMultiplier(time);
         if (default_mults.HasTimeModifier(time))
@@ -82,6 +83,7 @@ public class EncounterSlot8a
     }
     public float GetWeatherModifier(int weather, EncounterMultiplier8a default_mults)
     {
+        // If the slot has defined an override factor, use it; otherwise, fall back on the default multiplier for (species, form).
         if (Eligibility.HasWeatherModifier(weather))
             return Eligibility.GetWeatherMultiplier(weather);
         if (default_mults.HasWeatherModifier(weather))
