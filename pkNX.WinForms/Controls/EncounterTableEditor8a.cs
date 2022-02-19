@@ -14,6 +14,13 @@ public partial class EncounterTableEditor8a : UserControl
     public void LoadTable(EncounterTable8a[] table, string path)
     {
         Tables = table;
+        if (table.Length == 0)
+        {
+            Visible = false;
+            return;
+        }
+
+        Visible = true;
         L_EncTableName.Text = path;
 
         var items = table.Select(z => new ComboItem(z.TableName.Replace("\"", ""), z)).ToArray();
