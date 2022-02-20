@@ -21,6 +21,8 @@ namespace pkNX.Containers
         public FolderContainer(string path) => FilePath = path;
         public FolderContainer(string path, Func<string, bool> filter) : this(path) => Initialize(filter);
 
+        public IReadOnlyList<string> GetPaths() => Paths;
+
         public void Initialize(Func<string, bool>? filter = null)
         {
             if (Paths.Count > 0)

@@ -55,13 +55,19 @@ internal class EditorPLA : EditorBase
 
     public void EditTrainers()
     {
-        var folder = ROM.GetFilteredFolder(GameFile.TrainerData).FilePath;
-        var files = Directory.GetFiles(folder);
-        var data = files.Select(FlatBufferConverter.DeserializeFrom<TrData8a>).ToArray();
-        var names = files.Select(Path.GetFileNameWithoutExtension).ToArray();
-        var cache = new DataCache<TrData8a>(data);
-        using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", canSave: false);
+        var folder = ROM.GetFilteredFolder(GameFile.TrainerData);
+        var cache = new DataCache<TrData8a>(folder)
+        {
+            Create = FlatBufferConverter.DeserializeFrom<TrData8a>,
+            Write = FlatBufferConverter.SerializeFrom,
+        };
+        var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).ToArray();
+        using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", canSave: true);
         form.ShowDialog();
+        if (!form.Modified)
+            return;
+
+        cache.Save();
     }
 
     public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
