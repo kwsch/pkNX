@@ -8,6 +8,7 @@ using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using static pkNX.Structures.Species;
 using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms.Subforms;
@@ -109,9 +110,6 @@ public partial class AreaEditor8a : Form
                 if (enc.ShinyLock is not ShinyType8a.Random)
                     continue;
 
-                if (enc.Eligibility.ConditionID is not Condition8a.None)
-                    continue;
-
                 var spec = rand.GetRandomSpecies(enc.Species);
                 enc.Species = spec;
                 enc.Form = GetRandomForm(spec);
@@ -123,7 +121,14 @@ public partial class AreaEditor8a : Form
             if (!formRand.TryGetValue(spec, out var entries))
                 return 0;
             var count = entries.Count;
-            return Util.Random.Next(0, count);
+
+            return (Species)spec switch
+            {
+                Growlithe or Arcanine or Voltorb or Electrode or Typhlosion or Qwilfish or Samurott or Lilligant or Zorua or Zoroark or Braviary or Sliggoo or Goodra or Avalugg or Decidueye => 1,
+                Basculin => 2,
+                Kleavor => 0,
+                _ => Util.Random.Next(0, count),
+            };
         }
     }
 
