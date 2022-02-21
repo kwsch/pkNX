@@ -454,9 +454,8 @@ namespace pkNX.WinForms
             File.WriteAllText(GetPath(wild, "allSpawnerTable.csv"), TableUtil.GetTable(allSpawners));
             File.WriteAllText(GetPath(wild, "allWormholeTable.csv"), TableUtil.GetTable(allWormholes));
             File.WriteAllText(GetPath(wild, "allLocationTable.csv"), TableUtil.GetTable(allLocations));
-            File.WriteAllText(GetPath(wild, "allLandItems.csv"), TableUtil.GetTable(allLandItems));
             File.WriteAllText(GetPath(wild, "allLandMarks.csv"), TableUtil.GetTable(allLandMarks));
-            File.WriteAllText(GetPath(wild, "allLandMarkSpawns.csv"), TableUtil.GetTable(allLandMarks));
+            File.WriteAllText(GetPath(wild, "allLandMarkSpawns.csv"), TableUtil.GetTable(allLandItems));
             File.WriteAllText(GetPath(wild, "allUnown.csv"), TableUtil.GetTable(allUnown));
             File.WriteAllText(GetPath(wild, "allMkrg.csv"), TableUtil.GetTable(allMkrg));
             File.WriteAllText(GetPath(wild, "allSearchItem.csv"), TableUtil.GetTable(allSearchItem));

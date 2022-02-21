@@ -82,7 +82,6 @@ public class LandmarkItemSpawn8a
                 }
             }
 
-
             for (var w1 = 0; w1 < 5; w1++)
             {
                 for (var w2 = 0; w2 < 5; w2++)

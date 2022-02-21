@@ -9,6 +9,7 @@ namespace pkNX.Randomization
     /// Randomization settings when randomizing a <see cref="PersonalInfo"/>.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PersonalRandSettings : RandSettings
     {
         private const string Moves = nameof(Moves);

@@ -46,7 +46,7 @@ public class LandmarkItem8a : ISlotTableConsumer
     public IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias)
     {
         var c = Parameters.Coordinates;
-        return GetIntersectingLocations(locations, bias, c, Scalar + bias);
+        return GetIntersectingLocations(locations, bias, c, Scalar);
     }
 
     private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, PlacementV3f8a c, float scalar)
@@ -56,7 +56,7 @@ public class LandmarkItem8a : ISlotTableConsumer
         {
             if (!loc.IsNamedPlace)
                 continue;
-            if (loc.IntersectsSphere(c.X, c.Y, c.Z, scalar))
+            if (loc.IntersectsSphere(c.X, c.Y, c.Z, scalar + bias))
                 result.Add(loc);
         }
 
@@ -86,7 +86,7 @@ public class LandmarkItem8a : ISlotTableConsumer
         {
             var map = GetNameMap();
             if (map.TryGetValue(LandmarkItemNameID, out var name))
-                return $"\"{name}\"";
+                return $"\"{name}\" ({Field_00})";
 
             return $"0x{LandmarkItemNameID:X16}";
         }

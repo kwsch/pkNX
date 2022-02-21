@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Randomization;
+using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms.Subforms;
 
@@ -35,6 +39,8 @@ public partial class AreaEditor8a : Form
 
         InitializeComponent();
 
+        PG_RandSettings.SelectedObject = EditUtil.Settings.Species;
+
         Loading = true;
         CB_Area.Items.AddRange(AreaNames);
         CB_Area.SelectedIndex = AreaIndex;
@@ -59,12 +65,75 @@ public partial class AreaEditor8a : Form
         LoadArea();
     }
 
+    private void B_Randomize_Click(object sender, EventArgs e)
+    {
+        SaveArea();
+        RandomizeArea(Area, (SpeciesSettings)PG_RandSettings.SelectedObject);
+        LoadArea();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void RandomizeArea(ResidentArea8a area, SpeciesSettings settings)
+    {
+        var pt = ROM.Data.PersonalData;
+        var rand = new SpeciesRandomizer(ROM.Info, pt);
+
+        var hasForm = new HashSet<int>();
+        var banned = new HashSet<int>();
+        foreach (var pi in pt.Table.Cast<PersonalInfoLA>())
+        {
+            if (pi.IsPresentInGame)
+            {
+                banned.Remove(pi.Species);
+                hasForm.Add(pi.Species);
+            }
+            else if (!hasForm.Contains(pi.Species))
+            {
+                banned.Add(pi.Species);
+            }
+        }
+
+        rand.Initialize(settings, banned.ToArray());
+
+        var formRand = pt.Table
+            .Cast<PersonalInfoLA>()
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.Species) || Legal.BattleFusions.Contains(z.Species)))
+            .GroupBy(z => z.Species)
+            .ToDictionary(z => z.Key, z => z.ToList());
+
+        var encounters = area.Encounters;
+        foreach (var table in encounters)
+        {
+            foreach (var enc in table.Table)
+            {
+                if (enc.ShinyLock is not ShinyType8a.Random)
+                    continue;
+
+                if (enc.Eligibility.ConditionID is not Condition8a.None)
+                    continue;
+
+                var spec = rand.GetRandomSpecies(enc.Species);
+                enc.Species = spec;
+                enc.Form = GetRandomForm(spec);
+                enc.ClearMoves();
+            }
+        }
+        int GetRandomForm(int spec)
+        {
+            if (!formRand.TryGetValue(spec, out var entries))
+                return 0;
+            var count = entries.Count;
+            return Util.Random.Next(0, count);
+        }
+    }
+
     private void LoadArea()
     {
         Debug.WriteLine($"Loading Area {AreaIndex}");
         Edit_Encounters.LoadTable(Area.Encounters, Area.Settings.Encounters);
         Edit_RegularSpawners.LoadTable(Area.Spawners, Area.Settings.Spawners);
         Edit_WormholeSpawners.LoadTable(Area.Wormholes, Area.Settings.WormholeSpawners);
+        Edit_LandmarkSpawns.LoadTable(Area.LandItems, Area.Settings.LandmarkItemSpawns);
     }
 
     private void SaveArea()

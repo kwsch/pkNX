@@ -5,6 +5,7 @@ using System.ComponentModel;
 namespace pkNX.Randomization
 {
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MovesetRandSettings
     {
         private const string Damage = nameof(Damage);

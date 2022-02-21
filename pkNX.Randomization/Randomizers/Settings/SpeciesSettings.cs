@@ -10,6 +10,7 @@ namespace pkNX.Randomization
     /// Settings for what Species are permitted during randomization.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SpeciesSettings : RandSettings
     {
         private const string General = nameof(General);

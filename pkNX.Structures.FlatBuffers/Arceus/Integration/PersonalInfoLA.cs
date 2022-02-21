@@ -42,7 +42,8 @@ public sealed class PersonalInfoLA : PersonalInfo
     public int AbilityH { get => FB.AbilityH; set => FB.AbilityH = (ushort)value; }
     public override int EscapeRate { get => 0; set { } } // moved?
     protected override int FormStatsIndex { get => 0; set { } }
-    public override int Color { get => FB.Color; set => FB.Color = (byte)value;} public bool IsPresentInGame { get => FB.IsPresentInGame; set => FB.IsPresentInGame = value; }
+    public override int Color { get => FB.Color; set => FB.Color = (byte)value; }
+    public bool IsPresentInGame { get => FB.IsPresentInGame; set => FB.IsPresentInGame = value; }
     public override int BaseEXP { get => FB.BaseEXP; set => FB.BaseEXP = (ushort)value; }
     public override int Height  { get => FB.Height ; set => FB.Height = (ushort)value; }
     public override int Weight  { get => FB.Weight ; set => FB.Weight = (ushort)value; }

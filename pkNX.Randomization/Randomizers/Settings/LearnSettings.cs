@@ -4,6 +4,7 @@ using System.ComponentModel;
 namespace pkNX.Randomization
 {
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class LearnSettings
     {
         private const string General = nameof(General);

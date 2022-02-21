@@ -125,4 +125,10 @@ public class EncounterSlot8a
     }
 
     public string SlotName => GetSlotName(SlotID);
+
+    public void ClearMoves()
+    {
+        Move1 = Move2 = Move3 = Move4 = 0;
+        Move1Mastered = Move2Mastered = Move3Mastered = Move4Mastered = false;
+    }
 }

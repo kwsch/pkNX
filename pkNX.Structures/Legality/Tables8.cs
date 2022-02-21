@@ -12,12 +12,12 @@ namespace pkNX.Structures
         public const int MaxBallID_8 = (int)Ball.Beast;
         public const int MaxGameID_8 = (int)GameVersion.SH;
 
-        public const int MaxSpeciesID_8a = 898; // Calyrex
-        public const int MaxMoveID_8a = 826; // Eerie Spell
-        public const int MaxItemID_8a = 1607; // Reins of Unity
-        public const int MaxAbilityID_8a = 267; // As One
-        public const int MaxBallID_8a = (int)Ball.Beast;
-        public const int MaxGameID_8a = (int)GameVersion.SH;
+        internal const int MaxSpeciesID_8a = (int)Species.Enamorus;
+        internal const int MaxMoveID_8a = 850; // Take Heart
+        internal const int MaxItemID_8a = 1828; // Legend Plate
+        internal const int MaxBallID_8a = (int)Ball.LAOrigin;
+        internal const int MaxGameID_8a = (int)GameVersion.SP;
+        internal const int MaxAbilityID_8a = 267; // As One (Glastrier)
 
         #region Met Locations
         internal static readonly int[] Met_SWSH_0 =

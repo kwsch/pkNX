@@ -36,13 +36,18 @@
             this.Tab_Landmarks = new System.Windows.Forms.TabPage();
             this.Tab_Randomize = new System.Windows.Forms.TabPage();
             this.B_Save = new System.Windows.Forms.Button();
+            this.PG_RandSettings = new System.Windows.Forms.PropertyGrid();
             this.Edit_Encounters = new pkNX.WinForms.Controls.EncounterTableEditor8a();
             this.Edit_RegularSpawners = new pkNX.WinForms.Controls.PlacementSpawnerEditor8a();
             this.Edit_WormholeSpawners = new pkNX.WinForms.Controls.PlacementSpawnerEditor8a();
+            this.Edit_LandmarkSpawns = new pkNX.WinForms.Controls.LandmarkEditor8a();
+            this.B_Randomize = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Encounters.SuspendLayout();
             this.Tab_Regular.SuspendLayout();
             this.Tab_Wormhole.SuspendLayout();
+            this.Tab_Landmarks.SuspendLayout();
+            this.Tab_Randomize.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_Area
@@ -101,6 +106,7 @@
             // 
             // Tab_Landmarks
             // 
+            this.Tab_Landmarks.Controls.Add(this.Edit_LandmarkSpawns);
             this.Tab_Landmarks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Landmarks.Name = "Tab_Landmarks";
             this.Tab_Landmarks.Size = new System.Drawing.Size(677, 455);
@@ -110,6 +116,8 @@
             // 
             // Tab_Randomize
             // 
+            this.Tab_Randomize.Controls.Add(this.B_Randomize);
+            this.Tab_Randomize.Controls.Add(this.PG_RandSettings);
             this.Tab_Randomize.Location = new System.Drawing.Point(4, 22);
             this.Tab_Randomize.Name = "Tab_Randomize";
             this.Tab_Randomize.Padding = new System.Windows.Forms.Padding(3);
@@ -120,6 +128,7 @@
             // 
             // B_Save
             // 
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Save.Location = new System.Drawing.Point(633, 1);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
@@ -127,6 +136,14 @@
             this.B_Save.Text = "Save All";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            // 
+            // PG_RandSettings
+            // 
+            this.PG_RandSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PG_RandSettings.Location = new System.Drawing.Point(3, 3);
+            this.PG_RandSettings.Name = "PG_RandSettings";
+            this.PG_RandSettings.Size = new System.Drawing.Size(671, 449);
+            this.PG_RandSettings.TabIndex = 0;
             // 
             // Edit_Encounters
             // 
@@ -152,6 +169,24 @@
             this.Edit_WormholeSpawners.Size = new System.Drawing.Size(677, 455);
             this.Edit_WormholeSpawners.TabIndex = 2;
             // 
+            // Edit_LandmarkSpawns
+            // 
+            this.Edit_LandmarkSpawns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Edit_LandmarkSpawns.Location = new System.Drawing.Point(0, 0);
+            this.Edit_LandmarkSpawns.Name = "Edit_LandmarkSpawns";
+            this.Edit_LandmarkSpawns.Size = new System.Drawing.Size(677, 455);
+            this.Edit_LandmarkSpawns.TabIndex = 0;
+            // 
+            // B_Randomize
+            // 
+            this.B_Randomize.Location = new System.Drawing.Point(431, 3);
+            this.B_Randomize.Name = "B_Randomize";
+            this.B_Randomize.Size = new System.Drawing.Size(243, 23);
+            this.B_Randomize.TabIndex = 5;
+            this.B_Randomize.Text = "Randomize Current Map Encounters";
+            this.B_Randomize.UseVisualStyleBackColor = true;
+            this.B_Randomize.Click += new System.EventHandler(this.B_Randomize_Click);
+            // 
             // AreaEditor8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -167,6 +202,8 @@
             this.Tab_Encounters.ResumeLayout(false);
             this.Tab_Regular.ResumeLayout(false);
             this.Tab_Wormhole.ResumeLayout(false);
+            this.Tab_Landmarks.ResumeLayout(false);
+            this.Tab_Randomize.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -183,5 +220,8 @@
         private System.Windows.Forms.Button B_Save;
         private Controls.PlacementSpawnerEditor8a Edit_RegularSpawners;
         private Controls.PlacementSpawnerEditor8a Edit_WormholeSpawners;
+        private System.Windows.Forms.PropertyGrid PG_RandSettings;
+        private Controls.LandmarkEditor8a Edit_LandmarkSpawns;
+        private System.Windows.Forms.Button B_Randomize;
     }
 }

@@ -38,5 +38,18 @@
         Sport = 24,
         Dream = 25,
         Beast = 26,
+
+        // Legends: Arceus
+        Strange = 27,
+        LAPoke = 28,
+        LAGreat = 29,
+        LAUltra = 30,
+        LAFeather = 31,
+        LAWing = 32,
+        LAJet = 33,
+        LAHeavy = 34,
+        LALeaden = 35,
+        LAGigaton = 36,
+        LAOrigin = 37,
     }
 }
