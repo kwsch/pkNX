@@ -12,8 +12,8 @@ namespace pkNX.WinForms.Controls
 {
     internal class EditorGG : EditorBase
     {
-        private readonly GameData Data;
-        protected internal EditorGG(GameManagerGG rom) : base(rom) => Data = rom.Data;
+        private GameData Data => ((GameManagerGG)ROM).Data;
+        protected internal EditorGG(GameManagerGG rom) : base(rom) { }
 
         public void EditCommon()
         {

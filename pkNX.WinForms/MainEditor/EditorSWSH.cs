@@ -13,8 +13,8 @@ namespace pkNX.WinForms.Controls
 {
     internal class EditorSWSH : EditorBase
     {
-        private readonly GameData Data;
-        protected internal EditorSWSH(GameManagerSWSH rom) : base(rom) => Data = rom.Data;
+        private GameData Data => ((GameManagerSWSH)ROM).Data;
+        protected internal EditorSWSH(GameManagerSWSH rom) : base(rom) { }
 
         public void EditCommon()
         {

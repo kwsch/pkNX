@@ -14,13 +14,8 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorPLA : EditorBase
 {
-    private readonly GameData8a Data;
-
-    protected internal EditorPLA(GameManagerPLA rom) : base(rom)
-    {
-        Data = rom.Data;
-        CheckOodleDllPresence();
-    }
+    private GameData8a Data => ((GameManagerPLA)ROM).Data;
+    protected internal EditorPLA(GameManagerPLA rom) : base(rom) => CheckOodleDllPresence();
 
     private static void CheckOodleDllPresence()
     {
