@@ -63,6 +63,8 @@ public partial class AreaEditor8a : Form
     {
         Debug.WriteLine($"Loading Area {AreaIndex}");
         Edit_Encounters.LoadTable(Area.Encounters, Area.Settings.Encounters);
+        Edit_RegularSpawners.LoadTable(Area.Spawners, Area.Settings.Spawners);
+        Edit_WormholeSpawners.LoadTable(Area.Wormholes, Area.Settings.WormholeSpawners);
     }
 
     private void SaveArea()

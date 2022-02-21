@@ -31,14 +31,18 @@
             this.CB_Area = new System.Windows.Forms.ComboBox();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
-            this.Edit_Encounters = new pkNX.WinForms.Controls.EncounterTableEditor8a();
             this.Tab_Regular = new System.Windows.Forms.TabPage();
             this.Tab_Wormhole = new System.Windows.Forms.TabPage();
             this.Tab_Landmarks = new System.Windows.Forms.TabPage();
             this.Tab_Randomize = new System.Windows.Forms.TabPage();
             this.B_Save = new System.Windows.Forms.Button();
+            this.Edit_Encounters = new pkNX.WinForms.Controls.EncounterTableEditor8a();
+            this.Edit_RegularSpawners = new pkNX.WinForms.Controls.PlacementSpawnerEditor8a();
+            this.Edit_WormholeSpawners = new pkNX.WinForms.Controls.PlacementSpawnerEditor8a();
             this.TC_Editor.SuspendLayout();
             this.Tab_Encounters.SuspendLayout();
+            this.Tab_Regular.SuspendLayout();
+            this.Tab_Wormhole.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_Area
@@ -70,25 +74,16 @@
             this.Tab_Encounters.Controls.Add(this.Edit_Encounters);
             this.Tab_Encounters.Location = new System.Drawing.Point(4, 22);
             this.Tab_Encounters.Name = "Tab_Encounters";
-            this.Tab_Encounters.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Encounters.Size = new System.Drawing.Size(677, 455);
             this.Tab_Encounters.TabIndex = 0;
             this.Tab_Encounters.Text = "Encounters";
             this.Tab_Encounters.UseVisualStyleBackColor = true;
             // 
-            // Edit_Encounters
-            // 
-            this.Edit_Encounters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Edit_Encounters.Location = new System.Drawing.Point(3, 3);
-            this.Edit_Encounters.Name = "Edit_Encounters";
-            this.Edit_Encounters.Size = new System.Drawing.Size(671, 449);
-            this.Edit_Encounters.TabIndex = 0;
-            // 
             // Tab_Regular
             // 
+            this.Tab_Regular.Controls.Add(this.Edit_RegularSpawners);
             this.Tab_Regular.Location = new System.Drawing.Point(4, 22);
             this.Tab_Regular.Name = "Tab_Regular";
-            this.Tab_Regular.Padding = new System.Windows.Forms.Padding(3);
             this.Tab_Regular.Size = new System.Drawing.Size(677, 455);
             this.Tab_Regular.TabIndex = 1;
             this.Tab_Regular.Text = "*Regular";
@@ -96,6 +91,7 @@
             // 
             // Tab_Wormhole
             // 
+            this.Tab_Wormhole.Controls.Add(this.Edit_WormholeSpawners);
             this.Tab_Wormhole.Location = new System.Drawing.Point(4, 22);
             this.Tab_Wormhole.Name = "Tab_Wormhole";
             this.Tab_Wormhole.Size = new System.Drawing.Size(677, 455);
@@ -132,6 +128,30 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
+            // Edit_Encounters
+            // 
+            this.Edit_Encounters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Edit_Encounters.Location = new System.Drawing.Point(0, 0);
+            this.Edit_Encounters.Name = "Edit_Encounters";
+            this.Edit_Encounters.Size = new System.Drawing.Size(677, 455);
+            this.Edit_Encounters.TabIndex = 0;
+            // 
+            // Edit_RegularSpawners
+            // 
+            this.Edit_RegularSpawners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Edit_RegularSpawners.Location = new System.Drawing.Point(0, 0);
+            this.Edit_RegularSpawners.Name = "Edit_RegularSpawners";
+            this.Edit_RegularSpawners.Size = new System.Drawing.Size(677, 455);
+            this.Edit_RegularSpawners.TabIndex = 1;
+            // 
+            // Edit_WormholeSpawners
+            // 
+            this.Edit_WormholeSpawners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Edit_WormholeSpawners.Location = new System.Drawing.Point(0, 0);
+            this.Edit_WormholeSpawners.Name = "Edit_WormholeSpawners";
+            this.Edit_WormholeSpawners.Size = new System.Drawing.Size(677, 455);
+            this.Edit_WormholeSpawners.TabIndex = 2;
+            // 
             // AreaEditor8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,6 +165,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AreaEditor8a_FormClosing);
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Encounters.ResumeLayout(false);
+            this.Tab_Regular.ResumeLayout(false);
+            this.Tab_Wormhole.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -159,5 +181,7 @@
         private Controls.EncounterTableEditor8a Edit_Encounters;
         private System.Windows.Forms.TabPage Tab_Randomize;
         private System.Windows.Forms.Button B_Save;
+        private Controls.PlacementSpawnerEditor8a Edit_RegularSpawners;
+        private Controls.PlacementSpawnerEditor8a Edit_WormholeSpawners;
     }
 }

@@ -21,7 +21,7 @@ public partial class EncounterTableEditor8a : UserControl
         }
 
         Visible = true;
-        L_EncTableName.Text = path;
+        L_ConfigName.Text = path;
 
         var items = table.Select(z => new ComboItem(z.TableName.Replace("\"", ""), z)).ToArray();
         CB_Encounters.DisplayMember = nameof(ComboItem.Text);
