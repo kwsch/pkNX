@@ -110,6 +110,10 @@ public partial class AreaEditor8a : Form
                 if (enc.ShinyLock is not ShinyType8a.Random)
                     continue;
 
+                // to progress the story in Cobalt Coastlands, you are required to show Iscan a Dusclops; ensure one can be captured
+                if (enc.Species is (int)Dusclops && table.TableID is 7663383561364099763)
+                    continue;
+
                 var spec = rand.GetRandomSpecies(enc.Species);
                 enc.Species = spec;
                 enc.Form = GetRandomForm(spec);
