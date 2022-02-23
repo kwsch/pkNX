@@ -94,6 +94,7 @@ public partial class AreaEditor8a : Form
             }
         }
 
+        settings.Legends = false; // Legendary encounter slot conditions require you to not have captured the Legendary in order to encounter them; ban altogether.
         rand.Initialize(settings, banned.ToArray());
 
         var formRand = pt.Table
