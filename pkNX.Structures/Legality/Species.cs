@@ -122,6 +122,8 @@ namespace pkNX.Structures
             #endregion
         }).ToArray();
 
+        public static readonly int[] Legendary_8a = Legendary_8.Concat(new[] { 905 }).ToArray();
+
         public static readonly int[] Mythical_1 = { 151 }; // Mew
 
         public static readonly int[] Mythical_6 = Mythical_1.Concat(new[]

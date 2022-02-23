@@ -165,9 +165,12 @@ internal class EditorPLA : EditorBase
                     continue;
                 foreach (var t in x)
                 {
-                    bool isBoss = t.Species is (int)Kleavor or (int)Lilligant or (int)Arcanine or (int)Electrode or (int)Avalugg or (int)Dialga or (int)Palkia or (int)Arceus;
-                    if (isBoss) // Keep boss battles same
+                    bool isBoss = t.Species is (int)Kleavor or (int)Lilligant or (int)Arcanine or (int)Electrode or (int)Avalugg or (int)Arceus;
+                    if (isBoss) // don't randomize boss battles
                         continue;
+                    if (Legal.Legendary_8a.Contains(t.Species)) // don't randomize legendaries
+                        continue;
+
                     t.Species = rand.GetRandomSpecies(t.Species);
                     t.Form = (byte)GetRandomForm(t.Species);
                     t.Nature = (int)Nature.Random;
@@ -197,12 +200,12 @@ internal class EditorPLA : EditorBase
         void Randomize(IEnumerable<PokeAdd8a> arr)
         {
             var spec = EditUtil.Settings.Species;
-            var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+            var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
             spec.Legends = false;
-            srand.Initialize(spec, GetSpeciesBanlist());
+            rand.Initialize(spec, GetSpeciesBanlist());
             foreach (var t in arr)
             {
-                t.Species = srand.GetRandomSpecies(t.Species);
+                t.Species = rand.GetRandomSpecies(t.Species);
                 t.Form = (byte)GetRandomForm(t.Species);
                 t.Nature = NatureType8a.Random;
                 t.Gender = (int)FixedGender.Random;
