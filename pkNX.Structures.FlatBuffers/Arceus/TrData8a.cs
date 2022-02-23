@@ -54,18 +54,18 @@ public class TrPoke8a
     [FlatBufferItem(06)] public int Level { get; set; }
     [FlatBufferItem(07)] public NatureType8a Nature { get; set; }
     [FlatBufferItem(08)] public int Gender { get; set; }
-    [FlatBufferItem(09)] public int GV_09 { get; set; }
-    [FlatBufferItem(10)] public int GV_10 { get; set; }
-    [FlatBufferItem(11)] public int GV_11 { get; set; }
-    [FlatBufferItem(12)] public int GV_12 { get; set; }
-    [FlatBufferItem(13)] public int GV_13 { get; set; }
-    [FlatBufferItem(14)] public int GV_14 { get; set; }
+    [FlatBufferItem(09)] public int GV_HP { get; set; }
+    [FlatBufferItem(10)] public int GV_ATK { get; set; }
+    [FlatBufferItem(11)] public int GV_DEF { get; set; }
+    [FlatBufferItem(12)] public int GV_SPE { get; set; }
+    [FlatBufferItem(13)] public int GV_SPA { get; set; }
+    [FlatBufferItem(14)] public int GV_SPD { get; set; }
     [FlatBufferItem(15)] public bool Shiny { get; set; }
     [FlatBufferItem(16)] public bool IsOybn { get; set; }
 
     public override string ToString()
     {
-        return $"{((Species)Species) + (Form == 0 ? "" : $"-{Form}"),-15}|({Move_01,4},{Move_02,4},{Move_03,4},{Move_04,4})|{Level,2}|{Nature,8}|{Gender}|({GV_09}/{GV_10}/{GV_11}/{GV_12}/{GV_13}/{GV_14})";
+        return $"{((Species)Species) + (Form == 0 ? "" : $"-{Form}"),-15}|({Move_01,4},{Move_02,4},{Move_03,4},{Move_04,4})|{Level,2}|{Nature,8}|{Gender}|({GV_HP}/{GV_ATK}/{GV_DEF}/{GV_SPA}/{GV_SPD}/{GV_SPE})";
     }
 }
 
