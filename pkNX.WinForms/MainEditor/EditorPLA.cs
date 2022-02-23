@@ -9,6 +9,7 @@ using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.WinForms.Subforms;
+using static pkNX.Structures.Species;
 
 namespace pkNX.WinForms.Controls;
 
@@ -149,36 +150,35 @@ internal class EditorPLA : EditorBase
             if (z.Table is not { Length: not 0 } x)
                 return "No Entries";
             var s = x[0];
-            return $"{names[s.Species]}{(s.Form == 0 ? "" : $"-{s.Form}")} @ lv {s.Level}";
+            return $"{names[s.Species]}{(s.Form == 0 ? "" : $"-{s.Form}")} @ Lv. {s.Level}";
         }
 
         void Randomize(IEnumerable<EventEncount8a> arr)
         {
-            var pt = Data.PersonalData;
-            int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
-                .Where(z => !z.Present).Select(z => z.Species).ToArray();
-
             var spec = EditUtil.Settings.Species;
-            var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
-            var frand = new FormRandomizer(Data.PersonalData);
-            srand.Initialize(spec, ban);
+            var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+            spec.Legends = false;
+            rand.Initialize(spec, GetSpeciesBanlist());
             foreach (var entry in arr)
             {
                 if (entry.Table is not { Length: > 0 } x)
                     continue;
-                var t = x[0];
-                if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
-                    continue;
-                t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
-                t.Nature = (int)Nature.Serious;
-                t.Gender = (int)FixedGender.Random;
-                t.ShinyLock = ShinyType8a.Random;
-                t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
-                t.Mastered1 = t.Mastered2 = t.Mastered3 = t.Mastered4 = true;
-                t.IV_HP = t.IV_ATK = t.IV_DEF = t.IV_SPA = t.IV_SPD = t.IV_SPE = 31;
-                t.GV_HP = t.GV_ATK = t.GV_DEF = t.GV_SPA = t.GV_SPD = t.GV_SPE = 31;
+                foreach (var t in x)
+                {
+                    bool isBoss = t.Species is (int)Kleavor or (int)Lilligant or (int)Arcanine or (int)Electrode or (int)Avalugg or (int)Dialga or (int)Palkia or (int)Arceus;
+                    if (isBoss) // Keep boss battles same
+                        continue;
+                    t.Species = rand.GetRandomSpecies(t.Species);
+                    t.Form = (byte)GetRandomForm(t.Species);
+                    t.Nature = (int)Nature.Random;
+                    t.Gender = (int)FixedGender.Random;
+                    t.ShinyLock = ShinyType8a.Random;
+                    t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
+                    t.Mastered1 = t.Mastered2 = t.Mastered3 = t.Mastered4 = true;
+                    t.IV_HP = t.IV_ATK = t.IV_DEF = t.IV_SPA = t.IV_SPD = t.IV_SPE = 31;
+                    t.GV_HP = t.GV_ATK = t.GV_DEF = t.GV_SPA = t.GV_SPD = t.GV_SPE = 10;
+                    t.Height = t.Weight = -1;
+                }
             }
         }
     }
@@ -190,33 +190,70 @@ internal class EditorPLA : EditorBase
         var data = obj[0];
         var root = FlatBufferConverter.DeserializeFrom<PokeAdd8aArchive>(data);
         var entries = root.Table;
-        var result = PopFlat(entries, "Gift Encounter Editor", z => $"{names[z.Species]} @ lv {z.Level}", () => Randomize(entries));
+        var result = PopFlat(entries, "Gift Encounter Editor", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", () => Randomize(entries));
         if (result)
             obj[0] = FlatBufferConverter.SerializeFrom(root);
 
         void Randomize(IEnumerable<PokeAdd8a> arr)
         {
-            var pt = Data.PersonalData;
-            int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                .Select((z, i) => new { Species = i, Present = ((PersonalInfoLA)z).IsPresentInGame })
-                .Where(z => !z.Present).Select(z => z.Species).ToArray();
-
             var spec = EditUtil.Settings.Species;
             var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
-            var frand = new FormRandomizer(Data.PersonalData);
-            srand.Initialize(spec, ban);
+            spec.Legends = false;
+            srand.Initialize(spec, GetSpeciesBanlist());
             foreach (var t in arr)
             {
-                if (t.Form != 0 || t.Species is (int)Species.Arceus) // Keep boss battles same?
-                    continue;
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
+                t.Form = (byte)GetRandomForm(t.Species);
                 t.Nature = NatureType8a.Random;
                 t.Gender = (int)FixedGender.Random;
                 t.ShinyLock = ShinyType8a.Random;
+                t.Ball = Randomization.Util.Random.Next(27, 37); // [Strange, Origin]
                 t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
+                t.Height = t.Weight = -1;
             }
         }
+    }
+
+    public int[] GetSpeciesBanlist()
+    {
+        var pt = Data.PersonalData;
+        var hasForm = new HashSet<int>();
+        var banned = new HashSet<int>();
+        foreach (var pi in pt.Table.Cast<PersonalInfoLA>())
+        {
+            if (pi.IsPresentInGame)
+            {
+                banned.Remove(pi.Species);
+                hasForm.Add(pi.Species);
+            }
+            else if (!hasForm.Contains(pi.Species))
+            {
+                banned.Add(pi.Species);
+            }
+        }
+        return banned.ToArray();
+    }
+
+    public int GetRandomForm(int spec)
+    {
+        var pt = Data.PersonalData;
+        var formRand = pt.Table
+            .Cast<PersonalInfoLA>()
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.Species) || Legal.BattleFusions.Contains(z.Species)))
+            .GroupBy(z => z.Species)
+            .ToDictionary(z => z.Key, z => z.ToList());
+
+        if (!formRand.TryGetValue(spec, out var entries))
+            return 0;
+        var count = entries.Count;
+
+        return (Species)spec switch
+        {
+            Growlithe or Arcanine or Voltorb or Electrode or Typhlosion or Qwilfish or Samurott or Lilligant or Zorua or Zoroark or Braviary or Sliggoo or Goodra or Avalugg or Decidueye => 1,
+            Basculin => 2,
+            Kleavor => 0,
+            _ => Randomization.Util.Random.Next(0, count),
+        };
     }
 
     public void EditPersonal_Raw()

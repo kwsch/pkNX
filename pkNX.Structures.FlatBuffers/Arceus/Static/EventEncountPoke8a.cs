@@ -29,7 +29,7 @@ public class EventEncountPoke8a
     [FlatBufferItem(13)] public string Field_13 { get; set; } = string.Empty;
     [FlatBufferItem(14)] public string Field_14 { get; set; } = string.Empty;
     [FlatBufferItem(15)] public string Field_15 { get; set; } = string.Empty;
-    [FlatBufferItem(16)] public int Field_16 { get; set; }
+    [FlatBufferItem(16)] public int ExperiencePoints { get; set; }
     [FlatBufferItem(17)] public bool IsOybn { get; set; }
     [FlatBufferItem(18)] public int Move1 { get; set; }
     [FlatBufferItem(19)] public bool Mastered1 { get; set; }
