@@ -324,7 +324,7 @@ internal class EditorPLA : EditorBase
     public void EditSymbolBehave()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor",             z => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}", canSave: false);
+        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor", z => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
     public void EditMasterDump()
