@@ -58,12 +58,35 @@ internal class EditorPLA : EditorBase
             Write = FlatBufferConverter.SerializeFrom,
         };
         var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).ToArray();
-        using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", canSave: true);
+        using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", Randomize, canSave: true);
         form.ShowDialog();
-        if (!form.Modified)
-            return;
 
-        cache.Save();
+        void Randomize()
+        {
+            var settings = EditUtil.Settings.Species;
+            var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
+            rand.Initialize(settings, GetSpeciesBanlist());
+
+            for (int i = 0; i < cache.Length; i++)
+            {
+                foreach (var t in cache[i].Team)
+                {
+                    t.Species = rand.GetRandomSpecies(t.Species);
+                    t.Form = GetRandomForm(t.Species);
+                    t.Gender = (int)FixedGender.Random;
+                    t.Nature = NatureType8a.Random;
+                    t.Move_01.Move = t.Move_02.Move = t.Move_03.Move = t.Move_04.Move = 0;
+                    t.Move_01.Mastered = t.Move_02.Mastered = t.Move_03.Mastered = t.Move_04.Mastered = true;
+                    t.Shiny = Randomization.Util.Random.Next(0, 100 + 1) < 3;
+                    t.IsOybn = Randomization.Util.Random.Next(0, 100 + 1) < 3;
+                }
+            }
+        }
+
+        if (!form.Modified)
+            cache.CancelEdits();
+        else
+            cache.Save();
     }
 
     public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
@@ -155,10 +178,10 @@ internal class EditorPLA : EditorBase
 
         void Randomize(IEnumerable<EventEncount8a> arr)
         {
-            var spec = EditUtil.Settings.Species;
+            var settings = EditUtil.Settings.Species;
             var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
-            spec.Legends = false;
-            rand.Initialize(spec, GetSpeciesBanlist());
+            settings.Legends = false;
+            rand.Initialize(settings, GetSpeciesBanlist());
             foreach (var entry in arr)
             {
                 if (entry.Table is not { Length: > 0 } x)
@@ -199,10 +222,10 @@ internal class EditorPLA : EditorBase
 
         void Randomize(IEnumerable<PokeAdd8a> arr)
         {
-            var spec = EditUtil.Settings.Species;
+            var settings = EditUtil.Settings.Species;
             var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
-            spec.Legends = false;
-            rand.Initialize(spec, GetSpeciesBanlist());
+            settings.Legends = false;
+            rand.Initialize(settings, GetSpeciesBanlist());
             foreach (var t in arr)
             {
                 t.Species = rand.GetRandomSpecies(t.Species);

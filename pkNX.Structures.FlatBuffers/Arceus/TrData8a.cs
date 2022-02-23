@@ -60,6 +60,8 @@ public class TrPoke8a
     [FlatBufferItem(12)] public int GV_12 { get; set; }
     [FlatBufferItem(13)] public int GV_13 { get; set; }
     [FlatBufferItem(14)] public int GV_14 { get; set; }
+    [FlatBufferItem(15)] public bool Shiny { get; set; }
+    [FlatBufferItem(16)] public bool IsOybn { get; set; }
 
     public override string ToString()
     {
