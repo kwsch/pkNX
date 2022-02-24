@@ -89,6 +89,17 @@ internal class EditorPLA : EditorBase
             cache.Save();
     }
 
+    public void EditMoveShop()
+    {
+        var names = ROM.GetStrings(TextName.MoveNames);
+        var data = ROM.GetFile(GameFile.MoveShop);
+        var obj = FlatBufferConverter.DeserializeFrom<MoveShopTable8a>(data[0]);
+        var result = PopFlat(obj.Table, "Move Shop Editor", z => names[z.Move]);
+        if (!result)
+            return;
+        data[0] = FlatBufferConverter.SerializeFrom(obj);
+    }
+
     public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
     {
         var obj = ROM.GetFile(file);
@@ -137,8 +148,24 @@ internal class EditorPLA : EditorBase
 
     public void EditHa_Shop_Data()
     {
-        var itemNames = ROM.GetStrings(TextName.ItemNames);
-        PopFlat<HaShopTable8a, HaShopItem8a>(GameFile.HaShop, "ha_shop_data Editor", z => itemNames[z.ItemID]);
+        var names = ROM.GetStrings(TextName.ItemNames);
+        var data = ROM.GetFile(GameFile.HaShop);
+        var obj = FlatBufferConverter.DeserializeFrom<HaShopTable8a>(data[0]);
+        var result = PopFlat(obj.Table, "ha_shop_data Editor", z => names[z.ItemID], Randomize);
+        if (!result)
+            return;
+
+        void Randomize()
+        {
+            foreach (var t in obj.Table)
+            {
+                if (Legal.Pouch_Recipe_LA.Contains((ushort)t.ItemID)) // preserve recipes
+                    continue;
+                t.ItemID = Legal.Pouch_Items_LA[Randomization.Util.Random.Next(Legal.Pouch_Items_LA.Length)];
+            }
+        }
+
+        data[0] = FlatBufferConverter.SerializeFrom(obj);
     }
 
     public void EditApp_Config_List()
