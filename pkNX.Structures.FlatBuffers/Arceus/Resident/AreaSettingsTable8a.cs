@@ -58,7 +58,7 @@ public class AreaSettings8a
     [FlatBufferItem(30)] public string AreaCamera { get; set; } = string.Empty;
     [FlatBufferItem(31)] public string TargetAI { get; set; } = string.Empty;
     [FlatBufferItem(32)] public string Slot0 { get; set; } = string.Empty;
-    [FlatBufferItem(33)] public AreaSettings8a_F50 Field_33 { get; set; } = new(); // not right?
+    [FlatBufferItem(33)] public AreaBGMTable8a BGM { get; set; } = new();
     [FlatBufferItem(34)] public string Wormholes { get; set; } = string.Empty;
     [FlatBufferItem(35)] public string WormholeSpawners { get; set; } = string.Empty;
     [FlatBufferItem(36)] public string WormholeItems { get; set; } = string.Empty;
@@ -77,36 +77,17 @@ public class AreaSettings8a
     [FlatBufferItem(49)] public string SoundBank { get; set; } = string.Empty;
     [FlatBufferItem(50)] public AreaSettings8a_F50 Field_50 { get; set; } = new();
     [FlatBufferItem(51)] public string Archive { get; set; } = string.Empty;
-    [FlatBufferItem(52)] public AreaSettings8a_F52 Field_52 { get; set; } = new();
+    [FlatBufferItem(52)] public PlacementV3f8a Field_52 { get; set; } = new();
     [FlatBufferItem(53)] public PlacementV3f8a Field_53 { get; set; } = new();
-    [FlatBufferItem(54)] public ulong Hash { get; set; }
+    [FlatBufferItem(54)] public ulong VisibleFlagHash { get; set; } //A flag from system_works
     [FlatBufferItem(55)] public bool Field_55 { get; set; }
-}
-
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class AreaSettings8a_F52
-{
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class AreaSettings8a_F50
 {
-}
-
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class AreaSettings8a_F33
-{
-    [FlatBufferItem(00)] public ulong Field_00 { get; set; }
-    [FlatBufferItem(01)] public int[] Field_01 { get; set; } = Array.Empty<int>(); // unknown
-    [FlatBufferItem(02)] public AreaSettings8a_F33a Field_02 { get; set; } = new();
-}
-
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class AreaSettings8a_F33a
-{
-    [FlatBufferItem(00)] public byte Field_00 { get; set; } // unknown
-    [FlatBufferItem(01)] public byte Field_01 { get; set; } // unknown
-    [FlatBufferItem(02)] public int[] Field_02 { get; set; } = Array.Empty<int>(); // unknown
-    [FlatBufferItem(03)] public int[] Field_03 { get; set; } = Array.Empty<int>(); // unknown
-    [FlatBufferItem(04)] public ulong Field_04 { get; set; }
+    [FlatBufferItem(0)] public int Field_00 { get; set; }
+    [FlatBufferItem(1)] public int Field_01 { get; set; }
+    [FlatBufferItem(2)] public int Field_02 { get; set; }
+    [FlatBufferItem(3)] public int Field_03 { get; set; }
 }
