@@ -56,7 +56,7 @@ namespace pkNX.Structures.FlatBuffers
                 var s = area.Spawners;
                 var spawners = s.Where(z => nhoLottery.IsAreaGroup(z, nhoGroup, table.TableID));
                 var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
-                foreach (var a in GetAll(sl, SpawnerType.Spawner))
+                foreach (var a in GetAll(sl, SpawnerType.SpawnerNHO))
                     yield return a;
             }
 
@@ -97,14 +97,11 @@ namespace pkNX.Structures.FlatBuffers
                     yield break;
                 if (areas.Remove(baseArea) && areas.Count == 0)
                     areas.Add(baseArea);
+                else if (!areas.All(IsDungeonZone) && !areas.Contains(baseArea))
+                    areas.Add(baseArea);
 
-                foreach (var a in areas)
-                {
-                    var parent = baseArea;
-                    if (IsDungeonZone(a))
-                        parent = a; // disallow crossover-out for dungeons
-                    yield return GetArea(a, parent, slots, table.MinLevel, table.MaxLevel, type, misc, bmin, bmax);
-                }
+                areas.Sort();
+                yield return GetArea(areas, slots, table.MinLevel, table.MaxLevel, type, misc, bmin, bmax);
             }
         }
 
@@ -115,7 +112,7 @@ namespace pkNX.Structures.FlatBuffers
 
         private static readonly int[] OybnSettings = { 15, 15, 15, 20, 20 };
 
-        private static byte[] GetArea(int location, int parentArea, IReadOnlyCollection<EncounterSlot8a> slots,
+        private static byte[] GetArea(IReadOnlyList<int> locations, IReadOnlyCollection<EncounterSlot8a> slots,
             int tableMinLevel, int tableMaxLevel, SpawnerType type,
             PokeMiscTable8a misc,
             int bonusMin = 0,
@@ -123,8 +120,12 @@ namespace pkNX.Structures.FlatBuffers
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
-            bw.Write((byte)location);
-            bw.Write((byte)parentArea);
+            bw.Write((byte)locations.Count);
+            foreach (var loc in locations)
+                bw.Write((byte)loc);
+            if (bw.BaseStream.Position % 2 != 0)
+                bw.Write((byte)0);
+
             bw.Write((byte)type);
             bw.Write((byte)slots.Count);
             foreach (var s in slots)
