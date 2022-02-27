@@ -22,16 +22,15 @@ public class NewHugeOutbreakGroupLotteryArchive8a : IFlatBufferArchive<NewHugeOu
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NewHugeOutbreakGroupLottery8a
 {
-    [FlatBufferItem(00)] public ulong Field_00 { get; set; }
+    [FlatBufferItem(00)] public ulong EncounterTable { get; set; }
     [FlatBufferItem(01)] public NewHugeOutbreakGroupLotteryDetail8a[] Table1 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
     [FlatBufferItem(02)] public NewHugeOutbreakGroupLotteryDetail8a[] Table2 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
     [FlatBufferItem(03)] public NewHugeOutbreakGroupLotteryDetail8a[] Table3 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
-    [FlatBufferItem(04)] public ulong Field_02 { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NewHugeOutbreakGroupLotteryDetail8a
 {
-    [FlatBufferItem(00)] public ulong Field_00 { get; set; }
-    [FlatBufferItem(01)] public int Field_01 { get; set; }
+    [FlatBufferItem(00)] public ulong Group { get; set; }
+    [FlatBufferItem(01)] public int Rate { get; set; }
 }
