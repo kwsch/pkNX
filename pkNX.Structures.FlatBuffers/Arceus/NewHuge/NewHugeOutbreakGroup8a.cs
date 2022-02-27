@@ -21,46 +21,11 @@ public class NewHugeOutbreakGroupLotteryArchive8a : IFlatBufferArchive<NewHugeOu
     public bool IsAreaGroup(PlacementSpawner8a spawner, NewHugeOutbreakGroupArchive8a groups, ulong tableID)
     {
         var hash = spawner.Field_20_Value.EncounterTableID;
-        foreach (var t in Table)
-        {
-            if (t.LotteryGroup != hash)
-                continue;
+        var group = Array.Find(Table, z => z.LotteryGroup == hash);
+        if (group == null)
+            return false;
 
-            foreach (var lotteryChoice in t.Table1)
-            {
-                var group = lotteryChoice.Group;
-                var lottery = Array.Find(groups.Table, z => z.Group == group);
-                if (lottery is null)
-                    continue;
-                var tables = lottery.Table;
-                var matches = Array.Find(tables, z => z.EncounterTableID == tableID);
-                if (matches is not null)
-                    return true;
-            }
-            foreach (var lotteryChoice in t.Table2)
-            {
-                var group = lotteryChoice.Group;
-                var lottery = Array.Find(groups.Table, z => z.Group == group);
-                if (lottery is null)
-                    continue;
-                var tables = lottery.Table;
-                var matches = Array.Find(tables, z => z.EncounterTableID == tableID);
-                if (matches is not null)
-                    return true;
-            }
-            foreach (var lotteryChoice in t.Table3)
-            {
-                var group = lotteryChoice.Group;
-                var lottery = Array.Find(groups.Table, z => z.Group == group);
-                if (lottery is null)
-                    continue;
-                var tables = lottery.Table;
-                var matches = Array.Find(tables, z => z.EncounterTableID == tableID);
-                if (matches is not null)
-                    return true;
-            }
-        }
-        return false;
+        return group.IsUseTable(groups, tableID);
     }
 }
 
@@ -71,6 +36,26 @@ public class NewHugeOutbreakGroupLottery8a
     [FlatBufferItem(01)] public NewHugeOutbreakGroupLotteryDetail8a[] Table1 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
     [FlatBufferItem(02)] public NewHugeOutbreakGroupLotteryDetail8a[] Table2 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
     [FlatBufferItem(03)] public NewHugeOutbreakGroupLotteryDetail8a[] Table3 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+
+    public bool IsUseTable(NewHugeOutbreakGroupArchive8a groups, ulong tableID)
+    {
+        foreach (var lotteryChoice in Table1)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        foreach (var lotteryChoice in Table2)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        foreach (var lotteryChoice in Table3)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        return false;
+    }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -78,4 +63,14 @@ public class NewHugeOutbreakGroupLotteryDetail8a
 {
     [FlatBufferItem(00)] public ulong Group { get; set; }
     [FlatBufferItem(01)] public int Rate { get; set; }
+
+    public override string ToString() => $"{Group:X16}|{Rate}";
+
+    public bool UsesTable(NewHugeOutbreakGroupArchive8a groups, ulong tableID)
+    {
+        var lottery = Array.Find(groups.Table, z => z.Group == Group);
+        if (lottery is null)
+            return false;
+        return lottery.UsesTable(tableID);
+    }
 }

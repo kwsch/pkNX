@@ -12,7 +12,9 @@ namespace pkNX.Structures.FlatBuffers
         private const float LandmarkBias = 15;
 
         public static IEnumerable<byte[]> GetEncounterDump(AreaInstance8a area,
-            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc)
+            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             if (area.Locations.Length == 0)
                 yield break;
@@ -23,17 +25,20 @@ namespace pkNX.Structures.FlatBuffers
                 if (slots.Count == 0)
                     continue;
 
-                foreach (var p in GetAreas(area, slots, table, map, misc))
+                foreach (var p in GetAreas(area, slots, table, map, misc, nhoGroup, nhoLottery))
                     yield return p;
                 foreach (var x in area.SubAreas)
                 {
-                    foreach (var p in GetAreas(x, slots, table, map, misc))
+                    foreach (var p in GetAreas(x, slots, table, map, misc, nhoGroup, nhoLottery))
                         yield return p;
                 }
             }
         }
 
-        private static IEnumerable<byte[]> GetAreas(AreaInstance8a area, IReadOnlyCollection<EncounterSlot8a> slots, EncounterTable8a table, IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc)
+        private static IEnumerable<byte[]> GetAreas(AreaInstance8a area, IReadOnlyCollection<EncounterSlot8a> slots, EncounterTable8a table,
+            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             if (area.Locations.Length == 0)
                 yield break;
@@ -43,6 +48,13 @@ namespace pkNX.Structures.FlatBuffers
             {
                 var s = area.Spawners;
                 var spawners = s.Where(z => z.UsesTable(table.TableID));
+                var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
+                foreach (var a in GetAll(sl, SpawnerType.Spawner))
+                    yield return a;
+            }
+            {
+                var s = area.Spawners;
+                var spawners = s.Where(z => nhoLottery.IsAreaGroup(z, nhoGroup, table.TableID));
                 var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
                 foreach (var a in GetAll(sl, SpawnerType.Spawner))
                     yield return a;

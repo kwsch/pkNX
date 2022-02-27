@@ -413,7 +413,7 @@ namespace pkNX.WinForms
                 allUnownLines.AddRange(unown);
                 allUnownLinesBias.AddRange(unownBias);
 
-                var slices = EncounterTable8aUtil.GetEncounterDump(instance, map, misc);
+                var slices = EncounterTable8aUtil.GetEncounterDump(instance, map, misc, nhoGroup, nhoGroupL);
                 foreach (var s in slices)
                 {
                     if (!hexBin.Any(z => z.SequenceEqual(s)))

@@ -24,7 +24,15 @@ public class NewHugeOutbreakGroup8a : IFlatBufferArchive<NewHugeOutbreakDetail8a
 {
     [FlatBufferItem(00)] public ulong Group { get; set; }
     [FlatBufferItem(01)] public NewHugeOutbreakDetail8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakDetail8a>();
-    [FlatBufferItem(02)] public ulong Field_02 { get; set; }
+    [FlatBufferItem(02)] public ulong EncounterTableID { get; set; }
+
+    public bool UsesTable(ulong tableID)
+    {
+        if (EncounterTableID == tableID)
+            return true;
+        var matches = Array.Find(Table, z => z.EncounterTableID == tableID);
+        return matches is not null;
+    }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -39,4 +47,5 @@ public class NewHugeOutbreakDetail8a : IHasCondition8a
     [FlatBufferItem(6)] public string ConditionArg5 { get; set; } = string.Empty;
     [FlatBufferItem(7)] public ulong EncounterTableID { get; set; }
     [FlatBufferItem(8)] public int Rate { get; set; }
+    public override string ToString() => $"PlacementParameters(/* ConditionTypeID = */ {this.GetConditionTypeSummary()}, /* Condition = */ {this.GetConditionSummary()}, {EncounterTableID:X16}, {Rate})";
 }
