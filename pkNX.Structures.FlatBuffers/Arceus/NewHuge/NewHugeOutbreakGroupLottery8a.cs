@@ -22,7 +22,7 @@ public class NewHugeOutbreakGroupArchive8a : IFlatBufferArchive<NewHugeOutbreakG
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NewHugeOutbreakGroup8a : IFlatBufferArchive<NewHugeOutbreakDetail8a>
 {
-    [FlatBufferItem(00)] public ulong Field_00 { get; set; }
+    [FlatBufferItem(00)] public ulong Group { get; set; }
     [FlatBufferItem(01)] public NewHugeOutbreakDetail8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakDetail8a>();
     [FlatBufferItem(02)] public ulong Field_02 { get; set; }
 }
@@ -37,6 +37,6 @@ public class NewHugeOutbreakDetail8a : IHasCondition8a
     [FlatBufferItem(4)] public string ConditionArg3 { get; set; } = string.Empty;
     [FlatBufferItem(5)] public string ConditionArg4 { get; set; } = string.Empty;
     [FlatBufferItem(6)] public string ConditionArg5 { get; set; } = string.Empty;
-    [FlatBufferItem(7)] public ulong Field_07 { get; set; }
+    [FlatBufferItem(7)] public ulong EncounterTableID { get; set; }
     [FlatBufferItem(8)] public int Rate { get; set; }
 }

@@ -176,24 +176,31 @@ namespace pkNX.Structures.FlatBuffers
 
         public static IEnumerable<string> GetLines(EncounterMultiplerArchive8a multiplier_archive,
             PokeMiscTable8a misc, string[] speciesNames,
-            AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> map)
+            AreaInstance8a area,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery,
+            IReadOnlyDictionary<string, (string Name, int Index)> map)
         {
             yield return $"Area: {area.AreaName}";
 
             foreach (var enctable in area.Encounters) {
-                foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, map))
+                foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, nhoGroup, nhoLottery, map))
                     yield return $"\t{line}";
 
                 yield return string.Empty;
             }
         }
 
-        private static IEnumerable<string> GetUsedSpawnerSummary(EncounterTable8a t, AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
+        private static IEnumerable<string> GetUsedSpawnerSummary(EncounterTable8a t, AreaInstance8a area,
+            IReadOnlyDictionary<string, (string Name, int Index)> valueTuples,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             var usedBySpawners = Array.FindAll(area.Spawners, z => z.UsesTable(t.TableID));
             var usedByWormholes = Array.FindAll(area.Wormholes, z => z.UsesTable(t.TableID));
             var usedByLandmarkSpawns = Array.FindAll(area.LandItems, z => z.UsesTable(t.TableID));
             var usedByLandmarks = Array.FindAll(area.LandMarks, z => usedByLandmarkSpawns.Any(sz => z.UsesTable(sz.LandmarkItemSpawnTableID)));
+            var usedByNHO = Array.FindAll(area.Spawners, z => nhoLottery.IsAreaGroup(z, nhoGroup, t.TableID));
 
             foreach (var s in usedBySpawners)
             {
@@ -201,6 +208,13 @@ namespace pkNX.Structures.FlatBuffers
                 var name = valueTuples[contained].Name;
                 var p = s.Parameters;
                 yield return $"Spawner @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+            }
+            foreach (var s in usedByNHO)
+            {
+                var contained = s.GetContainingLocations(area.Locations).First().PlaceName;
+                var name = valueTuples[contained].Name;
+                var p = s.Parameters;
+                yield return $"SpawnerNHO @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
             }
             foreach (var s in usedByWormholes)
             {
@@ -223,12 +237,15 @@ namespace pkNX.Structures.FlatBuffers
         private static IEnumerable<string> GetTableSummary(EncounterTable8a t,
             EncounterMultiplerArchive8a multiplier_archive, string[] speciesNames,
             PokeMiscTable8a misc,
-            AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
+            AreaInstance8a area,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery,
+            IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
         {
             yield return $"{t}:";
 
             var totalUses = 0;
-            foreach (var line in GetUsedSpawnerSummary(t, area, valueTuples))
+            foreach (var line in GetUsedSpawnerSummary(t, area, valueTuples, nhoGroup, nhoLottery))
             {
                 totalUses++;
                 yield return $"\t{line}";
@@ -236,7 +253,7 @@ namespace pkNX.Structures.FlatBuffers
 
             foreach (var subArea in area.SubAreas)
             {
-                foreach (var line in GetUsedSpawnerSummary(t, subArea, valueTuples))
+                foreach (var line in GetUsedSpawnerSummary(t, subArea, valueTuples, nhoGroup, nhoLottery))
                 {
                     totalUses++;
                     yield return $"\t{line}";

@@ -112,9 +112,7 @@ namespace pkNX.WinForms
                 else
                     OpenFile(path);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error($"Failed to open -- {path}", ex.Message);
             }

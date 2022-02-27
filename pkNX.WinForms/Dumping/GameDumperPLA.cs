@@ -373,6 +373,11 @@ namespace pkNX.WinForms
             var miscdata = ROM.GetFile(GameFile.PokeMisc)[0];
             var misc = FlatBufferConverter.DeserializeFrom<PokeMiscTable8a>(miscdata);
 
+            var nhoGroup_b = ROM.GetFile(GameFile.NewHugeGroup)[0];
+            var nhoGroup = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupArchive8a>(nhoGroup_b);
+            var nhoGroupL_b = ROM.GetFile(GameFile.NewHugeGroupLottery)[0];
+            var nhoGroupL = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupLotteryArchive8a>(nhoGroupL_b);
+
             var resident = (GFPack)ROM.GetFile(GameFile.Resident);
             var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
             var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
@@ -398,7 +403,7 @@ namespace pkNX.WinForms
             foreach (var areaNameList in ResidentAreaSet.AreaNames)
             {
                 var instance = AreaInstance8a.Create(resident, areaNameList, settings);
-                var lines = EncounterTable8aUtil.GetLines(multipliers, misc, speciesName, instance, map).ToList();
+                var lines = EncounterTable8aUtil.GetLines(multipliers, misc, speciesName, instance, nhoGroup, nhoGroupL, map).ToList();
                 File.WriteAllLines(GetPath(wild, $"Encounters_{instance.AreaName}.txt"), lines);
 
                 var unown = EncounterTable8aUtil.GetUnownLines(instance, map).Distinct().ToList();

@@ -24,15 +24,15 @@ public class NewHugeOutbreakLottery8a
 {
     [FlatBufferItem(00)] public ulong Hash { get; set; }
     [FlatBufferItem(01)] public string Field_01 { get; set; } = string.Empty;
-    [FlatBufferItem(02)] public int Field_02 { get; set; }
+    [FlatBufferItem(02)] public int OutbreakChance { get; set; }
     [FlatBufferItem(03)] public int Field_03 { get; set; }
     [FlatBufferItem(04)] public int Field_04 { get; set; }
     [FlatBufferItem(05)] public int Field_05 { get; set; }
     [FlatBufferItem(06)] public int Field_06 { get; set; }
-    [FlatBufferItem(07)] public int Field_07 { get; set; }
-    [FlatBufferItem(08)] public int Field_08 { get; set; }
-    [FlatBufferItem(09)] public int Field_09 { get; set; }
-    [FlatBufferItem(10)] public int Field_10 { get; set; }
+    [FlatBufferItem(07)] public int MinCountFirst { get; set; }
+    [FlatBufferItem(08)] public int MaxCountFirst { get; set; }
+    [FlatBufferItem(09)] public int MinCountSecond { get; set; }
+    [FlatBufferItem(10)] public int MaxCountSecond { get; set; }
     [FlatBufferItem(11)] public int Field_11 { get; set; }
     [FlatBufferItem(12)] public int Field_12 { get; set; }
     [FlatBufferItem(13)] public int Field_13 { get; set; }
