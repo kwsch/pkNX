@@ -407,9 +407,19 @@ internal class EditorPLA : EditorBase
     public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
     public void EditOutbreakDetail()
-    {
-        PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
-    }
+        => PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
+
+    public void EditNewOutbreak_Group()
+        => PopFlat<NewHugeOutbreakGroupArchive8a, NewHugeOutbreakGroup8a>(GameFile.NewHugeGroup, "New Outbreak Group Editor", z => z.Field_00.ToString("X16"));
+
+    public void EditNewOutbreak_GroupLottery()
+        => PopFlat<NewHugeOutbreakGroupLotteryArchive8a, NewHugeOutbreakGroupLottery8a>(GameFile.NewHugeGroupLottery, "New Outbreak Group Lottery Editor", z => z.Field_00.ToString("X16"));
+
+    public void EditNewOutbreak_Lottery()
+        => PopFlat<NewHugeOutbreakLotteryArchive8a, NewHugeOutbreakLottery8a>(GameFile.NewHugeLottery, "New Outbreak Lottery Editor", z => z.Hash.ToString("X16"));
+
+    public void EditNewOutbreak_TimeLimit()
+        => PopFlat<NewHugeOutbreakTimeLimitArchive8a, NewHugeOutbreakTimeLimit8a>(GameFile.NewHugeTimeLimit, "New Outbreak Time Limit Editor", z => z.Field_00.ToString());
 
     public void EditSymbolBehave()
     {

@@ -215,5 +215,9 @@
 
         AppConfigList,
         HaShop,
+        NewHugeGroup,
+        NewHugeGroupLottery,
+        NewHugeLottery,
+        NewHugeTimeLimit,
     }
 }
