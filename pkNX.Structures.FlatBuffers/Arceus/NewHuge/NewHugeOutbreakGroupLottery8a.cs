@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -12,40 +13,69 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class NewHugeOutbreakGroupArchive8a : IFlatBufferArchive<NewHugeOutbreakGroup8a>
+public class NewHugeOutbreakGroupLotteryArchive8a : IFlatBufferArchive<NewHugeOutbreakGroupLottery8a>
 {
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
-    [FlatBufferItem(0)] public NewHugeOutbreakGroup8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakGroup8a>();
-}
+    [FlatBufferItem(0)] public NewHugeOutbreakGroupLottery8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakGroupLottery8a>();
 
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class NewHugeOutbreakGroup8a : IFlatBufferArchive<NewHugeOutbreakDetail8a>
-{
-    [FlatBufferItem(00)] public ulong Group { get; set; }
-    [FlatBufferItem(01)] public NewHugeOutbreakDetail8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakDetail8a>();
-    [FlatBufferItem(02)] public ulong EncounterTableID { get; set; }
-
-    public bool UsesTable(ulong tableID)
+    public bool IsAreaGroup(PlacementSpawner8a spawner, NewHugeOutbreakGroupArchive8a groups, ulong tableID)
     {
-        if (EncounterTableID == tableID)
-            return true;
-        var matches = Array.Find(Table, z => z.EncounterTableID == tableID);
-        return matches is not null;
+        var hash = spawner.Field_20_Value.EncounterTableID;
+        var group = Array.Find(Table, z => z.LotteryGroup == hash);
+        if (group == null)
+            return false;
+
+        return group.IsUseTable(groups, tableID);
     }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class NewHugeOutbreakDetail8a : IHasCondition8a
+public class NewHugeOutbreakGroupLottery8a
 {
-    [FlatBufferItem(0)] public ConditionType8a ConditionTypeID { get; set; }
-    [FlatBufferItem(1)] public Condition8a ConditionID { get; set; }
-    [FlatBufferItem(2)] public string ConditionArg1 { get; set; } = string.Empty;
-    [FlatBufferItem(3)] public string ConditionArg2 { get; set; } = string.Empty;
-    [FlatBufferItem(4)] public string ConditionArg3 { get; set; } = string.Empty;
-    [FlatBufferItem(5)] public string ConditionArg4 { get; set; } = string.Empty;
-    [FlatBufferItem(6)] public string ConditionArg5 { get; set; } = string.Empty;
-    [FlatBufferItem(7)] public ulong EncounterTableID { get; set; }
-    [FlatBufferItem(8)] public int Rate { get; set; }
-    public override string ToString() => $"PlacementParameters(/* ConditionTypeID = */ {this.GetConditionTypeSummary()}, /* Condition = */ {this.GetConditionSummary()}, {EncounterTableID:X16}, {Rate})";
+    [FlatBufferItem(00)] public ulong LotteryGroup { get; set; }
+    [FlatBufferItem(01)] public NewHugeOutbreakGroupLotteryDetail8a[] Table1 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+    [FlatBufferItem(02)] public NewHugeOutbreakGroupLotteryDetail8a[] Table2 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+    [FlatBufferItem(03)] public NewHugeOutbreakGroupLotteryDetail8a[] Table3 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+
+    public int SumTable1 => Table1.Sum(z => z.Rate);
+    public int SumTable2 => Table1.Sum(z => z.Rate);
+    public int SumTable3 => Table1.Sum(z => z.Rate);
+
+    public bool IsUseTable(NewHugeOutbreakGroupArchive8a groups, ulong tableID)
+    {
+        foreach (var lotteryChoice in Table1)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        foreach (var lotteryChoice in Table2)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        foreach (var lotteryChoice in Table3)
+        {
+            if (lotteryChoice.UsesTable(groups, tableID))
+                return true;
+        }
+        return false;
+    }
+}
+
+[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+public class NewHugeOutbreakGroupLotteryDetail8a
+{
+    [FlatBufferItem(00)] public ulong Group { get; set; }
+    [FlatBufferItem(01)] public int Rate { get; set; }
+
+    public override string ToString() => $"{Group:X16}|{Rate}";
+
+    public bool UsesTable(NewHugeOutbreakGroupArchive8a groups, ulong tableID)
+    {
+        var lottery = Array.Find(groups.Table, z => z.Group == Group);
+        if (lottery is null)
+            return false;
+        return lottery.UsesTable(tableID);
+    }
 }

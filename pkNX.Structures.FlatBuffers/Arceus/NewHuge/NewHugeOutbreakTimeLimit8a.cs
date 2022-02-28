@@ -22,8 +22,8 @@ public class NewHugeOutbreakTimeLimitArchive8a : IFlatBufferArchive<NewHugeOutbr
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NewHugeOutbreakTimeLimit8a
 {
-    [FlatBufferItem(00)] public int Field_00 { get; set; } // not sure, is this instead pointing to 0x10 bytes 0-F?
-    [FlatBufferItem(01)] public int Field_01 { get; set; }
-    [FlatBufferItem(02)] public int[] Field_02 { get; set; } = Array.Empty<int>();
-    [FlatBufferItem(03)] public int[] Field_03 { get; set; } = Array.Empty<int>();
+    [FlatBufferItem(00)] public int Duration { get; set; }
+    [FlatBufferItem(01)] public int Chance { get; set; }
+    [FlatBufferItem(02)] public int[] RemainingTimeWarning { get; set; } = Array.Empty<int>();
+    [FlatBufferItem(03)] public int[] RemainingTimeStringIndex { get; set; } = Array.Empty<int>();
 }
