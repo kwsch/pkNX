@@ -24,7 +24,7 @@ public class NewHugeOutbreakGroupArchive8a : IFlatBufferArchive<NewHugeOutbreakG
 public class NewHugeOutbreakGroup8a : IFlatBufferArchive<NewHugeOutbreakDetail8a>
 {
     [FlatBufferItem(00)] public ulong Group { get; set; }
-    [FlatBufferItem(01)] public NewHugeOutbreakDetail8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakDetail8a>();
+    [FlatBufferItem(01)] public NewHugeOutbreakDetail8a[] Table { get; set; } = Array.Empty<NewHugeOutbreakDetail8a>(); // successive tables
     [FlatBufferItem(02)] public ulong EncounterTableID { get; set; }
 
     public int SumTable => Table.Sum(z => z.Rate);

@@ -406,6 +406,13 @@ internal class EditorPLA : EditorBase
     public void EditBall_Throw_Config() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
     public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
+    public void EditEvolutions()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<EvolutionTable8, EvolutionSet8a>(GameFile.Evolutions, "Evolution Editor",
+            z => $"{names[z.Index]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
+    }
+
     public void EditOutbreakDetail()
         => PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
 
