@@ -23,7 +23,7 @@ public enum ConditionType8a : ulong
     NpcPassPokeIndividualNum = 0xCE6FB5F32B6297C5, // "npc_pass_poke_individual_num"
     NpcPassPokeMonsNum = 0x26D399D556EE1C2D, // "npc_pass_poke_mons_num"
     NpcPassPokeOybn = 0x769FC8C156B7CDBD, // "npc_pass_poke_oybn"
-    NpcPassPokeSeikaku = 0x4CED96920003025E, // "npc_pass_poke_seikaku" // UNUSED
+    NpcPassPokeSeikaku = 0xF27E3B012D8F762C, // "npc_pass_poke_seikaku" // UNUSED
     NpcPassPokeSex = 0xABE95BDC028692F3, // "npc_pass_poke_sex"
     NpcPassPokeSizeAbsolute = 0xA6F824297967B404, // "npc_pass_poke_size_absolute" // UNUSED
     NpcPassPokeSizeIndividual = 0x4CED96920003025E, // "npc_pass_poke_size_individual" // UNUSED
