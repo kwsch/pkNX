@@ -12,7 +12,9 @@ namespace pkNX.Structures.FlatBuffers
         private const float LandmarkBias = 15;
 
         public static IEnumerable<byte[]> GetEncounterDump(AreaInstance8a area,
-            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc)
+            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             if (area.Locations.Length == 0)
                 yield break;
@@ -23,17 +25,20 @@ namespace pkNX.Structures.FlatBuffers
                 if (slots.Count == 0)
                     continue;
 
-                foreach (var p in GetAreas(area, slots, table, map, misc))
+                foreach (var p in GetAreas(area, slots, table, map, misc, nhoGroup, nhoLottery))
                     yield return p;
                 foreach (var x in area.SubAreas)
                 {
-                    foreach (var p in GetAreas(x, slots, table, map, misc))
+                    foreach (var p in GetAreas(x, slots, table, map, misc, nhoGroup, nhoLottery))
                         yield return p;
                 }
             }
         }
 
-        private static IEnumerable<byte[]> GetAreas(AreaInstance8a area, IReadOnlyCollection<EncounterSlot8a> slots, EncounterTable8a table, IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc)
+        private static IEnumerable<byte[]> GetAreas(AreaInstance8a area, IReadOnlyCollection<EncounterSlot8a> slots, EncounterTable8a table,
+            IReadOnlyDictionary<string, (string Name, int Index)> map, PokeMiscTable8a misc,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             if (area.Locations.Length == 0)
                 yield break;
@@ -45,6 +50,13 @@ namespace pkNX.Structures.FlatBuffers
                 var spawners = s.Where(z => z.UsesTable(table.TableID));
                 var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
                 foreach (var a in GetAll(sl, SpawnerType.Spawner))
+                    yield return a;
+            }
+            {
+                var s = area.Spawners;
+                var spawners = s.Where(z => nhoLottery.IsAreaGroup(z, nhoGroup, table.TableID));
+                var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
+                foreach (var a in GetAll(sl, SpawnerType.SpawnerNHO))
                     yield return a;
             }
 
@@ -85,14 +97,11 @@ namespace pkNX.Structures.FlatBuffers
                     yield break;
                 if (areas.Remove(baseArea) && areas.Count == 0)
                     areas.Add(baseArea);
+                else if (!areas.All(IsDungeonZone) && !areas.Contains(baseArea))
+                    areas.Add(baseArea);
 
-                foreach (var a in areas)
-                {
-                    var parent = baseArea;
-                    if (IsDungeonZone(a))
-                        parent = a; // disallow crossover-out for dungeons
-                    yield return GetArea(a, parent, slots, table.MinLevel, table.MaxLevel, type, misc, bmin, bmax);
-                }
+                areas.Sort();
+                yield return GetArea(areas, slots, table.MinLevel, table.MaxLevel, type, misc, bmin, bmax);
             }
         }
 
@@ -103,7 +112,7 @@ namespace pkNX.Structures.FlatBuffers
 
         private static readonly int[] OybnSettings = { 15, 15, 15, 20, 20 };
 
-        private static byte[] GetArea(int location, int parentArea, IReadOnlyCollection<EncounterSlot8a> slots,
+        private static byte[] GetArea(IReadOnlyList<int> locations, IReadOnlyCollection<EncounterSlot8a> slots,
             int tableMinLevel, int tableMaxLevel, SpawnerType type,
             PokeMiscTable8a misc,
             int bonusMin = 0,
@@ -111,8 +120,12 @@ namespace pkNX.Structures.FlatBuffers
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
-            bw.Write((byte)location);
-            bw.Write((byte)parentArea);
+            bw.Write((byte)locations.Count);
+            foreach (var loc in locations)
+                bw.Write((byte)loc);
+            if (bw.BaseStream.Position % 2 != 0)
+                bw.Write((byte)0);
+
             bw.Write((byte)type);
             bw.Write((byte)slots.Count);
             foreach (var s in slots)
@@ -176,24 +189,31 @@ namespace pkNX.Structures.FlatBuffers
 
         public static IEnumerable<string> GetLines(EncounterMultiplerArchive8a multiplier_archive,
             PokeMiscTable8a misc, string[] speciesNames,
-            AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> map)
+            AreaInstance8a area,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery,
+            IReadOnlyDictionary<string, (string Name, int Index)> map)
         {
             yield return $"Area: {area.AreaName}";
 
             foreach (var enctable in area.Encounters) {
-                foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, map))
+                foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, nhoGroup, nhoLottery, map))
                     yield return $"\t{line}";
 
                 yield return string.Empty;
             }
         }
 
-        private static IEnumerable<string> GetUsedSpawnerSummary(EncounterTable8a t, AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
+        private static IEnumerable<string> GetUsedSpawnerSummary(EncounterTable8a t, AreaInstance8a area,
+            IReadOnlyDictionary<string, (string Name, int Index)> valueTuples,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery)
         {
             var usedBySpawners = Array.FindAll(area.Spawners, z => z.UsesTable(t.TableID));
             var usedByWormholes = Array.FindAll(area.Wormholes, z => z.UsesTable(t.TableID));
             var usedByLandmarkSpawns = Array.FindAll(area.LandItems, z => z.UsesTable(t.TableID));
             var usedByLandmarks = Array.FindAll(area.LandMarks, z => usedByLandmarkSpawns.Any(sz => z.UsesTable(sz.LandmarkItemSpawnTableID)));
+            var usedByNHO = Array.FindAll(area.Spawners, z => nhoLottery.IsAreaGroup(z, nhoGroup, t.TableID));
 
             foreach (var s in usedBySpawners)
             {
@@ -201,6 +221,13 @@ namespace pkNX.Structures.FlatBuffers
                 var name = valueTuples[contained].Name;
                 var p = s.Parameters;
                 yield return $"Spawner @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+            }
+            foreach (var s in usedByNHO)
+            {
+                var contained = s.GetContainingLocations(area.Locations).First().PlaceName;
+                var name = valueTuples[contained].Name;
+                var p = s.Parameters;
+                yield return $"SpawnerNHO @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
             }
             foreach (var s in usedByWormholes)
             {
@@ -223,12 +250,15 @@ namespace pkNX.Structures.FlatBuffers
         private static IEnumerable<string> GetTableSummary(EncounterTable8a t,
             EncounterMultiplerArchive8a multiplier_archive, string[] speciesNames,
             PokeMiscTable8a misc,
-            AreaInstance8a area, IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
+            AreaInstance8a area,
+            NewHugeOutbreakGroupArchive8a nhoGroup,
+            NewHugeOutbreakGroupLotteryArchive8a nhoLottery,
+            IReadOnlyDictionary<string, (string Name, int Index)> valueTuples)
         {
             yield return $"{t}:";
 
             var totalUses = 0;
-            foreach (var line in GetUsedSpawnerSummary(t, area, valueTuples))
+            foreach (var line in GetUsedSpawnerSummary(t, area, valueTuples, nhoGroup, nhoLottery))
             {
                 totalUses++;
                 yield return $"\t{line}";
@@ -236,7 +266,7 @@ namespace pkNX.Structures.FlatBuffers
 
             foreach (var subArea in area.SubAreas)
             {
-                foreach (var line in GetUsedSpawnerSummary(t, subArea, valueTuples))
+                foreach (var line in GetUsedSpawnerSummary(t, subArea, valueTuples, nhoGroup, nhoLottery))
                 {
                     totalUses++;
                     yield return $"\t{line}";

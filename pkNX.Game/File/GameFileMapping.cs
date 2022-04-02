@@ -252,6 +252,11 @@ namespace pkNX.Game
             new(GameFile.SizeScaleConfig, ContainerType.SingleFile, "bin", "misc", "app_config", "pokemon_size_category_adjust_scale_config.bin"),
             new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_ai.bin"),
 
+            new(GameFile.NewHugeGroup, ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_group.bin"),
+            new(GameFile.NewHugeGroupLottery, ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_group_lottery.bin"),
+            new(GameFile.NewHugeLottery, ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_lottery.bin"),
+            new(GameFile.NewHugeTimeLimit, ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_time_limit.bin"),
+
             // Cutscenes    bin\demo
             // Models       bin\archive\pokemon
             // pretty much everything is obviously named :)

@@ -406,10 +406,27 @@ internal class EditorPLA : EditorBase
     public void EditBall_Throw_Config() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
     public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
-    public void EditOutbreakDetail()
+    public void EditEvolutions()
     {
-        PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<EvolutionTable8, EvolutionSet8a>(GameFile.Evolutions, "Evolution Editor",
+            z => $"{names[z.Index]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
+
+    public void EditOutbreakDetail()
+        => PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
+
+    public void EditNewOutbreak_Group()
+        => PopFlat<NewHugeOutbreakGroupArchive8a, NewHugeOutbreakGroup8a>(GameFile.NewHugeGroup, "New Outbreak Group Editor", z => z.Group.ToString("X16"));
+
+    public void EditNewOutbreak_GroupLottery()
+        => PopFlat<NewHugeOutbreakGroupLotteryArchive8a, NewHugeOutbreakGroupLottery8a>(GameFile.NewHugeGroupLottery, "New Outbreak Group Lottery Editor", z => z.LotteryGroup.ToString("X16"));
+
+    public void EditNewOutbreak_Lottery()
+        => PopFlat<NewHugeOutbreakLotteryArchive8a, NewHugeOutbreakLottery8a>(GameFile.NewHugeLottery, "New Outbreak Lottery Editor", z => z.LotteryGroupString);
+
+    public void EditNewOutbreak_TimeLimit()
+        => PopFlat<NewHugeOutbreakTimeLimitArchive8a, NewHugeOutbreakTimeLimit8a>(GameFile.NewHugeTimeLimit, "New Outbreak Time Limit Editor", z => z.Duration.ToString());
 
     public void EditSymbolBehave()
     {

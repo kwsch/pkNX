@@ -54,6 +54,6 @@ public class EvolutionEntry8a
     [FlatBufferItem(0)] public ushort Method { get; set; }
     [FlatBufferItem(1)] public ushort Argument { get; set; }
     [FlatBufferItem(2)] public ushort Species { get; set; }
-    [FlatBufferItem(3)] public byte Form { get; set; }
-    [FlatBufferItem(4)] public byte Level { get; set; }
+    [FlatBufferItem(3)] public ushort Form { get; set; }
+    [FlatBufferItem(4)] public ushort Level { get; set; }
 }
