@@ -193,6 +193,12 @@ namespace pkNX.WinForms.Subforms
         }
 
         private static readonly EncounterSlot8a[] Unown = { new() { Species = 201 } };
+
+        private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)
+        {
+            var (x, y) = (e.X, e.Y);
+            L_CoordinateMouse.Text = $"{x * 2}, {y * 2}";
+        }
     }
 
     public class AreaDef

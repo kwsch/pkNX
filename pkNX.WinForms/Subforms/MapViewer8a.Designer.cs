@@ -31,6 +31,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.CB_Map = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
+            this.L_CoordinateMouse = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,18 +65,30 @@
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.CB_Species_SelectedIndexChanged);
             // 
+            // L_CoordinateMouse
+            // 
+            this.L_CoordinateMouse.AutoSize = true;
+            this.L_CoordinateMouse.Location = new System.Drawing.Point(527, 510);
+            this.L_CoordinateMouse.Name = "L_CoordinateMouse";
+            this.L_CoordinateMouse.Size = new System.Drawing.Size(153, 13);
+            this.L_CoordinateMouse.TabIndex = 3;
+            this.L_CoordinateMouse.Text = "Hover over img for Coordinates";
+            // 
             // MapViewer8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 532);
+            this.Controls.Add(this.L_CoordinateMouse);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.CB_Map);
             this.Controls.Add(this.pictureBox1);
             this.Name = "MapViewer8a";
             this.Text = "MapViewer8a";
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapViewer8a_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -84,5 +97,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox CB_Map;
         private System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.Label L_CoordinateMouse;
     }
 }

@@ -220,14 +220,14 @@ namespace pkNX.Structures.FlatBuffers
                 var contained = s.GetContainingLocations(area.Locations).First().PlaceName;
                 var name = valueTuples[contained].Name;
                 var p = s.Parameters;
-                yield return $"Spawner @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+                yield return $"Spawner @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()} ({s.MinSpawnCount}-{s.MaxSpawnCount}), {area.AreaName} = {name}";
             }
             foreach (var s in usedByNHO)
             {
                 var contained = s.GetContainingLocations(area.Locations).First().PlaceName;
                 var name = valueTuples[contained].Name;
                 var p = s.Parameters;
-                yield return $"SpawnerNHO @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+                yield return $"SpawnerNHO @ {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()} ({s.MinSpawnCount}-{s.MaxSpawnCount}), {area.AreaName} = {name}";
             }
             foreach (var s in usedByWormholes)
             {
@@ -235,7 +235,7 @@ namespace pkNX.Structures.FlatBuffers
                 var name = valueTuples[contained].Name;
                 var p = s.Parameters;
                 var c = s.Field_20_Value;
-                yield return $"Wormhole: {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) [{c.BonusLevelMin}-{c.BonusLevelMax}] @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+                yield return $"Wormhole: {s.NameSummary}_{s.Field_01:X16} ({p.GetConditionSummary()}) [{c.BonusLevelMin}-{c.BonusLevelMax}] @ {p.Coordinates.ToTriple()} ({s.MinSpawnCount}-{s.MaxSpawnCount}), {area.AreaName} = {name}";
             }
             foreach (var s in usedByLandmarks)
             {
