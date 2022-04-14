@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms.Subforms
@@ -43,6 +44,7 @@ namespace pkNX.WinForms.Subforms
                     nameList.Add(new(speciesNames[species], species));
             }
 
+            nameList.Insert(0, new("(Any)", -1));
             nameList.Sort((x, y) => string.Compare(x.Text, y.Text, StringComparison.InvariantCulture));
 
             CB_Species.DisplayMember = nameof(ComboItem.Text);
@@ -76,6 +78,8 @@ namespace pkNX.WinForms.Subforms
             UpdateMap(CB_Map.SelectedIndex, (int)CB_Species.SelectedValue);
         }
 
+        private List<AreaDef> Defs = new();
+
         private void UpdateMap(int map, int species)
         {
             if (Loading)
@@ -89,7 +93,7 @@ namespace pkNX.WinForms.Subforms
             }
 
             var area = Areas[map];
-            var coordinates = GetSpawnerInfo(species, area);
+            var coordinates = Defs = GetSpawnerInfo(species, area);
 
             var img = Image.FromFile(mapfile);
             using var gr = Graphics.FromImage(img);
@@ -142,10 +146,10 @@ namespace pkNX.WinForms.Subforms
                 if (slots == null)
                     continue;
 
-                if (slots.Table.All(z => z.Species != species))
+                if (species != -1 && slots.Table.All(z => z.Species != species))
                     continue;
 
-                result.Add(new(s.Parameters.Coordinates, SpawnerType.Spawner, slots.Table, s.Scalar * 4));
+                result.Add(new(s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Spawner, slots.Table, s.Scalar * 4));
             }
 
             foreach (var s in area.Wormholes.Concat(area.SubAreas.SelectMany(z => z.Wormholes)))
@@ -155,10 +159,10 @@ namespace pkNX.WinForms.Subforms
                 if (slots == null)
                     continue;
 
-                if (slots.Table.All(z => z.Species != species))
+                if (species != -1 && slots.Table.All(z => z.Species != species))
                     continue;
 
-                result.Add(new(s.Parameters.Coordinates, SpawnerType.Wormhole, slots.Table, Math.Max(s.Scalar * 4, 50)));
+                result.Add(new(s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Wormhole, slots.Table, Math.Max(s.Scalar * 4, 50)));
             }
 
             foreach (var a in area.LandMarks.Concat(area.SubAreas.SelectMany(z => z.LandMarks)))
@@ -173,10 +177,10 @@ namespace pkNX.WinForms.Subforms
                     if (slots == null)
                         continue;
 
-                    if (slots.Table.All(z => z.Species != species))
+                    if (species != -1 && slots.Table.All(z => z.Species != species))
                         continue;
 
-                    result.Add(new(a.Parameters.Coordinates, SpawnerType.Landmark, slots.Table, Math.Max(a.Scalar, 1) * 4));
+                    result.Add(new(1, 1, a.Parameters.Coordinates, SpawnerType.Landmark, slots.Table, Math.Max(a.Scalar, 1) * 4));
                 }
             }
 
@@ -186,7 +190,7 @@ namespace pkNX.WinForms.Subforms
             foreach (var u in area.Unown.Concat(area.SubAreas.SelectMany(z => z.Unown)))
             {
                 var slots = Unown;
-                result.Add(new(u.Parameters.Coordinates, SpawnerType.Unown, slots, u.Number * 2));
+                result.Add(new(1, 1, u.Parameters.Coordinates, SpawnerType.Unown, slots, u.Number * 2));
             }
 
             return result;
@@ -196,24 +200,50 @@ namespace pkNX.WinForms.Subforms
 
         private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)
         {
-            var (x, y) = (e.X, e.Y);
-            L_CoordinateMouse.Text = $"{x * 2}, {y * 2}";
+            LatestCoordinates = (e.X * 2, e.Y * 2);
+            L_CoordinateMouse.Text = $"{LatestCoordinates.X}, {LatestCoordinates.Y}";
+
+            var dist = NUD_Tolerance.Value;
+            var (x, z) = (LatestCoordinates.X, LatestCoordinates.Y);
+            var spawners = Defs
+                .Select(s => (Spawner: s, Distance: s.Position.DistanceTo(x, s.Position.Y, z)))
+                .Where(s=> s.Distance <= (float)dist)
+                .OrderByDescending(s => s.Distance).ToArray();
+            if (spawners.Length == 0)
+            {
+                L_SpawnDump.Text = "";
+                return;
+            }
+
+            L_SpawnDump.Text = string.Join(Environment.NewLine, spawners.Select(s => s.Spawner.GetLine()));
         }
+
+        private (int X, int Y) LatestCoordinates;
     }
 
     public class AreaDef
     {
+        public readonly int Min;
+        public readonly int Max;
         public readonly PlacementV3f8a Position;
         public readonly SpawnerType Type;
         public readonly EncounterSlot8a[] Slots;
         public readonly float Scale;
 
-        public AreaDef(PlacementV3f8a position, SpawnerType type, EncounterSlot8a[] slots, float scale)
+        public AreaDef(int min, int max, PlacementV3f8a position, SpawnerType type, EncounterSlot8a[] slots, float scale)
         {
+            Min = min;
+            Max = max;
             Position = position;
             Type = type;
             Slots = slots;
             Scale = scale;
+        }
+
+        public string GetLine()
+        {
+            var species = string.Join(",", Slots.Select(x => (Species)x.Species));
+            return $"{Position.ToTriple()} {Min}-{Max}: {species}";
         }
     }
 }

@@ -32,7 +32,10 @@
             this.CB_Map = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.L_CoordinateMouse = new System.Windows.Forms.Label();
+            this.NUD_Tolerance = new System.Windows.Forms.NumericUpDown();
+            this.L_SpawnDump = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Tolerance)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -43,6 +46,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(512, 512);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapViewer8a_MouseMove);
             // 
             // CB_Map
             // 
@@ -74,19 +78,42 @@
             this.L_CoordinateMouse.TabIndex = 3;
             this.L_CoordinateMouse.Text = "Hover over img for Coordinates";
             // 
+            // NUD_Tolerance
+            // 
+            this.NUD_Tolerance.Location = new System.Drawing.Point(530, 487);
+            this.NUD_Tolerance.Name = "NUD_Tolerance";
+            this.NUD_Tolerance.Size = new System.Drawing.Size(57, 20);
+            this.NUD_Tolerance.TabIndex = 4;
+            this.NUD_Tolerance.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // L_SpawnDump
+            // 
+            this.L_SpawnDump.Location = new System.Drawing.Point(530, 162);
+            this.L_SpawnDump.Name = "L_SpawnDump";
+            this.L_SpawnDump.Size = new System.Drawing.Size(176, 322);
+            this.L_SpawnDump.TabIndex = 5;
+            this.L_SpawnDump.Text = "~";
+            this.L_SpawnDump.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
             // MapViewer8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 532);
+            this.Controls.Add(this.L_SpawnDump);
+            this.Controls.Add(this.NUD_Tolerance);
             this.Controls.Add(this.L_CoordinateMouse);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.CB_Map);
             this.Controls.Add(this.pictureBox1);
             this.Name = "MapViewer8a";
             this.Text = "MapViewer8a";
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapViewer8a_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Tolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,5 +125,7 @@
         private System.Windows.Forms.ComboBox CB_Map;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_CoordinateMouse;
+        private System.Windows.Forms.NumericUpDown NUD_Tolerance;
+        private System.Windows.Forms.Label L_SpawnDump;
     }
 }
