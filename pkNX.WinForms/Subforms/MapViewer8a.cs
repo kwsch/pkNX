@@ -149,7 +149,7 @@ namespace pkNX.WinForms.Subforms
                 if (species != -1 && slots.Table.All(z => z.Species != species))
                     continue;
 
-                result.Add(new(s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Spawner, slots.Table, s.Scalar * 4));
+                result.Add(new(slots.TableName, s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Spawner, slots.Table, s.Scalar * 4));
             }
 
             foreach (var s in area.Wormholes.Concat(area.SubAreas.SelectMany(z => z.Wormholes)))
@@ -162,7 +162,7 @@ namespace pkNX.WinForms.Subforms
                 if (species != -1 && slots.Table.All(z => z.Species != species))
                     continue;
 
-                result.Add(new(s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Wormhole, slots.Table, Math.Max(s.Scalar * 4, 50)));
+                result.Add(new(slots.TableName, s.MinSpawnCount, s.MaxSpawnCount, s.Parameters.Coordinates, SpawnerType.Wormhole, slots.Table, Math.Max(s.Scalar * 4, 50)));
             }
 
             foreach (var a in area.LandMarks.Concat(area.SubAreas.SelectMany(z => z.LandMarks)))
@@ -180,7 +180,7 @@ namespace pkNX.WinForms.Subforms
                     if (species != -1 && slots.Table.All(z => z.Species != species))
                         continue;
 
-                    result.Add(new(1, 1, a.Parameters.Coordinates, SpawnerType.Landmark, slots.Table, Math.Max(a.Scalar, 1) * 4));
+                    result.Add(new(slots.TableName, 1, 1, a.Parameters.Coordinates, SpawnerType.Landmark, slots.Table, Math.Max(a.Scalar, 1) * 4));
                 }
             }
 
@@ -190,7 +190,7 @@ namespace pkNX.WinForms.Subforms
             foreach (var u in area.Unown.Concat(area.SubAreas.SelectMany(z => z.Unown)))
             {
                 var slots = Unown;
-                result.Add(new(1, 1, u.Parameters.Coordinates, SpawnerType.Unown, slots, u.Number * 2));
+                result.Add(new("Unown", 1, 1, u.Parameters.Coordinates, SpawnerType.Unown, slots, u.Number * 2));
             }
 
             return result;
@@ -223,6 +223,7 @@ namespace pkNX.WinForms.Subforms
 
     public class AreaDef
     {
+        public readonly string NameSummary;
         public readonly int Min;
         public readonly int Max;
         public readonly PlacementV3f8a Position;
@@ -230,8 +231,9 @@ namespace pkNX.WinForms.Subforms
         public readonly EncounterSlot8a[] Slots;
         public readonly float Scale;
 
-        public AreaDef(int min, int max, PlacementV3f8a position, SpawnerType type, EncounterSlot8a[] slots, float scale)
+        public AreaDef(string NameSummary, int min, int max, PlacementV3f8a position, SpawnerType type, EncounterSlot8a[] slots, float scale)
         {
+            this.NameSummary = NameSummary;
             Min = min;
             Max = max;
             Position = position;
@@ -243,7 +245,7 @@ namespace pkNX.WinForms.Subforms
         public string GetLine()
         {
             var species = string.Join(",", Slots.Select(x => (Species)x.Species));
-            return $"{Position.ToTriple()} {Min}-{Max}: {species}";
+            return $"{NameSummary}\r\n{Position.ToTriple()} {Min}-{Max}: {species}";
         }
     }
 }
