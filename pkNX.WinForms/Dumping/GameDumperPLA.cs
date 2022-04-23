@@ -101,13 +101,13 @@ namespace pkNX.WinForms
                 var shopIndex = Array.IndexOf(shop, move);
                 bool isShop = shopIndex != -1;
                 var learn = lr.Table.Where(z => z.Arceus.Any(x => x.Move == move));
-                var filtered = learn.Where(z => ((PersonalInfoLA)pt.GetFormeEntry(z.Species, z.Form)).IsPresentInGame);
+                var filtered = learn.Where(z => ((PersonalInfoLA_Bin)pt.GetFormeEntry(z.Species, z.Form)).IsPresentInGame);
                 var result = filtered.Select(x => $"{spec[x.Species]}{(x.Form == 0 ? "" : $"-{x.Form}")} @ {Array.Find(x.Arceus, w => w.Move == move).Level}").ToArray();
 
                 List<string> r = new() { $"{moves[move]}:" };
                 if (isShop)
                 {
-                    var species = pt.Table.OfType<PersonalInfoLA> ().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
+                    var species = pt.Table.OfType<PersonalInfoLA_Bin> ().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
                     var names = species.Select(z => $"{spec[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
                     r.Add($"\tTutors: {string.Join(", ", names)}");
                 }
@@ -279,7 +279,7 @@ namespace pkNX.WinForms
                 if (e.Arceus.Length == 0)
                     continue;
                 var index = pt.GetFormeIndex(e.Species, e.Form);
-                var entry = (PersonalInfoLA)pt[index];
+                var entry = (PersonalInfoLA_Bin)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;
                 result[index] = e.WriteAsLearn6();
@@ -314,7 +314,7 @@ namespace pkNX.WinForms
                 if (e.Table?.Length is not >0)
                     continue;
                 var index = pt.GetFormeIndex(e.Index, e.Form);
-                var entry = (PersonalInfoLA)pt[index];
+                var entry = (PersonalInfoLA_Bin)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;
                 result[index] = e.Write();
@@ -418,6 +418,8 @@ namespace pkNX.WinForms
                 {
                     if (!hexBin.Any(z => z.SequenceEqual(s)))
                         hexBin.Add(s);
+                    else
+                        continue;
                 }
 
                 all.AddRange(lines);
@@ -751,7 +753,7 @@ namespace pkNX.WinForms
         private void DumpResearchTasks(PokedexResearchTable dexResearch)
         {
             var pt = GetPersonal();
-            var result = new byte[pt.Table.Max(p => ((PersonalInfoLA)p).DexIndexHisui)][];
+            var result = new byte[pt.Table.Max(p => ((PersonalInfoLA_Bin)p).DexIndexHisui)][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
 
@@ -760,7 +762,7 @@ namespace pkNX.WinForms
                 var formCount = pt.GetFormeEntry(species, 0).FormeCount;
                 for (var form = 0; form < formCount; form++)
                 {
-                    var p = (PersonalInfoLA)pt.GetFormeEntry(species, form);
+                    var p = (PersonalInfoLA_Bin)pt.GetFormeEntry(species, form);
 
                     if (p.DexIndexHisui != 0)
                         return p.DexIndexHisui;
@@ -877,7 +879,7 @@ namespace pkNX.WinForms
             var foreign = new List<string>();
             for (int i = 1; i < pt.TableLength; i++)
             {
-                var p = (PersonalInfoLA)pt[i];
+                var p = (PersonalInfoLA_Bin)pt[i];
                 bool any = false;
                 var specForm = $"{p.Species:000}\t{p.Form}\t{s[p.Species]}{(p.Form == 0 ? "" : $"-{p.Form:00}")}";
                 if (p.DexIndexHisui != 0)
