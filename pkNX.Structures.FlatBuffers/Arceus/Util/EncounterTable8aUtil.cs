@@ -48,16 +48,28 @@ namespace pkNX.Structures.FlatBuffers
             {
                 var s = area.Spawners;
                 var spawners = s.Where(z => z.UsesTable(table.TableID));
-                var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
-                foreach (var a in GetAll(sl, SpawnerType.Spawner))
-                    yield return a;
+                var groups = spawners.GroupBy(GetSpawnerType);
+                foreach (var g in groups)
+                {
+                    if (g.Key is not (SpawnerType.Spawner or SpawnerType.SpawnerMass))
+                        throw new Exception();
+                    var sl = g.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
+                    foreach (var a in GetAll(sl, g.Key))
+                        yield return a;
+                }
             }
             {
                 var s = area.Spawners;
                 var spawners = s.Where(z => nhoLottery.IsAreaGroup(z, nhoGroup, table.TableID));
-                var sl = spawners.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
-                foreach (var a in GetAll(sl, SpawnerType.SpawnerNHO))
-                    yield return a;
+                var groups = spawners.GroupBy(GetSpawnerType);
+                foreach (var g in groups)
+                {
+                    if (g.Key is not SpawnerType.SpawnerMMO)
+                        throw new Exception();
+                    var sl = g.SelectMany(z => z.GetIntersectingLocations(area.Locations, SpawnerBias));
+                    foreach (var a in GetAll(sl, g.Key))
+                        yield return a;
+                }
             }
 
             // Wormholes
@@ -103,6 +115,20 @@ namespace pkNX.Structures.FlatBuffers
                 areas.Sort();
                 yield return GetArea(areas, slots, table.MinLevel, table.MaxLevel, type, misc, bmin, bmax);
             }
+        }
+
+        private static SpawnerType GetSpawnerType(PlacementSpawner8a spawner)
+        {
+            var criteria = spawner.Parameters;
+            if (criteria.ConditionID == Condition8a.Equal)
+            {
+                var arg = criteria.ConditionArg1;
+                if (arg.StartsWith("FSYS_NEW_OUTBREAK"))
+                    return SpawnerType.SpawnerMMO;
+                if (arg.StartsWith("WSYS_MASS_GANERATION"))
+                    return SpawnerType.SpawnerMass;
+            }
+            return SpawnerType.Spawner;
         }
 
         // 064 Seaside Hollow

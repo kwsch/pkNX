@@ -5,6 +5,7 @@ public enum SpawnerType
     Spawner,
     Wormhole,
     Landmark,
-    SpawnerNHO,
+    SpawnerMass,
+    SpawnerMMO,
     Unown,
 }
