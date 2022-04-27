@@ -80,11 +80,6 @@ namespace pkNX.Game
 
         protected override void Terminate()
         {
-            // Store Personal Data back in the file. Let the container detect if it is modified.
-            var learn = this[GameFile.Learnsets];
-            learn[0] = FlatBufferConverter.SerializeFrom(new Learnset8a { Table = Data.LevelUpData.LoadAll() });
-            var evos = this[GameFile.Evolutions];
-            evos[0] = FlatBufferConverter.SerializeFrom(new EvolutionTable8 { Table = Data.EvolutionData.LoadAll() });
         }
     }
 }
