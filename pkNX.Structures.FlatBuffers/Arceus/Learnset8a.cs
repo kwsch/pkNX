@@ -28,7 +28,7 @@ public class Learnset8aMeta
     [FlatBufferItem(2)] public Learnset8aEntry[] Mainline { get; set; } = Array.Empty<Learnset8aEntry>();
     [FlatBufferItem(3)] public Learnset8aEntry[] Arceus { get; set; } = Array.Empty<Learnset8aEntry>();
 
-    public byte[] WriteAsLearn6()
+    public byte[] WriteLearnsetAsLearn6()
     {
         using var ms = new MemoryStream();
         using var br = new BinaryWriter(ms);
@@ -36,6 +36,19 @@ public class Learnset8aMeta
         {
             br.Write(entry.Move);
             br.Write(entry.Level);
+        }
+        br.Write(-1);
+        return ms.ToArray();
+    }
+
+    public byte[] WriteMasteryAsLearn6()
+    {
+        using var ms = new MemoryStream();
+        using var br = new BinaryWriter(ms);
+        foreach (var entry in Arceus)
+        {
+            br.Write(entry.Move);
+            br.Write(entry.LevelMaster);
         }
         br.Write(-1);
         return ms.ToArray();

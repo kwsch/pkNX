@@ -271,9 +271,11 @@ namespace pkNX.WinForms
             var obj = FlatBufferConverter.DeserializeFrom<Learnset8a>(data);
             var pt = GetPersonal();
             var result = new byte[pt.TableLength][];
+            var mastery = new byte[pt.TableLength][];
             for (int i = 0; i < result.Length; i++)
-                result[i] = Array.Empty<byte>();
+                result[i] = mastery[i] = Array.Empty<byte>();
 
+            var Dupes = new List<(int Species, int Form)>();
             foreach (var e in obj.Table)
             {
                 if (e.Arceus.Length == 0)
@@ -282,12 +284,30 @@ namespace pkNX.WinForms
                 var entry = (PersonalInfoLA_Bin)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;
-                result[index] = e.WriteAsLearn6();
+                result[index] = e.WriteLearnsetAsLearn6();
+                mastery[index] = e.WriteMasteryAsLearn6();
+
+                if (e.Arceus.Select(z => z.Level).Distinct().Count() != e.Arceus.Length)
+                    Dupes.Add(new(e.Species, e.Form));
             }
 
-            var mini = MiniUtil.PackMini(result, "la");
-            var bin = GetPath(Path.Combine("bin", "lvlmove_la.pkl"));
-            File.WriteAllBytes(bin, mini);
+            // Learnset
+            {
+                var mini = MiniUtil.PackMini(result, "la");
+                var bin = GetPath(Path.Combine("bin", "lvlmove_la.pkl"));
+                File.WriteAllBytes(bin, mini);
+            }
+            // Mastery
+            {
+                var mini = MiniUtil.PackMini(mastery, "la");
+                var bin = GetPath(Path.Combine("bin", "mastery_la.pkl"));
+                File.WriteAllBytes(bin, mini);
+            }
+            // Dupes
+            {
+                var txt = GetPath(Path.Combine("bin", "lvlmove_dupes.txt"));
+                File.WriteAllLines(txt, Dupes.Select(z => $"{(Species)z.Species}{(z.Form == 0 ? "" : $"{z.Form}")}"));
+            }
         }
 
         private PersonalTable GetPersonal()
