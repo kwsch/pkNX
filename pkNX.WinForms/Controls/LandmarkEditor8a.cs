@@ -53,7 +53,7 @@ public partial class LandmarkEditor8a : UserControl
         const int chance = 75;
         foreach (var spawner in Spawners)
         {
-            spawner.Field_04 = chance;
+            spawner.ActivationRate = chance;
         }
 
         WinFormsUtil.Alert($"Changed all encounter chance to {chance}%.");

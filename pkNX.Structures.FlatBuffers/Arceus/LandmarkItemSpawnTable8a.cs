@@ -25,15 +25,15 @@ public class LandmarkItemSpawnTable8a : IFlatBufferArchive<LandmarkItemSpawn8a>
 public class LandmarkItemSpawn8a
 {
     [FlatBufferItem(00)] public ulong LandmarkItemSpawnTableID { get; set; }
-    [FlatBufferItem(01)] public int Field_01 { get; set; }
-    [FlatBufferItem(02)] public int Field_02 { get; set; }
+    [FlatBufferItem(01)] public int ItemRewardMin { get; set; } // counts apply only for inactivated landmarks
+    [FlatBufferItem(02)] public int ItemRewardMax { get; set; }
     [FlatBufferItem(03)] public LandmarkItemSpawn8a_F03[] Field_03 { get; set; } = Array.Empty<LandmarkItemSpawn8a_F03>();
-    [FlatBufferItem(04)] public int Field_04 { get; set; }
-    [FlatBufferItem(05)] public byte Field_05 { get; set; } // unused
-    [FlatBufferItem(06)] public byte Field_06 { get; set; } // unused
+    [FlatBufferItem(04)] public int ActivationRate { get; set; }
+    [FlatBufferItem(05)] public byte Field_05 { get; set; } // unknown
+    [FlatBufferItem(06)] public byte Field_06 { get; set; } // unknown
     [FlatBufferItem(07)] public ulong EncounterTableID { get; set; }
-    [FlatBufferItem(08)] public byte Field_08 { get; set; } // unused
-    [FlatBufferItem(09)] public int Field_09 { get; set; }
+    [FlatBufferItem(08)] public int LevelBoost { get; set; }
+    [FlatBufferItem(09)] public int RareRate { get; set; }
 
     public bool UsesTable(ulong table) => EncounterTableID == table;
 
