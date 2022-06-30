@@ -7,93 +7,80 @@ namespace pkNX.Game
     public sealed class ShinyRateSWSH : ShinyRateInfo
     {
         /*
-            Shiny Rate Patch -- fix the loop counter regardless of input param value.
-            ARM64 disassembly @ sub_710076FAD0
+            Shiny Rate Patch -- fix the overworld loop counter regardless of shiny rate factors.
+            ARM64 disassembly @ FUN_7100d311f0 (Shield), FUN_7100d311c0 (Sword)
 
-            LDRB W8, [X19,#0x35] // load loop max
-            ADD W21, W21, #1 // increment counter
-            CMP W21, W8 // compare counter to max
-            B.CC loc_710076FBA4 // branch if less (loop)
-            B loc_710076FD40 // branch (no loop), PID is done!
+            orr        w24,w24,w0      // set flag for shiny if found
+            cmp        w25,w23         // check loop counter
+            b.cs       LAB_7100d314c8  // break if maximum loop reached
 
-            Patch creation: accept input for reroll count=1-4091
-            Get u32: ((count & 0xFFF) << 10) | 0b111000100_000000000000_10101_11111
-            Convert to bytes, this is our new "CMP W20, XXX" instruction
+
+            Patch creation: accept input for reroll count=0-4095
+            Get u32: ((count & 0xFFF) << 10) | 0b0111000100_000000000000_11001_11111
+            Convert to bytes, this is our new "CMP W25, XXX" instruction
 
             Replace these bytes:
-            68 D6 40 39 B5 06 00 11 BF 02 08 6B
+            18 03 00 2a 3f 03 17 6b 62 00 00 54
             With these bytes:
-            68 D6 40 39 94 06 00 11 [u32 bytes]
+            18 03 00 2a [u32 bytes] 62 00 00 54
 
             ***
-            Always Shiny Patch -- nop the bl
-            write 1F 20 03 D5 after the above 12 byte sequence
+            Always Shiny Patch -- nop the b.cs
+            write 1f 20 03 d5 to the last 4 bytes of the above sequence
 
             ***
-            Revert above patch -- restore the bl
-            write E3 FD FF 54 after the above 12 byte sequence for the first RNG branch
-            write C3 FE FF 54 after the above 12 byte sequence for the second RNG branch
+            Revert above patch -- restore the b.cs
+            write 62 00 00 54 after the above 12 byte sequence.
         */
 
-        private readonly int CodeOffset1; // xorshift rotate RNG
-        private readonly int CodeOffset2; // another RNG
-        private static readonly byte[] Pattern = { 0x68, 0xD6, 0x40, 0x39, 0xB5, 0x06, 0x00, 0x11 };
-        private static readonly byte[] Default = { 0xBF, 0x02, 0x08, 0x6B }; // cmp W20, W8
-        private static readonly byte[] Always12 = { 0x1F, 0x20, 0x03, 0xD5 }; // nop
+        private readonly int FunctionOffset; // loop counter and break
+        private static readonly byte[] FunctionPrelude = { 0xff, 0x03, 0x06, 0xd1, 0xfc, 0x6f, 0x12, 0xa9, 0xfa, 0x67, 0x13, 0xa9, 0xf8, 0x5f, 0x14, 0xa9, 0xf6, 0x57, 0x15, 0xa9, 0xf4, 0x4f, 0x16, 0xa9, 0xfd, 0x7b, 0x17, 0xa9, 0xfd, 0xc3, 0x05, 0x91, 0xfa, 0xc6, 0x00, 0xf0 };
 
-        private static readonly byte[] Revert12_1 = { 0xE3, 0xFD, 0xFF, 0x54 }; // bl
-        private static readonly byte[] Revert12_2 = { 0xC3, 0xFE, 0xFF, 0x54 }; // bl
+        private static readonly int RerollCountCheckOffset = 0x2C8;
+        private static readonly byte[] RerollCountCheckDefault = { 0x3f, 0x03, 0x17, 0x6b};
+
+        private static readonly int RerollCountBreakOffset = 0x2CC;
+        private static readonly byte[] RerollCountBreakDefault = { 0x62, 0x00, 0x00, 0x54 }; // b.cs $pc + 12
+        private static readonly byte[] RerollCountBreakNop = { 0x1F, 0x20, 0x03, 0xD5 }; // nop
 
         public ShinyRateSWSH(byte[] data, int offset = 0x700_000) : base(data)
         {
-            CodeOffset1 = CodePattern.IndexOfBytes(data, Pattern, offset);
-            CodeOffset2 = CodePattern.IndexOfBytes(data, Pattern, CodeOffset1 + 8); // after CodeOffset1
-
-            Debug.Assert(CodeOffset2 - 0x30 == CodeOffset1);
+            FunctionOffset = CodePattern.IndexOfBytes(data, FunctionPrelude, offset);
         }
 
-        public override bool IsEditable => CodeOffset1 > 0;
+        public override bool IsEditable => FunctionOffset > 0;
 
-        public override bool IsDefault => !IsAlways && IsPresent(Data, Default, CodeOffset1 + Pattern.Length);
-        public override bool IsFixed => !IsAlways && !IsDefault;
-        public override bool IsAlways => IsPresent(Data, Always12, Pattern.Length + 4);
+        public override bool IsDefault => !IsAlways && !IsAlways;
+        public override bool IsFixed => !IsPresent(Data, RerollCountCheckDefault, FunctionOffset + RerollCountCheckOffset);
+        public override bool IsAlways => IsPresent(Data, RerollCountBreakNop, FunctionOffset + RerollCountBreakOffset);
 
-        public override bool AllowAlways => false;
+        public override bool AllowAlways => true;
 
-        public override int GetFixedRate() // "CMP W20, {val}" instruction
+        public override int GetFixedRate() // "CMP W25, {val}" instruction
         {
             if (!IsFixed)
                 return -1;
-            var instr = BitConverter.ToUInt32(Data, CodeOffset1 + Pattern.Length);
+            var instr = BitConverter.ToUInt32(Data, FunctionOffset + RerollCountCheckOffset);
             return (int)((instr >> 10) & 0xFFF);
         }
 
         public override void SetDefault()
         {
-            Default.CopyTo(Data, CodeOffset1 + Pattern.Length);
-            Revert12_1.CopyTo(Data, CodeOffset1 + Pattern.Length + 4);
-
-            Default.CopyTo(Data, CodeOffset2 + Pattern.Length);
-            Revert12_2.CopyTo(Data, CodeOffset2 + Pattern.Length + 4);
+            RerollCountCheckDefault.CopyTo(Data, FunctionOffset + RerollCountCheckOffset);
+            RerollCountBreakDefault.CopyTo(Data, FunctionOffset + RerollCountBreakOffset);
         }
 
         public override void SetFixedRate(int rerollCount)
         {
+            SetDefault();
             var instr = GetFixedInstruction(rerollCount);
-            instr.CopyTo(Data, CodeOffset1 + Pattern.Length);
-            Revert12_1.CopyTo(Data, CodeOffset1 + Pattern.Length + 4);
-
-            instr.CopyTo(Data, CodeOffset2 + Pattern.Length);
-            Revert12_2.CopyTo(Data, CodeOffset2 + Pattern.Length + 4);
+            instr.CopyTo(Data, FunctionOffset + RerollCountCheckOffset);
         }
 
         public override void SetAlwaysShiny()
         {
-            Default.CopyTo(Data, CodeOffset1 + Pattern.Length);
-            Always12.CopyTo(Data, CodeOffset1 + Pattern.Length + 4);
-
-            Default.CopyTo(Data, CodeOffset2 + Pattern.Length);
-            Always12.CopyTo(Data, CodeOffset2 + Pattern.Length + 4);
+            SetDefault();
+            RerollCountBreakNop.CopyTo(Data, FunctionOffset + RerollCountBreakOffset);
         }
 
         public static byte[] GetFixedInstruction(int count)
@@ -102,7 +89,7 @@ namespace pkNX.Game
                 count = 1;
             else if (count >= 4092)
                 count = 4091;
-            var val = ((count & 0xFFF) << 10) | 0b111000100_000000000000_10101_11111;
+            var val = ((count & 0xFFF) << 10) | 0b0111000100_000000000000_11001_11111;
             return BitConverter.GetBytes((uint)val);
         }
     }
