@@ -110,7 +110,7 @@ namespace pkNX.WinForms.Controls
                 cache.Save();
         }
 
-        public void NotWorking_EditShinyRate()
+        public void EditShinyRate()
         {
             var path = Path.Combine(ROM.PathExeFS, "main");
             var data = FileMitm.ReadAllBytes(path);
