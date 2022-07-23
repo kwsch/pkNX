@@ -64,16 +64,16 @@ namespace pkNX.Game
         private const int FILECOUNT_USUM = 333;
         private const int FILECOUNT_GG = 27818;
         private const int FILECOUNT_SWSH = 41702;
-        private const int FILECOUNT_SWSH_1 = 41951; // Ver. 1.1.0 update (Galarian Slowpoke)
-        private const int FILECOUNT_SWSH_2 = 46867; // Ver. 1.2.0 update (Isle of Armor)
-        private const int FILECOUNT_SWSH_3 = 50494; // Ver. 1.3.0 update (Crown Tundra)
+        private const int FILECOUNT_SWSH_110 = 41951; // Ver. 1.1.0 (Galarian Slowpoke)
+        private const int FILECOUNT_SWSH_120 = 46867; // Ver. 1.2.0 (Isle of Armor)
+        private const int FILECOUNT_SWSH_130 = 50494; // Ver. 1.3.0 (Crown Tundra)
         private const int FILECOUNT_LA = 18_370;
-        private const int FILECOUNT_LA_01 = 18_371; // Ver. 1.0.1 (Day 1 Patch)
-        private const int FILECOUNT_LA_10 = 19_095; // Ver. 1.1.0 (Daybreak)
+        private const int FILECOUNT_LA_101 = 18_371; // Ver. 1.0.1 (Day 1 Patch)
+        private const int FILECOUNT_LA_110 = 19_095; // Ver. 1.1.0 (Daybreak)
 
         private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
         {
-            string GetTitleID() => BitConverter.ToString(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")).Skip(0x290).Take(0x08).Reverse().ToArray()).Replace("-", "");
+            string GetTitleID() => BitConverter.ToUInt64(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")), 0x290).ToString("X16");
 
             switch (fileCount)
             {
@@ -106,16 +106,22 @@ namespace pkNX.Game
                 }
 
                 case FILECOUNT_SWSH:
-                case FILECOUNT_SWSH_1:
-                case FILECOUNT_SWSH_2:
-                case FILECOUNT_SWSH_3:
+                case FILECOUNT_SWSH_110:
+                case FILECOUNT_SWSH_120:
+                case FILECOUNT_SWSH_130:
                 {
                     if (exefs == null)
                         return GameVersion.SWSH;
-                    return GetTitleID() == "0100ABF008968000" ? GameVersion.SW : GameVersion.SH;
+
+                    return GetTitleID() switch
+                    {
+                        "0100ABF008968000" => GameVersion.SW,
+                        "01008DB008C2C000" => GameVersion.SH,
+                        _ => GameVersion.SWSH, // can't figure out Title ID, default to SWSH so that wild editor prompts for version selection
+                    };
                 }
 
-                case FILECOUNT_LA or FILECOUNT_LA_01 or FILECOUNT_LA_10:
+                case FILECOUNT_LA or FILECOUNT_LA_101 or FILECOUNT_LA_110:
                     return GameVersion.PLA;
 
                 default:
