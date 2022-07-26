@@ -202,7 +202,7 @@ namespace pkNX.WinForms.Controls
 
         public void EditWild()
         {
-            if (ROM.PathExeFS == null)
+            if (ROM.PathExeFS == null || ROM.Game == GameVersion.SWSH)
             {
                 var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "No ExeFS data found. Please choose which game's encounter tables you wish to edit.", "Yes for Sword, No for Shield.");
                 if (dr == DialogResult.Cancel)
