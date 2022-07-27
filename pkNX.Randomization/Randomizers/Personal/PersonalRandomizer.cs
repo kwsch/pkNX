@@ -158,6 +158,7 @@ namespace pkNX.Randomization
                     switch (Settings.InheritTypeSetting)
                     {
                         case ModifyState.Shared:
+                        default:
                             z.Types = types;
                             break;
                         case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
