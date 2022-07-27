@@ -234,9 +234,8 @@ namespace pkNX.Randomization
         {
             switch (setting)
             {
-                case ModifyState.All:
-                    GetRandomAbilities(abils);
-                    break;
+                case ModifyState.Shared:
+                    return;
                 case ModifyState.Two when Rand.Next(100) < Settings.InheritAbilityNeitherChance:
                     GetRandomAbilities(abils, 1);
                     break;
@@ -244,11 +243,15 @@ namespace pkNX.Randomization
                 case ModifyState.One when Rand.Next(100) < Settings.InheritAbilityOnlyOneChance:
                     GetRandomAbilities(abils, 2);
                     break;
-            }
-            if (Rand.Next(100) < Settings.SameAbilityChance)
-            {
-                int index = Rand.Next(2);
-                abils[index^1] = abils[index];
+                case ModifyState.All:
+                default:
+                    GetRandomAbilities(abils);
+                    if (Rand.Next(100) < Settings.SameAbilityChance)
+                    {
+                        int index = Rand.Next(2);
+                        abils[index ^ 1] = abils[index];
+                    }
+                    break;
             }
         }
 
