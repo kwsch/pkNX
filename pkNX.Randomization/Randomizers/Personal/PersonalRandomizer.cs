@@ -157,20 +157,19 @@ namespace pkNX.Randomization
                     var types = child.Types;
                     switch (Settings.InheritTypeSetting)
                     {
-                        case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeNeitherChance:
-                            types = new[] { GetRandomType(), GetRandomType() };
+                        case ModifyState.Shared:
+                            z.Types = types;
                             break;
                         case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
                         case ModifyState.One when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
                             types[Rand.Next(2)] = GetRandomType();
+                            z.Types = types;
                             break;
+                        case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeNeitherChance:
+                            RandomizeTypes(z);
+                            break;
+
                     }
-                    if (Rand.Next(0, 100) < Settings.SameTypeChance)
-                    {
-                        int index = Rand.Next(2);
-                        types[index ^ 1] = types[index];
-                    }
-                    z.Types = types;
                 }
                 else
                 {
@@ -244,7 +243,6 @@ namespace pkNX.Randomization
                     GetRandomAbilities(abils, 2);
                     break;
                 case ModifyState.All:
-                default:
                     GetRandomAbilities(abils);
                     if (Rand.Next(100) < Settings.SameAbilityChance)
                     {
