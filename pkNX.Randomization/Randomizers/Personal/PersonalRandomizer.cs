@@ -92,7 +92,7 @@ namespace pkNX.Randomization
                 var evo = evos.PossibleEvolutions[0];
                 var ei = Table.GetFormeIndex(evo.Species, evo.Form);
 
-                if (AlreadyProcessed(evoindex))
+                if (AlreadyProcessed(ei))
                     return;
                 RandomizeSingleChain(evo, devolvedIndex);
                 ProcessEvolutions(evo.Species, evo.Form, ei);
@@ -102,7 +102,7 @@ namespace pkNX.Randomization
                 foreach (var evo in evos.PossibleEvolutions)
                 {
                     var ei = Table.GetFormeIndex(evo.Species, evo.Form);
-                    if (AlreadyProcessed(evoindex))
+                    if (AlreadyProcessed(ei))
                         return;
                     RandomizeSplitChain(evo, devolvedIndex);
                     ProcessEvolutions(evo.Species, evo.Form, ei);
