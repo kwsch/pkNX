@@ -134,7 +134,7 @@ namespace pkNX.Structures.FlatBuffers
                 var altform = e.Form == 0 ? string.Empty : $", Form = {e.Form}";
                 var istr = $", Index = {encounterIndex}";
                 var giga = !e.IsGigantamax ? string.Empty : ", CanGigantamax = true";
-                var moves = $", Moves = new[]{{ {e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000} }}";
+                var moves = $", Moves = new({e.Move0:000}, {e.Move1:000}, {e.Move2:000}, {e.Move3:000})";
                 var shiny = e.ShinyLock switch
                 {
                     0 => string.Empty,
