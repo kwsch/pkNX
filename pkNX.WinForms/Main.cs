@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using pkNX.Sprites;
 using pkNX.Structures;
@@ -22,6 +24,10 @@ namespace pkNX.WinForms
         public Main()
         {
             InitializeComponent();
+
+            // Fix number values displaying incorrectly for certain cultures.
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
             CB_Lang.SelectedIndex = Settings.Default.Language;
             if (!string.IsNullOrWhiteSpace(Settings.Default.GamePath))
