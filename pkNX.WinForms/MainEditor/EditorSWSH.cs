@@ -112,7 +112,17 @@ namespace pkNX.WinForms.Controls
 
         public void EditShinyRate()
         {
+            if (ROM.PathExeFS == null) {
+                WinFormsUtil.Alert("ExeFS not detected.");
+                return;
+            }
+
             var path = Path.Combine(ROM.PathExeFS, "main");
+            if (!File.Exists(path)) {
+                WinFormsUtil.Alert("Not able to find `main` file in ExeFS.");
+                return;
+            }
+
             var data = FileMitm.ReadAllBytes(path);
             var nso = new NSO(data);
 
