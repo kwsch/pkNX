@@ -92,7 +92,7 @@ namespace pkNX.Randomization
                 var evo = evos.PossibleEvolutions[0];
                 var ei = Table.GetFormeIndex(evo.Species, evo.Form);
 
-                if (AlreadyProcessed(evoindex))
+                if (AlreadyProcessed(ei))
                     return;
                 RandomizeSingleChain(evo, devolvedIndex);
                 ProcessEvolutions(evo.Species, evo.Form, ei);
@@ -102,7 +102,7 @@ namespace pkNX.Randomization
                 foreach (var evo in evos.PossibleEvolutions)
                 {
                     var ei = Table.GetFormeIndex(evo.Species, evo.Form);
-                    if (AlreadyProcessed(evoindex))
+                    if (AlreadyProcessed(ei))
                         return;
                     RandomizeSplitChain(evo, devolvedIndex);
                     ProcessEvolutions(evo.Species, evo.Form, ei);
@@ -157,20 +157,20 @@ namespace pkNX.Randomization
                     var types = child.Types;
                     switch (Settings.InheritTypeSetting)
                     {
-                        case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeNeitherChance:
-                            types = new[] { GetRandomType(), GetRandomType() };
+                        case ModifyState.Shared:
+                        default:
+                            z.Types = types;
                             break;
                         case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
                         case ModifyState.One when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
                             types[Rand.Next(2)] = GetRandomType();
+                            z.Types = types;
                             break;
+                        case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeNeitherChance:
+                            RandomizeTypes(z);
+                            break;
+
                     }
-                    if (Rand.Next(0, 100) < Settings.SameTypeChance)
-                    {
-                        int index = Rand.Next(2);
-                        types[index ^ 1] = types[index];
-                    }
-                    z.Types = types;
                 }
                 else
                 {
@@ -234,9 +234,8 @@ namespace pkNX.Randomization
         {
             switch (setting)
             {
-                case ModifyState.All:
-                    GetRandomAbilities(abils);
-                    break;
+                case ModifyState.Shared:
+                    return;
                 case ModifyState.Two when Rand.Next(100) < Settings.InheritAbilityNeitherChance:
                     GetRandomAbilities(abils, 1);
                     break;
@@ -244,11 +243,14 @@ namespace pkNX.Randomization
                 case ModifyState.One when Rand.Next(100) < Settings.InheritAbilityOnlyOneChance:
                     GetRandomAbilities(abils, 2);
                     break;
-            }
-            if (Rand.Next(100) < Settings.SameAbilityChance)
-            {
-                int index = Rand.Next(2);
-                abils[index^1] = abils[index];
+                case ModifyState.All:
+                    GetRandomAbilities(abils);
+                    if (Rand.Next(100) < Settings.SameAbilityChance)
+                    {
+                        int index = Rand.Next(2);
+                        abils[index ^ 1] = abils[index];
+                    }
+                    break;
             }
         }
 
