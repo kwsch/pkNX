@@ -71,11 +71,11 @@ public class PlacementLocation8a
     {
         if (ShapeID == ShapeIdSphere)
         {
-            if (!Parameters.Scale.IsDefault)
+            if (!Parameters.Scale.IsOne)
                 throw new NotImplementedException("Scaled spheres not yet supported!");
 
             var radius = Math.Abs(SizeX);
-            var distance = Parameters.Coordinates.DistanceTo(x, y, z);
+            var distance = Parameters.Coordinates.DistanceTo(new(x, y, z));
             return distance <= radius;
         }
         if (ShapeID == ShapeIdBox)
@@ -116,11 +116,11 @@ public class PlacementLocation8a
 
         if (ShapeID == ShapeIdSphere)
         {
-            if (!Parameters.Scale.IsDefault)
+            if (!Parameters.Scale.IsOne)
                 throw new NotImplementedException("Scaled spheres not yet supported!");
 
             var radius = Math.Abs(SizeX);
-            var distance = Parameters.Coordinates.DistanceTo(x, y, z);
+            var distance = Parameters.Coordinates.DistanceTo(new(x, y, z));
             return distance <= radius + sphereRadius;
         }
         if (ShapeID == ShapeIdBox)

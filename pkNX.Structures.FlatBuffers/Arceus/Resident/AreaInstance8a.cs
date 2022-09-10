@@ -15,6 +15,8 @@ public sealed class AreaInstance8a
     public IReadOnlyList<AreaInstance8a> SubAreas => Children;
     public string AreaName => Area.AreaName;
 
+    public string FriendlyAreaName => Area.FriendlyAreaName;
+
     // Encount
     public EncounterTable8a[] Encounters => Area.Encounters;
 

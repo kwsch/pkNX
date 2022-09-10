@@ -16,6 +16,7 @@ public sealed class ResidentArea8a
     }
 
     public string AreaName => Settings.Name;
+    public string FriendlyAreaName => Settings.FriendlyAreaName;
 
     // Encount
     public EncounterTable8a[] Encounters { get; private set; } = Array.Empty<EncounterTable8a>();

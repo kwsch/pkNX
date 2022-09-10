@@ -14,13 +14,36 @@ namespace pkNX.Structures.FlatBuffers;
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PlacementV3f8a : IEquatable<PlacementV3f8a>
 {
-    [FlatBufferItem(0)] public float X { get; set; }
-    [FlatBufferItem(1)] public float Y { get; set; }
-    [FlatBufferItem(2)] public float Z { get; set; }
-    public bool IsDefault => X is 1.0f && Y is 1.0f && Z is 1.0f;
+    [FlatBufferItem(0)] public float X { get; set; } = 0;
+    [FlatBufferItem(1)] public float Y { get; set; } = 0;
+    [FlatBufferItem(2)] public float Z { get; set; } = 0;
 
-    public double DistanceTo(PlacementV3f8a other) => DistanceTo(other.X, other.Y, other.Z);
-    public double DistanceTo(float x, float y, float z) => Math.Sqrt(Math.Pow(X - x, 2) + Math.Pow(Y - y, 2) + Math.Pow(Z - z, 2));
+    public PlacementV3f8a()
+    {
+        X = 0;
+        Y = 0;
+        Z = 0;
+    }
+
+    public PlacementV3f8a(float x = 0, float y = 0, float z = 0)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+    }
+
+    public bool IsOne => X is 1 && Y is 1 && Z is 1;
+    public bool IsZero => X is 0 && Y is 0 && Z is 0;
+
+    public float Magnitude => (float)Math.Sqrt(MagnitudeSqr);
+    public float MagnitudeSqr => Dot(this);
+    public PlacementV3f8a Normalized => this * (1 / Magnitude);
+
+    public float Dot(PlacementV3f8a other) => X * other.X + Y * other.Y + Z * other.Z;
+    public PlacementV3f8a Cross(PlacementV3f8a other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+    public float DistanceTo(PlacementV3f8a other) => (this - other).Magnitude;
+    public float DistanceToSqr(PlacementV3f8a other) => (this - other).MagnitudeSqr;
+    public PlacementV3f8a Lerp(PlacementV3f8a other, float t) => this + (other - this) * t;
 
     public PlacementV3f8a Clone() => new()
     {
@@ -57,6 +80,18 @@ public class PlacementV3f8a : IEquatable<PlacementV3f8a>
             return hashCode;
         }
     }
+
+    public static PlacementV3f8a operator -(PlacementV3f8a v) => new(-v.X, -v.Y, -v.Z);
+
+    public static PlacementV3f8a operator +(PlacementV3f8a l, PlacementV3f8a r) => new(l.X + r.X, l.Y + r.Y, l.Z + r.Z);
+    public static PlacementV3f8a operator -(PlacementV3f8a l, PlacementV3f8a r) => new(l.X - r.X, l.Y - r.Y, l.Z - r.Z);
+    public static PlacementV3f8a operator *(PlacementV3f8a l, PlacementV3f8a r) => new(l.X * r.X, l.Y * r.Y, l.Z * r.Z);
+    public static PlacementV3f8a operator /(PlacementV3f8a l, PlacementV3f8a r) => new(l.X / r.X, l.Y / r.Y, l.Z / r.Z);
+
+    public static PlacementV3f8a operator +(PlacementV3f8a l, float r) => new(l.X + r, l.Y + r, l.Z + r);
+    public static PlacementV3f8a operator -(PlacementV3f8a l, float r) => new(l.X - r, l.Y - r, l.Z - r);
+    public static PlacementV3f8a operator *(PlacementV3f8a l, float r) => new(l.X * r, l.Y * r, l.Z * r);
+    public static PlacementV3f8a operator /(PlacementV3f8a l, float r) => new(l.X / r, l.Y / r, l.Z / r);
 
     public static bool operator ==(PlacementV3f8a? left, PlacementV3f8a? right) => Equals(left, right);
     public static bool operator !=(PlacementV3f8a? left, PlacementV3f8a? right) => !Equals(left, right);
