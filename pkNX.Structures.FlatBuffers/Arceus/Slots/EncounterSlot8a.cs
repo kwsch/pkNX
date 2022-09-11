@@ -12,29 +12,29 @@ public class EncounterSlot8a
 
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public ulong SlotID { get; set; }
-    [FlatBufferItem(02)] public int Gender { get; set; }
+    [FlatBufferItem(02)] public int Gender { get; set; } = -1;
     [FlatBufferItem(03)] public int Form { get; set; }
     [FlatBufferItem(04)] public ShinyType8a ShinyLock { get; set; }
     [FlatBufferItem(05)] public AbilityType8a AbilityRandType { get; set; }
-    [FlatBufferItem(06)] public NatureType8a Nature { get; set; }
-    [FlatBufferItem(07)] public int Height { get; set; }
-    [FlatBufferItem(08)] public int Weight { get; set; }
+    [FlatBufferItem(06)] public NatureType8a Nature { get; set; } = NatureType8a.Random;
+    [FlatBufferItem(07)] public int Height { get; set; } = -1;
+    [FlatBufferItem(08)] public int Weight { get; set; } = -1;
     [FlatBufferItem(09)] public bool Field_09 { get; set; }
     [FlatBufferItem(10)] public bool Field_10 { get; set; }
     [FlatBufferItem(11)] public bool Field_11 { get; set; }
     [FlatBufferItem(12)] public bool Field_12 { get; set; }
-    [FlatBufferItem(13)] public int GV_HP { get; set; }
-    [FlatBufferItem(14)] public int GV_ATK { get; set; }
-    [FlatBufferItem(15)] public int GV_DEF { get; set; }
-    [FlatBufferItem(16)] public int GV_SPA { get; set; }
-    [FlatBufferItem(17)] public int GV_SPD { get; set; }
-    [FlatBufferItem(18)] public int GV_SPE { get; set; }
-    [FlatBufferItem(19)] public int IV_HP { get; set; }
-    [FlatBufferItem(20)] public int IV_ATK { get; set; }
-    [FlatBufferItem(21)] public int IV_DEF { get; set; }
-    [FlatBufferItem(22)] public int IV_SPA { get; set; }
-    [FlatBufferItem(23)] public int IV_SPD { get; set; }
-    [FlatBufferItem(24)] public int IV_SPE { get; set; }
+    [FlatBufferItem(13)] public int GV_HP { get; set; } = -1;
+    [FlatBufferItem(14)] public int GV_ATK { get; set; } = -1;
+    [FlatBufferItem(15)] public int GV_DEF { get; set; } = -1;
+    [FlatBufferItem(16)] public int GV_SPA { get; set; } = -1;
+    [FlatBufferItem(17)] public int GV_SPD { get; set; } = -1;
+    [FlatBufferItem(18)] public int GV_SPE { get; set; } = -1;
+    [FlatBufferItem(19)] public int IV_HP { get; set; } = -1;
+    [FlatBufferItem(20)] public int IV_ATK { get; set; } = -1;
+    [FlatBufferItem(21)] public int IV_DEF { get; set; } = -1;
+    [FlatBufferItem(22)] public int IV_SPA { get; set; } = -1;
+    [FlatBufferItem(23)] public int IV_SPD { get; set; } = -1;
+    [FlatBufferItem(24)] public int IV_SPE { get; set; } = -1;
     [FlatBufferItem(25)] public int NumPerfectIvs { get; set; }
     [FlatBufferItem(26)] public string Behavior1 { get; set; } = string.Empty;
     [FlatBufferItem(27)] public string Behavior2 { get; set; } = string.Empty;
@@ -56,7 +56,7 @@ public class EncounterSlot8a
     [FlatBufferItem(43)] public int Field_43_Func_1A25908 { get; set; }
     [FlatBufferItem(44)] public bool Field_44_SetsPropTo100Not8000 { get; set; }
     [FlatBufferItem(45)] public EncounterEligiblityTraits8a Eligibility { get; set; } = new();
-    [FlatBufferItem(46)] public EncounterOybnTraits8a Oybn { get; set; } = new ();
+    [FlatBufferItem(46)] public EncounterOybnTraits8a Oybn { get; set; } = new();
 
     public (bool forced, int min, int max) GetLevels(int min, int max)
     {
