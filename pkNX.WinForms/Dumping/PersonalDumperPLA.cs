@@ -145,7 +145,7 @@ namespace pkNX.WinForms
             for (int i = 0; i < Math.Min(shop.Length, Legal.MoveShop8a.Length); i++)
             {
                 if (!shop[i])
-                     continue;
+                    continue;
                 var move = Legal.MoveShop8a[i];
                 lines.Add($"- {Moves[move]}");
                 count++;
@@ -225,7 +225,7 @@ namespace pkNX.WinForms
 
             lines.Add(string.Format(pi.Type1 != pi.Type2
                 ? "Type: {0} / {1}"
-                : "Type: {0}", Types[pi.Type1], Types[pi.Type2]));
+                : "Type: {0}", Types[(int)pi.Type1], Types[(int)pi.Type2]));
 
             if (HasItems)
             {

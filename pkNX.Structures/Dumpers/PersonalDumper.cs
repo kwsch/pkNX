@@ -102,7 +102,7 @@ namespace pkNX.Structures
 
         private void AddDump(List<string> lines, PersonalInfo pi, int entry, string name, int species, int form)
         {
-            if (pi is PersonalInfoSWSH {IsPresentInGame: false})
+            if (pi is PersonalInfoSWSH { IsPresentInGame: false })
                 return;
 
             var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
@@ -252,7 +252,7 @@ namespace pkNX.Structures
 
             lines.Add(string.Format(pi.Type1 != pi.Type2
                 ? "Type: {0} / {1}"
-                : "Type: {0}", Types[pi.Type1], Types[pi.Type2]));
+                : "Type: {0}", Types[(int)pi.Type1], Types[(int)pi.Type2]));
 
             if (HasItems)
             {

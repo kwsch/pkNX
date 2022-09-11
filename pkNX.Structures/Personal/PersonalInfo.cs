@@ -36,8 +36,8 @@ namespace pkNX.Structures
         public abstract int EV_SPE { get; set; }
         public abstract int EV_SPA { get; set; }
         public abstract int EV_SPD { get; set; }
-        public abstract int Type1 { get; set; }
-        public abstract int Type2 { get; set; }
+        public abstract Types Type1 { get; set; }
+        public abstract Types Type2 { get; set; }
         public abstract int EggGroup1 { get; set; }
         public abstract int EggGroup2 { get; set; }
         public abstract int CatchRate { get; set; }
@@ -47,7 +47,7 @@ namespace pkNX.Structures
         public abstract int HatchCycles { get; set; }
         public abstract int BaseFriendship { get; set; }
         public abstract int EXPGrowth { get; set; }
-        public abstract int [] Abilities { get; set; }
+        public abstract int[] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
         public virtual int FormeCount { get; set; } = 1;
         protected internal virtual int FormStatsIndex { get; set; }
@@ -60,12 +60,12 @@ namespace pkNX.Structures
 
         public int[] Types
         {
-            get => new[] { Type1, Type2 };
+            get => new[] { (int)Type1, (int)Type2 };
             set
             {
                 if (value?.Length != 2) return;
-                Type1 = value[0];
-                Type2 = value[1];
+                Type1 = (Types)value[0];
+                Type2 = (Types)value[1];
             }
         }
 
@@ -107,9 +107,9 @@ namespace pkNX.Structures
 
         protected static byte[] SetBits(bool[] bits)
         {
-            byte[] data = new byte[bits.Length>>3];
+            byte[] data = new byte[bits.Length >> 3];
             for (int i = 0; i < bits.Length; i++)
-                data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
+                data[i >> 3] |= (byte)(bits[i] ? 1 << (i & 0x7) : 0);
             return data;
         }
 
@@ -185,9 +185,9 @@ namespace pkNX.Structures
             return forme < FormeCount;
         }
 
-        public bool IsValidTypeCombination(int type1, int type2) => Type1 == type1 && Type2 == type2;
-        public bool IsType(int type1) => Type1 == type1 || Type2 == type1;
-        public bool IsType(int type1, int type2) => (Type1 == type1 || Type2 == type1) && (Type1 == type2 || Type2 == type2);
+        public bool IsValidTypeCombination(Types type1, Types type2) => Type1 == type1 && Type2 == type2;
+        public bool IsType(Types type1) => Type1 == type1 || Type2 == type1;
+        public bool IsType(Types type1, Types type2) => (Type1 == type1 || Type2 == type1) && (Type1 == type2 || Type2 == type2);
         public bool IsEggGroup(int group) => EggGroup1 == group || EggGroup2 == group;
     }
 }

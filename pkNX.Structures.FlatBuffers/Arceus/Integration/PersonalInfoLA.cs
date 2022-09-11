@@ -12,17 +12,17 @@ public sealed class PersonalInfoLA : PersonalInfo
 
     public override byte[] Write() => Array.Empty<byte>();
 
-    public override int HP  { get => FB.Stat_HP ; set => FB.Stat_HP  = (byte)value; }
+    public override int HP { get => FB.Stat_HP; set => FB.Stat_HP = (byte)value; }
     public override int ATK { get => FB.Stat_ATK; set => FB.Stat_ATK = (byte)value; }
     public override int DEF { get => FB.Stat_DEF; set => FB.Stat_DEF = (byte)value; }
     public override int SPE { get => FB.Stat_SPE; set => FB.Stat_SPE = (byte)value; }
     public override int SPA { get => FB.Stat_SPA; set => FB.Stat_SPA = (byte)value; }
     public override int SPD { get => FB.Stat_SPD; set => FB.Stat_SPD = (byte)value; }
-    public override int Type1 { get => FB.Type1; set => FB.Type1 = (byte)value; }
-    public override int Type2 { get => FB.Type2; set => FB.Type2 = (byte)value; }
+    public override Types Type1 { get => (Types)FB.Type1; set => FB.Type1 = (byte)value; }
+    public override Types Type2 { get => (Types)FB.Type2; set => FB.Type2 = (byte)value; }
     public override int CatchRate { get => FB.CatchRate; set => FB.CatchRate = (byte)value; }
     public override int EvoStage { get => FB.EvoStage; set => FB.EvoStage = (byte)value; }
-    public override int EV_HP  { get => FB.EV_HP ; set => FB.EV_HP  = (byte)value; }
+    public override int EV_HP { get => FB.EV_HP; set => FB.EV_HP = (byte)value; }
     public override int EV_ATK { get => FB.EV_ATK; set => FB.EV_ATK = (byte)value; }
     public override int EV_DEF { get => FB.EV_DEF; set => FB.EV_DEF = (byte)value; }
     public override int EV_SPE { get => FB.EV_SPE; set => FB.EV_SPE = (byte)value; }
@@ -45,8 +45,8 @@ public sealed class PersonalInfoLA : PersonalInfo
     public override int Color { get => FB.Color; set => FB.Color = (byte)value; }
     public bool IsPresentInGame { get => FB.IsPresentInGame; set => FB.IsPresentInGame = value; }
     public override int BaseEXP { get => FB.BaseEXP; set => FB.BaseEXP = (ushort)value; }
-    public override int Height  { get => FB.Height ; set => FB.Height = (ushort)value; }
-    public override int Weight  { get => FB.Weight ; set => FB.Weight = (ushort)value; }
+    public override int Height { get => FB.Height; set => FB.Height = (ushort)value; }
+    public override int Weight { get => FB.Weight; set => FB.Weight = (ushort)value; }
 
     public override int[] Items
     {
@@ -72,14 +72,14 @@ public sealed class PersonalInfoLA : PersonalInfo
         }
     }
 
-    public int HatchSpecies     { get => FB.HatchSpecies;  set => FB.HatchSpecies = (ushort)value; }
-    public int LocalFormIndex   { get => FB.LocalFormIndex; set => FB.LocalFormIndex = (ushort)value; } // local region base form
-    public int Species          { get => FB.Species; set => FB.Species = (ushort)value; }
-    public int Form             { get => FB.Form; set => FB.Form = (ushort)value; }
-    public int DexIndexHisui    { get => FB.DexIndexHisui ; set => FB.DexIndexHisui  = (ushort)value; }
-    public int DexIndexLocal1   { get => FB.DexIndexLocal1; set => FB.DexIndexLocal1 = (ushort)value; }
-    public int DexIndexLocal2   { get => FB.DexIndexLocal2; set => FB.DexIndexLocal2 = (ushort)value; }
-    public int DexIndexLocal3   { get => FB.DexIndexLocal3; set => FB.DexIndexLocal3 = (ushort)value; }
-    public int DexIndexLocal4   { get => FB.DexIndexLocal4; set => FB.DexIndexLocal4 = (ushort)value; }
-    public int DexIndexLocal5   { get => FB.DexIndexLocal5; set => FB.DexIndexLocal5 = (ushort)value; }
+    public int HatchSpecies { get => FB.HatchSpecies; set => FB.HatchSpecies = (ushort)value; }
+    public int LocalFormIndex { get => FB.LocalFormIndex; set => FB.LocalFormIndex = (ushort)value; } // local region base form
+    public int Species { get => FB.Species; set => FB.Species = (ushort)value; }
+    public int Form { get => FB.Form; set => FB.Form = (ushort)value; }
+    public int DexIndexHisui { get => FB.DexIndexHisui; set => FB.DexIndexHisui = (ushort)value; }
+    public int DexIndexLocal1 { get => FB.DexIndexLocal1; set => FB.DexIndexLocal1 = (ushort)value; }
+    public int DexIndexLocal2 { get => FB.DexIndexLocal2; set => FB.DexIndexLocal2 = (ushort)value; }
+    public int DexIndexLocal3 { get => FB.DexIndexLocal3; set => FB.DexIndexLocal3 = (ushort)value; }
+    public int DexIndexLocal4 { get => FB.DexIndexLocal4; set => FB.DexIndexLocal4 = (ushort)value; }
+    public int DexIndexLocal5 { get => FB.DexIndexLocal5; set => FB.DexIndexLocal5 = (ushort)value; }
 }
