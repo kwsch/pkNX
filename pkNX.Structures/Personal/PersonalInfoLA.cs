@@ -70,8 +70,8 @@ namespace pkNX.Structures
         public override int SPE { get => Data[0x03]; set => Data[0x03] = (byte)value; }
         public override int SPA { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int SPD { get => Data[0x05]; set => Data[0x05] = (byte)value; }
-        public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-        public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+        public override Types Type1 { get => (Types)Data[0x06]; set => Data[0x06] = (byte)value; }
+        public override Types Type2 { get => (Types)Data[0x07]; set => Data[0x07] = (byte)value; }
         public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public override int EvoStage { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         private int EVYield { get => BitConverter.ToUInt16(Data, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A); }
@@ -137,7 +137,7 @@ namespace pkNX.Structures
         public bool CanNotDynamax { get => ((Data[0x5A] >> 2) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~4) | (value ? 4 : 0)); }
         public int Species { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
         public int Form { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
-        public int DexIndexHisui  { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
+        public int DexIndexHisui { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         public int DexIndexLocal1 { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
         public int DexIndexLocal2 { get => BitConverter.ToUInt16(Data, 0x64); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x64); }
         public int DexIndexLocal3 { get => BitConverter.ToUInt16(Data, 0x66); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x66); }

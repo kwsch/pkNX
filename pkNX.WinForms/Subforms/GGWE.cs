@@ -28,7 +28,7 @@ namespace pkNX.WinForms
             ROM = rom;
 
             var spec = rom.GetStrings(TextName.SpeciesNames);
-            var species = (string[]) spec.Clone();
+            var species = (string[])spec.Clone();
             species[0] = "";
             EncounterList.species = species;
             var locs = rom.GetStrings(TextName.metlist_00000);
@@ -358,7 +358,7 @@ namespace pkNX.WinForms
         private void RandomizeWild(SpeciesRandomizer rand, bool fill, bool boost)
         {
             var pt = ROM.Data.PersonalData;
-            bool IsGrassOrWater(int s) => pt[s].IsType((int)Types.Water) || pt[s].IsType((int)Types.Grass);
+            bool IsGrassOrWater(int s) => pt[s].IsType(Types.Water) || pt[s].IsType(Types.Grass);
 
             foreach (var area in Tables.EncounterTables)
             {
@@ -415,10 +415,10 @@ namespace pkNX.WinForms
 
         public static readonly Dictionary<int, int[]> RandomScaledRates = new()
         {
-            [01] = new[] {100},
-            [04] = new[] {60, 30, 7, 3},
-            [05] = new[] {40, 30, 18, 10, 2},
-            [10] = new[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
+            [01] = new[] { 100 },
+            [04] = new[] { 60, 30, 7, 3 },
+            [05] = new[] { 40, 30, 18, 10, 2 },
+            [10] = new[] { 20, 15, 15, 10, 10, 10, 10, 5, 4, 1 },
         };
 
         private void B_Dump_Click(object sender, EventArgs e)

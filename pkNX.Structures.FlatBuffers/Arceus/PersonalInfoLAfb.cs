@@ -36,16 +36,16 @@ public class PersonalInfoLAfb
     [FlatBufferItem(05)] public ushort Ability1 { get; set; } // ushort
     [FlatBufferItem(06)] public ushort Ability2 { get; set; } // ushort
     [FlatBufferItem(07)] public ushort AbilityH { get; set; } // ushort
-    [FlatBufferItem(08)] public byte Stat_HP  { get; set; } // byte
+    [FlatBufferItem(08)] public byte Stat_HP { get; set; } // byte
     [FlatBufferItem(09)] public byte Stat_ATK { get; set; } // byte
     [FlatBufferItem(10)] public byte Stat_DEF { get; set; } // byte
     [FlatBufferItem(11)] public byte Stat_SPA { get; set; } // byte
     [FlatBufferItem(12)] public byte Stat_SPD { get; set; } // byte
     [FlatBufferItem(13)] public byte Stat_SPE { get; set; } // byte
-    [FlatBufferItem(14)] public byte Gender   { get; set; } // byte
+    [FlatBufferItem(14)] public byte Gender { get; set; } // byte
     [FlatBufferItem(15)] public byte EXPGrowth { get; set; } // byte
     [FlatBufferItem(16)] public byte EvoStage { get; set; } // byte
-    [FlatBufferItem(17)] public byte CatchRate{ get; set; } // byte
+    [FlatBufferItem(17)] public byte CatchRate { get; set; } // byte
     [FlatBufferItem(18)] public byte Field_18 { get; set; } // Always Default (0)
     [FlatBufferItem(19)] public byte Color { get; set; } // byte
     [FlatBufferItem(20)] public ushort Height { get; set; } // ushort
@@ -60,7 +60,7 @@ public class PersonalInfoLAfb
     [FlatBufferItem(29)] public uint TR_D { get; set; } // uint, not used by game
     [FlatBufferItem(30)] public uint TypeTutor { get; set; } // uint, not used by game
     [FlatBufferItem(31)] public ushort BaseEXP { get; set; } // ushort
-    [FlatBufferItem(32)] public byte EV_HP  { get; set; } // byte
+    [FlatBufferItem(32)] public byte EV_HP { get; set; } // byte
     [FlatBufferItem(33)] public byte EV_ATK { get; set; } // byte
     [FlatBufferItem(34)] public byte EV_DEF { get; set; } // byte
     [FlatBufferItem(35)] public byte EV_SPA { get; set; } // byte
@@ -128,8 +128,8 @@ public static class PersonalConverter
             SPD = e.Stat_SPD,
             SPE = e.Stat_SPE,
             FormeCount = forms.Count,
-            Type1 = e.Type1,
-            Type2 = e.Type2,
+            Type1 = (Types)e.Type1,
+            Type2 = (Types)e.Type2,
             Gender = e.Gender,
             Ability1 = e.Ability1,
             Ability2 = e.Ability2,

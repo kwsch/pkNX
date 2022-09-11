@@ -1,6 +1,6 @@
 ﻿namespace pkNX.Structures
 {
-    public enum Types
+    public enum Types : byte
     {
         Normal,
         Fighting,
