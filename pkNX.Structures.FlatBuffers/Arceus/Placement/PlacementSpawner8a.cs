@@ -39,7 +39,7 @@ public class PlacementSpawner8a : ISlotTableConsumer
     [FlatBufferItem(19)] public float Field_19 { get; set; } // always -1
     [FlatBufferItem(20)] public PlacementSpawnerF208a[] Field_20 { get; set; } = { new() };
     [FlatBufferItem(21)] public PlacementSpawnerF218a[] Field_21 { get; set; } = { new() };
-    [FlatBufferItem(22)] public string[] Field_22 { get; set; } = { string.Empty };
+    [FlatBufferItem(22)] public string[] PathToFollowIDs { get; set; } = { string.Empty };
 
     public PlacementParameters8a Parameters
     {
@@ -59,10 +59,10 @@ public class PlacementSpawner8a : ISlotTableConsumer
         set { if (Field_21.Length != 1) throw new ArgumentException($"Invalid {nameof(Field_21)}"); Field_21[0] = value; }
     }
 
-    public string Field_22_Value
+    public string PathToFollowID
     {
-        get { if (Field_22.Length != 1) throw new ArgumentException($"Invalid {nameof(Field_22)}"); return Field_22[0]; }
-        set { if (Field_22.Length != 1) throw new ArgumentException($"Invalid {nameof(Field_22)}"); Field_22[0] = value; }
+        get { if (PathToFollowIDs.Length != 1) throw new ArgumentException($"Invalid {nameof(PathToFollowIDs)}"); return PathToFollowIDs[0]; }
+        set { if (PathToFollowIDs.Length != 1) throw new ArgumentException($"Invalid {nameof(PathToFollowIDs)}"); PathToFollowIDs[0] = value; }
     }
 
     public IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias)
@@ -216,7 +216,7 @@ public class PlacementSpawner8a : ISlotTableConsumer
         }
     }
 
-    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Shape}\", {Scalar}, {Field_05}, {Field_06}, {MinSpawnCount}, {MaxSpawnCount}, {Field_09}, {IsMassOutbreak}, {IsWater}, {IsSky}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {ParentLink}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {Field_22_Value})";
+    public override string ToString() => $"Spawner({NameSummary}, 0x{Field_01:X16}, {Parameters}, \"{Shape}\", {Scalar}, {Field_05}, {Field_06}, {MinSpawnCount}, {MaxSpawnCount}, {Field_09}, {IsMassOutbreak}, {IsWater}, {IsSky}, /* Group = */ {GroupSummary}, {Field_14}, {Field_15}, {ParentLink}, {Field_17}, {Field_18}, {Field_19}, {Field_20_Value}, {Field_21_Value}, {PathToFollowID})";
 
     public bool UsesTable(ulong table) => Field_20_Value.EncounterTableID == table;
 }
