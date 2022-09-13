@@ -95,7 +95,7 @@ namespace pkNX.Structures
                 5 => W2,
                 6 => AS,
                 7 => UM,
-                8 => SWSH,
+                8 => PLA,
                 _ => Invalid
             };
         }
