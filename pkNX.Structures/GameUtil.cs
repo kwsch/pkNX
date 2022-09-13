@@ -71,6 +71,10 @@ namespace pkNX.Structures
                 UM => USUM,
                 GP => GG,
                 GE => GG,
+                // Gen8
+                SW => SWSH,
+                SH => SWSH,
+                PLA => PLA,
                 _ => Invalid
             };
         }
@@ -91,6 +95,7 @@ namespace pkNX.Structures
                 5 => W2,
                 6 => AS,
                 7 => UM,
+                8 => SWSH,
                 _ => Invalid
             };
         }
@@ -134,7 +139,12 @@ namespace pkNX.Structures
                     return 807;
                 return Legal.MaxSpeciesID_7_GG;
             }
-            if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
+            if (Gen8.Contains(game))
+            {
+                if (SWSH.Contains(game))
+                    return Legal.MaxSpeciesID_8;
+                return Legal.MaxSpeciesID_8a;
+            }
             return -1;
         }
 
@@ -194,7 +204,8 @@ namespace pkNX.Structures
                 Gen7b => GG.Contains(g2) || GO == g2,
 
                 SWSH => g2 is SW or SH,
-                Gen8 => SWSH.Contains(g2) || PLA == g2,
+                PLA => g2 is PLA,
+                Gen8 => SWSH.Contains(g2) || PLA.Contains(g2),
                 _ => false,
             };
         }
