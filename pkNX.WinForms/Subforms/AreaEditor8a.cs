@@ -43,7 +43,7 @@ public partial class AreaEditor8a : Form
         PG_RandSettings.SelectedObject = EditUtil.Settings.Species;
 
         Loading = true;
-        CB_Area.Items.AddRange(AreaNames);
+        CB_Area.Items.AddRange(Settings.Table.Select(z => z.FriendlyAreaName).ToArray());
         CB_Area.SelectedIndex = AreaIndex;
         LoadArea();
         Loading = false;
