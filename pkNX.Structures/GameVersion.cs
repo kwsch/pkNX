@@ -449,6 +449,7 @@
         /// Generation 8 Games
         /// </summary>
         /// <see cref="SWSH"/>
+        /// <see cref="PLA"/>
         Gen8,
 
         /// <summary>
