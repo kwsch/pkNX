@@ -32,7 +32,8 @@ namespace pkNX.Structures
                 GameVersion.ORAS => z => new PersonalInfoORAS(z),
                 GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
                 GameVersion.GP or GameVersion.GE or GameVersion.GG => z => new PersonalInfoGG(z),
-                _ => z => new PersonalInfoSWSH(z),
+                GameVersion.SW or GameVersion.SH or GameVersion.SWSH => z => new PersonalInfoSWSH(z),
+                _ => null,
             };
         }
 
@@ -62,10 +63,10 @@ namespace pkNX.Structures
             MaxSpeciesID = format.GetMaxSpeciesID();
         }
 
-        public PersonalTable(PersonalInfo[] table, int max)
+        public PersonalTable(PersonalInfo[] table, GameVersion format)
         {
             Table = table;
-            MaxSpeciesID = max;
+            MaxSpeciesID = format.GetMaxSpeciesID();
         }
 
         public readonly PersonalInfo[] Table;

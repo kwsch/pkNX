@@ -52,7 +52,7 @@ namespace pkNX.Game
                 MoveData = GetMoves(),
 
                 // Custom
-                PersonalData = new PersonalTable(personal.Table.Select(z => new PersonalInfoLA(z)).ToArray(), 905),
+                PersonalData = new PersonalTable(personal.Table.Select(z => new PersonalInfoLA(z)).ToArray(), Game),
 
                 // Single Files
                 LevelUpData = new DataCache<Learnset8aMeta>(learnTable.Table),
