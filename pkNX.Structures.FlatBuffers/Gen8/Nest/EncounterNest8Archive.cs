@@ -83,7 +83,7 @@ namespace pkNX.Structures.FlatBuffers
             }
         }
 
-        public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<int> tmtrs,
+        public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<ushort> tmtrs,
             IReadOnlyList<NestHoleReward8Table> drop_tables, IReadOnlyList<NestHoleReward8Table> bonus_tables, int index)
         {
             yield return $"Nest ID: {TableID}";
@@ -118,7 +118,7 @@ namespace pkNX.Structures.FlatBuffers
                 for (var i = 0; i < e.Probabilities.Length; i++)
                 {
                     if (e.Probabilities[i] != 0)
-                        yield return $"\t\t{i+1}-Star Desired: {e.Probabilities[i]:00}%";
+                        yield return $"\t\t{i + 1}-Star Desired: {e.Probabilities[i]:00}%";
                 }
 
                 yield return "\tDrops:";
@@ -147,8 +147,8 @@ namespace pkNX.Structures.FlatBuffers
             string GetItemName(uint itemID)
             {
                 if (itemID is >= 1130 and < 1230) // TR
-                    return $"{items[(int) itemID]} {moves[tmtrs[100 + (int) itemID - 1130]]}";
-                return items[(int) itemID];
+                    return $"{items[(int)itemID]} {moves[tmtrs[100 + (int)itemID - 1130]]}";
+                return items[(int)itemID];
             }
         }
     }
@@ -172,8 +172,8 @@ namespace pkNX.Structures.FlatBuffers
 
         public FixedAbility AbilityPermitted
         {
-            get => (FixedAbility) Ability;
-            set => Ability = (byte) value;
+            get => (FixedAbility)Ability;
+            set => Ability = (byte)value;
         }
 
         public int MinRank => Array.FindIndex(Probabilities, z => z != 0);

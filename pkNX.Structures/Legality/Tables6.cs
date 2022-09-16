@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace pkNX.Structures
 {
+
     public static partial class Legal
     {
         public const int MaxSpeciesID_6 = 721;
@@ -16,7 +16,7 @@ namespace pkNX.Structures
         public const int MaxGameID_6 = 27; // OR
 
         #region Met Locations
-        public static readonly int[] Met_XYc = {0, 60002, 30002};
+        public static readonly int[] Met_XYc = { 0, 60002, 30002 };
 
         public static readonly int[] Met_XY_0 =
         {
@@ -46,7 +46,7 @@ namespace pkNX.Structures
             40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
         };
 
-        public static readonly int[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
+        public static readonly int[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace pkNX.Structures
 
         public static readonly ushort[] Pouch_Items_XY =
         {
-                 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
+            001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
             057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075,
             076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087, 088, 089, 090, 091, 092, 093, 094,
             099, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 112, 116, 117, 118, 119, 135, 136,
@@ -74,7 +74,7 @@ namespace pkNX.Structures
 
         public static readonly ushort[] Pouch_Items_AO =
         {
-                 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
+            001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
             057, 058, 059, 060, 061, 062, 063, 064, 068, 069, 070, 071, 072, 073, 074, 075,
             076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087, 088, 089, 090, 091, 092, 093, 094,
             099, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 112, 116, 117, 118, 119, 135, 136,
@@ -98,30 +98,31 @@ namespace pkNX.Structures
 
         public static readonly ushort[] Pouch_Key_XY =
         {
-                 216, 431, 442, 445, 446, 447, 450, 465, 466, 471, 628,
+            216, 431, 442, 445, 446, 447, 450, 465, 466, 471, 628,
             629, 631, 632, 638, 641, 642, 643, 689, 695, 696, 697, 698,
-            700, 701, 702, 703, 705, 706, 707, 712, 713, 714,
+            700, 701, 702, 703, 705, 712, 713, 714,
 
             // Illegal
-            716, 717, // For the cheaters who want useless items...
+            // 716, 717, 706, 707,
         };
 
         public static readonly ushort[] Pouch_Key_AO =
         {
-                 216, 445, 446, 447, 465, 466, 471, 628,
+            216, 445, 446, 447, 465, 466, 471, 628,
             629, 631, 632, 638, 697,
 
             // Illegal
-            716, 717, 745, 746, 747, 748, 749, 750, // For the cheaters who want useless items...
+            // 716, 717, 723, 745, 746, 747, 748, 749, 750, 766,
 
             // ORAS
             457, 474, 503,
 
             718, 719,
-            720, 721, 722, 723, 724, 725, 726, 727, 728, 729,
+            720, 721, 722,      724, 725, 726, 727, 728, 729,
             730, 731, 732, 733, 734, 735, 736, 738, 739,
             740, 741, 742, 743, 744,
-            751, 765, 766, 771, 772, 774, 775,
+            751,
+            765, 771, 772, 774, 775,
         };
 
         public static readonly ushort[] Pouch_TMHM_XY =
@@ -153,32 +154,32 @@ namespace pkNX.Structures
 
         public static readonly ushort[] Pouch_Medicine_XY =
         {
-                 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
+            017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
             034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051,
             052, 053, 054, 134, 504, 565, 566, 567, 568, 569, 570, 571, 591, 645, 708, 709,
         };
 
         public static readonly ushort[] Pouch_Medicine_AO =
         {
-                 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
+            017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
             034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051,
             052, 053, 054, 134, 504, 565, 566, 567, 568, 569, 570, 571, 591, 645, 708, 709,
 
             //ORAS
-            065, 066, 067
+            065, 066, 067,
         };
 
         public static readonly ushort[] Pouch_Berry_XY =
         {
-                 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162,
+            149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162,
             163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177,
             178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192,
             193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207,
             208, 209, 210, 211, 212, 686, 687, 688,
         };
 
-        public static readonly ushort[] HeldItem_XY = new ushort[1].Concat(Pouch_Items_XY).Concat(Pouch_Medicine_XY).Concat(Pouch_Berry_XY).ToArray();
-        public static readonly ushort[] HeldItem_AO = new ushort[1].Concat(Pouch_Items_AO).Concat(Pouch_Medicine_AO).Concat(Pouch_Berry_XY).ToArray();
+        public static readonly ushort[] HeldItem_XY = ArrayUtil.ConcatAll(Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
+        public static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
         #endregion
 
         #region TMHM
@@ -215,7 +216,7 @@ namespace pkNX.Structures
             15, 19, 57, 70, 127,
         };
 
-        public static readonly int[] TypeTutor6 = {520, 519, 518, 338, 307, 308, 434, 620};
+        public static readonly int[] TypeTutor6 = { 520, 519, 518, 338, 307, 308, 434, 620 };
 
         public static readonly int[][] Tutors_AO =
         {
@@ -227,24 +228,24 @@ namespace pkNX.Structures
 
         #endregion
 
-        public static readonly int[] EggLocations6 = {60002, 30002};
+        public static readonly int[] EggLocations6 = { 60002, 30002 };
 
-        public static readonly int[] ValidMet_XY =
+        public static readonly HashSet<ushort> ValidMet_XY = new()
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
             038, 039, 040, 042, 043, 044, 046, 047, 048, 050, 051, 052, 054, 055, 056, 058, 060, 062, 063, 064, 066, 067,
             068, 069, 070, 072, 074, 075, 076, 078, 079, 082, 084, 085, 086, 088, 089, 090, 092, 093, 094, 096, 097, 098,
             100, 101, 102, 103, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 135, 136,
-            138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
+            138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168,
         };
 
-        public static readonly int[] ValidMet_AO =
+        public static readonly HashSet<ushort> ValidMet_AO = new()
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242,
             244, 246, 248, 250, 252, 254, 256, 258, 260, 262, 264, 266, 268, 270, 272, 274, 276, 278, 280, 282, 284, 286,
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
-            332, 334, 336, 338, 340, 342, 344, 346, 348, 350, 352, 354
+            332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354,
         };
 
         public static readonly int[] FriendSafari =
@@ -288,6 +289,7 @@ namespace pkNX.Structures
             711 + (2 << 11), //Gourgeist-Large
             //Super Size can be obtained as a Pumpkaboo from event distributions
         };
+
         #region Ball Table
         public static readonly int[] Inherit_Sport =
         {
@@ -513,7 +515,7 @@ namespace pkNX.Structures
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
 
-        public static readonly int[] UnreleasedItems_6 =
+        public static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, stackalloc ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -550,8 +552,6 @@ namespace pkNX.Structures
             589, // Relic Statue
             590, // Relic Crown
             715, // Fairy Gem
-        };
-
-        public static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
+        });
     }
 }

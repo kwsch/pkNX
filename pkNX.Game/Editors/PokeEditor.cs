@@ -9,7 +9,7 @@ namespace pkNX.Game
         public DataCache<Learnset> Learn { get; set; }
         public DataCache<EvolutionSet> Evolve { get; set; }
         public DataCache<MegaEvolutionSet[]> Mega { get; set; }
-        public IReadOnlyList<int> TMHM { get; set; }
+        public IReadOnlyList<ushort> TMHM { get; set; }
 
         public void CancelEdits()
         {

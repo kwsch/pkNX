@@ -1,26 +1,42 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using static pkNX.Structures.Species;
 
 namespace pkNX.Structures
 {
+
     public static partial class Legal
     {
-        public const int MaxSpeciesID_8 = 898; // Calyrex
-        public const int MaxMoveID_8 = 826; // Eerie Spell
-        public const int MaxItemID_8 = 1607; // Reins of Unity
-        public const int MaxAbilityID_8 = 267; // As One
-        public const int MaxBallID_8 = (int)Ball.Beast;
-        public const int MaxGameID_8 = (int)GameVersion.SH;
+        // Current Binaries
+        public const int MaxSpeciesID_8 = MaxSpeciesID_8_R2;
+        public const int MaxMoveID_8 = MaxMoveID_8_R2;
+        public const int MaxItemID_8 = MaxItemID_8_R2;
+        public const int MaxAbilityID_8 = MaxAbilityID_8_R2;
 
-        public const int MaxSpeciesID_8a = (int)Species.Enamorus;
-        public const int MaxMoveID_8a = 850; // Take Heart
-        public const int MaxItemID_8a = 1828; // Legend Plate
-        public const int MaxBallID_8a = (int)Ball.LAOrigin;
-        public const int MaxGameID_8a = (int)GameVersion.SP;
-        public const int MaxAbilityID_8a = 267; // As One (Glastrier)
+        // Orion (No DLC)
+        public const int MaxSpeciesID_8_O0 = 890; // Eternatus
+        public const int MaxMoveID_8_O0 = 796; // Steel Beam
+        public const int MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
+        public const int MaxAbilityID_8_O0 = 258; // Hunger Switch
+
+        // Rigel 1 (DLC 1: Isle of Armor)
+        public const int MaxSpeciesID_8_R1 = 893; // Zarude
+        public const int MaxMoveID_8_R1 = 818; // Surging Strikes
+        public const int MaxItemID_8_R1 = 1589; // Mark Charm
+        public const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
+        // Rigel 2 (DLC 2: Crown Tundra)
+        public const int MaxSpeciesID_8_R2 = 898; // Calyrex
+        public const int MaxMoveID_8_R2 = 826; // Eerie Spell
+        public const int MaxItemID_8_R2 = 1607; // Reins of Unity
+        public const int MaxAbilityID_8_R2 = 267; // As One (Glastrier)
+
+        public const int MaxBallID_8 = 0x1A; // 26 Beast
+        public const int MaxGameID_8 = 45; // Shield
 
         #region Met Locations
-        internal static readonly int[] Met_SWSH_0 =
+        public static readonly int[] Met_SWSH_0 =
         {
                  002, 004, 006, 008,
                  012, 014, 016, 018,
@@ -51,12 +67,12 @@ namespace pkNX.Structures
             240, 242, 244, 246,
         };
 
-        internal static readonly int[] Met_SWSH_3 =
+        public static readonly int[] Met_SWSH_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018
         };
 
-        internal static readonly int[] Met_SWSH_4 =
+        public static readonly int[] Met_SWSH_4 =
         {
             40001, 40002, 40003,        40005, 40006, 40007, 40008, 40009, 40010,
             40011, 40012, 40013, 40014,        40016, 40017, 40018, 40019, 40020,
@@ -69,10 +85,11 @@ namespace pkNX.Structures
             40081, 40082, 40083, 40084, 40085, 40086,
         };
 
-        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
+        public static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
         #endregion
 
-        internal static readonly ushort[] Pouch_Regular_SWSH =
+        #region Inventory Pouch
+        public static readonly ushort[] Pouch_Regular_SWSH =
         {
             045, 046, 047, 048, 049, 050, 051, 052, 053, 076, 077, 079, 080, 081, 082, 083, 084, 085, 107, 108, 109,
             110, 112, 116, 117, 118, 119, 135, 136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 228,
@@ -85,11 +102,32 @@ namespace pkNX.Structures
             846, 849, 879, 880, 881, 882, 883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916,
             917, 918, 919, 920, 1103, 1104, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120,
             1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239,
-            1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254, 1581, 1582, 1588,
+            1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254,
+
+            1279,
+            1280, 1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297,
+            1298, 1299, 1300, 1301, 1302, 1303, 1304, 1305, 1306, 1307, 1308, 1309, 1310, 1311, 1312, 1313, 1314, 1315,
+            1316, 1317, 1318, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1326, 1327, 1328, 1329, 1330, 1331, 1332, 1333,
+            1334, 1335, 1336, 1337, 1338, 1339, 1340, 1341, 1342, 1343, 1344, 1345, 1346, 1347, 1348, 1349, 1350, 1351,
+            1352, 1353, 1354, 1355, 1356, 1357, 1358, 1359, 1360, 1361, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369,
+            1370, 1371, 1372, 1373, 1374, 1375, 1376, 1377, 1378, 1379, 1380, 1381, 1382, 1383, 1384, 1385, 1386, 1387,
+            1388, 1389, 1390, 1391, 1392, 1393, 1394, 1395, 1396, 1397, 1398, 1399, 1400, 1401, 1402, 1403, 1404, 1405,
+            1406, 1407, 1408, 1409, 1410, 1411, 1412, 1413, 1414, 1415, 1416, 1417, 1418, 1419, 1420, 1421, 1422, 1423,
+            1424, 1425, 1426, 1427, 1428, 1429, 1430, 1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441,
+            1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453, 1454, 1455, 1456, 1457, 1458, 1459,
+            1460, 1461, 1462, 1463, 1464, 1465, 1466, 1467, 1468, 1469, 1470, 1471, 1472, 1473, 1474, 1475, 1476, 1477,
+            1478, 1479, 1480, 1481, 1482, 1483, 1484, 1485, 1486, 1487, 1488, 1489, 1490, 1491, 1492, 1493, 1494, 1495,
+            1496, 1497, 1498, 1499, 1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513,
+            1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531,
+            1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549,
+            1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567,
+            1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1581, 1582, 1588,
+
+            // DLC 2
             1592, 1604, 1606,
         };
 
-        internal static readonly ushort[] Pouch_Ball_SWSH =
+        public static readonly ushort[] Pouch_Ball_SWSH =
         {
             001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
             492, 493, 494, 495, 496, 497, 498, 499, 500,
@@ -97,14 +135,14 @@ namespace pkNX.Structures
             851,
         };
 
-        internal static readonly ushort[] Pouch_Battle_SWSH =
+        public static readonly ushort[] Pouch_Battle_SWSH =
         {
             055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
         };
 
-        internal static readonly ushort[] Pouch_Items_SWSH = Pouch_Regular_SWSH.Concat(Pouch_Ball_SWSH).Concat(Pouch_Battle_SWSH).ToArray();
+        public static readonly ushort[] Pouch_Items_SWSH = ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH);
 
-        internal static readonly ushort[] Pouch_Key_SWSH =
+        public static readonly ushort[] Pouch_Key_SWSH =
         {
             078,
             628, 629, 631, 632, 638,
@@ -113,67 +151,12 @@ namespace pkNX.Structures
             943, 944, 945, 946,
             1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
-            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600,
-            1601, 1602, 1603, 1605, 1607,
+
+            // DLC 2
+            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
         };
 
-        public static readonly ushort[] Pouch_Items_LA =
-        {
-            017, 023, 024, 025, 026, 027, 028, 029, 039, 041,
-            050, 054, 072, 073, 075, 080, 081, 082, 083, 084,
-            085, 090, 091, 092, 107, 108, 109, 110, 149, 150,
-            151, 152, 153, 154, 155, 157, 158, 159, 160, 161,
-            162, 163, 164, 166, 168, 233, 252, 321, 322, 323,
-            324, 325, 326, 327, 583,      849,
-
-            1125, 1126, 1127, 1128, 1231, 1232, 1233, 1234, 1235, 1236,
-            1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246,
-            1247, 1248, 1249, 1250, 1251,
-
-            1611, 1613, 1614, 1615, 1616, 1617, 1618, 1619, 1620, 1621,
-            1628, 1630, 1631, 1632, 1633, 1634, 1635, 1636, 1637, 1638,
-            1651, 1679, 1681, 1682, 1684, 1686, 1687, 1688, 1689, 1690,
-            1691, 1692, 1693, 1694, 1695, 1696, 1699, 1700, 1701, 1702,
-            1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1711, 1712,
-            1713, 1716, 1717, 1720, 1724, 1725, 1726, 1727, 1728, 1732,
-            1733, 1734, 1735, 1736, 1738, 1739, 1740, 1741, 1742, 1746,
-            1747, 1748, 1749, 1750, 1754, 1755, 1756, 1757, 1758, 1759,
-            1760, 1761, 1762, 1764, 1785,
-        };
-
-        public static readonly ushort[] Pouch_Recipe_LA =
-        {
-            1640, 1641, 1642, 1643, 1644,       1646, 1647, 1648, 1649,
-            1650,       1652, 1653, 1654, 1655, 1656, 1657, 1658, 1659,
-            1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669,
-            1670, 1671,       1673, 1674, 1675, 1676, 1677,
-
-                                                                  1729,
-            1730, 1731,
-
-                  1751, 1752, 1753,
-
-            1783, 1784,
-        };
-
-        internal static readonly ushort[] Pouch_Key_LA =
-        {
-            111,
-            298, 299,
-            300, 301, 302, 303, 304, 305, 306, 307, 308, 309,
-            310, 311, 312, 313,
-            441, 455, 466,
-            632, 638, 644,
-            1608, 1609, 1610, 1612, 1622, 1624, 1625, 1626, 1627, 1629,
-            1639, 1678, 1721, 1722, 1723, 1737, 1743, 1744, 1745, 1763,
-            1765, 1766, 1767, 1768, 1769, 1771, 1776, 1777, 1778, 1779,
-            1780, 1782, 1786, 1787, 1788, 1789, 1790, 1792, 1793, 1794,
-            1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804,
-            1805, 1806, 1807,
-            1828,
-        };
-
-        internal static readonly ushort[] TM_SWSH =
+        public static readonly ushort[] Pouch_TM_SWSH =
         {
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
             338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -188,7 +171,7 @@ namespace pkNX.Structures
             1230, // TM00
         };
 
-        internal static readonly ushort[] TR_SWSH =
+        public static readonly ushort[] Pouch_TR_SWSH =
         {
             1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139,
             1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149,
@@ -202,9 +185,9 @@ namespace pkNX.Structures
             1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
         };
 
-        internal static readonly ushort[] Pouch_TMHM_SWSH = TM_SWSH.Concat(TR_SWSH).ToArray();
+        public static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(Pouch_TM_SWSH, Pouch_TR_SWSH);
 
-        internal static readonly ushort[] Pouch_Medicine_SWSH =
+        public static readonly ushort[] Pouch_Medicine_SWSH =
         {
             017, 018, 019, 020, 021, 022, 023, 024, 025, 026,
             027, 028, 029, 030, 031, 032, 033, 034, 035, 036,
@@ -216,7 +199,7 @@ namespace pkNX.Structures
             1579,
         };
 
-        internal static readonly ushort[] Pouch_Berries_SWSH =
+        public static readonly ushort[] Pouch_Berries_SWSH =
         {
             149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
             159, 160, 161, 162, 163, 169, 170, 171, 172, 173,
@@ -226,14 +209,14 @@ namespace pkNX.Structures
             686, 687, 688,
         };
 
-        internal static readonly ushort[] Pouch_Ingredients_SWSH =
+        public static readonly ushort[] Pouch_Ingredients_SWSH =
         {
             1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093,
             1094, 1095, 1096, 1097, 1098, 1099, 1256, 1257, 1258, 1259,
             1260, 1261, 1262, 1263, 1264,
         };
 
-        internal static readonly ushort[] Pouch_Treasure_SWSH =
+        public static readonly ushort[] Pouch_Treasure_SWSH =
         {
             086, 087, 088, 089, 090, 091, 092, 094, 106,
             571, 580, 581, 582, 583,
@@ -241,8 +224,10 @@ namespace pkNX.Structures
             1105, 1106, 1107, 1108,
         };
 
-        internal static readonly ushort[] HeldItems_SWSH = Pouch_Items_SWSH.Concat(Pouch_Berries_SWSH).Concat(Pouch_Medicine_SWSH).Concat(Pouch_Ingredients_SWSH).Concat(Pouch_Treasure_SWSH).Concat(TR_SWSH).ToArray();
+        public static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, Pouch_TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
+        #endregion
 
+        #region Moves
         public static readonly int[] TypeTutor8 =
         {
             520, 519, 518, // Pledge
@@ -260,99 +245,82 @@ namespace pkNX.Structures
             798, 802,
         };
 
-        public static readonly int[] MoveShop8a =
+        #endregion
+
+        public static readonly HashSet<ushort> GalarOriginForms = new()
         {
-            0xCE, 0x1A8, 0x1A6, 0x1A7, 0x12D, 0xF9, 0xBF, 0x20B,
-            0x14C, 0x1BE, 0x81, 0xA1, 0x159, 0x1D2, 0x33D, 0x74,
-            0x153, 0x15B, 0x9C, 0x260, 7, 9, 8, 0x199, 0x18E, 0x1AB,
-            0x1AC, 0x8D, 0x194, 0x9D, 0x1A5, 0x1BA, 0xE7, 0x253,
-            0x160, 0x1C3, 0x19C, 0xC4, 0xBC, 0x19E, 0xF7, 0x22B,
-            0x1AE, 0x25D, 0x1A0, 0x191, 0x210, 0x29B, 0xE0, 0x1BC,
-            0xC8, 0x247, 0x3F, 0x35, 0x55, 0x3A, 0x5E, 0x18F, 0x1B2,
-            0x31C, 0x158,
+            (int)Meowth,
+            (int)Ponyta,
+            (int)Rapidash,
+            (int)Slowpoke,
+            (int)Farfetchd,
+            (int)MrMime,
+            (int)Corsola,
+            (int)Zigzagoon,
+            (int)Linoone,
+            (int)Yamask,
+            (int)Darumaka,
+            (int)Darmanitan,
+            (int)Stunfisk,
         };
 
-        internal static readonly HashSet<int> GalarOriginForms = new()
+        public static readonly HashSet<ushort> GalarVariantFormEvolutions = new()
         {
-            (int)Species.Meowth,
-            (int)Species.Ponyta,
-            (int)Species.Rapidash,
-            (int)Species.Farfetchd,
-            (int)Species.MrMime,
-            (int)Species.Corsola,
-            (int)Species.Zigzagoon,
-            (int)Species.Linoone,
-            (int)Species.Darumaka,
-            (int)Species.Darmanitan,
-            (int)Species.Yamask,
-            (int)Species.Stunfisk,
-
-            // DLC
-            (int)Species.Slowpoke,
-            (int)Species.Slowbro,
-            (int)Species.Articuno,
-            (int)Species.Zapdos,
-            (int)Species.Moltres,
-            (int)Species.Slowking,
+            (int)MrMime,
+            (int)Weezing,
         };
 
-        internal static readonly HashSet<int> GalarVariantFormEvolutions = new()
+        public static readonly HashSet<int> GalarForm0Evolutions = new()
         {
-            (int)Species.MrMime,
-            (int)Species.Weezing,
+            (int)Obstagoon,
+            (int)Perrserker,
+            (int)Cursola,
+            (int)Sirfetchd,
+            (int)MrRime,
+            (int)Runerigus,
         };
 
-        internal static readonly HashSet<int> GalarForm0Evolutions = new()
-        {
-            (int)Species.Obstagoon,
-            (int)Species.Perrserker,
-            (int)Species.Cursola,
-            (int)Species.Sirfetchd,
-            (int)Species.MrRime,
-            (int)Species.Runerigus,
-        };
-
-        public static readonly HashSet<int> EvolveToGalarForms = new(GalarVariantFormEvolutions.Concat(GalarOriginForms));
+        public static readonly HashSet<ushort> EvolveToGalarForms = new(GalarVariantFormEvolutions.Concat(GalarOriginForms));
 
         public static readonly int[] GigantamaxForms =
         {
-            (int)Species.Charizard,
-            (int)Species.Butterfree,
-            (int)Species.Pikachu,
-            (int)Species.Meowth,
-            (int)Species.Machamp,
-            (int)Species.Gengar,
-            (int)Species.Kingler,
-            (int)Species.Lapras,
-            (int)Species.Eevee,
-            (int)Species.Snorlax,
-            (int)Species.Garbodor,
-            (int)Species.Melmetal,
-            (int)Species.Corviknight,
-            (int)Species.Orbeetle,
-            (int)Species.Drednaw,
-            (int)Species.Coalossal,
-            (int)Species.Flapple,
-            (int)Species.Appletun,
-            (int)Species.Sandaconda,
-            (int)Species.Toxtricity,
-            (int)Species.Centiskorch,
-            (int)Species.Hatterene,
-            (int)Species.Grimmsnarl,
-            (int)Species.Alcremie,
-            (int)Species.Copperajah,
-            (int)Species.Duraludon,
+            (int)Charizard,
+            (int)Butterfree,
+            (int)Pikachu,
+            (int)Meowth,
+            (int)Machamp,
+            (int)Gengar,
+            (int)Kingler,
+            (int)Lapras,
+            (int)Eevee,
+            (int)Snorlax,
+            (int)Garbodor,
+            (int)Melmetal,
+            (int)Corviknight,
+            (int)Orbeetle,
+            (int)Drednaw,
+            (int)Coalossal,
+            (int)Flapple,
+            (int)Appletun,
+            (int)Sandaconda,
+            (int)Toxtricity,
+            (int)Centiskorch,
+            (int)Hatterene,
+            (int)Grimmsnarl,
+            (int)Alcremie,
+            (int)Copperajah,
+            (int)Duraludon,
 
             // DLC
-            (int)Species.Venusaur,
-            (int)Species.Blastoise,
-            (int)Species.Rillaboom,
-            (int)Species.Cinderace,
-            (int)Species.Inteleon,
-            (int)Species.Urshifu,
+            (int)Venusaur,
+            (int)Blastoise,
+            (int)Rillaboom,
+            (int)Cinderace,
+            (int)Inteleon,
+            (int)Urshifu,
         };
 
-        internal static readonly HashSet<int> ValidMet_SWSH = new()
+        public static readonly HashSet<ushort> ValidMet_SWSH = new()
         {
                            006, 008,
                  012, 014, 016, 018,
@@ -383,7 +351,7 @@ namespace pkNX.Structures
             242, 244, 246,
         };
 
-        public static readonly int[] TMHM_SWSH =
+        public static readonly ushort[] TMHM_SWSH =
         {
             // TM
             005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
@@ -410,7 +378,7 @@ namespace pkNX.Structures
             583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
         };
 
-        internal static readonly byte[] MovePP_SWSH =
+        public static readonly byte[] MovePP_SWSH =
         {
             00,
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,
@@ -433,7 +401,14 @@ namespace pkNX.Structures
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new()
+
+        private const int DMAX_START = 1279;
+        private const int DMAX_END = 1578;
+        private const int DMAX_LEGAL_END = 1290; // ★Sgr7194 (Eevee)
+        public static bool IsDynamaxCrystal(ushort item) => item is >= DMAX_START and <= DMAX_END;
+        public static bool IsDynamaxCrystalAvailable(ushort item) => item is >= DMAX_START and <= DMAX_LEGAL_END;
+
+        public static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, stackalloc ushort[]
         {
             298, // Flame Plate
             299, // Splash Plate
@@ -453,18 +428,18 @@ namespace pkNX.Structures
             313, // Iron Plate
             // 644, // Pixie Plate
 
-            // 1279, // ★And458 (Jangmo-o)
-            // 1280, // ★And15 (Larvitar)
-            // 1281, // ★And337 (Corviknight)
-            // 1282, // ★And603 (Eiscue)
-            // 1283, // ★And390 (Stonjourner)
-            // 1284, // ★Sgr6879 (Copperajah)
-            // 1285, // ★Sgr6859 (Centiskorch)
-            1286, // ★Sgr6913
-            1287, // ★Sgr7348
-            1288, // ★Sgr7121
-            1289, // ★Sgr6746
-            1290, // ★Sgr7194
+            1279, // ★And458 (Jangmo-o)
+            1280, // ★And15 (Larvitar)
+            1281, // ★And337 (Corviknight)
+            1282, // ★And603 (Eiscue)
+            1283, // ★And390 (Stonjourner)
+            1284, // ★Sgr6879 (Copperajah)
+            1285, // ★Sgr6859 (Centiskorch)
+            1286, // ★Sgr6913 (Flapple/Appletun)
+            1287, // ★Sgr7348 (Sandaconda)
+            1288, // ★Sgr7121 (Duraludon)
+            1289, // ★Sgr6746 (Pikachu)
+            1290, // ★Sgr7194 (Eevee)
             1291, // ★Sgr7337
             1292, // ★Sgr7343
             1293, // ★Sgr6812
@@ -756,8 +731,7 @@ namespace pkNX.Structures
 
             016, // Cherish Ball
             500, // Park Ball
-        };
+        });
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8 + 1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();
     }
 }

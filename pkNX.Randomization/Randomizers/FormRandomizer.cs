@@ -65,9 +65,9 @@ namespace pkNX.Randomization
 
             if (Personal.TableLength == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
                 return 0;
-            if (alola && Legal.EvolveToAlolanForms.Contains(species))
+            if (alola && Legal.EvolveToAlolanForms.Contains((ushort)species))
                 return Util.Random.Next(2);
-            if (galar && Legal.EvolveToGalarForms.Contains(species))
+            if (galar && Legal.EvolveToGalarForms.Contains((ushort)species))
                 return Util.Random.Next(2);
             if (!Legal.BattleExclusiveForms.Contains(species) || mega || (fused && Legal.BattleFusions.Contains(species)))
                 return Util.Random.Next(stats[species].FormeCount); // Slot-Random

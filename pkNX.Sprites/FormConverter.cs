@@ -12,11 +12,11 @@ namespace pkNX.Sprites
                 return false;
             if (form == 0)
                 return false;
-            if (!Legal.Totem_USUM.Contains(species))
+            if (!Legal.Totem_USUM.Contains((ushort)species))
                 return false;
             if (species == (int)Mimikyu)
                 return form is 2 or 3;
-            if (Legal.Totem_Alolan.Contains(species))
+            if (Legal.Totem_Alolan.Contains((ushort)species))
                 return form == 2;
             return form == 1;
         }
@@ -30,7 +30,7 @@ namespace pkNX.Sprites
 
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
-            return (Species) species switch
+            return (Species)species switch
             {
                 Unown => form < (generation == 2 ? 26 : 28), // A-Z : A-Z?!
                 Mothim => form < 3, // Wormadam base form is kept

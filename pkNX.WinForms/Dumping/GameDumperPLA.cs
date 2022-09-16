@@ -94,7 +94,7 @@ namespace pkNX.WinForms
             List<string> Users = new();
             var moves = ROM.GetStrings(TextName.MoveNames);
             var spec = ROM.GetStrings(TextName.SpeciesNames);
-            var shop = Legal.MoveShop8a;
+            var shop = Legal.MoveShop8_LA;
             for (int i = 0; i < moves.Length; i++)
             {
                 var move = i;
@@ -107,7 +107,7 @@ namespace pkNX.WinForms
                 List<string> r = new() { $"{moves[move]}:" };
                 if (isShop)
                 {
-                    var species = pt.Table.OfType<PersonalInfoLA_Bin> ().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
+                    var species = pt.Table.OfType<PersonalInfoLA_Bin>().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
                     var names = species.Select(z => $"{spec[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
                     r.Add($"\tTutors: {string.Join(", ", names)}");
                 }
@@ -331,7 +331,7 @@ namespace pkNX.WinForms
             for (var i = 0; i < obj.Table.Length; i++)
             {
                 var e = obj.Table[i];
-                if (e.Table?.Length is not >0)
+                if (e.Table?.Length is not > 0)
                     continue;
                 var index = pt.GetFormeIndex(e.Index, e.Form);
                 var entry = (PersonalInfoLA_Bin)pt[index];
@@ -372,7 +372,7 @@ namespace pkNX.WinForms
 
                 var table = TableUtil.GetTable(set.Table);
 
-                foreach (var line in table.Split(new [] { Environment.NewLine }, StringSplitOptions.None))
+                foreach (var line in table.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
                     lines.Add($"\t{line}");
             }
 
@@ -500,7 +500,7 @@ namespace pkNX.WinForms
                 foreach (var p in props)
                 {
                     var value = p.GetValue(x);
-                    if (value is not string {Length: not 0} s)
+                    if (value is not string { Length: not 0 } s)
                         continue;
                     if (!s.Contains('/'))
                         continue;

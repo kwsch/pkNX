@@ -1,19 +1,20 @@
-﻿using System.Linq;
+using System;
 
 namespace pkNX.Structures
 {
     public static partial class Legal
     {
-        internal const int MaxSpeciesID_7b = 809; // Melmetal
-        internal const int MaxMoveID_7b = 742; // Double Iron Bash
-        internal const int MaxItemID_7b = 1057; // Magmar Candy
-        internal const int MaxGameID_7b = (int)GameVersion.GE;
-        internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
-        public const int AwakeningMax = 200;
+        public const int MaxSpeciesID_7_GG = 809; // Melmetal
+        public const int MaxMoveID_7_GG = 742; // Double Iron Bash
+        public const int MaxItemID_7_GG = 1057; // Magmar Candy
+        public const int MaxBallID_7_GG = (int)Ball.Beast;
+        public const int MaxGameID_7_GG = (int)GameVersion.GE;
+        public const int MaxAbilityID_7_GG = MaxAbilityID_7_USUM;
+        public const byte AwakeningMax = 200;
 
         #region Met Locations
 
-        internal static readonly int[] Met_GG_0 =
+        public static readonly int[] Met_GG_0 =
         {
             002, // Invalid
             003, 004, 005, 006, 007, 008, 009,
@@ -24,12 +25,12 @@ namespace pkNX.Structures
             050, 051, 052, 053,
         };
 
-        internal static readonly int[] Met_GG_3 =
+        public static readonly int[] Met_GG_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017
         };
 
-        internal static readonly int[] Met_GG_4 =
+        public static readonly int[] Met_GG_4 =
         {
             40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
             40010, 40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019,
@@ -41,13 +42,13 @@ namespace pkNX.Structures
             40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077,
         };
 
-        internal static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004};
+        public static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 
         #region Items
 
-        internal static readonly ushort[] Pouch_Candy_GG_Regular =
+        public static readonly ushort[] Pouch_Candy_GG_Regular =
         {
             050, // Rare Candy
             960, 961, 962, 963, 964, 965, // S
@@ -55,9 +56,9 @@ namespace pkNX.Structures
             972, 973, 974, 975, 976, 977, // XL
         };
 
-        internal static readonly ushort[] Pouch_Candy_GG_Species =
+        public static readonly ushort[] Pouch_Candy_GG_Species =
         {
-            979,
+            978, 979,
             980, 981, 982, 983, 984, 985, 986, 987, 988, 989,
             990, 991, 992, 993, 994, 995, 996, 997, 998, 999,
             1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009,
@@ -69,14 +70,14 @@ namespace pkNX.Structures
             1057,
         };
 
-        internal static readonly ushort[] Pouch_Candy_GG = Pouch_Candy_GG_Regular.Concat(Pouch_Candy_GG_Species).ToArray();
+        public static readonly ushort[] Pouch_Candy_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG_Regular, Pouch_Candy_GG_Species);
 
-        internal static readonly ushort[] Pouch_Medicine_GG =
+        public static readonly ushort[] Pouch_Medicine_GG =
         {
             017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 038, 039, 040, 041, 709, 903,
         };
 
-        internal static readonly ushort[] Pouch_TM_GG =
+        public static readonly ushort[] Pouch_TM_GG =
         {
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
             338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -86,26 +87,26 @@ namespace pkNX.Structures
             378, 379, 380, 381, 382, 383, 384, 385, 386, 387,
         };
 
-        internal static readonly ushort[] Pouch_PowerUp_GG =
+        public static readonly ushort[] Pouch_PowerUp_GG =
         {
             051, 053, 081, 082, 083, 084, 085,
             849,
         };
 
-        internal static readonly ushort[] Pouch_Catching_GG =
+        public static readonly ushort[] Pouch_Catching_GG =
         {
             001, 002, 003, 004, 012, 164, 166, 168,
             861, 862, 863, 864, 865, 866,
         };
 
-        internal static readonly ushort[] Pouch_Battle_GG =
+        public static readonly ushort[] Pouch_Battle_GG =
         {
             055, 056, 057, 058, 059, 060, 061, 062,
             656, 659, 660, 661, 662, 663, 671, 672, 675, 676, 678, 679,
             760, 762, 770, 773,
         };
 
-        internal static readonly ushort[] Pouch_Regular_GG =
+        public static readonly ushort[] Pouch_Regular_GG =
         {
             076, 077, 078, 079, 086, 087, 088, 089,
             090, 091, 092, 093, 101, 102, 103, 113, 115,
@@ -117,7 +118,7 @@ namespace pkNX.Structures
             872, 873, 874, 875, 876, 877, 878, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 900, 901, 902,
         };
 
-        internal static readonly ushort[] Pouch_Regular_GG_Item =
+        public static readonly ushort[] Pouch_Regular_GG_Item =
         {
             076, // Super Repel
             077, // Max Repel
@@ -141,11 +142,8 @@ namespace pkNX.Structures
             902, // Max Lure
         };
 
-        internal static readonly ushort[] Pouch_Regular_GG_Key =
+        public static readonly ushort[] Pouch_Regular_GG_Key =
         {
-            101, // Helix Fossil
-            102, // Dome Fossil
-            103, // Old Amber
             113, // Tea
             115, // Autograph
             121, // Pokémon Box
@@ -181,13 +179,45 @@ namespace pkNX.Structures
             896, // Small Bouquet
         };
 
-        internal static readonly ushort[] HeldItems_GG = Pouch_Candy_GG.Concat(Pouch_Medicine_GG).Concat(Pouch_PowerUp_GG).Concat(Pouch_Catching_GG).Concat(Pouch_Battle_GG).Concat(Pouch_Regular_GG_Item).ToArray();
+        public static readonly ushort[] HeldItems_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG, Pouch_Medicine_GG, Pouch_PowerUp_GG, Pouch_Catching_GG, Pouch_Battle_GG, Pouch_Regular_GG_Item);
 
         #endregion
 
         #region Moves
 
-        internal static readonly int[] MovePP_GG =
+        public static bool IsAllowedMoveGG(ushort move) => Array.BinarySearch(AllowedMovesGG, move) >= 0;
+
+        private static readonly int[] AllowedMovesGG =
+        {
+            000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
+            010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
+            020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
+            030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
+            040, 041, 042, 043, 044, 045, 046, 047, 048, 049,
+            050, 051, 052, 053, 054, 055, 056, 057, 058, 059,
+            060, 061, 062, 063, 064, 065, 066, 067, 068, 069,
+            070, 071, 072, 073, 074, 075, 076, 077, 078, 079,
+            080, 081, 082, 083, 084, 085, 086, 087, 088, 089,
+            090, 091, 092, 093, 094, 095, 096, 097, 098, 099,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109,
+            110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
+            120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+            130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
+            140, 141, 142, 143, 144, 145, 146, 147, 148, 149,
+            150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+            160, 161, 162, 163, 164,
+
+            182, 188, 200, 224, 227, 231, 242, 243, 247, 252,
+            257, 261, 263, 269, 270, 276, 280, 281, 339, 347,
+            355, 364, 369, 389, 394, 398, 399, 403, 404, 405,
+            406, 417, 420, 430, 438, 446, 453, 483, 492, 499,
+            503, 504, 525, 529, 583, 585, 603, 605, 606, 607,
+            729, 730, 731, 733, 734, 735, 736, 737, 738, 739,
+            740, 742,
+        };
+
+
+        public static readonly int[] MovePP_GG =
         {
             // Absorb: 25 -> 15 (damage buffed from 20->40)
             // Mega Drain: 15 -> 10 (damage buffed from 40->75)
@@ -210,7 +240,7 @@ namespace pkNX.Structures
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 15, 15, 15, 20, 15, 15, 15, 15, 15, 15, 15, 15, 20, 05,
         };
 
-        public static readonly int[] TMHM_GG =
+        public static readonly ushort[] TMHM_GG =
         {
             029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
             261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
@@ -223,7 +253,7 @@ namespace pkNX.Structures
             // No HMs
         };
 
-        internal static readonly int[] Tutor_StarterPikachu =
+        public static readonly int[] Tutor_StarterPikachu =
         {
             729, // Zippy Zap
             730, // Splishy Splash
@@ -231,7 +261,7 @@ namespace pkNX.Structures
             732, // Pika Papow
         };
 
-        internal static readonly int[] Tutor_StarterEevee =
+        public static readonly int[] Tutor_StarterEevee =
         {
             733, // Bouncy Bubble
             734, // Buzzy Buzz

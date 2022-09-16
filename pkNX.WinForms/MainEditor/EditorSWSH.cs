@@ -112,13 +112,15 @@ namespace pkNX.WinForms.Controls
 
         public void EditShinyRate()
         {
-            if (ROM.PathExeFS == null) {
+            if (ROM.PathExeFS == null)
+            {
                 WinFormsUtil.Alert("ExeFS not detected.");
                 return;
             }
 
             var path = Path.Combine(ROM.PathExeFS, "main");
-            if (!File.Exists(path)) {
+            if (!File.Exists(path))
+            {
                 WinFormsUtil.Alert("Not able to find `main` file in ExeFS.");
                 return;
             }
@@ -251,14 +253,14 @@ namespace pkNX.WinForms.Controls
 
             var arr = nest_encounts.Table;
             var cache = new DataCache<EncounterNest8Table>(arr);
-            var games = new[] {"Sword", "Shield"};
+            var games = new[] { "Sword", "Shield" };
             var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
 
             void Randomize()
             {
                 var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
@@ -363,7 +365,7 @@ namespace pkNX.WinForms.Controls
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
                 var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
@@ -383,7 +385,7 @@ namespace pkNX.WinForms.Controls
                     t.ShinyLock = (int)Shiny.Random;
                     t.Moves = new[] { 0, 0, 0, 0 };
                     if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
-                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
                 }
             }
 
@@ -544,7 +546,7 @@ namespace pkNX.WinForms.Controls
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
                 var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
@@ -572,7 +574,7 @@ namespace pkNX.WinForms.Controls
                     t.Gender = (byte)FixedGender.Random;
                     t.ShinyLock = (int)Shiny.Random;
                     if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
-                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
                 }
 
                 UpdateStarters(); // update placement critter data to match new randomized species
@@ -633,7 +635,7 @@ namespace pkNX.WinForms.Controls
                 int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
                 var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;
@@ -653,7 +655,7 @@ namespace pkNX.WinForms.Controls
                     t.ShinyLock = (int)Shiny.Random;
                     t.Relearn1 = 0;
                     if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
-                        t.IVs = new[] {-1,-1,-1,-1,-1,-1};
+                        t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
 
                     // what you trade
                     t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);

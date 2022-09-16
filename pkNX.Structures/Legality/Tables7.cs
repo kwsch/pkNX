@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using static pkNX.Structures.Species;
 
 namespace pkNX.Structures
 {
@@ -10,18 +11,14 @@ namespace pkNX.Structures
         public const int MaxItemID_7_SM = 920;
         public const int MaxAbilityID_7_SM = 232;
         public const int MaxBallID_7_SM = (int)Ball.Beast;
-        public const int MaxGameID_7 = (int)GameVersion.C;
+        public const int MaxGameID_7_SM = (int)GameVersion.C;
 
         public const int MaxSpeciesID_7_USUM = 807;
         public const int MaxMoveID_7_USUM = 728;
         public const int MaxItemID_7_USUM = 959;
         public const int MaxAbilityID_7_USUM = 233;
 
-        public const int MaxSpeciesID_7_GG = 809;
-        public const int MaxMoveID_7_GG = 742; // Double Iron Bash
-        public const int MaxItemID_7_GG = 1057; // Magmar Candy
-        public const int MaxAbilityID_7_GG = MaxAbilityID_7_USUM;
-
+        #region Inventory Pouch
         public static readonly ushort[] Pouch_Regular_SM = // 00
         {
             068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087,
@@ -43,7 +40,7 @@ namespace pkNX.Structures
 
         public static readonly ushort[] Pouch_Ball_SM = { // 08
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 492, 493, 494, 495, 496, 497, 498, 576,
-            851
+            851,
         };
 
         public static readonly ushort[] Pouch_Battle_SM = { // 16
@@ -51,12 +48,21 @@ namespace pkNX.Structures
             846,
         };
 
-        public static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
+        public static readonly ushort[] Pouch_Items_SM = ArrayUtil.ConcatAll(Pouch_Regular_SM, Pouch_Ball_SM, Pouch_Battle_SM);
 
         public static readonly ushort[] Pouch_Key_SM = {
-            216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
+            216, 465, 466, 628, 629, 631, 632, 638,
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
+        };
+
+        public static readonly ushort[] Pouch_Key_USUM = ArrayUtil.ConcatAll(Pouch_Key_SM, new ushort[] {
+            933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
+            440,
+        });
+
+        public static readonly ushort[] Pouch_Roto_USUM = {
+            949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959,
         };
 
         public static readonly ushort[] Pouch_TMHM_SM = { // 02
@@ -84,48 +90,143 @@ namespace pkNX.Structures
         };
 
         public static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
-            776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
+            776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836,
         };
 
-        public static readonly ushort[] Pouch_ZCrystal_USUM = { // Bead
-            927, 928, 929, 930, 931, 932
-        };
+        public static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, new ushort[] { // Bead
+            927, 928, 929, 930, 931, 932,
+        });
 
-        public static readonly ushort[] Pouch_ZCrystalHeld_USUM = { // Piece
-            921, 922, 923, 924, 925, 926
-        };
+        public static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, new ushort[] { // Piece
+            921, 922, 923, 924, 925, 926,
+        });
+        #endregion
 
-        public static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        public static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(HeldItems_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
+        public static readonly Dictionary<ushort, ushort> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
 
-        public static readonly int[] AlolanOriginForms =
+        private static Dictionary<ushort, ushort> GetDictionary(IReadOnlyList<ushort> key, IReadOnlyList<ushort> held)
         {
-            (int)Species.Rattata,
-            (int)Species.Raticate,
-            (int)Species.Sandshrew,
-            (int)Species.Sandslash,
-            (int)Species.Vulpix,
-            (int)Species.Ninetales,
-            (int)Species.Diglett,
-            (int)Species.Dugtrio,
-            (int)Species.Meowth,
-            (int)Species.Persian,
-            (int)Species.Geodude,
-            (int)Species.Graveler,
-            (int)Species.Golem,
-            (int)Species.Grimer,
-            (int)Species.Muk,
+            var result = new Dictionary<ushort, ushort>(held.Count);
+            for (int i = 0; i < key.Count; i++)
+                result.Add(key[i], held[i]);
+            return result;
+        }
+
+        public static readonly ushort[] HeldItems_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_SM);
+        public static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
+
+        public static readonly HashSet<ushort> AlolanOriginForms = new()
+        {
+            (int)Rattata,
+            (int)Raticate,
+            (int)Sandshrew,
+            (int)Sandslash,
+            (int)Vulpix,
+            (int)Ninetales,
+            (int)Diglett,
+            (int)Dugtrio,
+            (int)Meowth,
+            (int)Persian,
+            (int)Geodude,
+            (int)Graveler,
+            (int)Golem,
+            (int)Grimer,
+            (int)Muk,
         };
 
-        public static readonly int[] EvolveToAlolanForms = new[]
+        public static readonly HashSet<ushort> AlolanVariantEvolutions12 = new()
         {
-            (int)Species.Raichu,
-            (int)Species.Exeggutor,
-            (int)Species.Marowak,
-        }.Concat(AlolanOriginForms).ToArray();
+            (int)Raichu,
+            (int)Exeggutor,
+            (int)Marowak,
+        };
+
+        public static readonly HashSet<ushort> EvolveToAlolanForms = new(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
+
+
+        public static readonly HashSet<ushort> PastGenAlolanNatives = new()
+        {
+            010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
+            051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074, 075,
+            076, 079, 080, 081, 082, 088, 089, 090, 091, 092, 093, 094, 096, 097, 102, 103, 104, 105, 113, 115, 118, 119,
+            120, 121, 123, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 142, 143, 147, 148, 149, 165,
+            166, 167, 168, 169, 170, 171, 172, 173, 174, 185, 186, 196, 197, 198, 199, 200, 209, 210, 212, 215, 222, 225,
+            227, 233, 235, 239, 240, 241, 242, 278, 279, 283, 284, 296, 297, 299, 302, 318, 319, 320, 321, 324, 327, 328,
+            329, 330, 339, 340, 349, 350, 351, 359, 361, 362, 369, 370, 371, 372, 373, 374, 375, 376, 408, 409, 410, 411,
+            422, 423, 425, 426, 429, 430, 438, 440, 443, 444, 445, 446, 447, 448, 456, 457, 461, 462, 466, 467, 470, 471,
+            474, 476, 478, 506, 507, 508, 524, 525, 526, 546, 547, 548, 549, 551, 552, 553, 564, 565, 566, 567, 568, 569,
+            582, 583, 584, 587, 594, 627, 628, 629, 630, 661, 662, 663, 674, 675, 700, 703, 704, 705, 706, 707, 708, 709,
+            718,
+
+            // Regular
+            023, 086, 108, 122, 138, 140, 163, 177, 179, 190, 204,
+            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
+            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            714,
+
+            // Wormhole
+            333, 334, // Altaria
+            193, 469, // Yanmega
+            561, // Sigilyph
+            580, 581, // Swanna
+            276, 277, // Swellow
+            451, 452, // Drapion
+            531, // Audino
+            694, 695, // Heliolisk
+            273, 274, 275, // Nuzleaf
+            325, 326, // Gumpig
+            459, 460, // Abomasnow
+            307, 308, // Medicham
+            449, 450, // Hippowdon
+            557, 558, // Crustle
+            218, 219, // Magcargo
+            688, 689, // Barbaracle
+            270, 271, 272, // Lombre
+            618, // Stunfisk
+            418, 419, // Floatzel
+            194, 195, // Quagsire
+
+            100, 101, // Voltorb & Electrode
+        };
+
+        public static readonly int[] TypeTutor8 =
+        {
+            520, 519, 518, // Pledge
+            338, 307, 308, // Elemental Beam
+            434, // Draco Meteor
+            796, // Steel Beam
+        };
+
+        public static readonly int[] Tutors_SWSH_1 =
+        {
+            805, 807, 812, 804,
+            803, 813, 811, 810,
+            815, 814, 797, 806,
+            800, 809, 799, 808,
+            798, 802,
+        };
+
+        public static readonly HashSet<ushort> ValidMet_SM = new()
+        {
+            006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
+            050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
+            100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
+            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
+
+            30016,
+        };
+
+        public static readonly HashSet<ushort> ValidMet_USUM = new(ValidMet_SM)
+        {
+            // 194, 195, 196, 197, // Unobtainable new Locations
+            198,
+            200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
+        };
 
         #region Unreleased Items
-        public static readonly int[] UnreleasedHeldItems_7 =
+        public static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, stackalloc ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -137,10 +238,6 @@ namespace pkNX.Structures
             069, // White Flute
             070, // Shoal Salt
             071, // Shoal Shell
-            099, // Root Fossil
-            100, // Claw Fossil
-            101, // Helix Fossil
-            102, // Dome Fossil
             103, // Old Amber
             111, // Odd Keystone
             164, // Razz Berry
@@ -155,17 +252,18 @@ namespace pkNX.Structures
             181, // Watmel Berry
             182, // Durin Berry
             183, // Belue Berry
-            208, // Enigma Berry
-            209, // Micle Berry
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
+            //208, // Enigma Berry
+            //209, // Micle Berry
+            //210, // Custap Berry
+            //211, // Jaboca Berry
+            //212, // Rowap Berry
             215, // Macho Brace
             260, // Red Scarf
             261, // Blue Scarf
             262, // Pink Scarf
             263, // Green Scarf
             264, // Yellow Scarf
+            499, // Sport Ball
             548, // Fire Gem
             549, // Water Gem
             550, // Electric Gem
@@ -185,53 +283,57 @@ namespace pkNX.Structures
             576, // Dream Ball
             584, // Relic Copper
             585, // Relic Silver
-            586, // Relic Gold
             587, // Relic Vase
             588, // Relic Band
             589, // Relic Statue
             590, // Relic Crown
-            710, // Jaw Fossil
-            711, // Sail Fossil
+            699, // Discount Coupon
             715, // Fairy Gem
-        };
+        });
         #endregion
-        public static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_SM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
 
-        public static readonly HashSet<int> Totem_Alolan = new()
+        public static readonly HashSet<ushort> Totem_Alolan = new()
         {
-            (int)Species.Raticate, // Normal, Alolan, Totem
-            (int)Species.Marowak, // Normal, Alolan, Totem
-            (int)Species.Mimikyu, // Normal, Busted, Totem, Totem_Busted
+            (int)Raticate, // (Normal, Alolan, Totem)
+            (int)Marowak, // (Normal, Alolan, Totem)
+            (int)Mimikyu, // (Normal, Busted, Totem, Totem_Busted)
         };
 
+        public static readonly HashSet<ushort> Totem_NoTransfer = new()
+        {
+            (int)Marowak,
+            (int)Araquanid,
+            (int)Togedemaru,
+            (int)Ribombee,
+        };
         public static readonly HashSet<int> Totem_SM = new()
         {
-            (int)Species.Raticate,
-            (int)Species.Gumshoos,
-            // (int)Species.Wishiwashi,
-            (int)Species.Salazzle,
-            (int)Species.Lurantis,
-            (int)Species.Vikavolt,
-            (int)Species.Mimikyu,
-            (int)Species.Kommoo,
+            (int)Raticate,
+            (int)Gumshoos,
+            // (int)Wishiwashi,
+            (int)Salazzle,
+            (int)Lurantis,
+            (int)Vikavolt,
+            (int)Mimikyu,
+            (int)Kommoo,
         };
 
-        public static readonly HashSet<int> Totem_USUM = new()
+        public static readonly HashSet<ushort> Totem_USUM = new()
         {
-            (int)Species.Raticate,
-            (int)Species.Gumshoos,
-            // (int)Species.Wishiwashi,
-            (int)Species.Salazzle,
-            (int)Species.Lurantis,
-            (int)Species.Vikavolt,
-            (int)Species.Mimikyu,
-            (int)Species.Kommoo,
-            (int)Species.Marowak,
-            (int)Species.Araquanid,
-            (int)Species.Togedemaru,
-            (int)Species.Ribombee,
+            (int)Raticate,
+            (int)Gumshoos,
+            //(int)Wishiwashi,
+            (int)Salazzle,
+            (int)Lurantis,
+            (int)Vikavolt,
+            (int)Mimikyu,
+            (int)Kommoo,
+            (int)Marowak,
+            (int)Araquanid,
+            (int)Togedemaru,
+            (int)Ribombee,
         };
 
-        public static readonly ushort[] HeldItemsBuy_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Medicine_SM).ToArray();
+        public static readonly ushort[] HeldItemsBuy_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Medicine_SM);
     }
 }
