@@ -110,7 +110,7 @@ public class LandmarkItemSpawn8a
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class LandmarkItemSpawn8a_F03
 {
-    [FlatBufferItem(00)] public int Field_00 { get; set; }
-    [FlatBufferItem(01)] public int Field_01 { get; set; }
-    [FlatBufferItem(02)] public bool Field_02 { get; set; }
+    [FlatBufferItem(00)] public int ItemId { get; set; }
+    [FlatBufferItem(01)] public int Probability { get; set; }
+    [FlatBufferItem(02)] public bool IsRare { get; set; }
 }
