@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using FlatSharp.Attributes;
 using pkNX.Containers;
 
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class EncounterSlot8a
+public class EncounterSlot8a : ICloneable
 {
     public override string ToString() => $"{(Species)Species}{(Form == 0 ? "" : $"-{Form}")}{(Oybn.IsOybnAny ? "*" : "")} - {BaseProbability}={ShinyLock}";
 
@@ -57,6 +59,14 @@ public class EncounterSlot8a
     [FlatBufferItem(44)] public bool Field_44_SetsPropTo100Not8000 { get; set; }
     [FlatBufferItem(45)] public EncounterEligiblityTraits8a Eligibility { get; set; } = new();
     [FlatBufferItem(46)] public EncounterOybnTraits8a Oybn { get; set; } = new();
+
+    public object Clone()
+    {
+        var slot = (EncounterSlot8a)MemberwiseClone();
+        slot.Eligibility = (EncounterEligiblityTraits8a)Eligibility.Clone();
+        slot.Oybn = (EncounterOybnTraits8a)Oybn.Clone();
+        return slot;
+    }
 
     public (bool forced, int min, int max) GetLevels(int min, int max)
     {
