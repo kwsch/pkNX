@@ -281,7 +281,7 @@ public static class FormInfo
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
     /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
-    public static bool HasFormSelection(PersonalInfo pi, ushort species, int format)
+    public static bool HasFormSelection(IPersonalInfo pi, ushort species, int format)
     {
         if (format <= 3 && species != (int)Unown)
             return false;
@@ -289,7 +289,7 @@ public static class FormInfo
         if (HasFormValuesNotIndicatedByPersonal.Contains(species))
             return true;
 
-        int count = pi.FormeCount;
+        int count = pi.FormCount;
         return count > 1;
     }
 

@@ -7,7 +7,7 @@ using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms.Controls
 {
-   public partial class StatEditor : UserControl
+    public partial class StatEditor : UserControl
     {
         public StatEditor()
         {
@@ -26,7 +26,7 @@ namespace pkNX.WinForms.Controls
             UpdatingFields = false;
         }
 
-        public PersonalTable? Personal { private get; set; }
+        public IPersonalTable? Personal { private get; set; }
         public bool UpdatingFields;
         public StatPKM PKM { get; set; } = new TrainerPoke7b();
 
@@ -56,7 +56,7 @@ namespace pkNX.WinForms.Controls
             if (pt == null)
                 throw new NullReferenceException("Personal table hasn't been initialized.");
 
-            var pi = pt.GetFormeEntry(PKM.Species, PKM.Form);
+            var pi = pt.GetFormEntry((ushort)PKM.Species, (byte)PKM.Form);
             var stats = PKM.GetStats(pi);
 
             Stat_HP.Text = stats[0].ToString();

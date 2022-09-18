@@ -7,24 +7,24 @@ namespace pkNX.Randomization
 {
     public class FormRandomizer
     {
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
 
-        public FormRandomizer(PersonalTable t)
+        public FormRandomizer(IPersonalTable t)
         {
             Personal = t;
         }
 
-        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[]? stats = null)
+        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, IPersonalInfo[]? stats = null)
         {
             stats ??= Personal.Table;
-            if (stats[species].FormeCount <= 1)
+            if (stats[species].FormCount <= 1)
                 return 0;
             bool IsGen6 = Personal.MaxSpeciesID == 721;
 
             switch ((Species)species)
             {
                 // Rayquaza's Forme Count was unchanged in SWSH despite Megas being removed, so just in case the user allows random Megas, disallow this invalid Forme.
-                case Rayquaza when Personal.TableLength == 1192:
+                case Rayquaza when Personal.Table.Length == 1192:
                     return 0;
                 case Unown:
                 case Deerling:
@@ -47,15 +47,15 @@ namespace pkNX.Randomization
                 // only allow Standard, not Zen Mode
                 case Darmanitan when galar:
                 {
-                    int form = Util.Random.Next(stats[species].FormeCount);
+                    int form = Util.Random.Next(stats[species].FormCount);
                     return form & 2;
                 }
 
                 // some species have 1 invalid form among several other valid forms, handle them here
-                case Pikachu when Personal.TableLength == 1192:
+                case Pikachu when Personal.Table.Length == 1192:
                 case Slowbro when galar:
                 {
-                    int form = Util.Random.Next(stats[species].FormeCount - 1);
+                    int form = Util.Random.Next(stats[species].FormCount - 1);
                     int banned = GetInvalidForm(species, galar, Personal);
                     if (form == banned)
                         form++;
@@ -63,20 +63,20 @@ namespace pkNX.Randomization
                 }
             }
 
-            if (Personal.TableLength == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
+            if (Personal.Table.Length == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
                 return 0;
             if (alola && Legal.EvolveToAlolanForms.Contains((ushort)species))
                 return Util.Random.Next(2);
             if (galar && Legal.EvolveToGalarForms.Contains((ushort)species))
                 return Util.Random.Next(2);
             if (!Legal.BattleExclusiveForms.Contains(species) || mega || (fused && Legal.BattleFusions.Contains(species)))
-                return Util.Random.Next(stats[species].FormeCount); // Slot-Random
+                return Util.Random.Next(stats[species].FormCount); // Slot-Random
             return 0;
         }
 
-        public static int GetInvalidForm(int species, bool galar, PersonalTable stats) => species switch
+        public static int GetInvalidForm(int species, bool galar, IPersonalTable stats) => species switch
         {
-            (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
+            (int)Pikachu when stats.Table.Length == 1192 => 8, // LGPE Partner Pikachu
             (int)Slowbro when galar => 1, // Mega Slowbro
             _ => throw new ArgumentOutOfRangeException(nameof(species))
         };

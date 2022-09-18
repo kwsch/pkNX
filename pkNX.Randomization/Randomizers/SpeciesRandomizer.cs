@@ -6,13 +6,13 @@ namespace pkNX.Randomization
 {
     public class SpeciesRandomizer
     {
-        private readonly PersonalTable SpeciesStat;
+        private readonly IPersonalTable SpeciesStat;
         private readonly int MaxSpeciesID;
         private readonly GameInfo Game;
 
         private SpeciesSettings s = new();
 
-        public SpeciesRandomizer(GameInfo game, PersonalTable t)
+        public SpeciesRandomizer(GameInfo game, IPersonalTable t)
         {
             Game = game;
             MaxSpeciesID = Game.MaxSpeciesID;
@@ -63,7 +63,7 @@ namespace pkNX.Randomization
         public int GetRandomSpeciesType(int oldSpecies, int type)
         {
             // Get a new random species
-            PersonalInfo oldpkm = SpeciesStat[oldSpecies];
+            IPersonalInfo oldpkm = SpeciesStat[oldSpecies];
 
             loopctr = 0; // altering calculations to prevent infinite loops
             int newSpecies;
@@ -72,7 +72,7 @@ namespace pkNX.Randomization
             return newSpecies;
         }
 
-        private bool GetIsTypeMatch(int newSpecies, int type) => type == -1 || SpeciesStat[newSpecies].Types.Any(z => z == type) || loopctr > 9000;
+        private bool GetIsTypeMatch(int newSpecies, int type) => type == -1 || SpeciesStat[newSpecies].IsType((Types)type) || loopctr > 9000;
 
         public int GetRandomSpecies() => RandSpec.Next();
 
@@ -99,7 +99,7 @@ namespace pkNX.Randomization
 
         public int[] RandomSpeciesList => Enumerable.Range(1, MaxSpeciesID).ToArray();
 
-        private bool GetNewSpecies(int currentSpecies, PersonalInfo oldpkm, out int newSpecies)
+        private bool GetNewSpecies(int currentSpecies, IPersonalInfo oldpkm, out int newSpecies)
         {
             bool isLegend = false;
 
@@ -133,7 +133,7 @@ namespace pkNX.Randomization
             return loopctr < MaxSpeciesID * 10;
         }
 
-        private bool IsCriteriaMatch(PersonalInfo oldpkm, PersonalInfo pkm)
+        private bool IsCriteriaMatch(IPersonalInfo oldpkm, IPersonalInfo pkm)
         {
             if (IsSpeciesEXPRateBad(oldpkm, pkm))
                 return false;
@@ -144,25 +144,29 @@ namespace pkNX.Randomization
             return true;
         }
 
-        private bool IsSpeciesEXPRateBad(PersonalInfo oldpkm, PersonalInfo pkm)
+        private bool IsSpeciesEXPRateBad(IPersonalTraits oldpkm, IPersonalTraits pkm)
         {
             return s.EXPGroup && oldpkm.EXPGrowth == pkm.EXPGrowth;
         }
 
-        private bool IsSpeciesTypeBad(PersonalInfo oldpkm, PersonalInfo pkm)
+        private bool IsSpeciesTypeBad(IPersonalType oldpkm, IPersonalType pkm)
         {
-            return s.Type && oldpkm.Types.Intersect(pkm.Types).Any();
+            return s.Type && (oldpkm.IsType(pkm.Type1) || oldpkm.IsType(pkm.Type2));
         }
 
-        private bool IsSpeciesBSTBad(PersonalInfo oldpkm, PersonalInfo pkm)
+        private bool IsSpeciesBSTBad(IPersonalInfo oldpkm, IPersonalInfo pkm)
         {
             if (!s.BST)
                 return false;
+
             // Base stat total has to be close to original BST
+            int oldBST = oldpkm.GetBaseStatTotal();
+            int pkmBST = pkm.GetBaseStatTotal();
+
             int expand = loopctr / MaxSpeciesID;
-            int lo = oldpkm.BST * l / (h + expand);
-            int hi = oldpkm.BST * (h + expand) / l;
-            return lo > pkm.BST || pkm.BST > hi;
+            int lo = oldBST * l / (h + expand);
+            int hi = oldBST * (h + expand) / l;
+            return lo > pkmBST || pkmBST > hi;
         }
     }
 }

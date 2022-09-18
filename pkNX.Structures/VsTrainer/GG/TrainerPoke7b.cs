@@ -35,14 +35,14 @@ namespace pkNX.Structures
 
         public override int Nature { get => Data[0x01]; set => Data[0x01] = (byte)value; }
 
-        public override int EV_HP  { get => Data[0x02]; set => Data[0x02] = (byte)value; }
+        public override int EV_HP { get => Data[0x02]; set => Data[0x02] = (byte)value; }
         public override int EV_ATK { get => Data[0x03]; set => Data[0x03] = (byte)value; }
         public override int EV_DEF { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int EV_SPA { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int EV_SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
         public override int EV_SPE { get => Data[0x07]; set => Data[0x07] = (byte)value; }
 
-        public int AV_HP  { get => Data[0x08]; set => Data[0x08] = (byte)value; }
+        public int AV_HP { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public int AV_ATK { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int AV_DEF { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
         public int AV_SPA { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
@@ -53,8 +53,8 @@ namespace pkNX.Structures
         public override int Rank { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
         public override bool CanDynamax { get => false; set { } }
 
-        public override uint IV32  { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
-        public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
+        public override uint IV32 { get => BitConverter.ToUInt32(Data, 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
+        public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
         public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
         public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
@@ -81,12 +81,12 @@ namespace pkNX.Structures
         public override int Move3 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Move4 { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public override ushort[] GetStats(PersonalInfo p)
+        public override ushort[] GetStats(IPersonalInfo p)
         {
             return CalculateStatsBeluga(p);
         }
 
-        public ushort[] CalculateStatsBeluga(PersonalInfo p)
+        public ushort[] CalculateStatsBeluga(IPersonalInfo p)
         {
             int level = Level;
             int nature = Nature;
@@ -109,7 +109,7 @@ namespace pkNX.Structures
         /// <summary>
         /// Gets the initial stat value based on the base stat value, IV, and current level.
         /// </summary>
-        /// <param name="baseStat"><see cref="PersonalInfo"/> stat.</param>
+        /// <param name="baseStat"><see cref="IBaseStat"/> stat.</param>
         /// <param name="iv">Current IV, already accounted for Hyper Training</param>
         /// <param name="level">Current Level</param>
         /// <returns>Initial Stat</returns>
@@ -118,7 +118,7 @@ namespace pkNX.Structures
         /// <summary>
         /// Gets the initial stat value with nature amplification applied. Used for all stats except HP.
         /// </summary>
-        /// <param name="baseStat"><see cref="PersonalInfo"/> stat.</param>
+        /// <param name="baseStat"><see cref="IBaseStat"/> stat.</param>
         /// <param name="iv">Current IV, already accounted for Hyper Training</param>
         /// <param name="level">Current Level</param>
         /// <param name="nature">Current Nature</param>

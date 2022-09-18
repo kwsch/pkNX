@@ -686,7 +686,7 @@ namespace pkNX.WinForms.Controls
             {
                 var pt = Data.PersonalData;
                 int[] ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Select((z, i) => new { Species = i, Present = ((IPersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
                 var spec = EditUtil.Settings.Species;

@@ -150,7 +150,7 @@ namespace pkNX.WinForms
 
             var pt = ROM.Data.PersonalData;
             var ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH) z).IsPresentInGame})
+                .Select((z, i) => new { Species = i, Present = ((IPersonalInfoSWSH)z).IsPresentInGame })
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
             rand.Initialize(settings, ban);
@@ -202,15 +202,15 @@ namespace pkNX.WinForms
 
         public static readonly Dictionary<int, byte[]> RandomScaledRates = new()
         {
-            [01] = new byte[] {100},
-            [04] = new byte[] {60, 30, 7, 3},
-            [05] = new byte[] {40, 30, 18, 10, 2},
-            [10] = new byte[] {20, 15, 15, 10, 10, 10, 10, 5, 4, 1},
+            [01] = new byte[] { 100 },
+            [04] = new byte[] { 60, 30, 7, 3 },
+            [05] = new byte[] { 40, 30, 18, 10, 2 },
+            [10] = new byte[] { 20, 15, 15, 10, 10, 10, 10, 5, 4, 1 },
         };
 
         private void TC_Tables_DrawItem(object sender, DrawItemEventArgs e)
         {
-            var tc = (TabControl) sender;
+            var tc = (TabControl)sender;
             Graphics g = e.Graphics;
 
             // Get the item from the collection.

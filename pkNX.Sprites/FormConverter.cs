@@ -44,12 +44,12 @@ namespace pkNX.Sprites
         /// </summary>
         /// <param name="pi">Game specific personal info</param>
         /// <param name="species"> ID</param>
-        public static bool HasFormSelection(PersonalInfo pi, int species)
+        public static bool HasFormSelection(IFormInfo pi, int species)
         {
             if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
                 return true;
 
-            int count = pi.FormeCount;
+            int count = pi.FormCount;
             return count > 1;
         }
 
