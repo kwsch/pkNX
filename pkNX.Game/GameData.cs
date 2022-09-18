@@ -7,7 +7,7 @@ namespace pkNX.Game;
 /// </summary>
 public class GameData
 {
-    public PersonalTable PersonalData { get; internal set; }
+    public IPersonalTable PersonalData { get; internal set; }
     public DataCache<MegaEvolutionSet[]> MegaEvolutionData { get; internal set; }
 
     public DataCache<IMove> MoveData { get; internal set; }

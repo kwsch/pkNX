@@ -30,7 +30,7 @@ namespace pkNX.Sprites
 
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
-            return (Species) species switch
+            return (Species)species switch
             {
                 Unown => form < (generation == 2 ? 26 : 28), // A-Z : A-Z?!
                 Mothim => form < 3, // Wormadam base form is kept
@@ -44,12 +44,12 @@ namespace pkNX.Sprites
         /// </summary>
         /// <param name="pi">Game specific personal info</param>
         /// <param name="species"> ID</param>
-        public static bool HasFormSelection(PersonalInfo pi, int species)
+        public static bool HasFormSelection(IFormInfo pi, int species)
         {
             if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
                 return true;
 
-            int count = pi.FormeCount;
+            int count = pi.FormCount;
             return count > 1;
         }
 

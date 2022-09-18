@@ -10,7 +10,7 @@ namespace pkNX.WinForms
 {
     public class PersonalDumperPLA
     {
-        private void AddTRs(List<string> lines, PersonalInfo pi, string specCode)
+        private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
         {
             if (!(TMIndexes?.Count > 0))
                 return;
@@ -58,7 +58,7 @@ namespace pkNX.WinForms
 
         public PersonalDumperSettings Settings = new();
 
-        public List<string> Dump(PersonalTable table)
+        public List<string> Dump(IPersonalTable table)
         {
             var lines = new List<string>();
             var ml = new List<string>[Moves.Count];
@@ -66,30 +66,30 @@ namespace pkNX.WinForms
                 ml[i] = new List<string>();
             MoveSpeciesLearn = ml;
 
-            for (int species = 0; species <= table.MaxSpeciesID; species++)
+            for (ushort species = 0; species <= table.MaxSpeciesID; species++)
             {
                 var spec = table[species];
-                for (int form = 0; form < spec.FormeCount; form++)
+                for (byte form = 0; form < spec.FormCount; form++)
                     AddDump(lines, table, species, form);
             }
             return lines;
         }
 
-        public void AddDump(List<string> lines, PersonalTable table, int species, int form)
+        public void AddDump(List<string> lines, IPersonalTable table, ushort species, byte form)
         {
-            var index = table.GetFormeIndex(species, form);
+            var index = table.GetFormIndex(species, form);
             var entry = table[index];
             string name = EntryNames[index];
             AddDump(lines, entry, index, name, species, form);
             lines.Add("");
         }
 
-        private void AddDump(List<string> lines, PersonalInfo pi, int entry, string name, int species, int form)
+        private void AddDump(List<string> lines, IPersonalInfo pi, int entry, string name, int species, int form)
         {
-            if (pi is PersonalInfoSWSH { IsPresentInGame: false })
+            if (pi is IPersonalMetaInfo { IsPresentInGame: false })
                 return;
 
-            var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
+            var specCode = pi.FormCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
 
             if (Settings.Stats)
                 AddPersonalLines(lines, pi, entry, name, specCode);
@@ -98,10 +98,6 @@ namespace pkNX.WinForms
                 AddLearnsets(lines, specCode, species, form);
                 AddLearnsetsLegacy(lines, specCode, species, form);
             }
-            if (Settings.TMHM)
-                AddTMs(lines, pi, specCode);
-            if (Settings.Tutor)
-                AddArmorTutors(lines, pi, specCode);
             if (Settings.Evo)
                 AddEvolutions(lines, species, form);
             if (Settings.Dex)
@@ -116,7 +112,7 @@ namespace pkNX.WinForms
             lines.Add(ZukanB[entry].Replace("\\n", " "));
         }
 
-        protected virtual void AddTMs(List<string> lines, PersonalInfo pi, string SpecCode)
+        protected virtual void AddTMs(List<string> lines, IMovesInfo_1 pi, string SpecCode)
         {
             var tmhm = pi.TMHM;
             int count = 0;
@@ -137,7 +133,7 @@ namespace pkNX.WinForms
             AddTRs(lines, pi, SpecCode);
         }
 
-        protected virtual void AddArmorTutors(List<string> lines, PersonalInfo pi, string SpecCode)
+        protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_2 pi, string SpecCode)
         {
             var shop = pi.SpecialTutors[0];
             int count = 0;
@@ -203,22 +199,23 @@ namespace pkNX.WinForms
             lines.AddRange(msg);
         }
 
-        private void AddPersonalLines(List<string> lines, PersonalInfo pi, int entry, string name, string specCode)
+        private void AddPersonalLines(List<string> lines, IPersonalInfo pi, int entry, string name, string specCode)
         {
             Debug.WriteLine($"Dumping {specCode}");
             lines.Add("======");
             lines.Add($"{entry:000} - {name} (Stage: {pi.EvoStage})");
             lines.Add("======");
-            if (pi is PersonalInfoLA { IsPresentInGame: false })
+            if (pi is IPersonalMetaInfo { IsPresentInGame: false })
                 lines.Add("Present: No");
-            lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.BST})");
+            lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.GetBaseStatTotal()})");
             lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");
             lines.Add($"Gender Ratio: {pi.Gender}");
             lines.Add($"Catch Rate: {pi.CatchRate}");
 
             if (HasAbilities)
             {
-                var abils = pi.Abilities;
+                var abils = new int[pi.GetNumAbilities()];
+                pi.GetAbilities(abils);
                 var msg = string.Join(" | ", abils.Select((z, j) => Abilities[z] + AbilitySuffix[j]));
                 lines.Add($"Abilities: {msg}");
             }
@@ -229,9 +226,10 @@ namespace pkNX.WinForms
 
             if (HasItems)
             {
-                var items = pi.Items;
+                var items = new int[pi.GetNumItems()];
+                pi.GetItems(items);
                 if (items.Distinct().Count() == 1)
-                    lines.Add($"Items: {Items[pi.Items[0]]}");
+                    lines.Add($"Items: {Items[pi.Item1]}");
                 else
                     lines.AddRange(items.Select((z, j) => $"{ItemPrefix[j]}: {Items[z]}"));
             }
@@ -240,7 +238,6 @@ namespace pkNX.WinForms
             lines.Add(string.Format(pi.EggGroup1 != pi.EggGroup2
                 ? "Egg Group: {0} / {1}"
                 : "Egg Group: {0}", EggGroups[pi.EggGroup1], EggGroups[pi.EggGroup2]));
-            lines.Add($"Hatch Cycles: {pi.HatchCycles}");
             lines.Add($"Height: {(decimal)pi.Height / 100:00.00}m, Weight: {(decimal)pi.Weight / 10:000.0}kg, Color: {Colors[pi.Color]}");
         }
     }

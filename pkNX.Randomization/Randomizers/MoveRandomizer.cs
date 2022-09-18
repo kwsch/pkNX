@@ -8,13 +8,13 @@ namespace pkNX.Randomization
     public class MoveRandomizer : Randomizer
     {
         private readonly IReadOnlyList<IMove> MoveData;
-        private readonly PersonalTable SpeciesStat;
+        private readonly IPersonalTable SpeciesStat;
         private readonly GameInfo Config;
 
         private GenericRandomizer<int> RandMove;
         internal MovesetRandSettings Settings = new();
 
-        public MoveRandomizer(GameInfo config, IReadOnlyList<IMove> moves, PersonalTable t)
+        public MoveRandomizer(GameInfo config, IReadOnlyList<IMove> moves, IPersonalTable t)
         {
             Config = config;
             var maxMoveId = config.MaxMoveID;
@@ -42,13 +42,13 @@ namespace pkNX.Randomization
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
             var moves = all.Except(banned);
             if (MoveData[0] is Move8Fake)
-                moves = moves.Where(z => ((Move8Fake) MoveData[z]).CanUseMove);
+                moves = moves.Where(z => ((Move8Fake)MoveData[z]).CanUseMove);
             RandMove = new GenericRandomizer<int>(moves.ToArray());
         }
 
-        public int[] GetRandomLearnset(int index, int movecount) => GetRandomLearnset(SpeciesStat[index].Types, movecount);
+        public int[] GetRandomLearnset(int index, int movecount) => GetRandomLearnset(SpeciesStat[index], movecount);
 
-        public int[] GetRandomLearnset(int[] Types, int movecount)
+        public int[] GetRandomLearnset(IPersonalType Types, int movecount)
         {
             var oldSTABCount = Settings.STABCount;
             Settings.STABCount = (int)(Settings.STABPercent * movecount / 100);
@@ -57,9 +57,9 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        public int[] GetRandomMoveset(int index, int movecount = 4) => GetRandomMoveset(SpeciesStat[index].Types, movecount);
+        public int[] GetRandomMoveset(int index, int movecount = 4) => GetRandomMoveset(SpeciesStat[index], movecount);
 
-        public int[] GetRandomMoveset(int[] Types, int movecount = 4)
+        public int[] GetRandomMoveset(IPersonalType Types, int movecount = 4)
         {
             int loopctr = 0;
             const int maxLoop = 666;
@@ -71,7 +71,7 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        private int[] GetRandomMoves(int[] Types, int movecount = 4)
+        private int[] GetRandomMoves(IPersonalType Types, int movecount = 4)
         {
             int[] moves = new int[movecount];
             int i = 0;
@@ -86,23 +86,23 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        private int GetRandomSTABMove(int[] types)
+        private int GetRandomSTABMove(IPersonalType types)
         {
             int move;
             int ctr = 0;
             do { move = RandMove.Next(); }
-            while (!types.Contains(MoveData[move].Type) && ctr++ < RandMove.Count);
+            while (!types.IsType((Types)MoveData[move].Type) && ctr++ < RandMove.Count);
             return move;
         }
 
-        private bool IsMovesetMeetingRequirements(int[] moves, int[] types, int count)
+        private bool IsMovesetMeetingRequirements(int[] moves, IPersonalType types, int count)
         {
             if (Settings.DMG && Settings.DMGCount > moves.Count(move => MoveData[move].Category != 0))
                 return false;
 
             if (Settings.STAB)
             {
-                var stabCt = moves.Count(move => types.Contains(MoveData[move].Type));
+                var stabCt = moves.Count(move => types.IsType((Types)MoveData[move].Type));
                 if (stabCt < Settings.STABCount)
                     return false;
             }
@@ -148,9 +148,9 @@ namespace pkNX.Randomization
             return first.Next();
         }
 
-        public int GetRandomFirstMove(int index) => GetRandomFirstMove(SpeciesStat[index].Types);
+        public int GetRandomFirstMove(int index) => GetRandomFirstMove(SpeciesStat[index]);
 
-        public int GetRandomFirstMove(int[] types)
+        public int GetRandomFirstMove(IPersonalType types)
         {
             first.Reset();
             int ctr = 0;
@@ -160,7 +160,7 @@ namespace pkNX.Randomization
                 move = first.Next();
                 if (++ctr == firstMoves.Length)
                     return move;
-            } while (!types.Contains(MoveData[move].Type));
+            } while (!types.IsType((Types)MoveData[move].Type));
             return move;
         }
 

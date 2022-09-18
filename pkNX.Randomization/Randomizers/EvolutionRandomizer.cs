@@ -9,11 +9,11 @@ namespace pkNX.Randomization
     {
         private readonly EvolutionSet[] Evolutions;
         private readonly GameInfo Game;
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         public readonly SpeciesRandomizer RandSpec;
         public readonly FormRandomizer RandForm;
 
-        public EvolutionRandomizer(GameInfo game, EvolutionSet[] evolutions, PersonalTable t)
+        public EvolutionRandomizer(GameInfo game, EvolutionSet[] evolutions, IPersonalTable t)
         {
             Game = game;
             Personal = t;

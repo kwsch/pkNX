@@ -8,7 +8,7 @@ namespace pkNX.Randomization
     public class TrainerRandomizer : Randomizer
     {
         private readonly GameInfo Info;
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         private readonly VsTrainer[] Trainers;
         private readonly int[] PossibleHeldItems;
         private readonly int[] GigantamaxForms;
@@ -31,7 +31,7 @@ namespace pkNX.Randomization
         private TrainerRandSettings Settings = null!;
         private SpeciesSettings SpecSettings = null!;
 
-        public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
+        public TrainerRandomizer(GameInfo info, IPersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
         {
             Trainers = trainers;
             Info = info;
@@ -96,9 +96,9 @@ namespace pkNX.Randomization
             int min = special ? count : Settings.TeamCountMin;
             int max = special ? count : Settings.TeamCountMax;
 
-            var avgBST = (int)tr.Team.Average(pk => Personal[pk.Species].BST);
+            var avgBST = (int)tr.Team.Average(pk => Personal[pk.Species].GetBaseStatTotal());
             int avgLevel = (int)tr.Team.Average(pk => pk.Level);
-            var pinfo = Personal.Table.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+            var pinfo = Personal.Table.OrderBy(pk => Math.Abs(avgBST - pk.GetBaseStatTotal())).First();
             int avgSpec = Array.IndexOf(Personal.Table, pinfo);
 
             if (Settings.ForceDoubles && !(special && count % 2 == 1))
@@ -206,7 +206,7 @@ namespace pkNX.Randomization
             int timesEvolved = 0;
             do
             {
-                var index = Personal.GetFormeIndex(species, form);
+                var index = Personal.GetFormIndex((ushort)species, (byte)form);
                 var eSet = evos[index].PossibleEvolutions;
                 int evoCount = eSet.Count(z => z.HasData);
                 if (evoCount == 0 && species != (int)Species.Meltan)
@@ -303,10 +303,10 @@ namespace pkNX.Randomization
                     pk.Moves = RandMove.GetRandomMoveset(pk.Species);
                     break;
                 case MoveRandType.LevelUpMoves:
-                    pk.Moves = Learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level);
+                    pk.Moves = Learn.GetCurrentMoves((ushort)pk.Species, (byte)pk.Form, pk.Level);
                     break;
                 case MoveRandType.HighPowered:
-                    pk.Moves = Learn.GetHighPoweredMoves(pk.Species, pk.Form);
+                    pk.Moves = Learn.GetHighPoweredMoves((ushort)pk.Species, (byte)pk.Form);
                     break;
                 case MoveRandType.MetronomeOnly: // Metronome
                     pk.Moves = new[] { 118, 0, 0, 0 };

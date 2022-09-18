@@ -51,7 +51,7 @@ namespace pkNX.Game
                 },
 
                 // folders;
-                PersonalData = new PersonalTable(personal[0], Game),
+                PersonalData = new PersonalTable7GG(personal[0]),
                 MegaEvolutionData = new DataCache<MegaEvolutionSet[]>(GetFilteredFolder(GameFile.MegaEvolutions))
                 {
                     Create = MegaEvolutionSet.ReadArray,
@@ -69,7 +69,7 @@ namespace pkNX.Game
         {
             // Store Personal Data back in the file. Let the container detect if it is modified.
             var personal = this[GameFile.PersonalStats];
-            personal[0] = Data.PersonalData.Table.SelectMany(z => z.Write()).ToArray();
+            personal[0] = Data.PersonalData.Table.SelectMany(z => ((IPersonalInfoBin)z).Write()).ToArray();
         }
     }
 }

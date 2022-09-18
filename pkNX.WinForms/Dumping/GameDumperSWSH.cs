@@ -57,8 +57,8 @@ namespace pkNX.WinForms
             var egg = EggMoves7.GetArray(eggdata.GetFiles().Result);
 
             var pt = ROM.Data.PersonalData;
-            var altForms = pt.GetFormList(s, pt.MaxSpeciesID);
-            var entryNames = pt.GetPersonalEntryList(altForms, s, pt.MaxSpeciesID, out _, out _);
+            var altForms = pt.GetFormList(s);
+            var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
             var moveNames = ROM.GetStrings(TextName.MoveNames);
 
             var pd = new PersonalDumperSWSH
@@ -462,7 +462,7 @@ namespace pkNX.WinForms
             var foreign = new List<string>();
             for (int i = 1; i <= ROM.Info.MaxSpeciesID; i++)
             {
-                var p = (PersonalInfoSWSH)pt[i];
+                var p = (IPersonalInfoSWSH)pt[i];
                 bool any = false;
                 if (p.PokeDexIndex != 0)
                 {

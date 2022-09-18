@@ -12,14 +12,14 @@ namespace pkNX.Randomization
     {
         private readonly Learnset[] Learnsets;
         private readonly GameInfo Game;
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         private MoveRandomizer moverand;
         public IReadOnlyList<IMove> Moves { private get; set; } = Array.Empty<IMove>();
 
         public LearnSettings Settings { get; private set; } = new();
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
 
-        public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, PersonalTable t)
+        public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, IPersonalTable t)
         {
             Game = game;
             Learnsets = learnsets;
@@ -138,19 +138,19 @@ namespace pkNX.Randomization
             return moves;
         }
 
-        internal int[] GetHighPoweredMoves(int species, int form, int count = 4) => GetHighPoweredMoves(Moves, species, form, count);
+        internal int[] GetHighPoweredMoves(ushort species, byte form, int count = 4) => GetHighPoweredMoves(Moves, species, form, count);
 
-        public int[] GetCurrentMoves(int species, int form, int level, int count = 4)
+        public int[] GetCurrentMoves(ushort species, byte form, int level, int count = 4)
         {
-            int i = Personal.GetFormeIndex(species, form);
+            int i = Personal.GetFormIndex(species, form);
             var moves = Learnsets[i].GetEncounterMoves(level);
             Array.Resize(ref moves, count);
             return moves;
         }
 
-        public int[] GetHighPoweredMoves(IReadOnlyList<IMove> movedata, int species, int form, int count = 4)
+        public int[] GetHighPoweredMoves(IReadOnlyList<IMove> movedata, ushort species, byte form, int count = 4)
         {
-            int index = Personal.GetFormeIndex(species, form);
+            int index = Personal.GetFormIndex(species, form);
             var learn = Learnsets[index];
             return learn.GetHighPoweredMoves(count, movedata);
         }
