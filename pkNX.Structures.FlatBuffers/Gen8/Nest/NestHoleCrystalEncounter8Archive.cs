@@ -26,7 +26,7 @@ namespace pkNX.Structures.FlatBuffers
         [FlatBufferItem(1)] public uint GameVersion { get; set; }
         [FlatBufferItem(2)] public NestHoleCrystalEncounter8[] Entries { get; set; }
 
-        public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<int> tmtrs,
+        public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<ushort> tmtrs,
             IReadOnlyList<INestHoleRewardTable> nest_drop_tables, IReadOnlyList<INestHoleRewardTable> nest_bonus_tables, IReadOnlyList<INestHoleRewardTable> dist_drop_tables, IReadOnlyList<INestHoleRewardTable> dist_bonus_tables, int index)
         {
             var drop_tables = nest_drop_tables.Concat(dist_drop_tables).ToArray();

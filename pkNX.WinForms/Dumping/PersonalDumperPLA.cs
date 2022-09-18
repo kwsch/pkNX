@@ -49,7 +49,7 @@ namespace pkNX.WinForms
         public Learnset8aMeta[] EntryLearnsets { private get; set; }
         public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; }
         public EvolutionSet8a[] Evos { private get; set; }
-        public IReadOnlyList<int> TMIndexes { protected get; set; }
+        public IReadOnlyList<ushort> TMIndexes { protected get; set; }
 
         private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
         private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
@@ -138,11 +138,11 @@ namespace pkNX.WinForms
             var shop = pi.SpecialTutors[0];
             int count = 0;
             lines.Add("Move Shop:");
-            for (int i = 0; i < Math.Min(shop.Length, Legal.MoveShop8a.Length); i++)
+            for (int i = 0; i < Math.Min(shop.Length, Legal.MoveShop8_LA.Length); i++)
             {
                 if (!shop[i])
                     continue;
-                var move = Legal.MoveShop8a[i];
+                var move = Legal.MoveShop8_LA[i];
                 lines.Add($"- {Moves[move]}");
                 count++;
 
