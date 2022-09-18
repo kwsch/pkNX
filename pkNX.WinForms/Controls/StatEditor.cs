@@ -7,7 +7,7 @@ using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms.Controls
 {
-   public partial class StatEditor : UserControl
+    public partial class StatEditor : UserControl
     {
         public StatEditor()
         {

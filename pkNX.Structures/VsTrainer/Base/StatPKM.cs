@@ -30,7 +30,7 @@ namespace pkNX.Structures
         public virtual ushort[] GetStats(PersonalInfo p)
         {
             ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(((IV_HP  + (2 * p.HP ) + (EV_HP  / 4) + 100) * Level / 100) + 10);
+            Stats[0] = (ushort)(((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * Level / 100) + 10);
             Stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * Level / 100) + 5);
             Stats[2] = (ushort)(((IV_DEF + (2 * p.DEF) + (EV_DEF / 4)) * Level / 100) + 5);
             Stats[4] = (ushort)(((IV_SPA + (2 * p.SPA) + (EV_SPA / 4)) * Level / 100) + 5);

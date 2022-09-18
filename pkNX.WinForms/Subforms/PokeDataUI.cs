@@ -94,7 +94,7 @@ namespace pkNX.WinForms
             if (TMs.Count == 0) // No ExeFS to grab TMs from.
             {
                 for (int i = 0; i < 100; i++)
-                    CLB_TM.Items.Add($"TM{i+1:00}");
+                    CLB_TM.Items.Add($"TM{i + 1:00}");
             }
             else // Use TM moves.
             {
@@ -103,7 +103,7 @@ namespace pkNX.WinForms
                     for (int i = 0; i < TMs.Count / 2; i++)
                         CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
                     for (int i = TMs.Count / 2; i < TMs.Count; i++)
-                        CLB_TM.Items.Add($"TR{i-100:00} {movelist[TMs[i]]}");
+                        CLB_TM.Items.Add($"TR{i - 100:00} {movelist[TMs[i]]}");
                     for (int i = 0; i < Legal.TypeTutor8.Length; i++)
                         CLB_TypeTutor.Items.Add(movelist[Legal.TypeTutor8[i]]);
                     for (int i = 0; i < Legal.Tutors_SWSH_1.Length; i++)
@@ -494,8 +494,8 @@ namespace pkNX.WinForms
         private void B_RandPersonal_Click(object sender, EventArgs e)
         {
             SaveCurrent();
-            var settings = (PersonalRandSettings) PG_Personal.SelectedObject;
-            var rand = new PersonalRandomizer(Editor.Personal, ROM.Info, Editor.Evolve.LoadAll()) {Settings = settings};
+            var settings = (PersonalRandSettings)PG_Personal.SelectedObject;
+            var rand = new PersonalRandomizer(Editor.Personal, ROM.Info, Editor.Evolve.LoadAll()) { Settings = settings };
             rand.Execute();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();
@@ -524,7 +524,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 
@@ -560,7 +560,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 

@@ -42,7 +42,7 @@ namespace pkNX.Randomization
             var all = Enumerable.Range(1, Config.MaxMoveID - 1);
             var moves = all.Except(banned);
             if (MoveData[0] is Move8Fake)
-                moves = moves.Where(z => ((Move8Fake) MoveData[z]).CanUseMove);
+                moves = moves.Where(z => ((Move8Fake)MoveData[z]).CanUseMove);
             RandMove = new GenericRandomizer<int>(moves.ToArray());
         }
 

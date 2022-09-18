@@ -379,12 +379,12 @@ namespace pkNX.WinForms
             {
                 case TrainerPoke7b b:
                     b.CanMegaEvolve = CHK_CanMega.Checked;
-                    b.MegaFormChoice = (int) NUD_MegaForm.Value;
-                    b.Friendship = (int) NUD_Friendship.Value;
+                    b.MegaFormChoice = (int)NUD_MegaForm.Value;
+                    b.Friendship = (int)NUD_Friendship.Value;
                     break;
                 case TrainerPoke8 c:
                     c.CanDynamax = CHK_CanDynamax.Checked;
-                    c.DynamaxLevel = (byte) Stats.CB_DynamaxLevel.SelectedIndex;
+                    c.DynamaxLevel = (byte)Stats.CB_DynamaxLevel.SelectedIndex;
                     c.CanGigantamax = Stats.CHK_Gigantamax.Checked;
                     break;
             }
@@ -431,7 +431,7 @@ namespace pkNX.WinForms
             if (tr is TrainerData7b b)
             {
                 b.Gift = CB_Gift.SelectedIndex;
-                b.GiftQuantity = (int) NUD_GiftCount.Value;
+                b.GiftQuantity = (int)NUD_GiftCount.Value;
             }
         }
 
@@ -462,7 +462,7 @@ namespace pkNX.WinForms
 
         private void DumpTxt(object sender, EventArgs e)
         {
-            using var sfd = new SaveFileDialog {FileName = "Trainers.txt"};
+            using var sfd = new SaveFileDialog { FileName = "Trainers.txt" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             var sb = new StringBuilder();
@@ -530,9 +530,9 @@ namespace pkNX.WinForms
             if (sender == CB_Nature)
                 pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
             else if (sender == NUD_Level)
-                pkm.Level = (int) NUD_Level.Value;
+                pkm.Level = (int)NUD_Level.Value;
             else if (sender == NUD_Friendship)
-                pkm.Friendship = (int) NUD_Friendship.Value;
+                pkm.Friendship = (int)NUD_Friendship.Value;
 
             Stats.UpdateStats();
         }
@@ -593,7 +593,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new {Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame})
+                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 
