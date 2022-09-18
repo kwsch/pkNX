@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.B_MaxSpawnCountRange = new System.Windows.Forms.Button();
             this.PG_Spawner = new System.Windows.Forms.PropertyGrid();
             this.CB_Encounters = new System.Windows.Forms.ComboBox();
             this.L_ConfigName = new System.Windows.Forms.Label();
+            this.TT_ButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // B_MaxSpawnCountRange
@@ -42,6 +44,7 @@
             this.B_MaxSpawnCountRange.Size = new System.Drawing.Size(148, 23);
             this.B_MaxSpawnCountRange.TabIndex = 8;
             this.B_MaxSpawnCountRange.Text = "Max All Spawn Counts";
+            this.TT_ButtonToolTip.SetToolTip(this.B_MaxSpawnCountRange, "Set all min and max spawn counts to 8 for all spawners in this area");
             this.B_MaxSpawnCountRange.UseVisualStyleBackColor = true;
             this.B_MaxSpawnCountRange.Click += new System.EventHandler(this.B_MaxSpawnCountRange_Click);
             // 
@@ -96,5 +99,6 @@
         private System.Windows.Forms.PropertyGrid PG_Spawner;
         private System.Windows.Forms.ComboBox CB_Encounters;
         private System.Windows.Forms.Label L_ConfigName;
+        private System.Windows.Forms.ToolTip TT_ButtonToolTip;
     }
 }

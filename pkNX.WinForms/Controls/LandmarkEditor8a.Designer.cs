@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.B_HighEncounterChance = new System.Windows.Forms.Button();
             this.PG_Encounters = new System.Windows.Forms.PropertyGrid();
             this.CB_Encounters = new System.Windows.Forms.ComboBox();
             this.L_ConfigName = new System.Windows.Forms.Label();
+            this.TT_ButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // B_HighEncounterChance
@@ -42,6 +44,7 @@
             this.B_HighEncounterChance.Size = new System.Drawing.Size(148, 23);
             this.B_HighEncounterChance.TabIndex = 8;
             this.B_HighEncounterChance.Text = "High Encounter Chance";
+            this.TT_ButtonToolTip.SetToolTip(this.B_HighEncounterChance, "Set all ActivationRate\'s of all spawners in this area to 75");
             this.B_HighEncounterChance.UseVisualStyleBackColor = true;
             this.B_HighEncounterChance.Click += new System.EventHandler(this.B_HighEncounterChance_Click);
             // 
@@ -96,5 +99,6 @@
         private System.Windows.Forms.PropertyGrid PG_Encounters;
         private System.Windows.Forms.ComboBox CB_Encounters;
         private System.Windows.Forms.Label L_ConfigName;
+        private System.Windows.Forms.ToolTip TT_ButtonToolTip;
     }
 }

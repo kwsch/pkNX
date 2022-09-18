@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.B_NoShinyLocks = new System.Windows.Forms.Button();
             this.PG_Encounters = new System.Windows.Forms.PropertyGrid();
             this.CB_Encounters = new System.Windows.Forms.ComboBox();
@@ -46,6 +47,8 @@
             this.B_NoShinyLocks.Size = new System.Drawing.Size(148, 23);
             this.B_NoShinyLocks.TabIndex = 8;
             this.B_NoShinyLocks.Text = "Remove All Shiny Locks";
+            this.TT_ButtonToolTip.SetToolTip(this.B_NoShinyLocks, "Changes all ShinyLock properties from Never to Random for all encounters in the c" +
+        "urrent area");
             this.B_NoShinyLocks.UseVisualStyleBackColor = true;
             this.B_NoShinyLocks.Click += new System.EventHandler(this.B_NoShinyLocks_Click);
             // 
@@ -90,6 +93,7 @@
             this.B_CloneTableEntry.Size = new System.Drawing.Size(156, 35);
             this.B_CloneTableEntry.TabIndex = 10;
             this.B_CloneTableEntry.Text = "Clone Table Entry";
+            this.TT_ButtonToolTip.SetToolTip(this.B_CloneTableEntry, "Clone the selected encounter slot and add it to the bottom of the list");
             this.B_CloneTableEntry.UseVisualStyleBackColor = true;
             this.B_CloneTableEntry.Click += new System.EventHandler(this.B_CloneTableEntry_Click);
             // 
@@ -103,6 +107,8 @@
             this.B_ConfigureAsAlpha.Size = new System.Drawing.Size(162, 35);
             this.B_ConfigureAsAlpha.TabIndex = 11;
             this.B_ConfigureAsAlpha.Text = "Configure as Alpha";
+            this.TT_ButtonToolTip.SetToolTip(this.B_ConfigureAsAlpha, "Configures the values that are often used for alpha pokemon on the selected encou" +
+        "ter slot");
             this.B_ConfigureAsAlpha.UseVisualStyleBackColor = true;
             this.B_ConfigureAsAlpha.Click += new System.EventHandler(this.B_ConfigureAsAlpha_Click);
             // 
@@ -116,6 +122,7 @@
             this.B_RemoveCondition.Size = new System.Drawing.Size(162, 35);
             this.B_RemoveCondition.TabIndex = 12;
             this.B_RemoveCondition.Text = "Remove Condition";
+            this.TT_ButtonToolTip.SetToolTip(this.B_RemoveCondition, "Sets the ConditionID and ConditionTypeID to None for the selected encounter slot");
             this.B_RemoveCondition.UseVisualStyleBackColor = true;
             this.B_RemoveCondition.Click += new System.EventHandler(this.B_RemoveCondition_Click);
             // 
@@ -146,5 +153,6 @@
         private System.Windows.Forms.Button B_CloneTableEntry;
         private System.Windows.Forms.Button B_ConfigureAsAlpha;
         private System.Windows.Forms.Button B_RemoveCondition;
+        private System.Windows.Forms.ToolTip TT_ButtonToolTip;
     }
 }
