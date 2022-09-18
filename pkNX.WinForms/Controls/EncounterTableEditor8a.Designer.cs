@@ -32,6 +32,10 @@
             this.PG_Encounters = new System.Windows.Forms.PropertyGrid();
             this.CB_Encounters = new System.Windows.Forms.ComboBox();
             this.L_ConfigName = new System.Windows.Forms.Label();
+            this.B_CloneTableEntry = new System.Windows.Forms.Button();
+            this.B_ConfigureAsAlpha = new System.Windows.Forms.Button();
+            this.B_RemoveCondition = new System.Windows.Forms.Button();
+            this.TT_ButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // B_NoShinyLocks
@@ -54,6 +58,7 @@
             this.PG_Encounters.Name = "PG_Encounters";
             this.PG_Encounters.Size = new System.Drawing.Size(759, 548);
             this.PG_Encounters.TabIndex = 7;
+            this.PG_Encounters.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PG_Encounters_SelectedGridItemChanged);
             // 
             // CB_Encounters
             // 
@@ -75,10 +80,52 @@
             this.L_ConfigName.TabIndex = 9;
             this.L_ConfigName.Text = "{Configured File Path}";
             // 
+            // B_CloneTableEntry
+            // 
+            this.B_CloneTableEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_CloneTableEntry.Enabled = false;
+            this.B_CloneTableEntry.Location = new System.Drawing.Point(626, 48);
+            this.B_CloneTableEntry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.B_CloneTableEntry.Name = "B_CloneTableEntry";
+            this.B_CloneTableEntry.Size = new System.Drawing.Size(156, 35);
+            this.B_CloneTableEntry.TabIndex = 10;
+            this.B_CloneTableEntry.Text = "Clone Table Entry";
+            this.B_CloneTableEntry.UseVisualStyleBackColor = true;
+            this.B_CloneTableEntry.Click += new System.EventHandler(this.B_CloneTableEntry_Click);
+            // 
+            // B_ConfigureAsAlpha
+            // 
+            this.B_ConfigureAsAlpha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_ConfigureAsAlpha.Enabled = false;
+            this.B_ConfigureAsAlpha.Location = new System.Drawing.Point(456, 48);
+            this.B_ConfigureAsAlpha.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.B_ConfigureAsAlpha.Name = "B_ConfigureAsAlpha";
+            this.B_ConfigureAsAlpha.Size = new System.Drawing.Size(162, 35);
+            this.B_ConfigureAsAlpha.TabIndex = 11;
+            this.B_ConfigureAsAlpha.Text = "Configure as Alpha";
+            this.B_ConfigureAsAlpha.UseVisualStyleBackColor = true;
+            this.B_ConfigureAsAlpha.Click += new System.EventHandler(this.B_ConfigureAsAlpha_Click);
+            // 
+            // B_RemoveCondition
+            // 
+            this.B_RemoveCondition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_RemoveCondition.Enabled = false;
+            this.B_RemoveCondition.Location = new System.Drawing.Point(790, 48);
+            this.B_RemoveCondition.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.B_RemoveCondition.Name = "B_RemoveCondition";
+            this.B_RemoveCondition.Size = new System.Drawing.Size(162, 35);
+            this.B_RemoveCondition.TabIndex = 12;
+            this.B_RemoveCondition.Text = "Remove Condition";
+            this.B_RemoveCondition.UseVisualStyleBackColor = true;
+            this.B_RemoveCondition.Click += new System.EventHandler(this.B_RemoveCondition_Click);
+            // 
             // EncounterTableEditor8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.B_RemoveCondition);
+            this.Controls.Add(this.B_ConfigureAsAlpha);
+            this.Controls.Add(this.B_CloneTableEntry);
             this.Controls.Add(this.L_ConfigName);
             this.Controls.Add(this.B_NoShinyLocks);
             this.Controls.Add(this.PG_Encounters);
@@ -96,5 +143,8 @@
         private System.Windows.Forms.PropertyGrid PG_Encounters;
         private System.Windows.Forms.ComboBox CB_Encounters;
         private System.Windows.Forms.Label L_ConfigName;
+        private System.Windows.Forms.Button B_CloneTableEntry;
+        private System.Windows.Forms.Button B_ConfigureAsAlpha;
+        private System.Windows.Forms.Button B_RemoveCondition;
     }
 }

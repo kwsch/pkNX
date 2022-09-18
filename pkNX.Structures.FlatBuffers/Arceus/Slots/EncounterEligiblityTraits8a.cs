@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -11,7 +12,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class EncounterEligiblityTraits8a : IHasCondition8a, ISlotModifierTime, ISlotModifierWeather
+public class EncounterEligiblityTraits8a : IHasCondition8a, ISlotModifierTime, ISlotModifierWeather, ICloneable
 {
     [FlatBufferItem(0)] public ConditionType8a ConditionTypeID { get; set; } = ConditionType8a.None;
     [FlatBufferItem(1)] public Condition8a ConditionID { get; set; } = Condition8a.None;
@@ -32,4 +33,9 @@ public class EncounterEligiblityTraits8a : IHasCondition8a, ISlotModifierTime, I
     [FlatBufferItem(16)] public float WeatherMultiplier_6 { get; set; } = -1;
     [FlatBufferItem(17)] public float WeatherMultiplier_7 { get; set; } = -1;
     [FlatBufferItem(18)] public float WeatherMultiplier_8 { get; set; } = -1;
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }
