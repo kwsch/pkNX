@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapViewer8a));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.CB_Map = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
@@ -101,6 +102,7 @@
             this.Controls.Add(this.CB_Map);
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MapViewer8a";
             this.Text = "MapViewer8a";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

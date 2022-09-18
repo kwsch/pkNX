@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AreaEditor8a));
             this.CB_Area = new System.Windows.Forms.ComboBox();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Encounters = new System.Windows.Forms.TabPage();
@@ -195,6 +196,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_Editor);
             this.Controls.Add(this.CB_Area);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AreaEditor8a";
             this.Text = "Area Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AreaEditor8a_FormClosing);
