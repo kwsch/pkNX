@@ -79,112 +79,11 @@ public class PersonalInfoLAfb
     [FlatBufferItem(48)] public byte BaseFriendship { get; set; } // byte
     [FlatBufferItem(49)] public ushort DexIndexHisui { get; set; } // ushort
     [FlatBufferItem(50)] public ushort DexIndexOther { get; set; } // ushort
-    [FlatBufferItem(51)] public int DexIndexLocal1 { get; set; } // uint
-    [FlatBufferItem(52)] public int DexIndexLocal2 { get; set; } // uint
-    [FlatBufferItem(53)] public int DexIndexLocal3 { get; set; } // uint
-    [FlatBufferItem(54)] public int DexIndexLocal4 { get; set; } // uint
-    [FlatBufferItem(55)] public int DexIndexLocal5 { get; set; } // uint
+    [FlatBufferItem(51)] public ushort DexIndexLocal1 { get; set; } // uint
+    [FlatBufferItem(52)] public ushort DexIndexLocal2 { get; set; } // uint
+    [FlatBufferItem(53)] public ushort DexIndexLocal3 { get; set; } // uint
+    [FlatBufferItem(54)] public ushort DexIndexLocal4 { get; set; } // uint
+    [FlatBufferItem(55)] public ushort DexIndexLocal5 { get; set; } // uint
     [FlatBufferItem(56)] public uint MoveShop1 { get; set; } // uint
     [FlatBufferItem(57)] public uint MoveShop2 { get; set; } // uint
-}
-
-public static class PersonalConverter
-{
-    public static byte[] GetBin(PersonalTableLA table)
-    {
-        var all = FromArceus(table);
-        var data = all.SelectMany(z => z.Write()).ToArray();
-        return data;
-    }
-
-    public static PersonalInfoLA_Bin[] FromArceus(PersonalTableLA table)
-    {
-        var max = table.Table.Max(z => z.Species);
-        var baseForms = new PersonalInfoLA_Bin[max + 1];
-        var formTable = new List<PersonalInfoLA_Bin>();
-
-        for (int i = 0; i <= max; i++)
-        {
-            var forms = table.Table.Where(z => z.Species == (ushort)i).OrderBy(z => z.Form).ToList();
-
-            var e = forms[0];
-            baseForms[i] = GetObj(e, forms, max, formTable);
-            for (int f = 1; f < forms.Count; f++)
-                formTable.Add(GetObj(forms[f], forms, max, formTable, f));
-        }
-
-        return baseForms.Concat(formTable).ToArray();
-    }
-
-    // ugly converter to be a data-backed object
-    private static PersonalInfoLA_Bin GetObj(PersonalInfoLAfb e, List<PersonalInfoLAfb> forms, ushort max, List<PersonalInfoLA_Bin> formTable, int f = 0)
-    {
-        var result = new PersonalInfoLA_Bin(new byte[PersonalInfoLA_Bin.SIZE])
-        {
-            HP = e.Stat_HP,
-            ATK = e.Stat_ATK,
-            DEF = e.Stat_DEF,
-            SPA = e.Stat_SPA,
-            SPD = e.Stat_SPD,
-            SPE = e.Stat_SPE,
-            FormeCount = forms.Count,
-            Type1 = (Types)e.Type1,
-            Type2 = (Types)e.Type2,
-            Gender = e.Gender,
-            Ability1 = e.Ability1,
-            Ability2 = e.Ability2,
-            AbilityH = e.AbilityH,
-            IsPresentInGame = e.IsPresentInGame,
-            Item1 = e.Item1,
-            Item2 = e.Item2,
-            Height = e.Height,
-            Weight = e.Weight,
-            EggGroup1 = e.EggGroup1,
-            EggGroup2 = e.EggGroup2,
-            EvoStage = e.EvoStage,
-            BaseFriendship = e.BaseFriendship,
-            EXPGrowth = e.EXPGrowth,
-            HatchSpecies = e.HatchSpecies,
-            LocalFormIndex = e.LocalFormIndex,
-            EV_HP = e.EV_HP,
-            EV_ATK = e.EV_ATK,
-            EV_DEF = e.EV_DEF,
-            EV_SPA = e.EV_SPA,
-            EV_SPD = e.EV_SPD,
-            EV_SPE = e.EV_SPE,
-            CatchRate = e.CatchRate,
-            DexIndexHisui = e.DexIndexHisui,
-            DexIndexLocal1 = e.DexIndexLocal1,
-            DexIndexLocal2 = e.DexIndexLocal2,
-            DexIndexLocal3 = e.DexIndexLocal3,
-            DexIndexLocal4 = e.DexIndexLocal4,
-            DexIndexLocal5 = e.DexIndexLocal5,
-            Color = e.Color,
-            BaseEXP = e.BaseEXP,
-
-            Species = e.Species,
-            Form = e.Form,
-        };
-        result.SetFormStat(f != 0 ? 0 : forms.Count == 1 ? 0 : max + formTable.Count + 1);
-
-        var shop = e.MoveShop1 | ((ulong)e.MoveShop2 << 32);
-        bool[] flags = new bool[64];
-        for (int i = 0; i < flags.Length; i++)
-            flags[i] = (shop & (1ul << i)) != 0;
-        result.SpecialTutors = new[] { flags };
-
-        BitConverter.GetBytes(e.TM_A).CopyTo(result.Data, 0x28);
-        BitConverter.GetBytes(e.TM_B).CopyTo(result.Data, 0x2C);
-        BitConverter.GetBytes(e.TM_C).CopyTo(result.Data, 0x30);
-        BitConverter.GetBytes(e.TM_D).CopyTo(result.Data, 0x34);
-        BitConverter.GetBytes(e.TypeTutor).CopyTo(result.Data, 0x38);
-        BitConverter.GetBytes(e.TR_A).CopyTo(result.Data, 0x3C);
-        BitConverter.GetBytes(e.TR_B).CopyTo(result.Data, 0x40);
-        BitConverter.GetBytes(e.TR_C).CopyTo(result.Data, 0x44);
-        BitConverter.GetBytes(e.TR_D).CopyTo(result.Data, 0x48);
-        result.LoadTMHM();
-        result.LoadTutors();
-
-        return result;
-    }
 }
