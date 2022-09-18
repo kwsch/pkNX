@@ -81,12 +81,12 @@ namespace pkNX.Structures
         public override int Move3 { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Move4 { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public override ushort[] GetStats(PersonalInfo p)
+        public override ushort[] GetStats(IPersonalInfo p)
         {
             return CalculateStatsBeluga(p);
         }
 
-        public ushort[] CalculateStatsBeluga(PersonalInfo p)
+        public ushort[] CalculateStatsBeluga(IPersonalInfo p)
         {
             int level = Level;
             int nature = Nature;
@@ -109,7 +109,7 @@ namespace pkNX.Structures
         /// <summary>
         /// Gets the initial stat value based on the base stat value, IV, and current level.
         /// </summary>
-        /// <param name="baseStat"><see cref="PersonalInfo"/> stat.</param>
+        /// <param name="baseStat"><see cref="IBaseStat"/> stat.</param>
         /// <param name="iv">Current IV, already accounted for Hyper Training</param>
         /// <param name="level">Current Level</param>
         /// <returns>Initial Stat</returns>
@@ -118,7 +118,7 @@ namespace pkNX.Structures
         /// <summary>
         /// Gets the initial stat value with nature amplification applied. Used for all stats except HP.
         /// </summary>
-        /// <param name="baseStat"><see cref="PersonalInfo"/> stat.</param>
+        /// <param name="baseStat"><see cref="IBaseStat"/> stat.</param>
         /// <param name="iv">Current IV, already accounted for Hyper Training</param>
         /// <param name="level">Current Level</param>
         /// <param name="nature">Current Nature</param>

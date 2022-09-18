@@ -51,10 +51,8 @@ namespace pkNX.Game
                 // Folders
                 MoveData = GetMoves(),
 
-                // Custom
-                PersonalData = new PersonalTable(personal.Table.Select(z => new PersonalInfoLA(z)).ToArray(), Game),
-
                 // Single Files
+                PersonalData = new PersonalTable8LA(personal),
                 LevelUpData = new DataCache<Learnset8aMeta>(learnTable.Table),
                 EvolutionData = new DataCache<EvolutionSet8a>(evoTable.Table),
             };

@@ -23,7 +23,7 @@ namespace pkNX.WinForms
         private TrainerPoke pkm = new TrainerPoke7b();
         private bool loadingPKM;
 
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         private readonly GameManager Game;
         private readonly GameData Data;
         private readonly TrainerEditor Trainers;
@@ -220,12 +220,12 @@ namespace pkNX.WinForms
             int formnum = CB_Forme.SelectedIndex;
             int index = Personal[species].FormeIndex(species, formnum);
 
-            var abilities = Personal[index].Abilities;
+            var pi = Personal[index];
             CB_Ability.Items.Clear();
             CB_Ability.Items.Add("Any (1 or 2)");
-            CB_Ability.Items.Add(abilitylist[abilities[0]] + " (1)");
-            CB_Ability.Items.Add(abilitylist[abilities[1]] + " (2)");
-            CB_Ability.Items.Add(abilitylist[abilities[2]] + " (H)");
+            CB_Ability.Items.Add(abilitylist[pi.Ability1] + " (1)");
+            CB_Ability.Items.Add(abilitylist[pi.Ability2] + " (2)");
+            CB_Ability.Items.Add(abilitylist[pi.AbilityH] + " (H)");
 
             CB_Ability.SelectedIndex = previousAbilityIndex;
         }
@@ -593,7 +593,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Select((z, i) => new { Species = i, Present = ((IPersonalInfo_3)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 

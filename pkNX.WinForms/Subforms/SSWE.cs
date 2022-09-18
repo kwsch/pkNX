@@ -150,7 +150,7 @@ namespace pkNX.WinForms
 
             var pt = ROM.Data.PersonalData;
             var ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                .Select((z, i) => new { Species = i, Present = ((IPersonalInfoSWSH)z).IsPresentInGame })
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
 
             rand.Initialize(settings, ban);

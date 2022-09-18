@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -6,13 +7,13 @@ namespace pkNX.Structures
 {
     public class PersonalDumperSWSH : PersonalDumper
     {
-        protected override void AddTMs(List<string> lines, PersonalInfo pi, string specCode)
+        protected override void AddTMs(List<string> lines, IMovesInfo_1 pi, string specCode)
         {
             base.AddTMs(lines, pi, specCode);
             AddTRs(lines, pi, specCode);
         }
 
-        private void AddTRs(List<string> lines, PersonalInfo pi, string specCode)
+        private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
         {
             if (!(TMIndexes?.Count > 0))
                 return;
@@ -74,7 +75,7 @@ namespace pkNX.Structures
 
         public PersonalDumperSettings Settings = new();
 
-        public List<string> Dump(PersonalTable table)
+        public List<string> Dump(IPersonalTable table)
         {
             var lines = new List<string>();
             var ml = new List<string>[Moves.Count];
@@ -100,9 +101,9 @@ namespace pkNX.Structures
             lines.Add("");
         }
 
-        private void AddDump(List<string> lines, PersonalInfo pi, int entry, string name, int species, int form)
+        private void AddDump(List<string> lines, IPersonalInfo pi, int entry, string name, int species, int form)
         {
-            if (pi is PersonalInfoSWSH { IsPresentInGame: false })
+            if (pi is IPersonalInfoSWSH { IsPresentInGame: false })
                 return;
 
             var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
@@ -113,10 +114,10 @@ namespace pkNX.Structures
                 AddLearnsets(lines, entry, specCode);
             if (Settings.Egg)
                 AddEggMoves(lines, species, form, specCode);
-            if (Settings.TMHM)
-                AddTMs(lines, pi, specCode);
-            if (Settings.Tutor)
-                AddArmorTutors(lines, pi, specCode);
+            if (Settings.TMHM && pi is IMovesInfo_1 mi)
+                AddTMs(lines, mi, specCode);
+            if (Settings.Tutor && pi is IMovesInfo_2 mi2)
+                AddArmorTutors(lines, mi2, specCode);
             if (Settings.Evo)
                 AddEvolutions(lines, entry);
             if (Settings.Dex)
@@ -131,7 +132,7 @@ namespace pkNX.Structures
             lines.Add(ZukanB[entry].Replace("\\n", " "));
         }
 
-        protected virtual void AddTMs(List<string> lines, PersonalInfo pi, string SpecCode)
+        protected virtual void AddTMs(List<string> lines, IMovesInfo_1 pi, string SpecCode)
         {
             var tmhm = pi.TMHM;
             int count = 0;
@@ -150,7 +151,7 @@ namespace pkNX.Structures
                 lines.Add("None!");
         }
 
-        protected virtual void AddArmorTutors(List<string> lines, PersonalInfo pi, string SpecCode)
+        protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_2 pi, string SpecCode)
         {
             var armor = pi.SpecialTutors[0];
             int count = 0;
@@ -218,13 +219,13 @@ namespace pkNX.Structures
             lines.AddRange(msg);
         }
 
-        private void AddPersonalLines(List<string> lines, PersonalInfo pi, int entry, string name, string specCode)
+        private void AddPersonalLines(List<string> lines, IPersonalInfo pi, int entry, string name, string specCode)
         {
             Debug.WriteLine($"Dumping {specCode}");
             lines.Add("======");
             lines.Add($"{entry:000} - {name} (Stage: {pi.EvoStage})");
             lines.Add("======");
-            if (pi is PersonalInfoSWSH s)
+            if (pi is IPersonalInfoSWSH s)
             {
                 if (s.PokeDexIndex != 0)
                     lines.Add($"Galar Dex: #{s.PokeDexIndex:000}");
@@ -238,15 +239,17 @@ namespace pkNX.Structures
                 if (s.CanNotDynamax)
                     lines.Add("Can Not Dynamax!");
             }
-            lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.BST})");
+            lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.GetBaseStatTotal()})");
             lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");
             lines.Add($"Gender Ratio: {pi.Gender}");
             lines.Add($"Catch Rate: {pi.CatchRate}");
 
             if (HasAbilities)
             {
-                var abils = pi.Abilities;
-                var msg = string.Join(" | ", abils.Select((z, j) => Abilities[z] + AbilitySuffix[j]));
+                string msg = string.Empty;
+                for (int j = 0; j < pi.GetNumAbilities(); ++j)
+                    msg += Abilities[pi.GetAbilityAtIndex(j)] + AbilitySuffix[j] + " | ";
+
                 lines.Add($"Abilities: {msg}");
             }
 
@@ -256,9 +259,10 @@ namespace pkNX.Structures
 
             if (HasItems)
             {
-                var items = pi.Items;
+                int[] items = new int[pi.GetNumItems()];
+                pi.GetItems(items);
                 if (items.Distinct().Count() == 1)
-                    lines.Add($"Items: {Items[pi.Items[0]]}");
+                    lines.Add($"Items: {Items[pi.Item1]}");
                 else
                     lines.AddRange(items.Select((z, j) => $"{ItemPrefix[j]}: {Items[z]}"));
             }
@@ -267,7 +271,10 @@ namespace pkNX.Structures
             lines.Add(string.Format(pi.EggGroup1 != pi.EggGroup2
                 ? "Egg Group: {0} / {1}"
                 : "Egg Group: {0}", EggGroups[pi.EggGroup1], EggGroups[pi.EggGroup2]));
-            lines.Add($"Hatch Cycles: {pi.HatchCycles}");
+
+            if (pi is IPersonalEgg_1 eggInfo)
+                lines.Add($"Hatch Cycles: {eggInfo.HatchCycles}");
+
             lines.Add($"Height: {(decimal)pi.Height / 100:00.00}m, Weight: {(decimal)pi.Weight / 10:000.0}kg, Color: {Colors[pi.Color]}");
         }
     }

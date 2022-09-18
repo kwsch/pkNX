@@ -26,7 +26,7 @@ namespace pkNX.WinForms.Controls
             UpdatingFields = false;
         }
 
-        public PersonalTable? Personal { private get; set; }
+        public IPersonalTable? Personal { private get; set; }
         public bool UpdatingFields;
         public StatPKM PKM { get; set; } = new TrainerPoke7b();
 

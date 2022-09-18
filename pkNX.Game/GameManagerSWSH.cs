@@ -57,7 +57,7 @@ namespace pkNX.Game
                 },
 
                 // folders
-                PersonalData = new PersonalTable(personal[0], Game),
+                PersonalData = new PersonalTable8SWSH(personal[0]),
                 EvolutionData = new DataCache<EvolutionSet>(GetFilteredFolder(GameFile.Evolutions))
                 {
                     Create = data => new EvolutionSet8(data),
@@ -77,7 +77,7 @@ namespace pkNX.Game
         {
             // Store Personal Data back in the file. Let the container detect if it is modified.
             var personal = this[GameFile.PersonalStats];
-            personal[0] = Data.PersonalData.Table.SelectMany(z => z.Write()).ToArray();
+            personal[0] = Data.PersonalData.Table.SelectMany(z => ((IPersonalInfoBin)z).Write()).ToArray();
             var learn = this[GameFile.Learnsets];
             learn[0] = Learn.Files.SelectMany(z => z).ToArray();
         }

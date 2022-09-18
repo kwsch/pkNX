@@ -27,7 +27,7 @@ namespace pkNX.Structures
         public abstract int EV_SPD { get; set; }
         public abstract int EV_SPE { get; set; }
 
-        public virtual ushort[] GetStats(PersonalInfo p)
+        public virtual ushort[] GetStats(IPersonalInfo p)
         {
             ushort[] Stats = new ushort[6];
             Stats[0] = (ushort)(((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * Level / 100) + 10);

@@ -82,7 +82,7 @@ namespace pkNX.WinForms
         private readonly string[] entryNames;
         private readonly int[] baseForms, formVal;
 
-        public PersonalInfo cPersonal;
+        public IPersonalInfo cPersonal;
         public Learnset cLearnset;
         public EvolutionSet cEvos;
         public MegaEvolutionSet[] cMega;
@@ -241,7 +241,7 @@ namespace pkNX.WinForms
             SaveMegas();
         }
 
-        public void LoadPersonal(PersonalInfo pkm)
+        public void LoadPersonal(IPersonalInfo pkm)
         {
             cPersonal = pkm;
             TB_BaseHP.Text = pkm.HP.ToString("000");
@@ -257,28 +257,31 @@ namespace pkNX.WinForms
             TB_SPAEVs.Text = pkm.EV_SPA.ToString("0");
             TB_SPDEVs.Text = pkm.EV_SPD.ToString("0");
 
-            CB_Type1.SelectedIndex = pkm.Types[0];
-            CB_Type2.SelectedIndex = pkm.Types[1];
+            CB_Type1.SelectedIndex = (int)pkm.Type1;
+            CB_Type2.SelectedIndex = (int)pkm.Type2;
 
             TB_CatchRate.Text = pkm.CatchRate.ToString("000");
             TB_Stage.Text = pkm.EvoStage.ToString("0");
 
-            CB_HeldItem1.SelectedIndex = pkm.Items[0];
-            CB_HeldItem2.SelectedIndex = pkm.Items[1];
-            CB_HeldItem3.SelectedIndex = pkm.Items[2];
+            CB_HeldItem1.SelectedIndex = pkm.Item1;
+            CB_HeldItem2.SelectedIndex = pkm.Item2;
+            CB_HeldItem3.SelectedIndex = pkm.Item3;
 
             TB_Gender.Text = pkm.Gender.ToString("000");
-            TB_HatchCycles.Text = pkm.HatchCycles.ToString("000");
+
+            if (pkm is IPersonalEgg_1 eggInfo)
+                TB_HatchCycles.Text = eggInfo.HatchCycles.ToString("000");
+
             TB_Friendship.Text = pkm.BaseFriendship.ToString("000");
 
             CB_EXPGroup.SelectedIndex = pkm.EXPGrowth;
 
-            CB_EggGroup1.SelectedIndex = pkm.EggGroups[0];
-            CB_EggGroup2.SelectedIndex = pkm.EggGroups[1];
+            CB_EggGroup1.SelectedIndex = pkm.EggGroup1;
+            CB_EggGroup2.SelectedIndex = pkm.EggGroup2;
 
-            CB_Ability1.SelectedIndex = pkm.Abilities[0];
-            CB_Ability2.SelectedIndex = pkm.Abilities[1];
-            CB_Ability3.SelectedIndex = pkm.Abilities[2];
+            CB_Ability1.SelectedIndex = pkm.Ability1;
+            CB_Ability2.SelectedIndex = pkm.Ability2;
+            CB_Ability3.SelectedIndex = pkm.AbilityH;
 
             TB_FormeCount.Text = pkm.FormeCount.ToString("000");
             TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
@@ -287,12 +290,12 @@ namespace pkNX.WinForms
             CB_Color.SelectedIndex = pkm.Color & 0xF;
 
             TB_BaseExp.Text = pkm.BaseEXP.ToString("000");
-            TB_BST.Text = pkm.BST.ToString("000");
+            TB_BST.Text = pkm.GetBaseStatTotal().ToString("000");
 
             TB_Height.Text = ((decimal)pkm.Height / 100).ToString("00.00");
             TB_Weight.Text = ((decimal)pkm.Weight / 10).ToString("000.0");
 
-            if (pkm is PersonalInfoSM sm)
+            if (pkm is IPersonalInfoSM sm)
             {
                 TB_CallRate.Text = sm.EscapeRate.ToString("000");
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
@@ -302,14 +305,14 @@ namespace pkNX.WinForms
                 CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible =
                 L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
-            if (pkm is PersonalInfoGG gg)
+            if (pkm is IPersonalInfoGG gg)
             {
                 MT_GoID.Text = gg.GoSpecies.ToString("000");
                 CHK_Variant.Checked = gg.LocalVariant;
                 GB_ZMove.Visible = CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible = L_TypeTutors.Visible = CLB_TypeTutor.Visible = CLB_SpecialTutor.Visible =
                 L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
-            if (pkm is PersonalInfoSWSH swsh)
+            if (pkm is IPersonalInfoSWSH swsh)
             {
                 L_TM.Text = "TMs/TRs:";
                 MT_GoID.Text = swsh.SpriteIndex.ToString("000");
@@ -322,12 +325,19 @@ namespace pkNX.WinForms
                 L_CallRate.Visible = TB_CallRate.Visible = GB_ZMove.Visible = false;
             }
 
-            for (int i = 0; i < CLB_TM.Items.Count; i++)
-                CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
-            for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
-                CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);
-            for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
+            if (pkm is IMovesInfo_1 mi)
+            {
+                for (int i = 0; i < CLB_TM.Items.Count; i++)
+                    CLB_TM.SetItemChecked(i, mi.TMHM[i]); // Bitflags for TM
+                for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
+                    CLB_TypeTutor.SetItemChecked(i, mi.TypeTutors[i]);
+            }
+
+            if (pkm is IMovesInfo_2 mi2)
+            {
+                for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
+                    CLB_SpecialTutor.SetItemChecked(i, mi2.SpecialTutors[0][i]);
+            }
         }
 
         public void SavePersonal()
@@ -350,18 +360,27 @@ namespace pkNX.WinForms
             pkm.CatchRate = Util.ToInt32(TB_CatchRate.Text);
             pkm.EvoStage = Util.ToInt32(TB_Stage.Text);
 
-            pkm.Types = new[] { CB_Type1.SelectedIndex, CB_Type2.SelectedIndex };
-            pkm.Items = new[] { CB_HeldItem1.SelectedIndex, CB_HeldItem2.SelectedIndex, CB_HeldItem3.SelectedIndex };
+            pkm.Type1 = (Types)CB_Type1.SelectedIndex;
+            pkm.Type2 = (Types)CB_Type2.SelectedIndex;
+            pkm.Item1 = CB_HeldItem1.SelectedIndex;
+            pkm.Item2 = CB_HeldItem2.SelectedIndex;
+            pkm.Item3 = CB_HeldItem3.SelectedIndex;
 
             pkm.Gender = Util.ToInt32(TB_Gender.Text);
-            pkm.HatchCycles = Util.ToInt32(TB_HatchCycles.Text);
+
+            if (pkm is IPersonalEgg_1 eggInfo)
+                eggInfo.HatchCycles = Util.ToInt32(TB_HatchCycles.Text);
+
             pkm.BaseFriendship = Util.ToInt32(TB_Friendship.Text);
             pkm.EXPGrowth = (byte)CB_EXPGroup.SelectedIndex;
-            pkm.EggGroups = new[] { CB_EggGroup1.SelectedIndex, CB_EggGroup2.SelectedIndex };
-            pkm.Abilities = new[] { CB_Ability1.SelectedIndex, CB_Ability2.SelectedIndex, CB_Ability3.SelectedIndex };
+            pkm.EggGroup1 = CB_EggGroup1.SelectedIndex;
+            pkm.EggGroup2 = CB_EggGroup2.SelectedIndex;
+            pkm.Ability1 = CB_Ability1.SelectedIndex;
+            pkm.Ability2 = CB_Ability2.SelectedIndex;
+            pkm.AbilityH = CB_Ability3.SelectedIndex;
 
-            pkm.FormeSprite = Convert.ToUInt16(TB_FormeSprite.Text);
-            pkm.FormeCount = Util.ToInt32(TB_FormeCount.Text);
+            pkm.FormSprite = Convert.ToUInt16(TB_FormeSprite.Text);
+            pkm.FormCount = Convert.ToByte(TB_FormeCount.Text);
             pkm.Color = (byte)(CB_Color.SelectedIndex) | (Util.ToInt32(TB_RawColor.Text) & 0xF0);
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 
@@ -371,7 +390,7 @@ namespace pkNX.WinForms
             if (decimal.TryParse(TB_Weight.Text, out decimal w))
                 pkm.Weight = (int)(w * 10);
 
-            if (pkm is PersonalInfoSM sm)
+            if (pkm is IPersonalInfoSM sm)
             {
                 pkm.EscapeRate = Util.ToInt32(TB_CallRate.Text);
                 sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
@@ -379,11 +398,11 @@ namespace pkNX.WinForms
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
                 sm.LocalVariant = CHK_Variant.Checked;
             }
-            if (pkm is PersonalInfoGG gg)
+            if (pkm is IPersonalInfoGG gg)
             {
                 gg.GoSpecies = Convert.ToUInt16(MT_GoID.Text);
             }
-            if (pkm is PersonalInfoSWSH swsh)
+            if (pkm is IPersonalInfoSWSH swsh)
             {
                 swsh.PokeDexIndex = Convert.ToUInt16(TB_RegionalDex.Text);
                 swsh.ArmorDexIndex = Convert.ToUInt16(TB_ArmorDex.Text);
@@ -393,12 +412,19 @@ namespace pkNX.WinForms
                 swsh.CanNotDynamax = CHK_CanNotDynamax.Checked;
             }
 
-            for (int i = 0; i < CLB_TM.Items.Count; i++)
-                pkm.TMHM[i] = CLB_TM.GetItemChecked(i);
-            for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
-                pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
-            for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
+            if (pkm is IMovesInfo_1 mi)
+            {
+                for (int i = 0; i < CLB_TM.Items.Count; i++)
+                    mi.TMHM[i] = CLB_TM.GetItemChecked(i);
+                for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
+                    mi.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
+            }
+
+            if (pkm is IMovesInfo_2 mi2)
+            {
+                for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
+                    mi2.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
+            }
         }
 
         public void LoadLearnset(Learnset pkm)
@@ -524,7 +550,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Select((z, i) => new { Species = i, Present = ((IPersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 
@@ -560,7 +586,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(ROM.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((PersonalInfoSWSH)z).IsPresentInGame })
+                    .Select((z, i) => new { Species = i, Present = ((IPersonalInfoSWSH)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 

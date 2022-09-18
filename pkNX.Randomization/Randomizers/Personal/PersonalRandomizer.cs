@@ -13,12 +13,12 @@ namespace pkNX.Randomization
         private const int TypeCount = 18;
 
         private readonly GameInfo Game;
-        private readonly PersonalTable Table;
+        private readonly IPersonalTable Table;
         private readonly EvolutionSet[] Evolutions;
 
         public PersonalRandSettings Settings { get; set; } = new();
 
-        public PersonalRandomizer(PersonalTable table, GameInfo game, EvolutionSet[] evolutions)
+        public PersonalRandomizer(IPersonalTable table, GameInfo game, EvolutionSet[] evolutions)
         {
             Game = game;
             Table = table;
@@ -142,7 +142,7 @@ namespace pkNX.Randomization
             }
         }
 
-        public void RandomizeFrom(PersonalInfo z, PersonalInfo child, int species)
+        public void RandomizeFrom(IPersonalInfo z, IPersonalInfo child, int species)
         {
             if (Settings.ModifyStats)
                 RandomizeStats(z);
@@ -153,17 +153,26 @@ namespace pkNX.Randomization
             {
                 if (Settings.InheritType && Settings.InheritTypeSetting != ModifyState.All)
                 {
-                    var types = child.Types;
                     switch (Settings.InheritTypeSetting)
                     {
                         case ModifyState.Shared:
                         default:
-                            z.Types = types;
+                            z.Type1 = child.Type1;
+                            z.Type2 = child.Type2;
                             break;
                         case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
                         case ModifyState.One when Rand.Next(100) < Settings.InheritTypeOnlyOneChance:
-                            types[Rand.Next(2)] = GetRandomType();
-                            z.Types = types;
+                            switch (Rand.Next(2))
+                            {
+                                case 0:
+                                    z.Type1 = (Types)GetRandomType();
+                                    z.Type2 = child.Type2;
+                                    break;
+                                case 1:
+                                    z.Type1 = child.Type1;
+                                    z.Type2 = (Types)GetRandomType();
+                                    break;
+                            }
                             break;
                         case ModifyState.Two when Rand.Next(100) < Settings.InheritTypeNeitherChance:
                             RandomizeTypes(z);
@@ -181,9 +190,10 @@ namespace pkNX.Randomization
             {
                 if (Settings.InheritAbility)
                 {
-                    var abils = child.Abilities;
+                    Span<int> abils = stackalloc int[3];
+                    child.GetAbilities(abils);
                     GetRandomAbilities(abils, Settings.InheritAbilitySetting);
-                    z.Abilities = abils;
+                    z.SetAbilities(abils);
                 }
                 else
                 {
@@ -191,45 +201,57 @@ namespace pkNX.Randomization
                 }
             }
 
-            if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
+            if (z is IMovesInfo_1 mi)
             {
-                if (Settings.InheritChildTM)
-                    z.TMHM = child.TMHM;
-                else
-                    RandomizeTMHM(z);
+                if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
+                {
+                    if (Settings.InheritChildTM)
+                        mi.TMHM = ((IMovesInfo_1)child).TMHM;
+                    else
+                        RandomizeTMHM(mi);
+                }
+
+                if (Settings.ModifyLearnsetTypeTutors)
+                {
+                    if (Settings.InheritChildSpecial)
+                        mi.TypeTutors = ((IMovesInfo_1)child).TypeTutors;
+                    else
+                        RandomizeTypeTutors(mi, species);
+                }
             }
 
-            if (Settings.ModifyLearnsetTypeTutors)
-            {
-                if (Settings.InheritChildSpecial)
-                    z.TypeTutors = child.TypeTutors;
-                else
-                    RandomizeTypeTutors(z, species);
-            }
-
-            if (Settings.ModifyLearnsetMoveTutors)
+            if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_2 mi2)
             {
                 if (Settings.InheritChildTutor)
-                    z.SpecialTutors = child.SpecialTutors;
+                    mi2.SpecialTutors = ((IMovesInfo_2)child).SpecialTutors;
                 else
-                    RandomizeSpecialTutors(z);
+                    RandomizeSpecialTutors(mi2);
             }
 
             if (Settings.ModifyEgg)
-                z.EggGroups = child.EggGroups;
+            {
+                z.EggGroup1 = child.EggGroup1;
+                z.EggGroup2 = child.EggGroup2;
+            }
 
             if (Settings.ModifyHeldItems)
             {
                 if (Settings.InheritHeldItem)
-                    z.Items = child.Items;
+                {
+                    z.Item1 = child.Item1;
+                    z.Item2 = child.Item2;
+                    z.Item3 = child.Item3;
+                }
                 else
+                {
                     RandomizeHeldItems(z);
+                }
             }
 
             ExecuteCatchRate(z);
         }
 
-        private void GetRandomAbilities(int[] abils, ModifyState setting)
+        private void GetRandomAbilities(Span<int> abils, ModifyState setting)
         {
             switch (setting)
             {
@@ -253,7 +275,7 @@ namespace pkNX.Randomization
             }
         }
 
-        public void Randomize(PersonalInfo z, int species)
+        public void Randomize(IPersonalInfo z, int species)
         {
             if (Settings.ModifyStats)
                 RandomizeStats(z);
@@ -266,14 +288,17 @@ namespace pkNX.Randomization
             if (Settings.ModifyAbility)
                 RandomizeAbilities(z);
 
-            if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
-                RandomizeTMHM(z);
+            if (z is IMovesInfo_1 mi)
+            {
+                if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
+                    RandomizeTMHM(mi);
 
-            if (Settings.ModifyLearnsetTypeTutors)
-                RandomizeTypeTutors(z, species);
+                if (Settings.ModifyLearnsetTypeTutors)
+                    RandomizeTypeTutors(mi, species);
+            }
 
-            if (Settings.ModifyLearnsetMoveTutors)
-                RandomizeSpecialTutors(z);
+            if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_2 mi2)
+                RandomizeSpecialTutors(mi2);
 
             if (Settings.ModifyEgg)
                 RandomizeEggGroups(z);
@@ -284,12 +309,12 @@ namespace pkNX.Randomization
             ExecuteCatchRate(z);
         }
 
-        private void ExecuteCatchRate(PersonalInfo z)
+        private void ExecuteCatchRate(IPersonalInfo z)
         {
             if (Settings.CatchRate == CatchRate.Random)
                 z.CatchRate = Rand.Next(3, 251); // Random Catch Rate between 3 and 250.
             else if (Settings.CatchRate == CatchRate.BSTScaled)
-                z.CatchRate = GetBSTCatchRate(z.BST);
+                z.CatchRate = GetBSTCatchRate(z.GetBaseStatTotal());
         }
 
         private static int GetBSTCatchRate(int BST)
@@ -300,7 +325,7 @@ namespace pkNX.Randomization
             return (int)Math.Min(255, min + c);
         }
 
-        private void RandomizeTMHM(PersonalInfo z)
+        private void RandomizeTMHM(IMovesInfo_1 z)
         {
             var tms = z.TMHM;
 
@@ -319,7 +344,7 @@ namespace pkNX.Randomization
             z.TMHM = tms;
         }
 
-        private void RandomizeTypeTutors(PersonalInfo z, int species)
+        private void RandomizeTypeTutors(IMovesInfo_1 z, int species)
         {
             var t = z.TypeTutors;
             for (int i = 0; i < t.Length; i++)
@@ -332,7 +357,7 @@ namespace pkNX.Randomization
             z.TypeTutors = t;
         }
 
-        private void RandomizeSpecialTutors(PersonalInfo z)
+        private void RandomizeSpecialTutors(IMovesInfo_2 z)
         {
             var tutors = z.SpecialTutors;
             foreach (bool[] tutor in tutors)
@@ -344,69 +369,69 @@ namespace pkNX.Randomization
             z.SpecialTutors = tutors;
         }
 
-        private void RandomizeAbilities(PersonalInfo z)
+        private void RandomizeAbilities(IPersonalAbility z)
         {
-            var abils = z.Abilities;
+            Span<int> abils = stackalloc int[3];
+            z.GetAbilities(abils);
             GetRandomAbilities(abils, Settings.Ability);
-            z.Abilities = abils;
+            z.SetAbilities(abils);
         }
 
-        private void GetRandomAbilities(int[] abils, int skip = 0)
+        private void GetRandomAbilities(Span<int> abils, int skip = 0)
         {
             for (int i = 0; i < abils.Length - skip; i++)
                 abils[i] = GetRandomAbility();
         }
 
-        private void RandomizeEggGroups(PersonalInfo z)
+        private void RandomizeEggGroups(IPersonalEgg z)
         {
-            var egg = z.EggGroups;
-            egg[0] = GetRandomEggGroup();
-            egg[1] = Rand.Next(100) < Settings.SameEggGroupChance ? egg[0] : GetRandomEggGroup();
-            z.EggGroups = egg;
+            z.EggGroup1 = GetRandomEggGroup();
+            z.EggGroup2 = Rand.Next(100) < Settings.SameEggGroupChance ? z.EggGroup1 : GetRandomEggGroup();
         }
 
-        private void RandomizeHeldItems(PersonalInfo z)
+        private void RandomizeHeldItems(IPersonalItems z)
         {
-            var item = z.Items;
-            for (int j = 0; j < item.Length; j++)
-                item[j] = GetRandomHeldItem();
-            z.Items = item;
+            for (int j = 0; j < z.GetNumItems(); j++)
+                z.SetItemAtIndex(j, GetRandomHeldItem());
         }
 
-        private void RandomizeTypes(PersonalInfo z)
+        private void RandomizeTypes(IPersonalType z)
         {
-            var t = z.Types;
-            t[0] = GetRandomType();
-            t[1] = Rand.Next(0, 100) < Settings.SameTypeChance ? t[0] : GetRandomType();
-            z.Types = t;
+            z.Type1 = (Types)GetRandomType();
+            z.Type2 = Rand.Next(0, 100) < Settings.SameTypeChance ? z.Type1 : (Types)GetRandomType();
         }
 
-        private void RandomizeStats(PersonalInfo z)
+        private void RandomizeStats(IBaseStat z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
-            var stats = z.Stats;
-            if (stats[0] == 1)
+            if (z.GetBaseStatValue(0) == 1)
                 return;
+
             int RandDeviation() => Rand.Next(Settings.StatDeviationMin, Settings.StatDeviationMax);
-            for (int i = 0; i < stats.Length; i++)
+            for (int i = 0; i < z.GetNumBaseStats(); i++)
             {
                 if (!Settings.StatsToRandomize[i])
                     continue;
 
-                var val = stats[i] * RandDeviation() / 100;
-                stats[i] = Math.Max(1, Math.Min(255, val));
+                var val = z.GetBaseStatValue(i) * RandDeviation() / 100;
+                z.SetBaseStatValue(i, Math.Max(1, Math.Min(255, val)));
             }
-            z.Stats = stats;
         }
 
-        private static void RandomShuffledStats(PersonalInfo z)
+        private static void RandomShuffledStats(IBaseStat z)
         {
             // Fiddle with Base Stats, don't muck with Shedinja.
-            var stats = z.Stats;
-            if (stats[0] == 1)
+            if (z.GetBaseStatValue(0) == 1)
                 return;
+
+            var stats = new int[z.GetNumBaseStats()];
+            for (int i = 0; i < z.GetNumBaseStats(); i++)
+                stats[i] = z.GetBaseStatValue(i);
+
             Util.Shuffle(stats);
-            z.Stats = stats;
+
+            for (int i = 0; i < z.GetNumBaseStats(); i++)
+                z.SetBaseStatValue(i, stats[i]);
         }
 
         private int GetRandomType() => Rand.Next(0, TypeCount);

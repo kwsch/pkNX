@@ -8,7 +8,7 @@ namespace pkNX.Randomization
     public class TrainerRandomizer : Randomizer
     {
         private readonly GameInfo Info;
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         private readonly VsTrainer[] Trainers;
         private readonly int[] PossibleHeldItems;
         private readonly int[] GigantamaxForms;
@@ -31,7 +31,7 @@ namespace pkNX.Randomization
         private TrainerRandSettings Settings = null!;
         private SpeciesSettings SpecSettings = null!;
 
-        public TrainerRandomizer(GameInfo info, PersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
+        public TrainerRandomizer(GameInfo info, IPersonalTable t, VsTrainer[] trainers, EvolutionSet[] evos)
         {
             Trainers = trainers;
             Info = info;
@@ -96,9 +96,9 @@ namespace pkNX.Randomization
             int min = special ? count : Settings.TeamCountMin;
             int max = special ? count : Settings.TeamCountMax;
 
-            var avgBST = (int)tr.Team.Average(pk => Personal[pk.Species].BST);
+            var avgBST = (int)tr.Team.Average(pk => Personal[pk.Species].GetBaseStatTotal());
             int avgLevel = (int)tr.Team.Average(pk => pk.Level);
-            var pinfo = Personal.Table.OrderBy(pk => Math.Abs(avgBST - pk.BST)).First();
+            var pinfo = Personal.Table.OrderBy(pk => Math.Abs(avgBST - pk.GetBaseStatTotal())).First();
             int avgSpec = Array.IndexOf(Personal.Table, pinfo);
 
             if (Settings.ForceDoubles && !(special && count % 2 == 1))

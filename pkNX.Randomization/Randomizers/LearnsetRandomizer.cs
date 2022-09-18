@@ -12,14 +12,14 @@ namespace pkNX.Randomization
     {
         private readonly Learnset[] Learnsets;
         private readonly GameInfo Game;
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
         private MoveRandomizer moverand;
         public IReadOnlyList<IMove> Moves { private get; set; } = Array.Empty<IMove>();
 
         public LearnSettings Settings { get; private set; } = new();
         public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
 
-        public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, PersonalTable t)
+        public LearnsetRandomizer(GameInfo game, Learnset[] learnsets, IPersonalTable t)
         {
             Game = game;
             Learnsets = learnsets;

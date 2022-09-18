@@ -7,14 +7,14 @@ namespace pkNX.Randomization
 {
     public class FormRandomizer
     {
-        private readonly PersonalTable Personal;
+        private readonly IPersonalTable Personal;
 
-        public FormRandomizer(PersonalTable t)
+        public FormRandomizer(IPersonalTable t)
         {
             Personal = t;
         }
 
-        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, PersonalInfo[]? stats = null)
+        public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, IPersonalInfo[]? stats = null)
         {
             stats ??= Personal.Table;
             if (stats[species].FormeCount <= 1)
@@ -74,7 +74,7 @@ namespace pkNX.Randomization
             return 0;
         }
 
-        public static int GetInvalidForm(int species, bool galar, PersonalTable stats) => species switch
+        public static int GetInvalidForm(int species, bool galar, IPersonalTable stats) => species switch
         {
             (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
             (int)Slowbro when galar => 1, // Mega Slowbro

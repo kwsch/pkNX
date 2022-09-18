@@ -462,7 +462,7 @@ namespace pkNX.WinForms
             var foreign = new List<string>();
             for (int i = 1; i <= ROM.Info.MaxSpeciesID; i++)
             {
-                var p = (PersonalInfoSWSH)pt[i];
+                var p = (IPersonalInfoSWSH)pt[i];
                 bool any = false;
                 if (p.PokeDexIndex != 0)
                 {
