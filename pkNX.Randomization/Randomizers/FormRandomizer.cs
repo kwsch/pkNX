@@ -24,7 +24,7 @@ namespace pkNX.Randomization
             switch ((Species)species)
             {
                 // Rayquaza's Forme Count was unchanged in SWSH despite Megas being removed, so just in case the user allows random Megas, disallow this invalid Forme.
-                case Rayquaza when Personal.TableLength == 1192:
+                case Rayquaza when Personal.Table.Length == 1192:
                     return 0;
                 case Unown:
                 case Deerling:
@@ -52,7 +52,7 @@ namespace pkNX.Randomization
                 }
 
                 // some species have 1 invalid form among several other valid forms, handle them here
-                case Pikachu when Personal.TableLength == 1192:
+                case Pikachu when Personal.Table.Length == 1192:
                 case Slowbro when galar:
                 {
                     int form = Util.Random.Next(stats[species].FormeCount - 1);
@@ -63,7 +63,7 @@ namespace pkNX.Randomization
                 }
             }
 
-            if (Personal.TableLength == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
+            if (Personal.Table.Length == 980 && species is (int)Pikachu or (int)Eevee) // gg tableB -- no starters, they crash trainer battles.
                 return 0;
             if (alola && Legal.EvolveToAlolanForms.Contains(species))
                 return Util.Random.Next(2);
@@ -76,7 +76,7 @@ namespace pkNX.Randomization
 
         public static int GetInvalidForm(int species, bool galar, IPersonalTable stats) => species switch
         {
-            (int)Pikachu when stats.TableLength == 1192 => 8, // LGPE Partner Pikachu
+            (int)Pikachu when stats.Table.Length == 1192 => 8, // LGPE Partner Pikachu
             (int)Slowbro when galar => 1, // Mega Slowbro
             _ => throw new ArgumentOutOfRangeException(nameof(species))
         };

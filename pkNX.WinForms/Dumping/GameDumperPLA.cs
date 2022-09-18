@@ -270,8 +270,8 @@ namespace pkNX.WinForms
             var data = ROM.GetFile(GameFile.Learnsets)[0];
             var obj = FlatBufferConverter.DeserializeFrom<Learnset8a>(data);
             var pt = GetPersonal();
-            var result = new byte[pt.TableLength][];
-            var mastery = new byte[pt.TableLength][];
+            var result = new byte[pt.Table.Length][];
+            var mastery = new byte[pt.Table.Length][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = mastery[i] = Array.Empty<byte>();
 
@@ -323,7 +323,7 @@ namespace pkNX.WinForms
             var data = ROM.GetFilteredFolder(GameFile.Evolutions)[0];
             var obj = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(data);
             var pt = GetPersonal();
-            var result = new byte[pt.TableLength][];
+            var result = new byte[pt.Table.Length][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
 
@@ -896,7 +896,7 @@ namespace pkNX.WinForms
             var dex = new List<string>();
             var dexit = new List<string>();
             var foreign = new List<string>();
-            for (int i = 1; i < pt.TableLength; i++)
+            for (int i = 1; i < pt.Table.Length; i++)
             {
                 var p = (IPersonalInfoPLA)pt[i];
                 bool any = false;

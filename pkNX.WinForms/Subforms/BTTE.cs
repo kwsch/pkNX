@@ -50,7 +50,7 @@ namespace pkNX.WinForms
             Stats.Personal = Personal = data.PersonalData;
             learn = new LearnsetRandomizer(game.Info, data.LevelUpData.LoadAll(), Personal);
 
-            AltForms = new byte[Personal.TableLength]
+            AltForms = new byte[Personal.Table.Length]
                 .Select(_ => Enumerable.Range(0, 32).Select(i => i.ToString()).ToArray()).ToArray();
 
             trClass = Game.GetStrings(TextName.TrainerClasses);
