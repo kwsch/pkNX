@@ -52,8 +52,8 @@ namespace pkNX.WinForms
             var evd = ROM.GetFile(GameFile.Evolutions)[0];
             var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(evd);
             var pt = GetPersonal();
-            var altForms = pt.GetFormList(s, pt.MaxSpeciesID);
-            var entryNames = pt.GetPersonalEntryList(altForms, s, pt.MaxSpeciesID, out _, out _);
+            var altForms = pt.GetFormList(s);
+            var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
             var moveNames = ROM.GetStrings(TextName.MoveNames);
 
             var pd = new PersonalDumperPLA

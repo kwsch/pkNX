@@ -57,8 +57,8 @@ namespace pkNX.WinForms
             var egg = EggMoves7.GetArray(eggdata.GetFiles().Result);
 
             var pt = ROM.Data.PersonalData;
-            var altForms = pt.GetFormList(s, pt.MaxSpeciesID);
-            var entryNames = pt.GetPersonalEntryList(altForms, s, pt.MaxSpeciesID, out _, out _);
+            var altForms = pt.GetFormList(s);
+            var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
             var moveNames = ROM.GetStrings(TextName.MoveNames);
 
             var pd = new PersonalDumperSWSH

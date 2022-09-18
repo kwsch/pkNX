@@ -45,8 +45,8 @@ namespace pkNX.WinForms
             cEvos = Editor.Evolve[0];
             cMega = Editor.Mega != null ? Editor.Mega[0] : Array.Empty<MegaEvolutionSet>();
 
-            var altForms = pt.GetFormList(species, pt.MaxSpeciesID);
-            entryNames = pt.GetPersonalEntryList(altForms, species, pt.MaxSpeciesID, out baseForms, out formVal);
+            var altForms = pt.GetFormList(species);
+            entryNames = pt.GetPersonalEntryList(altForms, species, out baseForms, out formVal);
 
             InitPersonal();
             InitLearn();
