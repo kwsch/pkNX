@@ -42,9 +42,10 @@
             // B_NoShinyLocks
             // 
             this.B_NoShinyLocks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_NoShinyLocks.Location = new System.Drawing.Point(614, 0);
+            this.B_NoShinyLocks.Location = new System.Drawing.Point(730, 7);
+            this.B_NoShinyLocks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.B_NoShinyLocks.Name = "B_NoShinyLocks";
-            this.B_NoShinyLocks.Size = new System.Drawing.Size(148, 23);
+            this.B_NoShinyLocks.Size = new System.Drawing.Size(222, 35);
             this.B_NoShinyLocks.TabIndex = 8;
             this.B_NoShinyLocks.Text = "Remove All Shiny Locks";
             this.TT_ButtonToolTip.SetToolTip(this.B_NoShinyLocks, "Changes all ShinyLock properties from Never to Random for all encounters in the c" +
@@ -57,9 +58,10 @@
             this.PG_Encounters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Encounters.Location = new System.Drawing.Point(3, 38);
+            this.PG_Encounters.Location = new System.Drawing.Point(8, 91);
+            this.PG_Encounters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PG_Encounters.Name = "PG_Encounters";
-            this.PG_Encounters.Size = new System.Drawing.Size(759, 548);
+            this.PG_Encounters.Size = new System.Drawing.Size(944, 620);
             this.PG_Encounters.TabIndex = 7;
             this.PG_Encounters.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PG_Encounters_SelectedGridItemChanged);
             // 
@@ -68,20 +70,24 @@
             this.CB_Encounters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Encounters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Encounters.FormattingEnabled = true;
-            this.CB_Encounters.Location = new System.Drawing.Point(3, 15);
+            this.CB_Encounters.Location = new System.Drawing.Point(8, 52);
+            this.CB_Encounters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 6);
             this.CB_Encounters.Name = "CB_Encounters";
-            this.CB_Encounters.Size = new System.Drawing.Size(174, 21);
+            this.CB_Encounters.Size = new System.Drawing.Size(259, 28);
             this.CB_Encounters.TabIndex = 6;
             this.CB_Encounters.SelectedIndexChanged += new System.EventHandler(this.CB_Encounters_SelectedIndexChanged);
             // 
             // L_ConfigName
             // 
             this.L_ConfigName.AutoSize = true;
-            this.L_ConfigName.Location = new System.Drawing.Point(3, 1);
+            this.L_ConfigName.Location = new System.Drawing.Point(8, 7);
+            this.L_ConfigName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 11);
             this.L_ConfigName.Name = "L_ConfigName";
-            this.L_ConfigName.Size = new System.Drawing.Size(110, 13);
+            this.L_ConfigName.Padding = new System.Windows.Forms.Padding(4, 7, 4, 0);
+            this.L_ConfigName.Size = new System.Drawing.Size(171, 27);
             this.L_ConfigName.TabIndex = 9;
             this.L_ConfigName.Text = "{Configured File Path}";
+            this.L_ConfigName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // B_CloneTableEntry
             // 
@@ -128,8 +134,7 @@
             // 
             // EncounterTableEditor8a
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.B_RemoveCondition);
             this.Controls.Add(this.B_ConfigureAsAlpha);
             this.Controls.Add(this.B_CloneTableEntry);
@@ -137,8 +142,11 @@
             this.Controls.Add(this.B_NoShinyLocks);
             this.Controls.Add(this.PG_Encounters);
             this.Controls.Add(this.CB_Encounters);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MinimumSize = new System.Drawing.Size(773, 454);
             this.Name = "EncounterTableEditor8a";
-            this.Size = new System.Drawing.Size(765, 589);
+            this.Padding = new System.Windows.Forms.Padding(4);
+            this.Size = new System.Drawing.Size(960, 720);
             this.ResumeLayout(false);
             this.PerformLayout();
 
