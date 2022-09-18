@@ -283,8 +283,8 @@ namespace pkNX.WinForms
             CB_Ability2.SelectedIndex = pkm.Ability2;
             CB_Ability3.SelectedIndex = pkm.AbilityH;
 
-            TB_FormeCount.Text = pkm.FormeCount.ToString("000");
-            TB_FormeSprite.Text = pkm.FormeSprite.ToString("000");
+            TB_FormeCount.Text = pkm.FormCount.ToString("000");
+            TB_FormeSprite.Text = pkm.FormSprite.ToString("000");
 
             TB_RawColor.Text = pkm.Color.ToString("000");
             CB_Color.SelectedIndex = pkm.Color & 0xF;
@@ -315,7 +315,7 @@ namespace pkNX.WinForms
             if (pkm is IPersonalInfoSWSH swsh)
             {
                 L_TM.Text = "TMs/TRs:";
-                MT_GoID.Text = swsh.SpriteIndex.ToString("000");
+                MT_GoID.Text = swsh.Species.ToString("000");
                 TB_RegionalDex.Text = swsh.PokeDexIndex.ToString("000");
                 TB_ArmorDex.Text = swsh.ArmorDexIndex.ToString("000");
                 TB_CrownDex.Text = swsh.CrownDexIndex.ToString("000");

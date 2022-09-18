@@ -9,7 +9,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
 {
     public PersonalInfo8SWSH[] Table { get; }
     private const int SIZE = PersonalInfo8SWSH.SIZE;
-    private const int MaxSpecies = Legal.MaxSpeciesID_8_R2;
+    private const int MaxSpecies = Legal.MaxSpeciesID_8;
     public int MaxSpeciesID => MaxSpecies;
 
     public PersonalTable8SWSH(ReadOnlySpan<byte> data)

@@ -295,7 +295,7 @@ internal class EditorPLA : EditorBase
             .GroupBy(z => z.Species)
             .ToDictionary(z => z.Key, z => z.ToList());
 
-        if (!formRand.TryGetValue(spec, out var entries))
+        if (!formRand.TryGetValue((ushort)spec, out var entries))
             return 0;
         var count = entries.Count;
 

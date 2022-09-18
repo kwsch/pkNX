@@ -34,7 +34,7 @@ public sealed class PersonalTable7GG : IPersonalTable, IPersonalTable<PersonalIn
         return 0;
     }
 
-    public bool IsSpeciesInGame(ushort species) => (uint)species is <= Legal.MaxSpeciesID_1 or (int)Species.Meltan or (int)Species.Melmetal;
+    public bool IsSpeciesInGame(ushort species) => (uint)species is <= (int)Species.Mew or (int)Species.Meltan or (int)Species.Melmetal;
     public bool IsPresentInGame(ushort species, byte form)
     {
         if (!IsSpeciesInGame(species))

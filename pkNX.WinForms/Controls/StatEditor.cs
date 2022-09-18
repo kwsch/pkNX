@@ -56,7 +56,7 @@ namespace pkNX.WinForms.Controls
             if (pt == null)
                 throw new NullReferenceException("Personal table hasn't been initialized.");
 
-            var pi = pt.GetFormeEntry(PKM.Species, PKM.Form);
+            var pi = pt.GetFormEntry((ushort)PKM.Species, (byte)PKM.Form);
             var stats = PKM.GetStats(pi);
 
             Stat_HP.Text = stats[0].ToString();

@@ -83,18 +83,18 @@ namespace pkNX.Structures
                 ml[i] = new List<string>();
             MoveSpeciesLearn = ml;
 
-            for (int species = 0; species <= table.MaxSpeciesID; species++)
+            for (ushort species = 0; species <= table.MaxSpeciesID; species++)
             {
                 var spec = table[species];
-                for (int form = 0; form < spec.FormeCount; form++)
+                for (byte form = 0; form < spec.FormCount; form++)
                     AddDump(lines, table, species, form);
             }
             return lines;
         }
 
-        public void AddDump(List<string> lines, PersonalTable table, int species, int form)
+        public void AddDump(List<string> lines, IPersonalTable table, ushort species, byte form)
         {
-            var index = table.GetFormeIndex(species, form);
+            var index = table.GetFormIndex(species, form);
             var entry = table[index];
             string name = EntryNames[index];
             AddDump(lines, entry, index, name, species, form);
@@ -106,7 +106,7 @@ namespace pkNX.Structures
             if (pi is IPersonalInfoSWSH { IsPresentInGame: false })
                 return;
 
-            var specCode = pi.FormeCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
+            var specCode = pi.FormCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
 
             if (Settings.Stats)
                 AddPersonalLines(lines, pi, entry, name, specCode);

@@ -206,7 +206,7 @@ namespace pkNX.Randomization
             int timesEvolved = 0;
             do
             {
-                var index = Personal.GetFormeIndex(species, form);
+                var index = Personal.GetFormIndex((ushort)species, (byte)form);
                 var eSet = evos[index].PossibleEvolutions;
                 int evoCount = eSet.Count(z => z.HasData);
                 if (evoCount == 0 && species != (int)Species.Meltan)
@@ -303,10 +303,10 @@ namespace pkNX.Randomization
                     pk.Moves = RandMove.GetRandomMoveset(pk.Species);
                     break;
                 case MoveRandType.LevelUpMoves:
-                    pk.Moves = Learn.GetCurrentMoves(pk.Species, pk.Form, pk.Level);
+                    pk.Moves = Learn.GetCurrentMoves((ushort)pk.Species, (byte)pk.Form, pk.Level);
                     break;
                 case MoveRandType.HighPowered:
-                    pk.Moves = Learn.GetHighPoweredMoves(pk.Species, pk.Form);
+                    pk.Moves = Learn.GetHighPoweredMoves((ushort)pk.Species, (byte)pk.Form);
                     break;
                 case MoveRandType.MetronomeOnly: // Metronome
                     pk.Moves = new[] { 118, 0, 0, 0 };

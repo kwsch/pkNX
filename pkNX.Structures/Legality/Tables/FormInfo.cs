@@ -289,7 +289,7 @@ public static class FormInfo
         if (HasFormValuesNotIndicatedByPersonal.Contains(species))
             return true;
 
-        int count = pi.FormeCount;
+        int count = pi.FormCount;
         return count > 1;
     }
 

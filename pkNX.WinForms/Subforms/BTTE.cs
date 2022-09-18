@@ -216,9 +216,9 @@ namespace pkNX.WinForms
         {
             int previousAbilityIndex = CB_Ability.SelectedIndex;
 
-            int species = CB_Species.SelectedIndex;
-            int formnum = CB_Forme.SelectedIndex;
-            int index = Personal[species].FormeIndex(species, formnum);
+            ushort species = (ushort)CB_Species.SelectedIndex;
+            byte formnum = (byte)CB_Forme.SelectedIndex;
+            int index = Personal[species].FormIndex(species, formnum);
 
             var pi = Personal[index];
             CB_Ability.Items.Clear();
@@ -543,7 +543,7 @@ namespace pkNX.WinForms
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
             var movedata = Data.MoveData.LoadAll();
-            var moves = learn.GetHighPoweredMoves(movedata, pkm.Species, pkm.Form, 4);
+            var moves = learn.GetHighPoweredMoves(movedata, (ushort)pkm.Species, (byte)pkm.Form, 4);
             SetMoves(moves);
         }
 
@@ -552,7 +552,7 @@ namespace pkNX.WinForms
             pkm.Species = CB_Species.SelectedIndex;
             pkm.Level = (int)NUD_Level.Value;
             pkm.Form = CB_Forme.SelectedIndex;
-            var moves = learn.GetCurrentMoves(pkm.Species, pkm.Form, pkm.Level, 4);
+            var moves = learn.GetCurrentMoves((ushort)pkm.Species, (byte)pkm.Form, pkm.Level, 4);
             SetMoves(moves);
         }
 

@@ -122,7 +122,7 @@ public partial class AreaEditor8a : Form
         }
         int GetRandomForm(int spec)
         {
-            if (!formRand.TryGetValue(spec, out var entries))
+            if (!formRand.TryGetValue((ushort)spec, out var entries))
                 return 0;
             var count = entries.Count;
 

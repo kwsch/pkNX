@@ -42,7 +42,7 @@ namespace pkNX.Randomization
 
         private void RandomizeAllSpecies()
         {
-            for (var species = 0; species <= Game.MaxSpeciesID; species++)
+            for (ushort species = 0; species <= Game.MaxSpeciesID; species++)
                 RandomizeSpecies(species);
         }
 
@@ -51,9 +51,9 @@ namespace pkNX.Randomization
         private void RandomizeChains()
         {
             processed = new bool[Table.Table.Length];
-            for (var species = 0; species <= Game.MaxSpeciesID; species++)
+            for (ushort species = 0; species <= Game.MaxSpeciesID; species++)
             {
-                for (int f = 0; f <= Table[species].FormeCount; f++)
+                for (byte f = 0; f <= Table[species].FormCount; f++)
                     RandomizeChain(species, f);
             }
         }
@@ -69,27 +69,27 @@ namespace pkNX.Randomization
             return false;
         }
 
-        private void RandomizeChain(int species, int forme)
+        private void RandomizeChain(ushort species, byte form)
         {
-            var index = Table.GetFormeIndex(species, forme);
+            var index = Table.GetFormIndex(species, form);
             if (AlreadyProcessed(index))
                 return;
             processed[index] = true;
 
             var entry = Table[index];
             Randomize(entry, species);
-            ProcessEvolutions(species, forme, index);
+            ProcessEvolutions(species, form, index);
         }
 
-        private void ProcessEvolutions(int species, int forme, int devolvedIndex)
+        private void ProcessEvolutions(int species, int form, int devolvedIndex)
         {
-            var evoindex = GetEvolutionEntry(species, forme);
+            var evoindex = GetEvolutionEntry((ushort)species, (byte)form);
             var evos = Evolutions[evoindex];
 
             if (evos.PossibleEvolutions.Length == 1)
             {
                 var evo = evos.PossibleEvolutions[0];
-                var ei = Table.GetFormeIndex(evo.Species, evo.Form);
+                var ei = Table.GetFormIndex((ushort)evo.Species, (byte)evo.Form);
 
                 if (AlreadyProcessed(ei))
                     return;
@@ -100,7 +100,7 @@ namespace pkNX.Randomization
             {
                 foreach (var evo in evos.PossibleEvolutions)
                 {
-                    var ei = Table.GetFormeIndex(evo.Species, evo.Form);
+                    var ei = Table.GetFormIndex((ushort)evo.Species, (byte)evo.Form);
                     if (AlreadyProcessed(ei))
                         return;
                     RandomizeSplitChain(evo, devolvedIndex);
@@ -112,32 +112,32 @@ namespace pkNX.Randomization
         private void RandomizeSingleChain(EvolutionMethod evo, int devolvedIndex)
         {
             var child = Table[devolvedIndex];
-            var z = Table.GetFormeEntry(evo.Species, evo.Form);
+            var z = Table.GetFormEntry((ushort)evo.Species, (byte)evo.Form);
             RandomizeFrom(z, child, evo.Species);
         }
 
         private void RandomizeSplitChain(EvolutionMethod evo, int devolvedIndex)
         {
             var child = Table[devolvedIndex];
-            var z = Table.GetFormeEntry(evo.Species, evo.Form);
+            var z = Table.GetFormEntry((ushort)evo.Species, (byte)evo.Form);
             RandomizeFrom(z, child, evo.Species);
         }
 
-        private int GetEvolutionEntry(int species, int form)
+        private int GetEvolutionEntry(ushort species, byte form)
         {
             if (Game.Generation < 7)
                 return species;
-            return Table.GetFormeIndex(species, form);
+            return Table.GetFormIndex(species, form);
         }
 
-        private void RandomizeSpecies(int species)
+        private void RandomizeSpecies(ushort species)
         {
             var entry = Table[species];
             Randomize(entry, species);
-            var formeCount = entry.FormeCount;
-            for (int forme = 1; forme <= formeCount; forme++)
+            var formCount = entry.FormCount;
+            for (byte form = 1; form <= formCount; form++)
             {
-                entry = Table.GetFormeEntry(species, forme);
+                entry = Table.GetFormEntry(species, form);
                 Randomize(entry, species);
             }
         }

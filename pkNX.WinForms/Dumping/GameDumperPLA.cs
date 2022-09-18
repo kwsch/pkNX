@@ -34,10 +34,10 @@ namespace pkNX.WinForms
         public void DumpPersonal()
         {
             var data = ROM.GetFile(GameFile.PersonalStats)[0];
-            var obj = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(data);
+            /*var obj = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(data);
             var test = PersonalConverter.GetBin(obj);
             var path = GetPath("personal_la");
-            File.WriteAllBytes(path, test);
+            File.WriteAllBytes(path, test);*/
 
             var csv = GetPath("personal.csv");
             File.WriteAllText(csv, FlatDumper.GetTable<PersonalTableLA, PersonalInfoLAfb>(data));
@@ -101,7 +101,7 @@ namespace pkNX.WinForms
                 var shopIndex = Array.IndexOf(shop, move);
                 bool isShop = shopIndex != -1;
                 var learn = lr.Table.Where(z => z.Arceus.Any(x => x.Move == move));
-                var filtered = learn.Where(z => ((PersonalInfoLA_Bin)pt.GetFormeEntry(z.Species, z.Form)).IsPresentInGame);
+                var filtered = learn.Where(z => ((IPersonalInfoPLA)pt.GetFormEntry(z.Species, (byte)z.Form)).IsPresentInGame);
                 var result = filtered.Select(x => $"{spec[x.Species]}{(x.Form == 0 ? "" : $"-{x.Form}")} @ {Array.Find(x.Arceus, w => w.Move == move).Level}").ToArray();
 
                 List<string> r = new() { $"{moves[move]}:" };
@@ -280,7 +280,7 @@ namespace pkNX.WinForms
             {
                 if (e.Arceus.Length == 0)
                     continue;
-                var index = pt.GetFormeIndex(e.Species, e.Form);
+                var index = pt.GetFormIndex(e.Species, (byte)e.Form);
                 var entry = (IPersonalInfoPLA)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;
@@ -332,7 +332,7 @@ namespace pkNX.WinForms
                 var e = obj.Table[i];
                 if (e.Table?.Length is not >0)
                     continue;
-                var index = pt.GetFormeIndex(e.Index, e.Form);
+                var index = pt.GetFormIndex(e.Index, (byte)e.Form);
                 var entry = (IPersonalInfoPLA)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;
@@ -776,12 +776,12 @@ namespace pkNX.WinForms
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
 
-            int GetDexIndex(int species)
+            ushort GetDexIndex(ushort species)
             {
-                var formCount = pt.GetFormeEntry(species, 0).FormeCount;
-                for (var form = 0; form < formCount; form++)
+                var formCount = pt.GetFormEntry(species, 0).FormCount;
+                for (byte form = 0; form < formCount; form++)
                 {
-                    var p = (PersonalInfoLA_Bin)pt.GetFormeEntry(species, form);
+                    var p = (IPersonalInfoPLA)pt.GetFormEntry(species, form);
 
                     if (p.DexIndexRegional != 0)
                         return p.DexIndexRegional;
@@ -790,7 +790,7 @@ namespace pkNX.WinForms
                 return 0;
             }
 
-            for (var species = 0; species <= 980; species++)
+            for (ushort species = 0; species <= 980; species++)
             {
                 var entries = Array.FindAll(dexResearch.Table, z => z.Species == species);
                 if (entries.Length == 0)

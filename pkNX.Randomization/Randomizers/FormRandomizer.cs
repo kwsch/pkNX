@@ -17,7 +17,7 @@ namespace pkNX.Randomization
         public int GetRandomForme(int species, bool mega, bool fused, bool alola, bool galar, IPersonalInfo[]? stats = null)
         {
             stats ??= Personal.Table;
-            if (stats[species].FormeCount <= 1)
+            if (stats[species].FormCount <= 1)
                 return 0;
             bool IsGen6 = Personal.MaxSpeciesID == 721;
 
@@ -47,7 +47,7 @@ namespace pkNX.Randomization
                 // only allow Standard, not Zen Mode
                 case Darmanitan when galar:
                 {
-                    int form = Util.Random.Next(stats[species].FormeCount);
+                    int form = Util.Random.Next(stats[species].FormCount);
                     return form & 2;
                 }
 
@@ -55,7 +55,7 @@ namespace pkNX.Randomization
                 case Pikachu when Personal.Table.Length == 1192:
                 case Slowbro when galar:
                 {
-                    int form = Util.Random.Next(stats[species].FormeCount - 1);
+                    int form = Util.Random.Next(stats[species].FormCount - 1);
                     int banned = GetInvalidForm(species, galar, Personal);
                     if (form == banned)
                         form++;
@@ -70,7 +70,7 @@ namespace pkNX.Randomization
             if (galar && Legal.EvolveToGalarForms.Contains(species))
                 return Util.Random.Next(2);
             if (!Legal.BattleExclusiveForms.Contains(species) || mega || (fused && Legal.BattleFusions.Contains(species)))
-                return Util.Random.Next(stats[species].FormeCount); // Slot-Random
+                return Util.Random.Next(stats[species].FormCount); // Slot-Random
             return 0;
         }
 
