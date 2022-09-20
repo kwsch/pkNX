@@ -35,7 +35,7 @@ namespace pkNX.WinForms
 
             DragDrop += (s, e) =>
             {
-                var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (var f in files)
                     OpenPath(f);
             };
@@ -178,6 +178,11 @@ namespace pkNX.WinForms
         {
             if (Directory.Exists(TB_Path.Text))
                 Process.Start("explorer.exe", TB_Path.Text);
+        }
+
+        private void Menu_Save_Click(object sender, EventArgs e)
+        {
+            Editor?.Save();
         }
     }
 }
