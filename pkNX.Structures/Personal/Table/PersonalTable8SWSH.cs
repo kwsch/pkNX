@@ -23,6 +23,11 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
         }
     }
 
+    public void Save()
+    {
+        throw new NotImplementedException();
+    }
+
     public PersonalInfo8SWSH this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo8SWSH this[ushort species, byte form] => Table[GetFormIndex(species, form)];
     public PersonalInfo8SWSH GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];

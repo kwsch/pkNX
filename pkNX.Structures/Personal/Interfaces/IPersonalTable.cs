@@ -55,6 +55,11 @@ public interface IPersonalTable
     /// <param name="form"><see cref="PKM.Form"/></param>
     /// <returns>True if present in game</returns>
     bool IsPresentInGame(ushort species, byte form);
+
+    /// <summary>
+    /// Save any changes made to the table back to the original file
+    /// </summary>
+    void Save();
 }
 
 /// <summary>

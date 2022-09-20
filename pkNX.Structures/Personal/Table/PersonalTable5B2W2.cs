@@ -24,6 +24,11 @@ public sealed class PersonalTable5B2W2 : IPersonalTable, IPersonalTable<Personal
         }
     }
 
+    public void Save()
+    {
+        throw new NotImplementedException();
+    }
+
     public PersonalInfo5B2W2 this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo5B2W2 this[ushort species, byte form] => Table[GetFormIndex(species, form)];
     public PersonalInfo5B2W2 GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];

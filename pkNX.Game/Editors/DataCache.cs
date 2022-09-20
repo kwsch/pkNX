@@ -1,5 +1,6 @@
 ﻿using System;
 using pkNX.Containers;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.Game
 {
@@ -75,5 +76,39 @@ namespace pkNX.Game
     {
         public DirectCache(T[] cache) : base(cache) { }
         public override void Save() { }
+    }
+
+    /// <summary>
+    /// Data 'from a flatbuffer table
+    /// </summary>
+    /// <typeparam name="TTable">The type of table</typeparam>
+    /// <typeparam name="TData">The type of data inside the table</typeparam>
+    public class TableCache<TTable, TData>
+        where TTable : class, IFlatBufferArchive<TData>
+        where TData : class
+    {
+        public IFileContainer File { get; private set; }
+        public TTable Root { get; private set; }
+        public DataCache<TData> Cache { get; private set; }
+
+        public TableCache(IFileContainer f)
+        {
+            File = f;
+            Root = FlatBufferConverter.DeserializeFrom<TTable>(f[0]);
+            Cache = new DirectCache<TData>(Root.Table);
+        }
+
+        public void Save()
+        {
+            File[0] = FlatBufferConverter.SerializeFrom(Root);
+        }
+
+        public TData this[int index]
+        {
+            get => Cache[index];
+            set => Cache[index] = value;
+        }
+
+        public int Length => Cache.Length;
     }
 }

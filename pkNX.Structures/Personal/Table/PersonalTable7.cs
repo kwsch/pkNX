@@ -24,6 +24,11 @@ public sealed class PersonalTable7SM : IPersonalTable, IPersonalTable<PersonalIn
         }
     }
 
+    public void Save()
+    {
+        throw new NotImplementedException();
+    }
+
     public PersonalInfo7SM this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo7SM this[ushort species, byte form] => Table[GetFormIndex(species, form)];
     public PersonalInfo7SM GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];

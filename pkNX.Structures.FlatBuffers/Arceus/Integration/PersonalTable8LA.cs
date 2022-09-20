@@ -1,3 +1,4 @@
+using pkNX.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,20 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     public int MaxSpeciesID => MaxSpecies;
 
-    public PersonalTable8LA(PersonalTableLA data)
+    private readonly IFileContainer File;
+    public PersonalTableLA Root { get; private set; }
+
+    public PersonalTable8LA(IFileContainer file)
     {
+        File = file;
+        Root = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(file[0]);
+
         var baseForms = new PersonalInfo8LA[MaxSpecies + 1];
         var formTable = new List<PersonalInfo8LA>();
 
         for (int i = 0; i <= MaxSpecies; i++)
         {
-            var forms = data.Table.Where(z => z.Species == (ushort)i).OrderBy(z => z.Form).ToList();
+            var forms = Root.Table.Where(z => z.Species == (ushort)i).OrderBy(z => z.Form).ToList();
 
             var e = forms[0];
             baseForms[i] = GetObj(e, forms, MaxSpecies, formTable);
@@ -33,12 +40,15 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
 
     private PersonalInfo8LA GetObj(PersonalInfoLAfb e, List<PersonalInfoLAfb> forms, ushort max, List<PersonalInfo8LA> formTable, int f = 0)
     {
-        var result = new PersonalInfo8LA(e)
+        return new PersonalInfo8LA(e)
         {
             FormStatsIndex = (f != 0 ? 0 : forms.Count == 1 ? 0 : max + formTable.Count + 1)
         };
+    }
 
-        return result;
+    public void Save()
+    {
+        File[0] = FlatBufferConverter.SerializeFrom(Root);
     }
 
     public PersonalInfo8LA this[int index] => Table[(uint)index < Table.Length ? index : 0];

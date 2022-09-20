@@ -376,6 +376,23 @@ internal class EditorPLA : EditorBase
         obj[0] = Item8a.SetArray(items, data);
     }
 
+    public void EditPokemon()
+    {
+        var editor = new PokeEditor8a
+        {
+            Evolve = Data.EvolutionData,
+            Learn = Data.LevelUpData,
+            Personal = Data.PersonalData
+        };
+        using var form = new PokeDataUI8a(editor, ROM, Data);
+        form.ShowDialog();
+        if (!form.Modified)
+            editor.CancelEdits();
+        else
+            editor.Save();
+    }
+
+
     public void PopFlatConfig(GameFile file, string title)
     {
         var obj = ROM.GetFile(file); // flatbuffer
