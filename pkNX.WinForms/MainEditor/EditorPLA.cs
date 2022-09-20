@@ -311,7 +311,7 @@ internal class EditorPLA : EditorBase
     public void EditPersonal_Raw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PersonalTableLA, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<PersonalTableLAfb, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     public void EditLearnset_Raw()

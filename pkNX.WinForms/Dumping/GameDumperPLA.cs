@@ -40,7 +40,7 @@ namespace pkNX.WinForms
             File.WriteAllBytes(path, test);*/
 
             var csv = GetPath("personal.csv");
-            File.WriteAllText(csv, FlatDumper.GetTable<PersonalTableLA, PersonalInfoLAfb>(data));
+            File.WriteAllText(csv, FlatDumper.GetTable<PersonalTableLAfb, PersonalInfoLAfb>(data));
         }
 
         public void DumpPokeInfo()

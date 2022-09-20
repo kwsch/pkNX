@@ -17,7 +17,7 @@ namespace pkNX.Structures.FlatBuffers;
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PersonalTableLA : IFlatBufferArchive<PersonalInfoLAfb>
+public class PersonalTableLAfb : IFlatBufferArchive<PersonalInfoLAfb>
 {
     [FlatBufferItem(0)] public PersonalInfoLAfb[] Table { get; set; } = Array.Empty<PersonalInfoLAfb>();
 }
