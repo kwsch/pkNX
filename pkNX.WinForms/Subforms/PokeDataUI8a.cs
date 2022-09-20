@@ -71,8 +71,8 @@ namespace pkNX.WinForms
             cLearnset = Editor.Learn[0];
             cEvos = Editor.Evolve[0];
 
-            var altForms = GetFormList(pt, species);
-            entryNames = GetPersonalEntryList(pt, altForms, species, out baseForms, out formVal);
+            var altForms = pt.GetFormList(species);
+            entryNames = pt.GetPersonalEntryList(altForms, species, out baseForms, out formVal);
 
             InitPersonal();
             InitLearn();
@@ -86,59 +86,6 @@ namespace pkNX.WinForms
             PG_Evolution.SelectedObject = EditUtil.Settings.Species;
             PG_Learn.SelectedObject = EditUtil.Settings.Learn;
             PG_Move.SelectedObject = EditUtil.Settings.Move;
-        }
-
-        /// <summary>
-        /// Gets form names for every species.
-        /// </summary>
-        /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
-        /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
-        /// <returns>Array of species containing an array of form names for that species.</returns>
-        public string[][] GetFormList(IPersonalTable pt, string[] species)
-        {
-            string[][] FormList = new string[pt.MaxSpeciesID + 1][];
-            for (int i = 0; i < FormList.Length; i++)
-            {
-                int FormCount = pt[i].FormCount;
-                FormList[i] = new string[FormCount];
-                if (FormCount <= 0) continue;
-                FormList[i][0] = species[i];
-                for (int j = 1; j < FormCount; j++)
-                    FormList[i][j] = $"{species[i]} {j}";
-            }
-
-            return FormList;
-        }
-
-        /// <summary>
-        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> AltForm ID values.
-        /// </summary>
-        /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
-        /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
-        /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
-        /// <param name="baseForm">Pointers for base form IDs</param>
-        /// <param name="formVal">Pointers for table indexes for each form</param>
-        /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>
-        public string[] GetPersonalEntryList(IPersonalTable pt, string[][] AltForms, string[] species, out int[] baseForm, out int[] formVal)
-        {
-            string[] result = new string[pt.Table.Length];
-            baseForm = new int[result.Length];
-            formVal = new int[result.Length];
-            for (int i = 0; i <= pt.MaxSpeciesID; i++)
-            {
-                result[i] = species[i];
-                if (AltForms[i].Length == 0) continue;
-                int altformpointer = pt[i].FormStatsIndex;
-                if (altformpointer <= 0) continue;
-                for (int j = 1; j < AltForms[i].Length; j++)
-                {
-                    int ptr = altformpointer + j - 1;
-                    baseForm[ptr] = i;
-                    formVal[ptr] = j;
-                    result[ptr] = AltForms[i][j];
-                }
-            }
-            return result;
         }
 
         public void InitPersonal()
@@ -632,6 +579,83 @@ namespace pkNX.WinForms
             rand.ExecuteMetronome();
             LoadIndex(CB_Species.SelectedIndex);
             System.Media.SystemSounds.Asterisk.Play();*/
+        }
+
+        private void B_AufoFill_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(Data.PersonalData is PersonalTable8LA, "This function is build for PLA data. It needs to be updated if more data is added.");
+
+            var swsh = PersonalTableUtil.SWSH;
+            var usum = PersonalTableUtil.USUM;
+
+            // Fix gender for ss data
+            for (ushort i = 1; i <= usum.MaxSpeciesID; i++)
+            {
+                var ss = swsh.Table[i];
+                if (ss.HP == 0)
+                    ss.Gender = usum.Table[i].Gender;
+            }
+
+            // Fill all data for la
+            var la = (PersonalTable8LA)Data.PersonalData;
+            for (ushort i = 1; i <= swsh.MaxSpeciesID; i++)
+            {
+                var fc = la.Table[i].FormCount;
+                for (byte f = 0; f < fc; f++)
+                {
+                    var l = la.GetFormEntry(i, f);
+                    if (l == null || l.HP != 0)
+                        continue;
+
+                    var s = swsh.GetFormEntry(i, f);
+
+                    //IBaseStat
+                    for (int j = 0; j < s.GetNumBaseStats(); ++j)
+                        l.SetBaseStatValue(j, s.GetBaseStatValue(j));
+
+                    //IEffortValueYield
+                    for (int j = 0; j < s.GetNumEVs(); ++j)
+                        l.SetEVYieldValue(j, s.GetEVYieldValue(j));
+
+                    //IPersonalAbility
+                    for (int j = 0; j < s.GetNumAbilities(); ++j)
+                        l.SetAbilityAtIndex(j, s.GetAbilityAtIndex(j));
+
+                    //IPersonalItems
+                    for (int j = 0; j < s.GetNumItems(); ++j)
+                        l.SetItemAtIndex(j, s.GetItemAtIndex(j));
+
+                    //IPersonalType
+                    l.Type1 = s.Type1;
+                    l.Type2 = s.Type2;
+
+                    //IPersonalEgg_2
+                    l.EggGroup1 = s.EggGroup1;
+                    l.EggGroup2 = s.EggGroup2;
+                    //l.HatchCycles = s.HatchCycles;
+                    l.HatchedSpecies = s.HatchedSpecies;
+
+                    //IPersonalTraits
+                    l.Gender = s.Gender;
+                    l.EXPGrowth = s.EXPGrowth;
+                    l.BaseEXP = s.BaseEXP;
+                    l.CatchRate = s.CatchRate;
+                    l.BaseFriendship = s.BaseFriendship;
+                    l.EscapeRate = s.EscapeRate;
+                    l.Color = s.Color;
+                    l.Height = s.Height;
+                    l.Weight = s.Weight;
+
+                    //IPersonalMisc_1
+                    //l.Species = i;
+                    l.DexIndexNational = i;
+                    l.EvoStage = s.EvoStage;
+                }
+            }
+
+            // Reload selected
+            LoadIndex(CB_Species.SelectedIndex);
+            Modified = true;
         }
 
         private void B_Save_Click(object sender, EventArgs e)
