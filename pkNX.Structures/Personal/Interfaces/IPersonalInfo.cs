@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pkNX.Structures;
+using System;
 
 namespace pkNX.Structures
 {
@@ -53,32 +54,12 @@ namespace pkNX.Structures
         bool[][] SpecialTutors { get; set; }
     }
 
-    public interface IFormInfo : IPersonalFormInfo
-    {
-        int FormSprite { get; set; }
-    }
-
-    public interface IPersonalMetaInfo
-    {
-        ushort Species { get; set; }
-        ushort Form { get; set; }
-        bool IsPresentInGame { get; set; }
-        ushort LocalFormIndex { get; set; } // ushort
-        ushort DexIndexNational { get; set; } // ushort
-        ushort DexIndexRegional { get; set; } // ushort
-        ushort DexIndexLocal1 { get; set; } // uint
-        ushort DexIndexLocal2 { get; set; } // uint
-        ushort DexIndexLocal3 { get; set; } // uint
-        ushort DexIndexLocal4 { get; set; } // uint
-        ushort DexIndexLocal5 { get; set; } // uint
-    }
-
     // Version based interfaces
 
     /// <summary>
     /// Base interface that can be used for any version. This should not contain variables that are not present in every game
     /// </summary>
-    public interface IPersonalInfo : IBaseStat, IEffortValueYield, IPersonalType, IPersonalEgg, IPersonalTraits, IPersonalAbility, IPersonalMisc, IPersonalItems, IFormInfo { }
+    public interface IPersonalInfo : IBaseStat, IEffortValueYield, IPersonalType, IPersonalEgg, IPersonalTraits, IPersonalAbility, IPersonalMisc, IPersonalItems, IPersonalFormInfo { }
 
     public interface IPersonalInfoBin
     {
@@ -112,11 +93,6 @@ namespace pkNX.Structures
     /// </summary>
     public interface IPersonalInfo_2 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_1, IMovesInfo_2 { }
 
-    /// <summary>
-    /// Version 3 changes a lot, starting with the use of flat buffers
-    /// </summary>
-    public interface IPersonalInfo_3 : IPersonalInfo, IPersonalEgg_2, IPersonalMetaInfo, IMovesInfo_3 { }
-
     // Game specific PersonalInfo interfaces
 
     public interface IPersonalInfoBW : IPersonalInfo_1 { }
@@ -128,29 +104,24 @@ namespace pkNX.Structures
         int SpecialZ_Item { get; set; }
         int SpecialZ_BaseMove { get; set; }
         int SpecialZ_ZMove { get; set; }
-
-        bool LocalVariant { get; set; }
+        bool IsRegionalForm { get; set; }
     }
     public interface IPersonalInfoGG : IPersonalInfoSM
     {
         int GoSpecies { get; set; }
     }
-    public interface IPersonalInfoSWSH : IPersonalInfo_2
+    public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_2, IPersonalMisc_1
     {
-        public bool IsPresentInGame { get; set; }
-        public bool SpriteForm { get; set; }
-        public ushort Species { get; set; }
-        public ushort HatchSpecies { get; set; }
-        public byte LocalFormIndex { get; set; }
-        public ushort RegionalFlags { get; set; }
-        public bool IsRegionalForm { get; set; }
-        public bool CanNotDynamax { get; set; }
-        public ushort PokeDexIndex { get; set; }
-        public byte RegionalFormIndex { get; set; }
-        public ushort ArmorDexIndex { get; set; }
-        public ushort CrownDexIndex { get; set; }
+        bool SpriteForm { get; set; }
+        bool IsRegionalForm { get; set; }
+        ushort RegionalFlags { get; set; }
+        bool CanNotDynamax { get; set; }
+        ushort PokeDexIndex { get; set; }
+        byte RegionalFormIndex { get; set; }
+        ushort ArmorDexIndex { get; set; }
+        ushort CrownDexIndex { get; set; }
     }
-    public interface IPersonalInfoPLA : IPersonalInfo_3
+    public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_3, IMovesInfo_3, IPersonalMisc_2
     {
         byte Field_18 { get; set; } // Always Default (0)
         bool Field_45 { get; set; } // byte

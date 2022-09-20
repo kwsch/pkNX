@@ -98,8 +98,8 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x26)); set => WriteUInt16LittleEndian(Data.AsSpan(0x26), (ushort)value); }
 
     public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4C), value); }
-    public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
-    public byte LocalFormIndex { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), value); } // local region base form
+    public ushort HatchedSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
+    public ushort LocalFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), value); } // local region base form
     public ushort RegionalFlags { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value); }
     public bool IsRegionalForm { get => (RegionalFlags & 1) == 1; set => RegionalFlags = (ushort)((RegionalFlags & 0xFFFE) | (value ? 1 : 0)); }
     public bool CanNotDynamax { get => ((Data[0x5A] >> 2) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~4) | (value ? 4 : 0)); }
@@ -111,7 +111,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     /// <summary>
     /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.
     /// </summary>
-    public byte HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
+    public byte HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : (byte)LocalFormIndex;
 
     /// <summary>
     /// Checks if the entry shows up in any of the built-in Pokédex.

@@ -76,5 +76,5 @@ public sealed class PersonalInfo7GG : IPersonalInfoGG
     public int SpecialZ_Item { get => ReadUInt16LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4C), (ushort)value); }
     public int SpecialZ_BaseMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x4E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4E), (ushort)value); }
     public int SpecialZ_ZMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x50), (ushort)value); }
-    public bool LocalVariant { get => Data[0x52] == 1; set => Data[0x52] = value ? (byte)1 : (byte)0; }
+    public bool IsRegionalForm { get => Data[0x52] == 1; set => Data[0x52] = value ? (byte)1 : (byte)0; }
 }

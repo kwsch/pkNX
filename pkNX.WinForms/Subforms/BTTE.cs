@@ -593,7 +593,7 @@ namespace pkNX.WinForms
             {
                 var pt = Data.PersonalData;
                 ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
-                    .Select((z, i) => new { Species = i, Present = ((IPersonalInfo_3)z).IsPresentInGame })
+                    .Select((z, i) => new { Species = i, Present = ((IPersonalMisc_1)z).IsPresentInGame })
                     .Where(z => !z.Present).Select(z => z.Species).ToArray();
             }
 
