@@ -56,6 +56,7 @@ namespace pkNX.WinForms.Controls
         }
 
         public void Close() => ROM.SaveAll(true);
+        public void Save() => ROM.SaveAll(false);
 
         private static EditorBase? GetEditor(GameManager ROM) => ROM switch
         {
