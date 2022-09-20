@@ -24,6 +24,11 @@ public sealed class PersonalTable6ORAS : IPersonalTable, IPersonalTable<Personal
         }
     }
 
+    public void Save()
+    {
+        throw new NotImplementedException();
+    }
+
     public PersonalInfo6ORAS this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo6ORAS this[ushort species, byte form] => Table[GetFormIndex(species, form)];
     public PersonalInfo6ORAS GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];

@@ -39,22 +39,15 @@ namespace pkNX.Game
 
         private void ResetData()
         {
-            var pbin = this[GameFile.PersonalStats][0];
-            var personal = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(pbin);
-            var evos = this[GameFile.Evolutions][0];
-            var evoTable = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(evos);
-            var learn = this[GameFile.Learnsets][0];
-            var learnTable = FlatBufferConverter.DeserializeFrom<Learnset8a>(learn);
-
             Data = new GameData8a
             {
                 // Folders
                 MoveData = GetMoves(),
 
                 // Single Files
-                PersonalData = new PersonalTable8LA(personal),
-                LevelUpData = new DataCache<Learnset8aMeta>(learnTable.Table),
-                EvolutionData = new DataCache<EvolutionSet8a>(evoTable.Table),
+                PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
+                LevelUpData = new(GetFile(GameFile.Learnsets)),
+                EvolutionData = new(GetFile(GameFile.Evolutions)),
             };
         }
 

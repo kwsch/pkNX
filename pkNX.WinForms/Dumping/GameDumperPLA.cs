@@ -51,7 +51,7 @@ namespace pkNX.WinForms
             var lr = FlatBufferConverter.DeserializeFrom<Learnset8a>(lrd);
             var evd = ROM.GetFile(GameFile.Evolutions)[0];
             var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(evd);
-            var pt = GetPersonal();
+            var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
             var altForms = pt.GetFormList(s);
             var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
             var moveNames = ROM.GetStrings(TextName.MoveNames);
@@ -269,7 +269,7 @@ namespace pkNX.WinForms
         {
             var data = ROM.GetFile(GameFile.Learnsets)[0];
             var obj = FlatBufferConverter.DeserializeFrom<Learnset8a>(data);
-            var pt = GetPersonal();
+            var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
             var result = new byte[pt.Table.Length][];
             var mastery = new byte[pt.Table.Length][];
             for (int i = 0; i < result.Length; i++)
@@ -310,19 +310,12 @@ namespace pkNX.WinForms
             }
         }
 
-        private IPersonalTable GetPersonal()
-        {
-            var pd = ROM.GetFile(GameFile.PersonalStats)[0];
-            var po = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(pd);
-            return new PersonalTable8LA(po);
-        }
-
         public void DumpEvolutionBinary()
         {
             // format matches past gen and PKHeX's expected format
             var data = ROM.GetFilteredFolder(GameFile.Evolutions)[0];
             var obj = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(data);
-            var pt = GetPersonal();
+            var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
             var result = new byte[pt.Table.Length][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
@@ -771,7 +764,7 @@ namespace pkNX.WinForms
 
         private void DumpResearchTasks(PokedexResearchTable dexResearch)
         {
-            var pt = GetPersonal();
+            var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
             var result = new byte[pt.Table.Max(p => ((IPersonalInfoPLA)p).DexIndexRegional)][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
@@ -890,7 +883,7 @@ namespace pkNX.WinForms
 
         private void DumpDexSummarySpecies()
         {
-            var pt = GetPersonal();
+            var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
             var s = ROM.GetStrings(TextName.SpeciesNames);
 
             var dex = new List<string>();
