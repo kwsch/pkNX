@@ -15,12 +15,12 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
     public int MaxSpeciesID => MaxSpecies;
 
     private readonly IFileContainer File;
-    public PersonalTableLA Root { get; private set; }
+    public PersonalTableLAfb Root { get; private set; }
 
     public PersonalTable8LA(IFileContainer file)
     {
         File = file;
-        Root = FlatBufferConverter.DeserializeFrom<PersonalTableLA>(file[0]);
+        Root = FlatBufferConverter.DeserializeFrom<PersonalTableLAfb>(file[0]);
 
         var baseForms = new PersonalInfo8LA[MaxSpecies + 1];
         var formTable = new List<PersonalInfo8LA>();
