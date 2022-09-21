@@ -192,6 +192,7 @@ namespace pkNX.WinForms
             if (spec == 0)
                 spec = index;
             var form = formVal[index];
+
             LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
             LoadLearnset(Editor.Learn[index]);
             LoadEvolutions(Editor.Evolve[index]);
@@ -222,6 +223,7 @@ namespace pkNX.WinForms
         public void LoadPersonal(IPersonalInfoPLA pkm)
         {
             cPersonal = pkm;
+            UpdateButtonStates();
 
             TB_BaseHP.Text = pkm.HP.ToString(TB_BaseHP.Mask);
             TB_BaseATK.Text = pkm.ATK.ToString(TB_BaseATK.Mask);
@@ -250,6 +252,8 @@ namespace pkNX.WinForms
             CB_HeldItem3.SelectedIndex = pkm.Item3;
 
             TB_Gender.Text = pkm.Gender.ToString(TB_Gender.Mask);
+            UpdateGenderDetailLabel();
+
             TB_Field_18.Text = pkm.Field_18.ToString(TB_Field_18.Mask);
             TB_Friendship.Text = pkm.BaseFriendship.ToString(TB_Friendship.Mask);
 
@@ -299,6 +303,34 @@ namespace pkNX.WinForms
                 CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
                 CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);*/
+        }
+
+        public void UpdateGenderDetailLabel()
+        {
+            switch (cPersonal.GetFixedGenderType())
+            {
+                case FixedGenderType.OnlyMale:
+                    L_GenderDetails.Text = "(100% Male)";
+                    break;
+                case FixedGenderType.OnlyFemale:
+                    L_GenderDetails.Text = "(100% Female)";
+                    break;
+                case FixedGenderType.Genderless:
+                    L_GenderDetails.Text = "(Genderless)";
+                    break;
+                case FixedGenderType.DualGender:
+                    var female = (cPersonal.Gender - 1) / 253.0;
+                    L_GenderDetails.Text = string.Format("({0:P} Male, {1:P} Female)", 1.0 - female, female);
+                    break;
+            }
+        }
+
+        public void UpdateButtonStates()
+        {
+            B_PreviousPokemon.Enabled = cPersonal.Species > 0;
+            B_PreviousForm.Enabled = cPersonal.Form > 0;
+            B_NextForm.Enabled = (cPersonal.Form + 1) < cPersonal.FormCount;
+            B_NextPokemon.Enabled = (cPersonal.Species + 1) < Data.PersonalData.MaxSpeciesID;
         }
 
         public void SavePersonal()
@@ -656,6 +688,34 @@ namespace pkNX.WinForms
             // Reload selected
             LoadIndex(CB_Species.SelectedIndex);
             Modified = true;
+        }
+
+        private void B_NextPokemon_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(cPersonal.Species < Data.PersonalData.MaxSpeciesID);
+            CB_Species.SelectedIndex = cPersonal.Species + 1;
+        }
+
+        private void B_NextForm_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(cPersonal.Form < cPersonal.FormCount);
+
+            var pt = Data.PersonalData;
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form + 1));
+        }
+
+        private void B_PreviousForm_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(cPersonal.Form > 0);
+
+            var pt = Data.PersonalData;
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form - 1));
+        }
+
+        private void B_PreviousPokemon_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(cPersonal.Species > 0);
+            CB_Species.SelectedIndex = cPersonal.Species - 1;
         }
 
         private void B_Save_Click(object sender, EventArgs e)
