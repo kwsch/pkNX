@@ -22,10 +22,29 @@ public interface IPersonalEgg_1 : IPersonalEgg
 }
 
 /// <summary>
-/// PLA seems to be missing `HatchCycles` and adds `HatchedSpecies`
+/// SWSH still has `HatchCycles` but adds `HatchedSpecies`
 /// </summary>
 public interface IPersonalEgg_2 : IPersonalEgg
 {
+    /// <summary>
+    /// Amount of Hatching Step Cycles required to hatch if in an egg.
+    /// </summary>
+    int HatchCycles { get; set; }
+
+    /// <summary>
+    /// Species index that will be hatched from a egg of this species
+    /// </summary>
+    ushort HatchedSpecies { get; set; }
+}
+
+/// <summary>
+/// PLA seems to be missing `HatchCycles`
+/// </summary>
+public interface IPersonalEgg_3 : IPersonalEgg
+{
+    /// <summary>
+    /// Species index that will be hatched from a egg of this species
+    /// </summary>
     ushort HatchedSpecies { get; set; }
 }
 

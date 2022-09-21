@@ -301,14 +301,14 @@ namespace pkNX.WinForms
                 CB_ZItem.SelectedIndex = sm.SpecialZ_Item;
                 CB_ZBaseMove.SelectedIndex = sm.SpecialZ_BaseMove;
                 CB_ZMove.SelectedIndex = sm.SpecialZ_ZMove;
-                CHK_Variant.Checked = sm.LocalVariant;
+                CHK_Variant.Checked = sm.IsRegionalForm;
                 CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible =
                 L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
             if (pkm is IPersonalInfoGG gg)
             {
                 MT_GoID.Text = gg.GoSpecies.ToString("000");
-                CHK_Variant.Checked = gg.LocalVariant;
+                CHK_Variant.Checked = gg.IsRegionalForm;
                 GB_ZMove.Visible = CHK_IsPresentInGame.Visible = CHK_CanNotDynamax.Visible = L_TypeTutors.Visible = CLB_TypeTutor.Visible = CLB_SpecialTutor.Visible =
                 L_RegionalDex.Visible = L_ArmorDex.Visible = L_CrownDex.Visible = TB_RegionalDex.Visible = TB_ArmorDex.Visible = TB_CrownDex.Visible = false;
             }
@@ -396,7 +396,7 @@ namespace pkNX.WinForms
                 sm.SpecialZ_Item = CB_ZItem.SelectedIndex;
                 sm.SpecialZ_BaseMove = CB_ZBaseMove.SelectedIndex;
                 sm.SpecialZ_ZMove = CB_ZMove.SelectedIndex;
-                sm.LocalVariant = CHK_Variant.Checked;
+                sm.IsRegionalForm = CHK_Variant.Checked;
             }
             if (pkm is IPersonalInfoGG gg)
             {

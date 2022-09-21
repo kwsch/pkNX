@@ -35,7 +35,7 @@ namespace pkNX.WinForms.Subforms
             var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
             var pt = rom.Data.PersonalData;
             var nameList = new List<ComboItem>();
-            foreach (var e in pt.Table.Cast<IPersonalInfo_3>())
+            foreach (var e in pt.Table.Cast<IPersonalMisc_1>())
             {
                 if (!e.IsPresentInGame)
                     continue;

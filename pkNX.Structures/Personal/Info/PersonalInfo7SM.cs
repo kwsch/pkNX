@@ -81,15 +81,5 @@ public sealed class PersonalInfo7SM : IPersonalInfoSM
     public int SpecialZ_Item { get => ReadUInt16LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4C), (ushort)value); }
     public int SpecialZ_BaseMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x4E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4E), (ushort)value); }
     public int SpecialZ_ZMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x50), (ushort)value); }
-    public bool LocalVariant { get => Data[0x52] == 1; set => Data[0x52] = value ? (byte)1 : (byte)0; }
-
-    public int AbilityCount => 3;
-    public int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
-    public int GetAbilityAtIndex(int abilityIndex) => abilityIndex switch
-    {
-        0 => Ability1,
-        1 => Ability2,
-        2 => AbilityH,
-        _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
-    };
+    public bool IsRegionalForm { get => Data[0x52] == 1; set => Data[0x52] = value ? (byte)1 : (byte)0; }
 }

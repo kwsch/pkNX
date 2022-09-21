@@ -16,6 +16,11 @@ public interface IPersonalFormInfo
     /// Pointer to the first <see cref="Form"/> <see cref="IPersonalInfo"/> index
     /// </summary>
     int FormStatsIndex { get; set; }
+
+    /// <summary>
+    /// ? TODO: Remove from later interface versions
+    /// </summary>
+    int FormSprite { get; set; }
 }
 
 public static class IPersonalFormInfoExtensions

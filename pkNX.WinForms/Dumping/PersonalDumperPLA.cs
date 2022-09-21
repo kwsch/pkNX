@@ -86,7 +86,7 @@ namespace pkNX.WinForms
 
         private void AddDump(List<string> lines, IPersonalInfo pi, int entry, string name, int species, int form)
         {
-            if (pi is IPersonalMetaInfo { IsPresentInGame: false })
+            if (pi is IPersonalMisc_1 { IsPresentInGame: false })
                 return;
 
             var specCode = pi.FormCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
@@ -205,7 +205,7 @@ namespace pkNX.WinForms
             lines.Add("======");
             lines.Add($"{entry:000} - {name} (Stage: {pi.EvoStage})");
             lines.Add("======");
-            if (pi is IPersonalMetaInfo { IsPresentInGame: false })
+            if (pi is IPersonalMisc_1 { IsPresentInGame: false })
                 lines.Add("Present: No");
             lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.GetBaseStatTotal()})");
             lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");

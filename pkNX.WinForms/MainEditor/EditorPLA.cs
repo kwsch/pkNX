@@ -272,7 +272,7 @@ internal class EditorPLA : EditorBase
         var pt = Data.PersonalData;
         var hasForm = new HashSet<int>();
         var banned = new HashSet<int>();
-        foreach (var pi in pt.Table.Cast<IPersonalInfo_3>())
+        foreach (var pi in pt.Table.Cast<IPersonalMisc_1>())
         {
             if (pi.IsPresentInGame)
             {
@@ -290,7 +290,7 @@ internal class EditorPLA : EditorBase
     public int GetRandomForm(int spec)
     {
         var pt = Data.PersonalData;
-        var formRand = pt.Table.Cast<IPersonalInfo_3>()
+        var formRand = pt.Table.Cast<IPersonalMisc_1>()
             .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.Species) || Legal.BattleFusions.Contains(z.Species)))
             .GroupBy(z => z.Species)
             .ToDictionary(z => z.Key, z => z.ToList());
