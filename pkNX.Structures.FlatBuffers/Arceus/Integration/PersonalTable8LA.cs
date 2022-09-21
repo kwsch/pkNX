@@ -42,6 +42,7 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
     {
         return new PersonalInfo8LA(e)
         {
+            FormCount = (byte)forms.Count,
             FormStatsIndex = (f != 0 ? 0 : forms.Count == 1 ? 0 : max + formTable.Count + 1)
         };
     }
