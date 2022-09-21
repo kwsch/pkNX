@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Personal\Resources\personal\personal_swsh" />
+    <None Remove="Personal\Resources\personal\personal_uu" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Personal\Resources\personal\personal_swsh" />
+    <EmbeddedResource Include="Personal\Resources\personal\personal_uu" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IndexRange" Version="1.0.0" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>

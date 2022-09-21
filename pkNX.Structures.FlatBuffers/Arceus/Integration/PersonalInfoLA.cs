@@ -34,12 +34,6 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
         for (int i = 0; i < flags.Length; i++)
             flags[i] = (shop & (1ul << i)) != 0;
         SpecialTutors = new[] { flags };
-
-        // Fix values for unused pokemon
-        if (DexIndexNational == 0)
-        {
-            DexIndexNational = Species;
-        }
     }
 
     public int HP { get => FB.Stat_HP; set => FB.Stat_HP = (byte)value; }
