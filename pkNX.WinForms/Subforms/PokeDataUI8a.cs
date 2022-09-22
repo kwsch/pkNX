@@ -194,7 +194,8 @@ namespace pkNX.WinForms
             var form = formVal[index];
             LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
             LoadLearnset(Editor.Learn[index]);
-            LoadEvolutions(Editor.Evolve[index]);
+            var evoTable = Editor.Evolve.Root.Table;
+            LoadEvolutions(evoTable.FirstOrDefault(x => x.Species == spec && x.Form == form));
 
             Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
             Bitmap bigImg = ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
