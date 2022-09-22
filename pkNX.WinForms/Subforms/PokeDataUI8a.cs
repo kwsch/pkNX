@@ -90,24 +90,14 @@ namespace pkNX.WinForms
 
         public void InitPersonal()
         {
-            /*{
-                if (GameVersion.SWSH.Contains(ROM.Game))
-                {
-                    for (int i = 0; i < TMs.Count / 2; i++)
-                        CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
-                    for (int i = TMs.Count / 2; i < TMs.Count; i++)
-                        CLB_TM.Items.Add($"TR{i - 100:00} {movelist[TMs[i]]}");
-                    for (int i = 0; i < Legal.TypeTutor8.Length; i++)
-                        CLB_TypeTutor.Items.Add(movelist[Legal.TypeTutor8[i]]);
-                    for (int i = 0; i < Legal.Tutors_SWSH_1.Length; i++)
-                        CLB_SpecialTutor.Items.Add(movelist[Legal.Tutors_SWSH_1[i]]);
-                }
-                else
-                {
-                    for (int i = 0; i < TMs.Count; i++)
-                        CLB_TM.Items.Add($"TM{i + 1:00} {movelist[TMs[i]]}");
-                }
-            }*/
+            /*for (int i = 0; i < TMs.Count / 2; i++)
+                CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
+            for (int i = TMs.Count / 2; i < TMs.Count; i++)
+                CLB_TM.Items.Add($"TR{i - 100:00} {movelist[TMs[i]]}");
+            for (int i = 0; i < Legal.TypeTutor8.Length; i++)
+                CLB_TypeTutor.Items.Add(movelist[Legal.TypeTutor8[i]]);*/
+            for (int i = 0; i < Legal.MoveShop8_LA.Length; i++)
+                CLB_SpecialTutor.Items.Add(movelist[Legal.MoveShop8_LA[i]]);
 
             var entries = entryNames.Select((z, i) => $"{z} - {i:000}");
             CB_Species.Items.AddRange(entries.ToArray());
@@ -267,8 +257,8 @@ namespace pkNX.WinForms
             CB_Ability2.SelectedIndex = pkm.Ability2;
             CB_Ability3.SelectedIndex = pkm.AbilityH;
 
-            TB_FormeCount.Text = pkm.FormCount.ToString(TB_FormeCount.Mask);
-            TB_FormeSprite.Text = pkm.FormSprite.ToString(TB_FormeSprite.Mask);
+            TB_FormCount.Text = pkm.FormCount.ToString(TB_FormCount.Mask);
+            TB_Form.Text = pkm.Form.ToString(TB_Form.Mask);
 
             TB_RawColor.Text = pkm.Color.ToString(TB_RawColor.Mask);
             CB_Color.SelectedIndex = pkm.Color & 0xF;
@@ -300,9 +290,9 @@ namespace pkNX.WinForms
             /*for (int i = 0; i < CLB_TM.Items.Count; i++)
                 CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
-                CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);
+                CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);*/
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);*/
+                CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
         }
 
         public void UpdateGenderDetailLabel()
@@ -375,8 +365,8 @@ namespace pkNX.WinForms
             pkm.Ability2 = CB_Ability2.SelectedIndex;
             pkm.AbilityH = CB_Ability3.SelectedIndex;
 
-            pkm.FormCount = Convert.ToByte(TB_FormeCount.Text);
-            pkm.FormSprite = Convert.ToUInt16(TB_FormeSprite.Text);
+            pkm.FormCount = Convert.ToByte(TB_FormCount.Text);
+            pkm.Form = Convert.ToUInt16(TB_Form.Text);
             pkm.Color = (byte)(CB_Color.SelectedIndex) | (Util.ToInt32(TB_RawColor.Text) & 0xF0);
 
             pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
@@ -409,9 +399,9 @@ namespace pkNX.WinForms
             /*for (int i = 0; i < CLB_TM.Items.Count; i++)
                 pkm.TMHM[i] = CLB_TM.GetItemChecked(i);
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
-                pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
+                pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);*/
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);*/
+                pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
         }
 
         public void LoadLearnset(Learnset8aMeta pkm)

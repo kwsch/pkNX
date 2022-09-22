@@ -48,8 +48,8 @@
             System.Windows.Forms.Label L_Field_46;
             System.Windows.Forms.Label L_BST;
             System.Windows.Forms.Label L_Stage;
-            System.Windows.Forms.Label L_FormesCount;
-            System.Windows.Forms.Label L_FormeSprite;
+            System.Windows.Forms.Label L_FormsCount;
+            System.Windows.Forms.Label L_Form;
             System.Windows.Forms.Label L_CatchRate;
             System.Windows.Forms.Label L_Color;
             System.Windows.Forms.Label L_EXPGrowth;
@@ -77,6 +77,11 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Personal = new System.Windows.Forms.TabPage();
+            this.B_NextForm = new System.Windows.Forms.Button();
+            this.B_PreviousForm = new System.Windows.Forms.Button();
+            this.B_PreviousPokemon = new System.Windows.Forms.Button();
+            this.B_NextPokemon = new System.Windows.Forms.Button();
+            this.L_GenderDetails = new System.Windows.Forms.Label();
             this.TB_Classification = new System.Windows.Forms.TextBox();
             this.CHK_Field_45 = new System.Windows.Forms.CheckBox();
             this.TB_Field_47 = new System.Windows.Forms.MaskedTextBox();
@@ -100,8 +105,8 @@
             this.TB_BST = new System.Windows.Forms.MaskedTextBox();
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.MaskedTextBox();
-            this.TB_FormeCount = new System.Windows.Forms.MaskedTextBox();
-            this.TB_FormeSprite = new System.Windows.Forms.MaskedTextBox();
+            this.TB_FormCount = new System.Windows.Forms.MaskedTextBox();
+            this.TB_Form = new System.Windows.Forms.MaskedTextBox();
             this.CB_Color = new System.Windows.Forms.ComboBox();
             this.CB_EXPGroup = new System.Windows.Forms.ComboBox();
             this.CB_Ability3 = new System.Windows.Forms.ComboBox();
@@ -164,11 +169,6 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_AufoFill = new System.Windows.Forms.Button();
             this.TT_ButtonTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.L_GenderDetails = new System.Windows.Forms.Label();
-            this.B_NextPokemon = new System.Windows.Forms.Button();
-            this.B_PreviousPokemon = new System.Windows.Forms.Button();
-            this.B_PreviousForm = new System.Windows.Forms.Button();
-            this.B_NextForm = new System.Windows.Forms.Button();
             LB_HatchSpecies = new System.Windows.Forms.Label();
             L_Region5Dex = new System.Windows.Forms.Label();
             L_Region4Dex = new System.Windows.Forms.Label();
@@ -188,8 +188,8 @@
             L_Field_46 = new System.Windows.Forms.Label();
             L_BST = new System.Windows.Forms.Label();
             L_Stage = new System.Windows.Forms.Label();
-            L_FormesCount = new System.Windows.Forms.Label();
-            L_FormeSprite = new System.Windows.Forms.Label();
+            L_FormsCount = new System.Windows.Forms.Label();
+            L_Form = new System.Windows.Forms.Label();
             L_CatchRate = new System.Windows.Forms.Label();
             L_Color = new System.Windows.Forms.Label();
             L_EXPGrowth = new System.Windows.Forms.Label();
@@ -433,27 +433,27 @@
             L_Stage.Text = "Evolution Stage:";
             L_Stage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_FormesCount
+            // L_FormsCount
             // 
-            L_FormesCount.AutoSize = true;
-            L_FormesCount.Location = new System.Drawing.Point(652, 599);
-            L_FormesCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_FormesCount.Name = "L_FormesCount";
-            L_FormesCount.Size = new System.Drawing.Size(114, 20);
-            L_FormesCount.TabIndex = 474;
-            L_FormesCount.Text = "Formes Count:";
-            L_FormesCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_FormsCount.AutoSize = true;
+            L_FormsCount.Location = new System.Drawing.Point(670, 599);
+            L_FormsCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_FormsCount.Name = "L_FormsCount";
+            L_FormsCount.Size = new System.Drawing.Size(95, 20);
+            L_FormsCount.TabIndex = 474;
+            L_FormsCount.Text = "Num Forms:";
+            L_FormsCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_FormeSprite
+            // L_Form
             // 
-            L_FormeSprite.AutoSize = true;
-            L_FormeSprite.Location = new System.Drawing.Point(661, 566);
-            L_FormeSprite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_FormeSprite.Name = "L_FormeSprite";
-            L_FormeSprite.Size = new System.Drawing.Size(105, 20);
-            L_FormeSprite.TabIndex = 472;
-            L_FormeSprite.Text = "Forme Sprite:";
-            L_FormeSprite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Form.AutoSize = true;
+            L_Form.Location = new System.Drawing.Point(715, 567);
+            L_Form.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Form.Name = "L_Form";
+            L_Form.Size = new System.Drawing.Size(50, 20);
+            L_Form.TabIndex = 472;
+            L_Form.Text = "Form:";
+            L_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_CatchRate
             // 
@@ -779,10 +779,10 @@
             this.Tab_Personal.Controls.Add(this.TB_CatchRate);
             this.Tab_Personal.Controls.Add(this.TB_Stage);
             this.Tab_Personal.Controls.Add(L_Stage);
-            this.Tab_Personal.Controls.Add(this.TB_FormeCount);
-            this.Tab_Personal.Controls.Add(L_FormesCount);
-            this.Tab_Personal.Controls.Add(this.TB_FormeSprite);
-            this.Tab_Personal.Controls.Add(L_FormeSprite);
+            this.Tab_Personal.Controls.Add(this.TB_FormCount);
+            this.Tab_Personal.Controls.Add(L_FormsCount);
+            this.Tab_Personal.Controls.Add(this.TB_Form);
+            this.Tab_Personal.Controls.Add(L_Form);
             this.Tab_Personal.Controls.Add(L_CatchRate);
             this.Tab_Personal.Controls.Add(this.CB_Color);
             this.Tab_Personal.Controls.Add(this.CB_EXPGroup);
@@ -841,6 +841,73 @@
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
+            // 
+            // B_NextForm
+            // 
+            this.B_NextForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_NextForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_NextForm.Location = new System.Drawing.Point(790, 192);
+            this.B_NextForm.Margin = new System.Windows.Forms.Padding(4, 5, 0, 5);
+            this.B_NextForm.Name = "B_NextForm";
+            this.B_NextForm.Size = new System.Drawing.Size(35, 26);
+            this.B_NextForm.TabIndex = 531;
+            this.B_NextForm.Text = ">";
+            this.TT_ButtonTooltip.SetToolTip(this.B_NextForm, "Next Form");
+            this.B_NextForm.UseVisualStyleBackColor = true;
+            this.B_NextForm.Click += new System.EventHandler(this.B_NextForm_Click);
+            // 
+            // B_PreviousForm
+            // 
+            this.B_PreviousForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_PreviousForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_PreviousForm.Location = new System.Drawing.Point(699, 192);
+            this.B_PreviousForm.Margin = new System.Windows.Forms.Padding(0, 5, 4, 5);
+            this.B_PreviousForm.Name = "B_PreviousForm";
+            this.B_PreviousForm.Size = new System.Drawing.Size(35, 26);
+            this.B_PreviousForm.TabIndex = 530;
+            this.B_PreviousForm.Text = "<";
+            this.TT_ButtonTooltip.SetToolTip(this.B_PreviousForm, "Previous Form");
+            this.B_PreviousForm.UseVisualStyleBackColor = true;
+            this.B_PreviousForm.Click += new System.EventHandler(this.B_PreviousForm_Click);
+            // 
+            // B_PreviousPokemon
+            // 
+            this.B_PreviousPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_PreviousPokemon.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_PreviousPokemon.Location = new System.Drawing.Point(660, 192);
+            this.B_PreviousPokemon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_PreviousPokemon.Name = "B_PreviousPokemon";
+            this.B_PreviousPokemon.Size = new System.Drawing.Size(35, 26);
+            this.B_PreviousPokemon.TabIndex = 529;
+            this.B_PreviousPokemon.Text = "<<";
+            this.TT_ButtonTooltip.SetToolTip(this.B_PreviousPokemon, "Previous Pokemon");
+            this.B_PreviousPokemon.UseVisualStyleBackColor = true;
+            this.B_PreviousPokemon.Click += new System.EventHandler(this.B_PreviousPokemon_Click);
+            // 
+            // B_NextPokemon
+            // 
+            this.B_NextPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_NextPokemon.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_NextPokemon.Location = new System.Drawing.Point(829, 192);
+            this.B_NextPokemon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_NextPokemon.Name = "B_NextPokemon";
+            this.B_NextPokemon.Size = new System.Drawing.Size(35, 26);
+            this.B_NextPokemon.TabIndex = 528;
+            this.B_NextPokemon.Text = ">>";
+            this.TT_ButtonTooltip.SetToolTip(this.B_NextPokemon, "Next Pokemon");
+            this.B_NextPokemon.UseVisualStyleBackColor = true;
+            this.B_NextPokemon.Click += new System.EventHandler(this.B_NextPokemon_Click);
+            // 
+            // L_GenderDetails
+            // 
+            this.L_GenderDetails.AutoSize = true;
+            this.L_GenderDetails.Location = new System.Drawing.Point(205, 532);
+            this.L_GenderDetails.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_GenderDetails.Name = "L_GenderDetails";
+            this.L_GenderDetails.Size = new System.Drawing.Size(230, 20);
+            this.L_GenderDetails.TabIndex = 527;
+            this.L_GenderDetails.Text = "(__.__% Male, __.__% Female)";
+            this.L_GenderDetails.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_Classification
             // 
@@ -1094,27 +1161,27 @@
             this.TB_Stage.TabIndex = 477;
             this.TB_Stage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TB_FormeCount
+            // TB_FormCount
             // 
-            this.TB_FormeCount.Location = new System.Drawing.Point(776, 596);
-            this.TB_FormeCount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TB_FormeCount.Mask = "0";
-            this.TB_FormeCount.Name = "TB_FormeCount";
-            this.TB_FormeCount.ReadOnly = true;
-            this.TB_FormeCount.Size = new System.Drawing.Size(46, 26);
-            this.TB_FormeCount.TabIndex = 475;
-            this.TB_FormeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_FormCount.Location = new System.Drawing.Point(776, 596);
+            this.TB_FormCount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TB_FormCount.Mask = "0";
+            this.TB_FormCount.Name = "TB_FormCount";
+            this.TB_FormCount.ReadOnly = true;
+            this.TB_FormCount.Size = new System.Drawing.Size(46, 26);
+            this.TB_FormCount.TabIndex = 475;
+            this.TB_FormCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TB_FormeSprite
+            // TB_Form
             // 
-            this.TB_FormeSprite.Location = new System.Drawing.Point(776, 564);
-            this.TB_FormeSprite.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TB_FormeSprite.Mask = "0";
-            this.TB_FormeSprite.Name = "TB_FormeSprite";
-            this.TB_FormeSprite.ReadOnly = true;
-            this.TB_FormeSprite.Size = new System.Drawing.Size(46, 26);
-            this.TB_FormeSprite.TabIndex = 473;
-            this.TB_FormeSprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Form.Location = new System.Drawing.Point(776, 564);
+            this.TB_Form.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TB_Form.Mask = "0";
+            this.TB_Form.Name = "TB_Form";
+            this.TB_Form.ReadOnly = true;
+            this.TB_Form.Size = new System.Drawing.Size(46, 26);
+            this.TB_Form.TabIndex = 473;
+            this.TB_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CB_Color
             // 
@@ -1831,73 +1898,6 @@
             this.B_AufoFill.UseVisualStyleBackColor = true;
             this.B_AufoFill.Click += new System.EventHandler(this.B_AufoFill_Click);
             // 
-            // L_GenderDetails
-            // 
-            this.L_GenderDetails.AutoSize = true;
-            this.L_GenderDetails.Location = new System.Drawing.Point(205, 532);
-            this.L_GenderDetails.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_GenderDetails.Name = "L_GenderDetails";
-            this.L_GenderDetails.Size = new System.Drawing.Size(230, 20);
-            this.L_GenderDetails.TabIndex = 527;
-            this.L_GenderDetails.Text = "(__.__% Male, __.__% Female)";
-            this.L_GenderDetails.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_NextPokemon
-            // 
-            this.B_NextPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_NextPokemon.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_NextPokemon.Location = new System.Drawing.Point(829, 192);
-            this.B_NextPokemon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.B_NextPokemon.Name = "B_NextPokemon";
-            this.B_NextPokemon.Size = new System.Drawing.Size(35, 26);
-            this.B_NextPokemon.TabIndex = 528;
-            this.B_NextPokemon.Text = ">>";
-            this.TT_ButtonTooltip.SetToolTip(this.B_NextPokemon, "Next Pokemon");
-            this.B_NextPokemon.UseVisualStyleBackColor = true;
-            this.B_NextPokemon.Click += new System.EventHandler(this.B_NextPokemon_Click);
-            // 
-            // B_PreviousPokemon
-            // 
-            this.B_PreviousPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_PreviousPokemon.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_PreviousPokemon.Location = new System.Drawing.Point(660, 192);
-            this.B_PreviousPokemon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.B_PreviousPokemon.Name = "B_PreviousPokemon";
-            this.B_PreviousPokemon.Size = new System.Drawing.Size(35, 26);
-            this.B_PreviousPokemon.TabIndex = 529;
-            this.B_PreviousPokemon.Text = "<<";
-            this.TT_ButtonTooltip.SetToolTip(this.B_PreviousPokemon, "Previous Pokemon");
-            this.B_PreviousPokemon.UseVisualStyleBackColor = true;
-            this.B_PreviousPokemon.Click += new System.EventHandler(this.B_PreviousPokemon_Click);
-            // 
-            // B_PreviousForm
-            // 
-            this.B_PreviousForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_PreviousForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_PreviousForm.Location = new System.Drawing.Point(699, 192);
-            this.B_PreviousForm.Margin = new System.Windows.Forms.Padding(0, 5, 4, 5);
-            this.B_PreviousForm.Name = "B_PreviousForm";
-            this.B_PreviousForm.Size = new System.Drawing.Size(35, 26);
-            this.B_PreviousForm.TabIndex = 530;
-            this.B_PreviousForm.Text = "<";
-            this.TT_ButtonTooltip.SetToolTip(this.B_PreviousForm, "Previous Form");
-            this.B_PreviousForm.UseVisualStyleBackColor = true;
-            this.B_PreviousForm.Click += new System.EventHandler(this.B_PreviousForm_Click);
-            // 
-            // B_NextForm
-            // 
-            this.B_NextForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_NextForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_NextForm.Location = new System.Drawing.Point(790, 192);
-            this.B_NextForm.Margin = new System.Windows.Forms.Padding(4, 5, 0, 5);
-            this.B_NextForm.Name = "B_NextForm";
-            this.B_NextForm.Size = new System.Drawing.Size(35, 26);
-            this.B_NextForm.TabIndex = 531;
-            this.B_NextForm.Text = ">";
-            this.TT_ButtonTooltip.SetToolTip(this.B_NextForm, "Next Form");
-            this.B_NextForm.UseVisualStyleBackColor = true;
-            this.B_NextForm.Click += new System.EventHandler(this.B_NextForm_Click);
-            // 
             // PokeDataUI8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1949,8 +1949,8 @@
         private System.Windows.Forms.MaskedTextBox TB_BST;
         private System.Windows.Forms.MaskedTextBox TB_CatchRate;
         private System.Windows.Forms.MaskedTextBox TB_Stage;
-        private System.Windows.Forms.MaskedTextBox TB_FormeCount;
-        private System.Windows.Forms.MaskedTextBox TB_FormeSprite;
+        private System.Windows.Forms.MaskedTextBox TB_FormCount;
+        private System.Windows.Forms.MaskedTextBox TB_Form;
         private System.Windows.Forms.ComboBox CB_Color;
         private System.Windows.Forms.ComboBox CB_EXPGroup;
         private System.Windows.Forms.ComboBox CB_Ability3;
