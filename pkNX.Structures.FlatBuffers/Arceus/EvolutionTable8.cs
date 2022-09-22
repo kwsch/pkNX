@@ -23,7 +23,7 @@ public class EvolutionTable8 : IFlatBufferArchive<EvolutionSet8a>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class EvolutionSet8a
 {
-    [FlatBufferItem(0)] public ushort Index { get; set; }
+    [FlatBufferItem(0)] public ushort Species { get; set; }
     [FlatBufferItem(1)] public ushort Form { get; set; }
     [FlatBufferItem(2)] public EvolutionEntry8a[]? Table { get; set; } = Array.Empty<EvolutionEntry8a>();
 
