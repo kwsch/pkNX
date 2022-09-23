@@ -426,7 +426,7 @@ internal class EditorPLA : EditorBase
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<EvolutionTable8, EvolutionSet8a>(GameFile.Evolutions, "Evolution Editor",
-            z => $"{names[z.Index]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
+            z => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
     public void EditOutbreakDetail()

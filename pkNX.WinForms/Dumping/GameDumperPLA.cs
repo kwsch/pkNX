@@ -325,7 +325,7 @@ namespace pkNX.WinForms
                 var e = obj.Table[i];
                 if (e.Table?.Length is not > 0)
                     continue;
-                var index = pt.GetFormIndex(e.Index, (byte)e.Form);
+                var index = pt.GetFormIndex(e.Species, (byte)e.Form);
                 var entry = (IPersonalInfoPLA)pt[index];
                 if (!entry.IsPresentInGame)
                     continue;

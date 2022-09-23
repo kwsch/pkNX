@@ -194,22 +194,23 @@ namespace pkNX.WinForms
             var form = formVal[index];
             LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
             LoadLearnset(Editor.Learn[index]);
-            LoadEvolutions(Editor.Evolve[index]);
+            var evoTable = Editor.Evolve.Root.Table;
+            LoadEvolutions(evoTable.FirstOrDefault(x => x.Species == spec && x.Form == form));
 
             Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
-            Bitmap bigImg = new(rawImg.Width * 2, rawImg.Height * 2);
-            for (int x = 0; x < rawImg.Width; x++)
-            {
-                for (int y = 0; y < rawImg.Height; y++)
-                {
-                    Color c = rawImg.GetPixel(x, y);
-                    bigImg.SetPixel(2 * x, 2 * y, c);
-                    bigImg.SetPixel((2 * x) + 1, 2 * y, c);
-                    bigImg.SetPixel(2 * x, (2 * y) + 1, c);
-                    bigImg.SetPixel((2 * x) + 1, (2 * y) + 1, c);
-                }
-            }
+            Bitmap bigImg = ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
             PB_MonSprite.Image = bigImg;
+        }
+
+        private Bitmap ResizeBitmap(Bitmap sourceBMP, int width, int height)
+        {
+            Bitmap result = new(width, height);
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.DrawImage(sourceBMP, 0, 0, width, height);
+            }
+            return result;
         }
 
         private void SaveCurrent()

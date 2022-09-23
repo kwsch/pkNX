@@ -188,7 +188,7 @@ namespace pkNX.WinForms
 
         private void AddEvolutions(List<string> lines, int species, int form)
         {
-            var evo = Array.Find(Evos, z => z.Index == species && z.Form == form);
+            var evo = Array.Find(Evos, z => z.Species == species && z.Form == form);
             if (evo?.Table is null)
                 return;
             var evo2 = evo.Table.Where(z => z.Species != 0).ToArray();
