@@ -31,9 +31,9 @@ namespace pkNX.Structures
             if (entries == null || entries.Length < size)
                 return Array.Empty<T>();
 
-            var data = new T[entries.Length/size];
-            for (int i = 0; i < entries.Length; i+= size)
-                data[i/size] = del(entries, i);
+            var data = new T[entries.Length / size];
+            for (int i = 0; i < entries.Length; i += size)
+                data[i / size] = del(entries, i);
             return data;
         }
 
@@ -50,6 +50,21 @@ namespace pkNX.Structures
                 data[i / size] = del(arr);
             }
             return data;
+        }
+
+        public delegate TResult FromBytesConstructor<out TResult>(ReadOnlySpan<byte> arg);
+        public static T[] GetArray<T>(this ReadOnlySpan<byte> entries, FromBytesConstructor<T> constructor, int size)
+        {
+            if (entries.Length < size)
+                return Array.Empty<T>();
+
+            var array = new T[entries.Length / size];
+            for (int i = 0; i < entries.Length; i += size)
+            {
+                var entry = entries.Slice(i, size);
+                array[i / size] = constructor(entry);
+            }
+            return array;
         }
 
         public static T[] GetArray<T>(this Task<byte[][]> task, Func<byte[], T> del)
