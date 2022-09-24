@@ -76,6 +76,7 @@ namespace pkNX.WinForms
 
             InitPersonal();
             InitLearn();
+            InitEvo();
 
             CB_HatchSpecies.Items.AddRange(species.ToArray());
 
@@ -152,21 +153,12 @@ namespace pkNX.WinForms
             dgv.Columns.Add(dgvMove);
         }
 
-        public void InitEvo(int rows)
+        public void InitEvo()
         {
-            EvoRows = new EvolutionRow8a[rows];
             EvolutionRow8a.species = species;
             EvolutionRow8a.items = items;
             EvolutionRow8a.movelist = movelist;
             EvolutionRow8a.types = types;
-
-            for (int i = 0; i < rows; i++)
-            {
-                var row = new EvolutionRow8a();
-                flowLayoutPanel1.Controls.Add(row);
-                flowLayoutPanel1.SetFlowBreak(row, true);
-                EvoRows[i] = row;
-            }
         }
 
         public void UpdateIndex(object sender, EventArgs e)
@@ -456,11 +448,17 @@ namespace pkNX.WinForms
                 return;
 
             var numPossibleEvos = cEvos.Table.Length;
-            InitEvo(numPossibleEvos);
+
+            flowLayoutPanel1.Controls.Clear();
+            EvoRows = new EvolutionRow8a[numPossibleEvos];
 
             for (int i = 0; i < numPossibleEvos; i++)
             {
-                var row = EvoRows[i];
+                var row = new EvolutionRow8a();
+                flowLayoutPanel1.Controls.Add(row);
+                flowLayoutPanel1.SetFlowBreak(row, true);
+                EvoRows[i] = row;
+
                 row.LoadEvolution(cEvos.Table[i]);
             }
         }
