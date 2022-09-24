@@ -608,8 +608,8 @@ namespace pkNX.WinForms
         {
             Debug.Assert(Data.PersonalData is PersonalTable8LA, "This function is build for PLA data. It needs to be updated if more data is added.");
 
-            var swsh = PersonalTableUtil.SWSH;
-            var usum = PersonalTableUtil.USUM;
+            var swsh = ResourcesUtil.SWSH;
+            var usum = ResourcesUtil.USUM;
 
             // Fix gender for ss data
             for (ushort i = 1; i <= usum.MaxSpeciesID; i++)
