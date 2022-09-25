@@ -60,11 +60,11 @@ namespace pkNX.WinForms
             var evo = current;
             if (evo == null)
                 return;
-            evo.Species = CB_Species.SelectedIndex;
-            evo.Form = (int)NUD_Form.Value;
-            evo.Level = (int)NUD_Level.Value;
+            evo.Species = (ushort)CB_Species.SelectedIndex;
+            evo.Form = (byte)NUD_Form.Value;
+            evo.Level = (byte)NUD_Level.Value;
             evo.Method = (EvolutionType)CB_Method.SelectedIndex;
-            evo.Argument = CB_Arg.SelectedIndex;
+            evo.Argument = (ushort)CB_Arg.SelectedIndex;
         }
 
         public static string[] items = Array.Empty<string>();

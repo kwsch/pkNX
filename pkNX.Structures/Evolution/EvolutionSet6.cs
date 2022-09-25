@@ -23,18 +23,17 @@ namespace pkNX.Structures
 
         private static EvolutionMethod GetEvo(byte[] data, int offset)
         {
+            var method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0);
+            var level = (byte)BitConverter.ToUInt16(data, offset + 2);
+
             var evo = new EvolutionMethod
             {
-                Method = (EvolutionType)BitConverter.ToUInt16(data, offset + 0),
-                Argument = BitConverter.ToUInt16(data, offset + 2),
+                Method = method,
+                Argument = (argEvos.Contains((int)method) ? (byte)0 : level), // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
                 Species = BitConverter.ToUInt16(data, offset + 4),
-                // Copy
-                Level = BitConverter.ToUInt16(data, offset + 2),
+                Level = level,
             };
 
-            // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
-            if (argEvos.Contains((int)evo.Method))
-                evo.Level = 0;
             return evo;
         }
 

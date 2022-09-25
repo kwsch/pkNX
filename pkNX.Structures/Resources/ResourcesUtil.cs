@@ -5,7 +5,7 @@ using System.Text;
 
 namespace pkNX.Structures
 {
-    public class PersonalTableUtil
+    public class ResourcesUtil
     {
         private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
         private static readonly Dictionary<string, string> resourceNameMap = BuildLookup(thisAssembly.GetManifestResourceNames());
@@ -18,9 +18,21 @@ namespace pkNX.Structures
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.USUM"/>.
         /// </summary>
-        public static readonly PersonalTable7SM USUM = new(GetTableBinary("uu"), Legal.MaxSpeciesID_7_USUM);
+        public static readonly PersonalTable7SM USUM = new(GetTableBinary("usum"), Legal.MaxSpeciesID_7_USUM);
+
+        /// <summary>
+        /// Evolution Table used in <see cref="GameVersion.SWSH"/>.
+        /// </summary>
+        public static readonly IReadOnlyList<EvolutionMethod[]> SWSH_Evolutions = EvolutionSet8.GetArray(GetReader("ss"));
+
+        /// <summary>
+        /// Evolution Table used in <see cref="GameVersion.USUM"/>.
+        /// </summary>
+        public static readonly IReadOnlyList<EvolutionMethod[]> USUM_Evolutions = EvolutionSet7.GetArray(GetReader("uu"));
 
         private static ReadOnlySpan<byte> GetTableBinary(string game) => GetBinaryResource($"personal_{game}");
+        private static ReadOnlySpan<byte> GetEvolutionBinary(string game) => GetBinaryResource($"evos_{game}.pkl");
+        private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetEvolutionBinary(resource), resource);
 
         private static string GetFileName(string resName)
         {

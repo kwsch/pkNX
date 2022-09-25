@@ -60,8 +60,8 @@ namespace pkNX.Randomization
             {
                 if (evo.Method != 0)
                 {
-                    evo.Species = RandSpec.GetRandomSpecies(evo.Species, species);
-                    evo.Form = RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
+                    evo.Species = (ushort)RandSpec.GetRandomSpecies(evo.Species, species);
+                    evo.Form = (byte)RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace pkNX.Randomization
                 Form = 0, // randomized later
                 Level = 1,
                 Method = EvolutionType.LevelUp,
-                Species = species, // randomized later
+                Species = (ushort)species, // randomized later
             };
 
             if (evoSet[1].HasData) // has other branched evolutions; remove them

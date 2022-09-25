@@ -7,13 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Personal\Resources\personal\personal_swsh" />
-    <None Remove="Personal\Resources\personal\personal_uu" />
+    <None Remove="Resources\Evolution\evos_ss.pkl" />
+    <None Remove="Resources\Evolution\evos_uu.pkl" />
+    <None Remove="Resources\Personal\personal_swsh" />
+    <None Remove="Resources\Personal\personal_usum" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Personal\Resources\personal\personal_swsh" />
-    <EmbeddedResource Include="Personal\Resources\personal\personal_uu" />
+    <EmbeddedResource Include="Resources\Evolution\evos_ss.pkl" />
+    <EmbeddedResource Include="Resources\Evolution\evos_uu.pkl" />
+    <EmbeddedResource Include="Resources\Personal\personal_swsh" />
+    <EmbeddedResource Include="Resources\Personal\personal_usum" />
   </ItemGroup>
 
   <ItemGroup>
