@@ -34,27 +34,27 @@ public class NewHugeOutbreakGroupLotteryArchive8a : IFlatBufferArchive<NewHugeOu
 public class NewHugeOutbreakGroupLottery8a
 {
     [FlatBufferItem(00)] public ulong LotteryGroup { get; set; }
-    [FlatBufferItem(01)] public NewHugeOutbreakGroupLotteryDetail8a[] Table1 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
-    [FlatBufferItem(02)] public NewHugeOutbreakGroupLotteryDetail8a[] Table2 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
-    [FlatBufferItem(03)] public NewHugeOutbreakGroupLotteryDetail8a[] Table3 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+    [FlatBufferItem(01)] public NewHugeOutbreakGroupLotteryDetail8a[] TableCommon { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+    [FlatBufferItem(02)] public NewHugeOutbreakGroupLotteryDetail8a[] TableRare1 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
+    [FlatBufferItem(03)] public NewHugeOutbreakGroupLotteryDetail8a[] TableRare2 { get; set; } = Array.Empty<NewHugeOutbreakGroupLotteryDetail8a>();
 
-    public int SumTable1 => Table1.Sum(z => z.Rate);
-    public int SumTable2 => Table1.Sum(z => z.Rate);
-    public int SumTable3 => Table1.Sum(z => z.Rate);
+    public int SumTableCommon => TableCommon.Sum(z => z.Rate);
+    public int SumTableRare1 => TableRare1.Sum(z => z.Rate);
+    public int SumTableRare2 => TableRare2.Sum(z => z.Rate);
 
     public bool IsUseTable(NewHugeOutbreakGroupArchive8a groups, ulong tableID)
     {
-        foreach (var lotteryChoice in Table1)
+        foreach (var lotteryChoice in TableCommon)
         {
             if (lotteryChoice.UsesTable(groups, tableID))
                 return true;
         }
-        foreach (var lotteryChoice in Table2)
+        foreach (var lotteryChoice in TableRare1)
         {
             if (lotteryChoice.UsesTable(groups, tableID))
                 return true;
         }
-        foreach (var lotteryChoice in Table3)
+        foreach (var lotteryChoice in TableRare2)
         {
             if (lotteryChoice.UsesTable(groups, tableID))
                 return true;

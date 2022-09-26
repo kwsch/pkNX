@@ -47,7 +47,7 @@ namespace pkNX.Structures
         /// <param name="wildCard">Wildcard byte to be ignored, incrementally as bitflags.</param>
         /// <param name="startIndex">Starting offset to look from</param>
         /// <param name="length">Amount of entries to look through</param>
-        /// <returns>Index the pattern occurrs at; if not found, returns -1.</returns>
+        /// <returns>Index the pattern occurs at; if not found, returns -1.</returns>
         public static int IndexOfPattern(byte[] array, byte[] pattern, ulong wildCard, int startIndex = 0, int length = -1)
         {
             Debug.Assert(pattern.Length <= 8*sizeof(ulong));
