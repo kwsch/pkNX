@@ -276,12 +276,12 @@ internal class EditorPLA : EditorBase
         {
             if (pi.IsPresentInGame)
             {
-                banned.Remove(pi.Species);
-                hasForm.Add(pi.Species);
+                banned.Remove(pi.ModelID);
+                hasForm.Add(pi.ModelID);
             }
-            else if (!hasForm.Contains(pi.Species))
+            else if (!hasForm.Contains(pi.ModelID))
             {
-                banned.Add(pi.Species);
+                banned.Add(pi.ModelID);
             }
         }
         return banned.ToArray();
@@ -291,8 +291,8 @@ internal class EditorPLA : EditorBase
     {
         var pt = Data.PersonalData;
         var formRand = pt.Table.Cast<IPersonalMisc_1>()
-            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.Species) || Legal.BattleFusions.Contains(z.Species)))
-            .GroupBy(z => z.Species)
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
+            .GroupBy(z => z.ModelID)
             .ToDictionary(z => z.Key, z => z.ToList());
 
         if (!formRand.TryGetValue((ushort)spec, out var entries))

@@ -85,12 +85,12 @@ public partial class AreaEditor8a : Form
         {
             if (pi.IsPresentInGame)
             {
-                banned.Remove(pi.Species);
-                hasForm.Add(pi.Species);
+                banned.Remove(pi.ModelID);
+                hasForm.Add(pi.ModelID);
             }
-            else if (!hasForm.Contains(pi.Species))
+            else if (!hasForm.Contains(pi.ModelID))
             {
-                banned.Add(pi.Species);
+                banned.Add(pi.ModelID);
             }
         }
 
@@ -98,8 +98,8 @@ public partial class AreaEditor8a : Form
         rand.Initialize(settings, banned.ToArray());
 
         var formRand = pt.Table.Cast<IPersonalMisc_1>()
-            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.Species) || Legal.BattleFusions.Contains(z.Species)))
-            .GroupBy(z => z.Species)
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
+            .GroupBy(z => z.ModelID)
             .ToDictionary(z => z.Key, z => z.ToList());
 
         var encounters = area.Encounters;

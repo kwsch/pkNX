@@ -315,8 +315,8 @@ namespace pkNX.WinForms
             if (pkm is IPersonalInfoSWSH swsh)
             {
                 L_TM.Text = "TMs/TRs:";
-                MT_GoID.Text = swsh.Species.ToString("000");
                 TB_RegionalDex.Text = swsh.PokeDexIndex.ToString("000");
+                MT_GoID.Text = swsh.ModelID.ToString("000");
                 TB_ArmorDex.Text = swsh.ArmorDexIndex.ToString("000");
                 TB_CrownDex.Text = swsh.CrownDexIndex.ToString("000");
                 CHK_IsPresentInGame.Checked = swsh.IsPresentInGame;

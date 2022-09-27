@@ -222,7 +222,7 @@ namespace pkNX.WinForms
             TB_SPDEVs.Text = pkm.EV_SPD.ToString(TB_SPDEVs.Mask);
             TB_BST.Text = pkm.GetBaseStatTotal().ToString(TB_BST.Mask);
 
-            TB_Classification.Text = classifications[pkm.Species];
+            TB_Classification.Text = classifications[pkm.ModelID];
 
             CB_Type1.SelectedIndex = (int)pkm.Type1;
             CB_Type2.SelectedIndex = (int)pkm.Type2;
@@ -310,10 +310,10 @@ namespace pkNX.WinForms
 
         public void UpdateButtonStates()
         {
-            B_PreviousPokemon.Enabled = cPersonal.Species > 0;
+            B_PreviousPokemon.Enabled = cPersonal.ModelID > 0;
             B_PreviousForm.Enabled = cPersonal.Form > 0;
             B_NextForm.Enabled = (cPersonal.Form + 1) < cPersonal.FormCount;
-            B_NextPokemon.Enabled = (cPersonal.Species + 1) < Data.PersonalData.MaxSpeciesID;
+            B_NextPokemon.Enabled = (cPersonal.ModelID + 1) < Data.PersonalData.MaxSpeciesID;
         }
 
         public void SavePersonal()
@@ -681,8 +681,8 @@ namespace pkNX.WinForms
 
         private void B_NextPokemon_Click(object sender, EventArgs e)
         {
-            Debug.Assert(cPersonal.Species < Data.PersonalData.MaxSpeciesID);
-            CB_Species.SelectedIndex = cPersonal.Species + 1;
+            Debug.Assert(cPersonal.ModelID < Data.PersonalData.MaxSpeciesID);
+            CB_Species.SelectedIndex = cPersonal.ModelID + 1;
         }
 
         private void B_NextForm_Click(object sender, EventArgs e)
@@ -690,7 +690,7 @@ namespace pkNX.WinForms
             Debug.Assert(cPersonal.Form < cPersonal.FormCount);
 
             var pt = Data.PersonalData;
-            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form + 1));
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.ModelID, (byte)(cPersonal.Form + 1));
         }
 
         private void B_PreviousForm_Click(object sender, EventArgs e)
@@ -698,13 +698,13 @@ namespace pkNX.WinForms
             Debug.Assert(cPersonal.Form > 0);
 
             var pt = Data.PersonalData;
-            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form - 1));
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.ModelID, (byte)(cPersonal.Form - 1));
         }
 
         private void B_PreviousPokemon_Click(object sender, EventArgs e)
         {
-            Debug.Assert(cPersonal.Species > 0);
-            CB_Species.SelectedIndex = cPersonal.Species - 1;
+            Debug.Assert(cPersonal.ModelID > 0);
+            CB_Species.SelectedIndex = cPersonal.ModelID - 1;
         }
 
         private void B_Save_Click(object sender, EventArgs e)
