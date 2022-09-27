@@ -3,59 +3,6 @@ using System;
 
 namespace pkNX.Structures
 {
-    public interface IMovesInfo
-    {
-    }
-
-    public interface IMovesInfo_1 : IMovesInfo
-    {
-        /// <summary>
-        /// TM/HM learn compatibility flags for individual moves.
-        /// </summary>
-        bool[] TMHM { get; set; }
-
-        /// <summary>
-        /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
-        /// </summary>
-        bool[] TypeTutors { get; set; }
-    }
-
-    /// <summary>
-    /// SpecialTutors added in BW2 
-    /// </summary>
-    public interface IMovesInfo_2 : IMovesInfo_1
-    {
-        /// <summary>
-        /// Special tutor learn compatibility flags for individual moves.
-        /// </summary>
-        bool[][] SpecialTutors { get; set; }
-    }
-
-    /// <summary>
-    /// Moves layout seems to have changed completely from the old verion
-    /// </summary>
-    public interface IMovesInfo_3 : IMovesInfo
-    {
-        uint TM_A { get; set; }
-        uint TM_B { get; set; }
-        uint TM_C { get; set; }
-        uint TM_D { get; set; }
-        uint TR_A { get; set; }
-        uint TR_B { get; set; }
-        uint TR_C { get; set; }
-        uint TR_D { get; set; }
-        uint TypeTutor { get; set; }
-        uint MoveShop1 { get; set; } // uint
-        uint MoveShop2 { get; set; } // uint
-
-        /// <summary>
-        /// Special tutor learn compatibility flags for individual moves.
-        /// </summary>
-        bool[][] SpecialTutors { get; set; }
-    }
-
-    // Version based interfaces
-
     /// <summary>
     /// Base interface that can be used for any version. This should not contain variables that are not present in every game
     /// </summary>
