@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
@@ -9,39 +11,33 @@ namespace pkNX.Structures;
 public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
 {
     public const int SIZE = 0xB0;
-    public const int CountTM = 100;
-    public const int CountTR = 100;
+    public const int CountTM = 128;
+    public const int CountTR = 128;
     private readonly byte[] Data;
 
     public bool[] TMHM { get; set; }
     public bool[] TypeTutors { get; set; }
     public bool[][] SpecialTutors { get; set; }
 
-    public PersonalInfo8SWSH(byte[] data)
+    public PersonalInfo8SWSH(ReadOnlySpan<byte> data)
     {
-        Data = data;
+        Data = data.ToArray();
         DexIndexNational = ModelID;
 
-        TMHM = new bool[200];
-        for (var i = 0; i < CountTR; i++)
-        {
-            TMHM[i] = FlagUtil.GetFlag(Data, 0x28 + (i >> 3), i);
-            TMHM[i + CountTM] = FlagUtil.GetFlag(Data, 0x3C + (i >> 3), i);
-        }
+        var TMs = new BitArray(data[0x28..0x38].ToArray());
+        var typeTutors = new BitArray(data[0x38..0x3C].ToArray());
+        var TRs = new BitArray(data[0x3C..0x4C].ToArray());
+        var armorTutors = new BitArray(data[0xA8..0xAC].ToArray());
+
+        TMHM = TMs.Cast<bool>().Concat(TRs.Cast<bool>()).ToArray();
 
         // 0x38-0x3B type tutors, but only 8 bits are valid flags.
-        var typeTutors = new bool[8];
-        for (int i = 0; i < typeTutors.Length; i++)
-            typeTutors[i] = FlagUtil.GetFlag(Data, 0x38, i);
-        TypeTutors = typeTutors;
+        TypeTutors = typeTutors.Cast<bool>().ToArray();
 
-        // 0xA8-0xAF are armor type tutors, one bit for each type
-        var armorTutors = new bool[18];
-        for (int i = 0; i < armorTutors.Length; i++)
-            armorTutors[i] = FlagUtil.GetFlag(Data, 0xA8 + (i >> 3), i);
+        // 0xA8-0xAC are armor type tutors, one bit for each type
         SpecialTutors = new[]
         {
-            armorTutors,
+            armorTutors.Cast<bool>().ToArray(),
         };
     }
 
@@ -90,7 +86,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public int AbilityH { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), (ushort)value); }
     public int EscapeRate { get => 0; set { } } // moved?
     public int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); }
-    public int FormSprite { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); } // ???
+    public int FormSprite { get => FormStatsIndex; set => FormStatsIndex = value; }
     public byte FormCount { get => Data[0x20]; set => Data[0x20] = value; }
     public int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
     public bool IsPresentInGame { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
@@ -98,6 +94,10 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public int BaseEXP { get => ReadUInt16LittleEndian(Data.AsSpan(0x22)); set => WriteUInt16LittleEndian(Data.AsSpan(0x22), (ushort)value); }
     public int Height { get => ReadUInt16LittleEndian(Data.AsSpan(0x24)); set => WriteUInt16LittleEndian(Data.AsSpan(0x24), (ushort)value); }
     public int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x26)); set => WriteUInt16LittleEndian(Data.AsSpan(0x26), (ushort)value); }
+
+    // 0x28-0x37 TM
+    // 0x38-0x3B type tutors, but only 8 bits are valid flags.
+    // 0x3C-0x4B TR
 
     public ushort ModelID { get => (ushort)ReadUInt32LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x4C), value); } // Model ID
 
