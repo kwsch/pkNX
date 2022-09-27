@@ -198,10 +198,10 @@ namespace pkNX.Structures
             [TowerOfDarkness] = NoArg,
             [TowerOfWaters] = NoArg,
             [UseItemFullMoon] = Items, // Ursaluna
-            [UseAgileStyleMoves] = Moves, // Wyrdeer
-            [UseStrongStyleMoves] = Moves, // Overqwil
-            [RecoilDamageMale] = Stat, // Basculegion-0
-            [RecoilDamageFemale] = Stat, // Basculegion-1
+            [UseAgileStyleMoves] = NoArg, // Wyrdeer
+            [UseStrongStyleMoves] = NoArg, // Overqwil
+            [RecoilDamageMale] = NoArg, // Basculegion-0
+            [RecoilDamageFemale] = NoArg, // Basculegion-1
         };
 
         public static EvolutionTypeArgumentType GetArgType(this EvolutionType t) => ArgType[t];
