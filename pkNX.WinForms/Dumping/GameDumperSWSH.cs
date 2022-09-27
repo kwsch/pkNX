@@ -464,9 +464,9 @@ namespace pkNX.WinForms
             {
                 var p = (IPersonalInfoSWSH)pt[i];
                 bool any = false;
-                if (p.PokeDexIndex != 0)
+                if (p.DexIndexRegional != 0)
                 {
-                    galar.Add($"{p.PokeDexIndex:000} - [{i:000]} - {s[i]}");
+                    galar.Add($"{p.DexIndexRegional:000} - [{i:000]} - {s[i]}");
                     any = true;
                 }
                 if (p.ArmorDexIndex != 0)

@@ -20,6 +20,8 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public PersonalInfo8SWSH(byte[] data)
     {
         Data = data;
+        DexIndexNational = ModelID;
+
         TMHM = new bool[200];
         for (var i = 0; i < CountTR; i++)
         {
@@ -103,18 +105,23 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public ushort RegionalFlags { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value); }
     public bool IsRegionalForm { get => (RegionalFlags & 1) == 1; set => RegionalFlags = (ushort)((RegionalFlags & 0xFFFE) | (value ? 1 : 0)); }
     public bool CanNotDynamax { get => ((Data[0x5A] >> 2) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~4) | (value ? 4 : 0)); }
-    public ushort PokeDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value); }
-    public byte RegionalFormIndex { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x5E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value); } // form index of this entry
+    public ushort DexIndexRegional { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value); }
+    public ushort Form { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x5E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value); } // form index of this entry
+
+    // 0xA8-0xAB are armor type tutors, one bit for each type
     public ushort ArmorDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0xAC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xAC), value); }
     public ushort CrownDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0xAE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xAE), value); }
+
+    public ushort DexIndexNational { get; set; }
+
 
     /// <summary>
     /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.
     /// </summary>
-    public byte HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : (byte)LocalFormIndex;
+    public byte HatchFormIndexEverstone => IsRegionalForm ? (byte)Form : (byte)LocalFormIndex;
 
     /// <summary>
     /// Checks if the entry shows up in any of the built-in Pokédex.
     /// </summary>
-    public bool IsInDex => PokeDexIndex != 0 || ArmorDexIndex != 0 || CrownDexIndex != 0;
+    public bool IsInDex => DexIndexRegional != 0 || ArmorDexIndex != 0 || CrownDexIndex != 0;
 }

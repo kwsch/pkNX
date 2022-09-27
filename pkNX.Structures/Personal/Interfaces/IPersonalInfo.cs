@@ -63,8 +63,6 @@ namespace pkNX.Structures
         bool IsRegionalForm { get; set; }
         ushort RegionalFlags { get; set; }
         bool CanNotDynamax { get; set; }
-        ushort PokeDexIndex { get; set; }
-        byte RegionalFormIndex { get; set; }
         ushort ArmorDexIndex { get; set; }
         ushort CrownDexIndex { get; set; }
     }
