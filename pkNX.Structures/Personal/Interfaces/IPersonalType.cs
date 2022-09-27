@@ -51,4 +51,10 @@ public static class PersonalTypeExtensions
     /// <param name="type2">Second type</param>
     /// <returns>Typing is an exact match</returns>
     public static bool IsValidTypeCombination(this IPersonalType detail, Types type1, Types type2) => detail.Type1 == type1 && detail.Type2 == type2;
+
+    public static void SetIPersonalType(this IPersonalType self, IPersonalType other)
+    {
+        self.Type1 = other.Type1;
+        self.Type2 = other.Type2;
+    }
 }

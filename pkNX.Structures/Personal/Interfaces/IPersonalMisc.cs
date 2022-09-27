@@ -33,3 +33,17 @@ public interface IPersonalMisc_2 : IPersonalMisc_1
     ushort DexIndexLocal4 { get; set; } // uint
     ushort DexIndexLocal5 { get; set; } // uint
 }
+
+public static class IPersonalMiscExtensions
+{
+    public static void SetIPersonalMisc(this IPersonalMisc self, IPersonalMisc other)
+    {
+        self.EvoStage = other.EvoStage;
+
+        if (self is IPersonalMisc_1 self_1 && other is IPersonalMisc_1 other_1)
+        {
+            self_1.DexIndexNational = other_1.DexIndexNational;
+            self_1.Form = other_1.Form;
+        }
+    }
+}
