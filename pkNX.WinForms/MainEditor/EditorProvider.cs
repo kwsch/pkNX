@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Structures;
@@ -29,13 +30,25 @@ namespace pkNX.WinForms.Controls
                 if (!m.Name.StartsWith(prefix))
                     continue;
 
+                static string GetEditorName(string name)
+                {
+                    var builder = new StringBuilder();
+                    foreach (char c in name.Replace("_", ""))
+                    {
+                        if (char.IsUpper(c) && builder.Length > 0)
+                            builder.Append(' ');
+                        builder.Append(c);
+                    }
+                    return builder.ToString();
+                }
+
                 var name = m.Name[prefix.Length..];
                 var b = new Button
                 {
                     Width = width,
                     Height = height,
                     Name = $"B_{name}",
-                    Text = name.Replace('_', ' '),
+                    Text = GetEditorName(name),
                 };
                 b.Click += (s, e) =>
                 {

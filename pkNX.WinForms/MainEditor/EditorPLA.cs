@@ -326,7 +326,7 @@ internal class EditorPLA : EditorBase
         PopFlat<PokeMiscTable8a, PokeMisc8a>(GameFile.PokeMisc, "Misc Species Info Editor", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
     }
 
-    public void EditMap_viewer()
+    public void EditMap_Viewer()
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         using var form = new MapViewer8a((GameManagerPLA)ROM, resident);

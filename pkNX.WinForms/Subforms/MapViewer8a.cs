@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
@@ -117,7 +116,7 @@ namespace pkNX.WinForms.Subforms
 
             using var gr = Graphics.FromImage(pictureBox1.BackgroundImage);
             var r = new SolidBrush(Color.FromArgb(100, 255, 0, 0));
-            var g = new SolidBrush(Color.FromArgb(100, 20, 255, 10));
+            var g = new SolidBrush(Color.FromArgb(20, 20, 255, 10));
             var b = new SolidBrush(Color.FromArgb(100, 10, 0, 255));
             var c = new SolidBrush(Color.FromArgb(100, 0, 255, 255));
 
@@ -231,9 +230,10 @@ namespace pkNX.WinForms.Subforms
 
             L_CoordinateMouse.Text = $"{x}, {z}";
 
+            var dist = (int)NUD_Tolerance.Value;
             var spawners = Defs
                 .Select(s => (Spawner: s, Distance: s.Position.DistanceTo(new(x, s.Position.Y, z))))
-                .Where(s => s.Distance <= s.Spawner.Radius)
+                .Where(s => s.Distance <= s.Spawner.Radius + dist)
                 .OrderByDescending(s => s.Distance).ToArray();
 
             if (spawners.Length == 0)
