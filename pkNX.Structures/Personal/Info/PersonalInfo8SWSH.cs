@@ -100,6 +100,11 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x26)); set => WriteUInt16LittleEndian(Data.AsSpan(0x26), (ushort)value); }
 
     public ushort ModelID { get => (ushort)ReadUInt32LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x4C), value); } // Model ID
+
+    public ushort ZItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x50), value); }
+    public ushort ZBaseMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x52)); set => WriteUInt16LittleEndian(Data.AsSpan(0x52), value); }
+    public ushort ZSpecialMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x54)); set => WriteUInt16LittleEndian(Data.AsSpan(0x54), value); }
+    
     public ushort HatchedSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
     public ushort LocalFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), value); } // local region base form
     public ushort RegionalFlags { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value); }
@@ -107,6 +112,34 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public bool CanNotDynamax { get => ((Data[0x5A] >> 2) & 1) == 1; set => Data[0x5A] = (byte)((Data[0x5A] & ~4) | (value ? 4 : 0)); }
     public ushort DexIndexRegional { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value); }
     public ushort Form { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x5E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value); } // form index of this entry
+    public ushort PokeDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value); }
+    public byte RegionalFormIndex { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x5E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value); } // form index of this entry
+
+    public ushort Quantized_floats_0 { get => ReadUInt16LittleEndian(Data.AsSpan(0x60)); set => WriteUInt16LittleEndian(Data.AsSpan(0x60), value); }
+    public ushort Quantized_floats_1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(0x62), value); }
+    public ushort Quantized_floats_2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x64)); set => WriteUInt16LittleEndian(Data.AsSpan(0x64), value); }
+    public ushort Quantized_floats_3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), value); }
+    public ushort Quantized_floats_4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
+
+    public byte[] Bytes_0 { get => Data.AsSpan(0x6A, 10).ToArray(); }
+    public byte[] Bytes_1 { get => Data.AsSpan(0x74, 10).ToArray(); }
+    public byte[] Bytes_2 { get => Data.AsSpan(0x7E, 5).ToArray(); }
+    public byte[] Bytes_3 { get => Data.AsSpan(0x83, 5).ToArray(); }
+    public byte[] Bytes_4 { get => Data.AsSpan(0x88, 5).ToArray(); }
+    public byte[] Bytes_5 { get => Data.AsSpan(0x8D, 5).ToArray(); }
+
+    public ushort Shorts_0 { get => ReadUInt16LittleEndian(Data.AsSpan(0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(0x92), value); }
+    public ushort Shorts_1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x94)); set => WriteUInt16LittleEndian(Data.AsSpan(0x94), value); }
+    public ushort Shorts_2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x96)); set => WriteUInt16LittleEndian(Data.AsSpan(0x96), value); }
+    public ushort Shorts_3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x98)); set => WriteUInt16LittleEndian(Data.AsSpan(0x98), value); }
+    public ushort Shorts_4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x9A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x9A), value); }
+    public ushort Shorts_5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x9C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x9C), value); }
+    public ushort Shorts_6 { get => ReadUInt16LittleEndian(Data.AsSpan(0x9E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x9E), value); }
+    public ushort Shorts_7 { get => ReadUInt16LittleEndian(Data.AsSpan(0xA0)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA0), value); }
+    public ushort Shorts_8 { get => ReadUInt16LittleEndian(Data.AsSpan(0xA2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA2), value); }
+    public ushort Shorts_9 { get => ReadUInt16LittleEndian(Data.AsSpan(0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA4), value); }
+
+    public ushort Reserved { get => ReadUInt16LittleEndian(Data.AsSpan(0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA6), value); }
 
     // 0xA8-0xAB are armor type tutors, one bit for each type
     public ushort ArmorDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0xAC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xAC), value); }
