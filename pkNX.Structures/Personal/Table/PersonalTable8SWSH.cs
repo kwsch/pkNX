@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace pkNX.Structures;
 
@@ -77,4 +78,77 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
     IPersonalInfo IPersonalTable.this[int index] => this[index];
     IPersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
     IPersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
+
+    public void FixMissingData()
+    {
+        // Fix all base forms
+        int sFormCount = 0;
+        for (ushort i = 1; i <= Legal.MaxSpeciesID_7_USUM; i++)
+        {
+            var s = Table[i];
+            s.DexIndexNational = i;
+
+            var u = ResourcesUtil.USUM.Table[i];
+
+            if (s.FormCount == 0)
+            {
+                s.SetPersonalInfo(u);
+                s.FormCount = Math.Max((byte)1, FormInfo.GetOutOfBattleFormCount(i, u.FormCount, 7));
+            }
+
+            if (s.FormCount == 1)
+                continue;
+
+            if (s.FormStatsIndex != 0)
+                Debug.Assert(s.FormStatsIndex == (MaxSpeciesID + 1) + sFormCount);
+
+            s.FormStatsIndex = (MaxSpeciesID + 1) + sFormCount;
+            sFormCount += s.FormCount - 1;
+
+            for (byte f = 1; f < s.FormCount; f++)
+            {
+                var formS = Table[s.FormStatsIndex + (f - 1)];
+
+                if (formS.FormCount == 0)
+                {
+                    // Check if USUM table has form data for this entry
+                    if (f < u.FormCount)
+                    {
+                        if (u.FormCount <= s.FormCount || (FormInfo.HasTotemForm(i) && !FormInfo.IsTotemForm(i, f)))
+                        {
+                            var formU = ResourcesUtil.USUM.GetFormEntry(i, f);
+                            formS.SetPersonalInfo(formU);
+                        }
+                    }
+                    else
+                    {
+                        // No form data was found, just write the base form data
+                        formS.SetPersonalInfo(s);
+                    }
+
+                    formS.FormCount = s.FormCount;
+                    formS.FormStatsIndex = s.FormStatsIndex;
+                }
+
+                formS.DexIndexNational = i;
+                formS.Form = f;
+            }
+        }
+
+        // Fix form number
+        for (ushort i = Legal.MaxSpeciesID_7_USUM; i <= MaxSpeciesID; i++)
+        {
+            var s = Table[i];
+            s.DexIndexNational = i;
+
+            for (byte f = 1; f < s.FormCount; f++)
+            {
+                var formS = Table[s.FormStatsIndex + (f - 1)];
+                formS.DexIndexNational = i;
+                formS.Form = f;
+            }
+        }
+
+        Debug.WriteLine("Auto fix for SWSH data succeded");
+    }
 }

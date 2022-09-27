@@ -30,6 +30,11 @@ namespace pkNX.Structures
         /// </summary>
         public static readonly IReadOnlyList<EvolutionMethod[]> USUM_Evolutions = EvolutionSet7.GetArray(GetReader("uu"));
 
+        static ResourcesUtil()
+        {
+            SWSH.FixMissingData();
+        }
+
         private static ReadOnlySpan<byte> GetTableBinary(string game) => GetBinaryResource($"personal_{game}");
         private static ReadOnlySpan<byte> GetEvolutionBinary(string game) => GetBinaryResource($"evos_{game}.pkl");
         private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetEvolutionBinary(resource), resource);

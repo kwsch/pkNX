@@ -1,6 +1,7 @@
 using pkNX.Containers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -101,4 +102,60 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
     IPersonalInfo IPersonalTable.this[int index] => this[index];
     IPersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
     IPersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
+
+    public void FixMissingData()
+    {
+        // Fix all base forms
+        int laFormCount = 0;
+        for (ushort i = 1; i <= Legal.MaxSpeciesID_8; i++)
+        {
+            var l = Table[i];
+            l.DexIndexNational = i;
+
+            var s = ResourcesUtil.SWSH.Table[i];
+
+            Debug.Assert(l.DexIndexNational == s.DexIndexNational);
+
+            if (l.HP == 0)
+            {
+                l.SetPersonalInfo(s);
+            }
+
+            if (l.FormCount == 1)
+                continue;
+
+            if (l.FormStatsIndex != 0)
+                Debug.Assert(l.FormStatsIndex == (MaxSpeciesID + 1) + laFormCount);
+
+            l.FormStatsIndex = (MaxSpeciesID + 1) + laFormCount;
+            laFormCount += l.FormCount - 1;
+
+            for (byte f = 1; f < l.FormCount; f++)
+            {
+                var formL = Table[l.FormStatsIndex + (f - 1)];
+
+                if (formL.HP == 0)
+                {
+                    // Check if SWSH table has form data for this entry
+                    if (f < s.FormCount)
+                    {
+                        if (s.FormCount <= l.FormCount || (FormInfo.HasBattleOnlyForm(i) && !FormInfo.IsBattleOnlyForm(i, f, 8)))
+                        {
+                            var formS = ResourcesUtil.SWSH.GetFormEntry(i, f);
+
+                            Debug.Assert(formL.DexIndexNational == formS.DexIndexNational);
+                            formL.SetPersonalInfo(formS);
+                        }
+                    }
+                    else
+                    {
+                        // No form data was found, just write the base form data
+                        formL.SetPersonalInfo(l);
+                    }
+                }
+            }
+        }
+
+        Debug.WriteLine("Auto fix for PLA data succeded");
+    }
 }
