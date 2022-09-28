@@ -35,6 +35,8 @@ namespace pkNX.Game
 
             // initialize common structures
             ResetData();
+
+            ItemConverter.ItemNames = GetStrings(TextName.ItemNames);
         }
 
         private void ResetData()
@@ -54,6 +56,8 @@ namespace pkNX.Game
                 BattleDrops = new(GetFile(GameFile.BattleDrops)),
                 DexResearch = new(GetFile(GameFile.DexResearch)),
             };
+
+            DropTableConverter.DropTableHashes = Data.FieldDrops.Table.Select(x => x.Hash).ToArray();
         }
 
         private DataCache<Waza8a> GetMoves()

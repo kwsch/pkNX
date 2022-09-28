@@ -89,6 +89,7 @@ namespace pkNX.Game
     {
         public IFileContainer File { get; private set; }
         public TTable Root { get; private set; }
+        public TData[] Table => Root.Table;
         public DataCache<TData> Cache { get; private set; }
 
         public TableCache(IFileContainer f)

@@ -765,7 +765,7 @@ namespace pkNX.WinForms
         private void DumpResearchTasks(PokedexResearchTable dexResearch)
         {
             var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
-            var result = new byte[pt.Table.Max(p => ((IPersonalInfoPLA)p).DexIndexRegional)][];
+            var result = new byte[pt.Table.Max(p => p.DexIndexRegional)][];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<byte>();
 
@@ -804,18 +804,18 @@ namespace pkNX.WinForms
 
                 foreach (var task in entries)
                 {
-                    var type = task.Type;
+                    var type = task.MoveType;
                     var timeOfDay = task.TimeOfDay;
 
                     var curMultiIndex = 0xFF;
 
-                    if (task.Task == 1)
+                    if (task.TaskType == ResearchTaskType.MoveTask)
                     {
                         curMultiIndex = moveTaskIndex;
                         moveTaskIndex++;
                     }
 
-                    if (task.Task == 2)
+                    if (task.TaskType == ResearchTaskType.DefeatTask)
                     {
                         curMultiIndex = defeatTypeTaskIndex;
                         defeatTypeTaskIndex++;
@@ -825,7 +825,7 @@ namespace pkNX.WinForms
                         type = 18;
                     }
 
-                    if (task.Task != 10)
+                    if (task.TaskType != ResearchTaskType.Unknown_10)
                     {
                         timeOfDay = 5;
                     }
@@ -849,7 +849,7 @@ namespace pkNX.WinForms
                     // 26: u8 required
                     // 27: u8 multi_index
 
-                    br.Write((byte)task.Task);
+                    br.Write((byte)task.TaskType);
                     br.Write((byte)task.PointsSingle);
                     br.Write((byte)task.PointsBonus);
                     br.Write((byte)task.Threshold);
