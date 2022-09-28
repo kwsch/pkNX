@@ -46,8 +46,13 @@ namespace pkNX.Game
 
                 // Single Files
                 PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
+                PokeMiscData = new(GetFile(GameFile.PokeMisc)),
                 LevelUpData = new(GetFile(GameFile.Learnsets)),
                 EvolutionData = new(GetFile(GameFile.Evolutions)),
+
+                FieldDrops = new(GetFile(GameFile.FieldDrops)),
+                BattleDrops = new(GetFile(GameFile.BattleDrops)),
+                DexResearch = new(GetFile(GameFile.DexResearch)),
             };
         }
 

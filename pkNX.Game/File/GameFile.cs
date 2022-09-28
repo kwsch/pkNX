@@ -135,7 +135,10 @@
         ZoneData,
 
         /// <summary> Post-battle items that can be picked up. </summary>
-        Pickup,
+        BattleDrops,
+
+        /// <summary> Items that can be dropped by pokemon in the field. </summary>
+        FieldDrops,
 
         /// <summary> Map data for individual zones. </summary>
         WorldData,
@@ -190,6 +193,9 @@
 
         /// <summary> "PokeMisc" Details about a given Species-Form not stored in <see cref="PersonalStats"/> </summary>
         PokeMisc,
+
+        /// <summary> All pokedex research tasks </summary>
+        DexResearch,
 
         ThrowableParam,
         ThrowParam,
