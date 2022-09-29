@@ -23,6 +23,23 @@ public class PokedexResearchTable : IFlatBufferArchive<PokedexResearchTask>
     {
         return Table.Where(z => z.Species == species).ToArray();
     }
+
+    public PokedexResearchTask AddTask(int Species)
+    {
+        var task = new PokedexResearchTask() { Species = Species };
+        Table = Table.Append(task);
+        return task;
+    }
+
+    public void AddTask(PokedexResearchTask task)
+    {
+        Table = Table.Append(task);
+    }
+
+    public void RemoveTask(PokedexResearchTask taskToRemove)
+    {
+        Table = Table.Remove(taskToRemove);
+    }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
