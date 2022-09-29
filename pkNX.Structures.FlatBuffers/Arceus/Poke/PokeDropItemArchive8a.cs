@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -23,10 +26,10 @@ public class PokeDropItemArchive8a : IFlatBufferArchive<PokeDropItem8a>
 public class PokeDropItem8a
 {
     [FlatBufferItem(00)] public ulong Hash { get; set; }
-    [FlatBufferItem(01)] public int Field_01 { get; set; }
-    [FlatBufferItem(02)] public int Field_02 { get; set; }
-    [FlatBufferItem(03)] public int Field_03 { get; set; }
-    [FlatBufferItem(04)] public int Field_04 { get; set; }
+    [FlatBufferItem(01)][TypeConverter(typeof(ItemConverter))] public int RegularItem { get; set; }
+    [FlatBufferItem(02)] public int RegularItemProbability { get; set; }
+    [FlatBufferItem(03)][TypeConverter(typeof(ItemConverter))] public int RareItem { get; set; }
+    [FlatBufferItem(04)] public int RareItemProbability { get; set; }
 
-    public string Dump(string[] itemNames) => $"{Hash:X16}\t{itemNames[Field_01]}\t{Field_02}\t{itemNames[Field_03]}\t{Field_04}";
+    public string Dump(string[] itemNames) => $"{Hash:X16}\t{itemNames[RegularItem]}\t{RegularItemProbability}\t{itemNames[RareItem]}\t{RareItemProbability}";
 }

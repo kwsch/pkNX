@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FlatSharp.Attributes;
+using System;
 using System.ComponentModel;
-using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -18,9 +18,11 @@ public class PokeMiscTable8a : IFlatBufferArchive<PokeMisc8a>
 
     [FlatBufferItem(0)] public PokeMisc8a[] Table { get; set; } = Array.Empty<PokeMisc8a>();
 
-    public PokeMisc8a GetEntry(int species, int form) =>
-        Array.Find(Table, z => z.Species == species && z.Form == form) ??
-        throw new IndexOutOfRangeException($"{species}-{form} is not in {nameof(PokeMiscTable8a)}.");
+    public PokeMisc8a GetEntry(int species, int form)
+    {
+        return Array.Find(Table, z => z.Species == species && z.Form == form) ??
+            new PokeMisc8a() { Value = $"{species}-{form} is not in {nameof(PokeMiscTable8a)}." };
+    }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -29,12 +31,16 @@ public class PokeMisc8a
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public int Form { get; set; }
     [FlatBufferItem(02)] public int Field_02 { get; set; }
-    [FlatBufferItem(03)] public float Field_03 { get; set; } // scale factor when not alpha
-    [FlatBufferItem(04)] public float Field_04 { get; set; } // scale factor when alpha (forced 255)
+    [FlatBufferItem(03)] public float ScaleFactor { get; set; } // scale factor when not alpha
+    [FlatBufferItem(04)] public float AlphaScaleFactor { get; set; } // scale factor when alpha (forced 255)
     [FlatBufferItem(05)] public int Field_05 { get; set; } // similar scale amplification like Field 6, but not used for levels
     [FlatBufferItem(06)] public int OybnLevelIndex { get; set; }
-    [FlatBufferItem(07)] public ulong PokeDropItemRegular { get; set; }
-    [FlatBufferItem(08)] public ulong PokeDropItemAlpha { get; set; }
+
+    [FlatBufferItem(07)][TypeConverter(typeof(DropTableConverter))] public ulong DropTableRef { get; set; }
+    public PokeDropItem8a? DropTable { get; set; } = null;
+    [FlatBufferItem(08)][TypeConverter(typeof(DropTableConverter))] public ulong AlphaDropTableRef { get; set; }
+    public PokeDropItem8a? AlphaDropTable { get; set; } = null;
+
     [FlatBufferItem(09)] public string Value { get; set; } = string.Empty;
     [FlatBufferItem(10)] public int[] Field_10 { get; set; } = Array.Empty<int>();
     [FlatBufferItem(11)] public int Field_11 { get; set; }

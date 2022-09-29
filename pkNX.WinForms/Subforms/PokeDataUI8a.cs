@@ -100,7 +100,7 @@ namespace pkNX.WinForms
             for (int i = 0; i < Legal.MoveShop8_LA.Length; i++)
                 CLB_SpecialTutor.Items.Add(movelist[Legal.MoveShop8_LA[i]]);
 
-            var entries = entryNames.Select((z, i) => $"{z} - {i:000}");
+            var entries = entryNames.Select((z, i) => $"{z} - {i:0000}");
             CB_Species.Items.AddRange(entries.ToArray());
 
             foreach (ComboBox cb in helditem_boxes)
@@ -176,6 +176,10 @@ namespace pkNX.WinForms
             var form = formVal[index];
 
             LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
+            LoadMisc(Editor.PokeMisc.Root.GetEntry(spec, form));
+
+            LoadDexResearch(Editor.DexResearch.Root.GetEntries(spec));
+
             LoadLearnset(Editor.Learn[index]);
             var evoTable = Editor.Evolve.Root.Table;
             LoadEvolutions(evoTable.FirstOrDefault(x => x.Species == spec && x.Form == form));
@@ -286,6 +290,24 @@ namespace pkNX.WinForms
                 CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);*/
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
                 CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
+        }
+
+        private void LoadMisc(PokeMisc8a pokeMisc8a)
+        {
+            PG_PokeMisc.SelectedObject = pokeMisc8a;
+            TB_MiscSpecies.Text = pokeMisc8a.Species.ToString(TB_MiscSpecies.Mask);
+            TB_MiscForm.Text = pokeMisc8a.Form.ToString(TB_MiscForm.Mask);
+
+            TB_MiscScale.Text = pokeMisc8a.ScaleFactor.ToString("#0.0");
+            TB_MiscAlphaScale.Text = pokeMisc8a.AlphaScaleFactor.ToString("#0.0");
+
+            pokeMisc8a.DropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.DropTableRef);
+            pokeMisc8a.AlphaDropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
+        }
+
+        private void LoadDexResearch(PokedexResearchTask[] pokedexResearchTask)
+        {
+            PG_DexResearchTasks.SelectedObject = pokedexResearchTask;
         }
 
         public void UpdateGenderDetailLabel()

@@ -380,9 +380,13 @@ internal class EditorPLA : EditorBase
     {
         var editor = new PokeEditor8a
         {
+            Personal = Data.PersonalData,
+            PokeMisc = Data.PokeMiscData,
             Evolve = Data.EvolutionData,
             Learn = Data.LevelUpData,
-            Personal = Data.PersonalData
+            FieldDropTables = Data.FieldDrops,
+            BattleDropTabels = Data.BattleDrops,
+            DexResearch = Data.DexResearch
         };
         using var form = new PokeDataUI8a(editor, ROM, Data);
         form.ShowDialog();

@@ -223,6 +223,11 @@ namespace pkNX.Game
 
             new(GameFile.Resident, ContainerType.GFPack, "bin", "archive", "field", "resident_release.gfpak"),
 
+            new(GameFile.FieldDrops, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item.bin"),
+            new(GameFile.BattleDrops, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item_battle.bin"),
+
+            new(GameFile.DexResearch, ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_research_task_table.bin"),
+
             new(GameFile.EncounterRateTable, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_encount.bin"),
             new(GameFile.PokeMisc, ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
             new(GameFile.Outbreak, ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
