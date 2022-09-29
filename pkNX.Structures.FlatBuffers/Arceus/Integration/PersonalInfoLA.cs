@@ -81,13 +81,13 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public uint TR_D { get => FB.TR_D; set => FB.TR_D = value; }
     public uint TypeTutor { get => FB.TypeTutor; set => FB.TypeTutor = value; }
 
-    public ushort HatchedSpecies { get => FB.HatchSpecies; set => FB.HatchSpecies = (ushort)value; }
+    public ushort HatchedSpecies { get => FB.HatchedSpecies; set => FB.HatchedSpecies = value; }
     public ushort LocalFormIndex { get => FB.LocalFormIndex; set => FB.LocalFormIndex = value; }
     public bool Field_45 { get => FB.Field_45; set => FB.Field_45 = value; }
     public ushort Field_46 { get => FB.Field_46; set => FB.Field_46 = value; }
     public byte Field_47 { get => FB.Field_47; set => FB.Field_47 = value; }
 
-    public ushort Species { get => FB.Species; set => FB.Species = value; }
+    public ushort ModelID { get => FB.Species; set => FB.Species = value; }
     public ushort Form { get => FB.Form; set => FB.Form = value; }
     public ushort DexIndexNational { get => FB.DexIndexOther; set => FB.DexIndexOther = value; }
     public ushort DexIndexRegional { get => FB.DexIndexHisui; set => FB.DexIndexHisui = value; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using static pkNX.Structures.Species;
 
@@ -8,6 +9,11 @@ namespace pkNX.Structures;
 /// </summary>
 public static class FormInfo
 {
+    public static bool HasBattleOnlyForm(ushort species)
+    {
+        return BattleOnly.Contains(species);
+    }
+
     /// <summary>
     /// Checks if the form cannot exist outside of a Battle.
     /// </summary>
@@ -17,7 +23,7 @@ public static class FormInfo
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
     public static bool IsBattleOnlyForm(ushort species, byte form, int format)
     {
-        if (!BattleOnly.Contains(species))
+        if (!HasBattleOnlyForm(species))
             return false;
 
         // Some species have battle only forms as well as out-of-battle forms (other than base form).
@@ -29,11 +35,152 @@ public static class FormInfo
             case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
             case (int)Necrozma when form < 3: // Only mark Ultra Necrozma as Battle Only
                 return false;
-            case (int)Minior: return form < 7; // Minior Shields-Down
+            case (int)Minior:
+                return form < 7; // Minior Shields-Down
 
             default:
                 return form != 0;
         }
+    }
+
+    public static byte RemoveBattleOnlyFormsFromCount(ushort species, byte formCount, int format)
+    {
+        if (!HasBattleOnlyForm(species))
+            return formCount;
+
+        return Math.Min(formCount, GetOutOfBattleFormCount_Impl(species));
+    }
+
+    public static byte RemoveTotemFormsFromCount(ushort species, byte formCount, int format)
+    {
+        if (!HasTotemForm(species))
+            return formCount;
+
+        return Math.Min(formCount, GetOutOfBattleFormCount_Impl(species));
+    }
+
+    public static byte GetOutOfBattleFormCount(ushort species, byte formCount, int format)
+    {
+        if (!HasTotemForm(species) && !HasBattleOnlyForm(species))
+            return formCount;
+
+        return GetOutOfBattleFormCount_Impl(species);
+    }
+
+    /// <summary>
+    /// Warning! Untested! Keep this private untill it's properly tested.
+    /// Get the amount of forms that can be used out of battle and carried over to newer generations
+    /// </summary>
+    /// <remarks>This removes mega forms, totem forms, dynamax forms, etc.</remarks>
+    /// <param name="species">The species to get the count for</param>
+    /// <returns></returns>
+    private static byte GetOutOfBattleFormCount_Impl(ushort species)
+    {
+        return species switch
+        {
+            (int)Rattata => 2,// Standard Form, Alolan Form
+            (int)Raticate => 2,// Standard Form, Alolan Form
+            (int)Pikachu => 10, // Pikachu with cap
+            (int)Raichu => 2, // Standard Form, Alolan Form
+            (int)Sandshrew => 2, // Standard Form, Alolan Form
+            (int)Sandslash => 2, // Standard Form, Alolan Form
+            (int)Vulpix => 2, // Standard Form, Alolan Form
+            (int)Ninetales => 2, // Standard Form, Alolan Form
+            (int)Diglett => 2, // Standard Form, Alolan Form
+            (int)Dugtrio => 2, // Standard Form, Alolan Form
+            (int)Meowth => 3, // Standard Form, Alolan Form, Galarian Form
+            (int)Persian => 2, // Standard Form, Alolan Form
+            (int)Growlithe => 2, // Standard Form, Hisuian Form
+            (int)Arcanine => 2, // Standard Form, Hisuian Form
+            (int)Geodude => 2, // Standard Form, Hisuian Form
+            (int)Graveler => 2, // Standard Form, Hisuian Form
+            (int)Golem => 2, // Standard Form, Hisuian Form
+            (int)Ponyta => 2, // Standard Form, Galarian Form
+            (int)Rapidash => 2, // Standard Form, Galarian Form
+            (int)Slowpoke => 2, // Standard Form, Galarian Form
+            (int)Slowbro => 2, // Standard Form, Galarian Form
+            (int)Farfetchd => 2, // Standard Form, Galarian Form
+            (int)Grimer => 2, // Standard Form, Alolan Form
+            (int)Muk => 2, // Standard Form, Alolan Form
+            (int)Voltorb => 2, // Standard Form, Hisuian Form
+            (int)Electrode => 2, // Standard Form, Hisuian Form
+            (int)Exeggutor => 2, // Standard Form, Alolan Form
+            (int)Marowak => 2, // Standard Form, Alolan Form
+            (int)Weezing => 2, // Standard Form, Galarian Form
+            (int)MrMime => 2, // Standard Form, Galarian Form
+            (int)Articuno => 2, // Standard Form, Galarian Form
+            (int)Zapdos => 2, // Standard Form, Galarian Form
+            (int)Moltres => 2, // Standard Form, Galarian Form
+
+            (int)Typhlosion => 2, // Standard Form, Hisuian Form
+            (int)Slowking => 2, // Standard Form, Galarian Form
+            (int)Unown => 28, // Unknown forms have no personal data
+            (int)Sneasel => 2, // Standard Form, Hisuian Form
+            (int)Corsola => 2, // Standard Form, Galarian Form
+
+            (int)Zigzagoon => 2, // Standard Form, Galarian Form
+            (int)Linoone => 2, // Standard Form, Galarian Form
+            //Spinda?
+            (int)Castform => 4, // Normal Form, Sunny Form, Rainy Form, Snowy Form
+
+            (int)Burmy => 3, // Plant Cloak, Sandy Cloak, Trash Cloak
+            (int)Wormadam => 3, // Plant Cloak, Sandy Cloak, Trash Cloak
+            (int)Shellos => 2, // West Sea, East Sea
+            (int)Gastrodon => 2, // West Sea, East Sea
+            (int)Rotom => 6, // Standard Form, Heat Rotom, Wash Rotom, Frost Rotom, Fan Rotom, Mow Rotom
+            (int)Dialga => 2, // Standard Form, Origin Form
+            (int)Palkia => 2, // Standard Form, Origin Form
+            (int)Giratina => 2, // Standard Form, Origin Form
+            (int)Shaymin => 2, // Land Form, Sky Form
+
+            (int)Samurott => 2, // Standard Form, Hisuian Form
+            (int)Lilligant => 2, // Standard Form, Hisuian Form
+            (int)Basculin => 3, // Red-Striped Form, Blue-Striped Form, White-Striped Form
+            (int)Darumaka => 2,// Standard Form, Galarian Form
+            (int)Darmanitan => 2,// Standard Form, Galarian non-Zen Form
+            (int)Yamask => 2,// Standard Form, Galarian Form
+            (int)Zorua => 2,// Standard Form, Hisuian Form
+            (int)Zoroark => 2,// Standard Form, Hisuian Form
+            (int)Deerling => 4,
+            (int)Sawsbuck => 4,
+            (int)Braviary => 2,// Standard Form, Hisuian Form
+            (int)Tornadus => 2, // Incarnate Form, Therian Form
+            (int)Thundurus => 2, // Incarnate Form, Therian Form
+            (int)Landorus => 2, // Incarnate Form, Therian Form
+
+            (int)Kyurem => 3, // Normal Form, Black Form, White Form
+            (int)Keldeo => 2, // Ordinary Form, Resolute Form
+            (int)Meloetta => 2, // Aria Form, Pirouette Form
+            (int)Genesect => 5, // Normal, Electric, Fire, Ice, Water
+            (int)Flabébé => 5, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
+            (int)Floette => 6, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
+            (int)Florges => 5, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
+
+            //(int)Aegislash => 2, // Sword Form, Shield Form
+            (int)Sliggoo => 2,// Standard Form, Hisuian Form
+            (int)Goodra => 2,// Standard Form, Hisuian Form
+            (int)Avalugg => 2,// Standard Form, Hisuian Form
+            (int)Zygarde => 4,// (0,1,2,3) can be out-of-battle,  Zygarde Complete (4) is a battle form
+
+            (int)Decidueye => 2,// Standard Form, Hisuian Form
+            (int)Oricorio => 4, // Baile Style, Pom-Pom Style, Pa'u Style, Sensu Style
+            (int)Lycanroc => 3, // Midday Form, Midnight Form, Dusk Form
+
+            //(int)Wishiwashi => 2, // Solo Form, School Form
+            (int)Silvally => 18, // Form for each type
+            (int)Minior => 14, // (0-7) Meteor Forms, 7-14 are Core Forms
+            (int)Mimikyu => 2, // Standard Form (0) && Totem disguise Mimikyu (2)
+            (int)Necrozma => 3, // Standard Form, Dusk Mane Necrozma, Dawn Wings Necrozma
+
+            (int)Toxtricity => 2, // Amped Form, Low Key Form
+            (int)Urshifu => 2, // Single Strike Style, Rapid Strike Style
+
+            (int)Calyrex => 3, // Standard Form, Ice Rider, Shadow Rider
+
+            (int)Enamorus => 2, // Incarnate Form, Therian Form
+
+            _ => 1,
+        };
     }
 
     /// <summary>
@@ -223,6 +370,11 @@ public static class FormInfo
         if (Legal.Totem_Alolan.Contains(species))
             return form == 2;
         return form == 1;
+    }
+
+    public static bool HasTotemForm(ushort species)
+    {
+        return Legal.Totem_USUM.Contains(species);
     }
 
     /// <summary>

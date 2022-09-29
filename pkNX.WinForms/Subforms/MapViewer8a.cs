@@ -39,7 +39,7 @@ namespace pkNX.WinForms.Subforms
                 if (!e.IsPresentInGame)
                     continue;
 
-                var species = e.Species;
+                var species = e.ModelID;
                 if (nameList.All(z => z.Value != species))
                     nameList.Add(new(speciesNames[species], species));
             }

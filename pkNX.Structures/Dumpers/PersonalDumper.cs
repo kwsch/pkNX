@@ -227,13 +227,13 @@ namespace pkNX.Structures
             lines.Add("======");
             if (pi is IPersonalInfoSWSH s)
             {
-                if (s.PokeDexIndex != 0)
-                    lines.Add($"Galar Dex: #{s.PokeDexIndex:000}");
+                if (s.DexIndexRegional != 0)
+                    lines.Add($"Galar Dex: #{s.DexIndexRegional:000}");
                 if (s.ArmorDexIndex != 0)
                     lines.Add($"Armor Dex: #{s.ArmorDexIndex:000}");
                 if (s.CrownDexIndex != 0)
                     lines.Add($"Crown Dex: #{s.CrownDexIndex:000}");
-                if (s.PokeDexIndex == 0 && s.ArmorDexIndex == 0 && s.CrownDexIndex == 0)
+                if (s.DexIndexRegional == 0 && s.ArmorDexIndex == 0 && s.CrownDexIndex == 0)
                     lines.Add("Galar Dex: Foreign");
 
                 if (s.CanNotDynamax)

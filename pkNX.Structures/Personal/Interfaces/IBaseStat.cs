@@ -97,4 +97,10 @@ public static class IBaseStatExtensions
             }
         }
     }
+
+    public static void SetIBaseStats(this IBaseStat self, IBaseStat other)
+    {
+        for (int j = 0; j < other.GetNumBaseStats(); ++j)
+            self.SetBaseStatValue(j, other.GetBaseStatValue(j));
+    }
 }

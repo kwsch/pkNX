@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -57,6 +58,8 @@ namespace pkNX.Structures
         {
             if (entries.Length < size)
                 return Array.Empty<T>();
+
+            Debug.Assert(entries.Length % size == 0, "This data can't be split into equally sized entries with the provided slice size");
 
             var array = new T[entries.Length / size];
             for (int i = 0; i < entries.Length; i += size)

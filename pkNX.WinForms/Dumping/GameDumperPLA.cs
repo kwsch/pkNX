@@ -108,7 +108,7 @@ namespace pkNX.WinForms
                 if (isShop)
                 {
                     var species = pt.Table.OfType<IPersonalInfoPLA>().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
-                    var names = species.Select(z => $"{spec[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+                    var names = species.Select(z => $"{spec[z.ModelID]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
                     r.Add($"\tTutors: {string.Join(", ", names)}");
                 }
 
@@ -893,7 +893,7 @@ namespace pkNX.WinForms
             {
                 var p = (IPersonalInfoPLA)pt[i];
                 bool any = false;
-                var specForm = $"{p.Species:000}\t{p.Form}\t{s[p.Species]}{(p.Form == 0 ? "" : $"-{p.Form:00}")}";
+                var specForm = $"{p.ModelID:000}\t{p.Form}\t{s[p.ModelID]}{(p.Form == 0 ? "" : $"-{p.Form:00}")}";
                 if (p.DexIndexRegional != 0)
                 {
                     dex.Add($"{p.DexIndexRegional:000}\t{specForm}");

@@ -63,8 +63,6 @@ namespace pkNX.Structures
         bool IsRegionalForm { get; set; }
         ushort RegionalFlags { get; set; }
         bool CanNotDynamax { get; set; }
-        ushort PokeDexIndex { get; set; }
-        byte RegionalFormIndex { get; set; }
         ushort ArmorDexIndex { get; set; }
         ushort CrownDexIndex { get; set; }
     }
@@ -74,5 +72,30 @@ namespace pkNX.Structures
         bool Field_45 { get; set; } // byte
         ushort Field_46 { get; set; } // ushort
         byte Field_47 { get; set; } // byte
+    }
+
+    public static class IPersonalInfoExt
+    {
+        public static void SetPersonalInfo(this IPersonalInfo self, IPersonalInfo other)
+        {
+            self.SetIBaseStats(other);
+            self.SetIEffortValueYield(other);
+            self.SetIPersonalAbility(other);
+            self.SetIPersonalItems(other);
+            self.SetIPersonalType(other);
+            self.SetIPersonalEgg(other);
+            self.SetIPersonalTraits(other);
+            self.SetIPersonalMisc(other);
+
+            if (self is IPersonalInfo_1 self_1 && other is IPersonalInfo_1 other_1)
+            {
+                self_1.SetIMovesInfo(other_1);
+            }
+
+            if (self is IPersonalInfo_2 self_2 && other is IPersonalInfo_2 other_2)
+            {
+                self_2.SetIMovesInfo(other_2);
+            }
+        }
     }
 }

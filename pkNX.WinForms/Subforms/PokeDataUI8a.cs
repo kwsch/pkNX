@@ -222,7 +222,7 @@ namespace pkNX.WinForms
             TB_SPDEVs.Text = pkm.EV_SPD.ToString(TB_SPDEVs.Mask);
             TB_BST.Text = pkm.GetBaseStatTotal().ToString(TB_BST.Mask);
 
-            TB_Classification.Text = classifications[pkm.Species];
+            TB_Classification.Text = classifications[pkm.ModelID];
 
             CB_Type1.SelectedIndex = (int)pkm.Type1;
             CB_Type2.SelectedIndex = (int)pkm.Type2;
@@ -310,10 +310,10 @@ namespace pkNX.WinForms
 
         public void UpdateButtonStates()
         {
-            B_PreviousPokemon.Enabled = cPersonal.Species > 0;
+            B_PreviousPokemon.Enabled = cPersonal.ModelID > 0;
             B_PreviousForm.Enabled = cPersonal.Form > 0;
             B_NextForm.Enabled = (cPersonal.Form + 1) < cPersonal.FormCount;
-            B_NextPokemon.Enabled = (cPersonal.Species + 1) < Data.PersonalData.MaxSpeciesID;
+            B_NextPokemon.Enabled = (cPersonal.ModelID + 1) < Data.PersonalData.MaxSpeciesID;
         }
 
         public void SavePersonal()
@@ -471,6 +471,93 @@ namespace pkNX.WinForms
                 row.SaveEvolution();
         }
 
+        public void AutoFillPersonal()
+        {
+            Debug.Assert(Data.PersonalData is PersonalTable8LA, "This function is build for PLA data. It needs to be updated if more data is added.");
+
+            var la = (PersonalTable8LA)Data.PersonalData;
+            la.FixMissingData();
+        }
+
+        public void AutoFillEvolutions()
+        {
+            var usum = ResourcesUtil.USUM_Evolutions;
+            var usumPersonal = ResourcesUtil.SWSH;
+
+            var swsh = ResourcesUtil.SWSH_Evolutions;
+            var swshPersonal = ResourcesUtil.SWSH;
+
+            for (int i = 0; i < usum.Count; i++)
+            {
+                EvolutionMethod[] evoSet = swsh[i];
+                EvolutionMethod[] usumEvos = usum[i];
+
+                if (evoSet[0].Method == EvolutionType.None && usumEvos[0].Method != EvolutionType.None)
+                {
+                    for (int j = 0; j < usumEvos.Length; j++)
+                    {
+                        if (usumEvos[j].Method == EvolutionType.None)
+                        {
+                            continue;
+                        }
+
+                        var usumEntry = usumEvos[j];
+                        var evoEntry = evoSet[j];
+                        evoEntry.Species = usumEntry.Species;
+                        evoEntry.Form = usumEntry.Form;
+                        evoEntry.Argument = usumEntry.Argument;
+                        evoEntry.Method = usumEntry.Method;
+                        evoEntry.Level = usumEntry.Level;
+                    }
+                }
+            }
+
+            var la = Data.EvolutionData;
+            for (int i = 0; i < la.Length; i++)
+            {
+                EvolutionSet8a evoSet = la[i];
+                if (evoSet.Table == null || evoSet.Table.Length == 0)
+                {
+                    var species = evoSet.Species;
+                    var form = evoSet.Form;
+
+                    if (species > Legal.MaxSpeciesID_8)
+                    {
+                        continue;
+                    }
+
+                    int index = swshPersonal.GetFormIndex(species, (byte)form);
+                    if (index == 0)
+                    {
+                        // Assume the form doesn't exsist in the game
+                        continue;
+                    }
+
+                    var swshEvos = swsh[index];
+
+                    List<EvolutionEntry8a> entries = new();
+                    for (int j = 0; j < swshEvos.Length; j++)
+                    {
+                        var swhsEntry = swshEvos[j];
+                        if (swhsEntry.Method == EvolutionType.None)
+                        {
+                            continue;
+                        }
+
+                        entries.Add(new EvolutionEntry8a
+                        {
+                            Species = swhsEntry.Species,
+                            Form = swhsEntry.Form,
+                            Argument = swhsEntry.Argument,
+                            Method = (ushort)swhsEntry.Method,
+                            Level = swhsEntry.Level
+                        });
+                    }
+                    evoSet.Table = entries.ToArray();
+                }
+            }
+        }
+
 
         private void B_PDumpTable_Click(object sender, EventArgs e)
         {
@@ -604,75 +691,11 @@ namespace pkNX.WinForms
 
         private void B_AufoFill_Click(object sender, EventArgs e)
         {
-            Debug.Assert(Data.PersonalData is PersonalTable8LA, "This function is build for PLA data. It needs to be updated if more data is added.");
+            // Make sure any modifications are saved before forcing to reload everything
+            SaveCurrent();
 
-            var swsh = ResourcesUtil.SWSH;
-            var usum = ResourcesUtil.USUM;
-
-            // Fix gender for ss data
-            for (ushort i = 1; i <= usum.MaxSpeciesID; i++)
-            {
-                var ss = swsh.Table[i];
-                if (ss.HP == 0)
-                    ss.Gender = usum.Table[i].Gender;
-            }
-
-            // Fill all data for la
-            var la = (PersonalTable8LA)Data.PersonalData;
-            for (ushort i = 1; i <= swsh.MaxSpeciesID; i++)
-            {
-                var fc = la.Table[i].FormCount;
-                for (byte f = 0; f < fc; f++)
-                {
-                    var l = la.GetFormEntry(i, f);
-                    if (l == null || l.HP != 0)
-                        continue;
-
-                    var s = swsh.GetFormEntry(i, f);
-
-                    //IBaseStat
-                    for (int j = 0; j < s.GetNumBaseStats(); ++j)
-                        l.SetBaseStatValue(j, s.GetBaseStatValue(j));
-
-                    //IEffortValueYield
-                    for (int j = 0; j < s.GetNumEVs(); ++j)
-                        l.SetEVYieldValue(j, s.GetEVYieldValue(j));
-
-                    //IPersonalAbility
-                    for (int j = 0; j < s.GetNumAbilities(); ++j)
-                        l.SetAbilityAtIndex(j, s.GetAbilityAtIndex(j));
-
-                    //IPersonalItems
-                    for (int j = 0; j < s.GetNumItems(); ++j)
-                        l.SetItemAtIndex(j, s.GetItemAtIndex(j));
-
-                    //IPersonalType
-                    l.Type1 = s.Type1;
-                    l.Type2 = s.Type2;
-
-                    //IPersonalEgg_2
-                    l.EggGroup1 = s.EggGroup1;
-                    l.EggGroup2 = s.EggGroup2;
-                    //l.HatchCycles = s.HatchCycles;
-                    l.HatchedSpecies = s.HatchedSpecies;
-
-                    //IPersonalTraits
-                    l.Gender = s.Gender;
-                    l.EXPGrowth = s.EXPGrowth;
-                    l.BaseEXP = s.BaseEXP;
-                    l.CatchRate = s.CatchRate;
-                    l.BaseFriendship = s.BaseFriendship;
-                    l.EscapeRate = s.EscapeRate;
-                    l.Color = s.Color;
-                    l.Height = s.Height;
-                    l.Weight = s.Weight;
-
-                    //IPersonalMisc_1
-                    //l.Species = i;
-                    l.DexIndexNational = i;
-                    l.EvoStage = s.EvoStage;
-                }
-            }
+            AutoFillPersonal();
+            AutoFillEvolutions();
 
             // Reload selected
             LoadIndex(CB_Species.SelectedIndex);
@@ -681,8 +704,8 @@ namespace pkNX.WinForms
 
         private void B_NextPokemon_Click(object sender, EventArgs e)
         {
-            Debug.Assert(cPersonal.Species < Data.PersonalData.MaxSpeciesID);
-            CB_Species.SelectedIndex = cPersonal.Species + 1;
+            Debug.Assert(cPersonal.ModelID < Data.PersonalData.MaxSpeciesID);
+            CB_Species.SelectedIndex = cPersonal.ModelID + 1;
         }
 
         private void B_NextForm_Click(object sender, EventArgs e)
@@ -690,7 +713,7 @@ namespace pkNX.WinForms
             Debug.Assert(cPersonal.Form < cPersonal.FormCount);
 
             var pt = Data.PersonalData;
-            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form + 1));
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.ModelID, (byte)(cPersonal.Form + 1));
         }
 
         private void B_PreviousForm_Click(object sender, EventArgs e)
@@ -698,13 +721,13 @@ namespace pkNX.WinForms
             Debug.Assert(cPersonal.Form > 0);
 
             var pt = Data.PersonalData;
-            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.Species, (byte)(cPersonal.Form - 1));
+            CB_Species.SelectedIndex = pt.GetFormIndex(cPersonal.ModelID, (byte)(cPersonal.Form - 1));
         }
 
         private void B_PreviousPokemon_Click(object sender, EventArgs e)
         {
-            Debug.Assert(cPersonal.Species > 0);
-            CB_Species.SelectedIndex = cPersonal.Species - 1;
+            Debug.Assert(cPersonal.ModelID > 0);
+            CB_Species.SelectedIndex = cPersonal.ModelID - 1;
         }
 
         private void B_Save_Click(object sender, EventArgs e)

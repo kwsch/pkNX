@@ -90,4 +90,18 @@ public static class PersonalTraitsExtensions
         var fix = info.GetFixedGenderType();
         return fix >= 0 ? (int)fix : Util.Rand.Next(2);
     }
+
+    public static void SetIPersonalTraits(this IPersonalTraits self, IPersonalTraits other)
+    {
+        self.Gender = other.Gender;
+        self.EXPGrowth = other.EXPGrowth;
+        self.BaseEXP = other.BaseEXP;
+        self.CatchRate = other.CatchRate;
+        self.EscapeRate = other.EscapeRate;
+        self.BaseFriendship = other.BaseFriendship;
+        self.EscapeRate = other.EscapeRate;
+        self.Color = other.Color;
+        self.Height = other.Height;
+        self.Weight = other.Weight;
+    }
 }

@@ -16,19 +16,34 @@ public interface IPersonalMisc
 /// </summary>
 public interface IPersonalMisc_1 : IPersonalMisc
 {
-    ushort Species { get; set; }
+    ushort ModelID { get; set; }
+    ushort Form { get; set; }
     bool IsPresentInGame { get; set; }
     ushort LocalFormIndex { get; set; }
+
+    ushort DexIndexNational { get; set; } // ushort
+    ushort DexIndexRegional { get; set; } // ushort
 }
 
 public interface IPersonalMisc_2 : IPersonalMisc_1
 {
-    ushort Form { get; set; }
-    ushort DexIndexNational { get; set; } // ushort
-    ushort DexIndexRegional { get; set; } // ushort
     ushort DexIndexLocal1 { get; set; } // uint
     ushort DexIndexLocal2 { get; set; } // uint
     ushort DexIndexLocal3 { get; set; } // uint
     ushort DexIndexLocal4 { get; set; } // uint
     ushort DexIndexLocal5 { get; set; } // uint
+}
+
+public static class IPersonalMiscExtensions
+{
+    public static void SetIPersonalMisc(this IPersonalMisc self, IPersonalMisc other)
+    {
+        self.EvoStage = other.EvoStage;
+
+        if (self is IPersonalMisc_1 self_1 && other is IPersonalMisc_1 other_1)
+        {
+            self_1.DexIndexNational = other_1.DexIndexNational;
+            self_1.Form = other_1.Form;
+        }
+    }
 }
