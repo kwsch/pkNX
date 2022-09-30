@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using pkNX.Sprites;
@@ -160,7 +161,7 @@ namespace pkNX.WinForms
         private void LoadROM(EditorBase editor)
         {
             Editor = editor;
-            var ctrl = Editor.GetControls(120, 35);
+            var ctrl = Editor.GetControls(120, 35).OrderBy(x => x.Text);
             FLP_Controls.Controls.Clear();
             foreach (var c in ctrl)
                 FLP_Controls.Controls.Add(c);
