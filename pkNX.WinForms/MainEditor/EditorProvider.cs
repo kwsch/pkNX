@@ -20,6 +20,43 @@ namespace pkNX.WinForms.Controls
 
         public void Initialize() => ROM.Initialize();
 
+        private static string GetEditorName(string name)
+        {
+            var newName = name.Replace('_', ' ').ToCharArray();
+            var builder = new StringBuilder();
+
+            // Force first char to upper
+            newName[0] = char.ToUpper(newName[0]);
+
+            for (int i = 0; i < newName.Length; ++i)
+            {
+                char c = newName[i];
+                builder.Append(c);
+
+                // Check the next char
+                if (i + 1 >= newName.Length)
+                    continue;
+                char nextC = newName[i + 1];
+
+                // If current is space, replace next with upper char
+                if (c == ' ')
+                {
+                    newName[i + 1] = char.ToUpper(nextC);
+                }
+                // If current is lower and next is upper, add a space in between
+                else if (char.IsLower(c) && char.IsUpper(nextC))
+                {
+                    builder.Append(' ');
+                }
+                // If previous is upper, current is upper and next is lower, add a space in between
+                else if (i + 2 < newName.Length && char.IsUpper(c) && char.IsUpper(nextC) && char.IsLower(newName[i + 2]))
+                {
+                    builder.Append(' ');
+                }
+            }
+            return builder.ToString();
+        }
+
         public IEnumerable<Button> GetControls(int width, int height)
         {
             var type = GetType();
@@ -29,18 +66,6 @@ namespace pkNX.WinForms.Controls
                 const string prefix = "Edit";
                 if (!m.Name.StartsWith(prefix))
                     continue;
-
-                static string GetEditorName(string name)
-                {
-                    var builder = new StringBuilder();
-                    foreach (char c in name.Replace("_", ""))
-                    {
-                        if (char.IsUpper(c) && builder.Length > 0)
-                            builder.Append(' ');
-                        builder.Append(c);
-                    }
-                    return builder.ToString();
-                }
 
                 var name = m.Name[prefix.Length..];
                 var b = new Button
