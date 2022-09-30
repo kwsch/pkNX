@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -200,11 +201,14 @@ namespace pkNX.WinForms
             return result;
         }
 
-        private void SaveCurrent()
+        public bool SaveCurrent()
         {
-            SavePersonal();
-            SaveLearnset();
-            SaveEvolutions();
+            bool success = false;
+            success |= SavePersonal();
+            success |= SaveLearnset();
+            success |= SaveEvolutions();
+
+            return success;
         }
 
         public void LoadPersonal(IPersonalInfoPLA pkm)
@@ -267,11 +271,13 @@ namespace pkNX.WinForms
 
             TB_NationalDex.Text = pkm.DexIndexNational.ToString(TB_NationalDex.Mask);
             TB_HisuianDex.Text = pkm.DexIndexRegional.ToString(TB_HisuianDex.Mask);
-            TB_Region1Dex.Text = pkm.DexIndexLocal1.ToString(TB_Region1Dex.Mask);
-            TB_Region2Dex.Text = pkm.DexIndexLocal2.ToString(TB_Region2Dex.Mask);
-            TB_Region3Dex.Text = pkm.DexIndexLocal3.ToString(TB_Region3Dex.Mask);
-            TB_Region4Dex.Text = pkm.DexIndexLocal4.ToString(TB_Region4Dex.Mask);
-            TB_Region5Dex.Text = pkm.DexIndexLocal5.ToString(TB_Region5Dex.Mask);
+
+            bool hasRegionalDexIndex = pkm.DexIndexRegional != 0;
+            CHK_InArea1.Checked = hasRegionalDexIndex && pkm.DexIndexLocal1 == pkm.DexIndexRegional;
+            CHK_InArea2.Checked = hasRegionalDexIndex && pkm.DexIndexLocal2 == pkm.DexIndexRegional;
+            CHK_InArea3.Checked = hasRegionalDexIndex && pkm.DexIndexLocal3 == pkm.DexIndexRegional;
+            CHK_InArea4.Checked = hasRegionalDexIndex && pkm.DexIndexLocal4 == pkm.DexIndexRegional;
+            CHK_InArea5.Checked = hasRegionalDexIndex && pkm.DexIndexLocal5 == pkm.DexIndexRegional;
 
             TB_LocalFormIndex.Text = pkm.LocalFormIndex.ToString(TB_LocalFormIndex.Mask);
             TB_Field_46.Text = pkm.Field_46.ToString(TB_Field_46.Mask);
@@ -338,8 +344,39 @@ namespace pkNX.WinForms
             B_NextPokemon.Enabled = (cPersonal.ModelID + 1) < Data.PersonalData.MaxSpeciesID;
         }
 
-        public void SavePersonal()
+        private bool ValidateRegionalDexIndex()
         {
+            var pt = Data.PersonalData;
+
+            var baseForms = pt.Table.Cast<IPersonalInfoPLA>().Where(x => x.Form == 0);
+            var regionalDex = baseForms.Select(x => x.DexIndexRegional).Where(x => x != 0).ToImmutableHashSet();
+
+            var dexIndex = Convert.ToUInt16(TB_HisuianDex.Text);
+            if (dexIndex == 0 || dexIndex == cPersonal.DexIndexRegional)
+                return true;
+
+            if (regionalDex.Contains(dexIndex))
+            {
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Regional Dex Index '{dexIndex}' is already in use.", "Would you like the index to be automatically updated to a valid one?");
+                if (prompt == DialogResult.Yes)
+                {
+                    TB_HisuianDex.Text = (regionalDex.Max() + 1).ToString();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool SavePersonal()
+        {
+            bool allValid = false;
+            allValid |= ValidateRegionalDexIndex();
+
+            if (!allValid)
+            {
+                return false;
+            }
+
             var pkm = cPersonal;
             pkm.HP = Util.ToInt32(TB_BaseHP.Text);
             pkm.ATK = Util.ToInt32(TB_BaseATK.Text);
@@ -394,11 +431,11 @@ namespace pkNX.WinForms
 
             pkm.DexIndexNational = Convert.ToUInt16(TB_NationalDex.Text);
             pkm.DexIndexRegional = Convert.ToUInt16(TB_HisuianDex.Text);
-            pkm.DexIndexLocal1 = Convert.ToUInt16(TB_Region1Dex.Text);
-            pkm.DexIndexLocal2 = Convert.ToUInt16(TB_Region2Dex.Text);
-            pkm.DexIndexLocal3 = Convert.ToUInt16(TB_Region3Dex.Text);
-            pkm.DexIndexLocal4 = Convert.ToUInt16(TB_Region4Dex.Text);
-            pkm.DexIndexLocal5 = Convert.ToUInt16(TB_Region5Dex.Text);
+            pkm.DexIndexLocal1 = CHK_InArea1.Checked ? pkm.DexIndexRegional : (ushort)0;
+            pkm.DexIndexLocal2 = CHK_InArea2.Checked ? pkm.DexIndexRegional : (ushort)0;
+            pkm.DexIndexLocal3 = CHK_InArea3.Checked ? pkm.DexIndexRegional : (ushort)0;
+            pkm.DexIndexLocal4 = CHK_InArea4.Checked ? pkm.DexIndexRegional : (ushort)0;
+            pkm.DexIndexLocal5 = CHK_InArea5.Checked ? pkm.DexIndexRegional : (ushort)0;
 
             TB_LocalFormIndex.Text = pkm.LocalFormIndex.ToString(TB_LocalFormIndex.Mask);
             TB_Field_46.Text = pkm.Field_46.ToString(TB_Field_46.Mask);
@@ -417,6 +454,8 @@ namespace pkNX.WinForms
                 pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);*/
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
                 pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
+
+            return true;
         }
 
         public void LoadLearnset(Learnset8aMeta pkm)
@@ -441,7 +480,7 @@ namespace pkNX.WinForms
             dgv.CancelEdit();
         }
 
-        public void SaveLearnset()
+        private bool SaveLearnset()
         {
             // TODO
             var pkm = cLearnset;
@@ -460,6 +499,8 @@ namespace pkNX.WinForms
                 levels.Add(Math.Min(100, lv));
             }
             //pkm.Update(moves.ToArray(), levels.ToArray());
+
+            return true;
         }
 
         public void LoadEvolutions(EvolutionSet8a s)
@@ -485,12 +526,14 @@ namespace pkNX.WinForms
             }
         }
 
-        public void SaveEvolutions()
+        private bool SaveEvolutions()
         {
             var s = cEvos;
             Debug.Assert(s.Table != null && EvoRows.Length == s.Table.Length);
             foreach (var row in EvoRows)
                 row.SaveEvolution();
+
+            return true;
         }
 
         public void AutoFillPersonal()
@@ -752,11 +795,17 @@ namespace pkNX.WinForms
             CB_Species.SelectedIndex = cPersonal.ModelID - 1;
         }
 
+        private void PokeDataUI8a_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !SaveCurrent();
+            Modified = true;
+        }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveCurrent();
             Modified = true;
-            Close();
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }

@@ -42,11 +42,6 @@ namespace pkNX.WinForms
             this.TB_MiscSpecies = new System.Windows.Forms.MaskedTextBox();
             this.PG_PokeMisc = new System.Windows.Forms.PropertyGrid();
             this.LB_HatchSpecies = new System.Windows.Forms.Label();
-            this.L_Region5Dex = new System.Windows.Forms.Label();
-            this.L_Region4Dex = new System.Windows.Forms.Label();
-            this.L_Region3Dex = new System.Windows.Forms.Label();
-            this.L_Region2Dex = new System.Windows.Forms.Label();
-            this.L_Region1Dex = new System.Windows.Forms.Label();
             this.L_HisuianDex = new System.Windows.Forms.Label();
             this.L_NationalDex = new System.Windows.Forms.Label();
             this.L_LocalFormIndex = new System.Windows.Forms.Label();
@@ -88,11 +83,6 @@ namespace pkNX.WinForms
             this.Line = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TB_NationalDex = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Region5Dex = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Region4Dex = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Region3Dex = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Region2Dex = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Region1Dex = new System.Windows.Forms.MaskedTextBox();
             this.TB_HisuianDex = new System.Windows.Forms.MaskedTextBox();
             this.CB_Type2 = new System.Windows.Forms.ComboBox();
             this.CB_Type1 = new System.Windows.Forms.ComboBox();
@@ -188,6 +178,11 @@ namespace pkNX.WinForms
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_AufoFill = new System.Windows.Forms.Button();
             this.TT_ButtonTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.CHK_InArea1 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea2 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea3 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea4 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea5 = new System.Windows.Forms.CheckBox();
             GB_PokeMisc = new System.Windows.Forms.GroupBox();
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -349,71 +344,6 @@ namespace pkNX.WinForms
             this.LB_HatchSpecies.Text = "Hatched Species:";
             this.LB_HatchSpecies.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Region5Dex
-            // 
-            this.L_Region5Dex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Region5Dex.AutoSize = true;
-            this.L_Region5Dex.Location = new System.Drawing.Point(24, 228);
-            this.L_Region5Dex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region5Dex.Name = "L_Region5Dex";
-            this.L_Region5Dex.Size = new System.Drawing.Size(92, 36);
-            this.L_Region5Dex.TabIndex = 518;
-            this.L_Region5Dex.Text = "Area 5 Dex:";
-            this.L_Region5Dex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region4Dex
-            // 
-            this.L_Region4Dex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Region4Dex.AutoSize = true;
-            this.L_Region4Dex.Location = new System.Drawing.Point(24, 196);
-            this.L_Region4Dex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region4Dex.Name = "L_Region4Dex";
-            this.L_Region4Dex.Size = new System.Drawing.Size(92, 32);
-            this.L_Region4Dex.TabIndex = 516;
-            this.L_Region4Dex.Text = "Area 4 Dex:";
-            this.L_Region4Dex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region3Dex
-            // 
-            this.L_Region3Dex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Region3Dex.AutoSize = true;
-            this.L_Region3Dex.Location = new System.Drawing.Point(24, 164);
-            this.L_Region3Dex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region3Dex.Name = "L_Region3Dex";
-            this.L_Region3Dex.Size = new System.Drawing.Size(92, 32);
-            this.L_Region3Dex.TabIndex = 514;
-            this.L_Region3Dex.Text = "Area 3 Dex:";
-            this.L_Region3Dex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region2Dex
-            // 
-            this.L_Region2Dex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Region2Dex.AutoSize = true;
-            this.L_Region2Dex.Location = new System.Drawing.Point(24, 132);
-            this.L_Region2Dex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region2Dex.Name = "L_Region2Dex";
-            this.L_Region2Dex.Size = new System.Drawing.Size(92, 32);
-            this.L_Region2Dex.TabIndex = 512;
-            this.L_Region2Dex.Text = "Area 2 Dex:";
-            this.L_Region2Dex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region1Dex
-            // 
-            this.L_Region1Dex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Region1Dex.AutoSize = true;
-            this.L_Region1Dex.Location = new System.Drawing.Point(24, 100);
-            this.L_Region1Dex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region1Dex.Name = "L_Region1Dex";
-            this.L_Region1Dex.Size = new System.Drawing.Size(92, 32);
-            this.L_Region1Dex.TabIndex = 510;
-            this.L_Region1Dex.Text = "Area 1 Dex:";
-            this.L_Region1Dex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // L_HisuianDex
             // 
             this.L_HisuianDex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -573,7 +503,7 @@ namespace pkNX.WinForms
             this.L_Stage.Location = new System.Drawing.Point(244, 228);
             this.L_Stage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_Stage.Name = "L_Stage";
-            this.L_Stage.Size = new System.Drawing.Size(125, 36);
+            this.L_Stage.Size = new System.Drawing.Size(125, 32);
             this.L_Stage.TabIndex = 476;
             this.L_Stage.Text = "Evolution Stage:";
             this.L_Stage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -910,16 +840,6 @@ namespace pkNX.WinForms
             this.tableLayoutPanel1.Controls.Add(this.L_EXPGrowth, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.L_NationalDex, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TB_NationalDex, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.L_Region5Dex, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.TB_Region5Dex, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.L_Region4Dex, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.TB_Region4Dex, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.L_Region3Dex, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.TB_Region3Dex, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.L_Region2Dex, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.TB_Region2Dex, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.L_Region1Dex, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.TB_Region1Dex, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.L_HisuianDex, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.TB_HisuianDex, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.CB_Type2, 8, 4);
@@ -950,6 +870,11 @@ namespace pkNX.WinForms
             this.tableLayoutPanel1.Controls.Add(this.TB_CatchRate, 4, 5);
             this.tableLayoutPanel1.Controls.Add(this.TB_Friendship, 4, 6);
             this.tableLayoutPanel1.Controls.Add(this.L_Friendship, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_InArea1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_InArea2, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_InArea3, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_InArea4, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_InArea5, 0, 7);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 7);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -977,56 +902,6 @@ namespace pkNX.WinForms
             this.TB_NationalDex.TabIndex = 509;
             this.TB_NationalDex.Text = "9999";
             this.TB_NationalDex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Region5Dex
-            // 
-            this.TB_Region5Dex.Location = new System.Drawing.Point(120, 231);
-            this.TB_Region5Dex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Region5Dex.Mask = "000";
-            this.TB_Region5Dex.Name = "TB_Region5Dex";
-            this.TB_Region5Dex.Size = new System.Drawing.Size(48, 26);
-            this.TB_Region5Dex.TabIndex = 519;
-            this.TB_Region5Dex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Region4Dex
-            // 
-            this.TB_Region4Dex.Location = new System.Drawing.Point(120, 199);
-            this.TB_Region4Dex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Region4Dex.Mask = "000";
-            this.TB_Region4Dex.Name = "TB_Region4Dex";
-            this.TB_Region4Dex.Size = new System.Drawing.Size(48, 26);
-            this.TB_Region4Dex.TabIndex = 517;
-            this.TB_Region4Dex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Region3Dex
-            // 
-            this.TB_Region3Dex.Location = new System.Drawing.Point(120, 167);
-            this.TB_Region3Dex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Region3Dex.Mask = "000";
-            this.TB_Region3Dex.Name = "TB_Region3Dex";
-            this.TB_Region3Dex.Size = new System.Drawing.Size(48, 26);
-            this.TB_Region3Dex.TabIndex = 515;
-            this.TB_Region3Dex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Region2Dex
-            // 
-            this.TB_Region2Dex.Location = new System.Drawing.Point(120, 135);
-            this.TB_Region2Dex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Region2Dex.Mask = "000";
-            this.TB_Region2Dex.Name = "TB_Region2Dex";
-            this.TB_Region2Dex.Size = new System.Drawing.Size(48, 26);
-            this.TB_Region2Dex.TabIndex = 513;
-            this.TB_Region2Dex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_Region1Dex
-            // 
-            this.TB_Region1Dex.Location = new System.Drawing.Point(120, 103);
-            this.TB_Region1Dex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Region1Dex.Mask = "000";
-            this.TB_Region1Dex.Name = "TB_Region1Dex";
-            this.TB_Region1Dex.Size = new System.Drawing.Size(48, 26);
-            this.TB_Region1Dex.TabIndex = 511;
-            this.TB_Region1Dex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_HisuianDex
             // 
@@ -1189,8 +1064,8 @@ namespace pkNX.WinForms
             this.CHK_IsPresentInGame.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tableLayoutPanel1.SetColumnSpan(this.CHK_IsPresentInGame, 3);
             this.CHK_IsPresentInGame.Enabled = false;
-            this.CHK_IsPresentInGame.Location = new System.Drawing.Point(506, 233);
-            this.CHK_IsPresentInGame.Margin = new System.Windows.Forms.Padding(0, 5, 18, 5);
+            this.CHK_IsPresentInGame.Location = new System.Drawing.Point(506, 231);
+            this.CHK_IsPresentInGame.Margin = new System.Windows.Forms.Padding(0, 3, 18, 3);
             this.CHK_IsPresentInGame.MinimumSize = new System.Drawing.Size(174, 26);
             this.CHK_IsPresentInGame.Name = "CHK_IsPresentInGame";
             this.CHK_IsPresentInGame.Size = new System.Drawing.Size(174, 26);
@@ -2227,6 +2102,81 @@ namespace pkNX.WinForms
             this.B_AufoFill.UseVisualStyleBackColor = true;
             this.B_AufoFill.Click += new System.EventHandler(this.B_AufoFill_Click);
             // 
+            // CHK_InArea1
+            // 
+            this.CHK_InArea1.AutoSize = true;
+            this.CHK_InArea1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea1, 2);
+            this.CHK_InArea1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea1.Location = new System.Drawing.Point(0, 103);
+            this.CHK_InArea1.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea1.Name = "CHK_InArea1";
+            this.CHK_InArea1.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea1.TabIndex = 536;
+            this.CHK_InArea1.Text = "In Area 1:   ";
+            this.CHK_InArea1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea2
+            // 
+            this.CHK_InArea2.AutoSize = true;
+            this.CHK_InArea2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea2, 2);
+            this.CHK_InArea2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea2.Location = new System.Drawing.Point(0, 135);
+            this.CHK_InArea2.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea2.Name = "CHK_InArea2";
+            this.CHK_InArea2.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea2.TabIndex = 537;
+            this.CHK_InArea2.Text = "In Area 2:   ";
+            this.CHK_InArea2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea3
+            // 
+            this.CHK_InArea3.AutoSize = true;
+            this.CHK_InArea3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea3, 2);
+            this.CHK_InArea3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea3.Location = new System.Drawing.Point(0, 167);
+            this.CHK_InArea3.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea3.Name = "CHK_InArea3";
+            this.CHK_InArea3.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea3.TabIndex = 538;
+            this.CHK_InArea3.Text = "In Area 3:   ";
+            this.CHK_InArea3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea4
+            // 
+            this.CHK_InArea4.AutoSize = true;
+            this.CHK_InArea4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea4, 2);
+            this.CHK_InArea4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea4.Location = new System.Drawing.Point(0, 199);
+            this.CHK_InArea4.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea4.Name = "CHK_InArea4";
+            this.CHK_InArea4.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea4.TabIndex = 539;
+            this.CHK_InArea4.Text = "In Area 4:   ";
+            this.CHK_InArea4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea5
+            // 
+            this.CHK_InArea5.AutoSize = true;
+            this.CHK_InArea5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea5, 2);
+            this.CHK_InArea5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea5.Location = new System.Drawing.Point(0, 231);
+            this.CHK_InArea5.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea5.Name = "CHK_InArea5";
+            this.CHK_InArea5.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea5.TabIndex = 540;
+            this.CHK_InArea5.Text = "In Area 5:   ";
+            this.CHK_InArea5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea5.UseVisualStyleBackColor = true;
+            // 
             // PokeDataUI8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
@@ -2243,6 +2193,7 @@ namespace pkNX.WinForms
             this.Name = "PokeDataUI8a";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokémon Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PokeDataUI8a_FormClosing);
             GB_PokeMisc.ResumeLayout(false);
             GB_PokeMisc.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -2353,11 +2304,6 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Label L_TypeTutors;
         private System.Windows.Forms.CheckedListBox CLB_TypeTutor;
         private System.Windows.Forms.CheckedListBox CLB_SpecialTutor;
-        private System.Windows.Forms.MaskedTextBox TB_Region5Dex;
-        private System.Windows.Forms.MaskedTextBox TB_Region4Dex;
-        private System.Windows.Forms.MaskedTextBox TB_Region3Dex;
-        private System.Windows.Forms.MaskedTextBox TB_Region2Dex;
-        private System.Windows.Forms.MaskedTextBox TB_Region1Dex;
         private System.Windows.Forms.MaskedTextBox TB_Field_18;
         private System.Windows.Forms.ComboBox CB_HatchSpecies;
         private System.Windows.Forms.MaskedTextBox TB_Field_47;
@@ -2374,11 +2320,6 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Button B_NextPokemon;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label LB_HatchSpecies;
-        private System.Windows.Forms.Label L_Region5Dex;
-        private System.Windows.Forms.Label L_Region4Dex;
-        private System.Windows.Forms.Label L_Region3Dex;
-        private System.Windows.Forms.Label L_Region2Dex;
-        private System.Windows.Forms.Label L_Region1Dex;
         private System.Windows.Forms.Label L_HisuianDex;
         private System.Windows.Forms.Label L_NationalDex;
         private System.Windows.Forms.Label L_LocalFormIndex;
@@ -2429,5 +2370,10 @@ namespace pkNX.WinForms
         private System.Windows.Forms.TextBox TB_MiscAlphaScale;
         private System.Windows.Forms.TextBox TB_MiscScale;
         private System.Windows.Forms.PropertyGrid PG_DexResearchTasks;
+        private System.Windows.Forms.CheckBox CHK_InArea1;
+        private System.Windows.Forms.CheckBox CHK_InArea2;
+        private System.Windows.Forms.CheckBox CHK_InArea3;
+        private System.Windows.Forms.CheckBox CHK_InArea4;
+        private System.Windows.Forms.CheckBox CHK_InArea5;
     }
 }
