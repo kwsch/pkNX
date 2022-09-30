@@ -10,18 +10,11 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
 {
     public PersonalInfo8SWSH[] Table { get; }
     private const int SIZE = PersonalInfo8SWSH.SIZE;
-    private const int MaxSpecies = Legal.MaxSpeciesID_8;
-    public int MaxSpeciesID => MaxSpecies;
+    public int MaxSpeciesID => Legal.MaxSpeciesID_8;
 
     public PersonalTable8SWSH(ReadOnlySpan<byte> data)
     {
-        Table = new PersonalInfo8SWSH[data.Length / SIZE];
-        var count = data.Length / SIZE;
-        for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
-        {
-            var slice = data.Slice(ofs, SIZE).ToArray();
-            Table[i] = new PersonalInfo8SWSH(slice);
-        }
+        Table = data.GetArray(x => new PersonalInfo8SWSH(x.ToArray()), SIZE);
     }
 
     public void Save()
