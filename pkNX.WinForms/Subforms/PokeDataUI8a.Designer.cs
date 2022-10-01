@@ -36,6 +36,7 @@ namespace pkNX.WinForms
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label L_MiscSpecies;
+            System.Windows.Forms.Label LB_ResearchTasks;
             this.TB_MiscAlphaScale = new System.Windows.Forms.TextBox();
             this.TB_MiscScale = new System.Windows.Forms.TextBox();
             this.TB_MiscForm = new System.Windows.Forms.MaskedTextBox();
@@ -100,6 +101,11 @@ namespace pkNX.WinForms
             this.TB_Stage = new System.Windows.Forms.MaskedTextBox();
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
+            this.CHK_InArea1 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea2 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea3 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea4 = new System.Windows.Forms.CheckBox();
+            this.CHK_InArea5 = new System.Windows.Forms.CheckBox();
             this.TB_FormCount = new System.Windows.Forms.MaskedTextBox();
             this.TB_Field_18 = new System.Windows.Forms.MaskedTextBox();
             this.TB_LocalFormIndex = new System.Windows.Forms.MaskedTextBox();
@@ -136,6 +142,9 @@ namespace pkNX.WinForms
             this.TB_Field_46 = new System.Windows.Forms.MaskedTextBox();
             this.CHK_Variant = new System.Windows.Forms.CheckBox();
             this.Tab_Pokedex = new System.Windows.Forms.TabPage();
+            this.B_AddTask = new System.Windows.Forms.Button();
+            this.B_DeleteTask = new System.Windows.Forms.Button();
+            this.B_CloneTask = new System.Windows.Forms.Button();
             this.PG_DexResearchTasks = new System.Windows.Forms.PropertyGrid();
             this.Tab_Learn = new System.Windows.Forms.TabPage();
             this.CLB_SpecialTutor = new System.Windows.Forms.CheckedListBox();
@@ -178,16 +187,12 @@ namespace pkNX.WinForms
             this.PB_MonSprite = new System.Windows.Forms.PictureBox();
             this.B_AufoFill = new System.Windows.Forms.Button();
             this.TT_ButtonTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.CHK_InArea1 = new System.Windows.Forms.CheckBox();
-            this.CHK_InArea2 = new System.Windows.Forms.CheckBox();
-            this.CHK_InArea3 = new System.Windows.Forms.CheckBox();
-            this.CHK_InArea4 = new System.Windows.Forms.CheckBox();
-            this.CHK_InArea5 = new System.Windows.Forms.CheckBox();
             GB_PokeMisc = new System.Windows.Forms.GroupBox();
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             L_MiscSpecies = new System.Windows.Forms.Label();
+            LB_ResearchTasks = new System.Windows.Forms.Label();
             GB_PokeMisc.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -330,6 +335,15 @@ namespace pkNX.WinForms
             this.PG_PokeMisc.Size = new System.Drawing.Size(393, 282);
             this.PG_PokeMisc.TabIndex = 0;
             this.PG_PokeMisc.ToolbarVisible = false;
+            // 
+            // LB_ResearchTasks
+            // 
+            LB_ResearchTasks.AutoSize = true;
+            LB_ResearchTasks.Location = new System.Drawing.Point(6, 178);
+            LB_ResearchTasks.Name = "LB_ResearchTasks";
+            LB_ResearchTasks.Size = new System.Drawing.Size(128, 20);
+            LB_ResearchTasks.TabIndex = 1;
+            LB_ResearchTasks.Text = "Research Tasks:";
             // 
             // LB_HatchSpecies
             // 
@@ -1104,6 +1118,81 @@ namespace pkNX.WinForms
             this.TB_Friendship.TabIndex = 455;
             this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // CHK_InArea1
+            // 
+            this.CHK_InArea1.AutoSize = true;
+            this.CHK_InArea1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea1, 2);
+            this.CHK_InArea1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea1.Location = new System.Drawing.Point(0, 103);
+            this.CHK_InArea1.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea1.Name = "CHK_InArea1";
+            this.CHK_InArea1.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea1.TabIndex = 536;
+            this.CHK_InArea1.Text = "In Area 1:   ";
+            this.CHK_InArea1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea2
+            // 
+            this.CHK_InArea2.AutoSize = true;
+            this.CHK_InArea2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea2, 2);
+            this.CHK_InArea2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea2.Location = new System.Drawing.Point(0, 135);
+            this.CHK_InArea2.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea2.Name = "CHK_InArea2";
+            this.CHK_InArea2.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea2.TabIndex = 537;
+            this.CHK_InArea2.Text = "In Area 2:   ";
+            this.CHK_InArea2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea3
+            // 
+            this.CHK_InArea3.AutoSize = true;
+            this.CHK_InArea3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea3, 2);
+            this.CHK_InArea3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea3.Location = new System.Drawing.Point(0, 167);
+            this.CHK_InArea3.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea3.Name = "CHK_InArea3";
+            this.CHK_InArea3.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea3.TabIndex = 538;
+            this.CHK_InArea3.Text = "In Area 3:   ";
+            this.CHK_InArea3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea4
+            // 
+            this.CHK_InArea4.AutoSize = true;
+            this.CHK_InArea4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea4, 2);
+            this.CHK_InArea4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea4.Location = new System.Drawing.Point(0, 199);
+            this.CHK_InArea4.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea4.Name = "CHK_InArea4";
+            this.CHK_InArea4.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea4.TabIndex = 539;
+            this.CHK_InArea4.Text = "In Area 4:   ";
+            this.CHK_InArea4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InArea5
+            // 
+            this.CHK_InArea5.AutoSize = true;
+            this.CHK_InArea5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea5, 2);
+            this.CHK_InArea5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CHK_InArea5.Location = new System.Drawing.Point(0, 231);
+            this.CHK_InArea5.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
+            this.CHK_InArea5.Name = "CHK_InArea5";
+            this.CHK_InArea5.Size = new System.Drawing.Size(154, 26);
+            this.CHK_InArea5.TabIndex = 540;
+            this.CHK_InArea5.Text = "In Area 5:   ";
+            this.CHK_InArea5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_InArea5.UseVisualStyleBackColor = true;
+            // 
             // TB_FormCount
             // 
             this.TB_FormCount.Location = new System.Drawing.Point(148, 396);
@@ -1548,6 +1637,10 @@ namespace pkNX.WinForms
             // 
             // Tab_Pokedex
             // 
+            this.Tab_Pokedex.Controls.Add(this.B_AddTask);
+            this.Tab_Pokedex.Controls.Add(this.B_DeleteTask);
+            this.Tab_Pokedex.Controls.Add(this.B_CloneTask);
+            this.Tab_Pokedex.Controls.Add(LB_ResearchTasks);
             this.Tab_Pokedex.Controls.Add(this.PG_DexResearchTasks);
             this.Tab_Pokedex.Location = new System.Drawing.Point(4, 29);
             this.Tab_Pokedex.Name = "Tab_Pokedex";
@@ -1557,17 +1650,57 @@ namespace pkNX.WinForms
             this.Tab_Pokedex.Text = "Pokedex";
             this.Tab_Pokedex.UseVisualStyleBackColor = true;
             // 
+            // B_AddTask
+            // 
+            this.B_AddTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_AddTask.Location = new System.Drawing.Point(456, 171);
+            this.B_AddTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_AddTask.Name = "B_AddTask";
+            this.B_AddTask.Size = new System.Drawing.Size(137, 35);
+            this.B_AddTask.TabIndex = 538;
+            this.B_AddTask.Text = "Add Task";
+            this.TT_ButtonTooltip.SetToolTip(this.B_AddTask, "Add a new research task to the bottom of the task list");
+            this.B_AddTask.UseVisualStyleBackColor = true;
+            this.B_AddTask.Click += new System.EventHandler(this.B_AddTask_Click);
+            // 
+            // B_DeleteTask
+            // 
+            this.B_DeleteTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_DeleteTask.Location = new System.Drawing.Point(746, 171);
+            this.B_DeleteTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_DeleteTask.Name = "B_DeleteTask";
+            this.B_DeleteTask.Size = new System.Drawing.Size(137, 35);
+            this.B_DeleteTask.TabIndex = 536;
+            this.B_DeleteTask.Text = "Delete Selected";
+            this.TT_ButtonTooltip.SetToolTip(this.B_DeleteTask, "Delete the selected task");
+            this.B_DeleteTask.UseVisualStyleBackColor = true;
+            this.B_DeleteTask.Click += new System.EventHandler(this.B_DeleteTask_Click);
+            // 
+            // B_CloneTask
+            // 
+            this.B_CloneTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_CloneTask.Location = new System.Drawing.Point(601, 171);
+            this.B_CloneTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_CloneTask.Name = "B_CloneTask";
+            this.B_CloneTask.Size = new System.Drawing.Size(137, 35);
+            this.B_CloneTask.TabIndex = 537;
+            this.B_CloneTask.Text = "Clone Selected";
+            this.TT_ButtonTooltip.SetToolTip(this.B_CloneTask, "Copy the selected task and add it to the bottom of the task list");
+            this.B_CloneTask.UseVisualStyleBackColor = true;
+            this.B_CloneTask.Click += new System.EventHandler(this.B_CloneTask_Click);
+            // 
             // PG_DexResearchTasks
             // 
             this.PG_DexResearchTasks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PG_DexResearchTasks.HelpVisible = false;
-            this.PG_DexResearchTasks.Location = new System.Drawing.Point(10, 6);
+            this.PG_DexResearchTasks.Location = new System.Drawing.Point(10, 214);
             this.PG_DexResearchTasks.Name = "PG_DexResearchTasks";
-            this.PG_DexResearchTasks.Size = new System.Drawing.Size(874, 603);
+            this.PG_DexResearchTasks.Size = new System.Drawing.Size(874, 395);
             this.PG_DexResearchTasks.TabIndex = 0;
             this.PG_DexResearchTasks.ToolbarVisible = false;
+            this.PG_DexResearchTasks.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PG_DexResearchTasks_SelectedGridItemChanged);
             // 
             // Tab_Learn
             // 
@@ -2048,7 +2181,7 @@ namespace pkNX.WinForms
             this.B_NextForm.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.B_NextForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.B_NextForm.ForeColor = System.Drawing.Color.Black;
-            this.B_NextForm.Location = new System.Drawing.Point(100, 242);
+            this.B_NextForm.Location = new System.Drawing.Point(98, 242);
             this.B_NextForm.Margin = new System.Windows.Forms.Padding(4, 3, 0, 3);
             this.B_NextForm.Name = "B_NextForm";
             this.B_NextForm.Size = new System.Drawing.Size(35, 26);
@@ -2066,9 +2199,9 @@ namespace pkNX.WinForms
             this.B_NextPokemon.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.B_NextPokemon.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.B_NextPokemon.ForeColor = System.Drawing.Color.Black;
-            this.B_NextPokemon.Location = new System.Drawing.Point(138, 242);
+            this.B_NextPokemon.Location = new System.Drawing.Point(136, 242);
             this.B_NextPokemon.Name = "B_NextPokemon";
-            this.B_NextPokemon.Size = new System.Drawing.Size(43, 26);
+            this.B_NextPokemon.Size = new System.Drawing.Size(45, 26);
             this.B_NextPokemon.TabIndex = 528;
             this.B_NextPokemon.Text = ">>";
             this.TT_ButtonTooltip.SetToolTip(this.B_NextPokemon, "Next Pokemon");
@@ -2102,81 +2235,6 @@ namespace pkNX.WinForms
             this.B_AufoFill.UseVisualStyleBackColor = true;
             this.B_AufoFill.Click += new System.EventHandler(this.B_AufoFill_Click);
             // 
-            // CHK_InArea1
-            // 
-            this.CHK_InArea1.AutoSize = true;
-            this.CHK_InArea1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea1, 2);
-            this.CHK_InArea1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CHK_InArea1.Location = new System.Drawing.Point(0, 103);
-            this.CHK_InArea1.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
-            this.CHK_InArea1.Name = "CHK_InArea1";
-            this.CHK_InArea1.Size = new System.Drawing.Size(154, 26);
-            this.CHK_InArea1.TabIndex = 536;
-            this.CHK_InArea1.Text = "In Area 1:   ";
-            this.CHK_InArea1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_InArea1.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InArea2
-            // 
-            this.CHK_InArea2.AutoSize = true;
-            this.CHK_InArea2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea2, 2);
-            this.CHK_InArea2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CHK_InArea2.Location = new System.Drawing.Point(0, 135);
-            this.CHK_InArea2.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
-            this.CHK_InArea2.Name = "CHK_InArea2";
-            this.CHK_InArea2.Size = new System.Drawing.Size(154, 26);
-            this.CHK_InArea2.TabIndex = 537;
-            this.CHK_InArea2.Text = "In Area 2:   ";
-            this.CHK_InArea2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_InArea2.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InArea3
-            // 
-            this.CHK_InArea3.AutoSize = true;
-            this.CHK_InArea3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea3, 2);
-            this.CHK_InArea3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CHK_InArea3.Location = new System.Drawing.Point(0, 167);
-            this.CHK_InArea3.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
-            this.CHK_InArea3.Name = "CHK_InArea3";
-            this.CHK_InArea3.Size = new System.Drawing.Size(154, 26);
-            this.CHK_InArea3.TabIndex = 538;
-            this.CHK_InArea3.Text = "In Area 3:   ";
-            this.CHK_InArea3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_InArea3.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InArea4
-            // 
-            this.CHK_InArea4.AutoSize = true;
-            this.CHK_InArea4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea4, 2);
-            this.CHK_InArea4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CHK_InArea4.Location = new System.Drawing.Point(0, 199);
-            this.CHK_InArea4.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
-            this.CHK_InArea4.Name = "CHK_InArea4";
-            this.CHK_InArea4.Size = new System.Drawing.Size(154, 26);
-            this.CHK_InArea4.TabIndex = 539;
-            this.CHK_InArea4.Text = "In Area 4:   ";
-            this.CHK_InArea4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_InArea4.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InArea5
-            // 
-            this.CHK_InArea5.AutoSize = true;
-            this.CHK_InArea5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tableLayoutPanel1.SetColumnSpan(this.CHK_InArea5, 2);
-            this.CHK_InArea5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CHK_InArea5.Location = new System.Drawing.Point(0, 231);
-            this.CHK_InArea5.Margin = new System.Windows.Forms.Padding(0, 3, 14, 3);
-            this.CHK_InArea5.Name = "CHK_InArea5";
-            this.CHK_InArea5.Size = new System.Drawing.Size(154, 26);
-            this.CHK_InArea5.TabIndex = 540;
-            this.CHK_InArea5.Text = "In Area 5:   ";
-            this.CHK_InArea5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_InArea5.UseVisualStyleBackColor = true;
-            // 
             // PokeDataUI8a
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
@@ -2206,6 +2264,7 @@ namespace pkNX.WinForms
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.Tab_Pokedex.ResumeLayout(false);
+            this.Tab_Pokedex.PerformLayout();
             this.Tab_Learn.ResumeLayout(false);
             this.Tab_Learn.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -2375,5 +2434,8 @@ namespace pkNX.WinForms
         private System.Windows.Forms.CheckBox CHK_InArea3;
         private System.Windows.Forms.CheckBox CHK_InArea4;
         private System.Windows.Forms.CheckBox CHK_InArea5;
+        private System.Windows.Forms.Button B_AddTask;
+        private System.Windows.Forms.Button B_DeleteTask;
+        private System.Windows.Forms.Button B_CloneTask;
     }
 }

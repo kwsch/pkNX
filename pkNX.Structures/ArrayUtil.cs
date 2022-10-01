@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace pkNX.Structures
 {
@@ -206,6 +207,21 @@ namespace pkNX.Structures
             arr2.CopyTo(result, arr1.Length);
             arr3.CopyTo(result.AsSpan(arr1.Length + arr2.Length));
             return result;
+        }
+    }
+
+    public static class ArrayUtilsExt
+    {
+        public static TSource[] Append<TSource>(this TSource[] first, TSource second, params TSource[] third)
+        {
+            return ArrayUtil.ConcatAll(first, new[] { second }, third);
+        }
+
+        public static TSource[] Remove<TSource>(this TSource[] first, TSource toRemove)
+        {
+            var list = first.ToList();
+            list.Remove(toRemove);
+            return list.ToArray();
         }
     }
 
