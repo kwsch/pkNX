@@ -11,12 +11,6 @@ using EditorBase = pkNX.WinForms.Controls.EditorBase;
 
 namespace pkNX.WinForms;
 
-public class ProgramSettings
-{
-    public int Language { get; set; } = 2;
-    public string GamePath { get; set; } = string.Empty;
-}
-
 public partial class Main : Form
 {
     public static readonly string ProgramSettingsPath = Path.Combine(Application.StartupPath, "settings.json");
@@ -176,7 +170,7 @@ public partial class Main : Form
     private void LoadROM(EditorBase editor)
     {
         Editor = editor;
-        var ctrl = Editor.GetControls(120, 35).OrderBy(x => x.Text);
+        var ctrl = Editor.GetControls(120, 40).OrderBy(x => x.Text);
         FLP_Controls.Controls.Clear();
         foreach (var c in ctrl)
             FLP_Controls.Controls.Add(c);
