@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,7 +57,7 @@ internal class EditorPLA : EditorBase
             Create = FlatBufferConverter.DeserializeFrom<TrData8a>,
             Write = FlatBufferConverter.SerializeFrom,
         };
-        var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).ToArray();
+        var names = folder.GetPaths().Select(s => Path.GetFileNameWithoutExtension(s)!).ToArray();
         using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", Randomize, canSave: true);
         form.ShowDialog();
 

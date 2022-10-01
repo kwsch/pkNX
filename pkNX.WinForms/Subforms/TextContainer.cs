@@ -1,50 +1,49 @@
-﻿using System.IO;
+using System.IO;
 using pkNX.Containers;
 using pkNX.Structures;
 
-namespace pkNX.WinForms
+namespace pkNX.WinForms;
+
+public class TextContainer
 {
-    public class TextContainer
+    public readonly IFileContainer Container;
+    public readonly TextConfig? Config;
+    public bool Remap { get; set; }
+
+    private readonly string[]?[] Cache;
+
+    public TextContainer(IFileContainer c, TextConfig? t = null, bool remap = false)
     {
-        public readonly IFileContainer Container;
-        public readonly TextConfig? Config;
-        public bool Remap { get; set; }
+        Remap = remap;
+        Config = t;
+        Container = c;
+        Cache = new string[Container.Count][];
+    }
 
-        private readonly string[]?[] Cache;
+    public int Length => Cache.Length;
 
-        public TextContainer(IFileContainer c, TextConfig? t = null, bool remap = false)
+    public string[] this[int index]
+    {
+        get => Cache[index] ??= GetLines(index);
+        set => Cache[index] = value;
+    }
+
+    private string[] GetLines(int index) => new TextFile(Container[index], Config, remapChars: Remap).Lines;
+
+    public string GetFileName(int i)
+    {
+        if (Container is FolderContainer f)
+            return Path.GetFileNameWithoutExtension(f.GetFileName(i));
+        return i.ToString();
+    }
+
+    public void Save()
+    {
+        for (int i = 0; i < Length; i++)
         {
-            Remap = remap;
-            Config = t;
-            Container = c;
-            Cache = new string[Container.Count][];
-        }
-
-        public int Length => Cache.Length;
-
-        public string[] this[int index]
-        {
-            get => Cache[index] ??= GetLines(index);
-            set => Cache[index] = value;
-        }
-
-        private string[] GetLines(int index) => new TextFile(Container[index], Config, remapChars: Remap).Lines;
-
-        public string GetFileName(int i)
-        {
-            if (Container is FolderContainer f)
-                return Path.GetFileNameWithoutExtension(f.GetFileName(i));
-            return i.ToString();
-        }
-
-        public void Save()
-        {
-            for (int i = 0; i < Length; i++)
-            {
-                if (Cache[i] == null)
-                    continue;
-                Container[i] = TextFile.GetBytes(Cache[i], Config, Remap);
-            }
+            if (Cache[i] == null)
+                continue;
+            Container[i] = TextFile.GetBytes(Cache[i], Config, Remap);
         }
     }
 }
