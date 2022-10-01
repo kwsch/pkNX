@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Linq;
 using pkNX.Structures;
 
 namespace pkNX.Game
@@ -36,8 +35,9 @@ namespace pkNX.Game
         /// Determines the <see cref="GameVersion"/> of the input directory and detects the location of files for editing.
         /// </summary>
         /// <param name="dir">Directory the game data is in</param>
+        /// <param name="gameOverride">Detected version</param>
         /// <returns>New <see cref="GameLocation"/> object with references to file paths.</returns>
-        public static GameLocation GetGame(string dir)
+        public static GameLocation GetGame(string dir, GameVersion gameOverride = GameVersion.Any)
         {
             if (dir == null || !Directory.Exists(dir))
                 return null;
@@ -49,11 +49,16 @@ namespace pkNX.Game
             if (romfs == null && exefs == null)
                 return null;
 
-            var files = Directory.GetFiles(romfs, "*", SearchOption.AllDirectories);
-            var game = GetGameFromCount(files.Length, romfs, exefs);
+            var game = gameOverride != GameVersion.Any ? gameOverride : GetGameFromPath(romfs, exefs);
             if (game == GameVersion.Invalid)
                 return null;
             return new GameLocation(romfs, exefs, game);
+        }
+
+        private static GameVersion GetGameFromPath(string romfs, string exefs)
+        {
+            var files = Directory.GetFiles(romfs, "*", SearchOption.AllDirectories);
+            return GetGameFromCount(files.Length, romfs, exefs);
         }
 
         private const int FILECOUNT_XY = 271;

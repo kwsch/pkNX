@@ -104,9 +104,9 @@ public abstract class EditorBase
         _ => null,
     };
 
-    public static EditorBase? GetEditor(string loc, int language)
+    public static EditorBase? GetEditor(string loc, int language, GameVersion gameOverride)
     {
-        var gl = GameLocation.GetGame(loc);
+        var gl = GameLocation.GetGame(loc, gameOverride);
         if (gl == null)
             return null;
 

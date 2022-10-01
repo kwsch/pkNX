@@ -35,7 +35,7 @@ public partial class Main : Form
         Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
         CB_Lang.SelectedIndex = Settings.Language;
         if (!string.IsNullOrWhiteSpace(Settings.GamePath))
-            OpenPath(Settings.GamePath);
+            OpenPath(Settings.GamePath, Settings.GameOverride);
 
         DragDrop += (s, e) =>
         {
@@ -83,6 +83,7 @@ public partial class Main : Form
         EditUtil.SaveSettings(Editor.Game);
         Settings.Language = CB_Lang.SelectedIndex;
         Settings.GamePath = TB_Path.Text;
+        Settings.GameOverride = Editor.Game;
         await SettingsSerializer.SaveSettings(Settings, ProgramSettingsPath);
     }
 
@@ -115,12 +116,12 @@ public partial class Main : Form
         WinFormsUtil.Alert("Unable to set seed.");
     }
 
-    private void OpenPath(string path)
+    private void OpenPath(string path, GameVersion gameOverride = GameVersion.Any)
     {
         try
         {
             if (Directory.Exists(path))
-                OpenFolder(path);
+                OpenFolder(path, gameOverride);
             else
                 OpenFile(path);
         }
@@ -143,9 +144,9 @@ public partial class Main : Form
         Process.Start("explorer.exe", resultPath);
     }
 
-    private void OpenFolder(string path)
+    private void OpenFolder(string path, GameVersion gameOverride)
     {
-        var editor = EditorBase.GetEditor(path, Language);
+        var editor = EditorBase.GetEditor(path, Language, gameOverride);
         if (editor == null)
         {
             var msg = "Invalid folder loaded." + Environment.NewLine + "Unable to recognize game data.";
@@ -188,7 +189,7 @@ public partial class Main : Form
         var squareSide = Math.Sqrt(totalArea);
         var columns = (int)Math.Ceiling(squareSide / wp) + 1;
         var rows = (count / columns) + 2;
-        Width = columns * wp + 6;
+        Width = (columns * wp) + 6;
         Height = FLP_Controls.Location.Y + (rows * hp) + 6;
         CenterToScreen();
 
