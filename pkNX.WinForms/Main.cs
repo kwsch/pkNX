@@ -167,13 +167,30 @@ public partial class Main : Form
         }
     }
 
+    private const int ButtonWidth = 120;
+    private const int ButtonHeight = 40;
+    private const int ButtonPadding = 3;
+
     private void LoadROM(EditorBase editor)
     {
         Editor = editor;
-        var ctrl = Editor.GetControls(120, 40).OrderBy(x => x.Text);
+        var ctrl = Editor.GetControls(ButtonWidth, ButtonHeight).OrderBy(x => x.Text);
         FLP_Controls.Controls.Clear();
         foreach (var c in ctrl)
             FLP_Controls.Controls.Add(c);
+
+        const int wp = ButtonWidth + (2 * ButtonPadding) + 3;
+        const int hp = ButtonHeight + (2 * ButtonPadding);
+        const int area = wp * hp;
+        var count = FLP_Controls.Controls.Count;
+        // Resize form dimensions then center to screen, so that all buttons are shown.
+        var totalArea = count * area;
+        var squareSide = Math.Sqrt(totalArea);
+        var columns = (int)Math.Ceiling(squareSide / wp) + 1;
+        var rows = (count / columns) + 2;
+        Width = columns * wp + 6;
+        Height = FLP_Controls.Location.Y + (rows * hp) + 6;
+        CenterToScreen();
 
         Text = $"{nameof(pkNX)} - {Editor.Game}";
         TB_Path.Text = Editor.Location;

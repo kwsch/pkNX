@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -8,14 +8,14 @@ namespace pkNX.WinForms;
 
 public static class SettingsSerializer
 {
-    public static async Task<T> GetSettings<T>(string path) where T : new()
+    public static async Task<T> GetSettings<T>(string path, CancellationToken token = default) where T : new()
     {
         if (!File.Exists(path))
             return new T();
 
         try
         {
-            var data = await File.ReadAllTextAsync(path);
+            var data = await File.ReadAllTextAsync(path, token).ConfigureAwait(false);
             return System.Text.Json.JsonSerializer.Deserialize<T>(data) ?? new T();
         }
         catch (Exception ex)
@@ -30,7 +30,7 @@ public static class SettingsSerializer
         try
         {
             var json = System.Text.Json.JsonSerializer.Serialize(settings);
-            await File.WriteAllTextAsync(path, json, token);
+            await File.WriteAllTextAsync(path, json, token).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
