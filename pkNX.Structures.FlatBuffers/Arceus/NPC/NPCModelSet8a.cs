@@ -17,9 +17,9 @@ public class NPCModelSet8a : IFlatBufferArchive<NPCModelSetEntry8a>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NPCModelSetEntry8a
 {
-    [FlatBufferItem(00)][TypeConverter(typeof(NPCHashConverter))] public ulong NPCHash { get; set; }
+    [FlatBufferItem(00)] public NPCModelType8a NPCModelHash { get; set; }
     [FlatBufferItem(01)] public string NPCIndex { get; set; } = string.Empty;
-    [FlatBufferItem(02)] public ulong Field_02 { get; set; }
+    [FlatBufferItem(02)] public NPCResidentType8a NPCResidentHash { get; set; }
     [FlatBufferItem(03)] public NPCModelAnimations Animations { get; set; } = new();
     [FlatBufferItem(04)] public NPCModelMeshes Meshes { get; set; } = new();
     [FlatBufferItem(05)] public NPCModelRigs Rigs { get; set; } = new();
@@ -31,6 +31,7 @@ public class NPCModelSetEntry8a
     [FlatBufferItem(11)] public uint[] Field_11 { get; set; } = Array.Empty<uint>();
     [FlatBufferItem(12)] public string ArchivePath { get; set; } = string.Empty;
     [FlatBufferItem(13)] public float Field_13 { get; set; }
+
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
