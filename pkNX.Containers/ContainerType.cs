@@ -1,12 +1,11 @@
-﻿namespace pkNX.Containers
+namespace pkNX.Containers;
+
+public enum ContainerType
 {
-    public enum ContainerType
-    {
-        GARC,
-        Mini,
-        SARC,
-        Folder,
-        SingleFile,
-        GFPack,
-    }
+    GARC,
+    Mini,
+    SARC,
+    Folder,
+    SingleFile,
+    GFPack,
 }

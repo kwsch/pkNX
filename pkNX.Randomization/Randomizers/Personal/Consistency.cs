@@ -1,29 +1,28 @@
-﻿namespace pkNX.Randomization
+namespace pkNX.Randomization;
+
+public enum RandSetting
 {
-    public enum RandSetting
-    {
-        Unchanged,
-        Randomized,
-    }
+    Unchanged,
+    Randomized,
+}
 
-    public enum Permissive
-    {
-        Yes,
-        No,
-    }
+public enum Permissive
+{
+    Yes,
+    No,
+}
 
-    public enum ModifyState
-    {
-        Shared,
-        One,
-        Two,
-        All,
-    }
+public enum ModifyState
+{
+    Shared,
+    One,
+    Two,
+    All,
+}
 
-    public enum CatchRate
-    {
-        Unchanged,
-        BSTScaled,
-        Random,
-    }
+public enum CatchRate
+{
+    Unchanged,
+    BSTScaled,
+    Random,
 }

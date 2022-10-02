@@ -1,11 +1,10 @@
 using System.Runtime.InteropServices;
 
-namespace pkNX.Containers
+namespace pkNX.Containers;
+
+[StructLayout(LayoutKind.Sequential)]
+public class RelativeExtent
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public class RelativeExtent
-    {
-        public int RegionRODataOffset;
-        public int RegionSize;
-    }
+    public int RegionRODataOffset;
+    public int RegionSize;
 }

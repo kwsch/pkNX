@@ -1,7 +1,6 @@
-namespace pkNX.Structures.FlatBuffers
+namespace pkNX.Structures.FlatBuffers;
+
+public interface IFlatBufferArchive<T> where T : class
 {
-    public interface IFlatBufferArchive<T> where T : class
-    {
-        T[] Table { get; set; }
-    }
+    T[] Table { get; set; }
 }

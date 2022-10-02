@@ -8,11 +8,10 @@ using FlatSharp.Attributes;
 #nullable disable
 #pragma warning disable CA1819 // Properties should not return arrays
 
-namespace pkNX.Structures.FlatBuffers
+namespace pkNX.Structures.FlatBuffers;
+
+[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+public class EncounterGift8Archive : IFlatBufferArchive<EncounterGift8>
 {
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class EncounterGift8Archive : IFlatBufferArchive<EncounterGift8>
-    {
-        [FlatBufferItem(0)] public EncounterGift8[] Table { get; set; }
-    }
+    [FlatBufferItem(0)] public EncounterGift8[] Table { get; set; }
 }

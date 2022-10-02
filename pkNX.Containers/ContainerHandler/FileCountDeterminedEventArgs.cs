@@ -1,9 +1,8 @@
 using System;
 
-namespace pkNX.Containers
+namespace pkNX.Containers;
+
+public class FileCountDeterminedEventArgs : EventArgs
 {
-    public class FileCountDeterminedEventArgs : EventArgs
-    {
-        public int Total { get; set; }
-    }
+    public int Total { get; set; }
 }

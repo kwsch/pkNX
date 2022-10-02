@@ -1,4 +1,4 @@
-﻿namespace pkNX.Structures;
+namespace pkNX.Structures;
 
 public enum MoveInflictDuration
 {

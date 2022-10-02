@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 
-namespace pkNX.Structures
+namespace pkNX.Structures;
+
+/// <summary>
+/// Table of Evolution Branch Entries
+/// </summary>
+public abstract class EvolutionSet
 {
-    /// <summary>
-    /// Table of Evolution Branch Entries
-    /// </summary>
-    public abstract class EvolutionSet
-    {
-        public EvolutionMethod[] PossibleEvolutions;
-        public abstract byte[] Write();
+    public EvolutionMethod[] PossibleEvolutions;
+    public abstract byte[] Write();
 
-        protected EvolutionSet() => PossibleEvolutions = Array.Empty<EvolutionMethod>();
-    }
+    protected EvolutionSet() => PossibleEvolutions = Array.Empty<EvolutionMethod>();
 }

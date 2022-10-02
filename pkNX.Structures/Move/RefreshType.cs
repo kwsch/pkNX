@@ -1,11 +1,10 @@
-namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum RefreshType : byte
 {
-    public enum RefreshType : byte
-    {
-        None,
-        Disheveled,
-        Mud,
-        Dust,
-        Dry,
-    }
+    None,
+    Disheveled,
+    Mud,
+    Dust,
+    Dry,
 }

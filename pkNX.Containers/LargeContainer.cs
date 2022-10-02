@@ -1,156 +1,155 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using pkNX.Containers;
 
-namespace pkNX
+namespace pkNX;
+
+/// <summary>
+/// More complex container format for large long lived archives.
+/// </summary>
+public abstract class LargeContainer : IDisposable, IFileContainer
 {
+    public virtual int Count => Files.Length;
+
+    public Task<byte[][]> GetFiles() => new(() => { CacheAll(); return Files!; });
+    public Task<byte[]> GetFile(int file, int subFile = 0) => new(() => GetEntry(file, subFile));
+    public Task SetFile(int file, byte[] value, int subFile = 0) => new(() => SetEntry(file, value, subFile));
+
+    public string? Extension => Path.GetExtension(FilePath);
+    public string? FileName => Path.GetFileName(FilePath);
+    public string? FilePath { get; set; }
+    public bool Modified { get; set; }
+
+    protected byte[]?[] Files = Array.Empty<byte[]>();
+
     /// <summary>
-    /// More complex container format for large long lived archives.
+    /// Packs the <see cref="LargeContainer"/> to the specified writing stream.
     /// </summary>
-    public abstract class LargeContainer : IDisposable, IFileContainer
+    /// <param name="bw">Stream Writer to write contents to.</param>
+    /// <param name="handler">Manager for monitoring progress.</param>
+    /// <param name="token">Cancellation object</param>
+    /// <returns>Awaitable Task</returns>
+    protected abstract Task Pack(BinaryWriter bw, ContainerHandler handler, CancellationToken token);
+
+    #region File Reading
+
+    protected BinaryReader? Reader { get; private set; }
+    private Stream? Stream;
+
+    protected void OpenBinary(string path)
     {
-        public virtual int Count => Files.Length;
+        path = FileMitm.GetRedirectedReadPath(path);
+        Stream = new FileStream(path, FileMode.Open);
+        Reader = new BinaryReader(Stream);
+        Initialize();
+    }
 
-        public Task<byte[][]> GetFiles() => new(() => { CacheAll(); return Files!; });
-        public Task<byte[]> GetFile(int file, int subFile = 0) => new(() => GetEntry(file, subFile));
-        public Task SetFile(int file, byte[] value, int subFile = 0) => new(() => SetEntry(file, value, subFile));
+    protected void OpenRead(BinaryReader br)
+    {
+        Reader = br;
+        Stream = br.BaseStream;
+        Initialize();
+    }
 
-        public string? Extension => Path.GetExtension(FilePath);
-        public string? FileName => Path.GetFileName(FilePath);
-        public string? FilePath { get; set; }
-        public bool Modified { get; set; }
+    protected abstract void Initialize();
 
-        protected byte[]?[] Files = Array.Empty<byte[]>();
+    protected abstract int GetFileOffset(int file, int subFile = 0);
 
-        /// <summary>
-        /// Packs the <see cref="LargeContainer"/> to the specified writing stream.
-        /// </summary>
-        /// <param name="bw">Stream Writer to write contents to.</param>
-        /// <param name="handler">Manager for monitoring progress.</param>
-        /// <param name="token">Cancellation object</param>
-        /// <returns>Awaitable Task</returns>
-        protected abstract Task Pack(BinaryWriter bw, ContainerHandler handler, CancellationToken token);
+    public BinaryReader Seek(int file, long offset = 0, int subFile = 0)
+    {
+        if (Reader == null)
+            throw new NullReferenceException("Reader is not initialized.");
+        offset += GetFileOffset(file, subFile);
+        Reader.BaseStream.Position = offset;
+        return Reader;
+    }
 
-        #region File Reading
+    public abstract byte[] GetEntry(int index, int subFile);
 
-        protected BinaryReader? Reader { get; private set; }
-        private Stream? Stream;
+    public virtual void SetEntry(int index, byte[]? value, int subFile)
+    {
+        Files[index] = value;
+        Modified |= value != null && !this[index].SequenceEqual(value);
+    }
 
-        protected void OpenBinary(string path)
+    private byte[] GetCachedValue(int i, int subFile)
+    {
+        return Files[i] ??= GetEntry(i, subFile);
+    }
+
+    #endregion
+
+    public byte[] this[int index]
+    {
+        get => (byte[]) GetCachedValue(index, 0).Clone();
+        set => SetEntry(index, value, 0);
+    }
+
+    public void CacheAll()
+    {
+        for (int i = 0; i < Files.Length; i++)
+            Files[i] ??= GetCachedValue(i, 0);
+
+        Reader = null;
+        Stream?.Close();
+        Stream = null;
+    }
+
+    public void CancelEdits()
+    {
+        if (Reader == null)
+            throw new ArgumentNullException(nameof(Reader));
+
+        for (int i = 0; i < Files.Length; i++)
+            Files[i] = null;
+
+        Modified = false;
+    }
+
+    public abstract void Dump(string path, ContainerHandler handler);
+
+    public async Task SaveAs(string path, ContainerHandler handler, CancellationToken token = new())
+    {
+        bool sameLocation = path == FilePath && Reader != null;
+        var writePath = sameLocation ? Path.GetTempFileName() : path;
+
+        path = FileMitm.GetRedirectedWritePath(path);
+        var stream = new FileStream(path, FileMode.CreateNew);
+        using (var bw = new BinaryWriter(stream))
+            await Pack(bw, handler, token).ConfigureAwait(false);
+
+        if (token.IsCancellationRequested)
         {
-            path = FileMitm.GetRedirectedReadPath(path);
-            Stream = new FileStream(path, FileMode.Open);
-            Reader = new BinaryReader(Stream);
-            Initialize();
+            stream.Close();
+            File.Delete(path);
+            return;
         }
 
-        protected void OpenRead(BinaryReader br)
+        if (sameLocation && path != writePath)
         {
-            Reader = br;
-            Stream = br.BaseStream;
-            Initialize();
-        }
-
-        protected abstract void Initialize();
-
-        protected abstract int GetFileOffset(int file, int subFile = 0);
-
-        public BinaryReader Seek(int file, long offset = 0, int subFile = 0)
-        {
-            if (Reader == null)
-                throw new NullReferenceException("Reader is not initialized.");
-            offset += GetFileOffset(file, subFile);
-            Reader.BaseStream.Position = offset;
-            return Reader;
-        }
-
-        public abstract byte[] GetEntry(int index, int subFile);
-
-        public virtual void SetEntry(int index, byte[]? value, int subFile)
-        {
-            Files[index] = value;
-            Modified |= value != null && !this[index].SequenceEqual(value);
-        }
-
-        private byte[] GetCachedValue(int i, int subFile)
-        {
-            return Files[i] ??= GetEntry(i, subFile);
-        }
-
-        #endregion
-
-        public byte[] this[int index]
-        {
-            get => (byte[]) GetCachedValue(index, 0).Clone();
-            set => SetEntry(index, value, 0);
-        }
-
-        public void CacheAll()
-        {
-            for (int i = 0; i < Files.Length; i++)
-                Files[i] ??= GetCachedValue(i, 0);
-
-            Reader = null;
-            Stream?.Close();
-            Stream = null;
-        }
-
-        public void CancelEdits()
-        {
-            if (Reader == null)
-                throw new ArgumentNullException(nameof(Reader));
-
-            for (int i = 0; i < Files.Length; i++)
-                Files[i] = null;
-
-            Modified = false;
-        }
-
-        public abstract void Dump(string path, ContainerHandler handler);
-
-        public async Task SaveAs(string path, ContainerHandler handler, CancellationToken token = new())
-        {
-            bool sameLocation = path == FilePath && Reader != null;
-            var writePath = sameLocation ? Path.GetTempFileName() : path;
-
-            path = FileMitm.GetRedirectedWritePath(path);
-            var stream = new FileStream(path, FileMode.CreateNew);
-            using (var bw = new BinaryWriter(stream))
-                await Pack(bw, handler, token).ConfigureAwait(false);
-
-            if (token.IsCancellationRequested)
-            {
-                stream.Close();
+            if (File.Exists(path))
                 File.Delete(path);
-                return;
-            }
-
-            if (sameLocation && path != writePath)
-            {
-                if (File.Exists(path))
-                    File.Delete(path);
-                File.Move(writePath, path);
-            }
-
-            Stream?.Dispose();
-            Reader?.Dispose();
-
-            Stream = stream;
-            Reader = new BinaryReader(Stream);
+            File.Move(writePath, path);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+        Stream?.Dispose();
+        Reader?.Dispose();
 
-        protected virtual void Dispose(bool disposing)
-        {
-            Stream?.Dispose();
-            Reader?.Dispose();
-        }
+        Stream = stream;
+        Reader = new BinaryReader(Stream);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        Stream?.Dispose();
+        Reader?.Dispose();
     }
 }

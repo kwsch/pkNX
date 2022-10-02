@@ -6,25 +6,24 @@ using FlatSharp.Attributes;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 
-namespace pkNX.Structures.FlatBuffers
+namespace pkNX.Structures.FlatBuffers;
+
+[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+public class PlacementArea8_F24
 {
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementArea8_F24
-    {
-        [FlatBufferItem(00)] public byte Field_00 { get; set; }
-        [FlatBufferItem(01)] public PlacementAreaUnknownTiny8 Field_01 { get; set; } = new();
-        [FlatBufferItem(02)] public float Field_02 { get; set; }
+    [FlatBufferItem(00)] public byte Field_00 { get; set; }
+    [FlatBufferItem(01)] public PlacementAreaUnknownTiny8 Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public float Field_02 { get; set; }
 
-        public override string ToString() => $"{Field_00}, {Field_02}: {Field_01}";
-    }
+    public override string ToString() => $"{Field_00}, {Field_02}: {Field_01}";
+}
 
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PlacementAreaUnknownTiny8
-    {
-        [FlatBufferItem(00)] public float Field_00 { get; set; }
-        [FlatBufferItem(01)] public float Field_01 { get; set; }
-        [FlatBufferItem(02)] public float Field_02 { get; set; }
+[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+public class PlacementAreaUnknownTiny8
+{
+    [FlatBufferItem(00)] public float Field_00 { get; set; }
+    [FlatBufferItem(01)] public float Field_01 { get; set; }
+    [FlatBufferItem(02)] public float Field_02 { get; set; }
 
-        public override string ToString() => $"{Field_00}, {Field_01}, {Field_02}";
-    }
+    public override string ToString() => $"{Field_00}, {Field_01}, {Field_02}";
 }

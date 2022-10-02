@@ -25,7 +25,7 @@ public enum LearnOption
 }
 
 /// <summary>
-/// Logic for checking if an entity can freely change <see cref="PKM.Form"/>.
+/// Logic for checking if an entity can freely change form.
 /// </summary>
 public static class FormChangeUtil
 {

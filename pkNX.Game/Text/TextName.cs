@@ -1,39 +1,38 @@
-﻿namespace pkNX.Game
+﻿namespace pkNX.Game;
+
+public enum TextName
 {
-    public enum TextName
-    {
-        AbilityNames,
-        AbilityFlavor,
+    AbilityNames,
+    AbilityFlavor,
 
-        MoveNames,
-        MoveFlavor,
+    MoveNames,
+    MoveFlavor,
 
-        ItemNames,
-        ItemFlavor,
+    ItemNames,
+    ItemFlavor,
 
-        SpeciesNames,
-        Types,
-        Natures,
-        Forms,
+    SpeciesNames,
+    Types,
+    Natures,
+    Forms,
 
-        TrainerNames,
-        TrainerClasses,
-        TrainerText,
-        metlist_00000,
-        metlist_30000,
-        metlist_40000,
-        metlist_60000,
-        OPowerFlavor,
-        MaisonTrainerNames,
-        SuperTrainerNames,
-        BattleRoyalNames,
-        BattleTreeNames,
+    TrainerNames,
+    TrainerClasses,
+    TrainerText,
+    metlist_00000,
+    metlist_30000,
+    metlist_40000,
+    metlist_60000,
+    OPowerFlavor,
+    MaisonTrainerNames,
+    SuperTrainerNames,
+    BattleRoyalNames,
+    BattleTreeNames,
 
-        SpeciesClassifications,
-        PokedexEntry1,
-        PokedexEntry2,
+    SpeciesClassifications,
+    PokedexEntry1,
+    PokedexEntry2,
 
-        RibbonMark,
-        MemoryFeelings
-    }
+    RibbonMark,
+    MemoryFeelings
 }

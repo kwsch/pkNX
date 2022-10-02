@@ -1,8 +1,7 @@
-﻿namespace pkNX.Structures
+namespace pkNX.Structures;
+
+internal class TextLine
 {
-    internal class TextLine
-    {
-        public int Offset;
-        public int Length;
-    }
+    public int Offset;
+    public int Length;
 }

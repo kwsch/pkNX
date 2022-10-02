@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 
@@ -14,9 +14,9 @@ namespace pkNX.Structures.FlatBuffers;
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PlacementV3f8a : IEquatable<PlacementV3f8a>
 {
-    [FlatBufferItem(0)] public float X { get; set; } = 0;
-    [FlatBufferItem(1)] public float Y { get; set; } = 0;
-    [FlatBufferItem(2)] public float Z { get; set; } = 0;
+    [FlatBufferItem(0)] public float X { get; set; }
+    [FlatBufferItem(1)] public float Y { get; set; }
+    [FlatBufferItem(2)] public float Z { get; set; }
 
     public PlacementV3f8a()
     {
@@ -39,11 +39,11 @@ public class PlacementV3f8a : IEquatable<PlacementV3f8a>
     public float MagnitudeSqr => Dot(this);
     public PlacementV3f8a Normalized => this * (1 / Magnitude);
 
-    public float Dot(PlacementV3f8a other) => X * other.X + Y * other.Y + Z * other.Z;
-    public PlacementV3f8a Cross(PlacementV3f8a other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+    public float Dot(PlacementV3f8a other) => (X * other.X) + (Y * other.Y) + (Z * other.Z);
+    public PlacementV3f8a Cross(PlacementV3f8a other) => new((Y * other.Z) - (Z * other.Y), (Z * other.X) - (X * other.Z), (X * other.Y) - (Y * other.X));
     public float DistanceTo(PlacementV3f8a other) => (this - other).Magnitude;
     public float DistanceToSqr(PlacementV3f8a other) => (this - other).MagnitudeSqr;
-    public PlacementV3f8a Lerp(PlacementV3f8a other, float t) => this + (other - this) * t;
+    public PlacementV3f8a Lerp(PlacementV3f8a other, float t) => this + ((other - this) * t);
 
     public PlacementV3f8a Clone() => new()
     {
@@ -70,16 +70,7 @@ public class PlacementV3f8a : IEquatable<PlacementV3f8a>
         return Equals((PlacementV3f8a)obj);
     }
 
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            var hashCode = X.GetHashCode();
-            hashCode = (hashCode * 397) ^ Y.GetHashCode();
-            hashCode = (hashCode * 397) ^ Z.GetHashCode();
-            return hashCode;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
     public static PlacementV3f8a operator -(PlacementV3f8a v) => new(-v.X, -v.Y, -v.Z);
 

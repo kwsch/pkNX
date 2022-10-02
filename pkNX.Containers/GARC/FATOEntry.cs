@@ -1,14 +1,13 @@
-﻿using System.IO;
+using System.IO;
 
-namespace pkNX.Containers
+namespace pkNX.Containers;
+
+internal class FATOEntry
 {
-    internal class FATOEntry
-    {
-        public uint Offset { get; set; }
+    public uint Offset { get; set; }
 
-        internal FATOEntry(uint offset = 0) => Offset = offset;
-        internal FATOEntry(BinaryReader br) => Offset = br.ReadUInt32();
+    internal FATOEntry(uint offset = 0) => Offset = offset;
+    internal FATOEntry(BinaryReader br) => Offset = br.ReadUInt32();
 
-        internal void Write(BinaryWriter bw) => bw.Write(Offset);
-    }
+    internal void Write(BinaryWriter bw) => bw.Write(Offset);
 }

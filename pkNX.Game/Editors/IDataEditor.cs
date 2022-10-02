@@ -1,9 +1,8 @@
-namespace pkNX.Game
+namespace pkNX.Game;
+
+public interface IDataEditor
 {
-    public interface IDataEditor
-    {
-        void CancelEdits();
-        void Initialize();
-        void Save();
-    }
+    void CancelEdits();
+    void Initialize();
+    void Save();
 }

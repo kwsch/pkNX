@@ -1,16 +1,15 @@
-﻿namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum PokeColor
 {
-    public enum PokeColor
-    {
-        Red,
-        Blue,
-        Yellow,
-        Green,
-        Black,
-        Brown,
-        Purple,
-        Gray,
-        White,
-        Pink,
-    }
+    Red,
+    Blue,
+    Yellow,
+    Green,
+    Black,
+    Brown,
+    Purple,
+    Gray,
+    White,
+    Pink,
 }

@@ -1,11 +1,10 @@
-namespace pkNX.Randomization
+namespace pkNX.Randomization;
+
+public enum MoveRandType
 {
-    public enum MoveRandType
-    {
-        None,
-        RandomMoves,
-        LevelUpMoves,
-        HighPowered,
-        MetronomeOnly,
-    }
+    None,
+    RandomMoves,
+    LevelUpMoves,
+    HighPowered,
+    MetronomeOnly,
 }

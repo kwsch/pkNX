@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using pkNX.Containers;
 
 namespace pkNX.Structures.FlatBuffers;

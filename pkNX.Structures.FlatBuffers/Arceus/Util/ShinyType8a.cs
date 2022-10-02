@@ -1,4 +1,4 @@
-﻿using FlatSharp.Attributes;
+using FlatSharp.Attributes;
 
 // ReSharper disable UnusedMember.Global
 

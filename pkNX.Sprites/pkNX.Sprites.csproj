@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net461</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
+    <NeutralLanguage>en</NeutralLanguage>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
@@ -12,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="IndexRange" Version="1.0.0" />
-	  <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -27,10 +30,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

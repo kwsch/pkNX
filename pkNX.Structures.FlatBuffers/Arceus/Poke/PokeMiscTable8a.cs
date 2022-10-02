@@ -1,4 +1,4 @@
-﻿using FlatSharp.Attributes;
+using FlatSharp.Attributes;
 using System;
 using System.ComponentModel;
 
@@ -37,9 +37,9 @@ public class PokeMisc8a
     [FlatBufferItem(06)] public int OybnLevelIndex { get; set; }
 
     [FlatBufferItem(07)][TypeConverter(typeof(DropTableConverter))] public ulong DropTableRef { get; set; }
-    public PokeDropItem8a? DropTable { get; set; } = null;
+    public PokeDropItem8a? DropTable { get; set; }
     [FlatBufferItem(08)][TypeConverter(typeof(DropTableConverter))] public ulong AlphaDropTableRef { get; set; }
-    public PokeDropItem8a? AlphaDropTable { get; set; } = null;
+    public PokeDropItem8a? AlphaDropTable { get; set; }
 
     [FlatBufferItem(09)] public string Value { get; set; } = string.Empty;
     [FlatBufferItem(10)] public int[] Field_10 { get; set; } = Array.Empty<int>();

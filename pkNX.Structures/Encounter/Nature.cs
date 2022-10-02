@@ -1,39 +1,38 @@
-﻿namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum Nature : sbyte
 {
-    public enum Nature : sbyte
-    {
-        Random = -1,
+    Random = -1,
 
-        Hardy,
-        Lonely,
-        Brave,
-        Adamant,
-        Naughty,
-        Bold,
+    Hardy,
+    Lonely,
+    Brave,
+    Adamant,
+    Naughty,
+    Bold,
 
-        Docile,
-        Relaxed,
-        Impish,
-        Lax,
-        Timid,
-        Hasty,
+    Docile,
+    Relaxed,
+    Impish,
+    Lax,
+    Timid,
+    Hasty,
 
-        Serious,
-        Jolly,
-        Naive,
-        Modest,
-        Mild,
-        Quiet,
+    Serious,
+    Jolly,
+    Naive,
+    Modest,
+    Mild,
+    Quiet,
 
-        Bashful,
-        Rash,
-        Calm,
-        Gentle,
-        Sassy,
-        Careful,
+    Bashful,
+    Rash,
+    Calm,
+    Gentle,
+    Sassy,
+    Careful,
 
-        Quirky,
+    Quirky,
 
-        Random25 = 25,
-    }
+    Random25 = 25,
 }

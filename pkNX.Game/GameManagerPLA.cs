@@ -5,81 +5,80 @@ using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 
-namespace pkNX.Game
+namespace pkNX.Game;
+
+public class GameManagerPLA : GameManager
 {
-    public class GameManagerPLA : GameManager
+    public GameManagerPLA(GameLocation rom, int language) : base(rom, language) { }
+    private string PathNPDM => Path.Combine(PathExeFS, "main.npdm");
+    private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(PathNPDM), 0x470).ToString("X16");
+
+    /// <summary>
+    /// Generally useful game data that can be used by multiple editors.
+    /// </summary>
+    public GameData8a Data { get; protected set; }
+
+    protected override void SetMitm()
     {
-        public GameManagerPLA(GameLocation rom, int language) : base(rom, language) { }
-        private string PathNPDM => Path.Combine(PathExeFS, "main.npdm");
-        private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(PathNPDM), 0x470).ToString("X16");
+        var basePath = Path.GetDirectoryName(ROM.RomFS);
+        var tid = ROM.ExeFS != null ? TitleID : "arceus";
+        var redirect = Path.Combine(basePath, tid);
+        FileMitm.SetRedirect(basePath, redirect);
+    }
 
-        /// <summary>
-        /// Generally useful game data that can be used by multiple editors.
-        /// </summary>
-        public GameData8a Data { get; protected set; }
+    public override void Initialize()
+    {
+        base.Initialize();
 
-        protected override void SetMitm()
+        // initialize gametext
+        ResetText();
+
+        // initialize common structures
+        ResetData();
+
+        ItemConverter.ItemNames = GetStrings(TextName.ItemNames);
+    }
+
+    private void ResetData()
+    {
+        Data = new GameData8a
         {
-            var basePath = Path.GetDirectoryName(ROM.RomFS);
-            var tid = ROM.ExeFS != null ? TitleID : "arceus";
-            var redirect = Path.Combine(basePath, tid);
-            FileMitm.SetRedirect(basePath, redirect);
-        }
+            // Folders
+            MoveData = GetMoves(),
 
-        public override void Initialize()
+            // Single Files
+            PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
+            PokeMiscData = new(GetFile(GameFile.PokeMisc)),
+            LevelUpData = new(GetFile(GameFile.Learnsets)),
+            EvolutionData = new(GetFile(GameFile.Evolutions)),
+
+            FieldDrops = new(GetFile(GameFile.FieldDrops)),
+            BattleDrops = new(GetFile(GameFile.BattleDrops)),
+            DexResearch = new(GetFile(GameFile.DexResearch)),
+        };
+
+        DropTableConverter.DropTableHashes = Data.FieldDrops.Table.Select(x => x.Hash).ToArray();
+    }
+
+    private DataCache<Waza8a> GetMoves()
+    {
+        var move = this[GameFile.MoveStats];
+        ((FolderContainer)move).Initialize();
+        return new DataCache<Waza8a>(move)
         {
-            base.Initialize();
+            Create = FlatBufferConverter.DeserializeFrom<Waza8a>,
+            Write = FlatBufferConverter.SerializeFrom,
+        };
+    }
 
-            // initialize gametext
-            ResetText();
+    public void ResetMoves() => Data.MoveData.ClearAll();
 
-            // initialize common structures
-            ResetData();
+    public void ResetText()
+    {
+        GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
+    }
 
-            ItemConverter.ItemNames = GetStrings(TextName.ItemNames);
-        }
-
-        private void ResetData()
-        {
-            Data = new GameData8a
-            {
-                // Folders
-                MoveData = GetMoves(),
-
-                // Single Files
-                PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
-                PokeMiscData = new(GetFile(GameFile.PokeMisc)),
-                LevelUpData = new(GetFile(GameFile.Learnsets)),
-                EvolutionData = new(GetFile(GameFile.Evolutions)),
-
-                FieldDrops = new(GetFile(GameFile.FieldDrops)),
-                BattleDrops = new(GetFile(GameFile.BattleDrops)),
-                DexResearch = new(GetFile(GameFile.DexResearch)),
-            };
-
-            DropTableConverter.DropTableHashes = Data.FieldDrops.Table.Select(x => x.Hash).ToArray();
-        }
-
-        private DataCache<Waza8a> GetMoves()
-        {
-            var move = this[GameFile.MoveStats];
-            ((FolderContainer)move).Initialize();
-            return new DataCache<Waza8a>(move)
-            {
-                Create = FlatBufferConverter.DeserializeFrom<Waza8a>,
-                Write = FlatBufferConverter.SerializeFrom,
-            };
-        }
-
-        public void ResetMoves() => Data.MoveData.ClearAll();
-
-        public void ResetText()
-        {
-            GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
-        }
-
-        protected override void Terminate()
-        {
-        }
+    protected override void Terminate()
+    {
     }
 }

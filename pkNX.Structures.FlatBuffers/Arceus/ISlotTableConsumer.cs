@@ -1,4 +1,4 @@
-﻿namespace pkNX.Structures.FlatBuffers;
+namespace pkNX.Structures.FlatBuffers;
 
 public interface ISlotTableConsumer
 {

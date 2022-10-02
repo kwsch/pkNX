@@ -152,7 +152,7 @@ public static class FormInfo
             (int)Keldeo => 2, // Ordinary Form, Resolute Form
             (int)Meloetta => 2, // Aria Form, Pirouette Form
             (int)Genesect => 5, // Normal, Electric, Fire, Ice, Water
-            (int)Flabébé => 5, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
+            (int)FlabÃ©bÃ© => 5, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
             (int)Floette => 6, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
             (int)Florges => 5, // Red Flower, Yellow Flower, Orange Flower, Blue Flower, White Flower
 
@@ -409,7 +409,7 @@ public static class FormInfo
     private const int Vivillon3DSMaxWildFormID = 17; // 0-17 valid form indexes
 
     /// <summary>
-    /// Checks if the <see cref="form"/> exists for the <see cref="species"/> without having an associated <see cref="PersonalInfo"/> index.
+    /// Checks if the <see cref="form"/> exists for the <see cref="species"/> without having an associated personal info index.
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
@@ -427,12 +427,12 @@ public static class FormInfo
     };
 
     /// <summary>
-    /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.Form"/> value.
+    /// Checks if the entity data should have a drop-down selection visible for the form value.
     /// </summary>
     /// <param name="pi">Game specific personal info</param>
     /// <param name="species"><see cref="Species"/> ID</param>
-    /// <param name="format"><see cref="PKM.Form"/> ID</param>
-    /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
+    /// <param name="format">Form Index</param>
+    /// <returns>True if has forms that can be provided by form list fetch, otherwise false for none.</returns>
     public static bool HasFormSelection(IPersonalInfo pi, ushort species, int format)
     {
         if (format <= 3 && species != (int)Unown)

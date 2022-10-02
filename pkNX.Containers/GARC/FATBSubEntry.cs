@@ -1,8 +1,7 @@
-﻿namespace pkNX.Containers
+namespace pkNX.Containers;
+
+public class FATBSubEntry : LargeContainerEntry
 {
-    public class FATBSubEntry : LargeContainerEntry
-    {
-        public bool Exists;
-        public static string GetFileNumber(int index) => $"{index:00}";
-    }
+    public bool Exists;
+    public static string GetFileNumber(int index) => $"{index:00}";
 }

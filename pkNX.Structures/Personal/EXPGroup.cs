@@ -1,12 +1,11 @@
-﻿namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum EXPGroup
 {
-    public enum EXPGroup
-    {
-        MediumFast,
-        Erratic,
-        Fluctuating,
-        MediumSlow,
-        Fast,
-        Slow,
-    }
+    MediumFast,
+    Erratic,
+    Fluctuating,
+    MediumSlow,
+    Fast,
+    Slow,
 }

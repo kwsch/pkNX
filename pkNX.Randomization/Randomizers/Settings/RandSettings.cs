@@ -1,6 +1,5 @@
-namespace pkNX.Randomization
+namespace pkNX.Randomization;
+
+public class RandSettings
 {
-    public class RandSettings
-    {
-    }
 }

@@ -1,7 +1,6 @@
-﻿namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public class TrainerClass6
 {
-    public class TrainerClass6
-    {
-        // todo
-    }
+    // todo
 }

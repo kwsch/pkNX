@@ -1,9 +1,7 @@
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using pkNX.Sprites;
 using pkNX.Structures;
@@ -27,10 +25,6 @@ public partial class Main : Form
     public Main()
     {
         InitializeComponent();
-
-        // Fix number values displaying incorrectly for certain cultures.
-        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-        Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
         Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
         CB_Lang.SelectedIndex = Settings.Language;

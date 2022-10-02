@@ -36,7 +36,7 @@ public interface IPersonalTraits
     int EscapeRate { get; set; }
 
     /// <summary>
-    /// Main color ID of the entry. The majority of the Pokémon's color is of this color, usually.
+    /// Main color ID of the entry. The majority of the PokÃ©mon's color is of this color, usually.
     /// </summary>
     int Color { get; set; }
 

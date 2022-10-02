@@ -1,4 +1,4 @@
-﻿namespace pkNX.Structures;
+namespace pkNX.Structures;
 
 /// <summary>
 /// Move IDs for the corresponding English move name.

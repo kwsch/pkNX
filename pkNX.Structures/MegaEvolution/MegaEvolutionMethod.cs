@@ -1,10 +1,9 @@
-namespace pkNX.Structures
+namespace pkNX.Structures;
+
+public enum MegaEvolutionMethod
 {
-    public enum MegaEvolutionMethod
-    {
-        None = 0,
-        Item = 1,
-        DragonAscent = 2,
-        NoRequirement = 3,
-    }
+    None = 0,
+    Item = 1,
+    DragonAscent = 2,
+    NoRequirement = 3,
 }
