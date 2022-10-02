@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -203,7 +204,7 @@ public partial class Main : Form
 
         AddEditorButtonsForCategory(category);
 
-        FLP_Controls.ResumeLayout();
+        AdjustWindowSize();
     }
 
     private void AddEditorButtonsForCategory(EditorCategory category)
@@ -230,12 +231,8 @@ public partial class Main : Form
         return b;
     }
 
-    private void LoadROM(EditorBase editor)
+    private void AdjustWindowSize()
     {
-        Editor = editor;
-
-        LoadEditorButtons();
-
         const int wp = ButtonWidth + (2 * ButtonPadding);
         const int hp = ButtonHeight + (2 * ButtonPadding);
         const int area = wp * hp;
@@ -246,7 +243,28 @@ public partial class Main : Form
         var columns = (int)Math.Ceiling(squareSide / wp) + 1;
         var rows = (count / columns) + 2;
 
-        ClientSize = new(columns * wp, FLP_Controls.Location.Y + (rows * hp));
+        Size newClientSize = new(columns * wp, FLP_Controls.Location.Y + (rows * hp));
+
+        // Only grow in size
+        if (ClientSize.Width < newClientSize.Width || ClientSize.Height < newClientSize.Height)
+            ClientSize = newClientSize;
+
+        FLP_Controls.ResumeLayout();
+
+        // Adjust for scrollbar width
+        if (FLP_Controls.VerticalScroll.Visible)
+            ClientSize = new(newClientSize.Width + SystemInformation.VerticalScrollBarWidth, newClientSize.Height);
+    }
+
+    private void LoadROM(EditorBase editor)
+    {
+        Editor = editor;
+
+        // Force client size to zero to make sure the windows size is adjusted properly the first time
+        ClientSize = Size.Empty;
+
+        LoadEditorButtons();
+
         CenterToScreen();
 
         Text = $"{nameof(pkNX)} - {Editor.Game}";
