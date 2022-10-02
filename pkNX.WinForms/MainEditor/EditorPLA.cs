@@ -32,6 +32,81 @@ internal class EditorPLA : EditorBase
             WinFormsUtil.Alert($"{file} not found in the executable folder", "Some decompression functions may cause errors.");
     }
 
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    {
+        var obj = ROM.GetFile(file);
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<T1>(data);
+        var arr = root.Table;
+        if (!PopFlat(arr, title, getName, rand, canSave))
+            return;
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
+    }
+
+    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T2 : class
+    {
+        var names = arr.Select(getName).ToArray();
+        var cache = new DataCache<T2>(arr);
+        using var form = new GenericEditor<T2>(cache, names, title, randomize: rand, canSave: canSave);
+        form.ShowDialog();
+        return form.Modified;
+    }
+
+    public void PopFlatConfig(GameFile file, string title)
+    {
+        var obj = ROM.GetFile(file); // flatbuffer
+        var data = obj[0];
+        var root = FlatBufferConverter.DeserializeFrom<ConfigureTable8a>(data);
+        var cache = new DataCache<Configure8aEntry>(root.Table);
+        var names = root.Table.Select(z => z.Name).ToArray();
+        using var form = new GenericEditor<Configure8aEntry>(cache, names, title);
+        form.ShowDialog();
+        if (!form.Modified)
+            return;
+        obj[0] = FlatBufferConverter.SerializeFrom(root);
+    }
+
+    public int[] GetSpeciesBanlist()
+    {
+        var pt = Data.PersonalData;
+        var hasForm = new HashSet<int>();
+        var banned = new HashSet<int>();
+        foreach (var pi in pt.Table.Cast<IPersonalMisc_1>())
+        {
+            if (pi.IsPresentInGame)
+            {
+                banned.Remove(pi.ModelID);
+                hasForm.Add(pi.ModelID);
+            }
+            else if (!hasForm.Contains(pi.ModelID))
+            {
+                banned.Add(pi.ModelID);
+            }
+        }
+        return banned.ToArray();
+    }
+
+    public int GetRandomForm(int spec)
+    {
+        var pt = Data.PersonalData;
+        var formRand = pt.Table.Cast<IPersonalMisc_1>()
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
+            .GroupBy(z => z.ModelID)
+            .ToDictionary(z => z.Key, z => z.ToList());
+
+        if (!formRand.TryGetValue((ushort)spec, out var entries))
+            return 0;
+        var count = entries.Count;
+
+        return (Species)spec switch
+        {
+            Growlithe or Arcanine or Voltorb or Electrode or Typhlosion or Qwilfish or Samurott or Lilligant or Zorua or Zoroark or Braviary or Sliggoo or Goodra or Avalugg or Decidueye => 1,
+            Basculin => 2,
+            Kleavor => 0,
+            _ => Randomization.Util.Random.Next(0, count),
+        };
+    }
+
     public void EditCommon()
     {
         var text = ROM.GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
@@ -103,26 +178,6 @@ internal class EditorPLA : EditorBase
         if (!result)
             return;
         data[0] = FlatBufferConverter.SerializeFrom(obj);
-    }
-
-    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
-    {
-        var obj = ROM.GetFile(file);
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<T1>(data);
-        var arr = root.Table;
-        if (!PopFlat(arr, title, getName, rand, canSave))
-            return;
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
-    }
-
-    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T2 : class
-    {
-        var names = arr.Select(getName).ToArray();
-        var cache = new DataCache<T2>(arr);
-        using var form = new GenericEditor<T2>(cache, names, title, randomize: rand, canSave: canSave);
-        form.ShowDialog();
-        return form.Modified;
     }
 
     public void EditThrowableParam()
@@ -272,47 +327,6 @@ internal class EditorPLA : EditorBase
         }
     }
 
-    public int[] GetSpeciesBanlist()
-    {
-        var pt = Data.PersonalData;
-        var hasForm = new HashSet<int>();
-        var banned = new HashSet<int>();
-        foreach (var pi in pt.Table.Cast<IPersonalMisc_1>())
-        {
-            if (pi.IsPresentInGame)
-            {
-                banned.Remove(pi.ModelID);
-                hasForm.Add(pi.ModelID);
-            }
-            else if (!hasForm.Contains(pi.ModelID))
-            {
-                banned.Add(pi.ModelID);
-            }
-        }
-        return banned.ToArray();
-    }
-
-    public int GetRandomForm(int spec)
-    {
-        var pt = Data.PersonalData;
-        var formRand = pt.Table.Cast<IPersonalMisc_1>()
-            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
-            .GroupBy(z => z.ModelID)
-            .ToDictionary(z => z.Key, z => z.ToList());
-
-        if (!formRand.TryGetValue((ushort)spec, out var entries))
-            return 0;
-        var count = entries.Count;
-
-        return (Species)spec switch
-        {
-            Growlithe or Arcanine or Voltorb or Electrode or Typhlosion or Qwilfish or Samurott or Lilligant or Zorua or Zoroark or Braviary or Sliggoo or Goodra or Avalugg or Decidueye => 1,
-            Basculin => 2,
-            Kleavor => 0,
-            _ => Randomization.Util.Random.Next(0, count),
-        };
-    }
-
     public void EditPersonalRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
@@ -399,20 +413,6 @@ internal class EditorPLA : EditorBase
             editor.CancelEdits();
         else
             editor.Save();
-    }
-
-    public void PopFlatConfig(GameFile file, string title)
-    {
-        var obj = ROM.GetFile(file); // flatbuffer
-        var data = obj[0];
-        var root = FlatBufferConverter.DeserializeFrom<ConfigureTable8a>(data);
-        var cache = new DataCache<Configure8aEntry>(root.Table);
-        var names = root.Table.Select(z => z.Name).ToArray();
-        using var form = new GenericEditor<Configure8aEntry>(cache, names, title);
-        form.ShowDialog();
-        if (!form.Modified)
-            return;
-        obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
     public void EditShinyRate() => PopFlatConfig(GameFile.ShinyRolls, "Shiny Rate Editor");
