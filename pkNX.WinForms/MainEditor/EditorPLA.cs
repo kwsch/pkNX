@@ -125,13 +125,13 @@ internal class EditorPLA : EditorBase
         return form.Modified;
     }
 
-    public void EditThrowable_Param()
+    public void EditThrowableParam()
     {
         var itemNames = ROM.GetStrings(TextName.ItemNames);
         PopFlat<ThrowableParamTable8a, ThrowableParam8a>(GameFile.ThrowableParam, "Throwable Param Editor", z => itemNames[z.ItemID]);
     }
 
-    public void EditThrow_Param()
+    public void EditThrowParam()
     {
         PopFlat<ThrowParamTable8a, ThrowParam8a>(GameFile.ThrowParam, "Throw Param Editor", z => z.Hash.ToString("X16"));
     }
@@ -189,7 +189,7 @@ internal class EditorPLA : EditorBase
         gfp[2065] = FlatBufferConverter.SerializeFrom(obj);
     }
 
-    public void EditStatic()
+    public void EditStaticEncounters()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         var obj = ROM.GetFile(GameFile.EncounterStatic);
@@ -313,13 +313,13 @@ internal class EditorPLA : EditorBase
         };
     }
 
-    public void EditPersonal_Raw()
+    public void EditPersonalRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<PersonalTableLAfb, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
-    public void EditLearnset_Raw()
+    public void EditLearnsetRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<Learnset8a, Learnset8aMeta>(GameFile.Learnsets, "Learnset Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
@@ -331,7 +331,7 @@ internal class EditorPLA : EditorBase
         PopFlat<PokeMiscTable8a, PokeMisc8a>(GameFile.PokeMisc, "Misc Species Info Editor", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
     }
 
-    public void EditMap_Viewer()
+    public void EditMapViewer()
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         using var form = new MapViewer8a(ROM, resident);
@@ -417,18 +417,18 @@ internal class EditorPLA : EditorBase
 
     public void EditShinyRate() => PopFlatConfig(GameFile.ShinyRolls, "Shiny Rate Editor");
     public void EditWormholeRate() => PopFlatConfig(GameFile.WormholeConfig, "Wormhole Config Editor");
-    public void EditCapture_Config() => PopFlatConfig(GameFile.CaptureConfig, "CaptureConfig Editor");
-    public void EditBattle_Logic_Config() => PopFlatConfig(GameFile.BattleLogicConfig, "Battle Logic Config Editor");
-    public void EditEvent_Farm_Config() => PopFlatConfig(GameFile.EventFarmConfig, "Event Farm Config Editor");
-    public void EditPlayer_Config() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
-    public void EditField_Landmark_Config() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
-    public void EditBattle_View_Config() => PopFlatConfig(GameFile.BattleViewConfig, "Battle View Config Editor");
-    public void EditAICommon_Config() => PopFlatConfig(GameFile.AICommonConfig, "AI Common Config Editor");
-    public void EdiField_Spawner_Config() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
-    public void EditOutbreak_Config() => PopFlatConfig(GameFile.OutbreakConfig, "Outbreak Config Editor");
-    public void EditEvolution_Config() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
-    public void EditBall_Throw_Config() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
-    public void EditSize_Scale_Config() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
+    public void EditCaptureConfig() => PopFlatConfig(GameFile.CaptureConfig, "CaptureConfig Editor");
+    public void EditBattleLogicConfig() => PopFlatConfig(GameFile.BattleLogicConfig, "Battle Logic Config Editor");
+    public void EditEventFarmConfig() => PopFlatConfig(GameFile.EventFarmConfig, "Event Farm Config Editor");
+    public void EditPlayerConfig() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
+    public void EditFieldLandmarkConfig() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
+    public void EditBattleViewConfig() => PopFlatConfig(GameFile.BattleViewConfig, "Battle View Config Editor");
+    public void EditAICommonConfig() => PopFlatConfig(GameFile.AICommonConfig, "AI Common Config Editor");
+    public void EdiFieldSpawnerConfig() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
+    public void EditOutbreakConfig() => PopFlatConfig(GameFile.OutbreakConfig, "Outbreak Config Editor");
+    public void EditEvolutionConfig() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
+    public void EditBallThrowConfig() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
+    public void EditSizeScaleConfig() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config Editor");
 
     public void EditEvolutions()
     {
@@ -440,16 +440,16 @@ internal class EditorPLA : EditorBase
     public void EditOutbreakDetail()
         => PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.WorkValueName);
 
-    public void EditNewOutbreak_Group()
+    public void EditNewOutbreakGroup()
         => PopFlat<NewHugeOutbreakGroupArchive8a, NewHugeOutbreakGroup8a>(GameFile.NewHugeGroup, "New Outbreak Group Editor", z => z.Group.ToString("X16"));
 
-    public void EditNewOutbreak_GroupLottery()
+    public void EditNewOutbreakGroupLottery()
         => PopFlat<NewHugeOutbreakGroupLotteryArchive8a, NewHugeOutbreakGroupLottery8a>(GameFile.NewHugeGroupLottery, "New Outbreak Group Lottery Editor", z => z.LotteryGroup.ToString("X16"));
 
-    public void EditNewOutbreak_Lottery()
+    public void EditNewOutbreakLottery()
         => PopFlat<NewHugeOutbreakLotteryArchive8a, NewHugeOutbreakLottery8a>(GameFile.NewHugeLottery, "New Outbreak Lottery Editor", z => z.LotteryGroupString);
 
-    public void EditNewOutbreak_TimeLimit()
+    public void EditNewOutbreakTimeLimit()
         => PopFlat<NewHugeOutbreakTimeLimitArchive8a, NewHugeOutbreakTimeLimit8a>(GameFile.NewHugeTimeLimit, "New Outbreak Time Limit Editor", z => z.Duration.ToString());
 
     public void EditSymbolBehave()
