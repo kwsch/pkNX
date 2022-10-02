@@ -57,7 +57,7 @@ internal class EditorPLA : EditorBase
             Create = FlatBufferConverter.DeserializeFrom<TrData8a>,
             Write = FlatBufferConverter.SerializeFrom,
         };
-        var names = folder.GetPaths().Select(s => Path.GetFileNameWithoutExtension(s)!).ToArray();
+        var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).OfType<string>().ToArray();
         using var form = new GenericEditor<TrData8a>(cache, names, "Trainers", Randomize, canSave: true);
         form.ShowDialog();
 
@@ -386,7 +386,7 @@ internal class EditorPLA : EditorBase
             Learn = Data.LevelUpData,
             FieldDropTables = Data.FieldDrops,
             BattleDropTabels = Data.BattleDrops,
-            DexResearch = Data.DexResearch
+            DexResearch = Data.DexResearch,
         };
         using var form = new PokeDataUI8a(editor, ROM, Data);
         form.ShowDialog();

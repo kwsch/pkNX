@@ -92,10 +92,11 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
             if (s.FormCount == 1)
                 continue;
 
+            var formsAt = MaxSpeciesID + 1 + sFormCount;
             if (s.FormStatsIndex != 0)
-                Debug.Assert(s.FormStatsIndex == (MaxSpeciesID + 1) + sFormCount);
+                Debug.Assert(s.FormStatsIndex == formsAt);
 
-            s.FormStatsIndex = (MaxSpeciesID + 1) + sFormCount;
+            s.FormStatsIndex = formsAt;
             sFormCount += s.FormCount - 1;
 
             for (byte f = 1; f < s.FormCount; f++)

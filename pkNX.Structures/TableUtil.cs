@@ -38,6 +38,9 @@ public static class TableUtil
         var t = arr[0].GetType();
         if (t.Name.StartsWith("tableReader_")) // flatbuffer generated wrapper
             t = t.BaseType;
+        if (t is null)
+            throw new ArgumentException("Type is null");
+
         var list = GetTableRaw(arr, t).ToArray();
 
         // slap in name to column header

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -38,14 +38,14 @@ public class GameFileMapping
         Cache.Add(file, container);
         return container;
     }
-
+    
     internal void SaveAll()
     {
         foreach (var container in Cache)
         {
             var c = container.Value;
             if (c.Modified)
-                c.SaveAs(c.FilePath, ProgressTracker, TokenSource.Token).RunSynchronously();
+                c.SaveAs(c.FilePath!, ProgressTracker, TokenSource.Token).RunSynchronously();
         }
         var modified = Cache.Where(z => z.Value.Modified).ToArray();
         foreach (var m in modified)
@@ -174,7 +174,7 @@ public class GameFileMapping
         new(GameFile.Placement, ContainerType.SingleFile, "bin", "archive", "field", "resident", "placement.gfpak"),
         new(GameFile.Shops, ContainerType.SingleFile, "bin", "appli", "shop", "bin", "shop_data.bin"),
         new(GameFile.Rentals, ContainerType.SingleFile, "bin", "script_event_data", "rental.bin"),
-        new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "field", "param", "symbol_encount_mons_param", "symbol_encount_mons_param.bin")
+        new(GameFile.SymbolBehave, ContainerType.SingleFile, "bin", "field", "param", "symbol_encount_mons_param", "symbol_encount_mons_param.bin"),
 
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon

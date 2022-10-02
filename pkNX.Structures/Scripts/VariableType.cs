@@ -6,7 +6,7 @@ public enum VariableType : uint
     Reference,
     Array,
     ArrayReference,
-    Variadic
+    Variadic,
 }
 
 public static class VariableTypeExtensions
@@ -27,7 +27,7 @@ public static class VariableTypeExtensions
             IDENT_ARRAY => VariableType.Array,
             IDENT_REFARRAY => VariableType.ArrayReference,
             IDENT_VARARGS => VariableType.Variadic,
-            _ => VariableType.Normal
+            _ => VariableType.Normal,
         };
     }
 }

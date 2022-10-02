@@ -78,10 +78,8 @@ public class EncounterStatic8
         }
     }
 
-#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     [FlatBufferEnum(typeof(byte))]
     public enum FixedGender
-#pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
         Random = 0,
         Male = 1,

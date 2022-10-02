@@ -89,7 +89,7 @@ public partial class EvolutionRow : UserControl
             EvolutionTypeArgumentType.Stat => Stats,
             EvolutionTypeArgumentType.Type => types,
             EvolutionTypeArgumentType.Version => Stats,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
     }
 }

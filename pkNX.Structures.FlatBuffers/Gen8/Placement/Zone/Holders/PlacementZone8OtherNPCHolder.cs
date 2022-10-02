@@ -7,7 +7,6 @@ using FlatSharp.Attributes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -283,6 +282,6 @@ public class PlacementZone8_F16_IntFloat
         Field_01 = Field_01,
         Field_02 = Field_02,
         Field_03 = Field_03,
-        Field_04 = Field_04
+        Field_04 = Field_04,
     };
 }

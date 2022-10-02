@@ -239,7 +239,7 @@ public sealed partial class SSWE : Form
         StringFormat _stringFlags = new()
         {
             Alignment = StringAlignment.Center,
-            LineAlignment = StringAlignment.Center
+            LineAlignment = StringAlignment.Center,
         };
         g.DrawString(_tabPage.Text, _tabFont, _textBrush, _tabBounds, new StringFormat(_stringFlags));
     }

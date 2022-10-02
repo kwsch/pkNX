@@ -35,7 +35,7 @@ public static class FormConverter
             Unown => form < (generation == 2 ? 26 : 28), // A-Z : A-Z?!
             Mothim => form < 3, // Wormadam base form is kept
             Scatterbug or Spewpa => form < 18,
-            _ => false
+            _ => false,
         };
     }
 

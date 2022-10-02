@@ -5,9 +5,9 @@ using static pkNX.Structures.IPersonalInfoBinExt;
 namespace pkNX.Structures;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the OR &amp; AS games.
+/// Personal Info class with values from the OR &amp; AS games.
 /// </summary>
-public sealed class PersonalInfo6ORAS : IPersonalInfoORAS
+public sealed class PersonalInfo6AO : IPersonalInfoORAS
 {
     public const int SIZE = 0x50;
     private readonly byte[] Data;
@@ -16,7 +16,7 @@ public sealed class PersonalInfo6ORAS : IPersonalInfoORAS
     public bool[] TypeTutors { get; set; }
     public bool[][] SpecialTutors { get; set; }
 
-    public PersonalInfo6ORAS(byte[] data)
+    public PersonalInfo6AO(byte[] data)
     {
         Data = data;
         // Unpack TMHM & Tutors

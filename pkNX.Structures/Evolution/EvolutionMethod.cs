@@ -1,14 +1,8 @@
 namespace pkNX.Structures;
 
 /// <summary>
-/// Criteria for evolving to this branch in the <see cref="EvolutionTree"/>
+/// Criteria for evolving to this branch in the Evolution Tree
 /// </summary>
-/// <param name="Method">Evolution Method</param>
-/// <param name="Species">Evolve to Species</param>
-/// <param name="Form">Destination Form</param>
-/// <param name="Argument">Conditional Argument (different from <see cref="Level"/>)</param>
-/// <param name="Level">Conditional Argument (different from <see cref="Argument"/>)</param>
-/// <param name="LevelUp">Indicates if a level up is required to trigger evolution.</param>
 public class EvolutionMethod
 {
     public EvolutionMethod Copy(int species = -1)
@@ -22,7 +16,7 @@ public class EvolutionMethod
             Species = (ushort)species,
             Form = Form,
             Argument = Argument,
-            Level = Level
+            Level = Level,
         };
     }
 
@@ -45,7 +39,7 @@ public class EvolutionMethod
 
     public override string ToString() => $"{(Species)Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
 
-    /// <summary>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</summary>
+    /// <summary>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="EvolutionType.LevelUpFormFemale1"/>, which forces 1.</summary>
     private const byte AnyForm = byte.MaxValue;
 
     public bool RequiresLevelUp => Method.IsLevelUpRequired();

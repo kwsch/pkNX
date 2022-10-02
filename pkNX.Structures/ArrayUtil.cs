@@ -9,19 +9,6 @@ namespace pkNX.Structures;
 /// </summary>
 public static class ArrayUtil
 {
-    public static bool IsRangeAll<T>(this T[] data, T value, int offset, int length) where T : IEquatable<T>
-    {
-        int start = offset + length - 1;
-        int end = offset;
-        for (int i = start; i >= end; i--)
-        {
-            if (!data[i].Equals(value))
-                return false;
-        }
-
-        return true;
-    }
-
     public static byte[] Slice(this byte[] src, int offset, int length)
     {
         byte[] data = new byte[length];

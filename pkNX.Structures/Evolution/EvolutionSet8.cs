@@ -33,17 +33,14 @@ public class EvolutionSet8 : EvolutionSet
         return ms.ToArray();
     }
 
-    private static EvolutionMethod ReadEvolution(ReadOnlySpan<byte> entry)
+    private static EvolutionMethod ReadEvolution(ReadOnlySpan<byte> entry) => new()
     {
-        return new()
-        {
-            Method = (EvolutionType)ReadUInt16LittleEndian(entry[0..]),
-            Argument = ReadUInt16LittleEndian(entry[2..]),
-            Species = ReadUInt16LittleEndian(entry[4..]),
-            Form = entry[6],
-            Level = entry[7]
-        };
-    }
+        Method = (EvolutionType)ReadUInt16LittleEndian(entry),
+        Argument = ReadUInt16LittleEndian(entry[2..]),
+        Species = ReadUInt16LittleEndian(entry[4..]),
+        Form = entry[6],
+        Level = entry[7],
+    };
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)
     {

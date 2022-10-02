@@ -304,8 +304,8 @@ public partial class PokeDataUI8a : Form
         TB_MiscScale.Text = pokeMisc8a.ScaleFactor.ToString("#0.0");
         TB_MiscAlphaScale.Text = pokeMisc8a.AlphaScaleFactor.ToString("#0.0");
 
-        pokeMisc8a.DropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.DropTableRef);
-        pokeMisc8a.AlphaDropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
+        pokeMisc8a.DropTable = Array.Find(Editor.FieldDropTables.Table, drops => drops.Hash == pokeMisc8a.DropTableRef);
+        pokeMisc8a.AlphaDropTable = Array.Find(Editor.FieldDropTables.Table, drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
     }
 
     private void LoadDexResearch(PokedexResearchTask[] pokedexResearchTask)

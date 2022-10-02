@@ -18,7 +18,7 @@ public interface IMovesInfo_1 : IMovesInfo
 }
 
 /// <summary>
-/// SpecialTutors added in BW2 
+/// SpecialTutors added in B2W2
 /// </summary>
 public interface IMovesInfo_2 : IMovesInfo_1
 {

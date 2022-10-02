@@ -118,7 +118,7 @@ public abstract class LargeContainer : IDisposable, IFileContainer
 
         path = FileMitm.GetRedirectedWritePath(path);
         var stream = new FileStream(path, FileMode.CreateNew);
-        using (var bw = new BinaryWriter(stream))
+        await using (var bw = new BinaryWriter(stream))
             await Pack(bw, handler, token).ConfigureAwait(false);
 
         if (token.IsCancellationRequested)
@@ -145,6 +145,7 @@ public abstract class LargeContainer : IDisposable, IFileContainer
     public void Dispose()
     {
         Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)

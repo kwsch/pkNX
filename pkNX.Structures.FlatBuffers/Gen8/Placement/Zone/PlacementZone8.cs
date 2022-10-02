@@ -65,7 +65,7 @@ public class PlacementZone8
             var ident = obj.Identifier;
             yield return $"    {objects[ident.HashObjectName]}:";
             yield return $"        Location: {ident.Location3f}";
-            if (obj.SymbolHash is (0xCBF29CE484222645 or 0))
+            if (obj.SymbolHash is 0 or 0xCBF29CE484222645)
             {
                 yield return "        No symbols."; // shouldn't hit here, if we have a holder we should have a symbol to hold.
                 break;

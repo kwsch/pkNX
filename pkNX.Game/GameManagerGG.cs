@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
@@ -21,6 +21,8 @@ public class GameManagerGG : GameManager
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
+        if (basePath is null)
+            throw new InvalidDataException("Invalid RomFS path.");
         // unlike SWSH, LGPE has a unique opening movie in romfs to differentiate between versions
         bool eevee = Directory.Exists(Path.Combine(PathRomFS, "bin", "movies", "EEVEE_GO"));
         ActualGame = eevee ? GameVersion.GE : GameVersion.GP;

@@ -4,7 +4,7 @@ using static pkNX.Structures.Species;
 namespace pkNX.Structures;
 
 /// <summary>
-/// Personal Table storing <see cref="PersonalInfo7"/> used in Generation 7 games.
+/// Personal Table storing <see cref="PersonalInfo7SM"/> used in Generation 7 games.
 /// </summary>
 public sealed class PersonalTable7SM : IPersonalTable, IPersonalTable<PersonalInfo7SM>
 {

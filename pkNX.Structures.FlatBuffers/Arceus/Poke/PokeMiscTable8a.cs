@@ -21,7 +21,7 @@ public class PokeMiscTable8a : IFlatBufferArchive<PokeMisc8a>
     public PokeMisc8a GetEntry(int species, int form)
     {
         return Array.Find(Table, z => z.Species == species && z.Form == form) ??
-            new PokeMisc8a() { Value = $"{species}-{form} is not in {nameof(PokeMiscTable8a)}." };
+            new PokeMisc8a { Value = $"{species}-{form} is not in {nameof(PokeMiscTable8a)}." };
     }
 }
 

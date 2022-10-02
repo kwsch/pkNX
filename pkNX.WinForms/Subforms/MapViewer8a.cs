@@ -80,22 +80,23 @@ public partial class MapViewer8a : Form
 
     private List<AreaDef> Defs = new();
 
-    private string GetMapImagePath(AreaInstance8a area)
+    private static string GetMapImagePath(AreaInstance8a area)
     {
-        string mapName = area.AreaName switch
-        {
-            "ha_area00" => "map_lmap_pic_05_05",
-            "ha_area01" => "map_lmap_pic_00",
-            "ha_area02" => "map_lmap_pic_01",
-            "ha_area03" => "map_lmap_pic_02",
-            "ha_area04" => "map_lmap_pic_03",
-            "ha_area05" => "map_lmap_pic_04",
-            "ha_area06" => "map_lmap_pic_06",
-            _ => area.AreaName,
-        };
-
+        string mapName = MapName(area.AreaName);
         return $"map_pla\\{mapName}.png";
     }
+
+    private static string MapName(string name) => name switch
+    {
+        "ha_area00" => "map_lmap_pic_05_05",
+        "ha_area01" => "map_lmap_pic_00",
+        "ha_area02" => "map_lmap_pic_01",
+        "ha_area03" => "map_lmap_pic_02",
+        "ha_area04" => "map_lmap_pic_03",
+        "ha_area05" => "map_lmap_pic_04",
+        "ha_area06" => "map_lmap_pic_06",
+        _ => name,
+    };
 
     private void UpdateMap(int map, int species)
     {
@@ -110,7 +111,7 @@ public partial class MapViewer8a : Form
         }
         else
         {
-            WinFormsUtil.Error(string.Format("Unable to find map image at path: {0}", mapImagePath), "Automatic extraction of the map images is not yet supported.\nYou will have to extract them manually and place them at the location above. (You can use Switch-Toolbox for this.)");
+            WinFormsUtil.Error($"Unable to find map image at path: {mapImagePath}", "Automatic extraction of the map images is not yet supported.\nYou will have to extract them manually and place them at the location above. (You can use Switch-Toolbox for this.)");
             pictureBox1.BackgroundImage = new Bitmap(1024, 1024);
         }
 

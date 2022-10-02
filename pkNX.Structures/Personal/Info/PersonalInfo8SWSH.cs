@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace pkNX.Structures;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SWSH"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.SWSH"/> games.
 /// </summary>
 public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
 {
@@ -119,12 +119,12 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public ushort Quantized_floats_3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), value); }
     public ushort Quantized_floats_4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
 
-    public byte[] Bytes_0 { get => Data.AsSpan(0x6A, 10).ToArray(); }
-    public byte[] Bytes_1 { get => Data.AsSpan(0x74, 10).ToArray(); }
-    public byte[] Bytes_2 { get => Data.AsSpan(0x7E, 5).ToArray(); }
-    public byte[] Bytes_3 { get => Data.AsSpan(0x83, 5).ToArray(); }
-    public byte[] Bytes_4 { get => Data.AsSpan(0x88, 5).ToArray(); }
-    public byte[] Bytes_5 { get => Data.AsSpan(0x8D, 5).ToArray(); }
+    public Span<byte> Bytes_0 => Data.AsSpan(0x6A, 10);
+    public Span<byte> Bytes_1 => Data.AsSpan(0x74, 10);
+    public Span<byte> Bytes_2 => Data.AsSpan(0x7E, 5);
+    public Span<byte> Bytes_3 => Data.AsSpan(0x83, 5);
+    public Span<byte> Bytes_4 => Data.AsSpan(0x88, 5);
+    public Span<byte> Bytes_5 => Data.AsSpan(0x8D, 5);
 
     public ushort Shorts_0 { get => ReadUInt16LittleEndian(Data.AsSpan(0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(0x92), value); }
     public ushort Shorts_1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x94)); set => WriteUInt16LittleEndian(Data.AsSpan(0x94), value); }
@@ -144,7 +144,6 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public ushort CrownDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0xAE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xAE), value); }
 
     public ushort DexIndexNational { get; set; }
-
 
     /// <summary>
     /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.

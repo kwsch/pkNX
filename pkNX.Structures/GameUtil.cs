@@ -75,7 +75,7 @@ public static class GameUtil
             SW => SWSH,
             SH => SWSH,
             PLA => PLA,
-            _ => Invalid
+            _ => Invalid,
         };
     }
 
@@ -96,7 +96,7 @@ public static class GameUtil
             6 => AS,
             7 => UM,
             8 => PLA,
-            _ => Invalid
+            _ => Invalid,
         };
     }
 

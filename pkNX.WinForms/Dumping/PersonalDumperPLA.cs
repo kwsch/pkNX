@@ -158,7 +158,6 @@ public class PersonalDumperPLA
         if (learn is null)
             return;
 
-
         lines.Add("Legacy Level Up Moves:");
         foreach (var x in learn.Mainline)
         {

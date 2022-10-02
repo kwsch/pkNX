@@ -65,7 +65,7 @@ public abstract class StatPKM : IPokeData
             3 => IV_SPE,
             4 => IV_SPA,
             5 => IV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
     }
 
@@ -94,7 +94,7 @@ public abstract class StatPKM : IPokeData
             3 => EV_SPE,
             4 => EV_SPA,
             5 => EV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
     }
 

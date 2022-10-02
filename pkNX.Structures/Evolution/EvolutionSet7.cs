@@ -41,7 +41,7 @@ public class EvolutionSet7 : EvolutionSet
             Argument = ReadUInt16LittleEndian(entry[2..]),
             Species = ReadUInt16LittleEndian(entry[4..]),
             Form = SByteToByte((sbyte)entry[6]),
-            Level = entry[7]
+            Level = entry[7],
         };
     }
 
@@ -55,12 +55,11 @@ public class EvolutionSet7 : EvolutionSet
 
     /// <summary>
     /// For evo set 7 sbyte is used for form, -1 means no forms are present.
-    /// The remaining code expects to work with 0 for all base forms. 
-    /// This clamps the sbyte range to 0<>128, removing the negative range.
+    /// The remaining code expects to work with 0 for all base forms.
+    /// This clamps the sbyte range to [0-128), removing the negative range.
     /// </summary>
     private static byte SByteToByte(sbyte b)
     {
         return (byte)Math.Max(b, (sbyte)0);
     }
-
 }

@@ -5,7 +5,7 @@ using static pkNX.Structures.IPersonalInfoBinExt;
 namespace pkNX.Structures;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.GG"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.GG"/> games.
 /// </summary>
 public sealed class PersonalInfo7GG : IPersonalInfoGG
 {

@@ -96,7 +96,7 @@ public static partial class Extensions
             3 => pk.AV_SPE,
             4 => pk.AV_SPA,
             5 => pk.AV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
     }
 

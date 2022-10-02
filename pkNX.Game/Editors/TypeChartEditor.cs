@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using pkNX.Structures;
 using Util = pkNX.Randomization.Util;
 

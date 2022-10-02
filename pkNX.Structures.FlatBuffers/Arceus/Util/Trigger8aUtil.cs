@@ -37,14 +37,13 @@ public static class Trigger8aUtil
 
         if (Enum.IsDefined(typeof(TriggerType8a), meta.TriggerTypeID))
             return $"{meta.TriggerTypeID}({argsSummary})";
-        else 
-            return $"0x{(ulong)meta.TriggerTypeID:X16}({argsSummary})";
+        return $"0x{(ulong)meta.TriggerTypeID:X16}({argsSummary})";
     }
 
     public static IEnumerable<string> GetTriggerConditionsSummary(IEnumerable<TriggerCondition8a> conds)
     {
         foreach (var cond in conds)
-            yield return $"{Condition8aUtil.GetConditionTypeSummary(cond)}: {Condition8aUtil.GetConditionSummary(cond)}";
+            yield return $"{cond.GetConditionTypeSummary()}: {cond.GetConditionSummary()}";
     }
 
     public static IEnumerable<string> GetTriggerCommandsSummary(IEnumerable<TriggerCommand8a> cmds)
@@ -59,8 +58,7 @@ public static class Trigger8aUtil
 
         if (Enum.IsDefined(typeof(TriggerCommandType8a), cmd.CommandTypeID))
             return $"{cmd.CommandTypeID}({argsSummary})";
-        else
-            return $"0x{(ulong)cmd.CommandTypeID:X16}({argsSummary})";
+        return $"0x{(ulong)cmd.CommandTypeID:X16}({argsSummary})";
     }
 
     public static string GetTriggerArgsSummary(params string[] args)
@@ -70,7 +68,7 @@ public static class Trigger8aUtil
         {
             if (firstEmpty >= 0 && !string.IsNullOrEmpty(args[i]))
                 throw new ArgumentException($"Invalid TriggerArg at index {i}!");
-            else if (firstEmpty < 0 && string.IsNullOrEmpty(args[i]))
+            if (firstEmpty < 0 && string.IsNullOrEmpty(args[i]))
                 firstEmpty = i;
         }
 

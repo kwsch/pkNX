@@ -140,7 +140,7 @@ public class NestHoleDistributionEncounter8Table
                 0 => string.Empty,
                 1 => ", Shiny = Shiny.Never",
                 2 => ", Shiny = Shiny.Always",
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
             var ability = e.Ability switch
             {
@@ -149,7 +149,7 @@ public class NestHoleDistributionEncounter8Table
                 2 => "A2", // H
                 3 => "A3", // 1/2 only
                 4 => "A4", // 1/2/H
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
 
             // calc min/max ranks

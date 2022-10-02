@@ -59,7 +59,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
             Debug.Assert(Pointers.PtrHashFolders[f] == br.BaseStream.Position);
             var table = HashInFolder[f] = new FileHashFolder
             {
-                Folder = br.ReadBytes(FileHashIndex.SIZE).ToClass<FileHashFolderInfo>()
+                Folder = br.ReadBytes(FileHashIndex.SIZE).ToClass<FileHashFolderInfo>(),
             };
             table.Files = new FileHashIndex[table.Folder.FileCount];
             for (int i = 0; i < table.Files.Length; i++)

@@ -6,21 +6,21 @@ namespace pkNX.Structures;
 /// <summary>
 /// Personal Table storing <see cref="PersonalInfo6AO"/> used in Generation 6 games.
 /// </summary>
-public sealed class PersonalTable6ORAS : IPersonalTable, IPersonalTable<PersonalInfo6ORAS>
+public sealed class PersonalTable6AO : IPersonalTable, IPersonalTable<PersonalInfo6AO>
 {
-    public PersonalInfo6ORAS[] Table { get; }
-    private const int SIZE = PersonalInfo6ORAS.SIZE;
+    public PersonalInfo6AO[] Table { get; }
+    private const int SIZE = PersonalInfo6AO.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     public int MaxSpeciesID => MaxSpecies;
 
-    public PersonalTable6ORAS(ReadOnlySpan<byte> data)
+    public PersonalTable6AO(ReadOnlySpan<byte> data)
     {
-        Table = new PersonalInfo6ORAS[data.Length / SIZE];
+        Table = new PersonalInfo6AO[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
         {
             var slice = data.Slice(ofs, SIZE).ToArray();
-            Table[i] = new PersonalInfo6ORAS(slice);
+            Table[i] = new PersonalInfo6AO(slice);
         }
     }
 
@@ -29,9 +29,9 @@ public sealed class PersonalTable6ORAS : IPersonalTable, IPersonalTable<Personal
         throw new NotImplementedException();
     }
 
-    public PersonalInfo6ORAS this[int index] => Table[(uint)index < Table.Length ? index : 0];
-    public PersonalInfo6ORAS this[ushort species, byte form] => Table[GetFormIndex(species, form)];
-    public PersonalInfo6ORAS GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
+    public PersonalInfo6AO this[int index] => Table[(uint)index < Table.Length ? index : 0];
+    public PersonalInfo6AO this[ushort species, byte form] => Table[GetFormIndex(species, form)];
+    public PersonalInfo6AO GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
 
     public int GetFormIndex(ushort species, byte form)
     {

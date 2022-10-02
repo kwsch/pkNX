@@ -54,9 +54,10 @@ public class LandmarkItemSpawn8a
 
     private static IReadOnlyDictionary<ulong, string> GenerateSpawnerNameMap()
     {
-        var result = new Dictionary<ulong, string>();
-
-        result[FnvHash.HashFnv1a_64("hoge")] = "hoge";
+        var result = new Dictionary<ulong, string>
+        {
+            [FnvHash.HashFnv1a_64("hoge")] = "hoge",
+        };
 
         var gimmicks = new[] { "no", "tree", "rock", "crystal", "snow", "box", "leaves_r", "leaves_g", "yachi" };
         foreach (var gimmick in gimmicks)

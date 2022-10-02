@@ -1,7 +1,7 @@
 namespace pkNX.Structures;
 
 /// <summary>
-/// Exposes info about <see cref="MoveType"/> that an entity has.
+/// Exposes info about <see cref="Types"/> that an entity has.
 /// </summary>
 public interface IPersonalType
 {
@@ -45,7 +45,7 @@ public static class PersonalTypeExtensions
     /// <summary>
     /// Checks to see if the provided Types match the entry's types.
     /// </summary>
-    /// <remarks>Input order matters! If input order does not matter, use <see cref="IsType(IPersonalType,int, int)"/> instead.</remarks>
+    /// <remarks>Input order matters! If input order does not matter, use <see cref="IsType(IPersonalType, Types, Types)"/> instead.</remarks>
     /// <param name="detail">Object reference</param>
     /// <param name="type1">First type</param>
     /// <param name="type2">Second type</param>

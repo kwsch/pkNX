@@ -98,9 +98,7 @@ public partial class Main : Form
         if (DialogResult.Yes != result)
             return;
 
-        string val = string.Empty;
-        try { val = Clipboard.GetText(); }
-        catch { }
+        string val = GetClipboardTextString();
         if (int.TryParse(val, out int seed))
         {
             Util.Rand = new Random(seed);
@@ -108,6 +106,19 @@ public partial class Main : Form
             return;
         }
         WinFormsUtil.Alert("Unable to set seed.");
+    }
+
+    private static string GetClipboardTextString()
+    {
+        try
+        {
+            return Clipboard.GetText();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Unable to read clipboard text: {ex.Message}");
+            return string.Empty;
+        }
     }
 
     private void OpenPath(string path, GameVersion gameOverride = GameVersion.Any)

@@ -194,7 +194,7 @@ public partial class TextEditor : Form
             DisplayIndex = 0,
             Width = 32,
             ReadOnly = true,
-            SortMode = DataGridViewColumnSortMode.NotSortable
+            SortMode = DataGridViewColumnSortMode.NotSortable,
         };
         dgvLine.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
@@ -203,7 +203,7 @@ public partial class TextEditor : Form
             HeaderText = "Text",
             DisplayIndex = 1,
             SortMode = DataGridViewColumnSortMode.NotSortable,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
         };
 
         dgv.Columns.Add(dgvLine);
@@ -230,7 +230,7 @@ public partial class TextEditor : Form
     private void B_AddLine_Click(object sender, EventArgs e)
     {
         int currentRow = 0;
-        try { currentRow = dgv.CurrentRow.Index; }
+        try { currentRow = dgv.CurrentRow!.Index; }
         catch { dgv.Rows.Add(); }
         if (dgv.Rows.Count != 1 && (currentRow < dgv.Rows.Count - 1 || currentRow == 0))
         {
@@ -249,7 +249,7 @@ public partial class TextEditor : Form
 
     private void B_RemoveLine_Click(object sender, EventArgs e)
     {
-        int currentRow = dgv.CurrentRow.Index;
+        int currentRow = dgv.CurrentRow!.Index;
         if (currentRow < dgv.Rows.Count - 1)
         {
             if (ModifierKeys != Keys.Control && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))

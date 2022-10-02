@@ -26,33 +26,33 @@ public interface IPersonalTable
     IPersonalInfo this[ushort species, byte form] { get; }
 
     /// <summary>
-    /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
+    /// Gets the Personal Info entry index for a given Species and Form.
     /// </summary>
-    /// <param name="species"><see cref="PKM.Species"/></param>
-    /// <param name="form"><see cref="PKM.Form"/></param>
+    /// <param name="species">Species</param>
+    /// <param name="form">Form</param>
     /// <returns>Entry index for the input criteria</returns>
     int GetFormIndex(ushort species, byte form);
 
     /// <summary>
-    /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
+    /// Gets the Personal Info entry for a givenSpecies and Form.
     /// </summary>
-    /// <param name="species"><see cref="PKM.Species"/></param>
-    /// <param name="form"><see cref="PKM.Form"/></param>
+    /// <param name="species">Species</param>
+    /// <param name="form">Form</param>
     /// <returns>Entry for the input criteria</returns>
     IPersonalInfo GetFormEntry(ushort species, byte form);
 
     /// <summary>
-    /// Checks if the <see cref="PKM.Species"/> is within the bounds of the table.
+    /// Checks if the Species is within the bounds of the table.
     /// </summary>
-    /// <param name="species"><see cref="PKM.Species"/></param>
+    /// <param name="species">Species</param>
     /// <returns>True if present in game</returns>
     bool IsSpeciesInGame(ushort species);
 
     /// <summary>
-    /// Checks if the <see cref="PKM.Species"/> and <see cref="PKM.Form"/> is within the bounds of the table.
+    /// Checks if the Species and Form is within the bounds of the table.
     /// </summary>
-    /// <param name="species"><see cref="PKM.Species"/></param>
-    /// <param name="form"><see cref="PKM.Form"/></param>
+    /// <param name="species">Species</param>
+    /// <param name="form">Form</param>
     /// <returns>True if present in game</returns>
     bool IsPresentInGame(ushort species, byte form);
 
@@ -74,14 +74,13 @@ public interface IPersonalTable<out T> where T : IPersonalInfo
     T GetFormEntry(ushort species, byte form);
 }
 
-
 public static class IPersonalTableExt
 {
     /// <summary>
     /// Gets form names for every species.
     /// </summary>
+    /// <param name="pt"></param>
     /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
-    /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
     /// <returns>Array of species containing an array of form names for that species.</returns>
     public static string[][] GetFormList(this IPersonalTable pt, string[] species)
     {
@@ -100,11 +99,11 @@ public static class IPersonalTableExt
     }
 
     /// <summary>
-    /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> AltForm ID values.
+    /// Gets an arranged list of Form names and indexes for use with the individual Personal Info AltForm ID values.
     /// </summary>
+    /// <param name="pt"></param>
     /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
     /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
-    /// <param name="MaxSpecies">Max Species ID (Species ID)</param>
     /// <param name="baseForm">Pointers for base form IDs</param>
     /// <param name="formVal">Pointers for table indexes for each form</param>
     /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>

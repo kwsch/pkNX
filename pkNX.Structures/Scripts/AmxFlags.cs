@@ -44,7 +44,7 @@ public enum AmxFlags : ushort
     VERIFY = 0x4000,
 
     /// <summary> AMX has been initialized </summary>
-    INIT = 0x8000
+    INIT = 0x8000,
 }
 
 public static class AmxFlagsExtensions

@@ -37,7 +37,7 @@ public class PlacementLocation8a
         TakeOffShoesOcclusion = 0x09FBFD6B423FAEA6, // "TakeOffShoesOcclusion"
         TreeCullingFrustumFar = 0xD55673931A300690, // "TreeCullingFrustumFar"
         WeatherOcclusion = 0x2B3435F7DF6CF454, // "WeatherOcclusion"
-    };
+    }
 
     [FlatBufferItem(0)] public string Field_00 { get; set; } = string.Empty;
     [FlatBufferItem(1)] public ulong Field_01 { get; set; }

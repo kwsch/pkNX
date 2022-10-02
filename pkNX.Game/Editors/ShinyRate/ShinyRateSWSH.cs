@@ -35,10 +35,10 @@ public sealed class ShinyRateSWSH : ShinyRateInfo
     private readonly int FunctionOffset; // loop counter and break
     private static readonly byte[] FunctionPrelude = { 0xff, 0x03, 0x06, 0xd1, 0xfc, 0x6f, 0x12, 0xa9, 0xfa, 0x67, 0x13, 0xa9, 0xf8, 0x5f, 0x14, 0xa9, 0xf6, 0x57, 0x15, 0xa9, 0xf4, 0x4f, 0x16, 0xa9, 0xfd, 0x7b, 0x17, 0xa9, 0xfd, 0xc3, 0x05, 0x91, 0xfa, 0xc6, 0x00, 0xf0 };
 
-    private static readonly int RerollCountCheckOffset = 0x2C8;
+    private const int RerollCountCheckOffset = 0x2C8;
     private static readonly byte[] RerollCountCheckDefault = { 0x3f, 0x03, 0x17, 0x6b};
 
-    private static readonly int RerollCountBreakOffset = 0x2CC;
+    private const int RerollCountBreakOffset = 0x2CC;
     private static readonly byte[] RerollCountBreakDefault = { 0x62, 0x00, 0x00, 0x54 }; // b.cs $pc + 12
     private static readonly byte[] RerollCountBreakNop = { 0x1F, 0x20, 0x03, 0xD5 }; // nop
 
@@ -84,10 +84,7 @@ public sealed class ShinyRateSWSH : ShinyRateInfo
 
     public static byte[] GetFixedInstruction(int count)
     {
-        if (count <= 0)
-            count = 1;
-        else if (count >= 4092)
-            count = 4091;
+        count = Math.Clamp(count, 1, 4091);
         var val = ((count & 0xFFF) << 10) | 0b0111000100_000000000000_11001_11111;
         return BitConverter.GetBytes((uint)val);
     }

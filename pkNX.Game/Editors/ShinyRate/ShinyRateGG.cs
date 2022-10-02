@@ -77,10 +77,7 @@ public sealed class ShinyRateGG : ShinyRateInfo
 
     public static byte[] GetFixedInstruction(int count)
     {
-        if (count <= 0)
-            count = 1;
-        else if (count >= 4092)
-            count = 4091;
+        count = Math.Clamp(count, 1, 4091);
         var val = ((count & 0xFFF) << 10) | 0b111000100_000000000000_1010011111;
         return BitConverter.GetBytes((uint)val);
     }

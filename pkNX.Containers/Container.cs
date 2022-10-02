@@ -20,7 +20,7 @@ public static class Container
             ContainerType.Folder => new FolderContainer(path),
             ContainerType.SingleFile => new SingleFileContainer(path),
             ContainerType.GFPack => new GFPack(path),
-            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null),
         };
     }
 

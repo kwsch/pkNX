@@ -138,7 +138,7 @@ public class TrainerPoke7b : TrainerPoke, IAwakened
             ,
             -1 => (90 * initial / 100) // 90%
             ,
-            _ => initial
+            _ => initial,
         };
     }
 

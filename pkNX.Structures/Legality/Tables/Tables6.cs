@@ -87,7 +87,7 @@ public static partial class Legal
         063, 096, 326, 517, 202, 561, 677, 178, 203, 575, 578,
         299, 525, 557, 095, 219, 222, 247, 112, 213, 689,
         082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
-        098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
+        098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657,
     };
     #endregion
 
@@ -374,7 +374,7 @@ public static partial class Legal
         495, 498, 501, //1 - Snivy, Tepig, Oshawott
         496, 499, 502, //2
         497, 500, 503, //3
-        566, 567, 696, 697, 698, 699 // Fossil Only obtain
+        566, 567, 696, 697, 698, 699, // Fossil Only obtain
     };
 
     public static readonly int[] Ban_Gen3BallHidden =
@@ -407,7 +407,7 @@ public static partial class Legal
         495, 498, 501, //1 - Snivy, Tepig, Oshawott
         496, 499, 502, //2
         497, 500, 503, //3
-        566, 567, 696, 697, 698, 699 // Fossil Only obtain
+        566, 567, 696, 697, 698, 699, // Fossil Only obtain
     };
 
     public static readonly int[] WurmpleEvolutions =

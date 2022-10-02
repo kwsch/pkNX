@@ -41,7 +41,7 @@ public class NewHugeOutbreakLottery8a
     [Category(MapSetting), Description("Maximum amount of outbreak spots to create.")]
     [FlatBufferItem(04)] public int OutbreakTotalMax { get; set; }
 
-    [Category(MapSetting), Description("Number of outbreaks that use the Rare2 table."), ]
+    [Category(MapSetting), Description("Number of outbreaks that use the Rare2 table.")]
     [FlatBufferItem(05)] public int OutbreakRare2 { get; set; }
 
     [Category(MapSetting), Description("Number of outbreaks that use the Rare1 table.")]

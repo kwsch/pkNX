@@ -190,11 +190,10 @@ public class TrainerRandomizer : Randomizer
         if (!Settings.ForceFullyEvolved || pk.Level < Settings.ForceFullyEvolvedAtLevel)
             return;
 
-        var evos = Evos;
         int species = pk.Species;
         int form = pk.Form;
 
-        int timesEvolved = TryForceEvolve(evos, ref species, ref form);
+        int timesEvolved = TryForceEvolve(Evos, ref species, ref form);
         if (timesEvolved == 0)
             return;
         pk.Species = species;

@@ -86,7 +86,7 @@ public sealed partial class TypeChart : Form
         "",
         "",
         "",
-        "is super effective!"
+        "is super effective!",
     };
 
     public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)

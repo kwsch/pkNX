@@ -27,7 +27,7 @@ public static partial class Legal
 
     public static readonly int[] Met_GG_3 =
     {
-        30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017
+        30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
     };
 
     public static readonly int[] Met_GG_4 =
@@ -215,7 +215,6 @@ public static partial class Legal
         729, 730, 731, 733, 734, 735, 736, 737, 738, 739,
         740, 742,
     };
-
 
     public static readonly int[] MovePP_GG =
     {

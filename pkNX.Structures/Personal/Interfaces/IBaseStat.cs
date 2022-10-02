@@ -62,19 +62,16 @@ public static class IBaseStatExtensions
     /// <summary>
     /// Sets the requested Base Stat value with the requested <see cref="index"/>.
     /// </summary>
-    public static void SetBaseStatValue(this IBaseStat stats, int index, int value)
+    public static int SetBaseStatValue(this IBaseStat stats, int index, int value) => index switch
     {
-        switch (index)
-        {
-            case 0: stats.HP = value; return;
-            case 1: stats.ATK = value; return;
-            case 2: stats.DEF = value; return;
-            case 3: stats.SPE = value; return;
-            case 4: stats.SPA = value; return;
-            case 5: stats.SPD = value; return;
-            default: throw new ArgumentOutOfRangeException(nameof(index));
-        };
-    }
+        0 => stats.HP = value,
+        1 => stats.ATK = value,
+        2 => stats.DEF = value,
+        3 => stats.SPE = value,
+        4 => stats.SPA = value,
+        5 => stats.SPD = value,
+        _ => throw new ArgumentOutOfRangeException(nameof(index))
+    };
 
     /// <summary>
     /// Gets the total number of base stats available.

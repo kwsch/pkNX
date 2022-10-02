@@ -58,7 +58,7 @@ public class TextFile
                 result[i] = new TextLine
                 {
                     Offset = BitConverter.ToInt32(Data, (i * 8) + sdo + 4) + sdo,
-                    Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8)
+                    Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8),
                 };
             }
 
@@ -225,7 +225,7 @@ public class TextFile
             ,
             0x2640 => 0xE08F // ♀
             ,
-            _ => val
+            _ => val,
         };
     }
 
@@ -243,7 +243,7 @@ public class TextFile
             ,
             0xE08F => 0x2640 // ♀
             ,
-            _ => val
+            _ => val,
         };
     }
 

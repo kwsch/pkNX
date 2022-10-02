@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using pkNX.Containers;
@@ -21,6 +21,8 @@ public class GameManagerPLA : GameManager
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
+        if (basePath is null)
+            throw new InvalidDataException("Invalid RomFS path.");
         var tid = ROM.ExeFS != null ? TitleID : "arceus";
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);

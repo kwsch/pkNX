@@ -77,6 +77,6 @@ public class FormRandomizer
     {
         (int)Pikachu when stats.Table.Length == 1192 => 8, // LGPE Partner Pikachu
         (int)Slowbro when galar => 1, // Mega Slowbro
-        _ => throw new ArgumentOutOfRangeException(nameof(species))
+        _ => throw new ArgumentOutOfRangeException(nameof(species)),
     };
 }

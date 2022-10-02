@@ -138,7 +138,7 @@ public class NestHoleCrystalEncounter8Table
                 2 => "A2", // H
                 3 => "A3", // 1/2 only
                 4 => "A4", // 1/2/H
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
 
             // Constructor

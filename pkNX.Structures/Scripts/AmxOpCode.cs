@@ -246,7 +246,7 @@ public static class AmxOpCodeExtensions
             AmxOpCode.SGEQ => AmxOpCode.SLESS,
             AmxOpCode.EQ => AmxOpCode.NEQ,
             AmxOpCode.NEQ => AmxOpCode.EQ,
-            _ => throw new ArgumentException(nameof(spop))
+            _ => throw new ArgumentException(nameof(spop)),
         };
     }
 }

@@ -6,12 +6,12 @@ namespace pkNX.Structures;
 public interface IPersonalFormInfo
 {
     /// <summary>
-    /// Count of <see cref="Form"/> values the entry can have.
+    /// Count of form values the entry can have.
     /// </summary>
     byte FormCount { get; set; }
 
     /// <summary>
-    /// Pointer to the first <see cref="Form"/> <see cref="IPersonalInfo"/> index
+    /// Pointer to the first form <see cref="IPersonalInfo"/> index
     /// </summary>
     int FormStatsIndex { get; set; }
 
@@ -24,14 +24,15 @@ public interface IPersonalFormInfo
 public static class IPersonalFormInfoExtensions
 {
     /// <summary>
-    /// Checks if the <see cref="IPersonalFormInfo"/> has any <see cref="Form"/> entry available.
+    /// Checks if the <see cref="IPersonalFormInfo"/> has any form entry available.
     /// </summary>
     public static bool HasAnyForms(this IPersonalFormInfo info) => info.FormCount > 1;
 
     /// <summary>
-    /// Checks if the <see cref="IPersonalFormInfo"/> has the requested <see cref="Form"/> entry index available.
+    /// Checks if the <see cref="IPersonalFormInfo"/> has the requested form entry index available.
     /// </summary>
-    /// <param name="form"><see cref="Form"/> to retrieve for</param>
+    /// <param name="info"></param>
+    /// <param name="form">Form to retrieve for</param>
     public static bool HasForm(this IPersonalFormInfo info, byte form)
     {
         if (form == 0) // no form requested
@@ -44,11 +45,12 @@ public static class IPersonalFormInfoExtensions
     }
 
     /// <summary>
-    /// Gets the <see cref="IPersonalFormInfo"/> <see cref="Form"/> entry index for the input criteria, with fallback for the original species entry.
+    /// Gets the <see cref="IPersonalFormInfo"/> form entry index for the input criteria, with fallback for the original species entry.
     /// </summary>
+    /// <param name="info"></param>
     /// <param name="species"><see cref="Species"/> to retrieve for</param>
-    /// <param name="form"><see cref="Form"/> to retrieve for</param>
-    /// <returns>Index the <see cref="Form"/> exists as in the <see cref="PersonalTable"/>.</returns>
+    /// <param name="form">Form to retrieve for</param>
+    /// <returns>Index the form exists as in the table.</returns>
     public static int FormIndex(this IPersonalFormInfo info, ushort species, byte form)
     {
         if (!info.HasForm(form))
@@ -57,8 +59,9 @@ public static class IPersonalFormInfoExtensions
     }
 
     /// <summary>
-    /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="PersonalInfo.FormCount"/>
+    /// Checks to see if the form is valid within the Personal Info
     /// </summary>
+    /// <param name="info"></param>
     /// <param name="form"></param>
     public static bool IsFormWithinRange(this IPersonalFormInfo info, byte form)
     {

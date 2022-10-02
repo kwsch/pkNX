@@ -5,7 +5,7 @@ using static pkNX.Structures.IPersonalInfoBinExt;
 namespace pkNX.Structures;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the Black 2 &amp; White 2 games.
+/// Personal Info class with values from the Black 2 &amp; White 2 games.
 /// </summary>
 public sealed class PersonalInfo5B2W2 : IPersonalInfoB2W2
 {

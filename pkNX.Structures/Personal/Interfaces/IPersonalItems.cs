@@ -14,6 +14,7 @@ public static class IPersonalItemExtensions
     /// <summary>
     /// Gets the index of the <see cref="itemID"/> within the specification's list of items.
     /// </summary>
+    /// <param name="a"></param>
     /// <param name="itemID">Item ID</param>
     /// <returns>Item Index or -1 if not found</returns>
     public static int GetIndexOfItem(this IPersonalItems a, int itemID) => itemID == a.Item1 ? 0 : itemID == a.Item2 ? 1 : itemID == a.Item3 ? 2 : -1;
@@ -46,16 +47,13 @@ public static class IPersonalItemExtensions
     /// <summary>
     /// Sets the requested item value with the requested <see cref="index"/>.
     /// </summary>
-    public static void SetItemAtIndex(this IPersonalItems a, int index, int value)
+    public static int SetItemAtIndex(this IPersonalItems a, int index, int value) => index switch
     {
-        switch (index)
-        {
-            case 0: a.Item1 = value; return;
-            case 1: a.Item2 = value; return;
-            case 2: a.Item3 = value; return;
-            default: throw new ArgumentOutOfRangeException(nameof(index));
-        };
-    }
+        0 => a.Item1 = value,
+        1 => a.Item2 = value,
+        2 => a.Item3 = value,
+        _ => throw new ArgumentOutOfRangeException(nameof(index))
+    };
 
     /// <summary>
     /// Gets the total number of items available.

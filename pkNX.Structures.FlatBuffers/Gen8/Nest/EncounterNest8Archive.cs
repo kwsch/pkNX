@@ -55,7 +55,7 @@ public class EncounterNest8Table
                 2 => "A2",
                 3 => "A3",
                 4 => "A4",
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
             var flawless = e.FlawlessIVs;
 
@@ -111,7 +111,7 @@ public class EncounterNest8Table
                 2 => "A2",
                 3 => "A3",
                 4 => "A4",
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
             yield return $"\tAbility: {ability}";
             yield return "\tSelection Probabilities:";

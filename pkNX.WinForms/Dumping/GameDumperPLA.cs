@@ -342,9 +342,8 @@ public class GameDumperPLA
         for (int i = 0; i < result.Length; i++)
             result[i] = Array.Empty<byte>();
 
-        for (var i = 0; i < obj.Table.Length; i++)
+        foreach (var e in obj.Table)
         {
-            var e = obj.Table[i];
             if (e.Table?.Length is not > 0)
                 continue;
             var index = pt.GetFormIndex(e.Species, (byte)e.Form);
@@ -534,8 +533,9 @@ public class GameDumperPLA
                     Directory.CreateDirectory(folder);
                     File.WriteAllBytes(dest, data);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Unable to extract {s}: {ex.Message}");
                 }
             }
         }

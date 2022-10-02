@@ -12,7 +12,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PersonalTableLAfb : IFlatBufferArchive<PersonalInfoLAfb>
@@ -21,7 +21,7 @@ public class PersonalTableLAfb : IFlatBufferArchive<PersonalInfoLAfb>
 }
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PersonalInfoLAfb

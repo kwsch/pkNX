@@ -397,11 +397,8 @@ public static class EncounterTable8aUtil
             yield break;
         }
 
-        foreach (var tup in table)
+        foreach ((double rate, _, _, _, EncounterSlot8a? slot) in table)
         {
-            var rate = tup.Rate;
-            var slot = tup.Slot;
-
             string form = slot.Form == 0 ? string.Empty : $"-{slot.Form}";
             var spec_form = $"{speciesNames[slot.Species]}{form}";
 

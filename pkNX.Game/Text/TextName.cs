@@ -1,4 +1,4 @@
-﻿namespace pkNX.Game;
+namespace pkNX.Game;
 
 public enum TextName
 {
@@ -34,5 +34,5 @@ public enum TextName
     PokedexEntry2,
 
     RibbonMark,
-    MemoryFeelings
+    MemoryFeelings,
 }

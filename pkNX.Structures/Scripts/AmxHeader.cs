@@ -75,7 +75,7 @@ public class AmxHeader
                 MAGIC_16 => 16,
                 MAGIC_32 => 32,
                 MAGIC_64 => 64,
-                _ => throw new ArgumentException("Invalid Magic identifier.")
+                _ => throw new ArgumentException("Invalid Magic identifier."),
             };
         }
     }
@@ -178,14 +178,14 @@ public class Argument
 public enum Register : uint
 {
     Pri,
-    Alt
+    Alt,
 }
 
 public enum Scope : uint
 {
     Global,
     Local,
-    Static
+    Static,
 }
 
 public class Variable

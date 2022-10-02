@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace pkNX.Structures;
 
@@ -47,7 +47,7 @@ public class GameInfo
             GameVersion.SH => LoadSWSH,
             GameVersion.SWSH => LoadSWSH,
             GameVersion.PLA => LoadPLA,
-            _ => throw new ArgumentException(nameof(game))
+            _ => throw new ArgumentException(nameof(game)),
         };
     }
 

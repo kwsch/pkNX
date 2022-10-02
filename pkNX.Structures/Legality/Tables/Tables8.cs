@@ -67,7 +67,7 @@ public static partial class Legal
 
     public static readonly int[] Met_SWSH_3 =
     {
-        30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018
+        30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
     };
 
     public static readonly int[] Met_SWSH_4 =
@@ -274,7 +274,6 @@ public static partial class Legal
         800, 809, 799, 808,
         798, 802,
     };
-
 
     public static readonly ushort[] TMHM_SWSH =
     {

@@ -96,7 +96,7 @@ public class AreaSettings8a
                 "ha_area04" => "Coronet Highlands",
                 "ha_area05" => "Alabaster Icelands",
                 "ha_area06" => "Ancient Retreat",
-                _ => string.Format("Unknown Area ({0})", Name),
+                _ => $"Unknown Area ({Name})",
             };
         }
     }

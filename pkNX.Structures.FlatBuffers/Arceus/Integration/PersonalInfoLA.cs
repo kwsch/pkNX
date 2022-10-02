@@ -4,7 +4,7 @@ using System.Collections;
 namespace pkNX.Structures.FlatBuffers;
 
 /// <summary>
-/// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 public sealed class PersonalInfo8LA : IPersonalInfoPLA
 {

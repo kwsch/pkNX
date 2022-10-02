@@ -40,20 +40,19 @@ public static class EncounterTable8Util
     private static DumpableLocation GetDumpable(EncounterTable8 zone, IReadOnlyDictionary<ulong, byte> zoneLoc, IReadOnlyDictionary<ulong, byte> zoneType)
     {
         // Don't dump data that we can't correlate to a zone
-        if (!zoneLoc.TryGetValue(zone.ZoneID, out var tmp))
+        if (!zoneLoc.TryGetValue(zone.ZoneID, out var location))
             return DumpableLocation.Empty;
 
         // Try to get the table type. Skip inaccessible tables.
         if (!zoneType.TryGetValue(zone.ZoneID, out var slottype) || slottype == (byte)Inaccessible)
             return DumpableLocation.Empty;
 
-        byte locID = tmp;
         var list = new List<Slot8>();
         for (int i = 0; i < zone.SubTables.Length; i++)
         {
             var weather = (SWSHEncounterType)(1 << i);
 
-            if (!IsPermittedWeather(locID, weather, slottype))
+            if (!IsPermittedWeather(location, weather, slottype))
                 continue;
 
             var table = zone.SubTables[i];
@@ -73,7 +72,7 @@ public static class EncounterTable8Util
             }
         }
 
-        return new DumpableLocation(list, locID, slottype);
+        return new DumpableLocation(list, location, slottype);
     }
 
     private static bool IsPermittedWeather(byte locID, SWSHEncounterType weather, byte slotType)
@@ -102,7 +101,7 @@ public static class EncounterTable8Util
         HiddenMain or HiddenMain2                => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
         Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
         Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
-        _ => false
+        _ => false,
     };
 
     private class DumpableLocation

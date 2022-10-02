@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using pkNX.Structures;
 
 namespace pkNX.Game;
@@ -24,7 +24,7 @@ public static class TextMapping
             GameVersion.SH => SWSH,
             GameVersion.SWSH => SWSH,
             GameVersion.PLA => PLA,
-            _ => null
+            _ => null,
         };
     }
 
@@ -104,7 +104,7 @@ public static class TextMapping
         new(114, TextName.Forms),
         new(116, TextName.SpeciesClassifications),
         new(119, TextName.PokedexEntry1),
-        new(120, TextName.PokedexEntry2)
+        new(120, TextName.PokedexEntry2),
     };
 
     private static readonly TextReference[] USUM =
@@ -126,7 +126,7 @@ public static class TextMapping
         new(119, TextName.Forms),
         new(121, TextName.SpeciesClassifications),
         new(124, TextName.PokedexEntry1),
-        new(125, TextName.PokedexEntry2)
+        new(125, TextName.PokedexEntry2),
     };
 
     private static readonly TextReference[] GG =
@@ -174,7 +174,6 @@ public static class TextMapping
         new("ribbon.dat", TextName.RibbonMark),
         new("poke_memory_feeling.dat", TextName.MemoryFeelings),
     };
-
 
     private static readonly TextReference[] PLA =
     {

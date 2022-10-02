@@ -14,6 +14,7 @@ public static class IPersonalAbilityExtensions
     /// <summary>
     /// Gets the index of the <see cref="abilityID"/> within the specification's list of abilities.
     /// </summary>
+    /// <param name="a"></param>
     /// <param name="abilityID">Ability ID</param>
     /// <returns>Ability Index or -1 if not found</returns>
     public static int GetIndexOfAbility(this IPersonalAbility a, int abilityID) => abilityID == a.Ability1 ? 0 : abilityID == a.Ability2 ? 1 : abilityID == a.AbilityH ? 2 : -1;
@@ -50,16 +51,13 @@ public static class IPersonalAbilityExtensions
     /// <summary>
     /// Sets the requested Ability value with the requested <see cref="index"/>.
     /// </summary>
-    public static void SetAbilityAtIndex(this IPersonalAbility a, int index, int value)
+    public static int SetAbilityAtIndex(this IPersonalAbility a, int index, int value) => index switch
     {
-        switch (index)
-        {
-            case 0: a.Ability1 = value; return;
-            case 1: a.Ability2 = value; return;
-            case 2: a.AbilityH = value; return;
-            default: throw new ArgumentOutOfRangeException(nameof(index));
-        };
-    }
+        0 => a.Ability1 = value,
+        1 => a.Ability2 = value,
+        2 => a.AbilityH = value,
+        _ => throw new ArgumentOutOfRangeException(nameof(index))
+    };
 
     /// <summary>
     /// Gets the total number of abilities available.

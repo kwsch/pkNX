@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using pkNX.Containers;
 using pkNX.Structures;
 
@@ -113,7 +113,7 @@ public abstract class GameManager
             GameVersion.GP or GameVersion.GE or GameVersion.GG => new GameManagerGG(loc, language),
             GameVersion.SW or GameVersion.SH or GameVersion.SWSH => new GameManagerSWSH(loc, language),
             GameVersion.PLA => new GameManagerPLA(loc, language),
-            _ => throw new ArgumentException(nameof(loc.Game))
+            _ => throw new ArgumentException(nameof(loc.Game)),
         };
     }
 }

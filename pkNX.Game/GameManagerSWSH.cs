@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using pkNX.Containers;
@@ -21,6 +21,8 @@ public class GameManagerSWSH : GameManager
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
+        if (basePath is null)
+            throw new InvalidDataException("Invalid ROMFS path.");
         var tid = ROM.ExeFS != null ? TitleID : "0100ABF008968000"; // no way to differentiate without exefs, so default to Sword
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);

@@ -19,7 +19,7 @@ public partial class EncounterList : UserControl
 
     public bool ShowForm
     {
-        set => dgv.Columns[FormColumn].Visible = value;
+        set => dgv.Columns[FormColumn]!.Visible = value;
     }
 
     private const string FormColumn = nameof(FormColumn);
@@ -43,7 +43,7 @@ public partial class EncounterList : UserControl
             DisplayIndex = 1,
             Width = 135,
             DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter, Padding = padding },
-            FlatStyle = FlatStyle.Flat
+            FlatStyle = FlatStyle.Flat,
         };
         var dgvForm = new DataGridViewTextBoxColumn
         {
@@ -51,14 +51,14 @@ public partial class EncounterList : UserControl
             HeaderText = "Form",
             DisplayIndex = 2,
             Width = 45,
-            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter }
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
         };
         var dgvPercent = new DataGridViewTextBoxColumn
         {
             HeaderText = "Chance",
             DisplayIndex = 3,
             Width = 52,
-            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter }
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
         };
 
         dgvSpecies.Items.AddRange(SpeciesNames);
