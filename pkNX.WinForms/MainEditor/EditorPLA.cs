@@ -505,6 +505,111 @@ internal class EditorPLA : EditorBase
         obj[0] = Item8a.SetArray(items, data);
     }
 
+    [EditorCallable] public void EditAICommonConfig() => PopFlatConfig(GameFile.AICommonConfig, "AI Common Config Editor");
+    [EditorCallable] public void EditAIExcitingConfig() => PopFlatConfig(GameFile.AIExcitingConfig, "AI Exciting Config Editor");
+
+    [EditorCallable] public void EditAISemiLegendConfig() => PopFlatConfig(GameFile.AISemiLegendConfig, "AI Semi Legend Config Editor");
+    [EditorCallable] public void EditAITirednessConfig() => PopFlatConfig(GameFile.AITirednessConfig, "AI Tiredness Config Editor");
+    [EditorCallable] public void EditAppliHudConfig() => PopFlatConfig(GameFile.AppliHudConfig, "Appli Hud Config Editor");
+    [EditorCallable] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
+    [EditorCallable] public void EditAppliTipsConfig() => PopFlatConfig(GameFile.AppliTipsConfig, "Appli Tips Config Editor");
+    [EditorCallable] public void EditBattleCommonConfig() => PopFlatConfig(GameFile.BattleCommonConfig, "Battle Common Config Editor");
+    [EditorCallable] public void EditBattleEndConfig() => PopFlatConfig(GameFile.BattleEndConfig, "Battle End Config Editor");
+    [EditorCallable] public void EditBattleInConfig() => PopFlatConfig(GameFile.BattleInConfig, "Battle In Config Editor");
+    [EditorCallable] public void EditBattleLogicConfig() => PopFlatConfig(GameFile.BattleLogicConfig, "Battle Logic Config Editor");
+    [EditorCallable] public void EditBattleStartConfig() => PopFlatConfig(GameFile.BattleStartConfig, "Battle Start Config Editor");
+    [EditorCallable] public void EditBattleViewConfig() => PopFlatConfig(GameFile.BattleViewConfig, "Battle View Config Editor");
+    [EditorCallable] public void EditBattleVsnsConfig() => PopFlatConfig(GameFile.BattleVsnsConfig, "Battle Vsns Config Editor");
+    [EditorCallable] public void EditBuddyBattleConfig() => PopFlatConfig(GameFile.BuddyBattleConfig, "Buddy Battle Config Editor");
+    [EditorCallable] public void EditBuddyConfig() => PopFlatConfig(GameFile.BuddyConfig, "Buddy Config Editor");
+    [EditorCallable] public void EditBuddyDirectItemConfig() => PopFlatConfig(GameFile.BuddyDirectItemConfig, "Buddy Direct Item Config Editor");
+    [EditorCallable] public void EditBuddyGroupTalkConfig() => PopFlatConfig(GameFile.BuddyGroupTalkConfig, "Buddy Group Talk Config Editor");
+    [EditorCallable] public void EditBuddyLandmarkConfig() => PopFlatConfig(GameFile.BuddyLandmarkConfig, "Buddy Landmark Config Editor");
+    [EditorCallable] public void EditBuddyNPCReactionConfig() => PopFlatConfig(GameFile.BuddyNPCReactionConfig, "Buddy NPC Reaction Config Editor");
+    [EditorCallable] public void EditBuddyPlayerModeConfig() => PopFlatConfig(GameFile.BuddyPlayerModeConfig, "Buddy Player Mode Config Editor");
+    [EditorCallable] public void EditBuddyWarpConfig() => PopFlatConfig(GameFile.BuddyWarpConfig, "Buddy Warp Config Editor");
+    [EditorCallable] public void EditCharacterBipedIkConfig() => PopFlatConfig(GameFile.CharacterBipedIkConfig, "Character Biped Ik Config Editor");
+    [EditorCallable] public void EditCharacterBlinkConfig() => PopFlatConfig(GameFile.CharacterBlinkConfig, "Character Blink Config Editor");
+    [EditorCallable] public void EditCharacterControllerConfig() => PopFlatConfig(GameFile.CharacterControllerConfig, "Character Controller Config Editor");
+    [EditorCallable] public void EditCharacterLookAtConfig() => PopFlatConfig(GameFile.CharacterLookAtConfig, "Character Look At Config Editor");
+    [EditorCallable] public void EditCaptureConfig() => PopFlatConfig(GameFile.CaptureConfig, "Capture Config Editor");
+    [EditorCallable] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
+    [EditorCallable] public void EditCommonItemConfig() => PopFlatConfig(GameFile.CommonItemConfig, "Common Item Config Editor");
+    [EditorCallable] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");
+    [EditorCallable] public void EditEnvPokeVoiceConfig() => PopFlatConfig(GameFile.EnvPokeVoiceConfig, "Env Poke Voice Config Editor");
+    [EditorCallable] public void EditEventBalloonrunConfig() => PopFlatConfig(GameFile.EventBalloonrunConfig, "Event Balloonrun Config Editor");
+    [EditorCallable] public void EditEventBalloonthrowConfig() => PopFlatConfig(GameFile.EventBalloonthrowConfig, "Event Balloonthrow Config Editor");
+    [EditorCallable] public void EditEventBanditConfig() => PopFlatConfig(GameFile.EventBanditConfig, "Event Bandit Config Editor");
+    [EditorCallable] public void EditEventCullingConfig() => PopFlatConfig(GameFile.EventCullingConfig, "Event Culling Config Editor");
+    [EditorCallable] public void EditEventDitherConfig() => PopFlatConfig(GameFile.EventDitherConfig, "Event Dither Config Editor");
+    [EditorCallable] public void EditEventFarmConfig() => PopFlatConfig(GameFile.EventFarmConfig, "Farm Config Editor");
+    [EditorCallable] public void EditEventGameOverConfig() => PopFlatConfig(GameFile.EventGameOverConfig, "Event Game Over Config Editor");
+    [EditorCallable] public void EditEventItemConfig() => PopFlatConfig(GameFile.EventItemConfig, "Event Item Config Editor");
+    [EditorCallable] public void EditEventMkrgRewardConfig() => PopFlatConfig(GameFile.EventMkrgRewardConfig, "Event Mkrg Reward Config Editor");
+    [EditorCallable] public void EditEventQuestBoardConfig() => PopFlatConfig(GameFile.EventQuestBoardConfig, "Event Quest Board Config Editor");
+    [EditorCallable] public void EditEventRestrictionBattle() => PopFlatConfig(GameFile.EventRestrictionBattle, "Event Restriction Battle Editor");
+    [EditorCallable] public void EditEventWork() => PopFlatConfig(GameFile.EventWork, "Event Work Editor");
+
+    [EditorCallable] public void EditNPCAIConfig() => PopFlatConfig(GameFile.NPCAIConfig, "NPC AI Config");
+    [EditorCallable] public void EditNPCControllerConfig() => PopFlatConfig(GameFile.NPCControllerConfig, "NPC Controller Config");
+    [EditorCallable] public void EditNPCCreaterConfig() => PopFlatConfig(GameFile.NPCCreaterConfig, "NPC Creater Config");
+    [EditorCallable] public void EditNPCPokemonAIConfig() => PopFlatConfig(GameFile.NPCPokemonAIConfig, "NPC Pokemon AI Config");
+    [EditorCallable] public void EditNPCPopupConfig() => PopFlatConfig(GameFile.NPCPopupConfig, "NPC Popup Config");
+    [EditorCallable] public void EditNPCTalkTableConfig() => PopFlatConfig(GameFile.NPCTalkTableConfig, "NPC Talk Table Config");
+    [EditorCallable] public void EditPlayerCameraShakeConfig() => PopFlatConfig(GameFile.PlayerCameraShakeConfig, "Player Camera Shake Config");
+    [EditorCallable] public void EditPlayerCollisionConfig() => PopFlatConfig(GameFile.PlayerCollisionConfig, "Player Collision Config");
+    [EditorCallable] public void EditPlayerConfig() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
+    [EditorCallable] public void EditPlayerControllerConfig() => PopFlatConfig(GameFile.PlayerControllerConfig, "Player Controller Config");
+    [EditorCallable] public void EditPlayerFaceConfig() => PopFlatConfig(GameFile.PlayerFaceConfig, "Player Face Config");
+    [EditorCallable] public void EditPokemonConfig() => PopFlatConfig(GameFile.PokemonConfig, "Pokemon Config");
+    [EditorCallable] public void EditPokemonControllerConfig() => PopFlatConfig(GameFile.PokemonControllerConfig, "Pokemon Controller Config");
+    [EditorCallable] public void EditPokemonFriendshipConfig() => PopFlatConfig(GameFile.PokemonFriendshipConfig, "Pokemon Friendship Config");
+
+    [EditorCallable] public void EditSizeScaleConfig() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config");
+    [EditorCallable] public void EditRideBasuraoCollisionConfig() => PopFlatConfig(GameFile.RideBasuraoCollisionConfig, "Ride Basurao Collision Config");
+    [EditorCallable] public void EditRideBasuraoConfig() => PopFlatConfig(GameFile.RideBasuraoConfig, "Ride Basurao Config");
+    [EditorCallable] public void EditRideChangeConfig() => PopFlatConfig(GameFile.RideChangeConfig, "Ride Change Config");
+    [EditorCallable] public void EditRideCommonConfig() => PopFlatConfig(GameFile.RideCommonConfig, "Ride Common Config");
+    [EditorCallable] public void EditRideNyuuraCollisionConfig() => PopFlatConfig(GameFile.RideNyuuraCollisionConfig, "Ride Nyuura Collision Config");
+    [EditorCallable] public void EditRideNyuuraConfig() => PopFlatConfig(GameFile.RideNyuuraConfig, "Ride Nyuura Config");
+    [EditorCallable] public void EditRideNyuuraControllerConfig() => PopFlatConfig(GameFile.RideNyuuraControllerConfig, "Ride Nyuura Controller Config");
+    [EditorCallable] public void EditRideOdoshishiCollisionConfig() => PopFlatConfig(GameFile.RideOdoshishiCollisionConfig, "Ride Odoshishi Collision Config");
+    [EditorCallable] public void EditRideOdoshishiConfig() => PopFlatConfig(GameFile.RideOdoshishiConfig, "Ride Odoshishi Config");
+    [EditorCallable] public void EditRideRingumaCollisionConfig() => PopFlatConfig(GameFile.RideRingumaCollisionConfig, "Ride Ringuma Collision Config");
+    [EditorCallable] public void EditRideRingumaConfig() => PopFlatConfig(GameFile.RideRingumaConfig, "Ride Ringuma Config");
+    [EditorCallable] public void EditRideRingumaControllerConfig() => PopFlatConfig(GameFile.RideRingumaControllerConfig, "Ride Ringuma Controller Config");
+    [EditorCallable] public void EditRideWhooguruCollisionConfig() => PopFlatConfig(GameFile.RideWhooguruCollisionConfig, "Ride Whooguru Collision Config");
+    [EditorCallable] public void EditRideWhooguruConfig() => PopFlatConfig(GameFile.RideWhooguruConfig, "Ride Whooguru Config");
+    [EditorCallable] public void EditRideWhooguruControllerConfig() => PopFlatConfig(GameFile.RideWhooguruControllerConfig, "Ride Whooguru Controller Config");
+    [EditorCallable] public void EditSoundConfig() => PopFlatConfig(GameFile.SoundConfig, "Sound Config");
+
+    [EditorCallable] public void EditFieldAreaSpeed() => PopFlatConfig(GameFile.FieldAreaSpeedConfig, "Field Area Speed Config");
+    [EditorCallable] public void EditFieldCameraConfig() => PopFlatConfig(GameFile.FieldCameraConfig, "Field Camera Config");
+    [EditorCallable] public void EditFieldCaptureDirectorConfig() => PopFlatConfig(GameFile.FieldCaptureDirectorConfig, "Field Capture Director Config");
+    [EditorCallable] public void EditFieldCharaViewerConfig() => PopFlatConfig(GameFile.FieldCharaViewerConfig, "Field Chara Viewer Config");
+    [EditorCallable] public void EditFieldCommonConfig() => PopFlatConfig(GameFile.FieldCommonConfig, "Field Common Config");
+    [EditorCallable] public void EditFieldDirectItemConfig() => PopFlatConfig(GameFile.FieldDirectItemConfig, "Field Direct Item Config");
+    [EditorCallable] public void EditFieldEnvConfig() => PopFlatConfig(GameFile.FieldEnvConfig, "Field Env Config");
+    [EditorCallable] public void EditFieldItem() => PopFlatConfig(GameFile.FieldItem, "Field Item");
+    [EditorCallable] public void EditFieldItemRespawn() => PopFlatConfig(GameFile.FieldItemRespawn, "Field Item Respawn");
+    [EditorCallable] public void EditFieldLandmarkInciteConfig() => PopFlatConfig(GameFile.FieldLandmarkInciteConfig, "Field Landmark Incite Config");
+    [EditorCallable] public void EditFieldLockonConfig() => PopFlatConfig(GameFile.FieldLockonConfig, "Field Lockon Config");
+    [EditorCallable] public void EditFieldMyPokeBallHitNoneTargetConfig() => PopFlatConfig(GameFile.FieldMyPokeBallHitNoneTargetConfig, "Field My Poke Ball Hit None Target Config");
+    [EditorCallable] public void EditFieldObstructionWazaConfig() => PopFlatConfig(GameFile.FieldObstructionWazaConfig, "Field Obstruction Waza Config");
+    [EditorCallable] public void EditFieldPokemonSlopeConfig() => PopFlatConfig(GameFile.FieldPokemonSlopeConfig, "Field Pokemon Slope Config");
+    [EditorCallable] public void EditFieldQuestDestinationConfig() => PopFlatConfig(GameFile.FieldQuestDestinationConfig, "Field Quest Destination Config");
+    [EditorCallable] public void EditFieldShadowConfig() => PopFlatConfig(GameFile.FieldShadowConfig, "Field Shadow Config");
+    [EditorCallable] public void EditFieldThrowConfig() => PopFlatConfig(GameFile.FieldThrowConfig, "Field Throw Config");
+    [EditorCallable] public void EditFieldThrowableAfterHitConfig() => PopFlatConfig(GameFile.FieldThrowableAfterHitConfig, "Field Throwable After Hit Config");
+    [EditorCallable] public void EditFieldVigilanceBgmConfig() => PopFlatConfig(GameFile.FieldVigilanceBgmConfig, "Field Vigilance Bgm Config");
+    [EditorCallable] public void EditFieldWeatheringConfig() => PopFlatConfig(GameFile.FieldWeatheringConfig, "Field Weathering Config");
+    [EditorCallable] public void EditFieldWildPokemonConfig() => PopFlatConfig(GameFile.FieldWildPokemonConfig, "Field Wild Pokemon Config");
+
+    [EditorCallable] public void EditFieldLandmarkConfig() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
+    [EditorCallable] public void EditField_Spawner_Config() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
+    [EditorCallable] public void EditEvolutionConfig() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
+    [EditorCallable] public void EditBallThrowConfig() => PopFlatConfig(GameFile.BallThrowConfig, "Ball Throw Config Editor");
+
     public void EditMasterDump()
     {
         using var md = new DumperPLA(ROM);
