@@ -12,8 +12,9 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorGG : EditorBase
 {
-    private GameData Data => ((GameManagerGG)ROM).Data;
-    protected internal EditorGG(GameManagerGG rom) : base(rom) { }
+    protected override GameManagerGG ROM { get; }
+    private GameData Data => ROM.Data;
+    protected internal EditorGG(GameManagerGG rom) => ROM = rom;
 
     public void EditCommon()
     {
@@ -232,7 +233,7 @@ internal class EditorGG : EditorBase
         var data = file[0];
         var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(data);
 
-        using var form = new GGWE((GameManagerGG)ROM, obj);
+        using var form = new GGWE(ROM, obj);
         if (form.ShowDialog() != DialogResult.OK)
             return;
 

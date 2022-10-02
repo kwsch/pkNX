@@ -143,6 +143,6 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
             }
         }
 
-        Debug.WriteLine("Auto fix for SWSH data succeded");
+        Debug.WriteLine("Auto fix for SWSH data succeeded");
     }
 }

@@ -15,8 +15,13 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorPLA : EditorBase
 {
-    private GameData8a Data => ((GameManagerPLA)ROM).Data;
-    protected internal EditorPLA(GameManagerPLA rom) : base(rom) => CheckOodleDllPresence();
+    protected override GameManagerPLA ROM { get; }
+    private GameData8a Data => ROM.Data;
+    protected internal EditorPLA(GameManagerPLA rom)
+    {
+        ROM = rom;
+        CheckOodleDllPresence();
+    }
 
     private static void CheckOodleDllPresence()
     {
@@ -329,13 +334,13 @@ internal class EditorPLA : EditorBase
     public void EditMap_Viewer()
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
-        using var form = new MapViewer8a((GameManagerPLA)ROM, resident);
+        using var form = new MapViewer8a(ROM, resident);
         form.ShowDialog();
     }
 
     public void EditAreas()
     {
-        using var form = new AreaEditor8a((GameManagerPLA)ROM);
+        using var form = new AreaEditor8a(ROM);
         form.ShowDialog();
     }
 
@@ -396,7 +401,6 @@ internal class EditorPLA : EditorBase
             editor.Save();
     }
 
-
     public void PopFlatConfig(GameFile file, string title)
     {
         var obj = ROM.GetFile(file); // flatbuffer
@@ -456,7 +460,7 @@ internal class EditorPLA : EditorBase
 
     public void EditMasterDump()
     {
-        using var md = new DumperPLA((GameManagerPLA)ROM);
+        using var md = new DumperPLA(ROM);
         md.ShowDialog();
     }
 }

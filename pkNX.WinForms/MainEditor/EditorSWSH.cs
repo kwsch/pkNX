@@ -13,8 +13,9 @@ namespace pkNX.WinForms.Controls;
 
 internal class EditorSWSH : EditorBase
 {
-    private GameData Data => ((GameManagerSWSH)ROM).Data;
-    protected internal EditorSWSH(GameManagerSWSH rom) : base(rom) { }
+    protected override GameManagerSWSH ROM { get; }
+    private GameData Data => ROM.Data;
+    protected internal EditorSWSH(GameManagerSWSH rom) => ROM = rom;
 
     public void EditCommon()
     {
@@ -231,7 +232,7 @@ internal class EditorSWSH : EditorBase
             h = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(hdo);
         }
 
-        using var form = new SSWE((GameManagerSWSH)ROM, s, h);
+        using var form = new SSWE(ROM, s, h);
         form.ShowDialog();
         if (!form.Modified)
             return;
@@ -737,7 +738,7 @@ internal class EditorSWSH : EditorBase
 
     public void EditMasterDump()
     {
-        using var md = new DumperSWSH((GameManagerSWSH)ROM);
+        using var md = new DumperSWSH(ROM);
         md.ShowDialog();
     }
 

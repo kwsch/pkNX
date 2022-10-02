@@ -36,4 +36,55 @@ public static class WinFormsUtil
     /// </summary>
     /// <param name="cb">ComboBox to retrieve value for.</param>
     internal static int GetIndex(ComboBox cb) => (int)(cb.SelectedValue ?? 0);
+
+    /// <summary>
+    /// Manual implementation of setting Title Case, replacing underscores and upper-casing spaced words.
+    /// </summary>
+    /// <param name="value">String to convert</param>
+    /// <returns>Title Case string</returns>
+    internal static string GetSpacedCapitalized(ReadOnlySpan<char> value)
+    {
+        Span<char> tmp = stackalloc char[value.Length * 2];
+        int ctr = 0;
+        bool lastSpace = true; // force first capitalized
+        for (int i = 0; i < value.Length; i++)
+        {
+            char c = value[i];
+            if (c == '_')
+            {
+                // If current is space, replace next with upper char.
+                tmp[ctr++] = ' ';
+                lastSpace = true;
+            }
+            else if (lastSpace)
+            {
+                // If previous was space, replace current with upper char.
+                tmp[ctr++] = char.ToUpper(c);
+                lastSpace = false;
+            }
+            else
+            {
+                // If current is upper and next is lower, add a space before.
+                // If current is lower and next is upper, add a space after.
+                if (i + 1 < value.Length) // has next
+                {
+                    var n = value[i + 1];
+                    if (n != '_')
+                    {
+                        var u0 = char.IsUpper(c);
+                        var u1 = char.IsUpper(n);
+                        if (u0 != u1)
+                        {
+                            tmp[ctr++] = u0 ? ' ' : c;
+                            tmp[ctr++] = u1 ? ' ' : c;
+                            c = n; // fall through write next
+                            i++;
+                        }
+                    }
+                }
+                tmp[ctr++] = c;
+            }
+        }
+        return new string(tmp[..ctr]);
+    }
 }

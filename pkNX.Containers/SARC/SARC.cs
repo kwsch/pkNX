@@ -103,7 +103,7 @@ public sealed class SARC : LargeContainer
         bw.Flush();
     }
 
-    private void StartPack() { }
+    private static void StartPack() { } // do nothing?
 
     private void WriteIntro(BinaryWriter bw, bool finalPass = false)
     {
@@ -146,7 +146,7 @@ public sealed class SARC : LargeContainer
         if (path == null)
             throw new ArgumentNullException(nameof(path));
 
-        var folder = FileName ?? "sarc";
+        var folder = FileName ?? Identifier;
         string dir = Path.Combine(path, folder);
 
         Directory.CreateDirectory(dir);
