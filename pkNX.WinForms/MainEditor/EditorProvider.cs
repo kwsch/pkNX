@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using pkNX.Game;
@@ -15,25 +16,44 @@ public abstract class EditorBase
     public int Language { get => ROM.Language; set => ROM.Language = value; }
     public string? Location { get; private set; }
 
+    private const string prefix = "Edit";
+    private MethodInfo[] editorMethods = Array.Empty<MethodInfo>();
+    private EditorCallableAttribute[] editorAttributes = Array.Empty<EditorCallableAttribute>();
+
+    protected EditorBase()
+    {
+        // Collect all methods that are marked as editors
+        // The method name needs to start with `Edit` or an EditorCallableAttribute should be added
+        var editors = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .Select(x => new { Method = x, Callable = x.GetCustomAttribute<EditorCallableAttribute>() })
+            .Where(x => x.Callable != null || x.Method.Name.StartsWith(prefix));
+
+        editorMethods = editors.Select(x => x.Method).ToArray();
+        editorAttributes = editors.Select(x => x.Callable ?? new EditorCallableAttribute(EditorCategory.None)).ToArray();
+    }
+
     public void Initialize() => ROM.Initialize();
 
-    public IEnumerable<Button> GetControls(int width, int height)
+    public int CountControlsForCategory(EditorCategory category) => editorAttributes.Count(a => a.Category == category);
+
+    public IEnumerable<Button> GetControls(int width, int height, EditorCategory category = EditorCategory.None)
     {
-        var type = GetType();
-        var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-        foreach (var m in methods)
+        for (int i = 0; i < editorMethods.Length; ++i)
         {
-            const string prefix = "Edit";
-            if (!m.Name.StartsWith(prefix))
+            var m = editorMethods[i];
+            var callable = editorAttributes[i];
+
+            // Ignore all editors that are not of the requested category
+            if (callable.Category != category)
                 continue;
 
-            var name = m.Name.AsSpan(prefix.Length);
+            var name = m.Name.Replace(prefix, ""); // Might or might not contain prefix
             var b = new Button
             {
                 Width = width,
                 Height = height,
                 Name = $"B_{name}",
-                Text = WinFormsUtil.GetSpacedCapitalized(name),
+                Text = (callable?.HasCustomEditorName() ?? false) ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
             };
             b.Click += (s, e) =>
             {

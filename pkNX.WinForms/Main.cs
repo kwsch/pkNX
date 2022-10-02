@@ -11,6 +11,10 @@ namespace pkNX.WinForms;
 
 public partial class Main : Form
 {
+    private const int ButtonWidth = 120;
+    private const int ButtonHeight = 40;
+    private const int ButtonPadding = 3;
+
     public static readonly string ProgramSettingsPath = Path.Combine(Application.StartupPath, "settings.json");
     public ProgramSettings Settings { get; }
 
@@ -173,19 +177,66 @@ public partial class Main : Form
         }
     }
 
-    private const int ButtonWidth = 120;
-    private const int ButtonHeight = 40;
-    private const int ButtonPadding = 3;
+    private void LoadEditorButtons(EditorCategory category = EditorCategory.None)
+    {
+        FLP_Controls.SuspendLayout();
+        FLP_Controls.Controls.Clear();
+
+        if (category == EditorCategory.None)
+        {
+            foreach (var c in (EditorCategory[])Enum.GetValues(typeof(EditorCategory)))
+            {
+                if (c == EditorCategory.None)
+                    continue;
+
+                if (Editor!.CountControlsForCategory(c) == 0)
+                    continue;
+
+                FLP_Controls.Controls.Add(CreateCategoryButton(c));
+            }
+        }
+        else
+        {
+            // Create back button
+            FLP_Controls.Controls.Add(CreateCategoryButton(EditorCategory.None));
+        }
+
+        AddEditorButtonsForCategory(category);
+
+        FLP_Controls.ResumeLayout();
+    }
+
+    private void AddEditorButtonsForCategory(EditorCategory category)
+    {
+        var ctrls = Editor!.GetControls(ButtonWidth, ButtonHeight, category).OrderBy(x => x.Text);
+
+        foreach (var ctrl in ctrls)
+            FLP_Controls.Controls.Add(ctrl);
+    }
+
+    public Button CreateCategoryButton(EditorCategory category)
+    {
+        var b = new Button
+        {
+            Width = ButtonWidth,
+            Height = ButtonHeight,
+            Name = $"B_OpenCategory{category}",
+            Text = ((category == EditorCategory.None) ? "Back" : $"Show {category} Editors"),
+        };
+        b.Click += (s, e) =>
+        {
+            LoadEditorButtons(category);
+        };
+        return b;
+    }
 
     private void LoadROM(EditorBase editor)
     {
         Editor = editor;
-        var ctrl = Editor.GetControls(ButtonWidth, ButtonHeight).OrderBy(x => x.Text);
-        FLP_Controls.Controls.Clear();
-        foreach (var c in ctrl)
-            FLP_Controls.Controls.Add(c);
 
-        const int wp = ButtonWidth + (2 * ButtonPadding) + 3;
+        LoadEditorButtons();
+
+        const int wp = ButtonWidth + (2 * ButtonPadding);
         const int hp = ButtonHeight + (2 * ButtonPadding);
         const int area = wp * hp;
         var count = FLP_Controls.Controls.Count;
@@ -194,8 +245,8 @@ public partial class Main : Form
         var squareSide = Math.Sqrt(totalArea);
         var columns = (int)Math.Ceiling(squareSide / wp) + 1;
         var rows = (count / columns) + 2;
-        Width = (columns * wp) + 6;
-        Height = FLP_Controls.Location.Y + (rows * hp) + 6;
+
+        ClientSize = new(columns * wp, FLP_Controls.Location.Y + (rows * hp));
         CenterToScreen();
 
         Text = $"{nameof(pkNX)} - {Editor.Game}";
