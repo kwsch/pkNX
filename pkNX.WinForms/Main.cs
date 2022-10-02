@@ -11,6 +11,10 @@ namespace pkNX.WinForms;
 
 public partial class Main : Form
 {
+    private const int ButtonWidth = 120;
+    private const int ButtonHeight = 40;
+    private const int ButtonPadding = 3;
+
     public static readonly string ProgramSettingsPath = Path.Combine(Application.StartupPath, "settings.json");
     public ProgramSettings Settings { get; }
 
@@ -173,10 +177,6 @@ public partial class Main : Form
         }
     }
 
-    private const int ButtonWidth = 120;
-    private const int ButtonHeight = 40;
-    private const int ButtonPadding = 3;
-
     private void LoadEditorButtons(EditorCategory category = EditorCategory.None)
     {
         FLP_Controls.SuspendLayout();
@@ -236,7 +236,7 @@ public partial class Main : Form
 
         LoadEditorButtons();
 
-        const int wp = ButtonWidth + (2 * ButtonPadding) + 3;
+        const int wp = ButtonWidth + (2 * ButtonPadding);
         const int hp = ButtonHeight + (2 * ButtonPadding);
         const int area = wp * hp;
         var count = FLP_Controls.Controls.Count;
@@ -245,8 +245,8 @@ public partial class Main : Form
         var squareSide = Math.Sqrt(totalArea);
         var columns = (int)Math.Ceiling(squareSide / wp) + 1;
         var rows = (count / columns) + 2;
-        Width = (columns * wp) + 6;
-        Height = FLP_Controls.Location.Y + (rows * hp) + 6;
+
+        ClientSize = new(columns * wp, FLP_Controls.Location.Y + (rows * hp));
         CenterToScreen();
 
         Text = $"{nameof(pkNX)} - {Editor.Game}";
