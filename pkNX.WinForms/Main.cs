@@ -12,10 +12,6 @@ namespace pkNX.WinForms;
 
 public partial class Main : Form
 {
-    private const int ButtonWidth = 120;
-    private const int ButtonHeight = 40;
-    private const int ButtonPadding = 3;
-
     public static readonly string ProgramSettingsPath = Path.Combine(Application.StartupPath, "settings.json");
     public ProgramSettings Settings { get; }
 
@@ -209,7 +205,7 @@ public partial class Main : Form
 
     private void AddEditorButtonsForCategory(EditorCategory category)
     {
-        var ctrls = Editor!.GetControls(ButtonWidth, ButtonHeight, category).OrderBy(x => x.Text);
+        var ctrls = Editor!.GetControls(B_TemplateButton, category).OrderBy(x => x.Text);
 
         foreach (var ctrl in ctrls)
             FLP_Controls.Controls.Add(ctrl);
@@ -219,8 +215,9 @@ public partial class Main : Form
     {
         var b = new Button
         {
-            Width = ButtonWidth,
-            Height = ButtonHeight,
+            Width = B_TemplateButton.Width,
+            Height = B_TemplateButton.Height,
+            Margin = B_TemplateButton.Margin,
             Name = $"B_OpenCategory{category}",
             Text = ((category == EditorCategory.None) ? "Back" : $"Show {category} Editors"),
         };
@@ -233,9 +230,9 @@ public partial class Main : Form
 
     private void AdjustWindowSize()
     {
-        const int wp = ButtonWidth + (2 * ButtonPadding);
-        const int hp = ButtonHeight + (2 * ButtonPadding);
-        const int area = wp * hp;
+        int wp = B_TemplateButton.Width + B_TemplateButton.Margin.Horizontal;
+        int hp = B_TemplateButton.Height + B_TemplateButton.Margin.Vertical;
+        int area = wp * hp;
         var count = FLP_Controls.Controls.Count;
         // Resize form dimensions then center to screen, so that all buttons are shown.
         var totalArea = count * area;
@@ -249,6 +246,7 @@ public partial class Main : Form
         if (ClientSize.Width < newClientSize.Width || ClientSize.Height < newClientSize.Height)
             ClientSize = newClientSize;
 
+        FLP_Controls.PerformLayout();
         FLP_Controls.ResumeLayout();
 
         // Adjust for scrollbar width

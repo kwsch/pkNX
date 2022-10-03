@@ -43,7 +43,9 @@ namespace pkNX.WinForms
             this.Menu_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Current = new System.Windows.Forms.ToolStripMenuItem();
             this.FLP_Controls = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_TemplateButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
+            this.FLP_Controls.SuspendLayout();
             this.SuspendLayout();
             // 
             // TB_Path
@@ -51,10 +53,12 @@ namespace pkNX.WinForms
             this.TB_Path.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_Path.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TB_Path.Location = new System.Drawing.Point(124, 5);
+            this.TB_Path.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TB_Path.Location = new System.Drawing.Point(181, 8);
+            this.TB_Path.Margin = new System.Windows.Forms.Padding(4);
             this.TB_Path.Name = "TB_Path";
             this.TB_Path.ReadOnly = true;
-            this.TB_Path.Size = new System.Drawing.Size(288, 16);
+            this.TB_Path.Size = new System.Drawing.Size(432, 22);
             this.TB_Path.TabIndex = 10;
             this.TB_Path.Text = "No Game Loaded";
             // 
@@ -67,8 +71,7 @@ namespace pkNX.WinForms
             this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(413, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(620, 33);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -79,14 +82,14 @@ namespace pkNX.WinForms
             this.Menu_Exit,
             this.Menu_Save});
             this.Menu_File.Name = "Menu_File";
-            this.Menu_File.Size = new System.Drawing.Size(37, 22);
+            this.Menu_File.Size = new System.Drawing.Size(54, 29);
             this.Menu_File.Text = "File";
             // 
             // Menu_Open
             // 
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.Menu_Open.Size = new System.Drawing.Size(155, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(235, 34);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.Menu_Open_Click);
             // 
@@ -94,7 +97,7 @@ namespace pkNX.WinForms
             // 
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.Menu_Exit.Size = new System.Drawing.Size(155, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(235, 34);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -102,7 +105,7 @@ namespace pkNX.WinForms
             // 
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.Menu_Save.Size = new System.Drawing.Size(155, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(235, 34);
             this.Menu_Save.Text = "&Save";
             this.Menu_Save.Click += new System.EventHandler(this.Menu_Save_Click);
             // 
@@ -114,7 +117,7 @@ namespace pkNX.WinForms
             this.Menu_Restore,
             this.Menu_Current});
             this.Menu_Options.Name = "Menu_Options";
-            this.Menu_Options.Size = new System.Drawing.Size(61, 22);
+            this.Menu_Options.Size = new System.Drawing.Size(92, 29);
             this.Menu_Options.Text = "Options";
             // 
             // Menu_Language
@@ -122,7 +125,7 @@ namespace pkNX.WinForms
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_Lang});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(222, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(336, 34);
             this.Menu_Language.Text = "Language";
             // 
             // CB_Lang
@@ -140,7 +143,7 @@ namespace pkNX.WinForms
             "汉字简化方案",
             "漢字簡化方案"});
             this.CB_Lang.Name = "CB_Lang";
-            this.CB_Lang.Size = new System.Drawing.Size(121, 23);
+            this.CB_Lang.Size = new System.Drawing.Size(121, 33);
             this.CB_Lang.SelectedIndexChanged += new System.EventHandler(this.ChangeLanguage);
             // 
             // randomizationToolStripMenuItem
@@ -148,13 +151,13 @@ namespace pkNX.WinForms
             this.randomizationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SetRNGSeed});
             this.randomizationToolStripMenuItem.Name = "randomizationToolStripMenuItem";
-            this.randomizationToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.randomizationToolStripMenuItem.Size = new System.Drawing.Size(336, 34);
             this.randomizationToolStripMenuItem.Text = "Randomization";
             // 
             // Menu_SetRNGSeed
             // 
             this.Menu_SetRNGSeed.Name = "Menu_SetRNGSeed";
-            this.Menu_SetRNGSeed.Size = new System.Drawing.Size(146, 22);
+            this.Menu_SetRNGSeed.Size = new System.Drawing.Size(226, 34);
             this.Menu_SetRNGSeed.Text = "Set int32 seed";
             this.Menu_SetRNGSeed.Click += new System.EventHandler(this.Menu_SetRNGSeed_Click);
             // 
@@ -162,7 +165,7 @@ namespace pkNX.WinForms
             // 
             this.Menu_Restore.Enabled = false;
             this.Menu_Restore.Name = "Menu_Restore";
-            this.Menu_Restore.Size = new System.Drawing.Size(222, 22);
+            this.Menu_Restore.Size = new System.Drawing.Size(336, 34);
             this.Menu_Restore.Text = "Restore Original Files";
             // 
             // Menu_Current
@@ -170,36 +173,49 @@ namespace pkNX.WinForms
             this.Menu_Current.Enabled = false;
             this.Menu_Current.Name = "Menu_Current";
             this.Menu_Current.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.Menu_Current.Size = new System.Drawing.Size(222, 22);
+            this.Menu_Current.Size = new System.Drawing.Size(336, 34);
             this.Menu_Current.Text = "Open Current Folder";
             this.Menu_Current.Click += new System.EventHandler(this.Menu_Current_Click);
             // 
             // FLP_Controls
             // 
             this.FLP_Controls.AutoScroll = true;
+            this.FLP_Controls.Controls.Add(this.B_TemplateButton);
             this.FLP_Controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FLP_Controls.Location = new System.Drawing.Point(0, 24);
+            this.FLP_Controls.Location = new System.Drawing.Point(0, 33);
+            this.FLP_Controls.Margin = new System.Windows.Forms.Padding(4);
             this.FLP_Controls.Name = "FLP_Controls";
-            this.FLP_Controls.Size = new System.Drawing.Size(413, 275);
+            this.FLP_Controls.Size = new System.Drawing.Size(620, 415);
             this.FLP_Controls.TabIndex = 13;
+            // 
+            // B_TemplateButton
+            // 
+            this.B_TemplateButton.Location = new System.Drawing.Point(3, 3);
+            this.B_TemplateButton.Name = "B_TemplateButton";
+            this.B_TemplateButton.Size = new System.Drawing.Size(180, 70);
+            this.B_TemplateButton.TabIndex = 0;
+            this.B_TemplateButton.Text = "Template Button";
+            this.B_TemplateButton.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(413, 299);
+            this.ClientSize = new System.Drawing.Size(620, 448);
             this.Controls.Add(this.FLP_Controls);
             this.Controls.Add(this.TB_Path);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "pkNX";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.FLP_Controls.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,6 +236,7 @@ namespace pkNX.WinForms
         private System.Windows.Forms.FlowLayoutPanel FLP_Controls;
         private System.Windows.Forms.ToolStripMenuItem Menu_Current;
         private System.Windows.Forms.ToolStripMenuItem Menu_Save;
+        private System.Windows.Forms.Button B_TemplateButton;
     }
 }
 
