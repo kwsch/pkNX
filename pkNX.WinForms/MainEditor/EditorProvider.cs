@@ -36,7 +36,7 @@ public abstract class EditorBase
 
     public int CountControlsForCategory(EditorCategory category) => editorAttributes.Count(a => a.Category == category);
 
-    public IEnumerable<Button> GetControls(int width, int height, EditorCategory category = EditorCategory.None)
+    public IEnumerable<Button> GetControls(Button templateButton, EditorCategory category = EditorCategory.None)
     {
         for (int i = 0; i < editorMethods.Length; ++i)
         {
@@ -50,8 +50,10 @@ public abstract class EditorBase
             var name = m.Name.Replace(prefix, ""); // Might or might not contain prefix
             var b = new Button
             {
-                Width = width,
-                Height = height,
+                Width = templateButton.Width,
+                Height = templateButton.Height,
+                Margin = templateButton.Margin,
+                Font = templateButton.Font,
                 Name = $"B_{name}",
                 Text = (callable?.HasCustomEditorName() ?? false) ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
             };
