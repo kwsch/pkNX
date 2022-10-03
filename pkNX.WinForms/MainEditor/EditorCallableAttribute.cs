@@ -6,11 +6,17 @@ public enum EditorCategory
 {
     None,
     Pokemon,
+    AI,
     Battle,
     Field,
     Shops,
+    Items,
     Dialog,
+    NPC,
+    Player,
+    Rides,
     Graphics,
+    Audio,
     Misc,
 }
 
