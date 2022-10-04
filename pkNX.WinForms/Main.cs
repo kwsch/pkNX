@@ -29,7 +29,7 @@ public partial class Main : Form
 
         Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
         CB_Lang.SelectedIndex = Settings.Language;
-        if (!string.IsNullOrWhiteSpace(Settings.GamePath))
+        if (!string.IsNullOrWhiteSpace(Settings.GamePath) && Directory.Exists(Settings.GamePath))
             OpenPath(Settings.GamePath, Settings.GameOverride);
 
         DragDrop += (s, e) =>
