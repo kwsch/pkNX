@@ -27,6 +27,8 @@ public partial class Main : Form
     {
         InitializeComponent();
 
+        FLP_Controls.Controls.Clear();
+
         Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
         CB_Lang.SelectedIndex = Settings.Language;
         if (!string.IsNullOrWhiteSpace(Settings.GamePath) && Directory.Exists(Settings.GamePath))
