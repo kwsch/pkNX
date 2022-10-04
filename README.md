@@ -9,7 +9,7 @@ Similar to [pk3DS](https://github.com/kwsch/pk3ds) for the Nintendo 3DS, pkNX pr
 ![Main Window](https://i.imgur.com/lSYWN4m.png)
 
 ## Download
-Download the latest version [here](https://dev.azure.com/project-pokemon/pkNX/_build?view=runs)
+Download the latest version [here](https://dev.azure.com/project-pokemon/pkNX/_build?view=runs).
 
 (click on latest run at the top, then click Artifacts - published, and download the folder)
 ![image](https://user-images.githubusercontent.com/60387522/193828925-2c5f3142-f8cb-4daa-af49-9663919ec9bf.png)
@@ -33,9 +33,9 @@ pkNX also provides some utility to extract from supported container types, e.g. 
 
 ## Building
 
-pkNX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137).
+pkNX is a Windows Forms application which requires [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) for Windows.
 
-The executable can be built with any compiler that supports C# 9.
+The executable can be built with any compiler that supports C# 10.
 
 ## Dependencies
 
