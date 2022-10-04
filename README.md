@@ -8,6 +8,13 @@ Similar to [pk3DS](https://github.com/kwsch/pk3ds) for the Nintendo 3DS, pkNX pr
 
 ![Main Window](https://i.imgur.com/lSYWN4m.png)
 
+## Download
+Download the latest version [here](https://dev.azure.com/project-pokemon/pkNX/_build?view=runs)
+
+(click on latest run at the top, then click Artifacts - published, and download the folder)
+![image](https://user-images.githubusercontent.com/60387522/193828925-2c5f3142-f8cb-4daa-af49-9663919ec9bf.png)
+![image](https://user-images.githubusercontent.com/60387522/193829124-02db4dfa-2e61-421c-a5fd-129552df8aca.png)
+
 ## Features
 Supports the following games:
 * Let's Go, Pikachu! / Let's Go, Eevee!
