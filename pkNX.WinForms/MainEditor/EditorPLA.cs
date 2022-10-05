@@ -75,12 +75,12 @@ internal class EditorPLA : EditorBase
         {
             if (pi.IsPresentInGame)
             {
-                banned.Remove(pi.ModelID);
-                hasForm.Add(pi.ModelID);
+                banned.Remove(pi.DexIndexNational);
+                hasForm.Add(pi.DexIndexNational);
             }
-            else if (!hasForm.Contains(pi.ModelID))
+            else if (!hasForm.Contains(pi.DexIndexNational))
             {
-                banned.Add(pi.ModelID);
+                banned.Add(pi.DexIndexNational);
             }
         }
         return banned.ToArray();
@@ -90,8 +90,8 @@ internal class EditorPLA : EditorBase
     {
         var pt = Data.PersonalData;
         var formRand = pt.Table.Cast<IPersonalMisc_1>()
-            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
-            .GroupBy(z => z.ModelID)
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.DexIndexNational) || Legal.BattleFusions.Contains(z.DexIndexNational)))
+            .GroupBy(z => z.DexIndexNational)
             .ToDictionary(z => z.Key, z => z.ToList());
 
         if (!formRand.TryGetValue((ushort)spec, out var entries))
@@ -191,7 +191,7 @@ internal class EditorPLA : EditorBase
     public void EditPersonalRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PersonalTableLAfb, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<PersonalTableLAfb, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => $"{names[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
@@ -509,7 +509,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Graphics)] public void EditAppliTipsConfig() => PopFlatConfig(GameFile.AppliTipsConfig, "Appli Tips Config Editor");
 
     [EditorCallable(EditorCategory.Graphics)] public void EditFieldShadowConfig() => PopFlatConfig(GameFile.FieldShadowConfig, "Field Shadow Config");
-    
+
     [EditorCallable(EditorCategory.Graphics)]
     public void EditNPCModelSet()
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -85,12 +85,12 @@ public partial class AreaEditor8a : Form
         {
             if (pi.IsPresentInGame)
             {
-                banned.Remove(pi.ModelID);
-                hasForm.Add(pi.ModelID);
+                banned.Remove(pi.DexIndexNational);
+                hasForm.Add(pi.DexIndexNational);
             }
-            else if (!hasForm.Contains(pi.ModelID))
+            else if (!hasForm.Contains(pi.DexIndexNational))
             {
-                banned.Add(pi.ModelID);
+                banned.Add(pi.DexIndexNational);
             }
         }
 
@@ -98,8 +98,8 @@ public partial class AreaEditor8a : Form
         rand.Initialize(settings, banned.ToArray());
 
         var formRand = pt.Table.Cast<IPersonalMisc_1>()
-            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.ModelID) || Legal.BattleFusions.Contains(z.ModelID)))
-            .GroupBy(z => z.ModelID)
+            .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.DexIndexNational) || Legal.BattleFusions.Contains(z.DexIndexNational)))
+            .GroupBy(z => z.DexIndexNational)
             .ToDictionary(z => z.Key, z => z.ToList());
 
         var encounters = area.Encounters;
