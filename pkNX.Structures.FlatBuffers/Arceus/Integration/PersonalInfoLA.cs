@@ -87,9 +87,9 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public ushort Field_46 { get => FB.Field_46; set => FB.Field_46 = value; }
     public byte Field_47 { get => FB.Field_47; set => FB.Field_47 = value; }
 
-    public ushort ModelID { get => FB.Species; set => FB.Species = value; }
+    public ushort ModelID { get => FB.ModelID; set => FB.ModelID = value; }
     public ushort Form { get => FB.Form; set => FB.Form = value; }
-    public ushort DexIndexNational { get => FB.DexIndexOther; set => FB.DexIndexOther = value; }
+    public ushort DexIndexNational { get => FB.DexIndexNational; set => FB.DexIndexNational = value; }
     public ushort DexIndexRegional { get => FB.DexIndexHisui; set => FB.DexIndexHisui = value; }
     public ushort DexIndexLocal1 { get => FB.DexIndexLocal1; set => FB.DexIndexLocal1 = value; }
     public ushort DexIndexLocal2 { get => FB.DexIndexLocal2; set => FB.DexIndexLocal2 = value; }

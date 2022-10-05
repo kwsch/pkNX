@@ -50,6 +50,8 @@ public partial class PokeDataUI8a : Form
         Data = data;
         InitializeComponent();
 
+        B_NextPokemon.Focus();
+
         helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
         ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
         typing_boxes = new[] { CB_Type1, CB_Type2 };
@@ -176,7 +178,7 @@ public partial class PokeDataUI8a : Form
         var form = formVal[index];
 
         LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
-        LoadMisc(Editor.PokeMisc.Root.GetEntry(spec, form));
+        LoadMisc(Editor.PokeMisc.Root.GetEntry((ushort)spec, (ushort)form));
 
         LoadDexResearch(Editor.DexResearch.Root.GetEntries(spec));
 
@@ -338,7 +340,7 @@ public partial class PokeDataUI8a : Form
         B_PreviousPokemon.Enabled = cPersonal.DexIndexNational > 0;
         B_PreviousForm.Enabled = cPersonal.Form > 0;
         B_NextForm.Enabled = (cPersonal.Form + 1) < cPersonal.FormCount;
-        B_NextPokemon.Enabled = (cPersonal.DexIndexNational + 1) < Data.PersonalData.MaxSpeciesID;
+        B_NextPokemon.Enabled = (cPersonal.DexIndexNational + 1) <= Data.PersonalData.MaxSpeciesID;
     }
 
     private bool ValidateRegionalDexIndex()
@@ -349,7 +351,8 @@ public partial class PokeDataUI8a : Form
         var regionalDex = form0.Select(x => x.DexIndexRegional).Where(x => x != 0).ToImmutableHashSet();
 
         var dexIndex = Convert.ToUInt16(TB_HisuianDex.Text);
-        if (dexIndex == 0 || dexIndex == cPersonal.DexIndexRegional)
+        // Allow index 0 only if the pokemon is not in the game
+        if ((dexIndex == 0 && cPersonal.IsPresentInGame) || dexIndex == cPersonal.DexIndexRegional)
             return true;
 
         if (regionalDex.Contains(dexIndex))
@@ -826,6 +829,24 @@ public partial class PokeDataUI8a : Form
     {
         e.Cancel = !SaveCurrent();
         Modified = true;
+    }
+
+    private void CHK_IsPresentInGame_CheckedChanged(object sender, EventArgs e)
+    {
+        cPersonal.IsPresentInGame = CHK_IsPresentInGame.Checked;
+
+        if (cPersonal.IsPresentInGame)
+        {
+            ValidateRegionalDexIndex();
+
+            if (!Editor.PokeMisc.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
+            {
+                var entry = Editor.PokeMisc.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
+
+                // Reload entry with correct misc data
+                LoadMisc(entry);
+            }
+        }
     }
 
     private void B_Save_Click(object sender, EventArgs e)

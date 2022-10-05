@@ -3,6 +3,7 @@ using pkNX.Containers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Immutable;
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -26,13 +27,18 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
         var baseForms = new PersonalInfo8LA[MaxSpecies + 1];
         var formTable = new List<PersonalInfo8LA>();
 
+        var formGrouped = Root.Table
+            .OrderBy(z => z.DexIndexNational)
+            .ThenBy(z => z.Form)
+            .GroupBy(x => x.DexIndexNational)
+            .Select(group => group.ToImmutableArray());
+
         for (int i = 0; i <= MaxSpecies; i++)
         {
-            var forms = Root.Table.Where(z => z.Species == (ushort)i).OrderBy(z => z.Form).ToList();
+            var forms = formGrouped.ElementAt(i);
 
-            var e = forms[0];
-            baseForms[i] = GetObj(e, forms, MaxSpecies, formTable);
-            for (int f = 1; f < forms.Count; f++)
+            baseForms[i] = GetObj(forms[0], forms, MaxSpecies, formTable);
+            for (int f = 1; f < forms.Length; f++)
                 formTable.Add(GetObj(forms[f], forms, MaxSpecies, formTable, f));
         }
 

@@ -39,7 +39,7 @@ public partial class MapViewer8a : Form
             if (!e.IsPresentInGame)
                 continue;
 
-            var species = e.ModelID;
+            var species = e.DexIndexNational;
             if (nameList.All(z => z.Value != species))
                 nameList.Add(new(speciesNames[species], species));
         }

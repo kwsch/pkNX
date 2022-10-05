@@ -123,7 +123,7 @@ public class GameDumperPLA
             if (isShop)
             {
                 var species = pt.Table.OfType<IPersonalInfoPLA>().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
-                var names = species.Select(z => $"{spec[z.ModelID]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+                var names = species.Select(z => $"{spec[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
                 r.Add($"\tTutors: {string.Join(", ", names)}");
             }
 
@@ -916,7 +916,7 @@ public class GameDumperPLA
         {
             var p = (IPersonalInfoPLA)pt[i];
             bool any = false;
-            var specForm = $"{p.ModelID:000}\t{p.Form}\t{s[p.ModelID]}{(p.Form == 0 ? "" : $"-{p.Form:00}")}";
+            var specForm = $"{p.DexIndexNational:000}\t{p.Form}\t{s[p.DexIndexNational]}{(p.Form == 0 ? "" : $"-{p.Form:00}")}";
             if (p.DexIndexRegional != 0)
             {
                 dex.Add($"{p.DexIndexRegional:000}\t{specForm}");
