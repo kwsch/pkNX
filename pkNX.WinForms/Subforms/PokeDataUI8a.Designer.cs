@@ -1086,6 +1086,7 @@ namespace pkNX.WinForms
             this.CHK_IsPresentInGame.TabIndex = 503;
             this.CHK_IsPresentInGame.Text = "Present in Game:";
             this.CHK_IsPresentInGame.UseVisualStyleBackColor = true;
+            this.CHK_IsPresentInGame.CheckedChanged += new System.EventHandler(this.CHK_IsPresentInGame_CheckedChanged);
             // 
             // TB_Stage
             // 
@@ -1604,7 +1605,7 @@ namespace pkNX.WinForms
             // B_PDumpTable
             // 
             this.B_PDumpTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_PDumpTable.Location = new System.Drawing.Point(790, 580);
+            this.B_PDumpTable.Location = new System.Drawing.Point(786, 593);
             this.B_PDumpTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.B_PDumpTable.Name = "B_PDumpTable";
             this.B_PDumpTable.Size = new System.Drawing.Size(112, 35);
@@ -1725,16 +1726,16 @@ namespace pkNX.WinForms
             this.CLB_SpecialTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_SpecialTutor.FormattingEnabled = true;
-            this.CLB_SpecialTutor.Location = new System.Drawing.Point(650, 270);
+            this.CLB_SpecialTutor.Location = new System.Drawing.Point(665, 259);
             this.CLB_SpecialTutor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_SpecialTutor.Name = "CLB_SpecialTutor";
-            this.CLB_SpecialTutor.Size = new System.Drawing.Size(218, 144);
+            this.CLB_SpecialTutor.Size = new System.Drawing.Size(218, 368);
             this.CLB_SpecialTutor.TabIndex = 10;
             // 
             // L_TypeTutors
             // 
             this.L_TypeTutors.AutoSize = true;
-            this.L_TypeTutors.Location = new System.Drawing.Point(645, 28);
+            this.L_TypeTutors.Location = new System.Drawing.Point(665, 5);
             this.L_TypeTutors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_TypeTutors.Name = "L_TypeTutors";
             this.L_TypeTutors.Size = new System.Drawing.Size(116, 25);
@@ -1744,7 +1745,7 @@ namespace pkNX.WinForms
             // L_TM
             // 
             this.L_TM.AutoSize = true;
-            this.L_TM.Location = new System.Drawing.Point(421, 28);
+            this.L_TM.Location = new System.Drawing.Point(439, 5);
             this.L_TM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_TM.Name = "L_TM";
             this.L_TM.Size = new System.Drawing.Size(49, 25);
@@ -1756,27 +1757,28 @@ namespace pkNX.WinForms
             this.CLB_TypeTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.CLB_TypeTutor.FormattingEnabled = true;
-            this.CLB_TypeTutor.Location = new System.Drawing.Point(650, 52);
+            this.CLB_TypeTutor.Location = new System.Drawing.Point(665, 35);
             this.CLB_TypeTutor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_TypeTutor.Name = "CLB_TypeTutor";
-            this.CLB_TypeTutor.Size = new System.Drawing.Size(218, 4);
+            this.CLB_TypeTutor.Size = new System.Drawing.Size(218, 200);
             this.CLB_TypeTutor.TabIndex = 8;
             // 
             // CLB_TM
             // 
-            this.CLB_TM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_TM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_TM.FormattingEnabled = true;
-            this.CLB_TM.Location = new System.Drawing.Point(426, 52);
+            this.CLB_TM.Location = new System.Drawing.Point(439, 35);
             this.CLB_TM.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_TM.Name = "CLB_TM";
-            this.CLB_TM.Size = new System.Drawing.Size(218, 704);
+            this.CLB_TM.Size = new System.Drawing.Size(218, 592);
             this.CLB_TM.TabIndex = 6;
             // 
             // L_LevelUp
             // 
             this.L_LevelUp.AutoSize = true;
-            this.L_LevelUp.Location = new System.Drawing.Point(4, 28);
+            this.L_LevelUp.Location = new System.Drawing.Point(8, 5);
             this.L_LevelUp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_LevelUp.Name = "L_LevelUp";
             this.L_LevelUp.Size = new System.Drawing.Size(153, 25);
@@ -1787,14 +1789,15 @@ namespace pkNX.WinForms
             // 
             this.dgv.AllowUserToResizeColumns = false;
             this.dgv.AllowUserToResizeRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(0, 52);
+            this.dgv.Location = new System.Drawing.Point(8, 35);
             this.dgv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersWidth = 62;
-            this.dgv.Size = new System.Drawing.Size(423, 786);
+            this.dgv.Size = new System.Drawing.Size(423, 592);
             this.dgv.TabIndex = 1;
             // 
             // Tab_Evo

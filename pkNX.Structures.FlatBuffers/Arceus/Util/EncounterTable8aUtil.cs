@@ -163,7 +163,7 @@ public static class EncounterTable8aUtil
             var oybn = s.Oybn;
             if (oybn.Oybn1 || oybn.Oybn2)
             {
-                var miscEntry = misc.GetEntry(s.Species, s.Form);
+                var miscEntry = misc.GetEntry((ushort)s.Species, (ushort)s.Form);
                 var boostIndex = miscEntry.OybnLevelIndex;
                 var boost = OybnSettings[boostIndex - 1];
                 max += boost;
@@ -222,7 +222,8 @@ public static class EncounterTable8aUtil
     {
         yield return $"Area: {area.AreaName}";
 
-        foreach (var enctable in area.Encounters) {
+        foreach (var enctable in area.Encounters)
+        {
             foreach (var line in GetTableSummary(enctable, multiplier_archive, speciesNames, misc, area, nhoGroup, nhoLottery, map))
                 yield return $"\t{line}";
 
@@ -407,7 +408,7 @@ public static class EncounterTable8aUtil
             var (force, min, max) = slot.GetLevels(lvMin, lvMax);
             if (slot.Oybn.Oybn1 || slot.Oybn.Oybn2)
             {
-                var miscEntry = misc.GetEntry(slot.Species, slot.Form);
+                var miscEntry = misc.GetEntry((ushort)slot.Species, (ushort)slot.Form);
                 var boostIndex = miscEntry.OybnLevelIndex;
                 var boost = OybnSettings[boostIndex - 1];
                 max += boost;
