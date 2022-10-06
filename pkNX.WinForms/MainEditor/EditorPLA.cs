@@ -536,13 +536,13 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowParam()
     {
-        PopFlat<ThrowParamTable8a, ThrowParam8a>(GameFile.ThrowParam, "Throw Param Editor", (z, _) => z.Hash.ToString("X16"));
+        PopFlat<ThrowParamTable8a, ThrowParam8a>(GameFile.ThrowParam, "Throw Param Editor", (z, _) => z.ThrowParamType.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowPermissionSetParam()
     {
-        PopFlat<ThrowPermissionSetDictionary8a, ThrowPermissionSetEntry8a>(GameFile.ThrowPermissionSet, "Throw Permission Editor", (z, _) => z.Hash_00.ToString("X16"));
+        PopFlat<ThrowPermissionSetDictionary8a, ThrowPermissionSetEntry8a>(GameFile.ThrowPermissionSet, "Throw Permission Editor", (z, _) => z.ThrowPermissionSet.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]
@@ -559,7 +559,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowResourceSetDictionary()
     {
-        PopFlat<ThrowableResourceSetDictionary8a, ThrowableResourceSetEntry8a>(GameFile.ThrowableResourceSet, "Throwable Resource Set Dictionary Editor", (z, _) => z.Hash_00.ToString("X16"));
+        PopFlat<ThrowableResourceSetDictionary8a, ThrowableResourceSetEntry8a>(GameFile.ThrowableResourceSet, "Throwable Resource Set Dictionary Editor", (z, _) => z.ItemType.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]

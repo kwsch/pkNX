@@ -22,7 +22,7 @@ public class ThrowPermissionSetDictionary8a : IFlatBufferArchive<ThrowPermission
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class ThrowPermissionSetEntry8a
 {
-    [FlatBufferItem(00)] public ulong Hash_00 { get; set; }
+    [FlatBufferItem(00)] public ThrowPermissionSetType8a ThrowPermissionSet { get; set; }
     [FlatBufferItem(01)] public int Field_01 { get; set; }
     [FlatBufferItem(02)] public int Field_02 { get; set; }
     [FlatBufferItem(03)] public int Field_03 { get; set; }

@@ -220,6 +220,7 @@ public class GameFileMapping
 
         new(GameFile.Resident               , ContainerType.GFPack    , "bin", "archive", "field", "resident_release.gfpak"),
 
+        new(GameFile.ThrowParam             , ContainerType.SingleFile, "bin", "capture", "throw_param_table.bin"),
         new(GameFile.ThrowPermissionSet     , ContainerType.SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),
         new(GameFile.ThrowableParam         , ContainerType.SingleFile, "bin", "capture", "throwable_param_table.bin"),
         new(GameFile.ThrowableResource      , ContainerType.SingleFile, "bin", "capture", "throwable_resource_dictionary.bin"),
