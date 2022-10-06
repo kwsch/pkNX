@@ -603,6 +603,8 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Player)] public void EditPlayerConfig() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
     [EditorCallable(EditorCategory.Player)] public void EditPlayerControllerConfig() => PopFlatConfig(GameFile.PlayerControllerConfig, "Player Controller Config");
     [EditorCallable(EditorCategory.Player)] public void EditPlayerFaceConfig() => PopFlatConfig(GameFile.PlayerFaceConfig, "Player Face Config");
+    [EditorCallable(EditorCategory.Player)] public void EditPlayer1DressupTable() => PopFlat<DressUpTable8a, DressUpEntry8a>(GameFile.Player1DressupTable, "Player 1 DressUp Table", (z, _) => z.EntryName);
+    [EditorCallable(EditorCategory.Player)] public void EditPlayer2DressupTable() => PopFlat<DressUpTable8a, DressUpEntry8a>(GameFile.Player2DressupTable, "Player 2 DressUp Table", (z, _) => z.EntryName);
 
     #endregion
 

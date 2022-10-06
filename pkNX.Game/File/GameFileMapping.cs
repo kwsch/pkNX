@@ -226,6 +226,9 @@ public class GameFileMapping
         new(GameFile.ThrowableResource      , ContainerType.SingleFile, "bin", "capture", "throwable_resource_dictionary.bin"),
         new(GameFile.ThrowableResourceSet   , ContainerType.SingleFile, "bin", "capture", "throwable_resourceset_dictionary.bin"),
 
+        new(GameFile.Player1DressupTable    , ContainerType.SingleFile, "bin", "chara", "table", "dressup_table_p1.bin"),
+        new(GameFile.Player2DressupTable    , ContainerType.SingleFile, "bin", "chara", "table", "dressup_table_p2.bin"),
+
         new(GameFile.Outbreak               , ContainerType.SingleFile, "bin", "field", "encount", "huge_outbreak.bin"),
         new(GameFile.NewHugeGroup           , ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_group.bin"),
         new(GameFile.NewHugeGroupLottery    , ContainerType.SingleFile, "bin", "field", "encount", "new_huge_outbreak_group_lottery.bin"),

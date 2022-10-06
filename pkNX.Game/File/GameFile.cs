@@ -304,6 +304,8 @@ public enum GameFile
     PlayerConfig,
     PlayerControllerConfig,
     PlayerFaceConfig,
+    Player1DressupTable,
+    Player2DressupTable,
 
     PokemonConfig,
     PokemonControllerConfig,
