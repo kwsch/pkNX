@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
@@ -24,34 +22,27 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         Data = data.ToArray();
         DexIndexNational = ModelID;
 
-        var TMs = new BitArray(data[0x28..0x38].ToArray());
-        var typeTutors = new BitArray(data[0x38..0x3C].ToArray());
-        var TRs = new BitArray(data[0x3C..0x4C].ToArray());
-        var armorTutors = new BitArray(data[0xA8..0xAC].ToArray());
-
-        TMHM = TMs.Cast<bool>().Concat(TRs.Cast<bool>()).ToArray();
+        TMHM = new bool[CountTM + CountTR];
+        FlagUtil.GetFlagArray(data[0x28..], TMHM.AsSpan()[..CountTM]);
+        FlagUtil.GetFlagArray(data[0x3C..], TMHM.AsSpan()[CountTM..]);
 
         // 0x38-0x3B type tutors, but only 8 bits are valid flags.
-        TypeTutors = typeTutors.Cast<bool>().ToArray();
+        TypeTutors = new bool[32];
+        FlagUtil.GetFlagArray(data[0x38..], TypeTutors);
 
         // 0xA8-0xAC are armor type tutors, one bit for each type
-        SpecialTutors = new[]
-        {
-            armorTutors.Cast<bool>().ToArray(),
-        };
+        var armor = new bool[32];
+        FlagUtil.GetFlagArray(data[0xA8..], armor);
+        SpecialTutors = new[] { armor };
     }
 
     public byte[] Write()
     {
-        for (var i = 0; i < CountTR; i++)
-        {
-            FlagUtil.SetFlag(Data, 0x28 + (i >> 3), i, TMHM[i]);
-            FlagUtil.SetFlag(Data, 0x3C + (i >> 3), i, TMHM[i + CountTM]);
-        }
-        for (int i = 0; i < TypeTutors.Length; i++)
-            FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
-        for (int i = 0; i < SpecialTutors[0].Length; i++)
-            FlagUtil.SetFlag(Data, 0xA8 + (i >> 3), i, SpecialTutors[0][i]);
+        Span<byte> data = Data;
+        FlagUtil.SetFlagArray(data[0x28..], TMHM.AsSpan(0, CountTM));
+        FlagUtil.SetFlagArray(data[0x38..], TypeTutors);
+        FlagUtil.SetFlagArray(data[0x3C..], TMHM.AsSpan(CountTM, CountTR));
+        FlagUtil.SetFlagArray(data[0xA8..], SpecialTutors[0]);
         return Data;
     }
 

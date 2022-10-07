@@ -214,16 +214,28 @@ public static class ArrayUtilsExt
 
 public static class FlagUtil
 {
-    public static bool GetFlag(byte[] arr, int offset, int bitIndex)
+    public static bool GetFlag(ReadOnlySpan<byte> arr, int offset, int bitIndex)
     {
         bitIndex &= 7; // ensure bit access is 0-7
         return (arr[offset] >> bitIndex & 1) != 0;
     }
 
-    public static void SetFlag(byte[] arr, int offset, int bitIndex, bool value)
+    public static void SetFlag(Span<byte> arr, int offset, int bitIndex, bool value)
     {
         bitIndex &= 7; // ensure bit access is 0-7
         arr[offset] &= (byte)~(1 << bitIndex);
         arr[offset] |= (byte)((value ? 1 : 0) << bitIndex);
+    }
+
+    public static void GetFlagArray(ReadOnlySpan<byte> data, Span<bool> result)
+    {
+        for (int i = 0; i < result.Length; i++)
+            result[i] = GetFlag(data, i >> 3, i);
+    }
+
+    public static void SetFlagArray(Span<byte> data, ReadOnlySpan<bool> result)
+    {
+        for (int i = 0; i < result.Length; i++)
+            SetFlag(data, i >> 3, i, result[i]);
     }
 }
