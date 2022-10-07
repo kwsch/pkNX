@@ -23,8 +23,8 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         DexIndexNational = ModelID;
 
         TMHM = new bool[CountTM + CountTR];
-        FlagUtil.GetFlagArray(data[0x28..], TMHM.AsSpan()[..CountTM]);
-        FlagUtil.GetFlagArray(data[0x3C..], TMHM.AsSpan()[CountTM..]);
+        FlagUtil.GetFlagArray(data[0x28..], TMHM.AsSpan(0, CountTM));
+        FlagUtil.GetFlagArray(data[0x3C..], TMHM.AsSpan(CountTM, CountTR));
 
         // 0x38-0x3B type tutors, but only 8 bits are valid flags.
         TypeTutors = new bool[32];
