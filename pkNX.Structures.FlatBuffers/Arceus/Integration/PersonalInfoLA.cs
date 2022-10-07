@@ -91,11 +91,11 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public ushort Form { get => FB.Form; set => FB.Form = value; }
     public ushort DexIndexNational { get => FB.DexIndexNational; set => FB.DexIndexNational = value; }
     public ushort DexIndexRegional { get => FB.DexIndexHisui; set => FB.DexIndexHisui = value; }
-    public ushort DexIndexLocal1 { get => FB.DexIndexLocal1; set => FB.DexIndexLocal1 = value; }
-    public ushort DexIndexLocal2 { get => FB.DexIndexLocal2; set => FB.DexIndexLocal2 = value; }
-    public ushort DexIndexLocal3 { get => FB.DexIndexLocal3; set => FB.DexIndexLocal3 = value; }
-    public ushort DexIndexLocal4 { get => FB.DexIndexLocal4; set => FB.DexIndexLocal4 = value; }
-    public ushort DexIndexLocal5 { get => FB.DexIndexLocal5; set => FB.DexIndexLocal5 = value; }
+    public ushort DexIndexLocal1 { get => (ushort)FB.DexIndexLocal1; set => FB.DexIndexLocal1 = value; }
+    public ushort DexIndexLocal2 { get => (ushort)FB.DexIndexLocal2; set => FB.DexIndexLocal2 = value; }
+    public ushort DexIndexLocal3 { get => (ushort)FB.DexIndexLocal3; set => FB.DexIndexLocal3 = value; }
+    public ushort DexIndexLocal4 { get => (ushort)FB.DexIndexLocal4; set => FB.DexIndexLocal4 = value; }
+    public ushort DexIndexLocal5 { get => (ushort)FB.DexIndexLocal5; set => FB.DexIndexLocal5 = value; }
 
     public uint MoveShop1 { get => FB.MoveShop1; set => FB.MoveShop1 = value; }
     public uint MoveShop2 { get => FB.MoveShop2; set => FB.MoveShop2 = value; }

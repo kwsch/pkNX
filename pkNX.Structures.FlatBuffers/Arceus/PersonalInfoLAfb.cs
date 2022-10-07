@@ -77,11 +77,11 @@ public class PersonalInfoLAfb
     [FlatBufferItem(48)] public byte BaseFriendship { get; set; } // byte
     [FlatBufferItem(49)] public ushort DexIndexHisui { get; set; } // ushort
     [FlatBufferItem(50)] public ushort ModelID { get; set; } // ushort
-    [FlatBufferItem(51)] public ushort DexIndexLocal1 { get; set; } // uint
-    [FlatBufferItem(52)] public ushort DexIndexLocal2 { get; set; } // uint
-    [FlatBufferItem(53)] public ushort DexIndexLocal3 { get; set; } // uint
-    [FlatBufferItem(54)] public ushort DexIndexLocal4 { get; set; } // uint
-    [FlatBufferItem(55)] public ushort DexIndexLocal5 { get; set; } // uint
+    [FlatBufferItem(51)] public uint DexIndexLocal1 { get; set; } // uint
+    [FlatBufferItem(52)] public uint DexIndexLocal2 { get; set; } // uint
+    [FlatBufferItem(53)] public uint DexIndexLocal3 { get; set; } // uint
+    [FlatBufferItem(54)] public uint DexIndexLocal4 { get; set; } // uint
+    [FlatBufferItem(55)] public uint DexIndexLocal5 { get; set; } // uint
     [FlatBufferItem(56)] public uint MoveShop1 { get; set; } // uint
     [FlatBufferItem(57)] public uint MoveShop2 { get; set; } // uint
 }
