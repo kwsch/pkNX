@@ -596,7 +596,9 @@ public class GameDumperSWSH
         var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
         var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
 
-        System.Diagnostics.Debug.Assert(dai_index == drop_index && drop_index == bonus_index, "BCAT Index should be the same for all files!");
+        // BCAT Indexes can be reused by mixing and matching old files when reverting temporary distributions back to prior long-running distributions.
+        // They don't have to match, but just note if they do.
+        System.Diagnostics.Debug.WriteLineIf(dai_index == drop_index && drop_index == bonus_index, $"Info: BCAT indexes are inconsistent! dai:{dai_index} drop:{drop_index} bonus:{bonus_index}");
 
         DumpDistIfExists("normal_encount", "");
         DumpDistIfExists("normal_encount_rigel1", "Armor");
