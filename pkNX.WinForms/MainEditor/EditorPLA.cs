@@ -564,7 +564,10 @@ internal class EditorPLA : EditorBase
         var data = obj[0];
         var items = Item8a.GetArray(data);
         var cache = new DataCache<Item8a>(items);
-        using var form = new GenericEditor<Item8a>(cache, ROM.GetStrings(TextName.ItemNames), "Item Editor");
+
+        var itemNames = ROM.GetStrings(TextName.ItemNames).Select((x, i) => $"{x} ({i})").ToArray();
+
+        using var form = new GenericEditor<Item8a>(cache, itemNames, "Item Editor");
         form.ShowDialog();
         if (!form.Modified)
         {
