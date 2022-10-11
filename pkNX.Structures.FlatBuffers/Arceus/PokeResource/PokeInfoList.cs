@@ -13,12 +13,14 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers;
 
+// bin/appli/res_pokemon/list/pokemon_info_list.bin
+
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
 {
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
-    [FlatBufferItem(0)] public int TableDataLength { get; set; }
+    [FlatBufferItem(0)] public string DefaultIcon { get; set; } = string.Empty;
     [FlatBufferItem(1)] public PokeInfo8a[] Table { get; set; } = Array.Empty<PokeInfo8a>();
 
     public (ushort[] SF, byte[] Gender) Parse()

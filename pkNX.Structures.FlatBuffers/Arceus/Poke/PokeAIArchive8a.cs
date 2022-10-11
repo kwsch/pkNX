@@ -55,6 +55,8 @@ public class PokeAI8a
     [FlatBufferItem(30)] public PlacementV3f8a Field_30 { get; set; } = new();
     [FlatBufferItem(31)] public int Field_31 { get; set; } // int
     [FlatBufferItem(32)] public int Field_32 { get; set; } // int
+    [FlatBufferItem(33)] public int Field_33 { get; set; } // int
+    [FlatBufferItem(34)] public float Field_34 { get; set; } // cascoon/silcoon
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -66,7 +68,7 @@ public class PokeAI8a_F24
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeAI8a_F18
 {
-    [FlatBufferItem(00)] public bool  Field_00 { get; set; }
+    [FlatBufferItem(00)] public bool Field_00 { get; set; }
     [FlatBufferItem(01)] public float Field_01 { get; set; }
     [FlatBufferItem(02)] public float Field_02 { get; set; }
     [FlatBufferItem(03)] public float Field_03 { get; set; }
