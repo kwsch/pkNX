@@ -33,7 +33,12 @@ public static partial class Legal
             return HeldItems_GG.Select(i => (int)i).Where(i => i != 0).ToArray();
 
         if (GameVersion.SWSH.Contains(game))
-            return HeldItems_SWSH.Select(i => (int)i).Where(i => i != 0 && i != 1279 /*Dummy Items*/).ToArray();
+        {
+            return HeldItems_SWSH.Except(Dynamax_Crystals_SWSH)
+                .Select(i => (int)i)
+                .Where(i => i != 0)
+                .ToArray();
+        }
 
         return new int[1];
     }
