@@ -141,6 +141,7 @@ internal class EditorPLA : EditorBase
         {
             Personal = Data.PersonalData,
             PokeMisc = Data.PokeMiscData,
+            SymbolBehave = Data.SymbolBehaveData,
             Evolve = Data.EvolutionData,
             Learn = Data.LevelUpData,
             FieldDropTables = Data.FieldDrops,
@@ -166,7 +167,7 @@ internal class EditorPLA : EditorBase
     public void EditSymbolBehave()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor", z => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
+        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor", z => $"{names[z.Species]}{(z.IsAlpha ? "*" : "")}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]

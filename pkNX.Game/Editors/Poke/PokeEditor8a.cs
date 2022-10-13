@@ -7,6 +7,7 @@ public class PokeEditor8a : IDataEditor
 {
     public IPersonalTable Personal { get; set; }
     public TableCache<PokeMiscTable8a, PokeMisc8a> PokeMisc { get; set; }
+    public TableCache<PokeAIArchive8a, PokeAI8a> SymbolBehave { get; set; }
     public TableCache<EvolutionTable8, EvolutionSet8a> Evolve { get; set; }
     public TableCache<Learnset8a, Learnset8aMeta> Learn { get; set; }
     public TableCache<PokeDropItemArchive8a, PokeDropItem8a> FieldDropTables { get; set; }
@@ -21,6 +22,7 @@ public class PokeEditor8a : IDataEditor
     {
         Personal.Save();
         PokeMisc.Save();
+        SymbolBehave.Save();
         Learn.Save();
         Evolve.Save();
         FieldDropTables.Save();

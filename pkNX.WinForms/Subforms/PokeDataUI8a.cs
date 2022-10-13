@@ -846,6 +846,12 @@ public partial class PokeDataUI8a : Form
                 // Reload entry with correct misc data
                 LoadMisc(entry);
             }
+
+            if (!Editor.SymbolBehave.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form, false))
+            {
+                Editor.SymbolBehave.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, false);
+                Editor.SymbolBehave.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, true);
+            }
         }
     }
 

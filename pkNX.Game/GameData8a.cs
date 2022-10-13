@@ -1,4 +1,4 @@
-﻿using pkNX.Structures;
+using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.Game;
@@ -7,6 +7,7 @@ public class GameData8a
 {
     public IPersonalTable PersonalData { get; internal set; }
     public TableCache<PokeMiscTable8a, PokeMisc8a> PokeMiscData { get; internal set; }
+    public TableCache<PokeAIArchive8a, PokeAI8a> SymbolBehaveData { get; internal set; }
 
     public DataCache<Waza8a> MoveData { get; internal set; }
     public TableCache<EvolutionTable8, EvolutionSet8a> EvolutionData { get; internal set; }

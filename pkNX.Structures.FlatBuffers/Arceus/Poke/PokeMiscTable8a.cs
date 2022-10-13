@@ -36,7 +36,10 @@ public class PokeMiscTable8a : IFlatBufferArchive<PokeMisc8a>
         Debug.Assert(!HasEntry(species, form), "The misc table already contains an entry for the same species + form!");
 
         var entry = new PokeMisc8a { Species = species, Form = form };
-        Table = Table.Append(entry);
+        Table = Table.Append(entry)
+            .OrderBy(x => x.Species)
+            .ThenBy(x => x.Form)
+            .ToArray();
         return entry;
     }
 }
