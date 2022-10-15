@@ -50,8 +50,6 @@ public class GameManagerPLA : GameManager
 
             // Single Files
             PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
-            PokeMiscData = new(GetFile(GameFile.PokeMisc)),
-            SymbolBehaveData = new(GetFile(GameFile.SymbolBehave)),
             LevelUpData = new(GetFile(GameFile.Learnsets)),
             EvolutionData = new(GetFile(GameFile.Evolutions)),
 

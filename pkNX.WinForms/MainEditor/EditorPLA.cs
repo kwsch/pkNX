@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
@@ -140,13 +141,15 @@ internal class EditorPLA : EditorBase
         var editor = new PokeEditor8a
         {
             Personal = Data.PersonalData,
-            PokeMisc = Data.PokeMiscData,
-            SymbolBehave = Data.SymbolBehaveData,
+            PokeMisc = new(ROM.GetFile(GameFile.PokeMisc)),
+            SymbolBehave = new(ROM.GetFile(GameFile.SymbolBehave)),
             Evolve = Data.EvolutionData,
             Learn = Data.LevelUpData,
             FieldDropTables = Data.FieldDrops,
             BattleDropTabels = Data.BattleDrops,
-            DexResearch = Data.DexResearch
+            DexResearch = Data.DexResearch,
+            PokeResourceList = new(ROM.GetFile(GameFile.PokemonResourceList)),
+            PokeResourceTable = new(ROM.GetFile(GameFile.PokemonResourceTable)),
         };
         using var form = new PokeDataUI8a(editor, ROM, Data);
         form.ShowDialog();
@@ -380,7 +383,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Field)] public void EditFieldItem() => PopFlatConfig(GameFile.FieldItem, "Field Item");
     [EditorCallable(EditorCategory.Field)] public void EditFieldItemRespawn() => PopFlatConfig(GameFile.FieldItemRespawn, "Field Item Respawn");
     [EditorCallable(EditorCategory.Field)] public void EditFieldLandmarkInciteConfig() => PopFlatConfig(GameFile.FieldLandmarkInciteConfig, "Field Landmark Incite Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldMyPokeBallHitNoneTargetConfig() => PopFlatConfig(GameFile.FieldMyPokeBallHitNoneTargetConfig, "Field My Poke Ball Hit None Target Config");
+    [EditorCallable(EditorCategory.Field)] public void EditFieldMyPokeBallHitNoneTargetConfig() => PopFlatConfig(GameFile.FieldBallMissedConfig, "Field My Poke Ball Hit None Target Config");
     [EditorCallable(EditorCategory.Field)] public void EditFieldObstructionWazaConfig() => PopFlatConfig(GameFile.FieldObstructionWazaConfig, "Field Obstruction Waza Config");
     [EditorCallable(EditorCategory.Field)] public void EditFieldPokemonSlopeConfig() => PopFlatConfig(GameFile.FieldPokemonSlopeConfig, "Field Pokemon Slope Config");
     [EditorCallable(EditorCategory.Field)] public void EditFieldQuestDestinationConfig() => PopFlatConfig(GameFile.FieldQuestDestinationConfig, "Field Quest Destination Config");
@@ -524,6 +527,21 @@ internal class EditorPLA : EditorBase
         gfp[index] = FlatBufferConverter.SerializeFrom(obj);
     }
 
+    [EditorCallable(EditorCategory.Graphics)]
+    public void EditPokeResourceTable()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeResourceTable8a, PokeModelConfig8a>(GameFile.PokemonResourceTable, "Pokemon Resource Table", z => $"{names[z.Meta.Species]}{(z.Meta.Form == 0 ? "" : $"-{z.Meta.Form}")}{(z.Meta.Gender == 0 ? "" : $" ({z.Meta.Gender})")}");
+    }
+
+    [EditorCallable(EditorCategory.Graphics)]
+    public void EditPokemonResourceList()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+
+        PopFlat<PokeInfoList8a, PokeInfo8a>(GameFile.PokemonResourceList, "Pokemon Resource List", z => $"{names[z.Species]}");
+    }
+
     #endregion
 
     #region Items Editors
@@ -637,6 +655,7 @@ internal class EditorPLA : EditorBase
     {
         PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", z => z.OriginalPath);
     }
+
     [EditorCallable(EditorCategory.Misc)] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
     [EditorCallable(EditorCategory.Misc)] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
     [EditorCallable(EditorCategory.Misc)] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");

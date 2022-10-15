@@ -13,6 +13,8 @@ public class PokeEditor8a : IDataEditor
     public TableCache<PokeDropItemArchive8a, PokeDropItem8a> FieldDropTables { get; set; }
     public TableCache<PokeDropItemBattleArchive8a, PokeDropItemBattle8a> BattleDropTabels { get; set; }
     public TableCache<PokedexResearchTable, PokedexResearchTask> DexResearch { get; set; }
+    public TableCache<PokeInfoList8a, PokeInfo8a> PokeResourceList { get; set; }
+    public TableCache<PokeResourceTable8a, PokeModelConfig8a> PokeResourceTable { get; set; }
 
     public void CancelEdits() { }
 
@@ -28,5 +30,7 @@ public class PokeEditor8a : IDataEditor
         FieldDropTables.Save();
         BattleDropTabels.Save();
         DexResearch.Save();
+        PokeResourceList.Save();
+        PokeResourceTable.Save();
     }
 }

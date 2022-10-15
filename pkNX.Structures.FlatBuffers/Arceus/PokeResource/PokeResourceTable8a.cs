@@ -1,5 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -17,6 +20,53 @@ namespace pkNX.Structures.FlatBuffers;
 public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
 {
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
+
+    public PokeModelConfig8a GetEntry(ushort species, ushort form, byte gender)
+    {
+        return Table.FirstOrDefault(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender) ??
+            new PokeModelConfig8a { };
+    }
+
+    public bool HasEntry(ushort species, ushort form, byte gender)
+    {
+        return Table.Any(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender);
+    }
+
+    public PokeModelConfig8a AddEntry(ushort species, ushort form, byte gender)
+    {
+        Debug.Assert(!HasEntry(species, form, gender), "The resource info table already contains an entry for the same species!");
+
+        string pmStr = $"pm{species:0000}_{gender:00}_{form:00}";
+        string basePath = $"bin/pokemon/pm{species:0000}/{pmStr}";
+        var entry = new PokeModelConfig8a
+        {
+            Meta = new() { Species = species, Form = form, Gender = gender },
+            PathModel = $"{basePath}/mdl/{pmStr}.trmdl",
+            PathConfig = $"{basePath}/mdl/{pmStr}.trmmt",
+            PathArchive = $"{basePath}/{pmStr}.trpokecfg",
+
+            Field_05 = new AnimationConfigStringTuple8a[] {
+                new(){
+                    Name = "base",
+                    Path = $"{basePath}/anm/{pmStr}_base.tracn",
+                }
+            },
+
+            Field_06 = new AnimationConfigStringTuple8a[] {
+                new() {
+                    Name = "eff",
+                    Path = $"{basePath}/locators/{pmStr}_eff.trskl",
+                }
+            },
+        };
+
+        Table = Table.Append(entry)
+            .OrderBy(x => x.Meta.Species)
+            .ThenBy(x => x.Meta.Form)
+            .ThenBy(x => x.Meta.Gender)
+            .ToArray();
+        return entry;
+    }
 
     [FlatBufferItem(00)] public PokeResourceMeta8a Meta { get; set; } = new();
     [FlatBufferItem(01)] public PokeModelConfig8a[] Table { get; set; } = Array.Empty<PokeModelConfig8a>();
@@ -48,7 +98,6 @@ public class PokeModelMeta8a
     [FlatBufferItem(00)] public ushort Species { get; set; }
     [FlatBufferItem(01)] public ushort Form { get; set; }
     [FlatBufferItem(02)] public byte Gender { get; set; }
-    [FlatBufferItem(03)] public byte Shiny { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

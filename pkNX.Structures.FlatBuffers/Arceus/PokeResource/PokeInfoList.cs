@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using FlatSharp.Attributes;
 
@@ -22,6 +23,71 @@ public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
 
     [FlatBufferItem(0)] public string DefaultIcon { get; set; } = string.Empty;
     [FlatBufferItem(1)] public PokeInfo8a[] Table { get; set; } = Array.Empty<PokeInfo8a>();
+
+    public PokeInfo8a GetEntry(ushort species)
+    {
+        return Table.FirstOrDefault(z => z.Species == species) ??
+            new PokeInfo8a { };
+    }
+
+    public bool HasEntry(ushort species)
+    {
+        return Table.Any(x => x.Species == species);
+    }
+
+    public PokeInfo8a AddEntry(ushort species, byte formCount)
+    {
+        Debug.Assert(!HasEntry(species), "The resource info table already contains an entry for the same species!");
+
+        var entry = new PokeInfo8a
+        {
+            Species = species,
+            Children = new PokeInfoDetail8a[formCount]
+        };
+
+        int genderId = 0;
+
+        for (int form = 0; form < formCount; form++)
+        {
+            entry.Children[form] = new PokeInfoDetail8a
+            {
+                Form = form,
+                Detail = new PokeInfoDetail8a_2[]
+                {
+                    new() {
+                        IsRare = false,
+                        Detail = new PokeInfoDetail8a_3[] {
+                            new() {
+                                Detail = new PokeInfoDetail8a_5[] {
+                                    new() {
+                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new() {
+                        IsRare = true, // Shiny form
+                        Detail = new PokeInfoDetail8a_3[] {
+                            new() {
+                                Detail = new PokeInfoDetail8a_5[] {
+                                    new() {
+                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_r"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                }
+            };
+        }
+
+
+        Table = Table.Append(entry)
+            .OrderBy(x => x.Species)
+            .ToArray();
+        return entry;
+    }
 
     public (ushort[] SF, byte[] Gender) Parse()
     {
@@ -109,7 +175,7 @@ public class PokeInfoDetail8a_5
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeInfoGender8a
 {
-    [FlatBufferItem(00)] public PokeInfoGender GenderValue { get; set; }
+    [FlatBufferItem(00)] public PokeInfoGender GenderValue { get; set; } = PokeInfoGender.DualGenderNoDifference;
 }
 
 [FlatBufferEnum(typeof(byte))]

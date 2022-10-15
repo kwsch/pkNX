@@ -280,7 +280,7 @@ public enum GameFile
     FieldItemRespawn,
     FieldLandmarkInciteConfig,
     FieldLockonConfig,
-    FieldMyPokeBallHitNoneTargetConfig,
+    FieldBallMissedConfig,
     FieldObstructionWazaConfig,
     FieldPokemonSlopeConfig,
     FieldQuestDestinationConfig,
@@ -331,4 +331,7 @@ public enum GameFile
     SoundConfig,
 
     WaterMotion,
+
+    PokemonResourceList,
+    PokemonResourceTable,
 }
