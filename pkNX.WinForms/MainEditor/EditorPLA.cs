@@ -684,6 +684,13 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Misc)] public void EditEventRestrictionBattle() => PopFlatConfig(GameFile.EventRestrictionBattle, "Event Restriction Battle Editor");
     [EditorCallable(EditorCategory.Misc)] public void EditEventWork() => PopFlatConfig(GameFile.EventWork, "Event Work Editor");
 
+    [EditorCallable(EditorCategory.Misc)]
+    public void RunHashDecoder()
+    {
+        FnvHashDecoder decoder = new();
+        WinFormsUtil.Alert(decoder.Run(0, 10).Select(x => $"0x{x.Key:X} {x.Value}").ToArray());
+    }
+
     public void EditMasterDump()
     {
         using var md = new DumperPLA(ROM);
