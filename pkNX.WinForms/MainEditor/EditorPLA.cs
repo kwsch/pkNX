@@ -507,7 +507,22 @@ internal class EditorPLA : EditorBase
         var index = gfp.GetIndexFull("bin/field/param/placement/common/npc_model_set.bin");
 
         var obj = FlatBufferConverter.DeserializeFrom<NPCModelSet8a>(gfp[index]);
-        var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
+        var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString("X16"));
+        if (!result)
+            return;
+        gfp[index] = FlatBufferConverter.SerializeFrom(obj);
+    }
+
+    [EditorCallable(EditorCategory.Graphics)]
+    public void EditPokemonModelSet()
+    {
+        var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
+        var index = gfp.GetIndexFull("bin/field/param/placement/common/pokemon_model_set.bin");
+
+        var obj = FlatBufferConverter.DeserializeFrom<PokeModelSet8a>(gfp[index]);
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+
+        var result = PopFlat(obj.Table, "Pokemon Model Set Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ({z.VariantDesc})");
         if (!result)
             return;
         gfp[index] = FlatBufferConverter.SerializeFrom(obj);
