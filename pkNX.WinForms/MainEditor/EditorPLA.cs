@@ -656,6 +656,12 @@ internal class EditorPLA : EditorBase
         PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", z => z.OriginalPath);
     }
 
+    [EditorCallable(EditorCategory.Misc)]
+    public void EditPokedexRankTable()
+    {
+        PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexRank, "Pokedex Rank Table Editor", z => z.Rank.ToString());
+    }
+
     [EditorCallable(EditorCategory.Misc)] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
     [EditorCallable(EditorCategory.Misc)] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
     [EditorCallable(EditorCategory.Misc)] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");

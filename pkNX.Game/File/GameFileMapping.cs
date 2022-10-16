@@ -212,6 +212,7 @@ public class GameFileMapping
         new(GameFile.StoryText8, 9, "bin", "message", "Simp_Chinese", "script"),
         new(GameFile.StoryText9, 10, "bin", "message", "Trad_Chinese", "script"),
 
+        new(GameFile.DexRank                , ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_rank_table.bin"),
         new(GameFile.DexResearch            , ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_research_task_table.bin"),
         new(GameFile.PokemonResourceList    , ContainerType.SingleFile, "bin", "appli", "res_pokemon", "list", "pokemon_info_list.bin"),
         new(GameFile.MoveShop               , ContainerType.SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),

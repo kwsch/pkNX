@@ -196,6 +196,7 @@ public enum GameFile
 
     /// <summary> All pokedex research tasks </summary>
     DexResearch,
+    DexRank,
 
     ThrowParam,
     ThrowPermissionSet,
