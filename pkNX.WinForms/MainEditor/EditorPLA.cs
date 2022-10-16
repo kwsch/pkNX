@@ -33,22 +33,22 @@ internal class EditorPLA : EditorBase
             WinFormsUtil.Alert($"{file} not found in the executable folder", "Some decompression functions may cause errors.");
     }
 
-    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, string> getName, Action? rand = null, Action<T1>? addEntryCallback = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
     {
         var obj = ROM.GetFile(file);
         var data = obj[0];
         var root = FlatBufferConverter.DeserializeFrom<T1>(data);
         var arr = root.Table;
-        if (!PopFlat(arr, title, getName, rand, canSave))
+        if (!PopFlat(arr, title, getName, rand, () => { addEntryCallback?.Invoke(root); }, canSave))
             return;
         obj[0] = FlatBufferConverter.SerializeFrom(root);
     }
 
-    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, bool canSave = true) where T2 : class
+    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, string> getName, Action? rand = null, Action? addEntryCallback = null, bool canSave = true) where T2 : class
     {
         var names = arr.Select(getName).ToArray();
         var cache = new DataCache<T2>(arr);
-        using var form = new GenericEditor<T2>(cache, names, title, randomize: rand, canSave: canSave);
+        using var form = new GenericEditor<T2>(cache, names, title, randomizeCallback: rand, addEntryCallback: addEntryCallback, canSave: canSave);
         form.ShowDialog();
         return form.Modified;
     }
@@ -563,7 +563,7 @@ internal class EditorPLA : EditorBase
     public void EditThrowableParam()
     {
         var itemNames = ROM.GetStrings(TextName.ItemNames);
-        PopFlat<ThrowableParamTable8a, ThrowableParam8a>(GameFile.ThrowableParam, "Throwable Param Editor", z => itemNames[z.ItemID]);
+        PopFlat<ThrowableParamTable8a, ThrowableParam8a>(GameFile.ThrowableParam, "Throwable Param Editor", z => $"{itemNames[z.ItemID]} ({z.ItemID})", null, t => { t.AddEntry(0); });
     }
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowResourceDictionary()

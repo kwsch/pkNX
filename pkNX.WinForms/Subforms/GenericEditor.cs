@@ -7,7 +7,7 @@ namespace pkNX.WinForms;
 
 public sealed partial class GenericEditor<T> : Form where T : class
 {
-    public GenericEditor(DataCache<T> cache, string[] names, string title, Action? randomize = null, bool canSave = true)
+    public GenericEditor(DataCache<T> cache, string[] names, string title, Action? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
     {
         InitializeComponent();
         Cache = cache;
@@ -19,17 +19,27 @@ public sealed partial class GenericEditor<T> : Form where T : class
         if (!canSave)
             B_Save.Enabled = false;
 
-        if (randomize == null)
+        if (randomizeCallback != null)
         {
-            B_Rand.Visible = false;
-            return;
+            B_Rand.Visible = true;
+            B_Rand.Click += (_, __) =>
+            {
+                randomizeCallback();
+                LoadIndex(0);
+                System.Media.SystemSounds.Asterisk.Play();
+            };
         }
-        B_Rand.Click += (_, __) =>
+
+        if (addEntryCallback != null)
         {
-            randomize();
-            LoadIndex(0);
-            System.Media.SystemSounds.Asterisk.Play();
-        };
+            B_AddEntry.Visible = true;
+            B_AddEntry.Click += (_, __) =>
+            {
+                addEntryCallback();
+                Modified = true;
+                System.Media.SystemSounds.Asterisk.Play();
+            };
+        }
     }
 
     private readonly string[] Names;
