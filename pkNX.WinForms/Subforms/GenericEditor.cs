@@ -54,6 +54,7 @@ public sealed partial class GenericEditor<T> : Form where T : class
                 // Reload editor
                 Cache = loadCache(this);
                 Names = Cache.LoadAll().Select(nameSelector).ToArray();
+                CB_EntryName.Items.Clear();
                 CB_EntryName.Items.AddRange(Names);
 
                 System.Media.SystemSounds.Asterisk.Play();
