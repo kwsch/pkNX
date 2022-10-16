@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Structures;
@@ -7,15 +9,26 @@ namespace pkNX.WinForms;
 
 public sealed partial class GenericEditor<T> : Form where T : class
 {
-    public GenericEditor(DataCache<T> cache, string[] names, string title, Action? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
+    private string[] Names;
+    private DataCache<T> Cache;
+    public bool Modified { get; set; }
+
+    [Obsolete("Use the constructor overload with callbacks instead")]
+    public GenericEditor(DataCache<T> Cache, string[] names, string title, Action? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
+        : this(_ => Cache, (_, i) => names[i], title, _ => randomizeCallback?.Invoke(), addEntryCallback, canSave)
+    { }
+
+    public GenericEditor(Func<GenericEditor<T>, DataCache<T>> loadCache, Func<T, int, string> nameSelector, string title, Action<IEnumerable<T>>? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
     {
         InitializeComponent();
-        Cache = cache;
         Text = title;
-        Names = names;
 
-        CB_EntryName.Items.AddRange(names);
+        Cache = loadCache(this);
+        Names = Cache.LoadAll().Select(nameSelector).ToArray();
+
+        CB_EntryName.Items.AddRange(Names);
         CB_EntryName.SelectedIndex = 0;
+
         if (!canSave)
             B_Save.Enabled = false;
 
@@ -24,7 +37,7 @@ public sealed partial class GenericEditor<T> : Form where T : class
             B_Rand.Visible = true;
             B_Rand.Click += (_, __) =>
             {
-                randomizeCallback();
+                randomizeCallback(Cache.LoadAll());
                 LoadIndex(0);
                 System.Media.SystemSounds.Asterisk.Play();
             };
@@ -37,14 +50,16 @@ public sealed partial class GenericEditor<T> : Form where T : class
             {
                 addEntryCallback();
                 Modified = true;
+
+                // Reload editor
+                Cache = loadCache(this);
+                Names = Cache.LoadAll().Select(nameSelector).ToArray();
+                CB_EntryName.Items.AddRange(Names);
+
                 System.Media.SystemSounds.Asterisk.Play();
             };
         }
     }
-
-    private readonly string[] Names;
-    private readonly DataCache<T> Cache;
-    public bool Modified { get; set; }
 
     private void CB_EntryName_SelectedIndexChanged(object sender, EventArgs e)
     {
