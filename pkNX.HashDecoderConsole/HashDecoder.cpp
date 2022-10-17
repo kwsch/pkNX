@@ -2,6 +2,7 @@
 
 #include "HashDecoder.h"
 #include "Timer.h"
+#include <unordered_set>
 
 using namespace pkNXHashDecoder;
 
@@ -19,6 +20,10 @@ std::unordered_map<uint64_t, std::string> FnvHashDecoder::StartDecoding(const in
 {
     std::unordered_map<uint64_t, std::string> foundKeys;
 
+    std::unordered_set<uint64_t> HashesToLookFor{
+        0xC75DDBE25402B11C,
+    };
+
     // Reset all chars to starting point
     charIndex[0] = (uint32_t)startChar;
 
@@ -26,7 +31,7 @@ std::unordered_map<uint64_t, std::string> FnvHashDecoder::StartDecoding(const in
     hashBases[0] = kOffsetBasis_64;
     for (int i = 0; i < length - 1; ++i)
     {
-        hashBases[i] ^= AllowedChars[0];
+        hashBases[i] ^= AllowedChars[charIndex[i]];
         hashBases[i] *= kFnvPrime_64;
 
         // Move the hash to the next index as basis
@@ -44,7 +49,7 @@ std::unordered_map<uint64_t, std::string> FnvHashDecoder::StartDecoding(const in
             hash ^= AllowedChars[i];
             hash *= kFnvPrime_64;
 
-            if (hash == 9252365659083253459ul)
+            if (HashesToLookFor.find(hash) != HashesToLookFor.end())
             {
                 charIndex[length - 1] = i;
                 foundKeys.emplace(hash, BuildString(length));
@@ -83,9 +88,9 @@ std::unordered_map<uint64_t, std::string> FnvHashDecoder::StartDecoding(const in
             hashBases[i + 1] = hashBases[i];
 
             // Automatically test for shorter length strings
-            if (hashBases[i] == 9252365659083253459ul)
+            if (HashesToLookFor.find(hashBases[i]) != HashesToLookFor.end())
             {
-                foundKeys.emplace(hashBases[i], BuildString(i));
+                foundKeys.emplace(hashBases[i], BuildString(i + 1));
             }
         }
 

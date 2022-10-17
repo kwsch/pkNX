@@ -12,6 +12,14 @@ namespace pkNXHashDecoder {
             return nativeHandle_->StartDecoding(length, startChar);
         }
 
+        property int AllowedCharCount
+        {
+            int get()
+            {
+                return FnvHashDecoder::AllowedCharsCount;
+            }
+        }
+
     private:
         FnvHashDecoder* nativeHandle_ = new FnvHashDecoder();
     };
@@ -30,6 +38,14 @@ namespace pkNXHashDecoder {
                 dict->Add(entry.first, gcnew System::String(entry.second.c_str()));
 
             return dict;
+        }
+
+        static property int AllowedCharCount
+        {
+            int get()
+            {
+                return FnvHashDecoder::AllowedCharsCount;
+            }
         }
     };
 }

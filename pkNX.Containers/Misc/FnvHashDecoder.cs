@@ -1,3 +1,4 @@
+using pkNXHashDecoder;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,28 +21,31 @@ public class FnvHashDecoder
     private const ulong kFnvPrime_64 = 0x00000100000001b3;
     private const ulong kOffsetBasis_64 = 0xCBF29CE484222645;
 
-    public Dictionary<ulong, string> FoundKeys = new();
+    public Dictionary<ulong, HashSet<string>> FoundKeys = new();
 
-    public Dictionary<ulong, string> Run(int minLength, int maxLength)
+    public Dictionary<ulong, HashSet<string>> Run(int minLength, int maxLength)
     {
         Debug.Assert(FnvHash.HashFnv1a_64("stickyball") == 0x15cb1f582d2b05ab);
+        Debug.Assert(FnvHash.HashFnv1a_64("enigma") == 0xC75DDBE25402B11C);
 
         int length = maxLength;
 
         var tasks = new List<Task>();
 
-        for (int i = 0; i < AllowedChars.Length; ++i)
+        for (int i = 0; i < FnvHashDecoderLib.AllowedCharCount; ++i)
         {
             int startChar = i;
             tasks.Add(Task.Run(() =>
                 {
-                    var dict = pkNXHashDecoder.FnvHashDecoderLib.StartDecoding(length, startChar);
+                    var dict = FnvHashDecoderLib.StartDecoding(length, startChar);
 
                     if (dict.Count != 0)
                     {
                         foreach (var x in dict)
                         {
-                            FoundKeys.Add(x.Key, x.Value);
+                            FoundKeys.TryAdd(x.Key, new());
+                            FoundKeys[x.Key].Add(x.Value);
+                            Debug.WriteLine($"{x.Key} {x.Value}");
                         }
                     }
                     //StartLoop(length, startChar);
@@ -58,7 +62,7 @@ public class FnvHashDecoder
         return FoundKeys;
     }
 
-    private void StartLoop(int length, int startChar)
+    /*private void StartLoop(int length, int startChar)
     {
         Span<char> chars = stackalloc char[length];
         Span<byte> allowedCharIndex = stackalloc byte[length]; // Current AllowedChar
@@ -122,5 +126,5 @@ public class FnvHashDecoder
             if (FoundKeys.Count != 0)
                 return;
         }
-    }
+    }*/
 }
