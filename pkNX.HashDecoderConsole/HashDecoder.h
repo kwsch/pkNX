@@ -5,7 +5,7 @@ namespace pkNXHashDecoder {
     class __declspec(align(64)) FnvHashDecoder
     {
     public:
-        std::unordered_map<uint64_t, std::string> StartDecoding(int length, int startChar);
+        std::unordered_map<uint64_t, std::string> StartDecoding(int length, int startChar, std::string_view prefix);
 
         constexpr static int MAX_LENGTH = 128;
         constexpr static std::string_view AllowedChars = "etaoinshrdlcumw_0123456789fgypbvkjxqz/."; // Sorted by most common first

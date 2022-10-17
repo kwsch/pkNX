@@ -21,14 +21,12 @@ public class FnvHashDecoder
     private const ulong kFnvPrime_64 = 0x00000100000001b3;
     private const ulong kOffsetBasis_64 = 0xCBF29CE484222645;
 
-    public Dictionary<ulong, HashSet<string>> FoundKeys = new();
+    public Dictionary<ulong, string> FoundKeys = new();
 
-    public Dictionary<ulong, HashSet<string>> Run(int minLength, int maxLength)
+    public Dictionary<ulong, string> Run(int minLength, int maxLength)
     {
         Debug.Assert(FnvHash.HashFnv1a_64("stickyball") == 0x15cb1f582d2b05ab);
         Debug.Assert(FnvHash.HashFnv1a_64("enigma") == 0xC75DDBE25402B11C);
-
-        int length = maxLength;
 
         var tasks = new List<Task>();
 
@@ -37,14 +35,13 @@ public class FnvHashDecoder
             int startChar = i;
             tasks.Add(Task.Run(() =>
                 {
-                    var dict = FnvHashDecoderLib.StartDecoding(length, startChar);
+                    var dict = FnvHashDecoderLib.StartDecoding(15, startChar, "pm0025_");
 
                     if (dict.Count != 0)
                     {
                         foreach (var x in dict)
                         {
-                            FoundKeys.TryAdd(x.Key, new());
-                            FoundKeys[x.Key].Add(x.Value);
+                            FoundKeys.TryAdd(x.Key, x.Value);
                             Debug.WriteLine($"{x.Key} {x.Value}");
                         }
                     }
