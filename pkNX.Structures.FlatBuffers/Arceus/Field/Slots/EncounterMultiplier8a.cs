@@ -16,18 +16,18 @@ public class EncounterMultiplier8a : ISlotModifierTime, ISlotModifierWeather
 {
     [FlatBufferItem(00)] public int Species { get; set; }
     [FlatBufferItem(01)] public int Form { get; set; }
-    [FlatBufferItem(02)] public float TimeOfDayMultiplier_0 { get; set; }
-    [FlatBufferItem(03)] public float TimeOfDayMultiplier_1 { get; set; }
-    [FlatBufferItem(04)] public float TimeOfDayMultiplier_2 { get; set; }
-    [FlatBufferItem(05)] public float TimeOfDayMultiplier_3 { get; set; }
-    [FlatBufferItem(06)] public float WeatherMultiplier_1 { get; set; }
-    [FlatBufferItem(07)] public float WeatherMultiplier_2 { get; set; }
-    [FlatBufferItem(08)] public float WeatherMultiplier_3 { get; set; }
-    [FlatBufferItem(09)] public float WeatherMultiplier_4 { get; set; }
-    [FlatBufferItem(10)] public float WeatherMultiplier_5 { get; set; }
-    [FlatBufferItem(11)] public float WeatherMultiplier_6 { get; set; }
-    [FlatBufferItem(12)] public float WeatherMultiplier_7 { get; set; }
-    [FlatBufferItem(13)] public float WeatherMultiplier_8 { get; set; }
+    [FlatBufferItem(02)] public float TimeOfDayMultiplier_0 { get; set; } = -1;
+    [FlatBufferItem(03)] public float TimeOfDayMultiplier_1 { get; set; } = -1;
+    [FlatBufferItem(04)] public float TimeOfDayMultiplier_2 { get; set; } = -1;
+    [FlatBufferItem(05)] public float TimeOfDayMultiplier_3 { get; set; } = -1;
+    [FlatBufferItem(06)] public float WeatherMultiplier_1 { get; set; } = -1;
+    [FlatBufferItem(07)] public float WeatherMultiplier_2 { get; set; } = -1;
+    [FlatBufferItem(08)] public float WeatherMultiplier_3 { get; set; } = -1;
+    [FlatBufferItem(09)] public float WeatherMultiplier_4 { get; set; } = -1;
+    [FlatBufferItem(10)] public float WeatherMultiplier_5 { get; set; } = -1;
+    [FlatBufferItem(11)] public float WeatherMultiplier_6 { get; set; } = -1;
+    [FlatBufferItem(12)] public float WeatherMultiplier_7 { get; set; } = -1;
+    [FlatBufferItem(13)] public float WeatherMultiplier_8 { get; set; } = -1;
 
     public float GetTimeMultiplier(int index) => index switch
     {

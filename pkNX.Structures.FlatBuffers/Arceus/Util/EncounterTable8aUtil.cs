@@ -213,7 +213,7 @@ public static class EncounterTable8aUtil
         }
     }
 
-    public static IEnumerable<string> GetLines(EncounterMultiplerArchive8a multiplier_archive,
+    public static IEnumerable<string> GetLines(EncounterMultiplierArchive8a multiplier_archive,
         PokeMiscTable8a misc, string[] speciesNames,
         AreaInstance8a area,
         NewHugeOutbreakGroupArchive8a nhoGroup,
@@ -275,7 +275,7 @@ public static class EncounterTable8aUtil
     }
 
     private static IEnumerable<string> GetTableSummary(EncounterTable8a t,
-        EncounterMultiplerArchive8a multiplier_archive, string[] speciesNames,
+        EncounterMultiplierArchive8a multiplier_archive, string[] speciesNames,
         PokeMiscTable8a misc,
         AreaInstance8a area,
         NewHugeOutbreakGroupArchive8a nhoGroup,
@@ -310,7 +310,7 @@ public static class EncounterTable8aUtil
     }
 
     private static IEnumerable<string> GetLines(IReadOnlyList<EncounterSlot8a> arr,
-        EncounterMultiplerArchive8a multiplier_archive, IReadOnlyList<string> speciesNames, int lvMin, int lvMax,
+        EncounterMultiplierArchive8a multiplier_archive, IReadOnlyList<string> speciesNames, int lvMin, int lvMax,
         PokeMiscTable8a misc)
     {
         var dividedTables = EncounterDetail8a.GetEmpty();
@@ -365,7 +365,7 @@ public static class EncounterTable8aUtil
         }
     }
 
-    private static void FillSlots(IEnumerable<EncounterSlot8a> arr, EncounterMultiplerArchive8a multArchive, List<EncounterDetail8a>[,] dividedTables)
+    private static void FillSlots(IEnumerable<EncounterSlot8a> arr, EncounterMultiplierArchive8a multArchive, List<EncounterDetail8a>[,] dividedTables)
     {
         var ctr = 0;
         foreach (var slot in arr.OrderByDescending(sl => sl.BaseProbability))

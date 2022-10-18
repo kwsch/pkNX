@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using FlatSharp.Attributes;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -12,7 +14,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class EncounterMultiplerArchive8a : IFlatBufferArchive<EncounterMultiplier8a>
+public class EncounterMultiplierArchive8a : IFlatBufferArchive<EncounterMultiplier8a>
 {
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
 
@@ -20,9 +22,32 @@ public class EncounterMultiplerArchive8a : IFlatBufferArchive<EncounterMultiplie
 
     public EncounterMultiplier8a GetEncounterMultiplier(EncounterSlot8a slot)
     {
-        var result = Array.Find(Table, z => z.Species == slot.Species && z.Form == slot.Form);
+        var result = GetEntry((ushort)slot.Species, (ushort)slot.Form);
         if (result == null)
             throw new ArgumentException($"Invalid Encounter Slot {slot.Species} - {slot.Form}");
         return result;
+    }
+
+    public EncounterMultiplier8a GetEntry(ushort species, ushort form)
+    {
+        return Table.FirstOrDefault(x => x.Species == species && x.Form == form) ??
+            new EncounterMultiplier8a { };
+    }
+
+    public bool HasEntry(ushort species, ushort form)
+    {
+        return Table.Any(x => x.Species == species && x.Form == form);
+    }
+
+    public EncounterMultiplier8a AddEntry(ushort species, ushort form)
+    {
+        Debug.Assert(!HasEntry(species, form), "The encounter rate table already contains an entry for the same species and form!");
+
+        var entry = new EncounterMultiplier8a { Species = species, Form = form };
+        Table = Table.Append(entry)
+            .OrderBy(x => x.Species)
+            .ThenBy(x => x.Form)
+            .ToArray();
+        return entry;
     }
 }

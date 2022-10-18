@@ -15,6 +15,7 @@ public class PokeEditor8a : IDataEditor
     public TableCache<PokedexResearchTable, PokedexResearchTask> DexResearch { get; set; }
     public TableCache<PokeInfoList8a, PokeInfo8a> PokeResourceList { get; set; }
     public TableCache<PokeResourceTable8a, PokeModelConfig8a> PokeResourceTable { get; set; }
+    public TableCache<EncounterMultiplierArchive8a, EncounterMultiplier8a> EncounterRateTable { get; set; }
 
     public void CancelEdits() { }
 
@@ -32,5 +33,6 @@ public class PokeEditor8a : IDataEditor
         DexResearch.Save();
         PokeResourceList.Save();
         PokeResourceTable.Save();
+        EncounterRateTable.Save();
     }
 }

@@ -155,6 +155,7 @@ internal class EditorPLA : EditorBase
             DexResearch = Data.DexResearch,
             PokeResourceList = new(ROM.GetFile(GameFile.PokemonResourceList)),
             PokeResourceTable = new(ROM.GetFile(GameFile.PokemonResourceTable)),
+            EncounterRateTable = new(ROM.GetFile(GameFile.EncounterRateTable)),
         };
         using var form = new PokeDataUI8a(editor, ROM, Data);
         form.ShowDialog();
@@ -313,6 +314,13 @@ internal class EditorPLA : EditorBase
                 }
             }
         }
+    }
+
+    [EditorCallable(EditorCategory.Field)]
+    public void EditEncounterRate()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<EncounterMultiplierArchive8a, EncounterMultiplier8a>(GameFile.EncounterRateTable, "Encounter Rate Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Field)]

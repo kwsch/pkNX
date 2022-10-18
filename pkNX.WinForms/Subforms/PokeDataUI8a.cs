@@ -862,6 +862,11 @@ public partial class PokeDataUI8a : Form
             {
                 Editor.PokeResourceTable.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, 0);
             }
+
+            if (!Editor.EncounterRateTable.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
+            {
+                Editor.EncounterRateTable.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
+            }
         }
     }
 

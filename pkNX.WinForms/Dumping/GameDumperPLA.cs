@@ -402,7 +402,7 @@ public class GameDumperPLA
 
         Dictionary<string, (string Name, int Index)> map = GetPlaceNameMap();
         var multdata = ROM.GetFile(GameFile.EncounterRateTable)[0];
-        var multipliers = FlatBufferConverter.DeserializeFrom<EncounterMultiplerArchive8a>(multdata);
+        var multipliers = FlatBufferConverter.DeserializeFrom<EncounterMultiplierArchive8a>(multdata);
         var miscdata = ROM.GetFile(GameFile.PokeMisc)[0];
         var misc = FlatBufferConverter.DeserializeFrom<PokeMiscTable8a>(miscdata);
 
