@@ -43,7 +43,7 @@ public class PlacementUnnnEntry
         return GetIntersectingLocations(locations, bias, c, 0);
     }
 
-    private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, PlacementV3f8a c, float scalar)
+    private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, Vec3f c, float scalar)
     {
         var result = new List<PlacementLocation8a>();
         foreach (var loc in locations)

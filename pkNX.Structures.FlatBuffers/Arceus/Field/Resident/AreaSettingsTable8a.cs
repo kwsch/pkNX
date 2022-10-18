@@ -27,7 +27,7 @@ public class AreaSettings8a
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(01)] public string NameParent { get; set; } = string.Empty;
-    [FlatBufferItem(02)] public PlacementV3f8a Position { get; set; } = new();
+    [FlatBufferItem(02)] public Vec3f Position { get; set; } = new();
     [FlatBufferItem(03)] public bool Flag_03 { get; set; }
     [FlatBufferItem(04)] public bool Flag_04 { get; set; }
     [FlatBufferItem(05)] public bool Flag_05 { get; set; }
@@ -77,8 +77,8 @@ public class AreaSettings8a
     [FlatBufferItem(49)] public string SoundBank { get; set; } = string.Empty;
     [FlatBufferItem(50)] public AreaSettings8a_F50 Field_50 { get; set; } = new();
     [FlatBufferItem(51)] public string Archive { get; set; } = string.Empty;
-    [FlatBufferItem(52)] public PlacementV3f8a Field_52 { get; set; } = new();
-    [FlatBufferItem(53)] public PlacementV3f8a Field_53 { get; set; } = new();
+    [FlatBufferItem(52)] public Vec3f Field_52 { get; set; } = new();
+    [FlatBufferItem(53)] public Vec3f Field_53 { get; set; } = new();
     [FlatBufferItem(54)] public ulong VisibleFlagHash { get; set; } //A flag from system_works
     [FlatBufferItem(55)] public bool Field_55 { get; set; }
 

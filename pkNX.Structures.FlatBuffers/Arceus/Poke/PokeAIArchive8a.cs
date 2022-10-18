@@ -75,10 +75,10 @@ public class PokeAI8a
     [FlatBufferItem(24)] public PokeAI8a_F24 Field_24 { get; set; } = new();
     [FlatBufferItem(25)] public float Field_25 { get; set; } = 20; // float
     [FlatBufferItem(26)] public float Field_26 { get; set; } = 30; // float
-    [FlatBufferItem(27)] public PlacementV3f8a Field_27 { get; set; } = new(20, 50, 100);
-    [FlatBufferItem(28)] public PlacementV3f8a Field_28 { get; set; } = new(20, 50, 100);
-    [FlatBufferItem(29)] public PlacementV3f8a Field_29 { get; set; } = new(20, 50, 100);
-    [FlatBufferItem(30)] public PlacementV3f8a Field_30 { get; set; } = new(15, 10, 15);
+    [FlatBufferItem(27)] public Vec3f Field_27 { get; set; } = new(20, 50, 100);
+    [FlatBufferItem(28)] public Vec3f Field_28 { get; set; } = new(20, 50, 100);
+    [FlatBufferItem(29)] public Vec3f Field_29 { get; set; } = new(20, 50, 100);
+    [FlatBufferItem(30)] public Vec3f Field_30 { get; set; } = new(15, 10, 15);
     [FlatBufferItem(31)] public int Field_31 { get; set; } // int
     [FlatBufferItem(32)] public int Field_32 { get; set; } = -1;// int
     [FlatBufferItem(33)] public int Field_33 { get; set; } // int

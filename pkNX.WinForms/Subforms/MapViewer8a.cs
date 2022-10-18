@@ -252,12 +252,12 @@ public class AreaDef
     public readonly string NameSummary;
     public readonly int Min;
     public readonly int Max;
-    public readonly PlacementV3f8a Position;
+    public readonly Vec3f Position;
     public readonly SpawnerType Type;
     public readonly EncounterSlot8a[] Slots;
     public readonly float Radius;
 
-    public AreaDef(string NameSummary, int min, int max, PlacementV3f8a position, SpawnerType type, EncounterSlot8a[] slots, float radius)
+    public AreaDef(string NameSummary, int min, int max, Vec3f position, SpawnerType type, EncounterSlot8a[] slots, float radius)
     {
         this.NameSummary = NameSummary;
         Min = min;

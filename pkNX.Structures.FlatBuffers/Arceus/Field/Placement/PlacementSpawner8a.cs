@@ -22,8 +22,8 @@ public class PlacementSpawner8a : ISlotTableConsumer
     [FlatBufferItem(2)] public PlacementParameters8a[] Field_02 { get; set; } = { new() };
     [FlatBufferItem(3)] public string Shape { get; set; } = string.Empty; // only set by Wormhole spawners
     [FlatBufferItem(4)] public float Scalar { get; set; } // how big of a radius they can spawn in?
-    [FlatBufferItem(5)] public PlacementV3f8a Field_05 { get; set; } = new(); // always default values
-    [FlatBufferItem(6)] public PlacementV3f8a Field_06 { get; set; } = new(); // always default values
+    [FlatBufferItem(5)] public Vec3f Field_05 { get; set; } = new(); // always default values
+    [FlatBufferItem(6)] public Vec3f Field_06 { get; set; } = new(); // always default values
     [FlatBufferItem(7)] public int MinSpawnCount { get; set; }
     [FlatBufferItem(8)] public int MaxSpawnCount { get; set; }
     [FlatBufferItem(9)] public int Field_09 { get; set; } // 2 for a single tangela spawner, and 8 for a single lickitung spawner
@@ -71,7 +71,7 @@ public class PlacementSpawner8a : ISlotTableConsumer
         return GetIntersectingLocations(locations, bias, c, Scalar);
     }
 
-    private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, PlacementV3f8a c, float scalar)
+    private static IEnumerable<PlacementLocation8a> GetIntersectingLocations(IReadOnlyList<PlacementLocation8a> locations, float bias, Vec3f c, float scalar)
     {
         var result = new List<PlacementLocation8a>();
         foreach (var loc in locations)

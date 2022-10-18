@@ -20,9 +20,9 @@ public class PlacementParameters8a : IHasCondition8a
     [FlatBufferItem(4)] public string ConditionArg3 { get; set; } = string.Empty;
     [FlatBufferItem(5)] public string ConditionArg4 { get; set; } = string.Empty;
     [FlatBufferItem(6)] public string ConditionArg5 { get; set; } = string.Empty;
-    [FlatBufferItem(7)] public PlacementV3f8a Coordinates { get; set; } = new();
-    [FlatBufferItem(8)] public PlacementV3f8a Rotation { get; set; } = new();
-    [FlatBufferItem(9)] public PlacementV3f8a Scale { get; set; } = new();
+    [FlatBufferItem(7)] public Vec3f Coordinates { get; set; } = new();
+    [FlatBufferItem(8)] public Vec3f Rotation { get; set; } = new();
+    [FlatBufferItem(9)] public Vec3f Scale { get; set; } = new();
 
     public override string ToString() => $"PlacementParameters(/* ConditionTypeID = */ {this.GetConditionTypeSummary()}, /* Condition = */ {this.GetConditionSummary()}, {Coordinates}, {Rotation}, {Scale})";
 }

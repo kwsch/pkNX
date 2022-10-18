@@ -176,7 +176,7 @@ public class PlacementLocation8a
         }
     }
 
-    public bool Contains(PlacementV3f8a v) => Contains(v.X, v.Y, v.Z);
+    public bool Contains(Vec3f v) => Contains(v.X, v.Y, v.Z);
 
     public string LocationTypeSummary
     {

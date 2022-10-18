@@ -32,25 +32,25 @@ public class PlacementSearchItem
     [FlatBufferItem(05)] public int Rate { get; set; }
     [FlatBufferItem(06)] public bool Field_06 { get; set; } // bool
     [FlatBufferItem(07)] public bool Field_07 { get; set; } // bool
-    [FlatBufferItem(08)] public PlacementV3f8a Field_08 { get; set; } = new();
+    [FlatBufferItem(08)] public Vec3f Field_08 { get; set; } = new();
     [FlatBufferItem(09)] public byte Field_09 { get; set; } // bool
-    [FlatBufferItem(10)] public PlacementV3f8a Field_10 { get; set; } = new();
+    [FlatBufferItem(10)] public Vec3f Field_10 { get; set; } = new();
     [FlatBufferItem(11)] public bool Field_11 { get; set; } // bool
-    [FlatBufferItem(12)] public PlacementV3f8a Field_12 { get; set; } = new();
+    [FlatBufferItem(12)] public Vec3f Field_12 { get; set; } = new();
     [FlatBufferItem(13)] public bool Field_13 { get; set; } // bool
-    [FlatBufferItem(14)] public PlacementV3f8a Field_14 { get; set; } = new();
+    [FlatBufferItem(14)] public Vec3f Field_14 { get; set; } = new();
     [FlatBufferItem(15)] public bool Field_15 { get; set; } // bool
-    [FlatBufferItem(16)] public PlacementV3f8a Field_16 { get; set; } = new();
+    [FlatBufferItem(16)] public Vec3f Field_16 { get; set; } = new();
     [FlatBufferItem(17)] public bool Field_17 { get; set; } // bool
-    [FlatBufferItem(18)] public PlacementV3f8a Field_18 { get; set; } = new();
+    [FlatBufferItem(18)] public Vec3f Field_18 { get; set; } = new();
     [FlatBufferItem(19)] public bool Field_19 { get; set; } // bool
-    [FlatBufferItem(20)] public PlacementV3f8a Field_20 { get; set; } = new();
+    [FlatBufferItem(20)] public Vec3f Field_20 { get; set; } = new();
     [FlatBufferItem(21)] public bool Field_21 { get; set; } // bool
-    [FlatBufferItem(22)] public PlacementV3f8a Field_22 { get; set; } = new();
+    [FlatBufferItem(22)] public Vec3f Field_22 { get; set; } = new();
     [FlatBufferItem(23)] public bool Field_23 { get; set; } // bool
-    [FlatBufferItem(24)] public PlacementV3f8a Field_24 { get; set; } = new();
+    [FlatBufferItem(24)] public Vec3f Field_24 { get; set; } = new();
     [FlatBufferItem(25)] public bool Field_25 { get; set; } // bool
-    [FlatBufferItem(26)] public PlacementV3f8a Field_26 { get; set; } = new();
+    [FlatBufferItem(26)] public Vec3f Field_26 { get; set; } = new();
 
     public PlacementParameters8a Parameters
     {

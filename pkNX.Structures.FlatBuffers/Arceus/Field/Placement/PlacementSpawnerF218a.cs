@@ -21,11 +21,11 @@ public class PlacementSpawnerF218a
     [FlatBufferItem(3)] public ulong VarHash3 { get; set; } // ??? Is this as 01/02?
     [FlatBufferItem(4)] public ulong VarHash4 { get; set; } // ??? Is this as 01/02?
     [FlatBufferItem(5)] public ulong VarHash5 { get; set; } // ??? Is this as 01/02?
-    [FlatBufferItem(6)] public PlacementV3f8a Field_06 { get; set; } = new();
+    [FlatBufferItem(6)] public Vec3f Field_06 { get; set; } = new();
     [FlatBufferItem(7)] public string Field_07 { get; set; } = string.Empty;
     [FlatBufferItem(8)] public float Scalar { get; set; }
-    [FlatBufferItem(9)] public PlacementV3f8a Field_09 { get; set; } = new();
-    [FlatBufferItem(10)] public PlacementV3f8a Field_10 { get; set; } = new();
+    [FlatBufferItem(9)] public Vec3f Field_09 { get; set; } = new();
+    [FlatBufferItem(10)] public Vec3f Field_10 { get; set; } = new();
     [FlatBufferItem(11)] public int NumVarHashes { get; set; }
 
     public string SlotSummary

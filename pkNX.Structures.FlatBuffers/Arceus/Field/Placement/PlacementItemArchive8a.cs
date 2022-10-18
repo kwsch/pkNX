@@ -38,9 +38,9 @@ public class PlacementItem8a_F03
     [FlatBufferItem(04)] public string Field_04 { get; set; } = string.Empty;
     [FlatBufferItem(05)] public string Field_05 { get; set; } = string.Empty;
     [FlatBufferItem(06)] public string Field_06 { get; set; } = string.Empty;
-    [FlatBufferItem(07)] public PlacementV3f8a Field_07 { get; set; } = new();
+    [FlatBufferItem(07)] public Vec3f Field_07 { get; set; } = new();
     [FlatBufferItem(08)] public PlacementItem8a_F08 Field_08 { get; set; } = new();
-    [FlatBufferItem(09)] public PlacementV3f8a Field_09 { get; set; } = new();
+    [FlatBufferItem(09)] public Vec3f Field_09 { get; set; } = new();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
