@@ -139,6 +139,7 @@ public partial class AreaEditor8a : Form
     private void LoadArea()
     {
         Debug.WriteLine($"Loading Area {AreaIndex}");
+        PG_AreaSettings.SelectedObject = Area.Settings;
         Edit_Encounters.LoadTable(Area.Encounters, Area.Settings.Encounters);
         Edit_RegularSpawners.LoadTable(Area.Spawners, Area.Settings.Spawners);
         Edit_WormholeSpawners.LoadTable(Area.Wormholes, Area.Settings.WormholeSpawners);

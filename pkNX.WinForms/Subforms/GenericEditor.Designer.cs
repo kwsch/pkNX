@@ -40,7 +40,9 @@
             // 
             // Grid
             // 
-            this.Grid.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Grid.Location = new System.Drawing.Point(0, 15);
             this.Grid.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Grid.Name = "Grid";
