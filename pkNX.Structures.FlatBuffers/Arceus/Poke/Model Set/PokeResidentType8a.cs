@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers;
 public enum PokeResidentType8a : ulong
 {
     enigma = 0xC75DDBE25402B11C,
-    unk_01 = 0xE0F6613235D0AEEE,
-    unk_02 = 0xE0F9DF3235D3BADF,
-    unk_03 = 0xE0F6623235D0B0A1,
+    residents_188 = 0xE0F6613235D0AEEE,
+    residents_189 = 0xE0F6623235D0B0A1,
+    residents_190 = 0xE0F9DF3235D3BADF,
 };

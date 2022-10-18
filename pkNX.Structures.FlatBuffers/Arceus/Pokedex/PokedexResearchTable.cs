@@ -51,16 +51,16 @@ public class PokedexResearchTask
     [FlatBufferItem(03)] public int Move { get; set; }
     [FlatBufferItem(04)] public int MoveType { get; set; }
     [FlatBufferItem(05)] public int TimeOfDay { get; set; }
-    [FlatBufferItem(06)] public ulong Hash_06 { get; set; }
-    [FlatBufferItem(07)] public ulong Hash_07 { get; set; }
-    [FlatBufferItem(08)] public ulong Hash_08 { get; set; }
-    [FlatBufferItem(09)] public int Threshold1 { get; set; }
-    [FlatBufferItem(10)] public int Threshold2 { get; set; }
-    [FlatBufferItem(11)] public int Threshold3 { get; set; }
-    [FlatBufferItem(12)] public int Threshold4 { get; set; }
-    [FlatBufferItem(13)] public int Threshold5 { get; set; }
-    [FlatBufferItem(14)] public int PointsSingle { get; set; }
-    [FlatBufferItem(15)] public int PointsBonus { get; set; }
+    [FlatBufferItem(06)] public ulong Hash_06 { get; set; } = 14695981039346656837;
+    [FlatBufferItem(07)] public ulong Hash_07 { get; set; } = 14695981039346656837;
+    [FlatBufferItem(08)] public ulong Hash_08 { get; set; } = 14695981039346656837;
+    [FlatBufferItem(09)] public int Threshold1 { get; set; } = 1;
+    [FlatBufferItem(10)] public int Threshold2 { get; set; } = 2;
+    [FlatBufferItem(11)] public int Threshold3 { get; set; } = 4;
+    [FlatBufferItem(12)] public int Threshold4 { get; set; } = 6;
+    [FlatBufferItem(13)] public int Threshold5 { get; set; } = 10;
+    [FlatBufferItem(14)] public int PointsSingle { get; set; } = 10;
+    [FlatBufferItem(15)] public int PointsBonus { get; set; } = 0;
     [FlatBufferItem(16)] public bool RequiredForCompletion { get; set; } // Unused but referenced by code (bool is set to != 0)
 }
 
@@ -78,4 +78,13 @@ public enum ResearchTaskType
     Unknown_8,
     Unknown_9,
     Unknown_10,
+    Unknown_11,
+    Unknown_12,
+    Unknown_13,
+    Unknown_14,
+    Unknown_15,
+    Unknown_16,
+    Unknown_17,
+    Unknown_18,
+    Unknown_19,
 }

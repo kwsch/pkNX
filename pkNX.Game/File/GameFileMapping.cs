@@ -1,9 +1,9 @@
+using pkNX.Containers;
+using pkNX.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using pkNX.Containers;
-using pkNX.Structures;
 
 namespace pkNX.Game;
 
@@ -212,13 +212,16 @@ public class GameFileMapping
         new(GameFile.StoryText8, 9, "bin", "message", "Simp_Chinese", "script"),
         new(GameFile.StoryText9, 10, "bin", "message", "Trad_Chinese", "script"),
 
+        new(GameFile.DexFormStorage         , ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_form_storage_index_table.bin"),
         new(GameFile.DexRank                , ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_rank_table.bin"),
         new(GameFile.DexResearch            , ContainerType.SingleFile, "bin", "appli", "pokedex", "res_table", "pokedex_research_task_table.bin"),
         new(GameFile.PokemonResourceList    , ContainerType.SingleFile, "bin", "appli", "res_pokemon", "list", "pokemon_info_list.bin"),
         new(GameFile.MoveShop               , ContainerType.SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
         new(GameFile.HaShop                 , ContainerType.SingleFile, "bin", "appli", "shop", "bin", "ha_shop_data.bin"),
 
+        new(GameFile.ArchiveFolder                                    , "bin", "archive"),
         new(GameFile.Resident               , ContainerType.GFPack    , "bin", "archive", "field", "resident_release.gfpak"),
+        new(GameFile.archive_contents       , ContainerType.SingleFile, "bin", "archive", "archive_contents.bin"),
 
         new(GameFile.ThrowParam             , ContainerType.SingleFile, "bin", "capture", "throw_param_table.bin"),
         new(GameFile.ThrowPermissionSet     , ContainerType.SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),
@@ -342,22 +345,35 @@ public class GameFileMapping
         new(GameFile.SoundConfig                    , ContainerType.SingleFile, "bin", "misc", "app_config", "sound_config.bin"),
         new(GameFile.WaterMotion                    , ContainerType.SingleFile, "bin", "misc", "app_config", "water_motion.bin"),
 
-        new(GameFile.MoveStats                                        , "bin", "pml", "waza"),
-        new(GameFile.ItemStats              , ContainerType.SingleFile, "bin", "pml", "item", "item.dat"),
-        new(GameFile.Evolutions             , ContainerType.SingleFile, "bin", "pml", "evolution", "evolution_data_total.evobin"),
-        new(GameFile.PersonalStats          , ContainerType.SingleFile, "bin", "pml", "personal", "personal_data_total.perbin"),
-        new(GameFile.Learnsets              , ContainerType.SingleFile, "bin", "pml", "waza_oboe", "waza_oboe_total.wazaoboe"),
+        new(GameFile.MoveStats                                                , "bin", "pml", "waza"),
+        new(GameFile.ItemStats                      , ContainerType.SingleFile, "bin", "pml", "item", "item.dat"),
+        new(GameFile.Evolutions                     , ContainerType.SingleFile, "bin", "pml", "evolution", "evolution_data_total.evobin"),
+        new(GameFile.PersonalStats                  , ContainerType.SingleFile, "bin", "pml", "personal", "personal_data_total.perbin"),
+        new(GameFile.Learnsets                      , ContainerType.SingleFile, "bin", "pml", "waza_oboe", "waza_oboe_total.wazaoboe"),
 
-        new(GameFile.EncounterGift          , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
-        new(GameFile.SymbolBehave           , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_ai.bin"),
-        new(GameFile.FieldDrops             , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item.bin"),
-        new(GameFile.BattleDrops            , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item_battle.bin"),
-        new(GameFile.EncounterRateTable     , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_encount.bin"),
-        new(GameFile.EncounterStatic        , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_event_encount.bin"),
-        new(GameFile.PokeMisc               , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
-        new(GameFile.PokemonResourceTable   , ContainerType.SingleFile, "bin", "pokemon", "table", "poke_resource_table.trpmcatalog"),
+        new(GameFile.EncounterGift                  , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
+        new(GameFile.SymbolBehave                   , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_ai.bin"),
+        new(GameFile.PokeBattleSpawn                , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_battle_spawn.bin"),
+        new(GameFile.PokeBodyParticle               , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_body_particle.bin"),
+        new(GameFile.PokeCaptureCollision           , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_capture_collision.bin"),
+        new(GameFile.PokeDefaultLocator             , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_default_locator.trloc"),
+        new(GameFile.FieldDrops                     , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item.bin"),
+        new(GameFile.BattleDrops                    , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_drop_item_battle.bin"),
+        new(GameFile.PokeEatingHabits               , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_eating_habits.bin"),
+        new(GameFile.EncounterRateTable             , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_encount.bin"),
+        new(GameFile.EncounterStatic                , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_event_encount.bin"),
+        new(GameFile.MoveObstructionLegend          , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_ns_legend.bin"),
+        new(GameFile.MoveObstructionLegendEffect    , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_ns_legend_effect.bin"),
+        new(GameFile.MoveObstructionSE              , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_se.bin"),
+        new(GameFile.MoveObstructionWild            , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_wild.bin"),
+        new(GameFile.MoveObstructionWildEffect      , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_wild_effect.bin"),
+        new(GameFile.MoveObstructionWater           , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_wild_water.bin"),
+        new(GameFile.MoveObstructionWaterEffect     , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_field_obstruction_waza_wild_water_effect.bin"),
+        new(GameFile.PokeMisc                       , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_misc.bin"),
+        new(GameFile.NushiBattleSettings            , ContainerType.SingleFile, "bin", "pokemon", "data", "poke_nushi_battle_setting.bin"),
+        new(GameFile.PokemonResourceTable           , ContainerType.SingleFile, "bin", "pokemon", "table", "poke_resource_table.trpmcatalog"),
 
-        new(GameFile.EncounterTrade         , ContainerType.SingleFile, "bin", "script_event_data", "field_trade.bin"), // Incorrect?
+        new(GameFile.EncounterTrade                 , ContainerType.SingleFile, "bin", "script_event_data", "field_trade.bin"), // Incorrect?
 
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon

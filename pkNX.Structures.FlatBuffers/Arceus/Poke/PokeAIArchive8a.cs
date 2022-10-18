@@ -51,21 +51,21 @@ public class PokeAI8a
     [FlatBufferItem(00)] public int Species { get; set; } // int
     [FlatBufferItem(01)] public int Form { get; set; } // int
     [FlatBufferItem(02)] public bool IsAlpha { get; set; } // bool
-    [FlatBufferItem(03)] public string Behavior1 { get; set; } = string.Empty;
-    [FlatBufferItem(04)] public string Behavior2 { get; set; } = string.Empty;
-    [FlatBufferItem(05)] public string Behavior3 { get; set; } = string.Empty;
+    [FlatBufferItem(03)][TypeConverter(typeof(AIBehaviourConverter))] public string Behavior1 { get; set; } = string.Empty;
+    [FlatBufferItem(04)][TypeConverter(typeof(AIBehaviourConverter))] public string Behavior2 { get; set; } = string.Empty;
+    [FlatBufferItem(05)][TypeConverter(typeof(AIBehaviourConverter))] public string Behavior3 { get; set; } = string.Empty;
     [FlatBufferItem(06)] public bool Field_06 { get; set; } // bool
     [FlatBufferItem(07)] public ulong Field_07 { get; set; } // ulong 2458747221614355867
     [FlatBufferItem(08)] public bool Field_08 { get; set; } = true; // bool, always true
-    [FlatBufferItem(09)] public PokeAI8a_F09 Field_09 { get; set; } = new();
+    [FlatBufferItem(09)] public PokeAI8a_F09 Field_09 { get; set; } = PokeAI8a_F09.DefaultBehaviour_F09;
     [FlatBufferItem(10)] public bool Field_10 { get; set; } = true; // bool, always true
-    [FlatBufferItem(11)] public PokeAI8a_F09 Field_11 { get; set; } = new();
+    [FlatBufferItem(11)] public PokeAI8a_F09 Field_11 { get; set; } = PokeAI8a_F09.DefaultBehaviour_F11;
     [FlatBufferItem(12)] public bool Field_12 { get; set; } = true; // bool, always true except for Darkrai
-    [FlatBufferItem(13)] public PokeAI8a_F09 Field_13 { get; set; } = new();
+    [FlatBufferItem(13)] public PokeAI8a_F09 Field_13 { get; set; } = PokeAI8a_F09.DefaultBehaviour02;
     [FlatBufferItem(14)] public bool Field_14 { get; set; } = true; // bool, always true
-    [FlatBufferItem(15)] public PokeAI8a_F09 Field_15 { get; set; } = new();
+    [FlatBufferItem(15)] public PokeAI8a_F09 Field_15 { get; set; } = PokeAI8a_F09.DefaultBehaviour05;
     [FlatBufferItem(16)] public bool Field_16 { get; set; } = true; // bool, always true
-    [FlatBufferItem(17)] public PokeAI8a_F09 Field_17 { get; set; } = new();
+    [FlatBufferItem(17)] public PokeAI8a_F09 Field_17 { get; set; } = PokeAI8a_F09.DefaultBehaviour05;
     [FlatBufferItem(18)] public PokeAI8a_F18 Field_18 { get; set; } = new(); // only used by Kleavor-1
     [FlatBufferItem(19)] public PokeAI8a_F18 Field_19 { get; set; } = new(); // assumed same as above, none use
     [FlatBufferItem(20)] public PokeAI8a_F18 Field_20 { get; set; } = new(); // assumed same as above, none use
@@ -104,26 +104,68 @@ public class PokeAI8a_F18
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeAI8a_F09
 {
-    [FlatBufferItem(00)] public PokeAIBehaviour Field_00 { get; set; } = new();
-    [FlatBufferItem(01)] public PokeAIBehaviour Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public PokeAIBehaviour Field_02 { get; set; } = new();
-    [FlatBufferItem(03)] public PokeAIBehaviour Field_03 { get; set; } = new();
-    [FlatBufferItem(04)] public PokeAIBehaviour Field_04 { get; set; } = new PokeAIBehaviour { Hash = 1234775724179408742, Parameters = new string[] { "3", "5", "60", "90", "4", "run", "Normal" } };
-    [FlatBufferItem(05)] public PokeAIBehaviour Field_05 { get; set; } = new();
-    [FlatBufferItem(06)] public PokeAIBehaviour Field_06 { get; set; } = new();
-    [FlatBufferItem(07)] public PokeAIBehaviour Field_07 { get; set; } = new();
-    [FlatBufferItem(08)] public PokeAIBehaviour Field_08 { get; set; } = new();
+    public static readonly PokeAI8a_F09 DefaultBehaviour02 = new();
+
+    public static readonly PokeAI8a_F09 DefaultBehaviour_F09 = new()
+    {
+        Field_00 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_01 = PokeAIBehaviour.Behaviour_X_Params,
+        Field_02 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_03 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_04 = PokeAIBehaviour.Behaviour_04_Params,
+        Field_05 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_06 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_07 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_08 = PokeAIBehaviour.Behaviour_X2_Params,
+    };
+
+    public static readonly PokeAI8a_F09 DefaultBehaviour_F11 = new()
+    {
+        Field_00 = PokeAIBehaviour.DefaultBehaviour02_20,
+        Field_01 = PokeAIBehaviour.Behaviour_04_Params,
+        Field_02 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_03 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_04 = PokeAIBehaviour.Behaviour_04_Params,
+        Field_05 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_06 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_07 = PokeAIBehaviour.DefaultBehaviour02,
+        Field_08 = PokeAIBehaviour.DefaultBehaviour02,
+    };
+
+    public static readonly PokeAI8a_F09 DefaultBehaviour05 = new()
+    {
+        Field_00 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_01 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_02 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_03 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_04 = PokeAIBehaviour.Behaviour_04_Params,
+        Field_05 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_06 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_07 = PokeAIBehaviour.DefaultBehaviour05,
+        Field_08 = PokeAIBehaviour.DefaultBehaviour05,
+    };
+
+    [FlatBufferItem(00)] public PokeAIBehaviour Field_00 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(01)] public PokeAIBehaviour Field_01 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(02)] public PokeAIBehaviour Field_02 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(03)] public PokeAIBehaviour Field_03 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(04)] public PokeAIBehaviour Field_04 { get; set; } = PokeAIBehaviour.Behaviour_04_Params;
+    [FlatBufferItem(05)] public PokeAIBehaviour Field_05 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(06)] public PokeAIBehaviour Field_06 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(07)] public PokeAIBehaviour Field_07 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
+    [FlatBufferItem(08)] public PokeAIBehaviour Field_08 { get; set; } = PokeAIBehaviour.DefaultBehaviour02;
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeAIBehaviour
 {
-    // Hash 9252365659083253459 = new string[] { "0.2", "35" };
-    // Hash 17205188591700921149 = new string[] { "10", "3", "run", "Normal" };
-    // Hash 17205188591700921149 = new string[] { "10", "0.5", "run", "Normal" };
-    // Hash 1234775724179408742 = new string[] { "3", "5", "60", "90", "4", "run", "Normal" };
+    public static readonly PokeAIBehaviour DefaultBehaviour02 = new() { BehaviourHash = 9252365659083253459, Parameters = new string[] { "0.2", "35" } };
+    public static readonly PokeAIBehaviour DefaultBehaviour02_20 = new() { BehaviourHash = 9252365659083253459, Parameters = new string[] { "0.2", "20" } };
+    public static readonly PokeAIBehaviour DefaultBehaviour05 = new() { BehaviourHash = 9252365659083253459, Parameters = new string[] { "0.5", "35" } };
+    public static readonly PokeAIBehaviour Behaviour_X_Params = new() { BehaviourHash = 17205188591700921149, Parameters = new string[] { "10", "3", "run", "Normal" } };
+    public static readonly PokeAIBehaviour Behaviour_X2_Params = new() { BehaviourHash = 17205188591700921149, Parameters = new string[] { "10", "0.5", "run", "Normal" } };
+    public static readonly PokeAIBehaviour Behaviour_04_Params = new() { BehaviourHash = 1234775724179408742, Parameters = new string[] { "3", "5", "60", "90", "4", "run", "Normal" } };
 
-    [FlatBufferItem(00)] public ulong Hash { get; set; } = 9252365659083253459;
-    [FlatBufferItem(01)] public string[] Parameters { get; set; } = new string[] { "0.2", "35" };
+    [FlatBufferItem(00)] public ulong BehaviourHash { get; set; } = 9252365659083253459;
+    [FlatBufferItem(01)] public string[] Parameters { get; set; } = new string[] { "0.5", "35" };
 }
-

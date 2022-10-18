@@ -1,7 +1,10 @@
 using FlatSharp.Attributes;
+using pkNX.Containers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -11,6 +14,35 @@ namespace pkNX.Structures.FlatBuffers;
 public class PokeModelSet8a : IFlatBufferArchive<PokeModelSetEntry8a>
 {
     public byte[] Write() => FlatBufferConverter.SerializeFrom(this);
+
+    public PokeModelSetEntry8a GetEntry(ushort species)
+    {
+        return Table.FirstOrDefault(z => z.Species == species) ??
+            new PokeModelSetEntry8a { };
+    }
+
+    public bool HasEntry(ushort species)
+    {
+        return Table.Any(x => x.Species == species);
+    }
+
+    public PokeModelSetEntry8a AddEntry(ushort species, ushort form)
+    {
+        Debug.Assert(!HasEntry(species), "The resource info table already contains an entry for the same species!");
+
+        var entry = new PokeModelSetEntry8a
+        {
+            PokeModelHash = (PokeModelType8a)FnvHash.HashFnv1a_64(""),
+            Species = species,
+            Form = form,
+        };
+
+        Table = Table.Append(entry)
+            .OrderBy(x => x.Species)
+            .ThenBy(x => x.Form)
+            .ToArray();
+        return entry;
+    }
 
     [FlatBufferItem(00)] public PokeModelSetEntry8a[] Table { get; set; } = Array.Empty<PokeModelSetEntry8a>();
 }

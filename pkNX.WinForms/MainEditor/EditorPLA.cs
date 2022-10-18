@@ -230,6 +230,13 @@ internal class EditorPLA : EditorBase
         }
     }
 
+    [EditorCallable(EditorCategory.Pokemon)]
+    public void EditPokeCaptureCollision()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeCaptureCollisionArchive8a, PokeCaptureCollision8a>(GameFile.PokeCaptureCollision, "Pokemon Capture Collision Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+    }
+
     [EditorCallable(EditorCategory.Pokemon)] public void EditBuddyBattleConfig() => PopFlatConfig(GameFile.BuddyBattleConfig, "Buddy Battle Config Editor");
     [EditorCallable(EditorCategory.Pokemon)] public void EditBuddyConfig() => PopFlatConfig(GameFile.BuddyConfig, "Buddy Config Editor");
     [EditorCallable(EditorCategory.Pokemon)] public void EditBuddyDirectItemConfig() => PopFlatConfig(GameFile.BuddyDirectItemConfig, "Buddy Direct Item Config Editor");
@@ -551,6 +558,12 @@ internal class EditorPLA : EditorBase
         PopFlat<PokeInfoList8a, PokeInfo8a>(GameFile.PokemonResourceList, "Pokemon Resource List", (z, _) => $"{names[z.Species]}");
     }
 
+    [EditorCallable(EditorCategory.Graphics)]
+    public void EditPokeBodyParticle()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeBodyParticleArchive8a, PokeBodyParticle8a>(GameFile.PokeBodyParticle, "Pokemon Body Particle Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+    }
     #endregion
 
     #region Items Editors
@@ -666,6 +679,20 @@ internal class EditorPLA : EditorBase
     }
 
     [EditorCallable(EditorCategory.Misc)]
+    public void EditArchiveContents()
+    {
+        var ArchiveFolder = ROM.GetFilteredFolder(GameFile.ArchiveFolder);
+
+        var paths = ArchiveFolder.GetPaths()
+            .Select(p => Path.GetRelativePath(ROM.PathRomFS, p).Replace('\\', '/'))
+            .ToDictionary(p => FnvHash.HashFnv1a_64(p));
+
+        PopFlat<ArchiveContents8a, ArchiveContent8a>(GameFile.archive_contents, "Archive Contents Editor",
+            (z, _) => paths.GetValueOrDefault(z.ArchivePathHash) ?? z.ArchivePathHash.ToString("X16"),
+            addEntryCallback: x => x.AddEntry());
+    }
+
+    [EditorCallable(EditorCategory.Misc)]
     public void EditPokedexRankTable()
     {
         PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexRank, "Pokedex Rank Table Editor", (z, _) => z.Rank.ToString());
@@ -675,6 +702,12 @@ internal class EditorPLA : EditorBase
     public void EditPokedexFormStorage()
     {
         //PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexFormStorage, "Pokedex Form Storage Editor", z => z.Rank.ToString());
+    }
+
+    [EditorCallable(EditorCategory.Misc)]
+    public void EditPokeDefaultLocator()
+    {
+        PopFlat<PokeDefaultLocatorArchive8a, PokeDefaultLocator8a>(GameFile.PokeDefaultLocator, "Poke Default Locator Editor", (z, _) => z.Locator);
     }
 
     [EditorCallable(EditorCategory.Misc)] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");

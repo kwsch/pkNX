@@ -179,8 +179,11 @@ public enum GameFile
     /// <summary> Symbol Behavior Definition </summary>
     SymbolBehave,
 
+    ArchiveFolder,
+
     /// <summary> Area Resident Archive </summary>
     Resident,
+    archive_contents,
 
     /// <summary> "PokeEncount" Rate Multipler Archive </summary>
     EncounterRateTable,
@@ -196,6 +199,7 @@ public enum GameFile
 
     /// <summary> All pokedex research tasks </summary>
     DexResearch,
+    DexFormStorage,
     DexRank,
 
     ThrowParam,
@@ -336,5 +340,18 @@ public enum GameFile
     WaterMotion,
 
     PokemonResourceList,
+    PokeBodyParticle,
+    PokeCaptureCollision,
     PokemonResourceTable,
+    PokeBattleSpawn,
+    PokeDefaultLocator,
+    PokeEatingHabits,
+    MoveObstructionLegend,
+    MoveObstructionLegendEffect,
+    MoveObstructionSE,
+    MoveObstructionWild,
+    MoveObstructionWildEffect,
+    MoveObstructionWater,
+    MoveObstructionWaterEffect,
+    NushiBattleSettings,
 }
