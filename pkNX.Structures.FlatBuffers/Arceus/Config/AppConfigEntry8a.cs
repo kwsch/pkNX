@@ -19,5 +19,5 @@ public class AppconfigEntry8a
     [FlatBufferItem(02)] public string Folder { get; set; } = string.Empty;
     [FlatBufferItem(03)] public string FileNameWithoutExtension { get; set; } = string.Empty;
     [FlatBufferItem(04)] public byte Unused { get => 0; set { } }
-    [FlatBufferItem(05)] public FlatDummyEntry[] UnusedEntries { get; set; } = Array.Empty<FlatDummyEntry>();
+    [FlatBufferItem(05)] public string[] UnusedEntries { get; set; } = Array.Empty<string>();
 }

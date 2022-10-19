@@ -69,7 +69,7 @@ internal class EditorPLA : EditorBase
 
     public void PopFlatConfig(GameFile file, string title)
     {
-        PopFlat<ConfigureTable8a, Configure8aEntry>(file, title, (z, _) => z.Name);
+        PopFlat<ConfigArchive8a, ConfigEntry8a>(file, title, (z, _) => z.Name);
     }
 
     public int[] GetSpeciesBanlist()

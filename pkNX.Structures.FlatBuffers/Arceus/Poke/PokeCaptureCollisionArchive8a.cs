@@ -11,9 +11,6 @@ using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers;
 
-/// <summary>
-/// Seems to be a file left over from development. Only has test entries
-/// </summary>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeCaptureCollisionArchive8a : IFlatBufferArchive<PokeCaptureCollision8a>
 {
