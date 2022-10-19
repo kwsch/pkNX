@@ -25,7 +25,7 @@ public class ConfigEntry8a
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(01)] public ulong Hash { get; set; }
-    [FlatBufferItem(02)] public int Value { get; set; } // none have this
+    [FlatBufferItem(02)] public int Field_02 { get; set; }
     [FlatBufferItem(03)] public string DebugMin { get; set; } = string.Empty;
     [FlatBufferItem(04)] public string DebugMax { get; set; } = string.Empty;
     [FlatBufferItem(05)] public string[] Parameters { get; set; } = Array.Empty<string>();
