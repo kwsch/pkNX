@@ -1007,6 +1007,7 @@ namespace pkNX.WinForms
             this.TB_Gender.Size = new System.Drawing.Size(48, 31);
             this.TB_Gender.TabIndex = 454;
             this.TB_Gender.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Gender.TextChanged += new System.EventHandler(this.TB_Gender_TextChanged);
             // 
             // L_GenderDetails
             // 

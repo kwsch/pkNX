@@ -870,6 +870,12 @@ public partial class PokeDataUI8a : Form
         }
     }
 
+    private void TB_Gender_TextChanged(object sender, EventArgs e)
+    {
+        cPersonal.Gender = Util.ToInt32(TB_Gender.Text);
+        UpdateGenderDetailLabel();
+    }
+
     private void B_Save_Click(object sender, EventArgs e)
     {
         SaveCurrent();
