@@ -61,7 +61,7 @@ public class PokeMisc8a
     public PokeDropItem8a? AlphaDropTable { get; set; }
 
     [FlatBufferItem(09)] public string Value { get; set; } = "pm0000_00_00";
-    [FlatBufferItem(10)] public int[] Field_10 { get; set; } = new[] { 0, 1, 2, 3 };
+    [FlatBufferItem(10)] public uint[] Field_10 { get; set; } = new uint[] { 0, 1, 2, 3 };
     [FlatBufferItem(11)] public int Field_11 { get; set; } = 0;
     [FlatBufferItem(12)] public int Field_12 { get; set; } = 4;
     [FlatBufferItem(13)] public int Field_13 { get; set; } = 10;
@@ -72,4 +72,6 @@ public class PokeMisc8a
     [FlatBufferItem(18)] public bool Field_18 { get; set; } = true; // false for zubat, psyduck
     [FlatBufferItem(19)] public float Field_19 { get; set; } = 0;
     [FlatBufferItem(20)] public float Field_20 { get; set; } = 1.0f;
+    [FlatBufferItem(21)] public uint Field_21 { get; set; } // None have this
+    [FlatBufferItem(22)] public float Field_22 { get; set; }
 }
