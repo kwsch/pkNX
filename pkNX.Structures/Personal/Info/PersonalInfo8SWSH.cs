@@ -110,12 +110,16 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public ushort Quantized_floats_3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), value); }
     public ushort Quantized_floats_4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
 
-    public Span<byte> Bytes_0 => Data.AsSpan(0x6A, 10);
-    public Span<byte> Bytes_1 => Data.AsSpan(0x74, 10);
-    public Span<byte> Bytes_2 => Data.AsSpan(0x7E, 5);
-    public Span<byte> Bytes_3 => Data.AsSpan(0x83, 5);
-    public Span<byte> Bytes_4 => Data.AsSpan(0x88, 5);
-    public Span<byte> Bytes_5 => Data.AsSpan(0x8D, 5);
+    public Span<byte> GetUnknownByteSet(int index) => index switch
+    {
+        0 => Data.AsSpan(0x6A, 10),
+        1 => Data.AsSpan(0x74, 10),
+        2 => Data.AsSpan(0x7E, 5),
+        3 => Data.AsSpan(0x83, 5),
+        4 => Data.AsSpan(0x88, 5),
+        5 => Data.AsSpan(0x8D, 5),
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+    };
 
     public ushort Shorts_0 { get => ReadUInt16LittleEndian(Data.AsSpan(0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(0x92), value); }
     public ushort Shorts_1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x94)); set => WriteUInt16LittleEndian(Data.AsSpan(0x94), value); }
