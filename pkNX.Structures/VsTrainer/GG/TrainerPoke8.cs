@@ -8,19 +8,12 @@ public class TrainerPoke8 : TrainerPoke
 {
     //sub_7101452DB0
     public const int SIZE = 0x20;
-    public override TrainerPoke Clone() => new TrainerPoke8((byte[])Write().Clone());
-    public TrainerPoke8(byte[] data = null) => Data = data ?? new byte[SIZE];
+    public TrainerPoke8() : this(new byte[SIZE]) { }
+    public TrainerPoke8(byte[] data) : base(data) { }
+    public override TrainerPoke Clone() => new TrainerPoke8((byte[])Data.Clone());
 
-    public static TrainerPoke8[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((x, offset) => new TrainerPoke8(offset, x), SIZE);
+    public static TrainerPoke8[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((_, offset) => new TrainerPoke8(data.Slice(offset, SIZE)), SIZE);
     public static byte[] WriteTeam(IList<TrainerPoke> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
-
-    public TrainerPoke8(int offset, byte[] data = null)
-    {
-        Data = new byte[SIZE];
-        if (data == null || offset + SIZE > data.Length)
-            return;
-        Array.Copy(data, offset, Data, 0, SIZE);
-    }
 
     public override int Gender
     {
@@ -54,6 +47,7 @@ public class TrainerPoke8 : TrainerPoke
 
     public override int Friendship { get => 0; set { } }
     public override int Rank { get => 0; set { } }
+
     public override bool CanMegaEvolve { get => false; set { } }
 
     public override int Level { get => BitConverter.ToUInt16(Data, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A); }

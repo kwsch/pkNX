@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers;
 
@@ -6,14 +6,14 @@ namespace pkNX.Game;
 
 public class DataCache<T> : IDataEditor where T : class
 {
-    public IFileContainer Data { protected get; set; }
-    public Func<byte[], T> Create { private get; set; }
-    public Func<T, byte[]> Write { protected get; set; }
+    public IFileContainer Data { protected get; set; } = null!;
+    public Func<byte[], T> Create { private get; set; } = null!;
+    public Func<T, byte[]> Write { protected get; set; } = null!;
 
-    public DataCache(T[] cache) => Cache = cache;
+    public DataCache(T?[] cache) => Cache = cache;
     public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
-    protected readonly T[] Cache;
+    protected readonly T?[] Cache;
     private bool Cached;
 
     public int Length => Cache.Length;
@@ -35,7 +35,7 @@ public class DataCache<T> : IDataEditor where T : class
     public T[] LoadAll()
     {
         if (Cached)
-            return Cache;
+            return Cache!;
         for (int i = 0; i < Length; i++)
         {
             // ReSharper disable once AssignmentIsFullyDiscarded
@@ -43,7 +43,7 @@ public class DataCache<T> : IDataEditor where T : class
         }
 
         Cached = true;
-        return Cache;
+        return Cache!;
     }
 
     public void ClearAll()

@@ -1,4 +1,4 @@
-﻿using pkNX.Structures;
+using pkNX.Structures;
 
 namespace pkNX.Game;
 
@@ -7,10 +7,10 @@ namespace pkNX.Game;
 /// </summary>
 public class GameData
 {
-    public IPersonalTable PersonalData { get; internal set; }
-    public DataCache<MegaEvolutionSet[]> MegaEvolutionData { get; internal set; }
+    public IPersonalTable PersonalData { get; init; } = null!;
+    public DataCache<MegaEvolutionSet[]> MegaEvolutionData { get; init; } = null!;
 
-    public DataCache<IMove> MoveData { get; internal set; }
-    public DataCache<EvolutionSet> EvolutionData { get; internal set; }
-    public DataCache<Learnset> LevelUpData { get; internal set; }
+    public DataCache<IMove> MoveData { get; init; } = null!;
+    public DataCache<EvolutionSet> EvolutionData { get; init; } = null!;
+    public DataCache<Learnset> LevelUpData { get; init; } = null!;
 }

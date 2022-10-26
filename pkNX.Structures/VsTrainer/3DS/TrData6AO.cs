@@ -4,8 +4,10 @@ namespace pkNX.Structures;
 
 public sealed class TrData6AO : TrData6
 {
-    public override int SIZE => 0x18;
-    public TrData6AO(byte[] trData = null) : base(trData) { }
+    private const int Size = 0x18;
+    public override int SIZE => Size;
+    public TrData6AO() : base(new byte[Size]) { }
+    public TrData6AO(byte[] data) : base(data) { }
 
     protected override int Format { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
     public override int Class { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }

@@ -16,7 +16,9 @@ public class GameManagerSWSH : GameManager
     /// <summary>
     /// Generally useful game data that can be used by multiple editors.
     /// </summary>
-    public GameData Data { get; protected set; }
+    public GameData Data { get; protected set; } = null!;
+
+    private FakeContainer Learn = null!;
 
     protected override void SetMitm()
     {
@@ -27,8 +29,6 @@ public class GameManagerSWSH : GameManager
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);
     }
-
-    private FakeContainer Learn;
 
     public override void Initialize()
     {

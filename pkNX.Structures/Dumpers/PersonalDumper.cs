@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,7 +15,7 @@ public class PersonalDumperSWSH : PersonalDumper
 
     private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
     {
-        if (!(TMIndexes?.Count > 0))
+        if (TMIndexes.Count == 0)
             return;
         var tmhm = pi.TMHM;
         int count = 0;
@@ -50,27 +51,27 @@ public class PersonalDumper
     public bool HasAbilities { get; set; } = true;
     public bool HasItems { get; set; } = true;
 
-    public IReadOnlyList<string> Abilities { private get; set; }
-    public IReadOnlyList<string> Types { private get; set; }
-    public IReadOnlyList<string> Items { private get; set; }
-    public IReadOnlyList<string> Colors { private get; set; }
-    public IReadOnlyList<string> EggGroups { private get; set; }
-    public IReadOnlyList<string> ExpGroups { private get; set; }
-    public IReadOnlyList<string> EntryNames { private get; set; }
-    public IReadOnlyList<string> Moves { protected get; set; }
-    public IReadOnlyList<string> Species { private get; set; }
-    public IReadOnlyList<string> ZukanA { private get; set; }
-    public IReadOnlyList<string> ZukanB { private get; set; }
+    public IReadOnlyList<string> Abilities { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Types { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Items { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Colors { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> EggGroups { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> ExpGroups { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> EntryNames { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Moves { protected get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Species { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> ZukanA { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> ZukanB { private get; set; } = Array.Empty<string>();
 
-    public IReadOnlyList<Learnset> EntryLearnsets { private get; set; }
-    public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; }
-    public IReadOnlyList<EvolutionSet> Evos { private get; set; }
-    public IReadOnlyList<ushort> TMIndexes { protected get; set; }
+    public IReadOnlyList<Learnset> EntryLearnsets { private get; set; } = Array.Empty<Learnset>();
+    public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; } = Array.Empty<EggMoves>();
+    public IReadOnlyList<EvolutionSet> Evos { private get; set; } = Array.Empty<EvolutionSet>();
+    public IReadOnlyList<ushort> TMIndexes { protected get; set; } = Array.Empty<ushort>();
 
     private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
     private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
 
-    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
+    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; } = Array.Empty<List<string>>();
 
     public PersonalDumperSettings Settings = new();
 
@@ -171,7 +172,7 @@ public class PersonalDumper
 
     private void AddLearnsets(List<string> lines, int entry, string specCode)
     {
-        if (!(EntryLearnsets?.Count > 0))
+        if (EntryLearnsets.Count == 0)
             return;
         var learn = EntryLearnsets[entry];
         if (learn.Moves.Length == 0)
@@ -189,7 +190,7 @@ public class PersonalDumper
 
     private void AddEggMoves(List<string> lines, int species, int form, string specCode)
     {
-        if (!(EntryEggMoves?.Count > 0))
+        if (EntryEggMoves.Count == 0)
             return;
         var egg = EntryEggMoves[species];
         if (egg is EggMoves7 e7 && form > 0)
@@ -207,7 +208,7 @@ public class PersonalDumper
 
     private void AddEvolutions(List<string> lines, int entry)
     {
-        if (!(Evos?.Count > 0))
+        if (Evos.Count == 0)
             return;
         var evo = Evos[entry];
         var evo2 = evo.PossibleEvolutions.Where(z => z.Species != 0).ToArray();

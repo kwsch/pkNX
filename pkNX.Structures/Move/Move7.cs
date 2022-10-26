@@ -4,9 +4,10 @@ namespace pkNX.Structures;
 
 public class Move7 : Move3DS
 {
-    protected override int SIZE => 0x28;
-    public Move7() { }
-    public Move7(byte[] data = null) : base(data) { }
+    private const int Size = 0x28;
+    protected override int SIZE => Size;
+    public Move7() : this(new byte[Size]) { }
+    public Move7(byte[] data) : base(data) { }
 
     public override int Type { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int Quality { get => Data[0x01]; set => Data[0x01] = (byte)value; }

@@ -12,8 +12,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <StartupObject>pkNX.WinForms.Program</StartupObject>
     <AssemblyName>pkNX</AssemblyName>
-    <LangVersion>10</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

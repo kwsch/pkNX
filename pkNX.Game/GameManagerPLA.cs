@@ -17,7 +17,7 @@ public class GameManagerPLA : GameManager
     /// <summary>
     /// Generally useful game data that can be used by multiple editors.
     /// </summary>
-    public GameData8a Data { get; protected set; }
+    public GameData8a Data { get; protected set; } = null!;
 
     protected override void SetMitm()
     {

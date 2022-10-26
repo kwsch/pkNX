@@ -29,7 +29,7 @@ public static class Util
 
     public static T[] GetArray<T>(this byte[] entries, Func<byte[], int, T> del, int size)
     {
-        if (entries == null || entries.Length < size)
+        if (entries.Length < size)
             return Array.Empty<T>();
 
         var data = new T[entries.Length / size];

@@ -22,5 +22,5 @@ public abstract class TrainerData
     public bool HasAllyTrainer => (AI & 8) != 0;
 
     public byte[] Write() => Data;
-    protected TrainerData(byte[] trData) => Data = trData ?? new byte[SIZE];
+    protected TrainerData(byte[] trData) => Data = trData;
 }

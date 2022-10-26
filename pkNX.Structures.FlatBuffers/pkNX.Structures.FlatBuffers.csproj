@@ -3,12 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Description>Data Structures - With FlatBuffers!</Description>
-    <LangVersion>10</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlatSharp" Version="5.7.1" />
+    <PackageReference Include="FlatSharp" Version="6.3.3" />
   </ItemGroup>
 
   <ItemGroup>

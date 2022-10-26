@@ -41,9 +41,9 @@ public class TextContainer
     {
         for (int i = 0; i < Length; i++)
         {
-            if (Cache[i] == null)
+            if (Cache[i] is not { } x)
                 continue;
-            Container[i] = TextFile.GetBytes(Cache[i], Config, Remap);
+            Container[i] = TextFile.GetBytes(x, Config, Remap);
         }
     }
 }

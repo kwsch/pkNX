@@ -4,8 +4,10 @@ namespace pkNX.Structures;
 
 public sealed class TrData6XY : TrData6
 {
-    public override int SIZE => 0x14;
-    public TrData6XY(byte[] trData = null) : base(trData) { }
+    private const int Size = 0x14;
+    public override int SIZE => Size;
+    public TrData6XY() : base(new byte[Size]) { }
+    public TrData6XY(byte[] data) : base(data) { }
 
     protected override int Format { get => Data[0x00]; set => Data[0x00] = (byte) value; }
     public override int Class { get => Data[0x01]; set => Data[0x01] = (byte)value; }

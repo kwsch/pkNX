@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace pkNX.Structures;
 
@@ -10,8 +10,10 @@ public class TrainerClass8 : TrainerClass
     // 0x80 bytes string1 file reference (eyecatch & bgm)
     // 0x80 bytes string2 file reference (battle sequence)
 
+    private const int Size = 280;
     public sealed override int SIZE => 280;
-    public TrainerClass8(byte[] data = null) => Data = data ?? new byte[SIZE];
+    public TrainerClass8(byte[] data) : base(data) { }
+    public TrainerClass8() : this(new byte[Size]) { }
 
     public byte Unk_0x00 { get => Data[0]; set => Data[0] = value; } // bool?
     public override int Group { get => Data[1]; set => Data[1] = (byte)value; }

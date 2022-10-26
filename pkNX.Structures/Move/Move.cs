@@ -4,7 +4,7 @@ public abstract class Move3DS : IMove
 {
     protected readonly byte[] Data;
     protected abstract int SIZE { get; }
-    protected Move3DS(byte[] data = null) => Data = data ?? new byte[SIZE];
+    protected Move3DS(byte[] data) => Data = data;
 
     public byte[] Write() => Data;
 

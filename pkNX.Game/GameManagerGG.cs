@@ -16,7 +16,7 @@ public class GameManagerGG : GameManager
     /// <summary>
     /// Generally useful game data that can be used by multiple editors.
     /// </summary>
-    public GameData Data { get; protected set; }
+    public GameData Data { get; protected set; } = null!;
 
     protected override void SetMitm()
     {

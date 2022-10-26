@@ -21,9 +21,11 @@ public class TextFile
     private const ushort KEY_TEXTNULL = 0xBDFF;
     private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
-    public TextFile(byte[] data = null, TextConfig config = null, bool remapChars = false)
+    public TextFile(TextConfig? config = null, bool remapChars = false) : this(emptyTextFile, config, remapChars) { }
+
+    public TextFile(byte[] data, TextConfig? config = null, bool remapChars = false)
     {
-        Data = (byte[])(data ?? emptyTextFile).Clone();
+        Data = (byte[])data.Clone();
 
         if (InitialKey != 0)
             throw new Exception("Invalid initial key! Not 0?");
@@ -66,8 +68,6 @@ public class TextFile
         }
         set
         {
-            if (value == null)
-                return;
             int sdo = (int)SectionDataOffset;
             for (int i = 0; i < value.Length; i++)
             {
@@ -139,10 +139,8 @@ public class TextFile
         set => LineData = ConvertLinesToData(value);
     }
 
-    private byte[][] ConvertLinesToData(string[] value)
+    private byte[][] ConvertLinesToData(string?[] value)
     {
-        value ??= Array.Empty<string>();
-
         ushort key = KEY_BASE;
         var lineData = new byte[value.Length][];
         for (int i = 0; i < value.Length; i++)
@@ -174,9 +172,6 @@ public class TextFile
 
     private byte[] GetLineData(string line)
     {
-        if (line == null)
-            return new byte[2];
-
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
         int i = 0;
@@ -249,9 +244,6 @@ public class TextFile
 
     private string GetLineString(byte[] data)
     {
-        if (data == null)
-            return null;
-
         var s = new StringBuilder();
         int i = 0;
         while (i < data.Length)
@@ -295,7 +287,7 @@ public class TextFile
 
         string varName = config.GetVariableString(variable);
 
-        s.Append("[VAR").Append(" ").Append(varName);
+        s.Append("[VAR").Append(' ').Append(varName);
         if (count > 1)
         {
             s.Append('(');
@@ -303,12 +295,13 @@ public class TextFile
             {
                 ushort arg = BitConverter.ToUInt16(data, i); i += 2;
                 s.Append(arg.ToString("X4"));
-                if (--count == 1) break;
-                s.Append(",");
+                if (--count == 1)
+                    break;
+                s.Append(',');
             }
             s.Append(')');
         }
-        s.Append("]");
+        s.Append(']');
         return s.ToString();
     }
 
@@ -377,7 +370,7 @@ public class TextFile
     }
 
     // Exposed Methods
-    public static string[] GetStrings(byte[] data, TextConfig config = null, bool remapChars = false)
+    public static string[]? GetStrings(byte[] data, TextConfig? config = null, bool remapChars = false)
     {
         try
         {
@@ -387,7 +380,7 @@ public class TextFile
         catch { return null; }
     }
 
-    public static byte[] GetBytes(string[] lines, TextConfig config = null, bool remapChars = false)
+    public static byte[] GetBytes(string[] lines, TextConfig? config = null, bool remapChars = false)
     {
         return new TextFile(config: config, remapChars: remapChars) { Lines = lines }.Data;
     }

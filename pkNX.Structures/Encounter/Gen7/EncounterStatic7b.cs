@@ -1,12 +1,12 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace pkNX.Structures;
 
 public sealed class EncounterStatic7b : EncounterStatic
 {
     public const int SIZE = 0x40;
-    public EncounterStatic7b(byte[] data = null) : base(data ?? new byte[SIZE]) { }
+    public EncounterStatic7b() : this(new byte[SIZE]) { }
+    public EncounterStatic7b(byte[] data) : base(data) { }
 
     public ulong Hash => BitConverter.ToUInt64(Data, 0);
 
@@ -57,7 +57,7 @@ public sealed class EncounterStatic7b : EncounterStatic
         };
         set
         {
-            if (value?.Length != 4)
+            if (value.Length != 4)
                 return;
             for (int i = 0; i < 4; i++)
                 BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, 0x20 + (i * 2));
@@ -99,8 +99,9 @@ public sealed class EncounterStatic7b : EncounterStatic
     public int Boost_SPD { get => (sbyte)Data[0x3B]; set => Data[0x3B] = (byte)value; }
     public int Boost_SPE { get => (sbyte)Data[0x3C]; set => Data[0x3C] = (byte)value; }
 
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x3)]
-    public byte[] UnknownFlags; // 0x3D-0x3F
+    public byte UnknownFlag3D { get => Data[0x3D]; set => Data[0x3D] = value; }
+    public byte UnknownFlag3E { get => Data[0x3E]; set => Data[0x3E] = value; }
+    public byte UnknownFlag3F { get => Data[0x3F]; set => Data[0x3F] = value; }
 
     public string Dump()
     {

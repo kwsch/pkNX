@@ -8,7 +8,6 @@ using FlatSharp.Attributes;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 #nullable disable
-#pragma warning disable CA1819 // Properties should not return arrays
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -55,18 +54,28 @@ public class CellMetaQuad
 public class CellUnion
 {
 #nullable enable
-    [FlatBufferItem(0)] public FlatBufferUnion<CellInt, CellBool, CellString, CellHash>? Field1 { get; set; }
+    [FlatBufferItem(0)] public FlatBufferUnion<CellInt, CellFloat, CellString, CellHash>? Field1 { get; set; }
 #nullable disable
-    public override string ToString() => Field1?.Discriminator switch
+    public override string ToString()
     {
-        1 => Field1.Item1.ToString(),
-        2 => Field1.Item3.ToString(),
-        4 => Field1.Item4.ToString(),
-        _ => "Empty",
-    };
+        if (Field1 is not { } f)
+            return "Empty";
+        if (!Field1.HasValue)
+            return "No Value";
+
+        return f.Discriminator switch
+        {
+            1 => Field1.Value.Item1.ToString(),
+            2 => Field1.Value.Item2.ToString(),
+            3 => Field1.Value.Item3.ToString(),
+            4 => Field1.Value.Item4.ToString(),
+            _ => $"Unrecognized: {f.Discriminator}",
+        };
+    }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class CellInt    { [FlatBufferItem(0)] public int    Value { get; set; } public override string ToString() => Value.ToString(); }
+[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class CellFloat  { [FlatBufferItem(0)] public float  Value { get; set; } public override string ToString() => Value.ToString("R"); }
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class CellBool   { [FlatBufferItem(0)] public bool   Flag  { get; set; } public override string ToString() => Flag.ToString(); }
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class CellString { [FlatBufferItem(0)] public string Name  { get; set; } public override string ToString() => Name; }
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))] public class CellHash   { [FlatBufferItem(0)] public ulong  Hash  { get; set; } public override string ToString() => Hash.ToString("X16"); }

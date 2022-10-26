@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Description>Data Structures</Description>
-    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,10 +16,12 @@ public static class TableUtil
     public static string GetTable<T>(IEnumerable<T> arr) where T : class => string.Join(Environment.NewLine, GetTableRaw(arr));
 
     private const string sep = "\t";
-    private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr) => Table(arr).Select(row => string.Join(sep, row));
-    private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr, Type t) => Table(arr, t).Select(row => string.Join(sep, row));
+    private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr) where T : class
+        => Table(arr).Select(row => string.Join(sep, row));
+    private static IEnumerable<string> GetTableRaw<T>(IEnumerable<T> arr, Type t) where T : class
+        => Table(arr, t).Select(row => string.Join(sep, row));
 
-    public static string GetNamedTable<T>(IEnumerable<T> arr, IList<string> names, string name = null)
+    public static string GetNamedTable<T>(IEnumerable<T> arr, IList<string> names, string? name = null) where T : class
     {
         var list = GetTableRaw(arr).ToArray();
 
@@ -33,7 +35,7 @@ public static class TableUtil
         return string.Join(Environment.NewLine, list);
     }
 
-    public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string name = null)
+    public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string? name = null) where T : class
     {
         var t = arr[0].GetType();
         if (t.Name.StartsWith("tableReader_")) // flatbuffer generated wrapper
@@ -53,7 +55,7 @@ public static class TableUtil
         return string.Join(Environment.NewLine, list);
     }
 
-    private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr)
+    private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr) where T : class
     {
         var type = typeof(T);
         yield return GetNames(type);
@@ -61,7 +63,7 @@ public static class TableUtil
             yield return GetValues(z, type);
     }
 
-    private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr, Type type)
+    private static IEnumerable<IEnumerable<string>> Table<T>(IEnumerable<T> arr, Type type) where T : class
     {
         yield return GetNames(type);
         foreach (var z in arr)
@@ -85,7 +87,7 @@ public static class TableUtil
             yield return GetFormattedString(z.GetValue(obj));
     }
 
-    private static string GetFormattedString(object obj)
+    private static string GetFormattedString(object? obj)
     {
         if (obj == null)
             return string.Empty;
@@ -96,10 +98,10 @@ public static class TableUtil
 
         var objType = obj.GetType();
         if (objType.IsEnum)
-            return obj.ToString();
+            return obj.ToString() ?? string.Empty;
         var mi = objType.GetMethods().First(z => z.Name == nameof(obj.ToString));
         if (mi.DeclaringType == objType)
-            return obj.ToString();
+            return obj.ToString() ?? string.Empty;
 
         var props = objType.GetProperties();
         return string.Join("|", props.Select(z => GetFormattedString(z.GetValue(obj))));

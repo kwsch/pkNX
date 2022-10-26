@@ -8,18 +8,11 @@ public class TrainerPoke7b : TrainerPoke, IAwakened
 {
     public const int SIZE = 0x28;
     public override TrainerPoke Clone() => new TrainerPoke7b((byte[])Write().Clone());
-    public TrainerPoke7b(byte[] data = null) => Data = data ?? new byte[SIZE];
+    public TrainerPoke7b() : this(new byte[SIZE]) { }
+    public TrainerPoke7b(byte[] data) : base(data) { }
 
-    public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((x, offset) => new TrainerPoke7b(offset, x), SIZE);
+    public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((_, offset) => new TrainerPoke7b(data.Slice(offset, SIZE)), SIZE);
     public static byte[] WriteTeam(IList<TrainerPoke> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
-
-    public TrainerPoke7b(int offset, byte[] data = null)
-    {
-        Data = new byte[SIZE];
-        if (data == null || offset + SIZE > data.Length)
-            return;
-        Array.Copy(data, offset, Data, 0, SIZE);
-    }
 
     public override int Gender
     {

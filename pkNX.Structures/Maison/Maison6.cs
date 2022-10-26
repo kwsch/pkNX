@@ -5,11 +5,14 @@ namespace pkNX.Structures;
 
 public class Maison6Trainer
 {
-    public ushort Class;
-    public ushort Count;
-    public ushort[] Choices;
+    public ushort Class { get; set; }
+    public ushort Count { get; set; }
+    public ushort[] Choices { get; set; }
 
-    public Maison6Trainer() { }
+    public Maison6Trainer()
+    {
+        Choices = Array.Empty<ushort>();
+    }
 
     public Maison6Trainer(byte[] data)
     {

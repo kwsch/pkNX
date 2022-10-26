@@ -34,6 +34,8 @@ public class GameFileMapping
             throw new ArgumentException($"Unknown {nameof(GameFile)} provided.", file.ToString());
 
         var basePath = info.Parent == ContainerParent.ExeFS ? ROM.ExeFS : ROM.RomFS;
+        if (basePath == null)
+            throw new ArgumentException($"No {info.Parent} found for {file}.");
         container = info.Get(basePath);
         Cache.Add(file, container);
         return container;
@@ -61,7 +63,7 @@ public class GameFileMapping
         GameVersion.SH => SWSH,
         GameVersion.SWSH => SWSH,
         GameVersion.PLA => PLA,
-        _ => null,
+        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
 
     #region Gen7
@@ -116,8 +118,9 @@ public class GameFileMapping
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon
         // pretty much everything is obviously named :)
-        #endregion
     };
+
+    #endregion
 
     #region Gen 8
     /// <summary>

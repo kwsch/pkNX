@@ -8,9 +8,11 @@ public abstract class TrData6 : TrainerData
     public bool HasItem { get => (Format & 1) == 1; set => Format = (ushort)((Format & ~1) | (value ? 1 : 0)); }
     public bool HasMoves { get => (Format & 2) == 2; set => Format = (ushort)((Format & ~2) | (value ? 2 : 0)); }
 
+    protected TrData6(byte[] trData, byte[] trPoke) : base(trData) => Team = GetTeam(trPoke);
+    protected TrData6(byte[] trData) : base(trData) => Team = Array.Empty<TrPoke6>();
+
     public TrPoke6[] Team { get; set; }
 
-    protected TrData6(byte[] trData) : base(trData) { }
     public byte[] WriteTeam() => WriteTeam(Team, HasItem, HasMoves);
     public TrPoke6[] GetTeam(byte[] trPoke) => GetTeam(trPoke, NumPokemon, HasItem, HasMoves);
 

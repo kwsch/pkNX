@@ -13,7 +13,7 @@ public class GameInfo
     public int MaxSpeciesID { get; private set; }
     public int MaxItemID { get; private set; }
     public int MaxMoveID { get; private set; }
-    public ushort[] HeldItems { get; private set; }
+    public ushort[] HeldItems { get; private set; } = Array.Empty<ushort>();
     public int MaxAbilityID { get; private set; }
 
     public bool XY { get; private set; }
@@ -30,26 +30,23 @@ public class GameInfo
         GetInitMethod(game)();
     }
 
-    private Action GetInitMethod(GameVersion game)
+    private Action GetInitMethod(GameVersion game) => game switch
     {
-        return game switch
-        {
-            GameVersion.XY => LoadXY,
-            GameVersion.ORASDEMO => LoadAO,
-            GameVersion.ORAS => LoadAO,
-            GameVersion.SMDEMO => LoadSM,
-            GameVersion.SM => LoadSM,
-            GameVersion.USUM => LoadUSUM,
-            GameVersion.GP => LoadGG,
-            GameVersion.GE => LoadGG,
-            GameVersion.GG => LoadGG,
-            GameVersion.SW => LoadSWSH,
-            GameVersion.SH => LoadSWSH,
-            GameVersion.SWSH => LoadSWSH,
-            GameVersion.PLA => LoadPLA,
-            _ => throw new ArgumentException(nameof(game)),
-        };
-    }
+        GameVersion.XY => LoadXY,
+        GameVersion.ORASDEMO => LoadAO,
+        GameVersion.ORAS => LoadAO,
+        GameVersion.SMDEMO => LoadSM,
+        GameVersion.SM => LoadSM,
+        GameVersion.USUM => LoadUSUM,
+        GameVersion.GP => LoadGG,
+        GameVersion.GE => LoadGG,
+        GameVersion.GG => LoadGG,
+        GameVersion.SW => LoadSWSH,
+        GameVersion.SH => LoadSWSH,
+        GameVersion.SWSH => LoadSWSH,
+        GameVersion.PLA => LoadPLA,
+        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
+    };
 
     private void LoadXY()
     {

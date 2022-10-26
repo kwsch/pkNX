@@ -5,7 +5,8 @@ namespace pkNX.Structures;
 public sealed class EncounterStatic7 : EncounterStatic
 {
     public const int SIZE = 0x38;
-    public EncounterStatic7(byte[] data = null) : base(data ?? new byte[SIZE]) { }
+    public EncounterStatic7() : this(new byte[SIZE]) { }
+    public EncounterStatic7(byte[] data) : base(data) { }
 
     public override Species Species
     {

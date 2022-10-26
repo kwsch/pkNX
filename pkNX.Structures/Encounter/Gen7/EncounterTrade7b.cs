@@ -5,7 +5,8 @@ namespace pkNX.Structures;
 public class EncounterTrade7b : EncounterTrade
 {
     public const int SIZE = 0x58;
-    public EncounterTrade7b(byte[] data = null) : base(data ?? new byte[SIZE]) { }
+    public EncounterTrade7b() : this(new byte[SIZE]) { }
+    public EncounterTrade7b(byte[] data) : base(data) { }
 
     // game loops over all trades to find which one is being offered
     public ulong HashTradeID => BitConverter.ToUInt64(Data, 0x00);

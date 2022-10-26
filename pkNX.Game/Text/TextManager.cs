@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using pkNX.Containers;
@@ -15,7 +15,7 @@ public class TextManager
 
     public void ClearCache() => Cache.Clear();
 
-    public TextManager(GameVersion game, TextConfig config = null)
+    public TextManager(GameVersion game, TextConfig? config = null)
     {
         References = TextMapping.GetMapping(game);
         Config = config ?? new TextConfig(game);
@@ -39,7 +39,7 @@ public class TextManager
         byte[] data;
         string path = info.FileName;
         if (!string.IsNullOrWhiteSpace(path) && textFile is FolderContainer c)
-            data = c.GetFileData(info.FileName);
+            data = c.GetFileData(info.FileName) ?? throw new ArgumentException($"File not found: {path}", nameof(textFile));
         else
             data = textFile[info.Index];
 

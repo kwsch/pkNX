@@ -3,6 +3,7 @@ namespace pkNX.Structures;
 public abstract class TrainerPoke : StatPKM, IMoveset
 {
     protected byte[] Data;
+    protected TrainerPoke(byte[] data) => Data = data;
 
     public abstract int Friendship { get; set; }
 

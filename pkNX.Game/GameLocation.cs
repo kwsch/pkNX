@@ -12,19 +12,19 @@ public sealed class GameLocation
     /// <summary>
     /// Location of the RomFS
     /// </summary>
-    public string RomFS { get; }
+    public string? RomFS { get; }
 
     /// <summary>
     /// Location of the ExeFS.
     /// </summary>
-    public string ExeFS { get; }
+    public string? ExeFS { get; }
 
     /// <summary>
     /// Game version the files belong to.
     /// </summary>
     public GameVersion Game { get; }
 
-    private GameLocation(string romfs, string exefs, GameVersion game)
+    private GameLocation(string? romfs, string? exefs, GameVersion game)
     {
         Game = game;
         RomFS = romfs;
@@ -37,7 +37,7 @@ public sealed class GameLocation
     /// <param name="dir">Directory the game data is in</param>
     /// <param name="gameOverride">Detected version</param>
     /// <returns>New <see cref="GameLocation"/> object with references to file paths.</returns>
-    public static GameLocation GetGame(string dir, GameVersion gameOverride = GameVersion.Any)
+    public static GameLocation? GetGame(string? dir, GameVersion gameOverride = GameVersion.Any)
     {
         if (dir == null || !Directory.Exists(dir))
             return null;
@@ -46,7 +46,7 @@ public sealed class GameLocation
         var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom", StringComparison.CurrentCultureIgnoreCase));
         var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe", StringComparison.CurrentCultureIgnoreCase));
 
-        if (romfs == null && exefs == null)
+        if (romfs == null)
             return null;
 
         var game = gameOverride != GameVersion.Any ? gameOverride : GetGameFromPath(romfs, exefs);
@@ -55,7 +55,7 @@ public sealed class GameLocation
         return new GameLocation(romfs, exefs, game);
     }
 
-    private static GameVersion GetGameFromPath(string romfs, string exefs)
+    private static GameVersion GetGameFromPath(string romfs, string? exefs)
     {
         var files = Directory.GetFiles(romfs, "*", SearchOption.AllDirectories);
         return GetGameFromCount(files.Length, romfs, exefs);
@@ -76,7 +76,7 @@ public sealed class GameLocation
     private const int FILECOUNT_LA_101 = 18_371; // Ver. 1.0.1 (Day 1 Patch)
     private const int FILECOUNT_LA_110 = 19_095; // Ver. 1.1.0 (Daybreak)
 
-    private static GameVersion GetGameFromCount(int fileCount, string romfs, string exefs)
+    private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
     {
         string GetTitleID() => BitConverter.ToUInt64(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")), 0x290).ToString("X16");
 

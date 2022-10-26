@@ -7,19 +7,19 @@ namespace pkNX.Game;
 
 public class TrainerEditor : IDataEditor
 {
-    public IFileContainer TrainerData;
-    public IFileContainer TrainerPoke;
-    public IFileContainer TrainerClass;
-    public IFileContainer TrainerMsg;
+    public IFileContainer TrainerData { get; init; } = null!;
+    public IFileContainer TrainerPoke { get; init; } = null!;
+    public IFileContainer TrainerClass { get; init; } = null!;
+    public IFileContainer TrainerMsg { get; init; } = null!;
 
-    public Func<byte[], TrainerData> ReadTrainer;
-    public Func<byte[], TrainerPoke> ReadPoke;
-    public Func<byte[], TrainerData, TrainerPoke[]> ReadTeam;
-    public Func<TrainerPoke[], TrainerData, byte[]> WriteTeam;
-    public Func<byte[], TrainerClass> ReadClass;
+    public Func<byte[], TrainerData> ReadTrainer { get; init; } = null!;
+    public Func<byte[], TrainerPoke> ReadPoke { get; init; } = null!;
+    public Func<byte[], TrainerData, TrainerPoke[]> ReadTeam { get; init; } = null!;
+    public Func<TrainerPoke[], TrainerData, byte[]> WriteTeam { get; init; } = null!;
+    public Func<byte[], TrainerClass> ReadClass { get; init; } = null!;
 
-    private VsTrainer[] Cache;
-    private TrainerClass[] CacheClass;
+    private VsTrainer?[] Cache = Array.Empty<VsTrainer>();
+    private TrainerClass?[] CacheClass = Array.Empty<TrainerClass>();
 
     public int Length => Cache.Length;
 
@@ -41,11 +41,7 @@ public class TrainerEditor : IDataEditor
     {
         var tr = ReadTrainer(TrainerData[index]);
         var poke = ReadTeam(TrainerPoke[index], tr);
-        var data = new VsTrainer
-        {
-            ID = index,
-            Self = tr,
-        };
+        var data = new VsTrainer(tr) { ID = index };
         data.Team.AddRange(poke);
         return data;
     }
@@ -71,7 +67,7 @@ public class TrainerEditor : IDataEditor
             _ = this[i]; // force load cache
         }
 
-        return Cache;
+        return Cache!;
     }
 
     public void CancelEdits()

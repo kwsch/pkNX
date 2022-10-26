@@ -24,7 +24,7 @@ public static class TextMapping
             GameVersion.SH => SWSH,
             GameVersion.SWSH => SWSH,
             GameVersion.PLA => PLA,
-            _ => null,
+            _ => throw new System.ArgumentOutOfRangeException($"No text mapping for {game}"),
         };
     }
 

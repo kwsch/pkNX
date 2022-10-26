@@ -17,8 +17,8 @@ public class TextConfig
     public IEnumerable<string> GetVariableList() => Variables.Select(z => $"{z.Code:X4}={z.Name}");
     public TextConfig(GameVersion game) => Variables = TextVariableCode.GetVariables(game);
 
-    private TextVariableCode GetCode(string name) => Array.Find(Variables, v => v.Name == name);
-    private TextVariableCode GetName(int value) => Array.Find(Variables, v => v.Code == value);
+    private TextVariableCode? GetCode(string name) => Array.Find(Variables, v => v.Name == name);
+    private TextVariableCode? GetName(int value) => Array.Find(Variables, v => v.Code == value);
 
     /// <summary>
     /// Gets the machine-friendly variable instruction code to be written to the data.

@@ -1,4 +1,3 @@
-﻿
 namespace pkNX.Game;
 
 public class TextReference
@@ -11,6 +10,7 @@ public class TextReference
     {
         Index = index;
         Name = name;
+        FileName = $"{index:0000} - {name}";
     }
 
     internal TextReference(string fileName, TextName name)

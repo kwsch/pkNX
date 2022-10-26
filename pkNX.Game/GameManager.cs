@@ -15,8 +15,8 @@ public abstract class GameManager
     public readonly GameInfo Info;
     private int _language;
 
-    public string PathExeFS => ROM.ExeFS;
-    public string PathRomFS => ROM.RomFS;
+    public string PathExeFS => ROM.ExeFS ?? throw new ArgumentException("ExeFS path not set.");
+    public string PathRomFS => ROM.RomFS ?? throw new ArgumentException("RomFS path not set.");
 
     /// <summary>
     /// Language to use when fetching string &amp; graphic assets.
@@ -29,7 +29,7 @@ public abstract class GameManager
             if (value == _language)
                 return;
             _language = value;
-            Text?.ClearCache();
+            Text.ClearCache();
         }
     }
 
@@ -46,10 +46,10 @@ public abstract class GameManager
     protected GameManager(GameLocation rom, int language)
     {
         ROM = rom;
-        Language = language;
         FileMap = new GameFileMapping(rom);
         Text = new TextManager(Game);
         Info = new GameInfo(Game);
+        Language = language;
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public abstract class GameManager
     protected abstract void Terminate();
     protected abstract void SetMitm();
 
-    public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool> filter = null)
+    public FolderContainer GetFilteredFolder(GameFile type, Func<string, bool>? filter = null)
     {
         var c = (FolderContainer)this[type];
         c.Initialize(filter);

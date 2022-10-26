@@ -13,7 +13,6 @@ public sealed class PersonalInfo6XY : IPersonalInfoXY
     private readonly byte[] Data;
     public bool[] TMHM { get; set; }
     public bool[] TypeTutors { get; set; }
-    public bool[][] SpecialTutors { get; set; }
 
     public PersonalInfo6XY(byte[] data)
     {
