@@ -12,7 +12,7 @@ public enum TextName
     ItemFlavor,
 
     SpeciesNames,
-    Types,
+    TypeNames,
     Natures,
     Forms,
 

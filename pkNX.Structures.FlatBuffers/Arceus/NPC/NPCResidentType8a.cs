@@ -1,9 +1,6 @@
-﻿using FlatSharp.Attributes;
+using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers;
-
-
-#pragma warning disable RCS1154 // Sort enum members.
 
 [FlatBufferEnum(typeof(ulong))]
 public enum NPCResidentType8a : ulong

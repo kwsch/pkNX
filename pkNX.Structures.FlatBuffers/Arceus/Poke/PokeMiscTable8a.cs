@@ -22,7 +22,7 @@ public class PokeMiscTable8a : IFlatBufferArchive<PokeMisc8a>
 
     public PokeMisc8a GetEntry(ushort species, ushort form)
     {
-        return Table.FirstOrDefault(z => z.Species == species && z.Form == form) ??
+        return Array.Find(Table, z => z.Species == species && z.Form == form) ??
             new PokeMisc8a { Value = $"{species}-{form} is not in {nameof(PokeMiscTable8a)}." };
     }
 
@@ -61,7 +61,7 @@ public class PokeMisc8a
     public PokeDropItem8a? AlphaDropTable { get; set; }
 
     [FlatBufferItem(09)] public string Value { get; set; } = "pm0000_00_00";
-    [FlatBufferItem(10)] public uint[] Field_10 { get; set; } = new uint[] { 0, 1, 2, 3 };
+    [FlatBufferItem(10)] public uint[] Field_10 { get; set; } = { 0, 1, 2, 3 };
     [FlatBufferItem(11)] public int Field_11 { get; set; } = 0;
     [FlatBufferItem(12)] public int Field_12 { get; set; } = 4;
     [FlatBufferItem(13)] public int Field_13 { get; set; } = 10;

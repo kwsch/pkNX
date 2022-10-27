@@ -23,10 +23,12 @@ public class PersonalRandomizer : Randomizer
         Game = game;
         Table = table;
         Evolutions = evolutions;
-        if (File.Exists("bannedabilites.txt"))
+
+        const string bannedExternalFile = "bannedabilites.txt";
+        if (File.Exists(bannedExternalFile))
         {
-            var data = File.ReadAllLines("bannedabilities.txt");
             var list = new List<int>(BannedAbilities);
+            var data = File.ReadLines(bannedExternalFile);
             list.AddRange(data.Select(z => Convert.ToInt32(z)));
             BannedAbilities = list;
         }

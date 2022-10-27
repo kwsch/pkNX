@@ -253,7 +253,7 @@ public partial class Main : Form
 
         // Adjust for scrollbar width
         if (FLP_Controls.VerticalScroll.Visible)
-            ClientSize = new(newClientSize.Width + SystemInformation.VerticalScrollBarWidth, newClientSize.Height);
+            ClientSize = newClientSize with { Width = newClientSize.Width + SystemInformation.VerticalScrollBarWidth };
     }
 
     private void LoadROM(EditorBase editor)

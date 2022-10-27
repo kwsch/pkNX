@@ -38,8 +38,8 @@ public class Learnset8 : Learnset
     public override byte[] Write()
     {
         Count = (ushort)Moves.Length;
-        using MemoryStream ms = new MemoryStream();
-        using BinaryWriter bw = new BinaryWriter(ms);
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
         for (int i = 0; i < Count; i++)
         {
             bw.Write((short)Moves[i]);

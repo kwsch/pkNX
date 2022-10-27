@@ -17,8 +17,8 @@ public abstract class EditorBase
     public string? Location { get; private set; }
 
     private const string prefix = "Edit";
-    private MethodInfo[] editorMethods = Array.Empty<MethodInfo>();
-    private EditorCallableAttribute[] editorAttributes = Array.Empty<EditorCallableAttribute>();
+    private readonly MethodInfo[] editorMethods;
+    private readonly EditorCallableAttribute[] editorAttributes;
 
     protected EditorBase()
     {
@@ -26,7 +26,8 @@ public abstract class EditorBase
         // The method name needs to start with `Edit` or an EditorCallableAttribute should be added
         var editors = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
             .Select(x => new { Method = x, Callable = x.GetCustomAttribute<EditorCallableAttribute>() })
-            .Where(x => x.Callable != null || x.Method.Name.StartsWith(prefix));
+            .Where(x => x.Callable != null || x.Method.Name.StartsWith(prefix))
+            .ToList();
 
         editorMethods = editors.Select(x => x.Method).ToArray();
         editorAttributes = editors.Select(x => x.Callable ?? new EditorCallableAttribute(EditorCategory.None)).ToArray();
@@ -55,7 +56,7 @@ public abstract class EditorBase
                 Margin = templateButton.Margin,
                 Font = templateButton.Font,
                 Name = $"B_{name}",
-                Text = (callable?.HasCustomEditorName() ?? false) ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
+                Text = callable.HasCustomEditorName() ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
             };
             b.Click += (s, e) =>
             {

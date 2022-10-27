@@ -22,8 +22,8 @@ public class PokeAIArchive8a : IFlatBufferArchive<PokeAI8a>
 
     public PokeAI8a GetEntry(ushort species, ushort form)
     {
-        return Table.FirstOrDefault(z => z.Species == species && z.Form == form) ??
-            new PokeAI8a { };
+        return Array.Find(Table, z => z.Species == species && z.Form == form) ??
+            new PokeAI8a();
     }
 
     public bool HasEntry(ushort species, ushort form, bool isAlpha)
@@ -167,5 +167,5 @@ public class PokeAIBehaviour
     public static readonly PokeAIBehaviour Behaviour_04_Params = new() { BehaviourHash = 1234775724179408742, Parameters = new string[] { "3", "5", "60", "90", "4", "run", "Normal" } };
 
     [FlatBufferItem(00)] public ulong BehaviourHash { get; set; } = 9252365659083253459;
-    [FlatBufferItem(01)] public string[] Parameters { get; set; } = new string[] { "0.5", "35" };
+    [FlatBufferItem(01)] public string[] Parameters { get; set; } = { "0.5", "35" };
 }

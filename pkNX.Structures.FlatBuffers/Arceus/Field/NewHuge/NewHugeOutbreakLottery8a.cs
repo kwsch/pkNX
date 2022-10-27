@@ -47,7 +47,6 @@ public class NewHugeOutbreakLottery8a
     [Category(MapSetting), Description("Number of outbreaks that use the Rare1 table.")]
     [FlatBufferItem(06)] public int OutbreakRare1 { get; set; }
 
-
     [Category(OutbreakSetting), Description("Minimum number of Pokémon to spawn in the first wave.")]
     [FlatBufferItem(07)] public int CountFirstMin { get; set; }
 

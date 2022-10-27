@@ -20,12 +20,11 @@ public enum EditorCategory
     Misc,
 }
 
-
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Method)]
 public class EditorCallableAttribute : Attribute
 {
-    public EditorCategory Category { get; set; }
-    public string EditorName { get; set; }
+    public EditorCategory Category { get; }
+    public string EditorName { get; }
 
     /// <summary>
     /// Add this attribute to customize the button that will be displayed in the main editor
@@ -38,13 +37,7 @@ public class EditorCallableAttribute : Attribute
         EditorName = editorName;
     }
 
-    public bool HasCustomEditorName()
-    {
-        return !string.IsNullOrWhiteSpace(EditorName);
-    }
+    public bool HasCustomEditorName() => !string.IsNullOrWhiteSpace(EditorName);
 
-    public bool HasCategory()
-    {
-        return Category != EditorCategory.None;
-    }
+    public bool HasCategory() => Category != EditorCategory.None;
 }

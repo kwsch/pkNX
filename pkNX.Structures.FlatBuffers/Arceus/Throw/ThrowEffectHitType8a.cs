@@ -17,5 +17,5 @@ public enum ThrowEffectHitType8a : ulong
 	EffectUnk1Hit = 0x262b03b924121730,
 	EffectUnk2Hit = 0x7f5d5908e7deb625,
 	EffectUnk3Hit = 0x9fa86e9cc66822a,
-	EffectUnk4Hit = 0x69d10d3d31d81522, 
+	EffectUnk4Hit = 0x69d10d3d31d81522,
 }

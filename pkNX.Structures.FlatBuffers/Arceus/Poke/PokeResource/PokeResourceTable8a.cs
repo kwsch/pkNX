@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using FlatSharp.Attributes;
@@ -23,8 +22,8 @@ public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
 
     public PokeModelConfig8a GetEntry(ushort species, ushort form, byte gender)
     {
-        return Table.FirstOrDefault(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender) ??
-            new PokeModelConfig8a { };
+        return Array.Find(Table, x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender) ??
+            new PokeModelConfig8a();
     }
 
     public bool HasEntry(ushort species, ushort form, byte gender)

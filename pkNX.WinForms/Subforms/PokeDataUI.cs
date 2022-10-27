@@ -33,7 +33,7 @@ public partial class PokeDataUI : Form
         movelist = ROM.GetStrings(TextName.MoveNames);
         species = ROM.GetStrings(TextName.SpeciesNames);
         abilities = ROM.GetStrings(TextName.AbilityNames);
-        types = ROM.GetStrings(TextName.Types);
+        types = ROM.GetStrings(TextName.TypeNames);
         movelist = EditorUtil.SanitizeMoveList(movelist);
 
         species[0] = "---";

@@ -84,7 +84,7 @@ public class GameDumperPLA
             Abilities = ROM.GetStrings(TextName.AbilityNames),
             Items = ROM.GetStrings(TextName.ItemNames),
             Moves = moveNames,
-            Types = ROM.GetStrings(TextName.Types),
+            Types = ROM.GetStrings(TextName.TypeNames),
             Species = ROM.GetStrings(TextName.SpeciesNames),
             ZukanA = ROM.GetStrings(TextName.PokedexEntry1),
             ZukanB = ROM.GetStrings(TextName.PokedexEntry2),

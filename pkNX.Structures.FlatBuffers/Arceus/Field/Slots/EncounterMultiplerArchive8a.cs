@@ -30,8 +30,8 @@ public class EncounterMultiplierArchive8a : IFlatBufferArchive<EncounterMultipli
 
     public EncounterMultiplier8a GetEntry(ushort species, ushort form)
     {
-        return Table.FirstOrDefault(x => x.Species == species && x.Form == form) ??
-            new EncounterMultiplier8a { };
+        return Array.Find(Table, x => x.Species == species && x.Form == form) ??
+            new EncounterMultiplier8a();
     }
 
     public bool HasEntry(ushort species, ushort form)

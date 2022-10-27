@@ -32,8 +32,8 @@ public class EvolutionSet8a
         if (Table is null)
             return Array.Empty<byte>();
 
-        using MemoryStream ms = new();
-        using BinaryWriter bw = new(ms);
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
         foreach (var evo in Table)
         {
             // ReSharper disable RedundantCast

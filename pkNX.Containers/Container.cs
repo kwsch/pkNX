@@ -10,19 +10,16 @@ public static class Container
     /// </summary>
     /// <param name="path">File location</param>
     /// <param name="t">File type</param>
-    public static IFileContainer GetContainer(string path, ContainerType t)
+    public static IFileContainer GetContainer(string path, ContainerType t) => t switch
     {
-        return t switch
-        {
-            ContainerType.GARC => new GARC(path),
-            ContainerType.Mini => MiniUtil.GetMini(path),
-            ContainerType.SARC => new SARC(path),
-            ContainerType.Folder => new FolderContainer(path),
-            ContainerType.SingleFile => new SingleFileContainer(path),
-            ContainerType.GFPack => new GFPack(path),
-            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null),
-        };
-    }
+        ContainerType.GARC => new GARC(path),
+        ContainerType.Mini => MiniUtil.GetMini(path),
+        ContainerType.SARC => new SARC(path),
+        ContainerType.Folder => new FolderContainer(path),
+        ContainerType.SingleFile => new SingleFileContainer(path),
+        ContainerType.GFPack => new GFPack(path),
+        _ => throw new ArgumentOutOfRangeException(nameof(t), t, null),
+    };
 
     /// <summary>
     /// Gets a <see cref="IFileContainer"/> for the stream.

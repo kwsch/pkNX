@@ -68,11 +68,10 @@ public class TypeChartEditor
         byte[] gridColor = BitConverter.GetBytes(0x17000000);
         for (int i = 0; i < width * height; i++)
         {
-            if (i % itemsize == 0 || i / (itemsize * itemsPerRow) % itemsize == 0)
-            {
-                var ofs = (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4);
-                Buffer.BlockCopy(gridColor, 0, bmpData, ofs, 4);
-            }
+            if (i % itemsize != 0 && i / (itemsize * itemsPerRow) % itemsize != 0)
+                continue;
+            var ofs = (i / (itemsize * itemsPerRow) * width * 4) + (i % (itemsize * itemsPerRow) * 4);
+            Buffer.BlockCopy(gridColor, 0, bmpData, ofs, 4);
         }
 
         return bmpData;

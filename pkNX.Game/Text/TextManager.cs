@@ -37,9 +37,8 @@ public class TextManager
             throw new ArgumentException($"Unknown {nameof(TextName)} provided.", file.ToString());
 
         byte[] data;
-        string path = info.FileName;
-        if (!string.IsNullOrWhiteSpace(path) && textFile is FolderContainer c)
-            data = c.GetFileData(info.FileName) ?? throw new ArgumentException($"File not found: {path}", nameof(textFile));
+        if (textFile is FolderContainer c)
+            data = c.GetFileData(info.FileName) ?? throw new ArgumentException($"File not found: {info.FileName}", nameof(textFile));
         else
             data = textFile[info.Index];
 

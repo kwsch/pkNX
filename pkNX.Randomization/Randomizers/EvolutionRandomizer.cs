@@ -58,11 +58,10 @@ public class EvolutionRandomizer : Randomizer
     {
         foreach (var evo in evos.PossibleEvolutions)
         {
-            if (evo.Method != 0)
-            {
-                evo.Species = (ushort)RandSpec.GetRandomSpecies(evo.Species, species);
-                evo.Form = (byte)RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
-            }
+            if (evo.Method == 0)
+                continue;
+            evo.Species = (ushort)RandSpec.GetRandomSpecies(evo.Species, species);
+            evo.Form = (byte)RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
         }
     }
 

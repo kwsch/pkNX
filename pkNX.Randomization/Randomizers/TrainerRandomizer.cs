@@ -134,14 +134,13 @@ public class TrainerRandomizer : Randomizer
 
     private void DetermineSpecies(IPokeData pk)
     {
-        if (Settings.RandomizeTeam)
-        {
-            int Type = Settings.TeamTypeThemed ? Util.Random.Next(17) : -1;
-            RandomizeSpecFormItem(pk, Type);
+        if (!Settings.RandomizeTeam)
+            return;
+        int Type = Settings.TeamTypeThemed ? Util.Random.Next(17) : -1;
+        RandomizeSpecFormItem(pk, Type);
 
-            pk.Gender = 0; // random
-            pk.Nature = Util.Random.Next(25); // random
-        }
+        pk.Gender = 0; // random
+        pk.Nature = Util.Random.Next(25); // random
     }
 
     private void RandomizeSpecFormItem(IPokeData pk, int Type)
@@ -270,9 +269,6 @@ public class TrainerRandomizer : Randomizer
 
     public void ModifyAllPokemon(Action<IPokeData> act)
     {
-        if (act == null)
-            throw new ArgumentException(nameof(act));
-
         foreach (var tr in Trainers.Where(z => z.Team.Count != 0))
         {
             foreach (var pk in tr.Team)

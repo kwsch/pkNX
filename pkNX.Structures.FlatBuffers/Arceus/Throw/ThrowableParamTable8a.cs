@@ -18,7 +18,7 @@ public class ThrowableParamTable8a : IFlatBufferArchive<ThrowableParam8a>
 
     public void AddEntry(int itemID)
     {
-        Table = Table.Append(new ThrowableParam8a() { ItemID = itemID });
+        Table = Table.Append(new ThrowableParam8a { ItemID = itemID });
     }
 
     [FlatBufferItem(0)] public ThrowableParam8a[] Table { get; set; } = Array.Empty<ThrowableParam8a>();

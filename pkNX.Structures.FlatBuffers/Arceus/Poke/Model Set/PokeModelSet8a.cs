@@ -1,11 +1,9 @@
 using FlatSharp.Attributes;
 using pkNX.Containers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -17,8 +15,8 @@ public class PokeModelSet8a : IFlatBufferArchive<PokeModelSetEntry8a>
 
     public PokeModelSetEntry8a GetEntry(ushort species)
     {
-        return Table.FirstOrDefault(z => z.Species == species) ??
-            new PokeModelSetEntry8a { };
+        return Array.Find(Table, z => z.Species == species) ??
+            new PokeModelSetEntry8a();
     }
 
     public bool HasEntry(ushort species)

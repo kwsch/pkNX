@@ -1,7 +1,6 @@
-﻿using FlatSharp.Attributes;
+using FlatSharp.Attributes;
 
 // ReSharper disable UnusedMember.Global
-#pragma warning disable RCS1154 // Sort enum members.
 
 namespace pkNX.Structures.FlatBuffers;
 

@@ -22,7 +22,7 @@ public class ArchiveContents8a : IFlatBufferArchive<ArchiveContent8a>
 
     public ArchiveContent8a AddEntry()
     {
-        var entry = new ArchiveContent8a { };
+        var entry = new ArchiveContent8a();
 
         Table = Table.Append(entry);
         return entry;

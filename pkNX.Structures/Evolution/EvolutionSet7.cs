@@ -20,8 +20,8 @@ public class EvolutionSet7 : EvolutionSet
 
     public override byte[] Write()
     {
-        using MemoryStream ms = new();
-        using BinaryWriter bw = new(ms);
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
         foreach (EvolutionMethod evo in PossibleEvolutions)
         {
             bw.Write((ushort)evo.Method);

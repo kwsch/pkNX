@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 
@@ -74,7 +74,6 @@ public class DressUpEntry8a
     [FlatBufferItem(49)] public string MotionPath { get; set; } = string.Empty;
     [FlatBufferItem(50)] public byte Field_50 { get; set; }
     [FlatBufferItem(51)] public uint Field_51 { get; set; } // Unused
-    [FlatBufferItem(52)] public string CategoryName { get; set; } = String.Empty;
-    [FlatBufferItem(53)] public string SubCategoryName { get; set; } = String.Empty;
- 
+    [FlatBufferItem(52)] public string CategoryName { get; set; } = string.Empty;
+    [FlatBufferItem(53)] public string SubCategoryName { get; set; } = string.Empty;
 }

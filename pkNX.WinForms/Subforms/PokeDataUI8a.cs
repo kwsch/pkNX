@@ -62,7 +62,7 @@ public partial class PokeDataUI8a : Form
         speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         classifications = ROM.GetStrings(TextName.SpeciesClassifications);
         abilities = ROM.GetStrings(TextName.AbilityNames);
-        types = ROM.GetStrings(TextName.Types);
+        types = ROM.GetStrings(TextName.TypeNames);
         movelist = EditorUtil.SanitizeMoveList(movelist);
 
         speciesNames[0] = "---";
@@ -355,16 +355,14 @@ public partial class PokeDataUI8a : Form
         if ((dexIndex == 0 && cPersonal.IsPresentInGame) || dexIndex == cPersonal.DexIndexRegional)
             return true;
 
-        if (regionalDex.Contains(dexIndex))
-        {
-            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Regional Dex Index '{dexIndex}' is already in use.", "Would you like the index to be automatically updated to a valid one?");
-            if (prompt == DialogResult.Yes)
-            {
-                TB_HisuianDex.Text = (regionalDex.Max() + 1).ToString();
-                return true;
-            }
-        }
-        return false;
+        if (!regionalDex.Contains(dexIndex))
+            return false;
+        var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Regional Dex Index '{dexIndex}' is already in use.", "Would you like the index to be automatically updated to a valid one?");
+        if (prompt != DialogResult.Yes)
+            return false;
+
+        TB_HisuianDex.Text = (regionalDex.Max() + 1).ToString();
+        return true;
     }
 
     private bool SavePersonal()
@@ -556,23 +554,21 @@ public partial class PokeDataUI8a : Form
             EvolutionMethod[] evoSet = swsh[i];
             EvolutionMethod[] usumEvos = usum[i];
 
-            if (evoSet[0].Method == EvolutionType.None && usumEvos[0].Method != EvolutionType.None)
-            {
-                for (int j = 0; j < usumEvos.Length; j++)
-                {
-                    if (usumEvos[j].Method == EvolutionType.None)
-                    {
-                        continue;
-                    }
+            if (evoSet[0].Method != EvolutionType.None || usumEvos[0].Method == EvolutionType.None)
+                continue;
 
-                    var usumEntry = usumEvos[j];
-                    var evoEntry = evoSet[j];
-                    evoEntry.Species = usumEntry.Species;
-                    evoEntry.Form = usumEntry.Form;
-                    evoEntry.Argument = usumEntry.Argument;
-                    evoEntry.Method = usumEntry.Method;
-                    evoEntry.Level = usumEntry.Level;
-                }
+            for (int j = 0; j < usumEvos.Length; j++)
+            {
+                if (usumEvos[j].Method == EvolutionType.None)
+                    continue;
+
+                var usumEntry = usumEvos[j];
+                var evoEntry = evoSet[j];
+                evoEntry.Species = usumEntry.Species;
+                evoEntry.Form = usumEntry.Form;
+                evoEntry.Argument = usumEntry.Argument;
+                evoEntry.Method = usumEntry.Method;
+                evoEntry.Level = usumEntry.Level;
             }
         }
 
@@ -580,43 +576,41 @@ public partial class PokeDataUI8a : Form
         for (int i = 0; i < la.Length; i++)
         {
             EvolutionSet8a evoSet = la[i];
-            if (evoSet.Table == null || evoSet.Table.Length == 0)
+            if (evoSet.Table != null && evoSet.Table.Length != 0)
+                continue;
+
+            var species = evoSet.Species;
+            var form = evoSet.Form;
+
+            if (species > Legal.MaxSpeciesID_8)
             {
-                var species = evoSet.Species;
-                var form = evoSet.Form;
-
-                if (species > Legal.MaxSpeciesID_8)
-                {
-                    continue;
-                }
-
-                int index = swshPersonal.GetFormIndex(species, (byte)form);
-                if (index == 0)
-                {
-                    // Assume the form doesn't exsist in the game
-                    continue;
-                }
-
-                var swshEvos = swsh[index];
-                var entries = new List<EvolutionEntry8a>();
-                foreach (var evo in swshEvos)
-                {
-                    if (evo.Method == EvolutionType.None)
-                    {
-                        continue;
-                    }
-
-                    entries.Add(new EvolutionEntry8a
-                    {
-                        Species = evo.Species,
-                        Form = evo.Form,
-                        Argument = evo.Argument,
-                        Method = (ushort)evo.Method,
-                        Level = evo.Level,
-                    });
-                }
-                evoSet.Table = entries.ToArray();
+                continue;
             }
+
+            int index = swshPersonal.GetFormIndex(species, (byte)form);
+            if (index == 0)
+            {
+                // Assume the form doesn't exsist in the game
+                continue;
+            }
+
+            var swshEvos = swsh[index];
+            var entries = new List<EvolutionEntry8a>();
+            foreach (var evo in swshEvos)
+            {
+                if (evo.Method == EvolutionType.None)
+                    continue;
+
+                entries.Add(new EvolutionEntry8a
+                {
+                    Species = evo.Species,
+                    Form = evo.Form,
+                    Argument = evo.Argument,
+                    Method = (ushort)evo.Method,
+                    Level = evo.Level,
+                });
+            }
+            evoSet.Table = entries.ToArray();
         }
     }
 
@@ -834,40 +828,38 @@ public partial class PokeDataUI8a : Form
     private void CHK_IsPresentInGame_CheckedChanged(object sender, EventArgs e)
     {
         cPersonal.IsPresentInGame = CHK_IsPresentInGame.Checked;
+        if (!cPersonal.IsPresentInGame)
+            return;
 
-        if (cPersonal.IsPresentInGame)
+        ValidateRegionalDexIndex();
+
+        var rMisc = Editor.PokeMisc.Root;
+        if (!rMisc.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
         {
-            ValidateRegionalDexIndex();
+            var entry = rMisc.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
 
-            if (!Editor.PokeMisc.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
-            {
-                var entry = Editor.PokeMisc.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
-
-                // Reload entry with correct misc data
-                LoadMisc(entry);
-            }
-
-            if (!Editor.SymbolBehave.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form, false))
-            {
-                Editor.SymbolBehave.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, false);
-                Editor.SymbolBehave.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, true);
-            }
-
-            if (!Editor.PokeResourceList.Root.HasEntry(cPersonal.DexIndexNational))
-            {
-                Editor.PokeResourceList.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.FormCount);
-            }
-
-            if (!Editor.PokeResourceTable.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form, 0))
-            {
-                Editor.PokeResourceTable.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, 0);
-            }
-
-            if (!Editor.EncounterRateTable.Root.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
-            {
-                Editor.EncounterRateTable.Root.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
-            }
+            // Reload entry with correct misc data
+            LoadMisc(entry);
         }
+
+        var rBehave = Editor.SymbolBehave.Root;
+        if (!rBehave.HasEntry(cPersonal.DexIndexNational, cPersonal.Form, false))
+        {
+            rBehave.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, false);
+            rBehave.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, true);
+        }
+
+        var rResL = Editor.PokeResourceList.Root;
+        if (!rResL.HasEntry(cPersonal.DexIndexNational))
+            rResL.AddEntry(cPersonal.DexIndexNational, cPersonal.FormCount);
+
+        var rResT = Editor.PokeResourceTable.Root;
+        if (!rResT.HasEntry(cPersonal.DexIndexNational, cPersonal.Form, 0))
+            rResT.AddEntry(cPersonal.DexIndexNational, cPersonal.Form, 0);
+
+        var rEnc = Editor.EncounterRateTable.Root;
+        if (!rEnc.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
+            rEnc.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
     }
 
     private void TB_Gender_TextChanged(object sender, EventArgs e)

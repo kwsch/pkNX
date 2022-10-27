@@ -101,7 +101,7 @@ public class Item8
         for (var i = 0; i < result.Length; i++)
         {
             var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new ArgumentException();  }
+            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException();  }
             result[i] = new Item8(i, bin.Slice(entriesStart + (entryIndex * SIZE), SIZE));
         }
 
@@ -119,7 +119,7 @@ public class Item8
         for (int i = 0; i < array.Length; i++)
         {
             var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new ArgumentException(); }
+            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException(); }
 
             var data = array[i].Data;
             data.CopyTo(bin, entriesStart + (entryIndex * SIZE));

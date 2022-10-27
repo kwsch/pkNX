@@ -60,7 +60,7 @@ public partial class BTTE : Form
         movelist = Game.GetStrings(TextName.MoveNames);
         itemlist = Game.GetStrings(TextName.ItemNames);
         specieslist = Game.GetStrings(TextName.SpeciesNames);
-        types = Game.GetStrings(TextName.Types);
+        types = Game.GetStrings(TextName.TypeNames);
         natures = Game.GetStrings(TextName.Natures);
         trName = Game.GetStrings(TextName.TrainerNames);
         trClass = Game.GetStrings(TextName.TrainerClasses);

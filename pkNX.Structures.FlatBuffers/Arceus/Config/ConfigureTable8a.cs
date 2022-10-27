@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
-using pkNX.Containers;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global

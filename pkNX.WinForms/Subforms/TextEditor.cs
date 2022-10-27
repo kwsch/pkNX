@@ -66,7 +66,7 @@ public partial class TextEditor : Form
 
     public static void ExportTextFile(string fileName, bool newline, TextContainer lineData)
     {
-        using MemoryStream ms = new();
+        using var ms = new MemoryStream();
         ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
         using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
         {
@@ -308,7 +308,7 @@ public partial class TextEditor : Form
         {
             string[] data = TextData[i];
             strings.AddRange(smart
-                ? data.Where(line => !line.Contains("["))
+                ? data.Where(line => !line.Contains('['))
                 : data);
         }
 

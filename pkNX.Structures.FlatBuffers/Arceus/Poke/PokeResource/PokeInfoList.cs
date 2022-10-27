@@ -26,13 +26,13 @@ public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
 
     public PokeInfo8a GetEntry(ushort species)
     {
-        return Table.FirstOrDefault(z => z.Species == species) ??
-            new PokeInfo8a { };
+        return Array.Find(Table, z => z.Species == species) ??
+            new PokeInfo8a();
     }
 
     public bool HasEntry(ushort species)
     {
-        return Table.Any(x => x.Species == species);
+        return Array.Exists(Table, x => x.Species == species);
     }
 
     public PokeInfo8a AddEntry(ushort species, byte formCount)
@@ -60,7 +60,7 @@ public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
                             new() {
                                 Detail = new PokeInfoDetail8a_5[] {
                                     new() {
-                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_n"
+                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_n",
                                     }
                                 }
                             }
@@ -72,7 +72,7 @@ public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
                             new() {
                                 Detail = new PokeInfoDetail8a_5[] {
                                     new() {
-                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_r"
+                                        AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_r",
                                     }
                                 }
                             }
@@ -81,7 +81,6 @@ public class PokeInfoList8a : IFlatBufferArchive<PokeInfo8a>
                 }
             };
         }
-
 
         Table = Table.Append(entry)
             .OrderBy(x => x.Species)

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
@@ -11,6 +10,7 @@ using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.WinForms.Subforms;
 using static pkNX.Structures.Species;
+// ReSharper disable UnusedMember.Global
 
 namespace pkNX.WinForms.Controls;
 
@@ -38,21 +38,18 @@ internal class EditorPLA : EditorBase
         var obj = ROM.GetFile(file);
         var tableCache = new TableCache<T1, T2>(obj);
 
-        var dataLoader = (GenericEditor<T2> form) =>
+        DataCache<T2> loader(GenericEditor<T2> form)
         {
             if (form.Modified)
                 tableCache.Save();
 
             tableCache = new TableCache<T1, T2>(obj);
             return tableCache.Cache;
-        };
+        }
 
-        Action? cb = addEntryCallback == null ? null : (() =>
-        {
-            addEntryCallback?.Invoke(tableCache.Root);
-        });
+        Action? cb = addEntryCallback is { } x ? () => x.Invoke(tableCache.Root) : null;
 
-        using var form = new GenericEditor<T2>(dataLoader, getName, title, rand, cb, canSave);
+        using var form = new GenericEditor<T2>(loader, getName, title, rand, cb, canSave);
         form.ShowDialog();
         if (form.Modified)
         {
@@ -62,7 +59,7 @@ internal class EditorPLA : EditorBase
 
     private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, bool canSave = true) where T2 : class
     {
-        using var form = new GenericEditor<T2>(_ => { return new DataCache<T2>(arr); }, getName, title, rand, null, canSave);
+        using var form = new GenericEditor<T2>(_ => new DataCache<T2>(arr), getName, title, rand, null, canSave);
         form.ShowDialog();
         return form.Modified;
     }

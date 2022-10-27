@@ -135,7 +135,8 @@ public abstract class LargeContainer : IDisposable, IFileContainer
             File.Move(writePath, path);
         }
 
-        Stream?.Dispose();
+        if (Stream is { } x)
+            await x.DisposeAsync().ConfigureAwait(false);
         Reader?.Dispose();
 
         Stream = stream;

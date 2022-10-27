@@ -190,7 +190,7 @@ internal class EditorSWSH : EditorBase
         ofs += pattern.Length + 0x24; // 0x5B4C0C in lgpe 1.0 RO
 
         var cdata = new byte[18 * 18];
-        var types = ROM.GetStrings(TextName.Types);
+        var types = ROM.GetStrings(TextName.TypeNames);
         Array.Copy(nso.DecompressedRO, ofs, cdata, 0, cdata.Length);
         var chart = new TypeChartEditor(cdata);
         using var editor = new TypeChart(chart, types);
