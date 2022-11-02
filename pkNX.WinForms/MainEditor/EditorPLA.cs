@@ -605,6 +605,7 @@ internal class EditorPLA : EditorBase
 
         var itemNames = ROM.GetStrings(TextName.ItemNames);
         using var form = new GenericEditor<Item8a>(_ => cache, (z, _) => $"{itemNames[z.ItemID]} ({z.ItemID})", "Item Editor");
+        form.ShowDialog();
         if (!form.Modified)
         {
             cache.CancelEdits();
