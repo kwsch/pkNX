@@ -37,22 +37,34 @@ public sealed class GameLocation
     /// <param name="dir">Directory the game data is in</param>
     /// <param name="gameOverride">Detected version</param>
     /// <returns>New <see cref="GameLocation"/> object with references to file paths.</returns>
-    public static GameLocation? GetGame(string? dir, GameVersion gameOverride = GameVersion.Any)
+    public static (GameLocation?, GameLoadResult) GetGame(string? dir, GameVersion gameOverride = GameVersion.Any)
     {
         if (dir == null || !Directory.Exists(dir))
-            return null;
+            return (null, GameLoadResult.DirectoryNotFound);
 
         var dirs = Directory.GetDirectories(dir);
-        var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom", StringComparison.CurrentCultureIgnoreCase));
-        var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe", StringComparison.CurrentCultureIgnoreCase));
+        var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom"));
+        var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe"));
 
         if (romfs == null)
-            return null;
+        {
+            string selectedDir = Path.GetFileName(dir) ?? string.Empty;
+            if (selectedDir.StartsWith("rom"))
+                return (null, GameLoadResult.RomfsSelected);
+
+            return (null, GameLoadResult.RomfsNotFound);
+        }
 
         var game = gameOverride != GameVersion.Any ? gameOverride : GetGameFromPath(romfs, exefs);
         if (game == GameVersion.Invalid)
-            return null;
-        return new GameLocation(romfs, exefs, game);
+            return (null, GameLoadResult.InvalidGameVersion);
+
+        var result = GameLoadResult.Success;
+
+        if (exefs == null) // Add exefs not found result, but don't mark as failure
+            result |= GameLoadResult.ExefsNotFound;
+
+        return (new GameLocation(romfs, exefs, game), result);
     }
 
     private static GameVersion GetGameFromPath(string romfs, string? exefs)

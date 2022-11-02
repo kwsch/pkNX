@@ -87,18 +87,18 @@ public abstract class EditorBase
         _ => null,
     };
 
-    public static EditorBase? GetEditor(string loc, int language, GameVersion gameOverride)
+    public static (EditorBase?, GameLoadResult) GetEditor(string loc, int language, GameVersion gameOverride)
     {
-        var gl = GameLocation.GetGame(loc, gameOverride);
+        var (gl, result) = GameLocation.GetGame(loc, gameOverride);
         if (gl == null)
-            return null;
+            return (null, result);
 
         var gm = GameManager.GetManager(gl, language);
         var editor = GetEditor(gm);
         if (editor == null)
-            return null;
+            return (null, GameLoadResult.UnsupportedGame);
 
         editor.Location = loc;
-        return editor;
+        return (editor, GameLoadResult.Success);
     }
 }

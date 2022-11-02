@@ -154,10 +154,28 @@ public partial class Main : Form
 
     private void OpenFolder(string path, GameVersion gameOverride)
     {
-        var editor = EditorBase.GetEditor(path, Language, gameOverride);
+        var loadResult = EditorBase.GetEditor(path, Language, gameOverride);
+        var (editor, result) = loadResult;
+
+        while (result == GameLoadResult.RomfsSelected)
+        {
+            var errorMsg = result.GetErrorMsg();
+
+            var parentPath = Directory.GetParent(path)?.FullName ?? string.Empty;
+            if (string.IsNullOrEmpty(parentPath))
+                return;
+
+            var prompt = $"Clicking 'OK' will allow pkNX to create a working directory in the following folder:\n\"{parentPath}\"";
+
+            if (WinFormsUtil.Prompt(MessageBoxButtons.OKCancel, errorMsg, prompt) != DialogResult.OK)
+                return;
+
+            (editor, result) = EditorBase.GetEditor(parentPath, Language, gameOverride);
+        }
+
         if (editor == null)
         {
-            var msg = "Invalid folder loaded." + Environment.NewLine + "Unable to recognize game data.";
+            var msg = "An error occured while loading the game files." + Environment.NewLine + result.GetErrorMsg();
             WinFormsUtil.Alert(msg, path);
             return;
         }
