@@ -68,10 +68,10 @@
             this.TB_CatchRate = new System.Windows.Forms.MaskedTextBox();
             this.TB_Stage = new System.Windows.Forms.TextBox();
             this.L_Stage = new System.Windows.Forms.Label();
-            this.TB_FormeCount = new System.Windows.Forms.TextBox();
-            this.L_FormesCount = new System.Windows.Forms.Label();
-            this.TB_FormeSprite = new System.Windows.Forms.TextBox();
-            this.L_FormeSprite = new System.Windows.Forms.Label();
+            this.TB_FormCount = new System.Windows.Forms.TextBox();
+            this.L_FormsCount = new System.Windows.Forms.Label();
+            this.TB_FormSprite = new System.Windows.Forms.TextBox();
+            this.L_FormSprite = new System.Windows.Forms.Label();
             this.L_CatchRate = new System.Windows.Forms.Label();
             this.CB_Color = new System.Windows.Forms.ComboBox();
             this.CB_EXPGroup = new System.Windows.Forms.ComboBox();
@@ -229,10 +229,10 @@
             this.Tab_Personal.Controls.Add(this.TB_CatchRate);
             this.Tab_Personal.Controls.Add(this.TB_Stage);
             this.Tab_Personal.Controls.Add(this.L_Stage);
-            this.Tab_Personal.Controls.Add(this.TB_FormeCount);
-            this.Tab_Personal.Controls.Add(this.L_FormesCount);
-            this.Tab_Personal.Controls.Add(this.TB_FormeSprite);
-            this.Tab_Personal.Controls.Add(this.L_FormeSprite);
+            this.Tab_Personal.Controls.Add(this.TB_FormCount);
+            this.Tab_Personal.Controls.Add(this.L_FormsCount);
+            this.Tab_Personal.Controls.Add(this.TB_FormSprite);
+            this.Tab_Personal.Controls.Add(this.L_FormSprite);
             this.Tab_Personal.Controls.Add(this.L_CatchRate);
             this.Tab_Personal.Controls.Add(this.CB_Color);
             this.Tab_Personal.Controls.Add(this.CB_EXPGroup);
@@ -651,43 +651,43 @@
             this.L_Stage.Text = "Evolution Stage:";
             this.L_Stage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TB_FormeCount
+            // TB_FormCount
             // 
-            this.TB_FormeCount.Location = new System.Drawing.Point(462, 447);
-            this.TB_FormeCount.Name = "TB_FormeCount";
-            this.TB_FormeCount.ReadOnly = true;
-            this.TB_FormeCount.Size = new System.Drawing.Size(32, 20);
-            this.TB_FormeCount.TabIndex = 475;
-            this.TB_FormeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_FormCount.Location = new System.Drawing.Point(462, 447);
+            this.TB_FormCount.Name = "TB_FormCount";
+            this.TB_FormCount.ReadOnly = true;
+            this.TB_FormCount.Size = new System.Drawing.Size(32, 20);
+            this.TB_FormCount.TabIndex = 475;
+            this.TB_FormCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_FormesCount
+            // L_FormsCount
             // 
-            this.L_FormesCount.AutoSize = true;
-            this.L_FormesCount.Location = new System.Drawing.Point(387, 450);
-            this.L_FormesCount.Name = "L_FormesCount";
-            this.L_FormesCount.Size = new System.Drawing.Size(75, 13);
-            this.L_FormesCount.TabIndex = 474;
-            this.L_FormesCount.Text = "Formes Count:";
-            this.L_FormesCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FormsCount.AutoSize = true;
+            this.L_FormsCount.Location = new System.Drawing.Point(387, 450);
+            this.L_FormsCount.Name = "L_FormsCount";
+            this.L_FormsCount.Size = new System.Drawing.Size(75, 13);
+            this.L_FormsCount.TabIndex = 474;
+            this.L_FormsCount.Text = "Forms Count:";
+            this.L_FormsCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TB_FormeSprite
+            // TB_FormSprite
             // 
-            this.TB_FormeSprite.Location = new System.Drawing.Point(462, 426);
-            this.TB_FormeSprite.Name = "TB_FormeSprite";
-            this.TB_FormeSprite.ReadOnly = true;
-            this.TB_FormeSprite.Size = new System.Drawing.Size(32, 20);
-            this.TB_FormeSprite.TabIndex = 473;
-            this.TB_FormeSprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_FormSprite.Location = new System.Drawing.Point(462, 426);
+            this.TB_FormSprite.Name = "TB_FormSprite";
+            this.TB_FormSprite.ReadOnly = true;
+            this.TB_FormSprite.Size = new System.Drawing.Size(32, 20);
+            this.TB_FormSprite.TabIndex = 473;
+            this.TB_FormSprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_FormeSprite
+            // L_FormSprite
             // 
-            this.L_FormeSprite.AutoSize = true;
-            this.L_FormeSprite.Location = new System.Drawing.Point(393, 429);
-            this.L_FormeSprite.Name = "L_FormeSprite";
-            this.L_FormeSprite.Size = new System.Drawing.Size(69, 13);
-            this.L_FormeSprite.TabIndex = 472;
-            this.L_FormeSprite.Text = "Forme Sprite:";
-            this.L_FormeSprite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FormSprite.AutoSize = true;
+            this.L_FormSprite.Location = new System.Drawing.Point(393, 429);
+            this.L_FormSprite.Name = "L_FormSprite";
+            this.L_FormSprite.Size = new System.Drawing.Size(69, 13);
+            this.L_FormSprite.TabIndex = 472;
+            this.L_FormSprite.Text = "Form Sprite:";
+            this.L_FormSprite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_CatchRate
             // 
@@ -1597,10 +1597,10 @@
         private System.Windows.Forms.MaskedTextBox TB_CatchRate;
         private System.Windows.Forms.TextBox TB_Stage;
         private System.Windows.Forms.Label L_Stage;
-        private System.Windows.Forms.TextBox TB_FormeCount;
-        private System.Windows.Forms.Label L_FormesCount;
-        private System.Windows.Forms.TextBox TB_FormeSprite;
-        private System.Windows.Forms.Label L_FormeSprite;
+        private System.Windows.Forms.TextBox TB_FormCount;
+        private System.Windows.Forms.Label L_FormsCount;
+        private System.Windows.Forms.TextBox TB_FormSprite;
+        private System.Windows.Forms.Label L_FormSprite;
         private System.Windows.Forms.Label L_CatchRate;
         private System.Windows.Forms.ComboBox CB_Color;
         private System.Windows.Forms.ComboBox CB_EXPGroup;

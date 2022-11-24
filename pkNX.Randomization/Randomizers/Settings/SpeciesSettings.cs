@@ -48,6 +48,16 @@ public class SpeciesSettings : RandSettings
     [Category(General), Description("Allows Generation 8 species when randomizing.")]
     public bool Gen8 { get; set; } = true;
 
+    /// <summary>Allows Generation 9 species when randomizing.</summary>
+    [Category(General), Description("Allows Generation 9 species when randomizing.")]
+    public bool Gen9 { get; set; } = true;
+
+    [Category(Misc), Description("Allows eligible Pokémon to already be in their Mega-Evolved forms when randomizing species.")]
+    public bool AllowRandomMegaForms { get; set; }
+
+    [Category(Misc), Description("Allows Kyurem, Necrozma, and Calyrex to be encountered in their fused states when randomizing species.")]
+    public bool AllowRandomFusions { get; set; }
+
     /// <summary>Allows Legendary species when randomizing.</summary>
     [Category(Misc), Description("Allows Legendary species when randomizing.")]
     public bool Legends { get; set; }
@@ -97,6 +107,7 @@ public class SpeciesSettings : RandSettings
         if (Gen6) AddGen6Species(list, maxSpecies);
         if (Gen7) AddGen7Species(list, maxSpecies);
         if (Gen8) AddGen8Species(list, maxSpecies);
+        if (Gen9) AddGen9Species(list, maxSpecies);
 
         if (generation == 7 && Gen1 && Events && maxSpecies <= Legal.MaxSpeciesID_7_GG)
             AddGGEvents(list);
@@ -218,6 +229,24 @@ public class SpeciesSettings : RandSettings
         {
             list.AddRange(Enumerable.Range(899, 6)); // Wyrdeer - Overqwil
             if (Legends) list.Add(905); // Enamorus
+        }
+    }
+
+    private void AddGen9Species(List<int> list, int maxSpecies)
+    {
+        if (maxSpecies <= Legal.MaxSpeciesID_8a)
+            return;
+
+        var legendary = Enumerable.Range(994, 6);
+        list.AddRange(Enumerable.Range(906, 105).Except(legendary)); // Sprigatito - Annihilape
+        list.Remove(980); // AKETUBAN
+        list.Remove(987); // BKETUBAN
+
+        if (Legends)
+        {
+            // list.Add(980); // AKETUBAN
+            // list.Add(987); // BKETUBAN
+            list.AddRange(legendary); // Ting-Lu, Chien-Pao, Wo-Chien, Chi-Yu, Koraidon, Miraidon
         }
     }
 

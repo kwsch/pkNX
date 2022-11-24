@@ -48,12 +48,6 @@ public class TrainerRandSettings
     [Category(PKM), Description("Randomizes the Species and basic stat details of all Team members.")]
     public bool RandomizeTeam { get; set; } = true;
 
-    [Category(PKM), Description("Allows random Mega Forms when randomizing species.")]
-    public bool AllowRandomMegaForms { get; set; }
-
-    [Category(PKM), Description("Allows random Fused PKM when randomizing species.")]
-    public bool AllowRandomFusions { get; set; }
-
     [Category(PKM), Description("Allows random Held Items when randomizing species.")]
     public bool AllowRandomHeldItems { get; set; }
 

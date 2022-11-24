@@ -61,7 +61,7 @@ public class EvolutionRandomizer : Randomizer
             if (evo.Method == 0)
                 continue;
             evo.Species = (ushort)RandSpec.GetRandomSpecies(evo.Species, species);
-            evo.Form = (byte)RandForm.GetRandomForme(evo.Species, false, false, true, Game.SWSH, Personal.Table);
+            evo.Form = (byte)RandForm.GetRandomForm(evo.Species, false, false, Game.Generation, Personal.Table);
         }
     }
 

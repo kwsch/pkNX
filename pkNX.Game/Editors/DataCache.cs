@@ -79,7 +79,7 @@ public class DirectCache<T> : DataCache<T> where T : class
 }
 
 /// <summary>
-/// Data 'from a flatbuffer table
+/// Data 'from a FlatBuffer table
 /// </summary>
 /// <typeparam name="TTable">The type of table</typeparam>
 /// <typeparam name="TData">The type of data inside the table</typeparam>

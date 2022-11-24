@@ -174,7 +174,7 @@ public enum GameVersion
     /// <summary>
     /// Pokémon Silver (3DS Virtual Console)
     /// </summary>
-    SV = 40,
+    SI = 40,
 
     /// <summary>
     /// Pokémon Crystal (3DS Virtual Console)
@@ -203,10 +203,32 @@ public enum GameVersion
     /// </summary>
     SH = 45,
 
-    PLA,
-    HOME,
-    BD,
-    SP,
+    // HOME = 46,
+
+    /// <summary>
+    /// Pokémon Legends: Arceus (NX)
+    /// </summary>
+    PLA = 47,
+
+    /// <summary>
+    /// Pokémon Brilliant Diamond (NX)
+    /// </summary>
+    BD = 48,
+
+    /// <summary>
+    /// Pokémon Shining Pearl (NX)
+    /// </summary>
+    SP = 49,
+
+    /// <summary>
+    /// Pokémon Scarlet (NX)
+    /// </summary>
+    SL = 50,
+
+    /// <summary>
+    /// Pokémon Violet (NX)
+    /// </summary>
+    VL = 51,
 
     #endregion
 
@@ -392,6 +414,22 @@ public enum GameVersion
     SWSH,
 
     /// <summary>
+    /// Pokémon Brilliant Diamond &amp; Shining Pearl
+    /// </summary>
+    /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+    /// <see cref="BD"/>
+    /// <see cref="SP"/>
+    BDSP,
+
+    /// <summary>
+    /// Pokémon Scarlet &amp; Violet
+    /// </summary>
+    /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+    /// <see cref="SL"/>
+    /// <see cref="VL"/>
+    SV,
+
+    /// <summary>
     /// Generation 1 Games
     /// </summary>
     /// <see cref="RBY"/>
@@ -451,6 +489,12 @@ public enum GameVersion
     /// <see cref="SWSH"/>
     /// <see cref="PLA"/>
     Gen8,
+
+    /// <summary>
+    /// Generation 9 Games
+    /// </summary>
+    /// <see cref="SV"/>
+    Gen9,
 
     /// <summary>
     /// Pocket Monsters Stadium data origin identifier

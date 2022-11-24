@@ -76,7 +76,13 @@ public abstract class EditorBase
         }
     }
 
-    public void Close() => ROM.SaveAll(true);
+    public void Close()
+    {
+        ROM.SaveAll(true);
+        if (ROM is IDisposable d)
+            d.Dispose();
+    }
+
     public void Save() => ROM.SaveAll(false);
 
     private static EditorBase? GetEditor(GameManager ROM) => ROM switch
@@ -84,6 +90,7 @@ public abstract class EditorBase
         GameManagerGG gg => new EditorGG(gg),
         GameManagerSWSH swsh => new EditorSWSH(swsh),
         GameManagerPLA pla => new EditorPLA(pla),
+        GameManagerSV sv => new EditorSV(sv),
         _ => null,
     };
 

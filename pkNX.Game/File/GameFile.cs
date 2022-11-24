@@ -75,13 +75,13 @@ public enum GameFile
     Encounters,
 
     /// <summary> Trainer Data related to Trainers of a shared type. </summary>
-    TrainerClass,
+    TrainerSpecClass,
 
     /// <summary> Trainer Data for individual Trainers that can be battled. </summary>
-    TrainerData,
+    TrainerSpecData,
 
     /// <summary> Trainer PKM template data for regular battles. </summary>
-    TrainerPoke,
+    TrainerSpecPoke,
 
     /// <summary> Move data that defines the properties of in-game moves. </summary>
     MoveStats,
@@ -105,7 +105,7 @@ public enum GameFile
     ItemStats,
 
     /// <summary> Static (fixed position/condition) encounter table. </summary>
-    EncounterStatic,
+    EncounterTableStatic,
 
     /// <summary> Post-game roulette trainer data with normal difficulty. </summary>
     FacilityTrainerNormal,
@@ -147,10 +147,10 @@ public enum GameFile
     MoveSprites,
 
     /// <summary> Traded Pokémon swap data. </summary>
-    EncounterTrade,
+    EncounterTableTrade,
 
     /// <summary> Gift Pokémon data. </summary>
-    EncounterGift,
+    EncounterTableGift,
 
     /// <summary> Nest Data </summary>
     NestData,
@@ -354,4 +354,7 @@ public enum GameFile
     MoveObstructionWater,
     MoveObstructionWaterEffect,
     NushiBattleSettings,
+
+    DataTrpfs,
+    DataTrpfd,
 }

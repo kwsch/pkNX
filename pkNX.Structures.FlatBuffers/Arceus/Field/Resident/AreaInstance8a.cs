@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace pkNX.Structures.FlatBuffers;
 
-// Not a flatbuffer; wraps the fields into a single object.
+// Not a FlatBuffer; wraps the fields into a single object.
 public sealed class AreaInstance8a
 {
     // Area Info

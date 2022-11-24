@@ -21,12 +21,10 @@ public class DatTable : Dictionary<ulong, int>
     // - u32(?) index
     // - u32(?) unk
 
-    public static bool IsDatTable(byte[] bytes)
-    {
-        // pretty weak, don't call this if you aren't sure!
-        var count = BitConverter.ToUInt32(bytes, 0);
-        return 4 + (count * 0x10) == bytes.Length;
-    }
+    // pretty weak, don't call this if you aren't sure!
+    public static bool IsDatTable(ReadOnlySpan<byte> bytes) => IsDatTable(bytes, bytes.Length);
+    public static bool IsDatTable(ReadOnlySpan<byte> bytes, int len) => IsDatTable(System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes), len);
+    public static bool IsDatTable(int count, int len) => 4 + (count * 0x10) == len;
 
     private readonly DatEntry[] Entries;
 

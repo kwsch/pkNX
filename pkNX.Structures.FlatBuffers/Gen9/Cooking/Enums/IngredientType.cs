@@ -1,0 +1,53 @@
+using FlatSharp.Attributes;
+// ReSharper disable UnusedMember.Global
+
+namespace pkNX.Structures.FlatBuffers;
+
+[FlatBufferEnum(typeof(int))]
+public enum IngredientType
+{
+    NONE = 0,
+    TOP_BAGUETTE = 1,
+    BOTTOM_BAGUETTE = 2,
+    LETTUCE = 3,
+    SLICED_TOMATOES = 4,
+    CHOPPED_CHERRY_TOMATOES = 5,
+    SLICED_CUCUMBER = 6,
+    SLICED_PICKLE = 7,
+    SLICED_ONION = 8,
+    SLICED_RED_ONION = 9,
+    SLICED_PIMENTO = 10,
+    SLICED_RED_PAPRIKA = 11,
+    SLICED_YELLOW_PAPRIKA = 12,
+    AVOCADO = 13,
+    FRIED_BACON = 14,
+    SLICED_HAM = 15,
+    CURED_HAM = 16,
+    BAKED_CHORIZO = 17,
+    BOILED_WHITE_SAUSAGE = 18,
+    HAMBURG = 19,
+    CRAB_STICK = 20,
+    SMOKING_FISH_FILLETS = 21,
+    FRIED_FISH = 22,
+    SLICED_BOILED_EGG = 23,
+    TORTILLA_DE_PATATAS = 24,
+    TOFU = 25,
+    RICE = 26,
+    NOODLE = 27,
+    POTATO_SALAD = 28,
+    SLICED_CHEESE = 29,
+    SLICED_BANANA = 30,
+    HALF_STRAWBERRY = 31,
+    ROUND_SLICED_APPLE = 32,
+    ROUND_SLICED_KIWI_FRUIT = 33,
+    CUTTED_PINE = 34,
+    JALAPENO = 35,
+    WATERCRESS = 36,
+    BASIL = 37,
+    TOP_BAGUETTE2 = 38,
+    BOTTOM_BAGUETTE2 = 39,
+    TOP_BAGUETTE3 = 40,
+    BOTTOM_BAGUETTE3 = 41,
+    TOP_BAGUETTE4 = 42,
+    BOTTOM_BAGUETTE4 = 43,
+}

@@ -48,9 +48,9 @@ internal class EditorSWSH : EditorBase
             ReadTrainer = data => new TrainerData8(data),
             ReadTeam = TrainerPoke8.ReadTeam,
             WriteTeam = TrainerPoke8.WriteTeam,
-            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerData),
-            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerPoke),
-            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
+            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerSpecData),
+            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerSpecPoke),
+            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerSpecClass),
         };
         editor.Initialize();
         using var form = new BTTE(Data, editor, ROM);
@@ -205,7 +205,7 @@ internal class EditorSWSH : EditorBase
 
     public void EditWild()
     {
-        if (ROM.PathExeFS == null || ROM.Game == GameVersion.SWSH)
+        if (ROM.Game == GameVersion.SWSH)
         {
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "No ExeFS data found. Please choose which game's encounter tables you wish to edit.", "Yes for Sword, No for Shield.");
             if (dr == DialogResult.Cancel)
@@ -273,7 +273,7 @@ internal class EditorSWSH : EditorBase
                 foreach (var p in t.Entries)
                 {
                     p.Species = srand.GetRandomSpecies(p.Species);
-                    p.Form = frand.GetRandomForme(p.Species, false, false, true, true, Data.PersonalData.Table);
+                    p.Form = frand.GetRandomForm(p.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
                     p.Ability = 4; // "A4" -- 1, 2, or H
                     p.Gender = 0; // random
                     p.IsGigantamax = false; // don't allow gmax flag on non-gmax species
@@ -353,7 +353,7 @@ internal class EditorSWSH : EditorBase
 
     public void EditStatic()
     {
-        var arc = ROM.GetFile(GameFile.EncounterStatic);
+        var arc = ROM.GetFile(GameFile.EncounterTableStatic);
         var data = arc[0];
         var objs = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(data);
 
@@ -378,7 +378,7 @@ internal class EditorSWSH : EditorBase
                 if (t.Species is >= (int)Species.Zacian and <= (int)Species.Eternatus) // Eternatus crashes when changed, keep Zacian and Zamazenta to make final boss battle fair
                     continue;
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
+                t.Form = (byte)frand.GetRandomForm(t.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
                 t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                 t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                 t.Nature = (int)Nature.Random25;
@@ -534,7 +534,7 @@ internal class EditorSWSH : EditorBase
 
     public void EditGift()
     {
-        var arc = ROM.GetFile(GameFile.EncounterGift);
+        var arc = ROM.GetFile(GameFile.EncounterTableGift);
         var data = arc[0];
         var objs = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
 
@@ -560,12 +560,12 @@ internal class EditorSWSH : EditorBase
                 if (t.CanGigantamax || t.Species == (int)Species.Kubfu)
                 {
                     t.Species = Legal.GigantamaxForms[Randomization.Util.Random.Next(Legal.GigantamaxForms.Length)];
-                    t.Form = (byte)(t.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : frand.GetRandomForme(t.Species, false, false, false, false, Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
+                    t.Form = (byte)(t.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : frand.GetRandomForm(t.Species, false, false, ROM.Info.Generation, Data.PersonalData.Table)); // Pikachu & Meowth altforms can't gmax
                 }
                 else
                 {
                     t.Species = srand.GetRandomSpecies(t.Species);
-                    t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
+                    t.Form = (byte)frand.GetRandomForm(t.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
                 }
 
                 t.Ability = Randomization.Util.Random.Next(1, 4); // 1, 2, or H
@@ -577,8 +577,6 @@ internal class EditorSWSH : EditorBase
                 if (t.IV_HP != -4 && t.IVs.Any(z => z != 31))
                     t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
             }
-
-            UpdateStarters(); // update placement critter data to match new randomized species
         }
 
         void UpdateStarters()
@@ -616,14 +614,19 @@ internal class EditorSWSH : EditorBase
         using var form = new GenericEditor<EncounterGift8>(cache, names, "Gift Pokémon Editor", Randomize);
         form.ShowDialog();
         if (!form.Modified)
+        {
             arc.CancelEdits();
+        }
         else
+        {
+            UpdateStarters(); // update placement critter data to match new randomized species
             arc[0] = FlatBufferConverter.SerializeFrom(objs);
+        }
     }
 
     public void EditTrade()
     {
-        var arc = ROM.GetFile(GameFile.EncounterTrade);
+        var arc = ROM.GetFile(GameFile.EncounterTableTrade);
         var data = arc[0];
         var objs = FlatBufferConverter.DeserializeFrom<EncounterTrade8Archive>(data);
 
@@ -647,7 +650,7 @@ internal class EditorSWSH : EditorBase
             {
                 // what you receive
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
+                t.Form = (byte)frand.GetRandomForm(t.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
                 t.AbilityNumber = (byte)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                 t.Ball = (Ball)Randomization.Util.Random.Next(1, EncounterTrade8.BallToItem.Length);
                 t.HeldItem = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
@@ -660,7 +663,7 @@ internal class EditorSWSH : EditorBase
 
                 // what you trade
                 t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
-                t.RequiredForm = (byte)frand.GetRandomForme(t.RequiredSpecies, false, false, true, true, Data.PersonalData.Table);
+                t.RequiredForm = (byte)frand.GetRandomForm(t.RequiredSpecies, false, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.RequiredNature = (int)Nature.Random25; // any
             }
         }
@@ -698,7 +701,7 @@ internal class EditorSWSH : EditorBase
             {
                 // what you receive
                 t.Species = srand.GetRandomSpecies(t.Species);
-                t.Form = (byte)frand.GetRandomForme(t.Species, false, false, true, true, Data.PersonalData.Table);
+                t.Form = (byte)frand.GetRandomForm(t.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
                 t.Ability = (uint)Randomization.Util.Random.Next(1, 4); // 1, 2, or H
                 t.Move0 = t.Move1 = t.Move2 = t.Move3 = 0;
             }

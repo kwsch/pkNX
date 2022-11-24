@@ -295,6 +295,8 @@ public static class FormInfo
         (int)Zacian,
         (int)Zamazenta,
         (int)Eternatus,
+
+        (int)Palafin,
     };
 
     /// <summary>

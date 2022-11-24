@@ -203,9 +203,9 @@ public class GameDumperSWSH
             ReadTrainer = data => new TrainerData8(data),
             ReadTeam = TrainerPoke8.ReadTeam,
             WriteTeam = TrainerPoke8.WriteTeam,
-            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerData),
-            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerPoke),
-            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
+            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerSpecData),
+            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerSpecPoke),
+            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerSpecClass),
         };
         editor.Initialize();
         return editor;
@@ -330,7 +330,7 @@ public class GameDumperSWSH
     public void DumpGifts()
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterGift)[0];
+        var data = ROM.GetFile(GameFile.EncounterTableGift)[0];
         var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
         var table = TableUtil.GetTable(gifts.Table);
         var fn = GetPath("Gifts.txt");
@@ -343,7 +343,7 @@ public class GameDumperSWSH
     public void DumpStatic()
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterStatic)[0];
+        var data = ROM.GetFile(GameFile.EncounterTableStatic)[0];
         var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(data);
         var table = TableUtil.GetTable(statics.Table);
         var fn = GetPath("StaticEncounters.txt");
@@ -379,7 +379,7 @@ public class GameDumperSWSH
 
     public void DumpPlacement()
     {
-        var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(ROM.GetFile(GameFile.EncounterStatic)[0]);
+        var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(ROM.GetFile(GameFile.EncounterTableStatic)[0]);
         var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
         var species_names = ROM.GetStrings(TextName.SpeciesNames);
         var weathers = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
@@ -388,7 +388,7 @@ public class GameDumperSWSH
         var zone_descs = SWSHInfo.Zones;
         var obj_names = new AHTB(placement.GetDataFileName("ObjectNameHashTable.tbl")).ToDictionary();
         //var vanish_flags = new AHTB(placement.GetDataFileName("VanishFlagAutoTable.tbl")).ToDictionary();
-        //var x = placement.GetDataFileName("template_data.bin"); // flatbuffer skybox
+        //var x = placement.GetDataFileName("template_data.bin"); // FlatBuffer skybox
         var wild_area = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0101.bin"));
         var isle_of_armor = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0201.bin"));
         var crown_tundra = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0301.bin"));
@@ -863,7 +863,7 @@ public class GameDumperSWSH
     public void DumpTrades()
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterTrade)[0];
+        var data = ROM.GetFile(GameFile.EncounterTableTrade)[0];
         var trades = FlatBufferConverter.DeserializeFrom<EncounterTrade8Archive>(data);
         var table = TableUtil.GetTable(trades.Table);
         var fn = GetPath("Trades.txt");

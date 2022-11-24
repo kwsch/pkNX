@@ -6,8 +6,8 @@ using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Randomization;
-using pkNX.Sprites;
 using pkNX.Structures;
+using PKHeX.Drawing.PokeSprite;
 using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms;
@@ -218,7 +218,7 @@ public partial class PokeDataUI : Form
         LoadEvolutions(Editor.Evolve[index]);
         if (Editor.Mega != null)
             LoadMegas(Editor.Mega[index], spec);
-        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
+        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
         Bitmap bigImg = new(rawImg.Width * 2, rawImg.Height * 2);
         for (int x = 0; x < rawImg.Width; x++)
         {
@@ -284,8 +284,8 @@ public partial class PokeDataUI : Form
         CB_Ability2.SelectedIndex = pkm.Ability2;
         CB_Ability3.SelectedIndex = pkm.AbilityH;
 
-        TB_FormeCount.Text = pkm.FormCount.ToString("000");
-        TB_FormeSprite.Text = pkm.FormSprite.ToString("000");
+        TB_FormCount.Text = pkm.FormCount.ToString("000");
+        TB_FormSprite.Text = pkm.FormSprite.ToString("000");
 
         TB_RawColor.Text = pkm.Color.ToString("000");
         CB_Color.SelectedIndex = pkm.Color & 0xF;
@@ -380,8 +380,8 @@ public partial class PokeDataUI : Form
         pkm.Ability2 = CB_Ability2.SelectedIndex;
         pkm.AbilityH = CB_Ability3.SelectedIndex;
 
-        pkm.FormSprite = Convert.ToUInt16(TB_FormeSprite.Text);
-        pkm.FormCount = Convert.ToByte(TB_FormeCount.Text);
+        pkm.FormSprite = Convert.ToUInt16(TB_FormSprite.Text);
+        pkm.FormCount = Convert.ToByte(TB_FormCount.Text);
         pkm.Color = (byte)(CB_Color.SelectedIndex) | (Util.ToInt32(TB_RawColor.Text) & 0xF0);
         pkm.BaseEXP = Convert.ToUInt16(TB_BaseExp.Text);
 

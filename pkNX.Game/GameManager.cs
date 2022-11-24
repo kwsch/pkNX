@@ -1,6 +1,7 @@
 using System;
 using pkNX.Containers;
 using pkNX.Structures;
+using static pkNX.Structures.GameVersion;
 
 namespace pkNX.Game;
 
@@ -65,7 +66,7 @@ public abstract class GameManager
     /// </summary>
     /// <param name="file">File type to fetch</param>
     /// <returns>Container that contains the game data requested.</returns>
-    public IFileContainer GetFile(GameFile file) => FileMap.GetFile(file, Language);
+    public IFileContainer GetFile(GameFile file) => FileMap.GetFile(file, Language, this);
 
     /// <summary>
     /// Fetches strings for the input <see cref="TextName"/>.
@@ -106,14 +107,12 @@ public abstract class GameManager
         return c;
     }
 
-    public static GameManager GetManager(GameLocation loc, int language)
+    public static GameManager GetManager(GameLocation loc, int language) => loc.Game switch
     {
-        return loc.Game switch
-        {
-            GameVersion.GP or GameVersion.GE or GameVersion.GG => new GameManagerGG(loc, language),
-            GameVersion.SW or GameVersion.SH or GameVersion.SWSH => new GameManagerSWSH(loc, language),
-            GameVersion.PLA => new GameManagerPLA(loc, language),
-            _ => throw new ArgumentException(nameof(loc.Game)),
-        };
-    }
+        GP or GE or GG   => new GameManagerGG(loc, language),
+        SW or SH or SWSH => new GameManagerSWSH(loc, language),
+        PLA              => new GameManagerPLA(loc, language),
+        SL or VL or SV   => new GameManagerSV(loc, language),
+        _ => throw new ArgumentException(nameof(loc.Game)),
+    };
 }

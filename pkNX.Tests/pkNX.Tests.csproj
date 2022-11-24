@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Description>Ensuring functionality works as intended</Description>
     <IsPackable>false</IsPackable>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

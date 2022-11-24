@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -42,8 +43,9 @@ root_type {GetName(type)};";
         var props = type.GetTypeInfo().DeclaredProperties.ToArray();
         var lines = props.Select(GetPropLine);
 
+        var defType = type.GetTypeInfo().GetCustomAttribute<FlatBufferStructAttribute>() != null ? "struct" : "table";
         var schema =
-            @$"table {name} {{
+            @$"{defType} {name} {{
   {string.Join(Environment.NewLine + "  ", lines)}
 }}";
 

@@ -13,11 +13,11 @@ public static class Container
     public static IFileContainer GetContainer(string path, ContainerType t) => t switch
     {
         ContainerType.GARC => new GARC(path),
-        ContainerType.Mini => MiniUtil.GetMini(path),
+        ContainerType.BinLinker => MiniUtil.GetMini(path),
         ContainerType.SARC => new SARC(path),
         ContainerType.Folder => new FolderContainer(path),
         ContainerType.SingleFile => new SingleFileContainer(path),
-        ContainerType.GFPack => new GFPack(path),
+        ContainerType.GameFreakPack => new GFPack(path),
         _ => throw new ArgumentOutOfRangeException(nameof(t), t, null),
     };
 

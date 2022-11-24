@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
-using pkNX.Sprites;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using PKHeX.Drawing.PokeSprite;
 using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms;
@@ -186,7 +186,7 @@ public partial class PokeDataUI8a : Form
         var evoTable = Editor.Evolve.Root.Table;
         LoadEvolutions(evoTable.First(x => x.Species == spec && x.Form == form));
 
-        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
+        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
         Bitmap bigImg = ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
         PB_MonSprite.Image = bigImg;
     }

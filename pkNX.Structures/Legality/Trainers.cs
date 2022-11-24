@@ -4,6 +4,7 @@ namespace pkNX.Structures;
 
 public static partial class Legal
 {
+    #region Gen 6
     public static readonly ushort[] Mega_XY =
     {
         003, 006, 009, 065, 080, 115, 127, 130, 142, 150,
@@ -129,7 +130,9 @@ public static partial class Legal
         279, // Pokémon Trainer
         #endregion
     };
+    #endregion
 
+    #region Gen 7
     public static readonly int[] SpecialClasses_SM =
     {
         #region Classes
@@ -336,11 +339,11 @@ public static partial class Legal
         #endregion
     };
 
-    // <summary>
-    // Unused Trainer Classes in Let's Go, Pikachu! and Let's Go, Eevee!.
-    // Assigning these Trainer Classes to a Trainer crashes the game.
-    // A majority of these are Master Trainer related, and only used for multiplayer. They are not to be assigned to NPCs.
-    // </summary>
+    /// <summary>
+    /// Unused Trainer Classes in Let's Go, Pikachu! &amp; Let's Go, Eevee!.
+    /// Assigning these Trainer Classes to a Trainer crashes the game.
+    /// A majority of these are Master Trainer related, and only used for multiplayer. They are not to be assigned to NPCs.
+    /// </summary>
     public static readonly int[] BlacklistedClasses_GG = Enumerable.Range(072, 311).Concat(new[]
     {
         #region CrashClasses
@@ -348,7 +351,9 @@ public static partial class Legal
         033, // Pokémon Trainer
         #endregion
     }).ToArray();
+    #endregion
 
+    #region Gen 8
     public static readonly int[] SpecialClasses_SWSH =
     {
         #region Classes
@@ -460,10 +465,10 @@ public static partial class Legal
         #endregion
     };
 
-    // <summary>
-    // Unused Trainer Classes in Sword and Shield.
-    // Consists of NPCs you can interact with but never battle.
-    // </summary>
+    /// <summary>
+    /// Unused Trainer Classes in Sword &amp; Shield.
+    /// Consists of NPCs you can interact with but never battle.
+    /// </summary>
     public static readonly int[] UnusedClasses_SWSH =
     {
         #region UnusedClasses
@@ -514,10 +519,10 @@ public static partial class Legal
         #endregion
     };
 
-    // <summary>
-    // Unused Trainer Classes in Sword and Shield.
-    // Assigning these Trainer Classes to a Trainer crashes the game.
-    // </summary>
+    /// <summary>
+    /// Unused Trainer Classes in Sword &amp; Shield.
+    /// Assigning these Trainer Classes to a Trainer crashes the game.
+    /// </summary>
     public static readonly int[] CrashClasses_SWSH =
     {
         #region CrashClasses
@@ -553,10 +558,10 @@ public static partial class Legal
         #endregion
     };
 
-    // <summary>
-    // Dummy Trainer Classes in Sword and Shield.
-    // No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
-    // </summary>
+    /// <summary>
+    /// Dummy Trainer Classes in Sword and Shield.
+    /// No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
+    /// </summary>
     public static readonly int[] DummyClasses_SWSH =
     {
         #region DummyClasses
@@ -581,6 +586,53 @@ public static partial class Legal
     };
 
     public static readonly int[] BlacklistedClasses_SWSH = DoubleBattleClasses_SWSH.Concat(UnusedClasses_SWSH).Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
+    #endregion
+
+    #region Gen 9
+    public static readonly int[] SpecialClasses_SV =
+    {
+        #region Classes
+        #endregion
+    };
+    
+    public static readonly int[] DoubleBattleClasses_SV =
+    {
+        #region DoubleBattleClasses
+        #endregion
+    };
+
+    /// <summary>
+    /// Unused Trainer Classes in Scarlet &amp; Violet.
+    /// Consists of NPCs you can interact with but never battle.
+    /// </summary>
+    public static readonly int[] UnusedClasses_SV =
+    {
+        #region UnusedClasses
+        #endregion
+    };
+
+    /// <summary>
+    /// Unused Trainer Classes in Scarlet &amp; Violet.
+    /// Assigning these Trainer Classes to a Trainer crashes the game.
+    /// </summary>
+    public static readonly int[] CrashClasses_SV =
+    {
+        #region CrashClasses
+        #endregion
+    };
+
+    /// <summary>
+    /// Dummy Trainer Classes in Scarlet &amp; Violet.
+    /// No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
+    /// </summary>
+    public static readonly int[] DummyClasses_SV =
+    {
+        #region DummyClasses
+        #endregion
+    };
+    #endregion
+
+    public static readonly int[] BlacklistedClasses_SV = DoubleBattleClasses_SV.Concat(UnusedClasses_SV).Concat(CrashClasses_SV).Concat(DummyClasses_SV).ToArray();
 
     public static readonly int[] Model_XY =
     {
@@ -701,5 +753,9 @@ public static partial class Legal
         191, 192, 193, 195, 196, 197, 198, 199, 202, 203, 204, 210, 211, 212, 213, 214, 215, 216, 221, 222, 225, 226, 227, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 248, 249, 250, 251,
         252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289, 315, 316, 317, 318, 319, 320, 321, 324, 325, 326, 327, 328, 329, 330, 374, 376, 414, 415, 416,
         417, 418, 419, 420, 431, 432, 433, 434,
+    };
+
+    public static readonly int[] ImportantTrainers_SV =
+    {
     };
 }

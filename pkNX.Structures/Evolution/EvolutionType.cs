@@ -57,11 +57,25 @@ public enum EvolutionType : byte
     LevelUpNatureLowKey = 47, // Toxtricity
     TowerOfDarkness = 48, // Urshifu
     TowerOfWaters = 49, // Urshifu
-    UseItemFullMoon = 50, // Ursaluna
-    UseAgileStyleMoves = 51, // Wyrdeer
-    UseStrongStyleMoves = 52, // Overqwil
-    RecoilDamageMale = 53, // Basculegion-0
-    RecoilDamageFemale = 54, // Basculegion-1
+
+    LevelUpWalkStepsWith = 50,
+    LevelUpUnionCircle = 51, // Palafin
+    LevelUpInBattleEC25 = 52, // Maushold-0
+    LevelUpInBattleECElse = 53, // Maushold-1
+    LevelUpCollect999 = 54, // Gimmighoul formarg 999
+    LevelUpDefeatEquals = 55, // Kingambit
+    LevelUpUseMoveSpecial = 56, // Annihilape
+    LevelUpKnowMoveECElse = 57, // Dudunsparce-0
+    LevelUpKnowMoveEC25 = 58, // Dudunsparce-1
+
+    LevelUpRecoilDamageMale = 59, // Basculegion-0
+    LevelUpRecoilDamageFemale = 60, // Basculegion-1
+
+    Hisui = 61,
+
+    UseItemFullMoon = 90, // Ursaluna
+    UseMoveAgileStyle = 91, // Wyrdeer
+    UseMoveStrongStyle = 92, // Overqwil
 }
 
 public enum EvolutionTypeArgumentType
@@ -132,11 +146,22 @@ public static class EvolutionTypeExtensions
         LevelUpNatureLowKey => true,
         TowerOfDarkness => false,
         TowerOfWaters => false,
+        LevelUpWalkStepsWith => true,
+        LevelUpUnionCircle => true,
+        LevelUpInBattleEC25 => true,
+        LevelUpInBattleECElse => true,
+        LevelUpCollect999 => true,
+        LevelUpDefeatEquals => true,
+        LevelUpUseMoveSpecial => true,
+        LevelUpKnowMoveECElse => true,
+        LevelUpKnowMoveEC25 => true,
+        LevelUpRecoilDamageMale => true,
+        LevelUpRecoilDamageFemale => true,
+        Hisui => false, // todo sv
+
         UseItemFullMoon => false,
-        UseAgileStyleMoves => false,
-        UseStrongStyleMoves => false,
-        RecoilDamageMale => false,
-        RecoilDamageFemale => false,
+        UseMoveAgileStyle => false,
+        UseMoveStrongStyle => false,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 
@@ -197,11 +222,23 @@ public static class EvolutionTypeExtensions
         [TowerOfDarkness] = NoArg,
         [TowerOfWaters] = NoArg,
         [UseItemFullMoon] = Items, // Ursaluna
-        [UseAgileStyleMoves] = NoArg, // Wyrdeer
-        [UseStrongStyleMoves] = NoArg, // Overqwil
-        [RecoilDamageMale] = NoArg, // Basculegion-0
-        [RecoilDamageFemale] = NoArg, // Basculegion-1
+        [UseMoveAgileStyle] = NoArg, // Wyrdeer
+        [UseMoveStrongStyle] = NoArg, // Overqwil
+        [LevelUpRecoilDamageMale] = NoArg, // Basculegion-0
+        [LevelUpRecoilDamageFemale] = NoArg, // Basculegion-1
+
+        [LevelUpWalkStepsWith] = NoArg,
+        [LevelUpUnionCircle] = NoArg,
+        [LevelUpInBattleEC25] = NoArg, // Maushold-0
+        [LevelUpInBattleECElse] = NoArg, // Maushold-1
+        [LevelUpCollect999] = NoArg, // Ghimmighoul formarg 999
+        [LevelUpDefeatEquals] = NoArg, // Kingambit
+        [LevelUpUseMoveSpecial] = NoArg, // Annihilape
+        [LevelUpKnowMoveECElse] = Moves, // Dudunsparce 0
+        [LevelUpKnowMoveEC25] = Moves, // Dudunsparce 1
+        [Hisui] = NoArg,
     };
 
     public static EvolutionTypeArgumentType GetArgType(this EvolutionType t) => ArgType[t];
+    public static bool IsUseItem(this EvolutionType type) => GetArgType(type) == Items;
 }

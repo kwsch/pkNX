@@ -163,6 +163,7 @@ public sealed partial class SSWE : Form
     {
         var pt = ROM.Data.PersonalData;
         var fr = new FormRandomizer(pt);
+        var settings = (SpeciesSettings)PG_Species.SelectedObject;
         foreach (var area in Symbols.EncounterTables.Concat(Hidden.EncounterTables))
         {
             foreach (var sub in area.SubTables)
@@ -193,7 +194,7 @@ public sealed partial class SSWE : Form
                 }
 
                 s.Species = rand.GetRandomSpecies(s.Species);
-                s.Form = (byte)fr.GetRandomForme(s.Species, false, false, true, true, ROM.Data.PersonalData.Table);
+                s.Form = (byte)fr.GetRandomForm(s.Species, false, settings.AllowRandomFusions, ROM.Info.Generation, ROM.Data.PersonalData.Table);
                 if (fill)
                     s.Probability = RandomScaledRates[slots.Count][i];
             }

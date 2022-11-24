@@ -205,7 +205,7 @@ internal class EditorPLA : EditorBase
     public void EditGift()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAdd8aArchive, PokeAdd8a>(GameFile.EncounterGift, "Gift Encounter Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", entries => Randomize(entries));
+        PopFlat<PokeAdd8aArchive, PokeAdd8a>(GameFile.EncounterTableGift, "Gift Encounter Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", entries => Randomize(entries));
 
         void Randomize(IEnumerable<PokeAdd8a> arr)
         {
@@ -277,7 +277,7 @@ internal class EditorPLA : EditorBase
     public void EditStaticEncounter()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EventEncount8aArchive, EventEncount8a>(GameFile.EncounterStatic, "Static Encounter Editor", (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", entries => Randomize(entries));
+        PopFlat<EventEncount8aArchive, EventEncount8a>(GameFile.EncounterTableStatic, "Static Encounter Editor", (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", entries => Randomize(entries));
 
         static string GetDetail(EventEncount8a z, string[] names)
         {
@@ -401,7 +401,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Battle)]
     public void EditTrainers()
     {
-        var folder = ROM.GetFilteredFolder(GameFile.TrainerData);
+        var folder = ROM.GetFilteredFolder(GameFile.TrainerSpecData);
         var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).ToArray();
 
         var cache = new DataCache<TrData8a>(folder)

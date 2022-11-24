@@ -47,9 +47,9 @@ internal class EditorGG : EditorBase
             ReadTrainer = data => new TrainerData7b(data),
             ReadTeam = TrainerPoke7b.ReadTeam,
             WriteTeam = TrainerPoke7b.WriteTeam,
-            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerData),
-            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerPoke),
-            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerClass),
+            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerSpecData),
+            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerSpecPoke),
+            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerSpecClass),
         };
         editor.Initialize();
         using var form = new BTTE(Data, editor, ROM);
@@ -116,7 +116,7 @@ internal class EditorGG : EditorBase
 
     public void EditGift()
     {
-        var file = ROM[GameFile.EncounterGift];
+        var file = ROM[GameFile.EncounterTableGift];
         var data = file[0];
         var objs = data.GetArray(z => new EncounterGift7b(z), EncounterGift7b.SIZE); // binary
         var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
@@ -132,7 +132,7 @@ internal class EditorGG : EditorBase
             foreach (var t in objs)
             {
                 t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
+                t.Form = frand.GetRandomForm((int)t.Species, spec.AllowRandomMegaForms, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.Nature = Nature.Random25;
                 t.Gender = FixedGender.Random;
                 t.Shiny = Shiny.Random;
@@ -152,7 +152,7 @@ internal class EditorGG : EditorBase
 
     public void EditTrade()
     {
-        var file = ROM[GameFile.EncounterTrade];
+        var file = ROM[GameFile.EncounterTableTrade];
         var data = file[0];
         var objs = data.GetArray(z => new EncounterTrade7b(z), EncounterTrade7b.SIZE); // binary
         var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
@@ -169,7 +169,7 @@ internal class EditorGG : EditorBase
             {
                 t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
                 t.RequiredSpecies = (Species)srand.GetRandomSpecies((int)t.Species);
-                t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
+                t.Form = frand.GetRandomForm((int)t.Species, spec.AllowRandomMegaForms, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.RequiredForm = 0; // can't catch wild alolan forms
                 t.Nature = Nature.Random - 1;
                 t.Gender = FixedGender.Random;
@@ -190,7 +190,7 @@ internal class EditorGG : EditorBase
 
     public void EditStatic()
     {
-        var file = ROM[GameFile.EncounterStatic];
+        var file = ROM[GameFile.EncounterTableStatic];
         var data = file[0];
         var objs = data.GetArray(z => new EncounterStatic7b(z), EncounterStatic7b.SIZE); // binary
         var names = Enumerable.Range(0, objs.Length).Select(z => $"{z:000}").ToArray();
@@ -207,7 +207,7 @@ internal class EditorGG : EditorBase
             {
                 var t = objs[i];
                 t.Species = (Species)srand.GetRandomSpecies((int)t.Species);
-                t.Form = frand.GetRandomForme((int)t.Species, false, false, true, false, Data.PersonalData.Table);
+                t.Form = frand.GetRandomForm((int)t.Species, spec.AllowRandomMegaForms, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.Nature = Nature.Random25;
                 t.Gender = FixedGender.Random;
                 t.Shiny = Shiny.Random;

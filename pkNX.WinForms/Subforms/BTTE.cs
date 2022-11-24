@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
-using pkNX.Sprites;
+using PKHeX.Drawing.PokeSprite;
 
 namespace pkNX.WinForms;
 
@@ -116,7 +116,7 @@ public partial class BTTE : Form
         {
             PopulateFields(pk);
             // Visual to display what slot is currently loaded.
-            GetSlotColor(slot, Sprites.Properties.Resources.slotView68);
+            GetSlotColor(slot, PKHeX.Drawing.PokeSprite.Properties.Resources.slotView68);
         }
         else
         {
@@ -143,7 +143,7 @@ public partial class BTTE : Form
         }
 
         GetQuickFiller(pba[slot], pk);
-        GetSlotColor(slot, Sprites.Properties.Resources.slotSet68);
+        GetSlotColor(slot, PKHeX.Drawing.PokeSprite.Properties.Resources.slotSet68);
     }
 
     private void ClickDelete(object sender, EventArgs e)
@@ -154,7 +154,7 @@ public partial class BTTE : Form
             Trainers[entry].Team.RemoveAt(slot);
 
         PopulateTeam(Trainers[entry].Team);
-        GetSlotColor(slot, Sprites.Properties.Resources.slotDel68);
+        GetSlotColor(slot, PKHeX.Drawing.PokeSprite.Properties.Resources.slotDel68);
     }
 
     private void PopulateTeam(IList<TrainerPoke> team)
@@ -175,10 +175,8 @@ public partial class BTTE : Form
 
     private static void GetQuickFiller(PictureBox pb, TrainerPoke pk)
     {
-        if (pk is TrainerPoke8 c)
-            pb.Image = SpriteUtil.GetSprite(c.Species, c.Form, c.Gender, c.HeldItem, false, c.Shiny, c.CanGigantamax);
-        else
-            pb.Image = SpriteUtil.GetSprite(pk.Species, pk.Form, pk.Gender, pk.HeldItem, false, pk.Shiny, false);
+        var shiny = pk.Shiny ? PKHeX.Core.Shiny.Always : PKHeX.Core.Shiny.Never;
+        pb.Image = SpriteUtil.GetSprite((ushort)pk.Species, (byte)pk.Form, pk.Gender - 1, 0, pk.HeldItem, false, shiny);
     }
 
     // Top Level Functions
@@ -189,7 +187,7 @@ public partial class BTTE : Form
         RefreshPKMSlotAbility();
         if (loadingPKM)
             return;
-        pkm.Form = CB_Forme.SelectedIndex;
+        pkm.Form = CB_Form.SelectedIndex;
 
         if (!Stats.UpdatingFields)
             Stats.UpdateStats();
@@ -199,7 +197,7 @@ public partial class BTTE : Form
     {
         if (entry < 0)
             return;
-        FormUtil.SetForms(CB_Species.SelectedIndex, CB_Forme, AltForms);
+        FormUtil.SetForms(CB_Species.SelectedIndex, CB_Form, AltForms);
         if (loadingPKM)
             return;
         pkm.Species = (ushort)CB_Species.SelectedIndex;
@@ -214,7 +212,7 @@ public partial class BTTE : Form
         int previousAbilityIndex = CB_Ability.SelectedIndex;
 
         ushort species = (ushort)CB_Species.SelectedIndex;
-        byte formnum = (byte)CB_Forme.SelectedIndex;
+        byte formnum = (byte)CB_Form.SelectedIndex;
         int index = Personal[species].FormIndex(species, formnum);
 
         var pi = Personal[index];
@@ -258,7 +256,7 @@ public partial class BTTE : Form
         CB_Gender.Items.Add("♂ / Male");
         CB_Gender.Items.Add("♀ / Female");
 
-        CB_Forme.Items.Add("");
+        CB_Form.Items.Add("");
 
         CB_Species.SelectedIndex = 0;
         CB_Item_1.Items.AddRange(itemlist);
@@ -321,7 +319,7 @@ public partial class BTTE : Form
         Stats.UpdatingFields = loadingPKM = true;
 
         CB_Species.SelectedIndex = pkm.Species;
-        CB_Forme.SelectedIndex = pkm.Form;
+        CB_Form.SelectedIndex = pkm.Form;
         CB_Ability.SelectedIndex = pkm.Ability;
         CB_Nature.SelectedIndex = pkm.Nature;
         NUD_Level.Value = Math.Min(NUD_Level.Maximum, pkm.Level);
@@ -359,7 +357,7 @@ public partial class BTTE : Form
     {
         var pk = pkm.Clone();
         pk.Species = CB_Species.SelectedIndex;
-        pk.Form = CB_Forme.SelectedIndex;
+        pk.Form = CB_Form.SelectedIndex;
         pk.Level = (int)NUD_Level.Value;
         pk.Ability = CB_Ability.SelectedIndex;
         pk.HeldItem = CB_Item.SelectedIndex;
@@ -538,7 +536,7 @@ public partial class BTTE : Form
     {
         pkm.Species = CB_Species.SelectedIndex;
         pkm.Level = (int)NUD_Level.Value;
-        pkm.Form = CB_Forme.SelectedIndex;
+        pkm.Form = CB_Form.SelectedIndex;
         var movedata = Data.MoveData.LoadAll();
         var moves = learn.GetHighPoweredMoves(movedata, (ushort)pkm.Species, (byte)pkm.Form, 4);
         SetMoves(moves);
@@ -548,7 +546,7 @@ public partial class BTTE : Form
     {
         pkm.Species = CB_Species.SelectedIndex;
         pkm.Level = (int)NUD_Level.Value;
-        pkm.Form = CB_Forme.SelectedIndex;
+        pkm.Form = CB_Form.SelectedIndex;
         var moves = learn.GetCurrentMoves((ushort)pkm.Species, (byte)pkm.Form, pkm.Level, 4);
         SetMoves(moves);
     }

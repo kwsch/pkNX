@@ -41,9 +41,10 @@ public static class FlatBufferConverter
 
     public static byte[] SerializeFrom<T>(T obj) where T : class
     {
-        var size = FlatBufferSerializer.Default.GetMaxSize(obj);
+        var serializer = FlatBufferSerializer.Default;
+        var size = serializer.GetMaxSize(obj);
         var data = new byte[size];
-        var result = FlatBufferSerializer.Default.Serialize(obj, data);
+        var result = serializer.Serialize(obj, data);
         if (result != data.Length)
             Array.Resize(ref data, result);
         return data;

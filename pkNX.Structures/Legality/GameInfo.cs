@@ -22,6 +22,8 @@ public class GameInfo
     public bool USUM { get; private set; }
     public bool GG { get; private set; }
     public bool SWSH { get; private set; }
+    public bool PLA { get; private set; }
+    public bool SV { get; private set; }
 
     public GameInfo(GameVersion game)
     {
@@ -45,6 +47,7 @@ public class GameInfo
         GameVersion.SH => LoadSWSH,
         GameVersion.SWSH => LoadSWSH,
         GameVersion.PLA => LoadPLA,
+        GameVersion.SV => LoadSV,
         _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
 
@@ -110,11 +113,21 @@ public class GameInfo
 
     private void LoadPLA()
     {
-        SWSH = true;
+        PLA = true;
         MaxSpeciesID = Legal.MaxSpeciesID_8a;
         MaxMoveID = Legal.MaxMoveID_8a;
         MaxItemID = Legal.MaxItemID_8a;
         HeldItems = Legal.HeldItems_SWSH;
         MaxAbilityID = Legal.MaxAbilityID_8a;
+    }
+
+    private void LoadSV()
+    {
+        SV = true;
+        MaxSpeciesID = Legal.MaxSpeciesID_9;
+        MaxMoveID = Legal.MaxMoveID_9;
+        MaxItemID = Legal.MaxItemID_9;
+        HeldItems = Legal.HeldItems_SV;
+        MaxAbilityID = Legal.MaxAbilityID_9;
     }
 }

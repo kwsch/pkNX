@@ -60,8 +60,8 @@
             this.L_Species = new System.Windows.Forms.Label();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.FLP_Form = new System.Windows.Forms.FlowLayoutPanel();
-            this.L_Forme = new System.Windows.Forms.Label();
-            this.CB_Forme = new System.Windows.Forms.ComboBox();
+            this.L_Form = new System.Windows.Forms.Label();
+            this.CB_Form = new System.Windows.Forms.ComboBox();
             this.FLP_LevelShiny = new System.Windows.Forms.FlowLayoutPanel();
             this.L_Level = new System.Windows.Forms.Label();
             this.NUD_Level = new System.Windows.Forms.NumericUpDown();
@@ -335,10 +335,10 @@
             this.PB_Team1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team1.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team1.Location = new System.Drawing.Point(84, 375);
+            this.PB_Team1.Location = new System.Drawing.Point(84, 381);
             this.PB_Team1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team1.Name = "PB_Team1";
-            this.PB_Team1.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team1.Size = new System.Drawing.Size(70, 58);
             this.PB_Team1.TabIndex = 444;
             this.PB_Team1.TabStop = false;
             // 
@@ -349,26 +349,26 @@
             this.mnuSet,
             this.mnuDelete});
             this.mnuVSD.Name = "mnuVSD";
-            this.mnuVSD.Size = new System.Drawing.Size(181, 92);
+            this.mnuVSD.Size = new System.Drawing.Size(108, 70);
             // 
             // mnuView
             // 
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(180, 22);
+            this.mnuView.Size = new System.Drawing.Size(107, 22);
             this.mnuView.Text = "View";
             this.mnuView.Click += new System.EventHandler(this.ClickView);
             // 
             // mnuSet
             // 
             this.mnuSet.Name = "mnuSet";
-            this.mnuSet.Size = new System.Drawing.Size(180, 22);
+            this.mnuSet.Size = new System.Drawing.Size(107, 22);
             this.mnuSet.Text = "Set";
             this.mnuSet.Click += new System.EventHandler(this.ClickSet);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
             this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
             // 
@@ -377,10 +377,10 @@
             this.PB_Team2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team2.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team2.Location = new System.Drawing.Point(184, 375);
+            this.PB_Team2.Location = new System.Drawing.Point(184, 381);
             this.PB_Team2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team2.Name = "PB_Team2";
-            this.PB_Team2.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team2.Size = new System.Drawing.Size(70, 58);
             this.PB_Team2.TabIndex = 443;
             this.PB_Team2.TabStop = false;
             // 
@@ -389,10 +389,10 @@
             this.PB_Team3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team3.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team3.Location = new System.Drawing.Point(285, 375);
+            this.PB_Team3.Location = new System.Drawing.Point(285, 381);
             this.PB_Team3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team3.Name = "PB_Team3";
-            this.PB_Team3.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team3.Size = new System.Drawing.Size(70, 58);
             this.PB_Team3.TabIndex = 442;
             this.PB_Team3.TabStop = false;
             // 
@@ -401,10 +401,10 @@
             this.PB_Team4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team4.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team4.Location = new System.Drawing.Point(385, 375);
+            this.PB_Team4.Location = new System.Drawing.Point(385, 381);
             this.PB_Team4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team4.Name = "PB_Team4";
-            this.PB_Team4.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team4.Size = new System.Drawing.Size(70, 58);
             this.PB_Team4.TabIndex = 441;
             this.PB_Team4.TabStop = false;
             // 
@@ -413,10 +413,10 @@
             this.PB_Team5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team5.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team5.Location = new System.Drawing.Point(485, 375);
+            this.PB_Team5.Location = new System.Drawing.Point(485, 381);
             this.PB_Team5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team5.Name = "PB_Team5";
-            this.PB_Team5.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team5.Size = new System.Drawing.Size(70, 58);
             this.PB_Team5.TabIndex = 440;
             this.PB_Team5.TabStop = false;
             // 
@@ -425,10 +425,10 @@
             this.PB_Team6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PB_Team6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Team6.ContextMenuStrip = this.mnuVSD;
-            this.PB_Team6.Location = new System.Drawing.Point(586, 375);
+            this.PB_Team6.Location = new System.Drawing.Point(586, 381);
             this.PB_Team6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PB_Team6.Name = "PB_Team6";
-            this.PB_Team6.Size = new System.Drawing.Size(81, 67);
+            this.PB_Team6.Size = new System.Drawing.Size(70, 58);
             this.PB_Team6.TabIndex = 439;
             this.PB_Team6.TabStop = false;
             // 
@@ -515,35 +515,35 @@
             // 
             this.FLP_Form.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Form.Controls.Add(this.L_Forme);
-            this.FLP_Form.Controls.Add(this.CB_Forme);
+            this.FLP_Form.Controls.Add(this.L_Form);
+            this.FLP_Form.Controls.Add(this.CB_Form);
             this.FLP_Form.Location = new System.Drawing.Point(0, 36);
             this.FLP_Form.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Form.Name = "FLP_Form";
             this.FLP_Form.Size = new System.Drawing.Size(251, 24);
             this.FLP_Form.TabIndex = 2;
             // 
-            // L_Forme
+            // L_Form
             // 
-            this.L_Forme.Location = new System.Drawing.Point(4, 0);
-            this.L_Forme.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Forme.Name = "L_Forme";
-            this.L_Forme.Size = new System.Drawing.Size(70, 24);
-            this.L_Forme.TabIndex = 0;
-            this.L_Forme.Text = "Form:";
-            this.L_Forme.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Form.Location = new System.Drawing.Point(4, 0);
+            this.L_Form.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_Form.Name = "L_Form";
+            this.L_Form.Size = new System.Drawing.Size(70, 24);
+            this.L_Form.TabIndex = 0;
+            this.L_Form.Text = "Form:";
+            this.L_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CB_Forme
+            // CB_Form
             // 
-            this.CB_Forme.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Forme.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Forme.FormattingEnabled = true;
-            this.CB_Forme.Location = new System.Drawing.Point(78, 0);
-            this.CB_Forme.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Forme.Name = "CB_Forme";
-            this.CB_Forme.Size = new System.Drawing.Size(158, 23);
-            this.CB_Forme.TabIndex = 1;
-            this.CB_Forme.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
+            this.CB_Form.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Form.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Form.FormattingEnabled = true;
+            this.CB_Form.Location = new System.Drawing.Point(78, 0);
+            this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Form.Name = "CB_Form";
+            this.CB_Form.Size = new System.Drawing.Size(158, 23);
+            this.CB_Form.TabIndex = 1;
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.RefreshFormAbility);
             // 
             // FLP_LevelShiny
             // 
@@ -1332,7 +1332,7 @@
             this.Tab_RSpecies.Location = new System.Drawing.Point(4, 24);
             this.Tab_RSpecies.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Tab_RSpecies.Name = "Tab_RSpecies";
-            this.Tab_RSpecies.Size = new System.Drawing.Size(358, 292);
+            this.Tab_RSpecies.Size = new System.Drawing.Size(360, 294);
             this.Tab_RSpecies.TabIndex = 0;
             this.Tab_RSpecies.Text = "Species";
             this.Tab_RSpecies.UseVisualStyleBackColor = true;
@@ -1343,7 +1343,7 @@
             this.PG_Species.Location = new System.Drawing.Point(0, 0);
             this.PG_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PG_Species.Name = "PG_Species";
-            this.PG_Species.Size = new System.Drawing.Size(358, 292);
+            this.PG_Species.Size = new System.Drawing.Size(360, 294);
             this.PG_Species.TabIndex = 1;
             this.PG_Species.ToolbarVisible = false;
             // 
@@ -1353,7 +1353,7 @@
             this.Tab_RMoves.Location = new System.Drawing.Point(4, 24);
             this.Tab_RMoves.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Tab_RMoves.Name = "Tab_RMoves";
-            this.Tab_RMoves.Size = new System.Drawing.Size(358, 292);
+            this.Tab_RMoves.Size = new System.Drawing.Size(360, 294);
             this.Tab_RMoves.TabIndex = 1;
             this.Tab_RMoves.Text = "Moves";
             this.Tab_RMoves.UseVisualStyleBackColor = true;
@@ -1364,7 +1364,7 @@
             this.PG_Moves.Location = new System.Drawing.Point(0, 0);
             this.PG_Moves.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.PG_Moves.Name = "PG_Moves";
-            this.PG_Moves.Size = new System.Drawing.Size(358, 292);
+            this.PG_Moves.Size = new System.Drawing.Size(360, 294);
             this.PG_Moves.TabIndex = 1;
             this.PG_Moves.ToolbarVisible = false;
             // 
@@ -1377,7 +1377,7 @@
             this.Tab_Mods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Tab_Mods.Name = "Tab_Mods";
             this.Tab_Mods.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Tab_Mods.Size = new System.Drawing.Size(358, 292);
+            this.Tab_Mods.Size = new System.Drawing.Size(360, 294);
             this.Tab_Mods.TabIndex = 4;
             this.Tab_Mods.Text = "Bulk Mods";
             this.Tab_Mods.UseVisualStyleBackColor = true;
@@ -1527,8 +1527,8 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Species;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.FlowLayoutPanel FLP_Form;
-        private System.Windows.Forms.Label L_Forme;
-        private System.Windows.Forms.ComboBox CB_Forme;
+        private System.Windows.Forms.Label L_Form;
+        private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.FlowLayoutPanel FLP_LevelShiny;
         private System.Windows.Forms.Label L_Level;
         private System.Windows.Forms.NumericUpDown NUD_Level;

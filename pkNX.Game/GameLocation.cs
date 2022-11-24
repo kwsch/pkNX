@@ -43,8 +43,8 @@ public sealed class GameLocation
             return (null, GameLoadResult.DirectoryNotFound);
 
         var dirs = Directory.GetDirectories(dir);
-        var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom"));
-        var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe"));
+        var romfs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("rom", StringComparison.CurrentCultureIgnoreCase));
+        var exefs = Array.Find(dirs, z => Path.GetFileName(z).StartsWith("exe", StringComparison.CurrentCultureIgnoreCase));
 
         if (romfs == null)
         {
@@ -87,6 +87,8 @@ public sealed class GameLocation
     private const int FILECOUNT_LA = 18_370;
     private const int FILECOUNT_LA_101 = 18_371; // Ver. 1.0.1 (Day 1 Patch)
     private const int FILECOUNT_LA_110 = 19_095; // Ver. 1.1.0 (Daybreak)
+    private const int FILECOUNT_SV = 24;
+    private const int FILECOUNT_SV_101 = 25; // Ver. 1.0.1 (Day 1 Patch)
 
     private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
     {
@@ -140,6 +142,21 @@ public sealed class GameLocation
 
             case FILECOUNT_LA or FILECOUNT_LA_101 or FILECOUNT_LA_110:
                 return GameVersion.PLA;
+
+            case FILECOUNT_SV:
+            case FILECOUNT_SV_101:
+                {
+                if (exefs == null)
+                    return GameVersion.SV;
+
+                return GetTitleID() switch
+                {
+                    // todo sv
+                    "0100ABF008968000" => GameVersion.SL,
+                    "01008DB008C2C000" => GameVersion.VL,
+                    _ => GameVersion.SV, // can't figure out Title ID, default to SWSH so that wild editor prompts for version selection
+                };
+            }
 
             default:
                 return GameVersion.Invalid;

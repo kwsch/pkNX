@@ -163,7 +163,7 @@ public class TrainerRandomizer : Randomizer
         else // every other pkm
         {
             pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, Type);
-            pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, true, Personal.Table);
+            pk.Form = RandForm.GetRandomForm(pk.Species, SpecSettings.AllowRandomMegaForms, SpecSettings.AllowRandomFusions, Info.Generation, Personal.Table);
         }
     }
 
@@ -181,7 +181,7 @@ public class TrainerRandomizer : Randomizer
         }
 
         pk.Species = RandSpec.GetRandomSpeciesType(pk.Species, type);
-        pk.Form = RandForm.GetRandomForme(pk.Species, Settings.AllowRandomMegaForms, Settings.AllowRandomFusions, true, false, Personal.Table);
+        pk.Form = RandForm.GetRandomForm(pk.Species, SpecSettings.AllowRandomMegaForms, SpecSettings.AllowRandomFusions, Info.Generation, Personal.Table);
     }
 
     private void TryForceEvolve(IPokeData pk)
@@ -253,7 +253,7 @@ public class TrainerRandomizer : Randomizer
                     return;
 
                 c.Species = AllowedGigantamaxes[Util.Random.Next(AllowedGigantamaxes.Length)];
-                c.Form = c.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : RandForm.GetRandomForme(c.Species, false, false, false, false, Personal.Table); // Pikachu & Meowth altforms can't gmax
+                c.Form = c.Species is (int)Species.Pikachu or (int)Species.Meowth ? 0 : RandForm.GetRandomForm(c.Species, false, false, Info.Generation, Personal.Table); // Pikachu & Meowth altforms can't gmax
             }
             if (Settings.MaxDynamaxLevel && c.CanDynamax)
                 c.DynamaxLevel = 10;
@@ -348,6 +348,11 @@ public class TrainerRandomizer : Randomizer
         223, 224, // Sordward and Shielbert
     };
 
+    // 3 poke max
+    private static readonly int[] MultiBattle_SV =
+    {
+    };
+
     private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
     {
         if (GameVersion.XY.Contains(game))
@@ -362,14 +367,19 @@ public class TrainerRandomizer : Randomizer
             return Legal.ImportantTrainers_GG.ToDictionary(z => z, index => MultiBattle_GG.Contains(index) ? 3 : 6);
         if (GameVersion.SWSH.Contains(game))
             return Legal.ImportantTrainers_SWSH.ToDictionary(z => z, index => MultiBattle_SWSH.Contains(index) ? 3 : 6);
+        if (GameVersion.SV.Contains(game))
+            return Legal.ImportantTrainers_SV.ToDictionary(z => z, index => MultiBattle_SV.Contains(index) ? 3 : 6);
         return new Dictionary<int, int>();
     }
-
+    
     private static readonly int[] CrashClasses_GG = Legal.BlacklistedClasses_GG;
     private static readonly int[] CrashClasses_SWSH = Legal.BlacklistedClasses_SWSH;
+    private static readonly int[] CrashClasses_SV = Legal.BlacklistedClasses_SV;
 
     private static int[] GetSpecialClasses(GameVersion game)
     {
+        if (GameVersion.SV.Contains(game))
+            return Legal.SpecialClasses_SV;
         if (GameVersion.SWSH.Contains(game))
             return Legal.SpecialClasses_SWSH;
         if (GameVersion.GG.Contains(game))
@@ -387,6 +397,8 @@ public class TrainerRandomizer : Randomizer
 
     private static int[] GetCrashClasses(GameVersion game)
     {
+        if (GameVersion.SV.Contains(game))
+            return CrashClasses_SV;
         if (GameVersion.SWSH.Contains(game))
             return CrashClasses_SWSH;
         if (GameVersion.GG.Contains(game))

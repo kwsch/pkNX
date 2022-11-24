@@ -40,6 +40,9 @@ public static partial class Legal
                 .ToArray();
         }
 
+        if (GameVersion.SV.Contains(game))
+            return HeldItems_SV.Select(i => (int)i).Where(i => i != 0).ToArray();
+
         return new int[1];
     }
 
@@ -185,6 +188,7 @@ public static partial class Legal
         (int)Species.Zacian,
         (int)Species.Zamazenta,
         (int)Species.Eternatus,
+        (int)Species.Palafin,
     };
 
     public static readonly HashSet<int> BattleMegas = new()

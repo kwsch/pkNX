@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
-using pkNX.Sprites;
 using pkNX.Structures.FlatBuffers;
+using PKHeX.Drawing.PokeSprite;
 
 namespace pkNX.WinForms;
 
@@ -76,7 +76,7 @@ public partial class EncounterList8 : UserControl
         if (!int.TryParse(dgv.Rows[row].Cells[2].Value?.ToString(), out var rate) || (uint)rate > 100)
             cells[3].Value = 0;
 
-        cells[0].Value = SpriteUtil.GetSprite(sp, form, 0, 0, false, false, false);
+        cells[0].Value = SpriteUtil.GetSprite((ushort)sp, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
     }
 
     public void LoadSlots(EncounterSlot8[] slots)

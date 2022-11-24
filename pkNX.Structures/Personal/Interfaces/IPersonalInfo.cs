@@ -72,6 +72,9 @@ public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_3, IMovesInfo_3,
     ushort Field_46 { get; set; } // ushort
     byte Field_47 { get; set; } // byte
 }
+public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_3
+{
+}
 
 public static class IPersonalInfoExt
 {

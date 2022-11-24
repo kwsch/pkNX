@@ -24,81 +24,70 @@ public static class GameUtil
     /// <summary>Determines the Version Grouping of an input Version ID</summary>
     /// <param name="Version">Version of which to determine the group</param>
     /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-    public static GameVersion GetMetLocationVersionGroup(GameVersion Version)
+    public static GameVersion GetMetLocationVersionGroup(GameVersion Version) => Version switch
     {
-        return Version switch
-        {
-            // Sidegame
-            CXD => CXD,
-            GO => GO,
-            // Gen1
-            RBY => RBY,
-            RD => RBY,
-            BU => RBY,
-            YW => RBY,
-            GN => RBY,
-            // Gen2
-            GS => GSC,
-            GD => GSC,
-            SV => GSC,
-            C => GSC,
-            // Gen3
-            R => RS,
-            S => RS,
-            E => E,
-            FR => FR,
-            LG => FR,
-            // Gen4
-            D => DP,
-            P => DP,
-            Pt => Pt,
-            HG => HGSS,
-            SS => HGSS,
-            // Gen5
-            B => BW,
-            W => BW,
-            B2 => B2W2,
-            W2 => B2W2,
-            // Gen6
-            X => XY,
-            Y => XY,
-            OR => ORAS,
-            AS => ORAS,
-            // Gen7
-            SN => SM,
-            MN => SM,
-            US => USUM,
-            UM => USUM,
-            GP => GG,
-            GE => GG,
-            // Gen8
-            SW => SWSH,
-            SH => SWSH,
-            PLA => PLA,
-            _ => Invalid,
-        };
-    }
+        // Side games
+        CXD => CXD,
+        GO => GO,
+
+        // VC Transfers
+        RD or BU or YW or GN or GD or SI or C => USUM,
+
+        // Gen2 -- PK2
+        GS or GSC => GSC,
+
+        // Gen3
+        R or S => RS,
+        E => E,
+        FR or LG => FR,
+
+        // Gen4
+        D or P => DP,
+        Pt => Pt,
+        HG or SS => HGSS,
+
+        // Gen5
+        B or W => BW,
+        B2 or W2 => B2W2,
+
+        // Gen6
+        X or Y => XY,
+        OR or AS => ORAS,
+
+        // Gen7
+        SN or MN => SM,
+        US or UM => USUM,
+        GP or GE => GG,
+
+        // Gen8
+        SW or SH => SWSH,
+        BD or SP => BDSP,
+        PLA => PLA,
+
+        // Gen9
+        SL or VL => SV,
+
+        _ => Invalid,
+    };
 
     /// <summary>
     /// Gets a Version ID from the end of that Generation
     /// </summary>
     /// <param name="generation">Generation ID</param>
     /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
-    public static GameVersion GetVersion(int generation)
+    public static GameVersion GetVersion(int generation) => generation switch
     {
-        return generation switch
-        {
-            1 => RBY,
-            2 => C,
-            3 => E,
-            4 => SS,
-            5 => W2,
-            6 => AS,
-            7 => UM,
-            8 => PLA,
-            _ => Invalid,
-        };
-    }
+        1 => RBY,
+        2 => C,
+        3 => E,
+        4 => SS,
+        5 => W2,
+        6 => AS,
+        7 => UM,
+        8 => SH,
+        9 => VL,
+        _ => Invalid,
+    };
 
     /// <summary>
     /// Gets the Generation the <see cref="GameVersion"/> belongs to.
@@ -115,6 +104,7 @@ public static class GameUtil
         if (Gen6.Contains(game)) return 6;
         if (Gen7.Contains(game)) return 7;
         if (Gen8.Contains(game)) return 8;
+        if (Gen9.Contains(game)) return 9;
         return -1;
     }
 
@@ -144,6 +134,11 @@ public static class GameUtil
             if (SWSH.Contains(game))
                 return Legal.MaxSpeciesID_8;
             return Legal.MaxSpeciesID_8a;
+        }
+
+        if (Gen9.Contains(game))
+        {
+            return Legal.MaxSpeciesID_9;
         }
         return -1;
     }
@@ -206,6 +201,10 @@ public static class GameUtil
             SWSH => g2 is SW or SH,
             PLA => g2 is PLA,
             Gen8 => SWSH.Contains(g2) || PLA.Contains(g2),
+
+            SV => g2 is SL or VL,
+            Gen9 => SV.Contains(g2),
+
             _ => false,
         };
     }

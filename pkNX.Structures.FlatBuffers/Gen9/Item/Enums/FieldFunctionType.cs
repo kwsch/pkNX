@@ -1,0 +1,28 @@
+using FlatSharp.Attributes;
+// ReSharper disable UnusedMember.Global
+
+namespace pkNX.Structures.FlatBuffers;
+
+[FlatBufferEnum(typeof(int))]
+public enum FieldFunctionType
+{
+    FIELDFUNC_NONE = 0,
+    FIELDFUNC_RECOVER = 1,
+    FIELDFUNC_WAZA = 2,
+    FIELDFUNC_CYCLE = 3,
+    FIELDFUNC_MITSU = 4,
+    FIELDFUNC_BAG_MSG = 5,
+    FIELDFUNC_EVOLUTION = 6,
+    FIELDFUNC_ANANUKE = 7,
+    FIELDFUNC_APPLICATION = 8,
+    FIELDFUNC_FLY = 9,
+    FIELDFUNC_VIDRO = 10,
+    FIELDFUNC_MAIL = 11,
+    FIELDFUNC_KINOMI = 12,
+    FIELDFUNC_FISHING_ROD_GREAT = 13,
+    FIELDFUNC_BATTLE_REC = 14,
+    FIELDFUNC_FORM_CHANGE = 15,
+    FIELDFUNC_DOWSING_MACHINE = 16,
+    FIELDFUNC_UNION = 17,
+    FIELDFUNC_ROTOPON = 18,
+}

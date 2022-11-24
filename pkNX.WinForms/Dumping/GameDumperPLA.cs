@@ -75,7 +75,6 @@ public class GameDumperPLA
         {
             Colors = Enum.GetNames(typeof(PokeColor)),
             EggGroups = Enum.GetNames(typeof(EggGroup)),
-            EntryEggMoves = Array.Empty<EggMoves>(),
             EntryLearnsets = lr.Table,
             EntryNames = entryNames,
             ExpGroups = Enum.GetNames(typeof(EXPGroup)),
@@ -361,7 +360,7 @@ public class GameDumperPLA
     public void DumpGifts()
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterGift)[0];
+        var data = ROM.GetFile(GameFile.EncounterTableGift)[0];
         var gifts = FlatBufferConverter.DeserializeFrom<PokeAdd8aArchive>(data);
         var table = TableUtil.GetTable(gifts.Table);
         var fn = GetPath("Gifts.txt");
@@ -374,7 +373,7 @@ public class GameDumperPLA
     public void DumpStatic()
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterStatic)[0];
+        var data = ROM.GetFile(GameFile.EncounterTableStatic)[0];
         var statics = FlatBufferConverter.DeserializeFrom<EventEncount8aArchive>(data);
 
         var lines = new List<string>();

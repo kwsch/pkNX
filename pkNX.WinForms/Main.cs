@@ -4,7 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using pkNX.Sprites;
+using PKHeX.Drawing.PokeSprite;
+using pkNX.Game;
 using pkNX.Structures;
 using EditorBase = pkNX.WinForms.Controls.EditorBase;
 
@@ -26,6 +27,8 @@ public partial class Main : Form
     public Main()
     {
         InitializeComponent();
+        SpriteName.AllowShinySprite = true;
+        SpriteBuilderUtil.SpriterPreference = SpriteBuilderPreference.ForceSprites;
 
         FLP_Controls.Controls.Clear();
 
@@ -241,10 +244,7 @@ public partial class Main : Form
             Name = $"B_OpenCategory{category}",
             Text = ((category == EditorCategory.None) ? "Back" : $"Show {category} Editors"),
         };
-        b.Click += (s, e) =>
-        {
-            LoadEditorButtons(category);
-        };
+        b.Click += (s, e) => LoadEditorButtons(category);
         return b;
     }
 
@@ -276,6 +276,7 @@ public partial class Main : Form
 
     private void LoadROM(EditorBase editor)
     {
+        Editor?.Close(); // Clean exit prior editor
         Editor = editor;
 
         // Force client size to zero to make sure the windows size is adjusted properly the first time
@@ -290,7 +291,6 @@ public partial class Main : Form
         Menu_Current.Enabled = true;
         EditUtil.LoadSettings(Editor.Game);
         EditUtil.SaveSettings(Editor.Game);
-        SpriteUtil.Initialize();
         System.Media.SystemSounds.Asterisk.Play();
     }
 

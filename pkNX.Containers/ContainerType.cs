@@ -3,9 +3,10 @@ namespace pkNX.Containers;
 public enum ContainerType
 {
     GARC,
-    Mini,
+    BinLinker,
     SARC,
     Folder,
     SingleFile,
-    GFPack,
+    GameFreakPack,
+    SingleFileInternal,
 }

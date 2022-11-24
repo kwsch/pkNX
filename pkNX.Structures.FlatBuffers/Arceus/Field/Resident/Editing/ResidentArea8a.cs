@@ -3,7 +3,7 @@ using pkNX.Containers;
 
 namespace pkNX.Structures.FlatBuffers;
 
-// Not a flatbuffer; wraps the fields into a single object.
+// Not a FlatBuffer; wraps the fields into a single object.
 public sealed class ResidentArea8a
 {
     public readonly AreaSettings8a Settings;

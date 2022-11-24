@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using pkNX.Sprites;
 using pkNX.Structures;
+using PKHeX.Drawing.PokeSprite;
 
 namespace pkNX.WinForms;
 
@@ -40,7 +40,7 @@ public partial class EvolutionRow : UserControl
         };
     }
 
-    private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteUtil.GetSprite(spec, form, 0, 0, false, false, false);
+    private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
 
     private EvolutionMethod? current;
     private EvolutionTypeArgumentType oldMethod;

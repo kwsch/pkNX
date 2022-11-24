@@ -38,7 +38,7 @@ public static class TableUtil
     public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string? name = null) where T : class
     {
         var t = arr[0].GetType();
-        if (t.Name.StartsWith("tableReader_")) // flatbuffer generated wrapper
+        if (t.Name.StartsWith("tableReader_")) // FlatBuffer generated wrapper
             t = t.BaseType;
         if (t is null)
             throw new ArgumentException("Type is null");

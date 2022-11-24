@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using pkNX.Structures;
 using static pkNX.Game.TextName;
+using static pkNX.Structures.GameVersion;
 
 namespace pkNX.Game;
 
@@ -8,25 +9,19 @@ public static class TextMapping
 {
     public static IReadOnlyCollection<TextReference> GetMapping(GameVersion game) => game switch
     {
-        GameVersion.XY => XY,
-        GameVersion.ORASDEMO => AO,
-        GameVersion.ORAS => AO,
-        GameVersion.SMDEMO => SMDEMO,
-        GameVersion.SN => SM,
-        GameVersion.MN => SM,
-        GameVersion.US => USUM,
-        GameVersion.UM => USUM,
-        GameVersion.GP => GG,
-        GameVersion.GE => GG,
-        GameVersion.GG => GG,
-        GameVersion.SW => SWSH,
-        GameVersion.SH => SWSH,
-        GameVersion.SWSH => SWSH,
-        GameVersion.PLA => PLA,
+        X or Y or XY => MapXY,
+        OR or AS or ORAS or ORASDEMO => MapAO,
+        SMDEMO => MapSMDemo,
+        SN or MN or SM => MapSM,
+        US or UM or USUM => MapUSUM,
+        GP or GE or GG => MapGG,
+        SW or SH or SWSH => MapSWSH,
+        PLA => MapPLA,
+        SL or VL or SV => MapSV,
         _ => throw new System.ArgumentOutOfRangeException($"No text mapping for {game}"),
     };
 
-    private static readonly TextReference[] XY =
+    private static readonly TextReference[] MapXY =
     {
         new(005, Forms),
         new(013, MoveNames),
@@ -46,7 +41,7 @@ public static class TextMapping
         new(141, OPowerFlavor),
     };
 
-    private static readonly TextReference[] AO =
+    private static readonly TextReference[] MapAO =
     {
         new(005, Forms),
         new(014, MoveNames),
@@ -66,7 +61,7 @@ public static class TextMapping
         new(165, OPowerFlavor),
     };
 
-    private static readonly TextReference[] SMDEMO =
+    private static readonly TextReference[] MapSMDemo =
     {
         new(020, ItemFlavor),
         new(021, ItemNames),
@@ -83,7 +78,7 @@ public static class TextMapping
         new(055, MoveNames),
     };
 
-    private static readonly TextReference[] SM =
+    private static readonly TextReference[] MapSM =
     {
         new(035, ItemFlavor),
         new(036, ItemNames),
@@ -105,7 +100,7 @@ public static class TextMapping
         new(120, PokedexEntry2),
     };
 
-    private static readonly TextReference[] USUM =
+    private static readonly TextReference[] MapUSUM =
     {
         new(039, ItemFlavor),
         new(040, ItemNames),
@@ -127,7 +122,7 @@ public static class TextMapping
         new(125, PokedexEntry2),
     };
 
-    private static readonly TextReference[] GG =
+    private static readonly TextReference[] MapGG =
     {
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
@@ -147,7 +142,7 @@ public static class TextMapping
         new("zukan_comment_A.dat", PokedexEntry1),
     };
 
-    private static readonly TextReference[] SWSH =
+    private static readonly TextReference[] MapSWSH =
     {
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
@@ -173,7 +168,33 @@ public static class TextMapping
         new("poke_memory_feeling.dat", MemoryFeelings),
     };
 
-    private static readonly TextReference[] PLA =
+    private static readonly TextReference[] MapPLA =
+    {
+        new("iteminfo.dat", ItemFlavor),
+        new("itemname.dat", ItemNames),
+        new("monsname.dat", SpeciesNames),
+        new("place_name_indirect.dat", metlist_00000),
+        new("place_name_spe.dat", metlist_30000),
+        new("place_name_out.dat", metlist_40000),
+        new("place_name_per.dat", metlist_60000),
+        new("seikaku.dat", Natures),
+        new("tokusei.dat", AbilityNames),
+        new("tokuseiinfo.dat", AbilityFlavor),
+        new("trname.dat", TrainerNames),
+        new("trtype.dat", TrainerClasses),
+        new("trmsg.dat", TrainerText),
+        new("typename.dat", TypeNames),
+        new("wazainfo.dat", MoveFlavor),
+        new("wazaname.dat", MoveNames),
+        new("zkn_form.dat", Forms),
+        new("zkn_type.dat", SpeciesClassifications),
+        new("zukan_comment_A.dat", PokedexEntry1),
+        new("zukan_comment_B.dat", PokedexEntry2),
+        new("ribbon.dat", RibbonMark),
+        new("poke_memory_feeling.dat", MemoryFeelings),
+    };
+
+    private static readonly TextReference[] MapSV =
     {
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
