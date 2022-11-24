@@ -175,7 +175,7 @@ public partial class Main : Form
 
         if (editor == null)
         {
-            var msg = "An error occured while loading the game files." + Environment.NewLine + result.GetErrorMsg();
+            var msg = "An error occurred while loading the game files." + Environment.NewLine + result.GetErrorMsg();
             WinFormsUtil.Alert(msg, path);
             return;
         }

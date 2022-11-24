@@ -73,7 +73,7 @@
             this.CB_Encounters.Location = new System.Drawing.Point(8, 52);
             this.CB_Encounters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 6);
             this.CB_Encounters.Name = "CB_Encounters";
-            this.CB_Encounters.Size = new System.Drawing.Size(259, 28);
+            this.CB_Encounters.Size = new System.Drawing.Size(259, 33);
             this.CB_Encounters.TabIndex = 6;
             this.CB_Encounters.SelectedIndexChanged += new System.EventHandler(this.CB_Encounters_SelectedIndexChanged);
             // 
@@ -84,7 +84,7 @@
             this.L_ConfigName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 11);
             this.L_ConfigName.Name = "L_ConfigName";
             this.L_ConfigName.Padding = new System.Windows.Forms.Padding(4, 7, 4, 0);
-            this.L_ConfigName.Size = new System.Drawing.Size(171, 27);
+            this.L_ConfigName.Size = new System.Drawing.Size(189, 32);
             this.L_ConfigName.TabIndex = 9;
             this.L_ConfigName.Text = "{Configured File Path}";
             this.L_ConfigName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -107,10 +107,10 @@
             // 
             this.B_ConfigureAsAlpha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.B_ConfigureAsAlpha.Enabled = false;
-            this.B_ConfigureAsAlpha.Location = new System.Drawing.Point(456, 48);
+            this.B_ConfigureAsAlpha.Location = new System.Drawing.Point(446, 48);
             this.B_ConfigureAsAlpha.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.B_ConfigureAsAlpha.Name = "B_ConfigureAsAlpha";
-            this.B_ConfigureAsAlpha.Size = new System.Drawing.Size(162, 35);
+            this.B_ConfigureAsAlpha.Size = new System.Drawing.Size(172, 35);
             this.B_ConfigureAsAlpha.TabIndex = 11;
             this.B_ConfigureAsAlpha.Text = "Configure as Alpha";
             this.TT_ButtonToolTip.SetToolTip(this.B_ConfigureAsAlpha, "Configures the values that are often used for alpha pokemon on the selected encou" +
