@@ -107,9 +107,10 @@ public static class TeraRaidRipper
     public static void DumpDistributionRaids(IFileInternal ROM, string path, string outPath)
     {
         // todo - file names for the FlatBuffer files
-        var dataEncounters = GetDistributionContents(Path.Combine(path, "dai_encount"), out int indexEncounters);
-        var dataDrop = GetDistributionContents(Path.Combine(path, "drop_rewards"), out int indexDrop);
-        var dataBonus = GetDistributionContents(Path.Combine(path, "bonus_rewards"), out int indexBonus);
+        var dataEncounters = GetDistributionContents(Path.Combine(path, "raid_enemy_array"), out int indexEncounters);
+        var dataDrop = GetDistributionContents(Path.Combine(path, "fixed_reward_item_array"), out int indexDrop);
+        var dataBonus = GetDistributionContents(Path.Combine(path, "lottery_reward_item_array"), out int indexBonus);
+        var priority = GetDistributionContents(Path.Combine(path, "raid_priority_array"), out int indexPriority);
 
         // BCAT Indexes can be reused by mixing and matching old files when reverting temporary distributions back to prior long-running distributions.
         // They don't have to match, but just note if they do.
@@ -119,13 +120,48 @@ public static class TeraRaidRipper
         var tableEncounters = FlatBufferConverter.DeserializeFrom<DeliveryRaidEnemyTableArray>(dataEncounters);
         var tableDrops = FlatBufferConverter.DeserializeFrom<DeliveryRaidFixedRewardItemArray>(dataDrop);
         var tableBonus = FlatBufferConverter.DeserializeFrom<DeliveryRaidLotteryRewardItemArray>(dataBonus);
+        var tablePriority = FlatBufferConverter.DeserializeFrom<DeliveryRaidPriorityArray>(priority);
 
-        const string lang = "English";
-        var cfg = new TextConfig(GameVersion.SV);
-        string[] GetText(string name) => GetCommonText(ROM, name, lang, cfg);
-        var speciesNames = GetText("monsname");
-        var moveNames = GetText("wazaname");
-        var itemNames = GetText("itemname");
+        var dumpE = TableUtil.GetTable(tableEncounters.Table);
+        var dumpEnc = TableUtil.GetTable(tableEncounters.Table.Select(z => z.RaidEnemyInfo.BossPokePara));
+        var dumpRate = TableUtil.GetTable(tableEncounters.Table.Select(z => z.RaidEnemyInfo));
+        var dumpD = TableUtil.GetTable(tableDrops.Table);
+        var dumpB = TableUtil.GetTable(tableBonus.Table);
+        var dumpP = TableUtil.GetTable(tablePriority.Table);
+        var dumpP_2 = TableUtil.GetTable(tablePriority.Table.Select(z => z.DeliveryGroupID));
+
+        var dump = new[]
+        {
+            ("encounters", dumpE),
+            ("encounters_poke", dumpEnc),
+            ("encounters_rate", dumpRate),
+            ("drops", dumpD),
+            ("bonus", dumpB),
+            ("priority", dumpP),
+            ("priority_alt", dumpP_2),
+        };
+
+        var outPath2 = Path.Combine(outPath, "Distribution");
+        Directory.CreateDirectory(outPath2);
+        foreach (var (name, data) in dump)
+        {
+            var path2 = Path.Combine(outPath2, $"{name}.txt");
+            File.WriteAllText(path2, data);
+        }
+
+        DumpJson(tableEncounters, "enc");
+        DumpJson(tableDrops, "drop");
+        DumpJson(tableBonus, "bonus");
+        DumpJson(tablePriority, "priority");
+
+        void DumpJson(object flat, string name)
+        {
+            var opt = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+            var json = System.Text.Json.JsonSerializer.Serialize(flat, opt);
+
+            var fileName = Path.ChangeExtension(name, ".json");
+            File.WriteAllText(Path.Combine(outPath2, fileName), json);
+        }
     }
 
     private static string[] GetCommonText(IFileInternal ROM, string name, string lang, TextConfig cfg)
@@ -136,8 +172,7 @@ public static class TeraRaidRipper
 
     private static byte[] GetDistributionContents(string path, out int index)
     {
-        // todo once we get distribution raids
-        index = 0;
-        return Array.Empty<byte>();
+        index = 0; //  todo
+        return File.ReadAllBytes(path);
     }
 }
