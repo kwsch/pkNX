@@ -174,6 +174,8 @@ public static class EncounterTable8aUtil
                     alpha = 1; // Oybn1 -- Master only Alpha move?
             }
 
+            if (min > max)
+                min = max; // stupid Psyduck mass outbreak table.
             var gender = s.Gender == -1 ? 2 : s.Gender;
             bw.Write((ushort)s.Species);
             bw.Write((byte)s.Form);
