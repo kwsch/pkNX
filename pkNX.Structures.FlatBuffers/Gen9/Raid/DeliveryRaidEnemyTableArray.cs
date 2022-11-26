@@ -50,7 +50,7 @@ public class RaidEnemyInfo
     [FlatBufferItem(11)] public RaidBossData BossDesc { get; set; }
     [FlatBufferItem(12)] public RaidTimeData RaidTimeData { get; set; }
 
-    public void SerializePKHeX(BinaryWriter bw, byte star, sbyte rate, short rateS, short rateV)
+    public void SerializePKHeX(BinaryWriter bw, byte star, sbyte rate)
     {
         BossPokePara.SerializePKHeX(bw, CaptureLv);
         BossPokeSize.SerializePKHeX();
@@ -59,8 +59,6 @@ public class RaidEnemyInfo
         // Append RNG details.
         bw.Write(star);
         bw.Write(rate);
-        bw.Write(rateS);
-        bw.Write(rateV);
     }
 }
 
@@ -77,8 +75,8 @@ public class RaidBossSizeData
     public void SerializePKHeX()
     {
         // If any property is not zero, throw an exception.
-        if (HeightType != 0 || HeightValue != 0 || WeightType != 0 || WeightValue != 0 || ScaleType != 0 || ScaleValue != 0)
-            throw new ArgumentException("Expected default sizes.");
+        // if (HeightType != 0 || HeightValue != 0 || WeightType != 0 || WeightValue != 0 || ScaleType != 0 || ScaleValue != 0)
+        //     throw new ArgumentException("Expected default sizes.");
     }
 }
 

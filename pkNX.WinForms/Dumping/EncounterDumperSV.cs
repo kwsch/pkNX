@@ -72,7 +72,10 @@ public class EncounterDumperSV
 
         // Fixed symbols
         List<byte[]> serialized = new();
-        int[] bannedIndexes = { 31 }; // Lighthouse Wingull
+        int[] bannedIndexes =
+        {
+            31, // Lighthouse Wingull
+        };
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
