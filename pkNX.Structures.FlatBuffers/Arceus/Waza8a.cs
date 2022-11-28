@@ -27,8 +27,8 @@ public class Waza8a : IMove
     [FlatBufferItem(06), Browsable(false)] public byte FAccuracy  { get; set; } // byte
     [FlatBufferItem(07), Browsable(false)] public byte FPP        { get; set; } // byte
     [FlatBufferItem(08), Browsable(false)] public sbyte FPriority { get; set; } // byte
-    [FlatBufferItem(09), Browsable(false)] public byte FHitMin    { get; set; } // byte
-    [FlatBufferItem(10), Browsable(false)] public byte FHitMax    { get; set; } // byte
+    [FlatBufferItem(09), Browsable(false)] public byte FHitMax    { get; set; } // byte
+    [FlatBufferItem(10), Browsable(false)] public byte FHitMin    { get; set; } // byte
     [FlatBufferItem(11), Browsable(false)] public short FInflict  { get; set; } // ushort
     [FlatBufferItem(12), Browsable(false)] public byte FInflictPercent  { get; set; } // byte
     [FlatBufferItem(13), Browsable(false)] public byte FRawInflictCount { get; set; } // byte
