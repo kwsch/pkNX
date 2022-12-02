@@ -72,7 +72,7 @@ public static class TeraRaidRipper
             {
                 var rmS = enc.GetScarletRandMinScarlet();
                 var rmV = enc.GetVioletRandMinViolet();
-                enc.Enemy.RaidEnemyInfo.SerializePKHeX(bw, (byte)enc.Stars, enc.Rate);
+                enc.Enemy.RaidEnemyInfo.SerializePKHeX(bw, (byte)enc.Stars, enc.Rate, RaidSerializationFormat.BaseROM);
                 bw.Write(rmS);
                 bw.Write(rmV);
             }
@@ -112,28 +112,34 @@ public static class TeraRaidRipper
         new [] { 1, 2 },
         new [] { 1, 2, 3 },
         new [] { 1, 2, 3, 4 },
-        new [] { 3, 4, 5 },
+        new [] { 3, 4, 5, 6, 7 },
     };
 
     public static void DumpDistributionRaids(string path)
     {
         var dirs = Directory.GetDirectories(path).OrderBy(z => z);
-        var list = new List<byte[]>();
+        var type2 = new List<byte[]>();
+        var type3 = new List<byte[]>();
 
         foreach (var dir in dirs)
-            DumpDistributionRaids(dir, list);
+            DumpDistributionRaids(dir, type2, type3);
 
-        var pathPickle = Path.Combine(path, "encounter_dist_paldea.pkl");
+        DumpPicklePath(type2, path, "encounter_dist_paldea.pkl");
+        DumpPicklePath(type3, path, "encounter_might_paldea.pkl");
+    }
+
+    private static void DumpPicklePath(List<byte[]> list, string path, string pp)
+    {
+        var pathPickle = Path.Combine(path, pp);
         var ordered = list
                 .OrderBy(z => BinaryPrimitives.ReadUInt16LittleEndian(z)) // Species
                 .ThenBy(z => z[2]) // Form
                 .ThenBy(z => z[3]) // Level
-                .ThenBy(z => z[0x11]) // Distribution Index
             ;
         File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
     }
 
-    private static void DumpDistributionRaids(string path, List<byte[]> list)
+    private static void DumpDistributionRaids(string path, List<byte[]> type2, List<byte[]> type3)
     {
         var dataEncounters = GetDistributionContents(Path.Combine(path, "raid_enemy_array"), out int indexEncounters);
         var dataDrop = GetDistributionContents(Path.Combine(path, "fixed_reward_item_array"), out int indexDrop);
@@ -150,13 +156,38 @@ public static class TeraRaidRipper
         var tableBonus = FlatBufferConverter.DeserializeFrom<DeliveryRaidLotteryRewardItemArray>(dataBonus);
         var tablePriority = FlatBufferConverter.DeserializeFrom<DeliveryRaidPriorityArray>(priority);
 
-        AddToList(tableEncounters.Table, list);
+        var byGroupID = tableEncounters.Table
+            .Where(z => z.RaidEnemyInfo.Rate != 0)
+            .GroupBy(z => z.RaidEnemyInfo.DeliveryGroupID);
+
+        bool isNot7Star = false;
+        foreach (var group in byGroupID)
+        {
+            var items = group.ToArray();
+            if (items.Any(z => z.RaidEnemyInfo.Difficulty > 7))
+                throw new Exception($"Undocumented difficulty {items.First(z => z.RaidEnemyInfo.Difficulty > 7).RaidEnemyInfo.Difficulty}");
+
+            if (items.All(z => z.RaidEnemyInfo.Difficulty == 7))
+            {
+                if (items.Any(z => z.RaidEnemyInfo.CaptureRate != 2))
+                    throw new Exception($"Undocumented 7 star capture rate {items.First(z => z.RaidEnemyInfo.CaptureRate != 2).RaidEnemyInfo.CaptureRate}");
+                AddToList(items, type3, RaidSerializationFormat.Type3);
+                continue;
+            }
+
+            if (items.Any(z => z.RaidEnemyInfo.Difficulty == 7))
+                throw new Exception($"Mixed difficulty {items.First(z => z.RaidEnemyInfo.Difficulty > 7).RaidEnemyInfo.Difficulty}");
+            if (isNot7Star)
+                throw new Exception("Already saw a not-7-star group. How do we differentiate this slot determination from prior?");
+            isNot7Star = true;
+            AddToList(items, type2, RaidSerializationFormat.Type2);
+        }
 
         var dirDistText = Path.Combine(path, "parse");
         ExportParse(dirDistText, tableEncounters, tableDrops, tableBonus, tablePriority);
     }
 
-    private static void AddToList(IReadOnlyCollection<DeliveryRaidEnemyTable> table, List<byte[]> list)
+    private static void AddToList(IReadOnlyCollection<DeliveryRaidEnemyTable> table, List<byte[]> list, RaidSerializationFormat format)
     {
         // Get the total weight for each stage of star count
         Span<ushort> weightTotalS = stackalloc ushort[StageStars.Length];
@@ -186,7 +217,7 @@ public static class TeraRaidRipper
             if (info.Rate == 0)
                 continue;
             var difficulty = info.Difficulty;
-            TryAddToPickle(info, list, weightTotalS, weightTotalV, weightMinS, weightMinV);
+            TryAddToPickle(info, list, format, weightTotalS, weightTotalV, weightMinS, weightMinV);
             for (int stage = 0; stage < StageStars.Length; stage++)
             {
                 if (!StageStars[stage].Contains(difficulty))
@@ -199,12 +230,13 @@ public static class TeraRaidRipper
         }
     }
 
-    private static void TryAddToPickle(RaidEnemyInfo enc, ICollection<byte[]> list, ReadOnlySpan<ushort> totalS, ReadOnlySpan<ushort> totalV, ReadOnlySpan<ushort> minS, ReadOnlySpan<ushort> minV)
+    private static void TryAddToPickle(RaidEnemyInfo enc, ICollection<byte[]> list, RaidSerializationFormat format,
+        ReadOnlySpan<ushort> totalS, ReadOnlySpan<ushort> totalV, ReadOnlySpan<ushort> minS, ReadOnlySpan<ushort> minV)
     {
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
 
-        enc.SerializePKHeX(bw, (byte)enc.Difficulty, enc.Rate);
+        enc.SerializePKHeX(bw, (byte)enc.Difficulty, enc.Rate, format);
         for (int stage = 0; stage < StageStars.Length; stage++)
         {
             bool noTotal = !StageStars[stage].Contains(enc.Difficulty);
@@ -215,6 +247,8 @@ public static class TeraRaidRipper
             bw.Write(noTotal ? (ushort)0 : totalS[stage]);
             bw.Write(noTotal ? (ushort)0 : totalV[stage]);
         }
+        if (format == RaidSerializationFormat.Type3)
+            enc.SerializeType3(bw);
 
         var bin = ms.ToArray();
         if (!list.Any(z => z.SequenceEqual(bin)))
@@ -267,12 +301,6 @@ public static class TeraRaidRipper
 
         var fileName = Path.ChangeExtension(name, ".json");
         File.WriteAllText(Path.Combine(dir, fileName), json);
-    }
-
-    private static string[] GetCommonText(IFileInternal ROM, string name, string lang, TextConfig cfg)
-    {
-        var monsnameDat = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.dat");
-        return new TextFile(monsnameDat, cfg).Lines;
     }
 
     private static byte[] GetDistributionContents(string path, out int index)

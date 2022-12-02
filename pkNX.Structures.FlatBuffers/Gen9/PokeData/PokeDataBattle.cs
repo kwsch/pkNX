@@ -34,15 +34,10 @@ public class PokeDataBattle
     [FlatBufferItem(19)] public SizeType ScaleType { get; set; }
     [FlatBufferItem(20)] public short ScaleValue { get; set; }
 
-    public void SerializePKHeX(BinaryWriter bw, sbyte captureLv)
+    public void SerializePKHeX(BinaryWriter bw, sbyte captureLv, RaidSerializationFormat format)
     {
-        if (TalentType != TalentType.V_NUM)
-            throw new ArgumentOutOfRangeException(nameof(TalentType), TalentType, "No min flawless IVs?");
-        if (TalentVnum == 0 && DevId != DevID.DEV_PATIRISU && Level != 35) // nice mistake gamefreak -- 3star Pachirisu is 0 IVs.
-            throw new ArgumentOutOfRangeException(nameof(TalentVnum), TalentVnum, "No min flawless IVs?");
-
-        if (Seikaku != SeikakuType.DEFAULT)
-            throw new ArgumentOutOfRangeException(nameof(Seikaku), Seikaku, $"No {nameof(Seikaku)} allowed!");
+        if (format != RaidSerializationFormat.Type3)
+            AssertRegularFormat();
 
         // If any PointUp for a move is nonzero, throw an exception.
         if (Waza1.PointUp != 0 || Waza2.PointUp != 0 || Waza3.PointUp != 0 || Waza4.PointUp != 0)
@@ -74,4 +69,34 @@ public class PokeDataBattle
         var gem = GemType is GemType.DEFAULT ? GemType.RANDOM : GemType;
         bw.Write((byte)gem);
     }
+
+    private void AssertRegularFormat()
+    {
+        if (TalentType != TalentType.V_NUM)
+            throw new ArgumentOutOfRangeException(nameof(TalentType), TalentType, "No min flawless IVs?");
+        if (TalentVnum == 0 && DevId != DevID.DEV_PATIRISU &&
+            Level != 35) // nice mistake gamefreak -- 3star Pachirisu is 0 IVs.
+            throw new ArgumentOutOfRangeException(nameof(TalentVnum), TalentVnum, "No min flawless IVs?");
+
+        if (Seikaku != SeikakuType.DEFAULT)
+            throw new ArgumentOutOfRangeException(nameof(Seikaku), Seikaku, $"No {nameof(Seikaku)} allowed!");
+    }
+}
+
+public enum RaidSerializationFormat
+{
+    /// <summary>
+    /// Base ROM Raids
+    /// </summary>
+    BaseROM,
+
+    /// <summary>
+    /// Regular Distribution Raids
+    /// </summary>
+    Type2,
+
+    /// <summary>
+    /// 7 Star Distribution Raids
+    /// </summary>
+    Type3,
 }
