@@ -970,27 +970,6 @@ public class PaldeaCoinSymbolModel
                         var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(obj.SubObjects[0].Data);
 
                         yield return ParseCoinSymbolPoint(scenePoint, propSheet);
-
-                        //if (propSheet.Name != "coin_walk_symbol_point")
-                        //{
-                        //    var zx = 0;
-                        //}
-                        //
-                        //if (propSheet.Properties[0].Fields[0].Name != "firstNum")
-                        //    throw new ArgumentException("Invalid PropertySheet field layout");
-                        //
-                        //if (!propSheet.Properties[0].Fields[0].Data.TryGet(out TrinityPropertySheetField1SV? sv))
-                        //    throw new ArgumentException("Could not get PropertySheet Table Key");
-                        //
-                        //if (sv.Field_00 != 1)
-                        //{
-                        //    var zz = 0;
-                        //}    
-                        //
-                        //yield return new PaldeaCoinSymbolPoint("", false, new Vector3f { });
-
-                        //foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
-                        //    yield return f;
                         break;
                     }
                 default:
