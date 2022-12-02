@@ -27,10 +27,12 @@ public class EncounterDumperSV
         var field = new PaldeaFieldModel(ROM);
         var scene = new PaldeaSceneModel(ROM, field);
         var fsym = new PaldeaFixedSymbolModel(ROM);
+        var csym = new PaldeaCoinSymbolModel(ROM);
         var mlEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_100000.bin"));
         var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
         var pokeData = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata/pokedata_array.bin"));
         var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
+        var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
 
         var result = new Dictionary<int, List<PaldeaEncounter>>();
         using var sw = File.CreateText(Path.Combine(path, "titan_enc.txt"));
@@ -161,6 +163,79 @@ public class EncounterDumperSV
                 if (bannedIndexes.Contains(i))
                     continue;
                 WriteFixedSymbol(serialized, entry, locs);
+            }
+        }
+
+        using var cw = File.CreateText(Path.Combine(path, $"titan_coin_symbol.txt"));
+        foreach (var entry in csym.Points)
+        {
+            var areas = new List<string>();
+            foreach (var areaName in scene.areaNames)
+            {
+                if (scene.isAtlantis[areaName])
+                    continue;
+
+                var areaInfo = scene.AreaInfos[areaName];
+                var name = areaInfo.LocationNameMain;
+                if (string.IsNullOrEmpty(name))
+                    continue;
+                if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
+                    continue;
+
+                if (scene.IsPointContained(areaName, entry.Position.X, entry.Position.Y, entry.Position.Z))
+                    areas.Add(areaName);
+            }
+
+            var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
+
+            cw.WriteLine("===");
+            cw.WriteLine(entry.Name);
+            cw.WriteLine("===");
+            cw.WriteLine($"  First Num:   {entry.FirstNum}");
+            cw.WriteLine($"  Coordinates: ({entry.Position.X}, {entry.Position.Y}, {entry.Position.Z})");
+
+            if (entry.IsBox)
+            {
+                cw.WriteLine($"  Box Label:   {entry.BoxLabel}");
+                cw.WriteLine("  PokeData:");
+                var pd = Array.Find(eventBattle.Table, e => e.Label == entry.BoxLabel)!.PokeData;
+
+                cw.WriteLine($"    Species: {specNames[(int)pd.DevId]}");
+                cw.WriteLine($"    Form:    {pd.FormId}");
+                cw.WriteLine($"    Level:   {pd.Level}");
+                cw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
+                cw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
+
+                var talentStr = pd.TalentType switch
+                {
+                    TalentType.RANDOM => "Random",
+                    TalentType.V_NUM => $"{pd.TalentVnum} Perfect",
+                    TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+                    _ => "Invalid",
+                };
+                cw.WriteLine($"    IVs:     {talentStr}");
+                cw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.Tokusei]}");
+                switch (pd.WazaType)
+                {
+                    case WazaType.DEFAULT:
+                        cw.WriteLine($"    Moves:   Random");
+                        break;
+                    case WazaType.MANUAL:
+                        cw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                        break;
+                }
+
+                cw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
+                cw.WriteLine($"    GemType: {(int)pd.GemType}");
+            }
+
+            cw.WriteLine("  Areas:");
+            foreach (var areaName in areas)
+            {
+                var areaInfo = scene.AreaInfos[areaName];
+                var loc = areaInfo.LocationNameMain;
+                (string name, int index) = placeNameMap[loc];
+                cw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
             }
         }
 
@@ -602,6 +677,28 @@ public class PaldeaFixedSymbolPoint
         };
     }
 }
+public class PaldeaCoinSymbolPoint
+{
+    public string Name;
+    public ulong FirstNum;
+    public string BoxLabel;
+    public Vector3f Position;
+
+    public PaldeaCoinSymbolPoint(string name, ulong num, string boxLabel, Vector3f pos)
+    {
+        Name = name;
+        FirstNum = num;
+        BoxLabel = boxLabel;
+        Position = new Vector3f
+        {
+            X = pos.X,
+            Y = pos.Y,
+            Z = pos.Z,
+        };
+    }
+
+    public bool IsBox => !string.IsNullOrEmpty(BoxLabel);
+}
 
 public class PaldeaSceneModel
 {
@@ -832,6 +929,106 @@ public class PaldeaFixedSymbolModel
             throw new ArgumentException("Invalid PropertySheet field layout");
 
         if (!propSheet.Properties[0].Fields[1].Data.TryGet(out TrinityPropertySheetFieldStringValueSV? sv))
+            throw new ArgumentException("Could not get PropertySheet Table Key");
+
+        return sv.Value;
+    }
+}
+
+public class PaldeaCoinSymbolModel
+{
+    public readonly List<PaldeaCoinSymbolPoint> Points;
+
+    public PaldeaCoinSymbolModel(IFileInternal ROM)
+    {
+        Points = new List<PaldeaCoinSymbolPoint>();
+
+        var cData = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_coin_placement_symbol_/world_coin_placement_symbol_0.trscn");
+        // NOTE: Fine to only use Scarlet, Violet data is identical.
+
+        var c = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateSV>(cData);
+
+        Points.AddRange(GetObjectTemplateSymbolPoints(c));
+    }
+
+    private IEnumerable<PaldeaCoinSymbolPoint> GetObjectTemplateSymbolPoints(TrinitySceneObjectTemplateSV template)
+    {
+        foreach (var obj in template.Objects)
+        {
+            switch (obj.Type)
+            {
+                case "trinity_ScenePoint":
+                    {
+                        var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(obj.Data);
+
+                        if (obj.SubObjects.Length != 1)
+                            throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject Count {obj.SubObjects.Length}");
+
+                        if (obj.SubObjects[0].Type != "trinity_PropertySheet")
+                            throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject ({obj.SubObjects[0].Type})");
+
+                        var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(obj.SubObjects[0].Data);
+
+                        yield return ParseCoinSymbolPoint(scenePoint, propSheet);
+
+                        //if (propSheet.Name != "coin_walk_symbol_point")
+                        //{
+                        //    var zx = 0;
+                        //}
+                        //
+                        //if (propSheet.Properties[0].Fields[0].Name != "firstNum")
+                        //    throw new ArgumentException("Invalid PropertySheet field layout");
+                        //
+                        //if (!propSheet.Properties[0].Fields[0].Data.TryGet(out TrinityPropertySheetField1SV? sv))
+                        //    throw new ArgumentException("Could not get PropertySheet Table Key");
+                        //
+                        //if (sv.Field_00 != 1)
+                        //{
+                        //    var zz = 0;
+                        //}    
+                        //
+                        //yield return new PaldeaCoinSymbolPoint("", false, new Vector3f { });
+
+                        //foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
+                        //    yield return f;
+                        break;
+                    }
+                default:
+                    throw new ArgumentException($"Unsupported CoinPlacement Object Type {obj.Type}");
+            }
+        }
+    }
+
+    private PaldeaCoinSymbolPoint ParseCoinSymbolPoint(TrinityScenePointSV sp, TrinityPropertySheetSV ps)
+    {
+        switch (ps.Name)
+        {
+            case "coin_walk_symbol_point":
+                return new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), string.Empty, sp.Position);
+            case "coin_box_symbol_point":
+                return new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), GetBoxLabel(ps), sp.Position);
+            default:
+                throw new ArgumentException($"Unknown CoinSymbol PropertySheet {ps.Name}");
+        }
+    }
+
+    private ulong GetFirstNum(TrinityPropertySheetSV ps)
+    {
+        if (ps.Properties[0].Fields[0].Name != "firstNum")
+            throw new ArgumentException("Invalid PropertySheet field layout");
+        
+        if (!ps.Properties[0].Fields[0].Data.TryGet(out TrinityPropertySheetField1SV? sv))
+            throw new ArgumentException("Could not get PropertySheet Table Key");
+
+        return sv.Value;
+    }
+
+    private string GetBoxLabel(TrinityPropertySheetSV ps)
+    {
+        if (ps.Properties[0].Fields[1].Name != "label")
+            throw new ArgumentException("Invalid PropertySheet field layout");
+
+        if (!ps.Properties[0].Fields[1].Data.TryGet(out TrinityPropertySheetFieldStringValueSV? sv))
             throw new ArgumentException("Could not get PropertySheet Table Key");
 
         return sv.Value;

@@ -35,7 +35,11 @@ public class TrinityPropertySheetFieldSV
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class TrinityPropertySheetField1SV { }
+public class TrinityPropertySheetField1SV
+{
+    [FlatBufferItem(00)] public ulong Value { get; set; }
+    [FlatBufferItem(01)] public byte FieldType { get; set; }
+}
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TrinityPropertySheetField2SV
