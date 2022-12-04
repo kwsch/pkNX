@@ -28,15 +28,15 @@ public class BattleConfig
     [FlatBufferItem(15)] public float FcamCentMidrigHeight { get; set; }
     [FlatBufferItem(16)] public float FcamCentLowrigRadius { get; set; }
     [FlatBufferItem(17)] public float FcamCentLowrigHeight { get; set; }
-    [FlatBufferItem(18)] public CVector3 FcamOffsetCenter { get; set; }
-    [FlatBufferItem(19)] public CVector3 FcamOffsetPoke0 { get; set; }
-    [FlatBufferItem(20)] public CVector3 FcamOffsetPoke1 { get; set; }
-    [FlatBufferItem(21)] public CVector3 FcamOffsetPoke2 { get; set; }
-    [FlatBufferItem(22)] public CVector3 FcamOffsetPoke3 { get; set; }
-    [FlatBufferItem(23)] public CVector3 FcamOffsetTr0 { get; set; }
-    [FlatBufferItem(24)] public CVector3 FcamOffsetTr1 { get; set; }
-    [FlatBufferItem(25)] public CVector3 FcamOffsetTr2 { get; set; }
-    [FlatBufferItem(26)] public CVector3 FcamOffsetTr3 { get; set; }
+    [FlatBufferItem(18)] public Vec3f FcamOffsetCenter { get; set; }
+    [FlatBufferItem(19)] public Vec3f FcamOffsetPoke0 { get; set; }
+    [FlatBufferItem(20)] public Vec3f FcamOffsetPoke1 { get; set; }
+    [FlatBufferItem(21)] public Vec3f FcamOffsetPoke2 { get; set; }
+    [FlatBufferItem(22)] public Vec3f FcamOffsetPoke3 { get; set; }
+    [FlatBufferItem(23)] public Vec3f FcamOffsetTr0 { get; set; }
+    [FlatBufferItem(24)] public Vec3f FcamOffsetTr1 { get; set; }
+    [FlatBufferItem(25)] public Vec3f FcamOffsetTr2 { get; set; }
+    [FlatBufferItem(26)] public Vec3f FcamOffsetTr3 { get; set; }
     [FlatBufferItem(27)] public float FcamZoomStartAngle { get; set; }
     [FlatBufferItem(28)] public float FcamZoomMinAngle { get; set; }
     [FlatBufferItem(29)] public float FcamZoomMaxAngle { get; set; }

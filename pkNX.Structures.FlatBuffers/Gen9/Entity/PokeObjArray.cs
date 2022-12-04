@@ -16,28 +16,28 @@ public class PokeObjArray : IFlatBufferArchive<PokeObj>
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeObj
 {
-    [FlatBufferItem(0)] public DevID Devid { get; set; }
-    [FlatBufferItem(1)] public BodyCollision Bodycollision { get; set; }
-    [FlatBufferItem(2)] public CharaCollision Characollision { get; set; }
-    [FlatBufferItem(3)] public GrassCollision Grasscollision { get; set; }
+    [FlatBufferItem(0)] public DevID DevId { get; set; }
+    [FlatBufferItem(1)] public BodyCollision BodyCollision { get; set; }
+    [FlatBufferItem(2)] public CharaCollision CharaCollision { get; set; }
+    [FlatBufferItem(3)] public GrassCollision GrassCollision { get; set; }
     [FlatBufferItem(4)] public FlatBuffer FlatBuffer { get; set; }
-    [FlatBufferItem(5)] public CGemParam Gemparam { get; set; }
+    [FlatBufferItem(5)] public CGemParam GemParam { get; set; }
     [FlatBufferItem(6)] public PokeParameter Poke { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class GrassCollision
 {
-    [FlatBufferItem(0)] public float Offsety { get; set; }
+    [FlatBufferItem(0)] public float OffsetY { get; set; }
     [FlatBufferItem(1)] public float Radius { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class CGemParam
 {
-    [FlatBufferItem(0)] public CVector3 Pos { get; set; }
-    [FlatBufferItem(1)] public CVector3 Rot { get; set; }
-    [FlatBufferItem(2)] public CVector3 Scale { get; set; }
+    [FlatBufferItem(0)] public Vec3f Pos { get; set; }
+    [FlatBufferItem(1)] public Vec3f Rot { get; set; }
+    [FlatBufferItem(2)] public Vec3f Scale { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -64,7 +64,7 @@ public class FlatBuffer
 public class CharaCollision
 {
     [FlatBufferItem(0)] public CollisionShape Shape { get; set; }
-    [FlatBufferItem(1)] public CVector3 Pos { get; set; }
+    [FlatBufferItem(1)] public Vec3f Pos { get; set; }
     [FlatBufferItem(2)] public float Radius { get; set; }
 }
 
@@ -72,6 +72,6 @@ public class CharaCollision
 public class BodyCollision
 {
     [FlatBufferItem(0)] public CollisionShape Shape { get; set; }
-    [FlatBufferItem(1)] public CVector3 Pos { get; set; }
+    [FlatBufferItem(1)] public Vec3f Pos { get; set; }
     [FlatBufferItem(2)] public float Radius { get; set; }
 }

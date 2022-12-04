@@ -8,8 +8,8 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class Sphere
+public class AABB
 {
-    [FlatBufferItem(0)] public Vector3f Center { get; set; }
-    [FlatBufferItem(1)] public float Radius { get; set; }
+    [FlatBufferItem(0)] public PackedVec3f Min { get; set; }
+    [FlatBufferItem(1)] public PackedVec3f Max { get; set; }
 }

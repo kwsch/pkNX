@@ -11,6 +11,6 @@ namespace pkNX.Structures.FlatBuffers;
 public class TrinityScenePointSV
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
-    [FlatBufferItem(01)] public Vector3f Position { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Position { get; set; } = new();
     [FlatBufferItem(02)] public byte Field_02 { get; set; }
 }

@@ -78,7 +78,7 @@ public class EncounterDumperSV
         {
             31, // Lighthouse Wingull
         };
-        foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
+        foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
             for (var i = 0; i < fsymData.Table.Length; i++)
@@ -253,7 +253,7 @@ public class EncounterDumperSV
         var enc = entry.PokeDataSymbol;
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
-        
+
         bw.Write((ushort)enc.DevId);
         bw.Write((byte)enc.FormId);
         bw.Write((byte)enc.Level);
@@ -323,7 +323,7 @@ public class EncounterDumperSV
         // Pre-sort so we can just iterate.
         encounters.Sort();
 
-        for (int i = 0; i < encounters.Count; )
+        for (int i = 0; i < encounters.Count;)
         {
             var enc = encounters[i];
             int count = 1;
@@ -448,7 +448,7 @@ public class EncounterDumperSV
         {
             if (a == areaName)
                 return true;
-            
+
             if (!scene.IsPointContained(a, ep.Position.X, ep.Position.Y, ep.Position.Z))
                 continue;
 
@@ -483,7 +483,7 @@ public class EncounterDumperSV
         // add Scarlet
         foreach (var point in fsym.scarletPoints.Concat(fsym.violetPoints))
         {
-            if (!added.Contains(point.TableKey) && scene.IsPointContained(areaName, point.Position.X, point.Position.Y, point.Position.Z) )
+            if (!added.Contains(point.TableKey) && scene.IsPointContained(areaName, point.Position.X, point.Position.Y, point.Position.Z))
             {
                 added.Add(point.TableKey);
                 symbols.Add(GetPokeDataSymbol(fsymTable, point.TableKey));
@@ -510,7 +510,7 @@ public class EncounterDumperSV
         var composite = new PointData
         {
             Position = ep.Position,
-            LevelRange = new SVector2 { X = newX, Y = newY },
+            LevelRange = new PackedVec2f { X = newX, Y = newY },
             Biome = ep.Biome,
             Substance = ep.Substance,
             AreaNo = ep.AreaNo,
@@ -581,7 +581,7 @@ public record PaldeaEncounter(int Species, int Form, int Sex, int MinLevel, int 
         var max = (int)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
         return new((int)pd.DevId, pd.Form, (int)pd.Sex, min, max);
     }
-    
+
     public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep)
     {
         var min = (int)Math.Max(ep.LevelRange.X, pd.MinLevel);
@@ -664,12 +664,12 @@ public record PaldeaEncounter(int Species, int Form, int Sex, int MinLevel, int 
 public class PaldeaFixedSymbolPoint
 {
     public string TableKey;
-    public Vector3f Position;
+    public PackedVec3f Position;
 
-    public PaldeaFixedSymbolPoint(string key, Vector3f pos)
+    public PaldeaFixedSymbolPoint(string key, PackedVec3f pos)
     {
         TableKey = key;
-        Position = new Vector3f
+        Position = new PackedVec3f
         {
             X = pos.X,
             Y = pos.Y,
@@ -682,14 +682,14 @@ public class PaldeaCoinSymbolPoint
     public string Name;
     public ulong FirstNum;
     public string BoxLabel;
-    public Vector3f Position;
+    public PackedVec3f Position;
 
-    public PaldeaCoinSymbolPoint(string name, ulong num, string boxLabel, Vector3f pos)
+    public PaldeaCoinSymbolPoint(string name, ulong num, string boxLabel, PackedVec3f pos)
     {
         Name = name;
         FirstNum = num;
         BoxLabel = boxLabel;
-        Position = new Vector3f
+        Position = new PackedVec3f
         {
             X = pos.X,
             Y = pos.Y,
@@ -864,24 +864,24 @@ public class PaldeaFixedSymbolModel
             switch (obj.Type)
             {
                 case "trinity_ObjectTemplate":
-                    {
-                        var sObj = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateDataSV>(obj.Data);
-                        if (sObj.Type != "trinity_ScenePoint")
-                            continue;
-                        var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(sObj.Data);
+                {
+                    var sObj = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateDataSV>(obj.Data);
+                    if (sObj.Type != "trinity_ScenePoint")
+                        continue;
+                    var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(sObj.Data);
 
-                        foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
-                            yield return f;
-                        break;
-                    }
+                    foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
+                        yield return f;
+                    break;
+                }
                 case "trinity_ScenePoint":
-                    {
-                        var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(obj.Data);
+                {
+                    var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(obj.Data);
 
-                        foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
-                            yield return f;
-                        break;
-                    }
+                    foreach (var f in GetScenePointSymbolPoints(scenePoint, obj.SubObjects))
+                        yield return f;
+                    break;
+                }
             }
         }
     }
@@ -895,25 +895,25 @@ public class PaldeaFixedSymbolModel
             switch (sobj.Type)
             {
                 case "trinity_PropertySheet":
+                {
+                    var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(sobj.Data);
+                    if (propSheet.Name == "fixed_symbol_point")
                     {
-                        var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(sobj.Data);
-                        if (propSheet.Name == "fixed_symbol_point")
+                        var tableKey = GetTableKey(propSheet);
+                        if (!string.IsNullOrEmpty(tableKey))
                         {
-                            var tableKey = GetTableKey(propSheet);
-                            if (!string.IsNullOrEmpty(tableKey))
-                            {
-                                yield return new PaldeaFixedSymbolPoint(tableKey, scenePoint.Position);
-                            }
+                            yield return new PaldeaFixedSymbolPoint(tableKey, scenePoint.Position);
                         }
-                        break;
                     }
+                    break;
+                }
                 case "trinity_ScenePoint":
-                    {
-                        var subScenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(sobj.Data);
-                        foreach (var f in GetScenePointSymbolPoints(subScenePoint, sobj.SubObjects))
-                            yield return f;
-                        break;
-                    }
+                {
+                    var subScenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(sobj.Data);
+                    foreach (var f in GetScenePointSymbolPoints(subScenePoint, sobj.SubObjects))
+                        yield return f;
+                    break;
+                }
                 default:
                     throw new ArgumentException($"Unknown SubObject {sobj.Type}");
             }
@@ -958,20 +958,20 @@ public class PaldeaCoinSymbolModel
             switch (obj.Type)
             {
                 case "trinity_ScenePoint":
-                    {
-                        var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(obj.Data);
+                {
+                    var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePointSV>(obj.Data);
 
-                        if (obj.SubObjects.Length != 1)
-                            throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject Count {obj.SubObjects.Length}");
+                    if (obj.SubObjects.Length != 1)
+                        throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject Count {obj.SubObjects.Length}");
 
-                        if (obj.SubObjects[0].Type != "trinity_PropertySheet")
-                            throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject ({obj.SubObjects[0].Type})");
+                    if (obj.SubObjects[0].Type != "trinity_PropertySheet")
+                        throw new ArgumentException($"Unexpected CoinSymbolPoint SubObject ({obj.SubObjects[0].Type})");
 
-                        var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(obj.SubObjects[0].Data);
+                    var propSheet = FlatBufferConverter.DeserializeFrom<TrinityPropertySheetSV>(obj.SubObjects[0].Data);
 
-                        yield return ParseCoinSymbolPoint(scenePoint, propSheet);
-                        break;
-                    }
+                    yield return ParseCoinSymbolPoint(scenePoint, propSheet);
+                    break;
+                }
                 default:
                     throw new ArgumentException($"Unsupported CoinPlacement Object Type {obj.Type}");
             }
@@ -995,7 +995,7 @@ public class PaldeaCoinSymbolModel
     {
         if (ps.Properties[0].Fields[0].Name != "firstNum")
             throw new ArgumentException("Invalid PropertySheet field layout");
-        
+
         if (!ps.Properties[0].Fields[0].Data.TryGet(out TrinityPropertySheetField1SV? sv))
             throw new ArgumentException("Could not get PropertySheet Table Key");
 

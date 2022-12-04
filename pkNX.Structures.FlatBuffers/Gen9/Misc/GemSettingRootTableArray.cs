@@ -28,8 +28,8 @@ public class GemSettingRootTable
 [FlatBufferStruct, TypeConverter(typeof(ExpandableObjectConverter))]
 public class GemParam
 {
-    [FlatBufferItem(0)] public Vector3f Pos { get; set; }
-    [FlatBufferItem(1)] public Vector3f Rot { get; set; }
+    [FlatBufferItem(0)] public PackedVec3f Pos { get; set; }
+    [FlatBufferItem(1)] public PackedVec3f Rot { get; set; }
     [FlatBufferItem(2)] public float Scale { get; set; }
 }
 

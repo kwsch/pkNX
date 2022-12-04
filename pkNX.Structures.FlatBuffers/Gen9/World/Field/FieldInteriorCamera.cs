@@ -14,7 +14,7 @@ public class FieldInteriorCamera
     [FlatBufferItem(1)] public Range Pitch { get; set; }
     [FlatBufferItem(2)] public float Distance { get; set; }
     [FlatBufferItem(3)] public float DelayFactor { get; set; }
-    [FlatBufferItem(4)] public CVector3 Offset { get; set; }
+    [FlatBufferItem(4)] public Vec3f Offset { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

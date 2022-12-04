@@ -13,7 +13,7 @@ public class FieldCamera
     [FlatBufferItem(00)] public float CenterDistance { get; set; }
     [FlatBufferItem(01)] public float TopDistance { get; set; }
     [FlatBufferItem(02)] public float BottomDistance { get; set; }
-    [FlatBufferItem(03)] public CVector3 GazeOffset { get; set; }
+    [FlatBufferItem(03)] public Vec3f GazeOffset { get; set; }
     [FlatBufferItem(04)] public float RotationTurn { get; set; }
     [FlatBufferItem(05)] public float RotationPitch { get; set; }
     [FlatBufferItem(06)] public float PitchCenter { get; set; }
@@ -40,7 +40,7 @@ public class FieldCamera
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class FieldCameraTrackingData
 {
-    [FlatBufferItem(0)] public CVector3 TrackingOffset { get; set; }
+    [FlatBufferItem(0)] public Vec3f TrackingOffset { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

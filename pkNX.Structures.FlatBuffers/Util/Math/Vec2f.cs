@@ -1,13 +1,10 @@
 using System.ComponentModel;
 using FlatSharp.Attributes;
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedType.Global
 
-namespace pkNX.Structures.FlatBuffers;
+namespace pkNX.Structures.FlatBuffers.Util.Math;
 
 [FlatBufferStruct, TypeConverter(typeof(ExpandableObjectConverter))]
-public class SVector2
+public class Vec2f
 {
     [FlatBufferItem(0)] public float X { get; set; }
     [FlatBufferItem(1)] public float Y { get; set; }

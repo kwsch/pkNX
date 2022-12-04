@@ -31,7 +31,7 @@ public class UniqueWashJointParam
 {
     [FlatBufferItem(0)] public bool Valid { get; set; }
     [FlatBufferItem(1)] public string JointName { get; set; }
-    [FlatBufferItem(2)] public Vector3f Offset { get; set; }
+    [FlatBufferItem(2)] public PackedVec3f Offset { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

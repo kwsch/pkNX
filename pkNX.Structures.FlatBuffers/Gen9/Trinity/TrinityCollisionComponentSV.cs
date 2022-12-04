@@ -37,33 +37,33 @@ public class TrinityCollisionComponent1SV
 public class TrinityCollisionShapeSphereSV
 {
     [FlatBufferItem(00)] public string TrcolFilePath { get; set; } = string.Empty;
-    [FlatBufferItem(01)] public Vector3f Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public Vector3f Field_02 { get; set; } = new();
-    [FlatBufferItem(03)] public Vector3f Field_03 { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public PackedVec3f Field_02 { get; set; } = new();
+    [FlatBufferItem(03)] public PackedVec3f Field_03 { get; set; } = new();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TrinityCollisionShapeBoxSV
 {
-    [FlatBufferItem(01)] public Vector3f Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public Vector3f Field_02 { get; set; } = new();
-    [FlatBufferItem(03)] public Vector3f Field_03 { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public PackedVec3f Field_02 { get; set; } = new();
+    [FlatBufferItem(03)] public PackedVec3f Field_03 { get; set; } = new();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TrinityCollisionShapeCapsuleSV
 {
     [FlatBufferItem(00)] public string TrcolFilePath { get; set; } = string.Empty;
-    [FlatBufferItem(01)] public Vector3f Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public Vector3f Field_02 { get; set; } = new();
-    [FlatBufferItem(03)] public Vector3f Field_03 { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public PackedVec3f Field_02 { get; set; } = new();
+    [FlatBufferItem(03)] public PackedVec3f Field_03 { get; set; } = new();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TrinityCollisionShapeHavokSV
 {
     [FlatBufferItem(00)] public string TrcolFilePath { get; set; } = string.Empty;
-    [FlatBufferItem(01)] public Vector3f Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public Vector3f Field_02 { get; set; } = new();
-    [FlatBufferItem(03)] public Vector3f Field_03 { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public PackedVec3f Field_02 { get; set; } = new();
+    [FlatBufferItem(03)] public PackedVec3f Field_03 { get; set; } = new();
 }

@@ -20,8 +20,8 @@ public class EventSkyFly
     [FlatBufferItem(01)] public MapIconKind MapIconKind { get; set; }
     [FlatBufferItem(02)] public string FollowSceneName { get; set; }
     [FlatBufferItem(03)] public string FollowObjectName { get; set; }
-    [FlatBufferItem(04)] public CVector3 FollowPositionOffset { get; set; }
-    [FlatBufferItem(05)] public CVector3 IconPosition { get; set; }
+    [FlatBufferItem(04)] public Vec3f FollowPositionOffset { get; set; }
+    [FlatBufferItem(05)] public Vec3f IconPosition { get; set; }
     [FlatBufferItem(06)] public float EffectRadius { get; set; }
     [FlatBufferItem(07)] public string ReleasePointFlagStr { get; set; }
     [FlatBufferItem(08)] public bool IsIncludeSkyFly { get; set; }
@@ -29,7 +29,7 @@ public class EventSkyFly
     [FlatBufferItem(10)] public EndCameraType EndCameraType { get; set; }
     [FlatBufferItem(11)] public string EnableFlyFlagStr { get; set; }
     [FlatBufferItem(12)] public SkyFlyPointType SkyFlyPointKind { get; set; }
-    [FlatBufferItem(13)] public CVector3 SkyFlyPointOffset { get; set; }
+    [FlatBufferItem(13)] public Vec3f SkyFlyPointOffset { get; set; }
     [FlatBufferItem(14)] public OnCursorDataKind OnCursorDataKind { get; set; }
     [FlatBufferItem(15)] public string OnCursorDataID { get; set; }
     [FlatBufferItem(16)] public string IconTextureReplaceFileName { get; set; }

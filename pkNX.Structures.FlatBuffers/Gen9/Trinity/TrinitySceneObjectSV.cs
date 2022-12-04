@@ -33,7 +33,7 @@ public class TrinitySceneObjectSV
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TrinitySceneObjectPositionSV
 {
-    [FlatBufferItem(00)] public Vector3f Field_00 { get; set; } = new();
-    [FlatBufferItem(01)] public Vector3f Field_01 { get; set; } = new();
-    [FlatBufferItem(02)] public Vector3f Field_02 { get; set; } = new();
+    [FlatBufferItem(00)] public PackedVec3f Field_00 { get; set; } = new();
+    [FlatBufferItem(01)] public PackedVec3f Field_01 { get; set; } = new();
+    [FlatBufferItem(02)] public PackedVec3f Field_02 { get; set; } = new();
 }

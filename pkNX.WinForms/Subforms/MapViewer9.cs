@@ -199,8 +199,8 @@ public class AreaDef9
 
 public class BoxCollision9
 {
-    public Vector3f Position;
-    public Vector3f Size;
+    public PackedVec3f Position;
+    public PackedVec3f Size;
 
     public bool ContainsPoint(float x, float y, float z)
     {
