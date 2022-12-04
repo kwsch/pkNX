@@ -16,6 +16,7 @@ public class PokeEditor8a : IDataEditor
     public TableCache<PokeInfoList8a, PokeInfo8a> PokeResourceList { get; init; } = null!;
     public TableCache<PokeResourceTable8a, PokeModelConfig8a> PokeResourceTable { get; init; } = null!;
     public TableCache<EncounterMultiplierArchive8a, EncounterMultiplier8a> EncounterRateTable { get; init; } = null!;
+    public TableCache<PokeCaptureCollisionArchive8a, PokeCaptureCollision8a> CaptureCollisionTable { get; init; } = null!;
 
     public void CancelEdits() { }
 
@@ -34,5 +35,6 @@ public class PokeEditor8a : IDataEditor
         PokeResourceList.Save();
         PokeResourceTable.Save();
         EncounterRateTable.Save();
+        CaptureCollisionTable.Save();
     }
 }
