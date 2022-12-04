@@ -47,7 +47,9 @@ internal class EditorPLA : EditorBase
             return tableCache.Cache;
         }
 
-        Action? cb = addEntryCallback is { } x ? () => x.Invoke(tableCache.Root) : null;
+        Action? cb = null;
+        if (addEntryCallback != null)
+            cb = () => addEntryCallback.Invoke(tableCache.Root);
 
         using var form = new GenericEditor<T2>(loader, getName, title, rand, cb, canSave);
         form.ShowDialog();
