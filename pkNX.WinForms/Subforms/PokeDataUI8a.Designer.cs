@@ -1,4 +1,4 @@
-﻿using pkNX.WinForms.Subforms;
+using pkNX.WinForms.Subforms;
 
 namespace pkNX.WinForms
 {
@@ -37,6 +37,7 @@ namespace pkNX.WinForms
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label L_MiscSpecies;
             System.Windows.Forms.Label LB_ResearchTasks;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TB_MiscAlphaScale = new System.Windows.Forms.TextBox();
             this.TB_MiscScale = new System.Windows.Forms.TextBox();
             this.TB_MiscForm = new System.Windows.Forms.MaskedTextBox();
@@ -126,6 +127,7 @@ namespace pkNX.WinForms
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Personal = new System.Windows.Forms.TabPage();
+            this.B_PDumpTable = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.CB_HeldItem1 = new System.Windows.Forms.ComboBox();
             this.CB_Ability1 = new System.Windows.Forms.ComboBox();
@@ -138,7 +140,6 @@ namespace pkNX.WinForms
             this.CB_EggGroup1 = new System.Windows.Forms.ComboBox();
             this.CHK_Field_45 = new System.Windows.Forms.CheckBox();
             this.TB_Field_47 = new System.Windows.Forms.MaskedTextBox();
-            this.B_PDumpTable = new System.Windows.Forms.Button();
             this.TB_Field_46 = new System.Windows.Forms.MaskedTextBox();
             this.CHK_Variant = new System.Windows.Forms.CheckBox();
             this.Tab_Pokedex = new System.Windows.Forms.TabPage();
@@ -230,9 +231,9 @@ namespace pkNX.WinForms
             GB_PokeMisc.Controls.Add(L_MiscSpecies);
             GB_PokeMisc.Controls.Add(this.TB_MiscSpecies);
             GB_PokeMisc.Controls.Add(this.PG_PokeMisc);
-            GB_PokeMisc.Location = new System.Drawing.Point(215, 265);
+            GB_PokeMisc.Location = new System.Drawing.Point(215, 254);
             GB_PokeMisc.Name = "GB_PokeMisc";
-            GB_PokeMisc.Size = new System.Drawing.Size(684, 325);
+            GB_PokeMisc.Size = new System.Drawing.Size(677, 325);
             GB_PokeMisc.TabIndex = 536;
             GB_PokeMisc.TabStop = false;
             GB_PokeMisc.Text = "Poke Misc";
@@ -294,9 +295,10 @@ namespace pkNX.WinForms
             // 
             // TB_MiscForm
             // 
+            this.TB_MiscForm.HidePromptOnLeave = true;
             this.TB_MiscForm.Location = new System.Drawing.Point(152, 57);
             this.TB_MiscForm.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_MiscForm.Mask = "000";
+            this.TB_MiscForm.Mask = "##0";
             this.TB_MiscForm.Name = "TB_MiscForm";
             this.TB_MiscForm.Size = new System.Drawing.Size(48, 31);
             this.TB_MiscForm.TabIndex = 540;
@@ -317,7 +319,7 @@ namespace pkNX.WinForms
             // 
             this.TB_MiscSpecies.Location = new System.Drawing.Point(152, 25);
             this.TB_MiscSpecies.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_MiscSpecies.Mask = "000";
+            this.TB_MiscSpecies.Mask = "0000";
             this.TB_MiscSpecies.Name = "TB_MiscSpecies";
             this.TB_MiscSpecies.Size = new System.Drawing.Size(48, 31);
             this.TB_MiscSpecies.TabIndex = 538;
@@ -332,14 +334,14 @@ namespace pkNX.WinForms
             this.PG_PokeMisc.Location = new System.Drawing.Point(287, 22);
             this.PG_PokeMisc.Name = "PG_PokeMisc";
             this.PG_PokeMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.PG_PokeMisc.Size = new System.Drawing.Size(394, 300);
+            this.PG_PokeMisc.Size = new System.Drawing.Size(387, 286);
             this.PG_PokeMisc.TabIndex = 0;
             this.PG_PokeMisc.ToolbarVisible = false;
             // 
             // LB_ResearchTasks
             // 
             LB_ResearchTasks.AutoSize = true;
-            LB_ResearchTasks.Location = new System.Drawing.Point(6, 178);
+            LB_ResearchTasks.Location = new System.Drawing.Point(10, 176);
             LB_ResearchTasks.Name = "LB_ResearchTasks";
             LB_ResearchTasks.Size = new System.Drawing.Size(131, 25);
             LB_ResearchTasks.TabIndex = 1;
@@ -501,7 +503,7 @@ namespace pkNX.WinForms
             this.L_BST.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.L_BST.AutoSize = true;
-            this.L_BST.Location = new System.Drawing.Point(458, 20);
+            this.L_BST.Location = new System.Drawing.Point(437, 24);
             this.L_BST.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_BST.Name = "L_BST";
             this.L_BST.Size = new System.Drawing.Size(45, 41);
@@ -725,75 +727,75 @@ namespace pkNX.WinForms
             // Label_HP
             // 
             this.Label_HP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_HP.Location = new System.Drawing.Point(122, 0);
-            this.Label_HP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_HP.Location = new System.Drawing.Point(109, 0);
+            this.Label_HP.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.Label_HP.Name = "Label_HP";
-            this.Label_HP.Size = new System.Drawing.Size(48, 20);
+            this.Label_HP.Size = new System.Drawing.Size(54, 20);
             this.Label_HP.TabIndex = 424;
             this.Label_HP.Text = "HP:";
-            this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_HP.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Label_ATK
             // 
             this.Label_ATK.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_ATK.Location = new System.Drawing.Point(178, 0);
-            this.Label_ATK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_ATK.Location = new System.Drawing.Point(163, 0);
+            this.Label_ATK.Margin = new System.Windows.Forms.Padding(0);
             this.Label_ATK.Name = "Label_ATK";
-            this.Label_ATK.Size = new System.Drawing.Size(48, 20);
+            this.Label_ATK.Size = new System.Drawing.Size(54, 24);
             this.Label_ATK.TabIndex = 425;
             this.Label_ATK.Text = "Atk:";
-            this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Label_DEF
             // 
             this.Label_DEF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_DEF.Location = new System.Drawing.Point(234, 0);
-            this.Label_DEF.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_DEF.Location = new System.Drawing.Point(217, 0);
+            this.Label_DEF.Margin = new System.Windows.Forms.Padding(0);
             this.Label_DEF.Name = "Label_DEF";
-            this.Label_DEF.Size = new System.Drawing.Size(48, 20);
+            this.Label_DEF.Size = new System.Drawing.Size(54, 24);
             this.Label_DEF.TabIndex = 426;
             this.Label_DEF.Text = "Def:";
-            this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Label_SPA
             // 
             this.Label_SPA.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_SPA.Location = new System.Drawing.Point(290, 0);
-            this.Label_SPA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_SPA.Location = new System.Drawing.Point(271, 0);
+            this.Label_SPA.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPA.Name = "Label_SPA";
-            this.Label_SPA.Size = new System.Drawing.Size(48, 20);
+            this.Label_SPA.Size = new System.Drawing.Size(54, 24);
             this.Label_SPA.TabIndex = 427;
             this.Label_SPA.Text = "SpA:";
-            this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Label_SPD
             // 
             this.Label_SPD.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_SPD.Location = new System.Drawing.Point(346, 0);
-            this.Label_SPD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_SPD.Location = new System.Drawing.Point(325, 0);
+            this.Label_SPD.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPD.Name = "Label_SPD";
-            this.Label_SPD.Size = new System.Drawing.Size(48, 20);
+            this.Label_SPD.Size = new System.Drawing.Size(54, 24);
             this.Label_SPD.TabIndex = 428;
             this.Label_SPD.Text = "SpD:";
-            this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Label_SPE
             // 
             this.Label_SPE.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_SPE.Location = new System.Drawing.Point(402, 0);
-            this.Label_SPE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Label_SPE.Location = new System.Drawing.Point(379, 0);
+            this.Label_SPE.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPE.Name = "Label_SPE";
-            this.Label_SPE.Size = new System.Drawing.Size(48, 20);
+            this.Label_SPE.Size = new System.Drawing.Size(54, 24);
             this.Label_SPE.TabIndex = 429;
             this.Label_SPE.Text = "Spe:";
-            this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // L_EVYield
             // 
             this.L_EVYield.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.L_EVYield.AutoSize = true;
-            this.L_EVYield.Location = new System.Drawing.Point(35, 61);
+            this.L_EVYield.Location = new System.Drawing.Point(26, 65);
             this.L_EVYield.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_EVYield.Name = "L_EVYield";
             this.L_EVYield.Size = new System.Drawing.Size(79, 37);
@@ -806,7 +808,7 @@ namespace pkNX.WinForms
             this.L_BaseStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.L_BaseStats.AutoSize = true;
-            this.L_BaseStats.Location = new System.Drawing.Point(19, 20);
+            this.L_BaseStats.Location = new System.Drawing.Point(10, 24);
             this.L_BaseStats.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_BaseStats.Name = "L_BaseStats";
             this.L_BaseStats.Size = new System.Drawing.Size(95, 41);
@@ -919,6 +921,7 @@ namespace pkNX.WinForms
             // 
             // TB_HisuianDex
             // 
+            this.TB_HisuianDex.HidePromptOnLeave = true;
             this.TB_HisuianDex.Location = new System.Drawing.Point(131, 77);
             this.TB_HisuianDex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.TB_HisuianDex.Mask = "000";
@@ -939,6 +942,7 @@ namespace pkNX.WinForms
             this.CB_Type2.Name = "CB_Type2";
             this.CB_Type2.Size = new System.Drawing.Size(145, 33);
             this.CB_Type2.TabIndex = 444;
+            this.CB_Type2.TabStop = false;
             // 
             // CB_Type1
             // 
@@ -952,12 +956,14 @@ namespace pkNX.WinForms
             this.CB_Type1.Name = "CB_Type1";
             this.CB_Type1.Size = new System.Drawing.Size(145, 33);
             this.CB_Type1.TabIndex = 443;
+            this.CB_Type1.TabStop = false;
             // 
             // TB_Form
             // 
+            this.TB_Form.HidePromptOnLeave = true;
             this.TB_Form.Location = new System.Drawing.Point(131, 40);
             this.TB_Form.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Form.Mask = "0";
+            this.TB_Form.Mask = "##0";
             this.TB_Form.Name = "TB_Form";
             this.TB_Form.ReadOnly = true;
             this.TB_Form.Size = new System.Drawing.Size(48, 31);
@@ -966,9 +972,10 @@ namespace pkNX.WinForms
             // 
             // TB_BaseExp
             // 
+            this.TB_BaseExp.HidePromptOnLeave = true;
             this.TB_BaseExp.Location = new System.Drawing.Point(359, 3);
             this.TB_BaseExp.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_BaseExp.Mask = "000";
+            this.TB_BaseExp.Mask = "###0";
             this.TB_BaseExp.Name = "TB_BaseExp";
             this.TB_BaseExp.Size = new System.Drawing.Size(48, 31);
             this.TB_BaseExp.TabIndex = 459;
@@ -989,9 +996,10 @@ namespace pkNX.WinForms
             // 
             // TB_RawColor
             // 
+            this.TB_RawColor.HidePromptOnLeave = true;
             this.TB_RawColor.Location = new System.Drawing.Point(359, 40);
             this.TB_RawColor.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_RawColor.Mask = "000";
+            this.TB_RawColor.Mask = "##0";
             this.TB_RawColor.Name = "TB_RawColor";
             this.TB_RawColor.ReadOnly = true;
             this.TB_RawColor.Size = new System.Drawing.Size(48, 31);
@@ -1000,9 +1008,10 @@ namespace pkNX.WinForms
             // 
             // TB_Gender
             // 
+            this.TB_Gender.HidePromptOnLeave = true;
             this.TB_Gender.Location = new System.Drawing.Point(359, 77);
             this.TB_Gender.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Gender.Mask = "000";
+            this.TB_Gender.Mask = "##0";
             this.TB_Gender.Name = "TB_Gender";
             this.TB_Gender.Size = new System.Drawing.Size(48, 31);
             this.TB_Gender.TabIndex = 454;
@@ -1057,6 +1066,7 @@ namespace pkNX.WinForms
             this.CB_EXPGroup.Name = "CB_EXPGroup";
             this.CB_EXPGroup.Size = new System.Drawing.Size(145, 33);
             this.CB_EXPGroup.TabIndex = 469;
+            this.CB_EXPGroup.TabStop = false;
             // 
             // CB_Color
             // 
@@ -1070,6 +1080,7 @@ namespace pkNX.WinForms
             this.CB_Color.Name = "CB_Color";
             this.CB_Color.Size = new System.Drawing.Size(145, 33);
             this.CB_Color.TabIndex = 470;
+            this.CB_Color.TabStop = false;
             // 
             // CHK_IsPresentInGame
             // 
@@ -1078,7 +1089,6 @@ namespace pkNX.WinForms
             this.CHK_IsPresentInGame.AutoSize = true;
             this.CHK_IsPresentInGame.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tableLayoutPanel1.SetColumnSpan(this.CHK_IsPresentInGame, 3);
-            this.CHK_IsPresentInGame.Enabled = false;
             this.CHK_IsPresentInGame.Location = new System.Drawing.Point(521, 262);
             this.CHK_IsPresentInGame.Margin = new System.Windows.Forms.Padding(0, 3, 18, 3);
             this.CHK_IsPresentInGame.MinimumSize = new System.Drawing.Size(174, 26);
@@ -1093,7 +1103,7 @@ namespace pkNX.WinForms
             // 
             this.TB_Stage.Location = new System.Drawing.Point(359, 262);
             this.TB_Stage.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Stage.Mask = "0";
+            this.TB_Stage.Mask = "##0";
             this.TB_Stage.Name = "TB_Stage";
             this.TB_Stage.ReadOnly = true;
             this.TB_Stage.Size = new System.Drawing.Size(48, 31);
@@ -1102,9 +1112,10 @@ namespace pkNX.WinForms
             // 
             // TB_CatchRate
             // 
+            this.TB_CatchRate.HidePromptOnLeave = true;
             this.TB_CatchRate.Location = new System.Drawing.Point(359, 188);
             this.TB_CatchRate.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_CatchRate.Mask = "000";
+            this.TB_CatchRate.Mask = "##0";
             this.TB_CatchRate.Name = "TB_CatchRate";
             this.TB_CatchRate.Size = new System.Drawing.Size(48, 31);
             this.TB_CatchRate.TabIndex = 478;
@@ -1112,9 +1123,10 @@ namespace pkNX.WinForms
             // 
             // TB_Friendship
             // 
+            this.TB_Friendship.HidePromptOnLeave = true;
             this.TB_Friendship.Location = new System.Drawing.Point(359, 225);
             this.TB_Friendship.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Friendship.Mask = "000";
+            this.TB_Friendship.Mask = "##0";
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(48, 31);
             this.TB_Friendship.TabIndex = 455;
@@ -1197,9 +1209,10 @@ namespace pkNX.WinForms
             // 
             // TB_FormCount
             // 
+            this.TB_FormCount.HidePromptOnLeave = true;
             this.TB_FormCount.Location = new System.Drawing.Point(160, 396);
             this.TB_FormCount.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_FormCount.Mask = "0";
+            this.TB_FormCount.Mask = "##0";
             this.TB_FormCount.Name = "TB_FormCount";
             this.TB_FormCount.ReadOnly = true;
             this.TB_FormCount.Size = new System.Drawing.Size(48, 31);
@@ -1208,9 +1221,10 @@ namespace pkNX.WinForms
             // 
             // TB_Field_18
             // 
+            this.TB_Field_18.HidePromptOnLeave = true;
             this.TB_Field_18.Location = new System.Drawing.Point(160, 297);
             this.TB_Field_18.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Field_18.Mask = "000";
+            this.TB_Field_18.Mask = "##0";
             this.TB_Field_18.Name = "TB_Field_18";
             this.TB_Field_18.Size = new System.Drawing.Size(48, 31);
             this.TB_Field_18.TabIndex = 457;
@@ -1260,29 +1274,32 @@ namespace pkNX.WinForms
             this.tableLayoutPanel2.Controls.Add(this.TB_BST, 8, 1);
             this.tableLayoutPanel2.Controls.Add(this.L_BST, 7, 1);
             this.tableLayoutPanel2.Controls.Add(this.TB_BaseHP, 1, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 8);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 8);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(563, 97);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(542, 101);
             this.tableLayoutPanel2.TabIndex = 534;
             // 
             // TB_HPEVs
             // 
-            this.TB_HPEVs.Location = new System.Drawing.Point(121, 64);
-            this.TB_HPEVs.Mask = "000";
+            this.TB_HPEVs.HidePromptOnLeave = true;
+            this.TB_HPEVs.Location = new System.Drawing.Point(112, 68);
+            this.TB_HPEVs.Mask = "##0";
             this.TB_HPEVs.Name = "TB_HPEVs";
             this.TB_HPEVs.Size = new System.Drawing.Size(47, 31);
             this.TB_HPEVs.TabIndex = 436;
             this.TB_HPEVs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPEVs.ValidatingType = typeof(byte);
             // 
             // TB_BaseATK
             // 
-            this.TB_BaseATK.Location = new System.Drawing.Point(177, 23);
-            this.TB_BaseATK.Mask = "000";
+            this.TB_BaseATK.HidePromptOnLeave = true;
+            this.TB_BaseATK.Location = new System.Drawing.Point(166, 27);
+            this.TB_BaseATK.Mask = "##0";
             this.TB_BaseATK.Name = "TB_BaseATK";
             this.TB_BaseATK.Size = new System.Drawing.Size(47, 31);
             this.TB_BaseATK.TabIndex = 431;
@@ -1290,8 +1307,9 @@ namespace pkNX.WinForms
             // 
             // TB_ATKEVs
             // 
-            this.TB_ATKEVs.Location = new System.Drawing.Point(177, 64);
-            this.TB_ATKEVs.Mask = "000";
+            this.TB_ATKEVs.HidePromptOnLeave = true;
+            this.TB_ATKEVs.Location = new System.Drawing.Point(166, 68);
+            this.TB_ATKEVs.Mask = "##0";
             this.TB_ATKEVs.Name = "TB_ATKEVs";
             this.TB_ATKEVs.Size = new System.Drawing.Size(48, 31);
             this.TB_ATKEVs.TabIndex = 437;
@@ -1299,8 +1317,9 @@ namespace pkNX.WinForms
             // 
             // TB_BaseDEF
             // 
-            this.TB_BaseDEF.Location = new System.Drawing.Point(233, 23);
-            this.TB_BaseDEF.Mask = "000";
+            this.TB_BaseDEF.HidePromptOnLeave = true;
+            this.TB_BaseDEF.Location = new System.Drawing.Point(220, 27);
+            this.TB_BaseDEF.Mask = "##0";
             this.TB_BaseDEF.Name = "TB_BaseDEF";
             this.TB_BaseDEF.Size = new System.Drawing.Size(48, 31);
             this.TB_BaseDEF.TabIndex = 432;
@@ -1308,8 +1327,9 @@ namespace pkNX.WinForms
             // 
             // TB_DEFEVs
             // 
-            this.TB_DEFEVs.Location = new System.Drawing.Point(233, 64);
-            this.TB_DEFEVs.Mask = "000";
+            this.TB_DEFEVs.HidePromptOnLeave = true;
+            this.TB_DEFEVs.Location = new System.Drawing.Point(220, 68);
+            this.TB_DEFEVs.Mask = "##0";
             this.TB_DEFEVs.Name = "TB_DEFEVs";
             this.TB_DEFEVs.Size = new System.Drawing.Size(48, 31);
             this.TB_DEFEVs.TabIndex = 438;
@@ -1317,8 +1337,9 @@ namespace pkNX.WinForms
             // 
             // TB_BaseSPA
             // 
-            this.TB_BaseSPA.Location = new System.Drawing.Point(289, 23);
-            this.TB_BaseSPA.Mask = "000";
+            this.TB_BaseSPA.HidePromptOnLeave = true;
+            this.TB_BaseSPA.Location = new System.Drawing.Point(274, 27);
+            this.TB_BaseSPA.Mask = "##0";
             this.TB_BaseSPA.Name = "TB_BaseSPA";
             this.TB_BaseSPA.Size = new System.Drawing.Size(47, 31);
             this.TB_BaseSPA.TabIndex = 433;
@@ -1326,8 +1347,9 @@ namespace pkNX.WinForms
             // 
             // TB_SPAEVs
             // 
-            this.TB_SPAEVs.Location = new System.Drawing.Point(289, 64);
-            this.TB_SPAEVs.Mask = "000";
+            this.TB_SPAEVs.HidePromptOnLeave = true;
+            this.TB_SPAEVs.Location = new System.Drawing.Point(274, 68);
+            this.TB_SPAEVs.Mask = "##0";
             this.TB_SPAEVs.Name = "TB_SPAEVs";
             this.TB_SPAEVs.Size = new System.Drawing.Size(48, 31);
             this.TB_SPAEVs.TabIndex = 439;
@@ -1335,8 +1357,9 @@ namespace pkNX.WinForms
             // 
             // TB_BaseSPD
             // 
-            this.TB_BaseSPD.Location = new System.Drawing.Point(345, 23);
-            this.TB_BaseSPD.Mask = "000";
+            this.TB_BaseSPD.HidePromptOnLeave = true;
+            this.TB_BaseSPD.Location = new System.Drawing.Point(328, 27);
+            this.TB_BaseSPD.Mask = "##0";
             this.TB_BaseSPD.Name = "TB_BaseSPD";
             this.TB_BaseSPD.Size = new System.Drawing.Size(48, 31);
             this.TB_BaseSPD.TabIndex = 434;
@@ -1344,8 +1367,9 @@ namespace pkNX.WinForms
             // 
             // TB_SPDEVs
             // 
-            this.TB_SPDEVs.Location = new System.Drawing.Point(345, 64);
-            this.TB_SPDEVs.Mask = "000";
+            this.TB_SPDEVs.HidePromptOnLeave = true;
+            this.TB_SPDEVs.Location = new System.Drawing.Point(328, 68);
+            this.TB_SPDEVs.Mask = "##0";
             this.TB_SPDEVs.Name = "TB_SPDEVs";
             this.TB_SPDEVs.Size = new System.Drawing.Size(47, 31);
             this.TB_SPDEVs.TabIndex = 440;
@@ -1353,8 +1377,9 @@ namespace pkNX.WinForms
             // 
             // TB_BaseSPE
             // 
-            this.TB_BaseSPE.Location = new System.Drawing.Point(401, 23);
-            this.TB_BaseSPE.Mask = "000";
+            this.TB_BaseSPE.HidePromptOnLeave = true;
+            this.TB_BaseSPE.Location = new System.Drawing.Point(382, 27);
+            this.TB_BaseSPE.Mask = "##0";
             this.TB_BaseSPE.Name = "TB_BaseSPE";
             this.TB_BaseSPE.Size = new System.Drawing.Size(47, 31);
             this.TB_BaseSPE.TabIndex = 435;
@@ -1362,8 +1387,9 @@ namespace pkNX.WinForms
             // 
             // TB_SPEEVs
             // 
-            this.TB_SPEEVs.Location = new System.Drawing.Point(401, 64);
-            this.TB_SPEEVs.Mask = "000";
+            this.TB_SPEEVs.HidePromptOnLeave = true;
+            this.TB_SPEEVs.Location = new System.Drawing.Point(382, 68);
+            this.TB_SPEEVs.Mask = "##0";
             this.TB_SPEEVs.Name = "TB_SPEEVs";
             this.TB_SPEEVs.Size = new System.Drawing.Size(48, 31);
             this.TB_SPEEVs.TabIndex = 441;
@@ -1371,9 +1397,10 @@ namespace pkNX.WinForms
             // 
             // TB_BST
             // 
-            this.TB_BST.Location = new System.Drawing.Point(511, 25);
+            this.TB_BST.HidePromptOnLeave = true;
+            this.TB_BST.Location = new System.Drawing.Point(490, 29);
             this.TB_BST.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TB_BST.Mask = "000";
+            this.TB_BST.Mask = "##0";
             this.TB_BST.Name = "TB_BST";
             this.TB_BST.ReadOnly = true;
             this.TB_BST.Size = new System.Drawing.Size(48, 31);
@@ -1382,8 +1409,9 @@ namespace pkNX.WinForms
             // 
             // TB_BaseHP
             // 
-            this.TB_BaseHP.Location = new System.Drawing.Point(121, 23);
-            this.TB_BaseHP.Mask = "000";
+            this.TB_BaseHP.HidePromptOnLeave = true;
+            this.TB_BaseHP.Location = new System.Drawing.Point(112, 27);
+            this.TB_BaseHP.Mask = "##0";
             this.TB_BaseHP.Name = "TB_BaseHP";
             this.TB_BaseHP.Size = new System.Drawing.Size(48, 31);
             this.TB_BaseHP.TabIndex = 430;
@@ -1415,18 +1443,18 @@ namespace pkNX.WinForms
             this.tabControl1.Location = new System.Drawing.Point(3, 317);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(918, 676);
+            this.tabControl1.Size = new System.Drawing.Size(911, 656);
             this.tabControl1.TabIndex = 1;
             // 
             // Tab_Personal
             // 
+            this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(GB_PokeMisc);
             this.Tab_Personal.Controls.Add(this.tableLayoutPanel4);
             this.Tab_Personal.Controls.Add(this.tableLayoutPanel2);
             this.Tab_Personal.Controls.Add(this.CHK_Field_45);
             this.Tab_Personal.Controls.Add(this.TB_Field_47);
             this.Tab_Personal.Controls.Add(this.L_Field_47);
-            this.Tab_Personal.Controls.Add(this.B_PDumpTable);
             this.Tab_Personal.Controls.Add(this.L_Field_18);
             this.Tab_Personal.Controls.Add(this.TB_Field_18);
             this.Tab_Personal.Controls.Add(this.TB_Field_46);
@@ -1440,10 +1468,22 @@ namespace pkNX.WinForms
             this.Tab_Personal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Personal.Name = "Tab_Personal";
             this.Tab_Personal.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_Personal.Size = new System.Drawing.Size(910, 638);
+            this.Tab_Personal.Size = new System.Drawing.Size(903, 618);
             this.Tab_Personal.TabIndex = 0;
             this.Tab_Personal.Text = "Personal";
             this.Tab_Personal.UseVisualStyleBackColor = true;
+            // 
+            // B_PDumpTable
+            // 
+            this.B_PDumpTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_PDumpTable.Location = new System.Drawing.Point(780, 580);
+            this.B_PDumpTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.B_PDumpTable.Name = "B_PDumpTable";
+            this.B_PDumpTable.Size = new System.Drawing.Size(112, 35);
+            this.B_PDumpTable.TabIndex = 502;
+            this.B_PDumpTable.Text = "Dump Table";
+            this.B_PDumpTable.UseVisualStyleBackColor = true;
+            this.B_PDumpTable.Click += new System.EventHandler(this.B_PDumpTable_Click);
             // 
             // tableLayoutPanel4
             // 
@@ -1477,7 +1517,7 @@ namespace pkNX.WinForms
             this.tableLayoutPanel4.Controls.Add(this.CB_Ability3, 5, 2);
             this.tableLayoutPanel4.Controls.Add(this.CB_EggGroup1, 9, 0);
             this.tableLayoutPanel4.Controls.Add(this.L_EggGroup, 8, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(8, 111);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(7, 115);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 4;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -1595,31 +1635,21 @@ namespace pkNX.WinForms
             // 
             // TB_Field_47
             // 
+            this.TB_Field_47.HidePromptOnLeave = true;
             this.TB_Field_47.Location = new System.Drawing.Point(160, 363);
             this.TB_Field_47.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Field_47.Mask = "000";
+            this.TB_Field_47.Mask = "##0";
             this.TB_Field_47.Name = "TB_Field_47";
             this.TB_Field_47.Size = new System.Drawing.Size(48, 31);
             this.TB_Field_47.TabIndex = 523;
             this.TB_Field_47.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // B_PDumpTable
-            // 
-            this.B_PDumpTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_PDumpTable.Location = new System.Drawing.Point(786, 593);
-            this.B_PDumpTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.B_PDumpTable.Name = "B_PDumpTable";
-            this.B_PDumpTable.Size = new System.Drawing.Size(112, 35);
-            this.B_PDumpTable.TabIndex = 502;
-            this.B_PDumpTable.Text = "Dump Table";
-            this.B_PDumpTable.UseVisualStyleBackColor = true;
-            this.B_PDumpTable.Click += new System.EventHandler(this.B_PDumpTable_Click);
-            // 
             // TB_Field_46
             // 
+            this.TB_Field_46.HidePromptOnLeave = true;
             this.TB_Field_46.Location = new System.Drawing.Point(160, 330);
             this.TB_Field_46.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Field_46.Mask = "000";
+            this.TB_Field_46.Mask = "##0";
             this.TB_Field_46.Name = "TB_Field_46";
             this.TB_Field_46.Size = new System.Drawing.Size(48, 31);
             this.TB_Field_46.TabIndex = 483;
@@ -1647,7 +1677,7 @@ namespace pkNX.WinForms
             this.Tab_Pokedex.Location = new System.Drawing.Point(4, 34);
             this.Tab_Pokedex.Name = "Tab_Pokedex";
             this.Tab_Pokedex.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Pokedex.Size = new System.Drawing.Size(910, 638);
+            this.Tab_Pokedex.Size = new System.Drawing.Size(903, 618);
             this.Tab_Pokedex.TabIndex = 4;
             this.Tab_Pokedex.Text = "Pokedex";
             this.Tab_Pokedex.UseVisualStyleBackColor = true;
@@ -1655,7 +1685,7 @@ namespace pkNX.WinForms
             // B_AddTask
             // 
             this.B_AddTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_AddTask.Location = new System.Drawing.Point(456, 171);
+            this.B_AddTask.Location = new System.Drawing.Point(468, 171);
             this.B_AddTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.B_AddTask.Name = "B_AddTask";
             this.B_AddTask.Size = new System.Drawing.Size(137, 35);
@@ -1668,7 +1698,7 @@ namespace pkNX.WinForms
             // B_DeleteTask
             // 
             this.B_DeleteTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_DeleteTask.Location = new System.Drawing.Point(746, 171);
+            this.B_DeleteTask.Location = new System.Drawing.Point(758, 171);
             this.B_DeleteTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.B_DeleteTask.Name = "B_DeleteTask";
             this.B_DeleteTask.Size = new System.Drawing.Size(137, 35);
@@ -1681,7 +1711,7 @@ namespace pkNX.WinForms
             // B_CloneTask
             // 
             this.B_CloneTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_CloneTask.Location = new System.Drawing.Point(601, 171);
+            this.B_CloneTask.Location = new System.Drawing.Point(613, 171);
             this.B_CloneTask.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.B_CloneTask.Name = "B_CloneTask";
             this.B_CloneTask.Size = new System.Drawing.Size(137, 35);
@@ -1699,7 +1729,7 @@ namespace pkNX.WinForms
             this.PG_DexResearchTasks.HelpVisible = false;
             this.PG_DexResearchTasks.Location = new System.Drawing.Point(10, 214);
             this.PG_DexResearchTasks.Name = "PG_DexResearchTasks";
-            this.PG_DexResearchTasks.Size = new System.Drawing.Size(874, 395);
+            this.PG_DexResearchTasks.Size = new System.Drawing.Size(885, 398);
             this.PG_DexResearchTasks.TabIndex = 0;
             this.PG_DexResearchTasks.ToolbarVisible = false;
             this.PG_DexResearchTasks.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PG_DexResearchTasks_SelectedGridItemChanged);
@@ -1717,7 +1747,7 @@ namespace pkNX.WinForms
             this.Tab_Learn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Learn.Name = "Tab_Learn";
             this.Tab_Learn.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_Learn.Size = new System.Drawing.Size(910, 638);
+            this.Tab_Learn.Size = new System.Drawing.Size(903, 618);
             this.Tab_Learn.TabIndex = 1;
             this.Tab_Learn.Text = "Learnset";
             this.Tab_Learn.UseVisualStyleBackColor = true;
@@ -1725,9 +1755,9 @@ namespace pkNX.WinForms
             // CLB_SpecialTutor
             // 
             this.CLB_SpecialTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_SpecialTutor.FormattingEnabled = true;
-            this.CLB_SpecialTutor.Location = new System.Drawing.Point(665, 259);
+            this.CLB_SpecialTutor.Location = new System.Drawing.Point(680, 231);
             this.CLB_SpecialTutor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_SpecialTutor.Name = "CLB_SpecialTutor";
             this.CLB_SpecialTutor.Size = new System.Drawing.Size(218, 368);
@@ -1735,8 +1765,9 @@ namespace pkNX.WinForms
             // 
             // L_TypeTutors
             // 
+            this.L_TypeTutors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_TypeTutors.AutoSize = true;
-            this.L_TypeTutors.Location = new System.Drawing.Point(665, 5);
+            this.L_TypeTutors.Location = new System.Drawing.Point(680, 5);
             this.L_TypeTutors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_TypeTutors.Name = "L_TypeTutors";
             this.L_TypeTutors.Size = new System.Drawing.Size(116, 25);
@@ -1745,8 +1776,9 @@ namespace pkNX.WinForms
             // 
             // L_TM
             // 
+            this.L_TM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_TM.AutoSize = true;
-            this.L_TM.Location = new System.Drawing.Point(439, 5);
+            this.L_TM.Location = new System.Drawing.Point(454, 5);
             this.L_TM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_TM.Name = "L_TM";
             this.L_TM.Size = new System.Drawing.Size(49, 25);
@@ -1756,24 +1788,23 @@ namespace pkNX.WinForms
             // CLB_TypeTutor
             // 
             this.CLB_TypeTutor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_TypeTutor.FormattingEnabled = true;
-            this.CLB_TypeTutor.Location = new System.Drawing.Point(665, 35);
+            this.CLB_TypeTutor.Location = new System.Drawing.Point(680, 35);
             this.CLB_TypeTutor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_TypeTutor.Name = "CLB_TypeTutor";
-            this.CLB_TypeTutor.Size = new System.Drawing.Size(218, 200);
+            this.CLB_TypeTutor.Size = new System.Drawing.Size(218, 172);
             this.CLB_TypeTutor.TabIndex = 8;
             // 
             // CLB_TM
             // 
-            this.CLB_TM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.CLB_TM.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_TM.FormattingEnabled = true;
-            this.CLB_TM.Location = new System.Drawing.Point(439, 35);
+            this.CLB_TM.Location = new System.Drawing.Point(454, 35);
             this.CLB_TM.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CLB_TM.Name = "CLB_TM";
-            this.CLB_TM.Size = new System.Drawing.Size(218, 592);
+            this.CLB_TM.Size = new System.Drawing.Size(218, 564);
             this.CLB_TM.TabIndex = 6;
             // 
             // L_LevelUp
@@ -1788,17 +1819,26 @@ namespace pkNX.WinForms
             // 
             // dgv
             // 
-            this.dgv.AllowUserToResizeColumns = false;
             this.dgv.AllowUserToResizeRows = false;
             this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Location = new System.Drawing.Point(8, 35);
             this.dgv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgv.Name = "dgv";
+            this.dgv.RowHeadersVisible = false;
             this.dgv.RowHeadersWidth = 62;
-            this.dgv.Size = new System.Drawing.Size(423, 592);
+            this.dgv.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv.Size = new System.Drawing.Size(427, 564);
             this.dgv.TabIndex = 1;
             // 
             // Tab_Evo
@@ -1807,7 +1847,7 @@ namespace pkNX.WinForms
             this.Tab_Evo.Location = new System.Drawing.Point(4, 34);
             this.Tab_Evo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Evo.Name = "Tab_Evo";
-            this.Tab_Evo.Size = new System.Drawing.Size(910, 638);
+            this.Tab_Evo.Size = new System.Drawing.Size(903, 618);
             this.Tab_Evo.TabIndex = 2;
             this.Tab_Evo.Text = "Evolve";
             this.Tab_Evo.UseVisualStyleBackColor = true;
@@ -1818,7 +1858,7 @@ namespace pkNX.WinForms
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(910, 638);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(903, 618);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // Tab_Extra
@@ -1828,7 +1868,7 @@ namespace pkNX.WinForms
             this.Tab_Extra.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Extra.Name = "Tab_Extra";
             this.Tab_Extra.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_Extra.Size = new System.Drawing.Size(910, 638);
+            this.Tab_Extra.Size = new System.Drawing.Size(903, 618);
             this.Tab_Extra.TabIndex = 3;
             this.Tab_Extra.Text = "Enhancements";
             this.Tab_Extra.UseVisualStyleBackColor = true;
@@ -1843,7 +1883,7 @@ namespace pkNX.WinForms
             this.TC_Rand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TC_Rand.Name = "TC_Rand";
             this.TC_Rand.SelectedIndex = 0;
-            this.TC_Rand.Size = new System.Drawing.Size(902, 628);
+            this.TC_Rand.Size = new System.Drawing.Size(895, 608);
             this.TC_Rand.TabIndex = 0;
             // 
             // Tab_RStats
@@ -1856,7 +1896,7 @@ namespace pkNX.WinForms
             this.Tab_RStats.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_RStats.Name = "Tab_RStats";
             this.Tab_RStats.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_RStats.Size = new System.Drawing.Size(894, 590);
+            this.Tab_RStats.Size = new System.Drawing.Size(887, 570);
             this.Tab_RStats.TabIndex = 1;
             this.Tab_RStats.Text = "Randomize Personal";
             this.Tab_RStats.UseVisualStyleBackColor = true;
@@ -1920,7 +1960,7 @@ namespace pkNX.WinForms
             this.PG_Personal.Location = new System.Drawing.Point(9, 54);
             this.PG_Personal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PG_Personal.Name = "PG_Personal";
-            this.PG_Personal.Size = new System.Drawing.Size(877, 510);
+            this.PG_Personal.Size = new System.Drawing.Size(870, 490);
             this.PG_Personal.TabIndex = 0;
             this.PG_Personal.ToolbarVisible = false;
             // 
@@ -1933,7 +1973,7 @@ namespace pkNX.WinForms
             this.Tab_RLearn.Location = new System.Drawing.Point(4, 34);
             this.Tab_RLearn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_RLearn.Name = "Tab_RLearn";
-            this.Tab_RLearn.Size = new System.Drawing.Size(894, 590);
+            this.Tab_RLearn.Size = new System.Drawing.Size(887, 570);
             this.Tab_RLearn.TabIndex = 2;
             this.Tab_RLearn.Text = "Randomize Learn";
             this.Tab_RLearn.UseVisualStyleBackColor = true;
@@ -1949,7 +1989,7 @@ namespace pkNX.WinForms
             this.tabControl2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(877, 515);
+            this.tabControl2.Size = new System.Drawing.Size(870, 495);
             this.tabControl2.TabIndex = 6;
             // 
             // Tab_Learnset
@@ -1959,7 +1999,7 @@ namespace pkNX.WinForms
             this.Tab_Learnset.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Learnset.Name = "Tab_Learnset";
             this.Tab_Learnset.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_Learnset.Size = new System.Drawing.Size(869, 477);
+            this.Tab_Learnset.Size = new System.Drawing.Size(862, 457);
             this.Tab_Learnset.TabIndex = 0;
             this.Tab_Learnset.Text = "Learn Settings";
             this.Tab_Learnset.UseVisualStyleBackColor = true;
@@ -1970,7 +2010,7 @@ namespace pkNX.WinForms
             this.PG_Learn.Location = new System.Drawing.Point(4, 5);
             this.PG_Learn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PG_Learn.Name = "PG_Learn";
-            this.PG_Learn.Size = new System.Drawing.Size(861, 467);
+            this.PG_Learn.Size = new System.Drawing.Size(854, 447);
             this.PG_Learn.TabIndex = 2;
             this.PG_Learn.ToolbarVisible = false;
             // 
@@ -1981,7 +2021,7 @@ namespace pkNX.WinForms
             this.Tab_Moveset.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_Moveset.Name = "Tab_Moveset";
             this.Tab_Moveset.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Tab_Moveset.Size = new System.Drawing.Size(869, 477);
+            this.Tab_Moveset.Size = new System.Drawing.Size(862, 457);
             this.Tab_Moveset.TabIndex = 1;
             this.Tab_Moveset.Text = "Moveset Settings";
             this.Tab_Moveset.UseVisualStyleBackColor = true;
@@ -1992,7 +2032,7 @@ namespace pkNX.WinForms
             this.PG_Move.Location = new System.Drawing.Point(4, 5);
             this.PG_Move.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PG_Move.Name = "PG_Move";
-            this.PG_Move.Size = new System.Drawing.Size(861, 467);
+            this.PG_Move.Size = new System.Drawing.Size(854, 447);
             this.PG_Move.TabIndex = 3;
             this.PG_Move.ToolbarVisible = false;
             // 
@@ -2038,7 +2078,7 @@ namespace pkNX.WinForms
             this.Tab_REvo.Location = new System.Drawing.Point(4, 34);
             this.Tab_REvo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Tab_REvo.Name = "Tab_REvo";
-            this.Tab_REvo.Size = new System.Drawing.Size(894, 590);
+            this.Tab_REvo.Size = new System.Drawing.Size(887, 570);
             this.Tab_REvo.TabIndex = 3;
             this.Tab_REvo.Text = "Randomize Evo";
             this.Tab_REvo.UseVisualStyleBackColor = true;
@@ -2084,7 +2124,7 @@ namespace pkNX.WinForms
             this.PG_Evolution.Location = new System.Drawing.Point(9, 50);
             this.PG_Evolution.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PG_Evolution.Name = "PG_Evolution";
-            this.PG_Evolution.Size = new System.Drawing.Size(877, 515);
+            this.PG_Evolution.Size = new System.Drawing.Size(870, 495);
             this.PG_Evolution.TabIndex = 2;
             this.PG_Evolution.ToolbarVisible = false;
             // 
@@ -2126,7 +2166,7 @@ namespace pkNX.WinForms
             this.B_PreviousPokemon.Location = new System.Drawing.Point(3, 252);
             this.B_PreviousPokemon.Name = "B_PreviousPokemon";
             this.B_PreviousPokemon.Size = new System.Drawing.Size(35, 26);
-            this.B_PreviousPokemon.TabIndex = 529;
+            this.B_PreviousPokemon.TabIndex = 4;
             this.B_PreviousPokemon.Text = "<<";
             this.TT_ButtonTooltip.SetToolTip(this.B_PreviousPokemon, "Previous Pokemon");
             this.B_PreviousPokemon.UseVisualStyleBackColor = true;
@@ -2144,7 +2184,7 @@ namespace pkNX.WinForms
             this.B_PreviousForm.Margin = new System.Windows.Forms.Padding(0, 3, 4, 3);
             this.B_PreviousForm.Name = "B_PreviousForm";
             this.B_PreviousForm.Size = new System.Drawing.Size(35, 26);
-            this.B_PreviousForm.TabIndex = 530;
+            this.B_PreviousForm.TabIndex = 3;
             this.B_PreviousForm.Text = "<";
             this.TT_ButtonTooltip.SetToolTip(this.B_PreviousForm, "Previous Form");
             this.B_PreviousForm.UseVisualStyleBackColor = true;
@@ -2189,7 +2229,7 @@ namespace pkNX.WinForms
             this.B_NextForm.Margin = new System.Windows.Forms.Padding(4, 3, 0, 3);
             this.B_NextForm.Name = "B_NextForm";
             this.B_NextForm.Size = new System.Drawing.Size(35, 26);
-            this.B_NextForm.TabIndex = 531;
+            this.B_NextForm.TabIndex = 1;
             this.B_NextForm.Text = ">";
             this.TT_ButtonTooltip.SetToolTip(this.B_NextForm, "Next Form");
             this.B_NextForm.UseVisualStyleBackColor = true;
@@ -2206,7 +2246,7 @@ namespace pkNX.WinForms
             this.B_NextPokemon.Location = new System.Drawing.Point(134, 252);
             this.B_NextPokemon.Name = "B_NextPokemon";
             this.B_NextPokemon.Size = new System.Drawing.Size(47, 26);
-            this.B_NextPokemon.TabIndex = 528;
+            this.B_NextPokemon.TabIndex = 2;
             this.B_NextPokemon.Text = ">>";
             this.TT_ButtonTooltip.SetToolTip(this.B_NextPokemon, "Next Pokemon");
             this.B_NextPokemon.UseVisualStyleBackColor = true;
@@ -2441,5 +2481,6 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Button B_AddTask;
         private System.Windows.Forms.Button B_DeleteTask;
         private System.Windows.Forms.Button B_CloneTask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LevelMastery;
     }
 }

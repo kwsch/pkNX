@@ -123,33 +123,37 @@ public partial class PokeDataUI8a : Form
 
     private void InitLearn()
     {
-        string[] sortedmoves = (string[])movelist.Clone();
+        DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn()
+        {
+            HeaderText = "Level",
+            DisplayIndex = 0,
+            Width = 60,
+            MinimumWidth = 44,
+            Resizable = DataGridViewTriState.True,
+            ValueType = typeof(ushort)
+        };
 
-        Array.Sort(sortedmoves);
-        DataGridViewColumn dgvLevel = new DataGridViewTextBoxColumn();
+        DataGridViewColumn dgvLevelMastery = new DataGridViewTextBoxColumn
         {
-            dgvLevel.HeaderText = "Level";
-            dgvLevel.DisplayIndex = 0;
-            dgvLevel.Width = 45;
-            dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        }
-        DataGridViewColumn dgvLevelMastery = new DataGridViewTextBoxColumn();
-        {
-            dgvLevel.HeaderText = "Level Mastery";
-            dgvLevel.DisplayIndex = 0;
-            dgvLevel.Width = 45;
-            dgvLevel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        }
-        DataGridViewComboBoxColumn dgvMove = new();
-        {
-            dgvMove.HeaderText = "Move";
-            dgvMove.DisplayIndex = 1;
-            for (int i = 0; i < movelist.Length; i++)
-                dgvMove.Items.Add(sortedmoves[i]); // add only the Names
+            HeaderText = "Mastery Level",
+            DisplayIndex = 1,
+            Width = 130,
+            MinimumWidth = 44,
+            Resizable = DataGridViewTriState.True,
+            ValueType = typeof(ushort)
+        };
 
-            dgvMove.Width = 135;
-            dgvMove.FlatStyle = FlatStyle.Flat;
-        }
+        DataGridViewComboBoxColumn dgvMove = new()
+        {
+            HeaderText = "Move",
+            DisplayIndex = 2,
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+            Resizable = DataGridViewTriState.True,
+            FlatStyle = FlatStyle.Flat,
+        };
+        dgvMove.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        dgvMove.Items.AddRange(movelist.ToImmutableSortedSet().ToArray()); // add only the Names
+
         dgv.Columns.Add(dgvLevel);
         dgv.Columns.Add(dgvLevelMastery);
         dgv.Columns.Add(dgvMove);
@@ -182,7 +186,9 @@ public partial class PokeDataUI8a : Form
 
         LoadDexResearch(Editor.DexResearch.Root.GetEntries(spec));
 
-        LoadLearnset(Editor.Learn[index]);
+        var learnsetTable = Editor.Learn.Root.Table;
+        LoadLearnset(learnsetTable.First(x => x.Species == spec && x.Form == form));
+
         var evoTable = Editor.Evolve.Root.Table;
         LoadEvolutions(evoTable.First(x => x.Species == spec && x.Form == form));
 
@@ -295,6 +301,13 @@ public partial class PokeDataUI8a : Form
             CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);*/
         for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
             CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
+
+
+        // For some reason editing the combobox value causes these 4 to get selected ???
+        CB_EXPGroup.SelectionLength = 0;
+        CB_Color.SelectionLength = 0;
+        CB_Type1.SelectionLength = 0;
+        CB_Type2.SelectionLength = 0;
     }
 
     private void LoadMisc(PokeMisc8a pokeMisc8a)
@@ -458,6 +471,7 @@ public partial class PokeDataUI8a : Form
 
     private void LoadLearnset(Learnset8aMeta pkm)
     {
+        dgv.SuspendLayout();
         cLearnset = pkm;
         dgv.Rows.Clear();
         if (pkm.Arceus.Length == 0)
@@ -470,34 +484,42 @@ public partial class PokeDataUI8a : Form
         // Fill Entries
         for (int i = 0; i < pkm.Arceus.Length; i++)
         {
-            dgv.Rows[i].Cells[0].Value = pkm.Arceus[i].Level;
-            dgv.Rows[i].Cells[1].Value = movelist[pkm.Arceus[i].LevelMaster];
-            dgv.Rows[i].Cells[2].Value = movelist[pkm.Arceus[i].Move];
+            Learnset8aEntry entry = pkm.Arceus[i];
+            dgv.Rows[i].Cells[0].Value = entry.Level;
+            dgv.Rows[i].Cells[1].Value = entry.LevelMaster;
+            dgv.Rows[i].Cells[2].Value = movelist[entry.Move];
         }
 
         dgv.CancelEdit();
+        dgv.ResumeLayout();
     }
 
     private bool SaveLearnset()
     {
-        // TODO
         var pkm = cLearnset;
-        List<int> moves = new();
-        List<int> levelMaster = new();
-        List<int> levels = new();
-        for (int i = 0; i < dgv.Rows.Count - 1; i++)
+        int rowCount = dgv.Rows.Count - 1;
+
+        var entries = new List<Learnset8aEntry>();
+        for (int i = 0; i < rowCount; i++)
         {
             var cells = dgv.Rows[i].Cells;
-            int move = Array.IndexOf(movelist, cells[2].Value);
-            if (move < 1)
-                continue;
 
-            moves.Add((short)move);
-            string level = cells[0].Value?.ToString() ?? "0";
-            _ = int.TryParse(level, out var lv);
-            levels.Add(Math.Min(100, lv));
+            int move = Array.IndexOf(movelist, cells[2].Value);
+            if (move < 0)
+                continue; // Remove all entries that have invalid moves
+
+            _ = ushort.TryParse(cells[0].Value?.ToString(), out var lvl);
+            _ = ushort.TryParse(cells[1].Value?.ToString(), out var lvlMastry);
+
+            entries.Add(new Learnset8aEntry
+            {
+                Move = (ushort)move,
+                Level = Math.Clamp(lvl, (ushort)0, (ushort)100),
+                LevelMaster = Math.Clamp(lvlMastry, (ushort)0, (ushort)100)
+            });
         }
-        //pkm.Update(moves.ToArray(), levels.ToArray());
+
+        pkm.Arceus = entries.ToArray();
 
         return true;
     }
@@ -506,11 +528,9 @@ public partial class PokeDataUI8a : Form
     {
         cEvos = s;
 
-        if (cEvos.Table == null)
-            return;
-
         var numPossibleEvos = cEvos.Table.Length;
 
+        flowLayoutPanel1.SuspendLayout();
         flowLayoutPanel1.Controls.Clear();
         EvoRows = new EvolutionRow8a[numPossibleEvos];
 
@@ -523,6 +543,7 @@ public partial class PokeDataUI8a : Form
 
             row.LoadEvolution(cEvos.Table[i]);
         }
+        flowLayoutPanel1.ResumeLayout();
     }
 
     private bool SaveEvolutions()
@@ -860,6 +881,10 @@ public partial class PokeDataUI8a : Form
         var rEnc = Editor.EncounterRateTable.Root;
         if (!rEnc.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
             rEnc.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
+
+        var rCap = Editor.CaptureCollisionTable.Root;
+        if (!rCap.HasEntry(cPersonal.DexIndexNational, cPersonal.Form))
+            rCap.AddEntry(cPersonal.DexIndexNational, cPersonal.Form);
     }
 
     private void TB_Gender_TextChanged(object sender, EventArgs e)

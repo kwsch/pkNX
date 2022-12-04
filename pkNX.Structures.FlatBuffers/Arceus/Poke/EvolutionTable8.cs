@@ -25,11 +25,11 @@ public class EvolutionSet8a
 {
     [FlatBufferItem(0)] public ushort Species { get; set; }
     [FlatBufferItem(1)] public ushort Form { get; set; }
-    [FlatBufferItem(2)] public EvolutionEntry8a[]? Table { get; set; } = Array.Empty<EvolutionEntry8a>();
+    [FlatBufferItem(2)] public EvolutionEntry8a[] Table { get; set; } = Array.Empty<EvolutionEntry8a>();
 
     public byte[] Write()
     {
-        if (Table is null)
+        if (Table.Length == 0)
             return Array.Empty<byte>();
 
         using var ms = new MemoryStream();
