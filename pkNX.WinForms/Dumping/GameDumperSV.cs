@@ -244,7 +244,7 @@ public class GameDumperSV
 
         var learnsets = SerializeLearnsetPickle(pt);
         File.WriteAllBytes(GetPath("pkhex", "lvlmove_sv.pkl"), MiniUtil.PackMini(learnsets, "sv"));
-        var egg = SerializeU16Pickle(pt, z => z.EggMoves);
+        var egg = SerializeEggMovePickle(pt);
         File.WriteAllBytes(GetPath("pkhex", "eggmove_sv.pkl"), MiniUtil.PackMini(egg, "sv"));
         var remind = SerializeU16Pickle(pt, z => z.ReminderMoves);
         File.WriteAllBytes(GetPath("pkhex", "reminder_sv.pkl"), MiniUtil.PackMini(remind, "sv"));
@@ -406,6 +406,52 @@ public class GameDumperSV
                 bw.Write((ushort)lvl);
             }
             bw.Write(-1);
+            return ms.ToArray();
+        }
+    }
+
+    private static byte[][] SerializeEggMovePickle(PersonalTable9SV pt)
+    {
+        var t = pt.Table;
+        var result = new byte[t.Length][];
+        for (int i = 0; i < t.Length; i++)
+        {
+            var p = t[i].FB;
+            if (!p.IsPresentInGame)
+                result[i] = Array.Empty<byte>();
+            else
+            {
+                var moves = p.EggMoves.Select(z => z).ToArray();
+
+                // Some Egg Moves are still unobtainable because no other Pokémon can learn said move to share with the target species.
+                var form = t[i].Form;
+                moves = (Species)p.Info.DexIndexNational switch
+                {
+                    // Moves that can not be learned by any other species
+                    Species.Psyduck => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
+                    Species.Spoink  => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
+                    Species.Happiny => moves.Where(z => z is not (ushort)Move.HealBell).ToArray(),
+
+                    // Available after HOME
+                    Species.Stantler => moves.Where(z => z is not (ushort)Move.PsyshieldBash).ToArray(),
+                    Species.Rellor => moves.Where(z => z is not (ushort)Move.CosmicPower).ToArray(),
+                    Species.Growlithe when form == 0 => moves.Where(z => z is not (ushort)Move.RagingFury).ToArray(),
+                    Species.Qwilfish when form == 0 => moves.Where(z => z is not (ushort)Move.BarbBarrage).ToArray(),
+                    _ => moves,
+                };
+
+                result[i] = Write(moves);
+            }
+                
+        }
+        return result;
+
+        static byte[] Write(ushort[] moves)
+        {
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+            foreach (var m in moves.OrderBy(z => z)) // just in case
+                bw.Write(m);
             return ms.ToArray();
         }
     }
