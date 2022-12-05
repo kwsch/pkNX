@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+
+namespace pkNX.Structures.FlatBuffers;
+
+public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel, byte MaxLevel, byte Time, ushort CrossFromLocation = 0) : IComparable<PaldeaEncounter>
+{
+    public byte MinLevel { get; private set; } = MinLevel;
+    public byte MaxLevel { get; private set; } = MaxLevel;
+
+    public int Gender => Sex switch
+    {
+        1 => 0,
+        2 => 1,
+        _ => -1,
+    };
+
+    public static PaldeaEncounter GetNew(EncountPokeData pd, PointData ep)
+    {
+        // Combine the 4 bools into a single byte
+        var time = pd.TimeTable;
+        var bits = (byte)((time.Morning ? 1 : 0) | (time.Noon ? 2 : 0) | (time.Evening ? 4 : 0) | (time.Night ? 8 : 0));
+        var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
+        var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
+        return new((ushort)pd.DevId, (byte)pd.Form, (byte)pd.Sex, min, max, bits);
+    }
+
+    public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep)
+    {
+        // Combine the 4 bools into a single byte
+        var time = pd.TimeTable;
+        var bits = (byte)((time.Morning ? 1 : 0) | (time.Noon ? 2 : 0) | (time.Evening ? 4 : 0) | (time.Night ? 8 : 0));
+        var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
+        var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
+        return new((ushort)pd.BandPoke, (byte)pd.BandForm, (byte)pd.BandSex, min, max, bits);
+    }
+
+    public string GetEncountString(IReadOnlyList<string> specNames)
+    {
+        var species = specNames[Species];
+        return GetString(species);
+    }
+
+    public override string ToString()
+    {
+        return GetString(((PKHeX.Core.Species)Species).ToString());
+    }
+
+    private string GetString(string species)
+    {
+        var form = Form == 0 ? "" : $"-{Form}";
+        var sex = Sex == 0 ? "" : $" (sex={Sex})";
+        return $"{species}{form}{sex} Lv. {MinLevel}-{MaxLevel}";
+    }
+
+    public bool Absorb(PaldeaEncounter other)
+    {
+        if (Time != other.Time)
+            return false;
+        if (CrossFromLocation != other.CrossFromLocation)
+            return false;
+        if (other.MinLevel == MinLevel && other.MaxLevel == MaxLevel)
+            return true;
+
+        if (!IsLevelRangeOverlap(other) && !other.IsLevelRangeOverlap(this))
+            return false;
+
+        MinLevel = Math.Min(MinLevel, other.MinLevel);
+        MaxLevel = Math.Max(MaxLevel, other.MaxLevel);
+        return true;
+    }
+
+    public bool IsSameSpecFormGender(PaldeaEncounter other)
+    {
+        if (Species != other.Species || Form != other.Form)
+            return false;
+        if (Sex != other.Sex)
+            return false;
+        return true;
+    }
+
+    private bool IsLevelRangeOverlap(PaldeaEncounter other)
+    {
+        // If our level range overlaps with the other (with +/- 1 tolerance), return true.
+        return MaxLevel + 1 >= other.MinLevel && MinLevel + 1 <= other.MaxLevel;
+    }
+
+    public int CompareTo(PaldeaEncounter? other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (other is null) return 1;
+        int speciesComparison = Species.CompareTo(other.Species);
+        if (speciesComparison != 0) return speciesComparison;
+        int formComparison = Form.CompareTo(other.Form);
+        if (formComparison != 0) return formComparison;
+        int sexComparison = Sex.CompareTo(other.Sex);
+        if (sexComparison != 0) return sexComparison;
+        int minLevelComparison = MinLevel.CompareTo(other.MinLevel);
+        if (minLevelComparison != 0) return minLevelComparison;
+        int maxLevelComparison = MaxLevel.CompareTo(other.MaxLevel);
+        if (maxLevelComparison != 0) return maxLevelComparison;
+        int timeComparison = Time.CompareTo(other.Time);
+        if (timeComparison != 0) return timeComparison;
+        return CrossFromLocation.CompareTo(other.CrossFromLocation);
+    }
+
+    public ulong GetHash()
+    {
+        ulong result = Species;
+        result = (result << 16) | CrossFromLocation;
+
+        result = (result << 8) | Form;
+        result = (result << 8) | (byte)((byte)(Time << 4) | Sex);
+        result = (result << 8) | MinLevel;
+        result = (result << 8) | MaxLevel;
+        return result;
+    }
+}

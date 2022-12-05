@@ -425,7 +425,7 @@ public static class HavokCollision
         };
     }
 
-    public class AABBTree
+    public class AABBTree : IContainsV3f
     {
         private readonly List<hkcdSimdTreeNode> _nodes;
         private int _numLeafRects;
@@ -471,8 +471,10 @@ public static class HavokCollision
 
         // Official logic for area-containment checks for y intersection between y+1 and y-10000.0
         public bool ContainsPoint(float x, float y, float z) => ContainsPointInNode(1, x, y - 10000, y + 1, z);
+        public bool ContainsPoint(float x, float y, float z, float toleranceX, float toleranceY, float toleranceZ)
+            => ContainsPointInNode(1, x, y - 10000, y + 1, z, toleranceX, toleranceY, toleranceZ);
 
-        private bool ContainsPointInNode(int nodeIndex, float x, float ly, float hy, float z)
+        private bool ContainsPointInNode(int nodeIndex, float x, float ly, float hy, float z, float tx = 0f, float ty = 0f, float tz = 0f)
         {
             if (nodeIndex == 0)
                 return false;
@@ -480,16 +482,17 @@ public static class HavokCollision
             var node = _nodes[nodeIndex];
             for (var i = 0; i < 4; i++)
             {
-                if (node.lx[i] > node.hx[i] || !(node.lx[i] <= x && x <= node.hx[i]))
+                if (node.lx[i] > node.hx[i] || !(node.lx[i] - tx <= x) || !(node.hx[i] + tx >= x))
                     continue;
-                if (node.lz[i] > node.hz[i] || !(node.lz[i] <= z && z <= node.hz[i]))
+                if (node.lz[i] > node.hz[i] || !(node.lz[i] - tz <= z) || !(node.hz[i] + tz >= z))
                     continue;
-                if (node.ly[i] > node.hy[i] || !(node.ly[i] <= hy && ly <= node.hy[i]))
+                if (node.ly[i] > node.hy[i] || !(node.ly[i] - ty <= hy) || !(node.hy[i] + ty >= ly))
                     continue;
-                if (node.IsLeaf || ContainsPointInNode((int)node.data[i], x, ly, hy, z))
+                if (node.IsLeaf)
+                    return true;
+                if (ContainsPointInNode((int)node.data[i], x, ly, hy, z, tx, ty, tz))
                     return true;
             }
-
             return false;
         }
     }
@@ -584,4 +587,10 @@ public static class HavokCollision
         public uint Offset;
         public uint Count;
     }
+}
+
+public interface IContainsV3f
+{
+    bool ContainsPoint(float x, float y, float z);
+    bool ContainsPoint(float x, float y, float z, float toleranceX, float toleranceY, float toleranceZ);
 }

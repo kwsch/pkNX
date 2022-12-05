@@ -487,6 +487,7 @@ public class GameDumperSV
 
     private void DumpEncount()
     {
+        Dump<TreeShakePokemonArray, TreeShakePokemon>("world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs");
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_atlantis.bfbs");
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_100000.bfbs");
         Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata/pokedata_array.bfbs");
@@ -861,6 +862,7 @@ public class GameDumperSV
             "world/data/encount/setting/setting/data.bfbs",
             "world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs",
             "world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs",
+            "world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs",
             // Field
             "world/data/field/area/field_dungeon_area/field_dungeon_area_array.bfbs",
             "world/data/field/area/field_inside_area/field_inside_area_array.bfbs",
