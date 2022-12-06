@@ -49,11 +49,6 @@ public class EncounterDumperSV
         foreach (var areaName in scene.areaNames)
         {
             var areaInfo = scene.AreaInfos[areaName];
-            var name = areaInfo.LocationNameMain;
-            if (string.IsNullOrEmpty(name))
-                continue;
-            if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
-                continue;
 
             // Determine potential spawners
             if (!scene.TryGetContainsCheck(areaName, out var collider))
@@ -62,7 +57,15 @@ public class EncounterDumperSV
                 continue;
             }
 
+            // Locations that do not spawn encounters can still have crossovers bleed into them.
+            // We'll have empty local encounter lists for them.
+            var name = areaInfo.LocationNameMain;
+            if (string.IsNullOrEmpty(name))
+                continue;
             var storage = db.Get(placeNameMap[name].Index, areaName, areaInfo);
+            if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
+                continue;
+
             var points = scene.isAtlantis[areaName] ? pointAtlantis : pointMain;
             storage.LoadPoints(points, collider, areaInfo.ActualMinLevel, areaInfo.ActualMaxLevel);
             storage.GetEncounters(pokeData, scene);
@@ -75,11 +78,6 @@ public class EncounterDumperSV
         {
             // Same sanity checking as above iteration.
             var areaInfo = scene.AreaInfos[areaName];
-            var name = areaInfo.LocationNameMain;
-            if (string.IsNullOrEmpty(name))
-                continue;
-            if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
-                continue;
 
             // Determine potential spawners
             if (!scene.TryGetContainsCheck(areaName, out var collider))
@@ -87,6 +85,12 @@ public class EncounterDumperSV
                 Console.WriteLine($"No collider for {areaName}");
                 continue;
             }
+
+            var name = areaInfo.LocationNameMain;
+            if (string.IsNullOrEmpty(name))
+                continue;
+            //if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
+            //    continue;
 
             var storage = db.Get(placeNameMap[name].Index, areaName, areaInfo);
             // Here's where the fun begins. Iterate over areas inside this loop so we can look for all possible adjacent areas.
