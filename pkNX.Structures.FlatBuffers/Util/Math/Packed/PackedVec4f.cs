@@ -11,6 +11,8 @@ public class PackedVec4f
     [FlatBufferItem(2)] public float Z { get; set; }
     [FlatBufferItem(3)] public float W { get; set; }
 
+    public PackedVec4f() { }
+
     public PackedVec4f(float x = 0, float y = 0, float z = 0, float w = 0)
     {
         X = x;
@@ -18,4 +20,6 @@ public class PackedVec4f
         Z = z;
         W = w;
     }
+
+    public override string ToString() => $"{{ X: {X}, Y: {Y}, Z: {Z}, W: {W} }}";
 }

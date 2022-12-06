@@ -12,4 +12,6 @@ public class AABB
 {
     [FlatBufferItem(0)] public PackedVec3f Min { get; set; }
     [FlatBufferItem(1)] public PackedVec3f Max { get; set; }
+
+    public override string ToString() => $"{{ Min: {Min}, Max: {Max} }}";
 }
