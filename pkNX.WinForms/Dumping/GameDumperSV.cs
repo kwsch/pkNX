@@ -1121,6 +1121,6 @@ public class GameDumperSV
 
     public void DumpDistributionRaids(string path)
     {
-        TeraRaidRipper.DumpDistributionRaids(path);
+        TeraRaidRipper.DumpDistributionRaids(ROM, path);
     }
 }
