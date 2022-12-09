@@ -365,7 +365,7 @@ public class TeraRaidRipper
                 TokuseiType.SET_2 => "2 Only",
                 TokuseiType.SET_3 => "Hidden Only",
                 TokuseiType.RANDOM_12 => "1/2",
-                _ => "1/2/Hidden",
+                _ => "1/2/H",
             };
 
             var shiny = boss.RareType switch
