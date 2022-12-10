@@ -22,6 +22,7 @@ public class Vec3f : IEquatable<Vec3f>
         Y = y;
         Z = z;
     }
+    public static implicit operator Vec3f(PackedVec3f v) => new(v.X, v.Y, v.Z);
 
     public bool IsOne => X is 1 && Y is 1 && Z is 1;
     public bool IsZero => X is 0 && Y is 0 && Z is 0;
