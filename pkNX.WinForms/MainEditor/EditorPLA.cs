@@ -760,9 +760,9 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Misc, true)]
     public void EditArchiveContents()
     {
-        var ArchiveFolder = ROM.GetFilteredFolder(GameFile.ArchiveFolder);
+        var archiveFolder = ROM.GetFilteredFolder(GameFile.ArchiveFolder);
 
-        var paths = ArchiveFolder.GetPaths()
+        var paths = archiveFolder.GetPaths()
             .Select(p => Path.GetRelativePath(ROM.PathRomFS, p).Replace('\\', '/'))
             .ToDictionary(p => FnvHash.HashFnv1a_64(p));
 
