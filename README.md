@@ -23,7 +23,7 @@ Supports the following games:
 * Let's Go, Pikachu! / Let's Go, Eevee!
 * Sword / Shield
 * Legends: Arceus
-* Scarlet / Violet
+* Scarlet / Violet **(Currently only for dumping information, not to edit files!)**
 
 **For Sword, Shield, Scarlet, and Violet, pkNX operates under the assumption that your dumped ROM includes the latest available update data.**
 
