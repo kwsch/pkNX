@@ -22,9 +22,10 @@ _Note: To run the app it is required to have the [.NET Desktop Runtime](https://
 Supports the following games:
 * Let's Go, Pikachu! / Let's Go, Eevee!
 * Sword / Shield
-* Legends Arceus
+* Legends: Arceus
+* Scarlet / Violet
 
-**For Sword and Shield, pkNX operates under the assumption that your dumped ROM includes the Ver. 1.3.0 patch.**
+**For Sword, Shield, Scarlet, and Violet, pkNX operates under the assumption that your dumped ROM includes the latest available update data.**
 
 Editors can be launched from the program's main window after opening a dumped & unpacked ROM. 
 * To lessen read/write lag, data is only saved when the user cleanly quits the program. 

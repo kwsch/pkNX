@@ -41,17 +41,17 @@ public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
         {
             Meta = new() { Species = species, Form = form, Gender = gender },
             PathModel = $"{basePath}/mdl/{pmStr}.trmdl",
-            PathConfig = $"{basePath}/mdl/{pmStr}.trmmt",
-            PathArchive = $"{basePath}/{pmStr}.trpokecfg",
+            PathMeshMaterial = $"{basePath}/mdl/{pmStr}.trmmt",
+            PathConfig = $"{basePath}/{pmStr}.trpokecfg",
 
-            Field_05 = new AnimationConfigStringTuple8a[] {
+            Animations = new AnimationConfigStringTuple8a[] {
                 new(){
                     Name = "base",
                     Path = $"{basePath}/anm/{pmStr}_base.tracn",
                 }
             },
 
-            Field_06 = new AnimationConfigStringTuple8a[] {
+            Effects = new AnimationConfigStringTuple8a[] {
                 new() {
                     Name = "eff",
                     Path = $"{basePath}/locators/{pmStr}_eff.trskl",
@@ -83,11 +83,11 @@ public class PokeModelConfig8a
 {
     [FlatBufferItem(00)] public PokeModelMeta8a Meta { get; set; } = new();
     [FlatBufferItem(01)] public string PathModel { get; set; } = string.Empty; // string
-    [FlatBufferItem(02)] public string PathConfig { get; set; } = string.Empty; // string
-    [FlatBufferItem(03)] public string PathArchive { get; set; } = string.Empty; // string
+    [FlatBufferItem(02)] public string PathMeshMaterial { get; set; } = string.Empty; // string
+    [FlatBufferItem(03)] public string PathConfig { get; set; } = string.Empty; // string
     [FlatBufferItem(04)] public byte Unused { get; set; } // unused!
-    [FlatBufferItem(05)] public AnimationConfigStringTuple8a[] Field_05 { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
-    [FlatBufferItem(06)] public AnimationConfigStringTuple8a[] Field_06 { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
+    [FlatBufferItem(05)] public AnimationConfigStringTuple8a[] Animations { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
+    [FlatBufferItem(06)] public AnimationConfigStringTuple8a[] Effects { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
     [FlatBufferItem(07)] public int? ArceusType { get; set; } // Specified by Arceus' forms -- NEW!
 }
 

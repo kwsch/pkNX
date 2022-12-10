@@ -10,4 +10,6 @@ public class PackedQuaternion
     [FlatBufferItem(1)] public float X { get; set; } = 0.0f;
     [FlatBufferItem(2)] public float Y { get; set; } = 0.0f;
     [FlatBufferItem(3)] public float Z { get; set; } = 0.0f;
+
+    public override string ToString() => $"{{ W: {W}, X: {X}, Y: {Y}, Z: {Z} }}";
 }
