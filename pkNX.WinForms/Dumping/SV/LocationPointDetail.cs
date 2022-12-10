@@ -20,4 +20,9 @@ public class LocationPointDetail
     public readonly List<PaldeaEncounter> Slots = new();
 
     public void Add(PaldeaEncounter slot) => Slots.Add(slot);
+
+    public string GetString()
+    {
+        return $"{Location:0000} ({X:0.0000},{Y:0.0000},{Z:0.0000}) {Point.Biome} ({Point.LevelRange.X}-{Point.LevelRange.Y}) {Slots.Count:00}";
+    }
 }

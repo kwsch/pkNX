@@ -137,6 +137,9 @@ public class EncounterDumperSV
                 WriteLocation(sw, specNames, placeNameMap, s.AreaName, s.AreaInfo, s.Slots);
             using var tw = File.CreateText(Path.Combine(path, "titan_loc_enc.txt"));
             WriteLocEncList(tw, specNames, placeNameMap, db);
+
+            using var pw = File.CreateText(Path.Combine(path, "titan_loc_point.txt"));
+            WriteLocPointList(pw, placeNameMap, db);
         }
         if (writePickle)
         {
@@ -206,7 +209,7 @@ public class EncounterDumperSV
                 switch (pd.WazaType)
                 {
                     case WazaType.DEFAULT:
-                        gw.WriteLine($"    Moves:   Random");
+                        gw.WriteLine("    Moves:   Random");
                         break;
                     case WazaType.MANUAL:
                         gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
@@ -261,7 +264,7 @@ public class EncounterDumperSV
             }
         }
 
-        using var cw = File.CreateText(Path.Combine(path, $"titan_coin_symbol.txt"));
+        using var cw = File.CreateText(Path.Combine(path, "titan_coin_symbol.txt"));
         foreach (var entry in csym.Points)
         {
             var areas = new List<string>();
@@ -453,6 +456,48 @@ public class EncounterDumperSV
             var heading = $"{name} ({index})";
             WriteEncounts(tw, specNames, heading, encounts.Slots);
         }
+    }
+
+    private static void WriteLocPointList(TextWriter tw,
+        IReadOnlyDictionary<string, (string Name, int Index)> placeNameMap,
+        LocationDatabase db)
+    {
+        foreach (var place in placeNameMap.Keys.OrderBy(p => placeNameMap[p].Index))
+        {
+            (string name, int index) = placeNameMap[place];
+            if (!db.Locations.TryGetValue(index, out var loc))
+                continue;
+
+            var heading = $"{name} ({index})";
+            WriteBiomes(tw, heading, loc.Local);
+        }
+
+        foreach (var place in placeNameMap.Keys.OrderBy(p => placeNameMap[p].Index))
+        {
+            (string name, int index) = placeNameMap[place];
+            if (!db.Locations.TryGetValue(index, out var loc))
+                continue;
+
+            var heading = $"{name} ({index})";
+            WritePoints(tw, heading, loc.Local);
+        }
+    }
+
+    private static void WriteBiomes(TextWriter tw, string heading, List<LocationPointDetail> points)
+    {
+        var biomes = points.Select(z => z.Point.Biome).Distinct().Select(z => z.ToString()).OrderBy(z => z);
+        var btext = string.Join(',', biomes);
+        tw.WriteLine($"{heading}\t{btext}");
+    }
+
+    private static void WritePoints(TextWriter tw, string heading, List<LocationPointDetail> points)
+    {
+        tw.WriteLine("===");
+        tw.WriteLine(heading);
+        tw.WriteLine("===");
+        foreach (var e in points)
+            tw.WriteLine($" - {e.GetString()}");
+        tw.WriteLine();
     }
 
     private static void WriteEncounts(TextWriter tw, IReadOnlyList<string> specNames, string heading, IEnumerable<PaldeaEncounter> encounts)
