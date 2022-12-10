@@ -455,7 +455,7 @@ public partial class ModelConverter : Form
                         Size = new VertexSize[] { new(){ Size = layoutOffset } },
                     }
                 },
-                BoundingSphere = new PackedSphere(bounds), // TODO
+                BoundingSphere = new PackedSphere(bounds),
                 Bounds = bounds,
                 IndexLayoutType = IndexLayoutType.IndexLayoutType_Uint16, // Always Uint16 on PLA all models
                 Weights = new BoneWeights[] { }, // TODO
@@ -500,9 +500,208 @@ public partial class ModelConverter : Form
 
     }
 
+    private MaterialPass FromStandardShaderParams(Material8 oldMaterial)
+    {
+        var oldFlags = oldMaterial.Flags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
+        var oldUberFlags = oldMaterial.StaticParam.UberFlags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
+
+        return new MaterialPass
+        {
+            Name = oldMaterial.Name,
+            Shaders = new Shader[]
+            {
+                new()
+                {
+                    ShaderName = "Standard",
+                    ShaderValues = new StringParameter[]
+                    {
+                        new("EnableBaseColorMap", oldFlags["useColorTex"]),
+                        new("EnableNormalMap", oldFlags["NormalMapEnable"]),
+                        new("EnableParallaxMap", "?"), // TODO
+                        new("EnableMetallicMap", "?"), // TODO
+                        new("EnableRoughnessMap", "?"), // TODO
+                        new("EnableEmissionColorMap", oldFlags["EmissionMaskUse"]),
+                        new("EnableAOMap", oldFlags["AmbientMapEnable"]),
+                        new("EnableAlphaTest", (oldMaterial.TextureAlphaTest == 0).ToString()), // TODO
+                        new("NumMaterialLayer", "5"), // TODO: Adds the ParamName + LayerX parameters
+                        new("EnableLerpBaseColorEmission", "?"), // TODO
+                        new("EnableVertexBaseColor", "?"), // TODO
+                    }
+                }
+            },
+            FloatParameter = new FloatParameter[]
+            {
+                new("DiscardValue", 0f),                          // TODO
+                new("Metallic", 0f),                              // TODO
+                new("MetallicLayer1", 0f),                        // TODO
+                new("MetallicLayer2", 0f),                        // TODO
+                new("MetallicLayer3", 0f),                        // TODO
+                new("MetallicLayer4", 0f),                        // TODO
+                new("Roughness", 0.5f),                           // TODO
+                new("RoughnessLayer1", 0f),                       // TODO
+                new("RoughnessLayer2", 0f),                       // TODO
+                new("RoughnessLayer3", 0.1f),                     // TODO
+                new("RoughnessLayer4", 0.1f),                     // TODO
+                new("NormalHeight", 1f),                          // TODO
+                new("EmissionIntensity", 0f),                     // TODO
+                new("EmissionIntensityLayer1", 0f),               // TODO
+                new("EmissionIntensityLayer2", 0f),               // TODO
+                new("EmissionIntensityLayer3", 0f),               // TODO
+                new("EmissionIntensityLayer4", 0f),               // TODO
+                new("LayerMaskScale1", 1f),                       // TODO
+                new("LayerMaskScale2", 1f),                       // TODO
+                new("LayerMaskScale3", 1f),                       // TODO
+                new("LayerMaskScale4", 1f),                       // TODO
+            },
+            TextureParameters = Array.Empty<TextureParameter>(), // TODO
+            Samplers = Array.Empty<SamplerState>(), // TODO
+            Field_05 = "", // TODO
+            Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
+            Float4Parameter = Array.Empty<Float4Parameter>(), // TODO
+            Field_08 = "", // TODO
+            IntParameter = new IntParameter[]
+            {
+                new("CastShadow", oldMaterial.CastShadow),
+                new("ReceiveShadow", oldMaterial.ReceiveShadow), // TODO: might want to force this to 1
+                new("CategoryLabel", 2), // TODO
+                new("UVIndexLayerMask", -1), // TODO
+            },
+            Field_10 = "", // TODO
+            Field_11 = "", // TODO
+            Field_12 = "", // TODO
+            ByteExtra = new WriteMask(), // TODO
+            IntExtra = new IntExtra(), // TODO
+            AlphaType = "" // TODO
+        };
+    }
+
+    private MaterialPass FromEyeShaderParams(Material8 oldMaterial)
+    {
+        return new MaterialPass
+        {
+            Name = oldMaterial.Name,
+            Shaders = new Shader[]
+            {
+                new()
+                {
+                    ShaderName = "Eye",
+                    ShaderValues = new StringParameter[]
+                    {
+                        new("EnableBaseColorMap", "True"),
+                        new("EnableNormalMap", "True"),
+                        new("EnableParallaxMap", "False"),
+                        new("EnableMetallicMap", "False"),
+                        new("EnableRoughnessMap", "False"),
+                        new("EnableEmissionColorMap", "False"),
+                        new("EnableAOMap", "True"),
+                        new("EnableAlphaTest", "False"),
+                        new("NumMaterialLayer", "5"),
+                        new("EnableLerpBaseColorEmission", "True"),
+                        new("EnableVertexBaseColor", "False"),
+                    }
+                }
+            },
+            FloatParameter = new FloatParameter[]
+            {
+                new("DiscardValue", 0.0f),
+                new("MetallicLayer3", 0.0f),
+                new("MetallicLayer4", 0.0f),
+                new("RoughnessLayer3", 0.0f),
+                new("RoughnessLayer4", 0.0f),
+                new("NormalHeight", 0.0f),
+                new("MetallicLayer2", 0.0f),
+                new("MetallicLayer1", 0.0f),
+                new("RoughnessLayer2", 0.0f),
+                new("EmissionIntensityLayer3", 0.0f),
+                new("EmissionIntensityLayer4", 0.0f),
+                new("RoughnessLayer1", 0.0f),
+                new("LayerMaskScale3", 0.0f),
+                new("LayerMaskScale4", 0.0f),
+                new("Metallic", 0.0f),
+                new("EmissionIntensityLayer2", 0.0f),
+                new("Roughness", 0.0f),
+                new("EmissionIntensityLayer1", 0.0f),
+                new("LayerMaskScale2", 0.0f),
+                new("EmissionIntensity", 0.0f),
+                new("LayerMaskScale1", 0.0f),
+            },
+            TextureParameters = Array.Empty<TextureParameter>(), // TODO
+            Samplers = Array.Empty<SamplerState>(), // TODO
+            Field_05 = "", // TODO
+            Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
+            Float4Parameter = Array.Empty<Float4Parameter>(), // TODO
+            Field_08 = "", // TODO
+            IntParameter = Array.Empty<IntParameter>(), // TODO
+            Field_10 = "", // TODO
+            Field_11 = "", // TODO
+            Field_12 = "", // TODO
+            ByteExtra = new WriteMask(), // TODO
+            IntExtra = new IntExtra(), // TODO
+            AlphaType = "" // TODO
+        };
+    }
+
     private void ConvertToTRMaterial()
     {
+        var materialPasses = new List<MaterialPass>();
+        foreach (var material in SWSHModel.GFBModel.Materials)
+        {
+            // TODO:
+            // material.Name;
+            // material.Shader;
+            // material.SortPriority;
+            // material.DepthWrite;
+            // material.DepthTest;
+            // material.LightSetNum;
+            // material.BlendMode;
+            // material.CullMode;
+            // material.VertexShaderFileId;
+            // material.GeomShaderFileId;
+            // material.FragShaderFileId;
+            // material.Textures;
+            // material.Flags;
+            // material.Values;
+            // material.Colors;
+            // material.ReceiveShadow;
+            // material.CastShadow;
+            // material.SelfShadow;
+            // material.TextureAlphaTest;
+            // material.DepthComparisonFunction;
+            // material.StaticParam;
+            // material.DepthBias;
+            // material.Field_18;
+            // material.Field_19;
+
+            materialPasses.Add(FromStandardShaderParams(material));
+            //materialPasses.Add(FromEyeShaderParams(material));
+        }
+
+        Result.DefaultMaterials = new TRMaterial[]
+        {
+            new()
+            {
+                MaterialPasses = materialPasses.ToArray(),
+            }
+        };
+
+        // TODO: Assign shiny colors
+        Result.MeshMaterials = new MeshMaterialWrapper[]
+        {
+            new()
+            {
+                Name = "rare",
+                Materials = new TRMaterial[]
+                {
+                    new()
+                    {
+                        Field_00 = 0,
+                        MaterialPasses = materialPasses.ToArray(),
+                    }
+                }
+            }
+        };
     }
+
     private void ConvertToTRMeshMaterial(string resultFileName)
     {
         Result.TRMMT.Material = new Mmt[]

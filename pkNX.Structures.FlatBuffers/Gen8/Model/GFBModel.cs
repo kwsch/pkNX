@@ -248,6 +248,8 @@ public class Texture8
     [FlatBufferItem(00)] public string SamplerName { get; set; } = string.Empty;
     [FlatBufferItem(01)] public uint TextureIndex { get; set; }
     [FlatBufferItem(02)] public SamplerState8 Settings { get; set; } = new();
+
+    public override string ToString() => $"{{ texture[{TextureIndex}], Bound to: {SamplerName}, {Settings} }}";
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -255,6 +257,8 @@ public class Flag
 {
     [FlatBufferItem(00)] public string FlagName { get; set; } = string.Empty;
     [FlatBufferItem(01)] public bool FlagEnable { get; set; }
+
+    public override string ToString() => $"{{ {FlagName}: {FlagEnable} }}";
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -262,6 +266,8 @@ public class FloatParam
 {
     [FlatBufferItem(00)] public string ValueName { get; set; } = string.Empty;
     [FlatBufferItem(01)] public float Value { get; set; }
+
+    public override string ToString() => $"{{ {ValueName}: {Value} }}";
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -269,6 +275,8 @@ public class Color3Param
 {
     [FlatBufferItem(00)] public string ColorName { get; set; } = string.Empty;
     [FlatBufferItem(01)] public PackedColor3f Color { get; set; }
+
+    public override string ToString() => $"{{ {ColorName}: {Color} }}";
 }
 
 [FlatBufferEnum(typeof(uint))]
@@ -348,6 +356,6 @@ public class Material8
 
     [FlatBufferItem(20)] public UberShaderSettings StaticParam { get; set; } = new();
     [FlatBufferItem(21)] public int DepthBias { get; set; }
-    [FlatBufferItem(22)] public float F18 { get; set; }
-    [FlatBufferItem(23)] public float F19 { get; set; }
+    [FlatBufferItem(22)] public float Field_18 { get; set; }
+    [FlatBufferItem(23)] public float Field_19 { get; set; }
 }
