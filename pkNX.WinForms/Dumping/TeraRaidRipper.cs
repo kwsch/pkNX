@@ -323,15 +323,13 @@ public class TeraRaidRipper
     {
         var cfg = new TextConfig(GameVersion.SV);
         var lines = new List<string>();
-
-        var bosses = tableEncounters.Table.Select(z => z.RaidEnemyInfo.BossPokePara);
-        var dropTable = tableEncounters.Table.Select(z => z.RaidEnemyInfo.DropTableFix);
-        var bonusTable = tableEncounters.Table.Select(z => z.RaidEnemyInfo.DropTableRandom);
         var ident = tableEncounters.Table[0].RaidEnemyInfo.No;
 
         var species = GetCommonText(ROM, "monsname", "English", cfg);
         var items = GetCommonText(ROM, "itemname", "English", cfg);
         var moves = GetCommonText(ROM, "wazaname", "English", cfg);
+        var types = GetCommonText(ROM, "typename", "English", cfg);
+        var natures = GetCommonText(ROM, "seikaku", "English", cfg);
 
         lines.Add($"Event Raid Identifier: {ident}");
 
@@ -356,7 +354,7 @@ public class TeraRaidRipper
             {
                 GemType.DEFAULT => "Default",
                 GemType.RANDOM => "Random",
-                _ => $"{(PKHeX.Core.MoveType)boss.GemType - 2}",
+                _ => $"{types[(int)boss.GemType - 2]}",
             };
 
             var ability = boss.Tokusei switch
@@ -375,8 +373,6 @@ public class TeraRaidRipper
                 _ => string.Empty,
             };
 
-            var nature = boss.Seikaku == SeikakuType.DEFAULT ? "Random" : $"{(PKHeX.Core.Nature)(int)entry.RaidEnemyInfo.BossPokePara.Seikaku - 1}";
-
             var talent = boss.TalentValue;
             var iv = boss.TalentType switch
             {
@@ -385,19 +381,22 @@ public class TeraRaidRipper
                 _ => $"{boss.TalentVnum} Flawless",
             };
 
-            var form = boss.FormId == 0 ? string.Empty : $"-{entry.RaidEnemyInfo.BossPokePara.FormId}";
+            var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
 
-            lines.Add($"{entry.RaidEnemyInfo.Difficulty}-Star {species[(int)entry.RaidEnemyInfo.BossPokePara.DevId]}{form}");
+            lines.Add($"{entry.RaidEnemyInfo.Difficulty}-Star {species[(int)boss.DevId]}{form}");
             if (entry.RaidEnemyInfo.RomVer != RaidRomType.BOTH)
                 lines.Add($"\tVersion: {version}");
 
             lines.Add($"\tTera Type: {gem}");
             lines.Add($"\tCapture Level: {entry.RaidEnemyInfo.CaptureLv}");
             lines.Add($"\tAbility: {ability}");
-            lines.Add($"\tNature: {nature}");
+
+            if (boss.Seikaku != SeikakuType.DEFAULT)
+                lines.Add($"\tNature: {natures[(int)boss.Seikaku - 1]}");
+
             lines.Add($"\tIVs: {iv}");
 
-            if (entry.RaidEnemyInfo.BossPokePara.RareType != RareType.DEFAULT)
+            if (boss.RareType != RareType.DEFAULT)
                 lines.Add($"\tShiny: {shiny}");
 
             lines.Add($"\t\tMoves:");
@@ -407,8 +406,11 @@ public class TeraRaidRipper
             if ((int)boss.Waza4.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza4.WazaId]}");
 
             lines.Add($"\t\tExtra Moves:");
+
             if ((int)extra.ExtraAction1.Wazano == 0 && (int)extra.ExtraAction2.Wazano == 0 && (int)extra.ExtraAction3.Wazano == 0 && (int)extra.ExtraAction4.Wazano == 0 && (int)extra.ExtraAction5.Wazano == 0 && (int)extra.ExtraAction6.Wazano == 0)
+            {
                 lines.Add("\t\t\tNone!");
+            }
 
             else
             {
@@ -440,13 +442,15 @@ public class TeraRaidRipper
                         if (isTM) // append move name to TM
                         {
                             if ((int)drop.ItemID is >= 328 and <= 419)
-                                return $"{items[(int)drop.ItemID]} {moves[tm[(int)drop.ItemID]]}";
-                            if ((int)drop.ItemID is 618 or 619 or 620)
-                                return $"{items[(int)drop.ItemID]} {moves[tm[100 + (int)drop.ItemID - 618]]}";
-                            if ((int)drop.ItemID is 690 or 691 or 692 or 693)
-                                return $"{items[(int)drop.ItemID]} {moves[tm[100 + (int)drop.ItemID - 690]]}";
+                                return $"{items[(int)drop.ItemID]} {moves[tm[001 + (int)drop.ItemID - 328]]}"; // TM001 to TM092, skip TM000 Mega Punch
 
-                            return $"{items[(int)drop.ItemID]} {moves[tm[100 + (int)drop.ItemID - 2160]]}";
+                            if ((int)drop.ItemID is 618 or 619 or 620)
+                                return $"{items[(int)drop.ItemID]} {moves[tm[093 + (int)drop.ItemID - 618]]}"; // TM093 to TM095
+
+                            if ((int)drop.ItemID is 690 or 691 or 692 or 693)
+                                return $"{items[(int)drop.ItemID]} {moves[tm[096 + (int)drop.ItemID - 690]]}"; // TM096 to TM99
+
+                            return $"{items[(int)drop.ItemID]} {moves[tm[100 + (int)drop.ItemID - 2160]]}"; // TM100 to TM171
                         }
 
                         return $"{items[(int)drop.ItemID]}";
