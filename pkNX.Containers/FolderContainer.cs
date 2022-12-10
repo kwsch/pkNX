@@ -22,6 +22,7 @@ public class FolderContainer : IFileContainer
     public FolderContainer(string path, Func<string, bool> filter) : this(path) => Initialize(filter);
 
     public IReadOnlyList<string> GetPaths() => Paths;
+    public IReadOnlyList<string> GetFileNames() => Paths.Select(Path.GetFileName).ToList()!;
 
     public void Initialize(Func<string, bool>? filter = null)
     {
@@ -32,7 +33,7 @@ public class FolderContainer : IFileContainer
         IEnumerable<string> files = Directory.GetFiles(FilePath, "*", SearchOption.AllDirectories);
         if (filter != null)
             files = files.Where(filter);
-        files = files.OrderBy(z => Path.GetFileName(z).Length); // alphabetical sorting doesn't play nice with 100 & 1000
+
         AddFiles(files);
     }
 
@@ -51,7 +52,7 @@ public class FolderContainer : IFileContainer
 
     public byte[]? GetFileData(string file)
     {
-        var index = Paths.FindIndex(z => Path.GetFileName(z) == file);
+        var index = GetFileIndex(file);
         if (index < 0)
             return null;
         string path = Paths[index];
@@ -84,6 +85,7 @@ public class FolderContainer : IFileContainer
     }
 
     public string GetFileName(int index) => Paths[index];
+    public int GetFileIndex(string fileName) => Paths.FindIndex(z => Path.GetFileName(z) == fileName);
 
     public bool Modified
     {
