@@ -119,6 +119,13 @@ internal class EditorPLA : EditorBase
         md.ShowDialog();
     }
 
+    [EditorCallable(EditorCategory.None)]
+    public void ModelConverter()
+    {
+        using var form = new ModelConverter(ROM);
+        form.ShowDialog();
+    }
+
     #region Dialog Editors
     [EditorCallable(EditorCategory.Dialog)]
     public void EditCommon()
