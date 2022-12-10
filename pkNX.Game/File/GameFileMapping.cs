@@ -230,9 +230,10 @@ public class GameFileMapping
         new(MoveShop               , SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
         new(HaShop                 , SingleFile, "bin", "appli", "shop", "bin", "ha_shop_data.bin"),
 
-        new(ArchiveFolder                                    , "bin", "archive"),
-        new(Resident               , GameFreakPack    , "bin", "archive", "field", "resident_release.gfpak"),
-        new(archive_contents       , SingleFile, "bin", "archive", "archive_contents.bin"),
+        new(ArchiveFolder                         , "bin", "archive"),
+        new(PokemonArchiveFolder                  , "bin", "archive", "pokemon"),
+        new(Resident               , GameFreakPack, "bin", "archive", "field", "resident_release.gfpak"),
+        new(archive_contents       , SingleFile   , "bin", "archive", "archive_contents.bin"),
 
         new(ThrowParam             , SingleFile, "bin", "capture", "throw_param_table.bin"),
         new(ThrowPermissionSet     , SingleFile, "bin", "capture", "throw_permissionset_dictionary.bin"),

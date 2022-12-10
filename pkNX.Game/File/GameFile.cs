@@ -180,6 +180,7 @@ public enum GameFile
     SymbolBehave,
 
     ArchiveFolder,
+    PokemonArchiveFolder,
 
     /// <summary> Area Resident Archive </summary>
     Resident,

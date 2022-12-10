@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using FlatSharp.Attributes;
 
-namespace pkNX.Structures.FlatBuffers.Util.Math;
+namespace pkNX.Structures.FlatBuffers;
 
 [FlatBufferStruct, TypeConverter(typeof(ExpandableObjectConverter))]
 public class Vec2f
