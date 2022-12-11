@@ -353,14 +353,19 @@ public class GameDumperSV
         {
             if (!e.IsPresentInGame)
                 return Array.Empty<byte>();
-            return Write(e.FB.Evolutions);
+            return Write(e.FB.Info.SpeciesCopy, e.FB.Evolutions);
         }
 
-        static byte[] Write(PersonalInfo9SVEvolutions[] evos)
+        static byte[] Write(int species, PersonalInfo9SVEvolutions[] evos)
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
-            foreach (var m in evos) // just in case
+
+            var list = evos.ToArray();
+            if (species == (int)Species.Crabrawler)
+                Array.Reverse(list); // put the levelup evo last.
+
+            foreach (var m in list) // just in case
             {
                 var method = ((EvolutionType)m.Method);
                 if (method == EvolutionType.Hisui)
@@ -533,6 +538,7 @@ public class GameDumperSV
 
     private void DumpEncount()
     {
+        Dump<TreeShakePokemonArray, TreeShakePokemon>("world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs");
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_atlantis.bfbs");
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_100000.bfbs");
         Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata/pokedata_array.bfbs");
@@ -907,6 +913,7 @@ public class GameDumperSV
             "world/data/encount/setting/setting/data.bfbs",
             "world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs",
             "world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs",
+            "world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs",
             // Field
             "world/data/field/area/field_dungeon_area/field_dungeon_area_array.bfbs",
             "world/data/field/area/field_inside_area/field_inside_area_array.bfbs",

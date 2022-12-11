@@ -28,7 +28,6 @@ namespace pkNX.WinForms.Subforms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapViewer9));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.CB_Map = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -62,7 +61,6 @@ namespace pkNX.WinForms.Subforms
             this.ClientSize = new System.Drawing.Size(827, 614);
             this.Controls.Add(this.CB_Map);
             this.Controls.Add(this.pictureBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MapViewer9";
             this.Text = "MapViewer9";
