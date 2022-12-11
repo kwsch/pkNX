@@ -353,14 +353,19 @@ public class GameDumperSV
         {
             if (!e.IsPresentInGame)
                 return Array.Empty<byte>();
-            return Write(e.FB.Evolutions);
+            return Write(e.FB.Info.SpeciesCopy, e.FB.Evolutions);
         }
 
-        static byte[] Write(PersonalInfo9SVEvolutions[] evos)
+        static byte[] Write(int species, PersonalInfo9SVEvolutions[] evos)
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
-            foreach (var m in evos) // just in case
+
+            var list = evos.ToArray();
+            if (species == (int)Species.Crabrawler)
+                Array.Reverse(list); // put the levelup evo last.
+
+            foreach (var m in list) // just in case
             {
                 var method = ((EvolutionType)m.Method);
                 if (method == EvolutionType.Hisui)
