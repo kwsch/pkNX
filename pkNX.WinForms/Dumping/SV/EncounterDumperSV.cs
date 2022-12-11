@@ -11,9 +11,9 @@ namespace pkNX.WinForms;
 public class EncounterDumperSV
 {
     private readonly IFileInternal ROM;
-    private const float tolX = 50f;
-    private const float tolY = 50f;
-    private const float tolZ = 50f;
+    private const float tolX = 30f;
+    private const float tolY = 30f;
+    private const float tolZ = 30f;
 
     public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
