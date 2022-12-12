@@ -44,7 +44,7 @@ public class Vec3f : IEquatable<Vec3f>
         Z = Z,
     };
 
-    public override string ToString() => $"V3f({X}, {Y}, {Z})";
+    public override string ToString() => $"{{ X: {X:0.0######}, Y: {Y:0.0######}, Z: {Z:0.0######} }}";
     public string ToTriple() => $"({X}, {Y}, {Z})";
 
     public bool Equals(Vec3f? other)
