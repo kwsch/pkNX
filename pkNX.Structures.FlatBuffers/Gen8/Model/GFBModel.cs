@@ -38,10 +38,10 @@ public class GFBModel
     [FlatBufferItem(04)] public string[] GeometryShaders { get; set; } = Array.Empty<string>();
     [FlatBufferItem(05)] public string[] FragmentShaders { get; set; } = Array.Empty<string>();
     [FlatBufferItem(06)] public Material8[] Materials { get; set; } = Array.Empty<Material8>();
-    [FlatBufferItem(07)] public Mesh8[] Mesh { get; set; } = Array.Empty<Mesh8>();//Meshes
-    [FlatBufferItem(08)] public Shape[] Shapes { get; set; } = Array.Empty<Shape>();//Shapes
-    [FlatBufferItem(09)] public Bone8[] Skeleton { get; set; } = Array.Empty<Bone8>();//TransformNodes
-    [FlatBufferItem(10)] public TransparencyGroupNode[] TransparencyGroup { get; set; } = Array.Empty<TransparencyGroupNode>();//TransparencyGroupNodes
+    [FlatBufferItem(07)] public Mesh8[] Mesh { get; set; } = Array.Empty<Mesh8>();
+    [FlatBufferItem(08)] public Shape[] Shapes { get; set; } = Array.Empty<Shape>();
+    [FlatBufferItem(09)] public Bone8[] Skeleton { get; set; } = Array.Empty<Bone8>();
+    [FlatBufferItem(10)] public TransparencyGroupNode[] TransparencyGroup { get; set; } = Array.Empty<TransparencyGroupNode>();
     [FlatBufferItem(11)] public RenderLayers[] RenderLayers { get; set; } = Array.Empty<RenderLayers>();//
 }
 
@@ -90,7 +90,7 @@ public class VertexAttribute8
 public class Polygon
 {
     [FlatBufferItem(00)] public uint MaterialId { get; set; }
-    [FlatBufferItem(01)] public ushort[] Tris { get; set; } = Array.Empty<ushort>();
+    [FlatBufferItem(01)] public ushort[] Indices { get; set; } = Array.Empty<ushort>();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -129,7 +129,6 @@ public class TransparencyGroupNode
     [FlatBufferItem(03)] public PackedAABB CollisionVolume { get; set; }
 }
 
-//TODO: Document the three
 [FlatBufferEnum(typeof(uint))]
 public enum BoneType : uint
 {
@@ -139,8 +138,6 @@ public enum BoneType : uint
     Transparency_Group = 3, //Used for "Alphas", "Transparency", "Okus" and "Adds"
 }
 
-
-//TODO: Mostly seen in effects, Beams are type 1, Marks or BGs are type 2
 [FlatBufferEnum(typeof(uint))]
 public enum BillboardType : uint
 {
@@ -153,23 +150,20 @@ public enum BillboardType : uint
 public class Bone8
 {
     [FlatBufferItem(00)] public string Name { get; set; }
-    [FlatBufferItem(01)] public BoneType Type { get; set; } = 0; //0, 1, 2, 3
-    [FlatBufferItem(02)] public int Parent { get; set; } = 0; //0, 1, 2 or -1
+    [FlatBufferItem(01)] public BoneType Type { get; set; } = 0; //0 (Default), 1, 2, 3
+    [FlatBufferItem(02)] public int ParentIdx { get; set; } = 0; //0, 1, 2 or -1
     [FlatBufferItem(03)] public BillboardType Effect { get; set; } = 0; //0, 1, 2, mostly seen in effects (ee, em and ew)
 
     [FlatBufferItem(04)] public bool Visible { get; set; } = true;
 
-    [FlatBufferItem(05)] public PackedVec3f VecScale { get; set; }
-    [FlatBufferItem(06)] public PackedVec3f VecRot { get; set; }
-    [FlatBufferItem(07)] public PackedVec3f VecTranslate { get; set; }
+    [FlatBufferItem(05)] public PackedVec3f Scale { get; set; }
+    [FlatBufferItem(06)] public PackedVec3f Rotation { get; set; }
+    [FlatBufferItem(07)] public PackedVec3f Translation { get; set; }
 
-    //Used for envelope bones?
-    [FlatBufferItem(08)] public PackedVec3f VecScalePivot { get; set; }
-    [FlatBufferItem(09)] public PackedVec3f VecRotatePivot { get; set; }
+    [FlatBufferItem(08)] public PackedVec3f ScalePivot { get; set; }
+    [FlatBufferItem(09)] public PackedVec3f RotatePivot { get; set; }
 
-    //Have seen these mostly in area regions and effect bones
-    //Only present when value is 0
-    [FlatBufferItem(10, DefaultValue = (byte)1)] public byte IsSkin { get; set; } = 1;
+    [FlatBufferItem(10, DefaultValue = true)] public bool IsRigged { get; set; } = true;
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

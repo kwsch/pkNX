@@ -7,8 +7,9 @@ using System.Linq;
 using System.Windows.Forms;
 using pkNX.Containers;
 using pkNX.Game;
+using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
-using pkNX.WinForms.Subforms;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.WinForms;
 
@@ -30,9 +31,26 @@ namespace pkNX.WinForms;
 // n |  2 | Save PLA models
 // x | 35 |
 
-// TRModel
-// Missing Field_06
-// ~ Missing LODs
+// TODO's per file type
+// TRConfig -> fill in missing fields
+// TRModel -> Auto generate LODs, Field_06
+// TRMMT -> MaterialSwitches, MaterialProperties
+// TRMesh -> Split eyes into submesh and assign eye shader, maybe sort entries?
+// TRSubMesh -> Material name might need to be converted to snake_case
+// TRMeshShape -> BoneWeights[]
+// TRMeshBuffer -> Update BLEND_INDICES, Possibly need to remove vertex color
+// TRMaterial -> Properly tackle this, Material name might need to be converted to snake_case
+// TRSkeleton -> Name of first bone should be updated, might need to snake_case all names
+
+// TODO SWSH unused properties:
+// GFBPokeConfig -> Version, SpeciesId, FormId, Origin, Height, HeightAdjust, FieldAdjust, AABB, 
+// InframeHeight, RegionId, Motion
+// MaterialEntries
+
+// GFBModel -> Version?, TextureFiles, All shaders
+// Mesh8 -> SortPriority (only used rarely)
+// Skeleton8 -> Effect and Visible 
+
 
 // Probably need some sort of intermediate class structure
 
@@ -128,7 +146,8 @@ public partial class ModelConverter : Form
         var pack = new GFPack(PokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
 
         PLAModel.Config = FlatBufferConverter.DeserializeFrom<TRPokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.trpokecfg"));
-        Debug.Assert(PLAModel.Config.SomeTypeEnum_023 is 0 or 2 or 3, "Here's one!");
+        Debug.Assert((int)PLAModel.Config.SizeIndex <= 3, "Here's one!");
+        Debug.Assert((int)PLAModel.Config.Field_09 == 0.0f, "Here's one!");
         LoadModel(pack);
     }
 
@@ -163,6 +182,10 @@ public partial class ModelConverter : Form
         }
 
         Debug.Assert(PLAModel.Skeleton.Field_00 == 0, "Here's one!");
+        foreach (var node in PLAModel.Skeleton.Bones)
+        {
+            Debug.Assert(node.Type is NodeType.Transform or NodeType.Joint or NodeType.Locator, "Here's one!");
+        }
         foreach (var boneParam in PLAModel.Skeleton.BoneParams)
         {
             Debug.Assert(boneParam.Field_01 == 1, "Here's one!");
@@ -216,32 +239,38 @@ public partial class ModelConverter : Form
 
         foreach (var mesh in PLAModel.Meshes)
         {
-            Debug.Assert(mesh.Field_00 == 0, "Here's one!");
+            Debug.Assert(mesh.Field_00 == 1, "Here's one!");
 
             foreach (var shape in mesh.Shapes)
             {
-                Debug.Assert(shape.IndexLayoutType == IndexLayoutType.IndexLayoutType_Uint16, "Here's one!");
+                Debug.Assert(shape.IndexLayoutFormat == IndexLayoutFormat.UINT16, "Here's one!");
                 Debug.Assert(shape.Field_05 == 0, "Here's one!");
                 Debug.Assert(shape.Field_06 == 0, "Here's one!");
                 Debug.Assert(shape.Field_07 == 0, "Here's one!");
                 Debug.Assert(shape.Field_08 == 0, "Here's one!");
                 Debug.Assert(string.IsNullOrEmpty(shape.Field_11), "Here's one!");
 
-                foreach (var attribute in shape.Attributes)
+                foreach (var attribute in shape.VertexLayout)
                 {
-                    foreach (var attr in attribute.Attrs)
+                    foreach (var attr in attribute.Elements)
                     {
-                        Debug.Assert(attr.Field_00 == 0, "Here's one!");
-                        Debug.Assert(attr.AttributeLayer is 0 or 1, "Here's one!");
-                        Debug.Assert(attr.Attribute <= VertexAttributeIndex.BLEND_WEIGHTS, "Here's one!");
-                        Debug.Assert(attr.Type is 20 or 22 or 39 or 43 or 48 or 51 or 54, "Here's one!");
+                        Debug.Assert(attr.Slot == 0, "Here's one!");
+                        Debug.Assert(attr.SemanticName <= InputLayoutSemanticName.BLEND_WEIGHTS, "Here's one!");
+                        Debug.Assert(attr.Format is InputLayoutFormat.NONE or
+                            InputLayoutFormat.RGBA_8_UNORM or
+                            InputLayoutFormat.RGBA_8_UNSIGNED or
+                            InputLayoutFormat.RGBA_16_UNORM or
+                            InputLayoutFormat.RGBA_16_FLOAT or
+                            InputLayoutFormat.RG_32_FLOAT or
+                            InputLayoutFormat.RGB_32_FLOAT or
+                            InputLayoutFormat.RGBA_32_FLOAT, "Here's one!");
                     }
                 }
 
                 foreach (var subMesh in shape.SubMeshes)
                 {
-                    Debug.Assert(subMesh.Field_02 == 0, "Here's one!");
-                    Debug.Assert(subMesh.Field_04 == 0, "Here's one!");
+                    Debug.Assert(subMesh.Field_02 == 1, "Here's one!");
+                    Debug.Assert(subMesh.Field_04 is 0, "Here's one!");
                 }
             }
         }
@@ -249,15 +278,25 @@ public partial class ModelConverter : Form
         LoadMeshBuffers(PLAModel.Meshes, pack);
     }
 
-    private void LoadMeshBuffers(TRMesh[] trmeshes, GFPack pack)
+    private void LoadMeshBuffers(TRMesh[] trMeshes, GFPack pack)
     {
-        PLAModel.MeshDataBuffers = trmeshes.Select(x => x.BufferFileName)
+        PLAModel.MeshDataBuffers = trMeshes.Select(x => x.BufferFileName)
             .Select(x => FlatBufferConverter.DeserializeFrom<TRMeshBuffer>(pack.GetDataFullPath(ModelPath + $"{x}")))
             .ToArray();
 
-        foreach (var buffer in PLAModel.MeshDataBuffers)
+        for (var i = 0; i < PLAModel.MeshDataBuffers.Length; i++)
         {
-            Debug.Assert(buffer.Field_00 == 0, "Here's one!");
+            var mesh = PLAModel.Meshes[i];
+            var meshBuffer = PLAModel.MeshDataBuffers[i];
+
+            Debug.Assert(meshBuffer.Field_00 == 0, "Here's one!");
+
+            for (var j = 0; j < meshBuffer.Buffers.Length; j++)
+            {
+                var buffer = meshBuffer.Buffers[j];
+                var shape = mesh.Shapes[j];
+                buffer.VertexBuffer[0].Debug_InputLayout = shape.VertexLayout[0];
+            }
         }
     }
 
@@ -268,124 +307,174 @@ public partial class ModelConverter : Form
         PG_Converted.SelectedObject = Result;
     }
 
+    private void ConvertToTRConfig()
+    {
+        // TODO:
+        // SWSHModel.Config.MajorVer;
+        // SWSHModel.Config.MinorVer;
+        // SWSHModel.Config.SpeciesId;
+        // SWSHModel.Config.FormId;
+        // SWSHModel.Config.Name;
+        // SWSHModel.Config.JpName;
+        // SWSHModel.Config.SpeciesOrigin;
+        // SWSHModel.Config.Height;
+        // SWSHModel.Config.AdjustHeight;
+        // SWSHModel.Config.FieldAdjust;
+        // SWSHModel.Config.MinBX;
+        // SWSHModel.Config.MinBY;
+        // SWSHModel.Config.MinBZ;
+        // SWSHModel.Config.MaxBX;
+        // SWSHModel.Config.MaxBY;
+        // SWSHModel.Config.MaxBZ;
+        // SWSHModel.Config.InframeHeight;
+        // SWSHModel.Config.RegionId;
+        // SWSHModel.Config.WaitMotionBRate;
+        // SWSHModel.Config.WaitMotionCRate;
+        // SWSHModel.Config.Undef26;
+        // SWSHModel.Config.Undef27;
+        // SWSHModel.Config.MaterialEntries;
+        // SWSHModel.Config.SpeciesModelProperty;
+
+        Result.Config.Field_01 = 0f; // TODO
+        Result.Config.Field_02 = 0f; // TODO
+        Result.Config.Field_03 = 0f; // TODO
+        Result.Config.Field_09 = 0f; // TODO
+        Result.Config.Field_10_YOffset = 0f; // TODO
+        Result.Config.Field_11_YOffset = 0f; // TODO
+        Result.Config.Field_12_YOffset = 0f; // TODO
+
+        Result.Config.SizeIndex = SWSHModel.Config.SizeIndex;
+        Result.Config.InframeVerticalRotYOrigin = SWSHModel.Config.InframeVerticalRotYOrigin / 100;
+        Result.Config.InframeBottomYOffset = SWSHModel.Config.InframeBottomYOffset / 100;
+        Result.Config.InframeCenterYOffset = SWSHModel.Config.InframeCenterYOffset / 100;
+        Result.Config.InframeLeftRotation = SWSHModel.Config.InframeLeftRotation;
+        Result.Config.InframeRightRotation = SWSHModel.Config.InframeRightRotation;
+    }
+
     private void ConvertToTRSkeleton()
     {
         Bone8[] skeleton = SWSHModel.GFBModel.Skeleton;
 
         // TODO:
-        // Result.Skeleton.SomeTypeEnum_023;
+        // Result.Skeleton.SizeType;
         // Result.Skeleton.BoneParams[];
         // BoneParams bone matrix is maya’s transform matrix inverted
         // Result.Skeleton.Iks[];
 
-        // TODO: Probably need to ignore bones @ shape.BoneId;
+        // TODO: Probably need to ignore bones @ Mesh8.BoneId;
 
         var transformNodes = new List<TransformNode>();
-        int rigStart = int.MaxValue;
-        int rigEnd = int.MaxValue;
+        int rigStart = -1;
+        int rigIndex = 0;
         for (int i = 0; i < skeleton.Length; ++i)
         {
             var bone8 = skeleton[i];
 
             if (bone8.Type == BoneType.Transparency_Group)
-                continue;
+                continue; // TODO
 
             // TODO:
             // bone8.Effect;
             // bone8.Visible;
-            // bone8.IsSkin;
+
+            // TODO: Should be converted using bone8.IsRigged. Only IsRigged bones are used in vertex blend_indices.
+            // Meaning an array of IsRigged bones is made and blend_indices index into this array.
+            // This might actually one to one convert into rigIndex
+
+            // TODO: Most entries of type Joint in swsh, but are of type Transform in PLA
 
             transformNodes.Add(new()
             {
                 Name = bone8.Name,
-                Transform = new Transform { Scale = bone8.VecScale, Rotate = bone8.VecRot, Translate = bone8.VecTranslate },
-                ScalePivot = bone8.VecScalePivot,
-                RotatePivot = bone8.VecRotatePivot,
-                ParentIdx = bone8.Parent, // TODO: If some are removed, this id needs to be corrected
-                RigIdx = (i >= rigStart && i <= rigEnd ? (i - rigStart) : -1), // TODO
+                Transform = new Transform
+                {
+                    Scale = bone8.Scale,
+                    Rotate = bone8.Rotation,
+                    Translate = bone8.Translation / 100 // Scale down swsh models by 100
+                },
+                ScalePivot = bone8.ScalePivot,
+                RotatePivot = bone8.RotatePivot,
+                ParentIdx = bone8.ParentIdx, // TODO: If some are removed, this id needs to be corrected
+                RigIdx = bone8.IsRigged ? rigIndex++ : -1,
                 LocatorBone = string.Empty,
-                Type = (NodeType)bone8.Type,
+                Type = (NodeType)bone8.Type, // TODO: A lot of these seem to be converted into transform nodes instead of joint nodes
             });
 
-            if (bone8.Name.Equals("origin", StringComparison.InvariantCultureIgnoreCase))
+            if (bone8.IsRigged && rigStart == -1)
             {
-                rigStart = i + 1;
-            }
-
-            if (bone8.Name.Equals("tail", StringComparison.InvariantCultureIgnoreCase))
-            {
-                rigEnd = i + 1;
+                rigStart = i;
             }
         }
+        int rigEnd = rigIndex;
 
-        Debug.Assert(rigStart < int.MaxValue, "Couldn't find 'origin' bone in this rig.");
-        //Debug.Assert(rigEnd < int.MaxValue, "Couldn't find 'tail' bone in this rig.");
+        Debug.Assert(rigStart > 0, "This skeleton seems to not be skinned.");
 
-        Result.Skeleton.RigOffset = rigStart - 2; // By default we always skip the first two 2 nodes. Any additional offset should be marked.
+        Result.Skeleton.RigOffset = rigStart - 2; // By default we always skip the first two 2 nodes. Any additional offset should be marked. TODO: Is this true?
         Result.Skeleton.Bones = transformNodes.ToArray();
-        //Result.Skeleton.BoneParams = new Bone[rigEnd];
+
+        // TODO: Result.Skeleton.BoneParams = new Bone[rigEnd];
     }
 
-    private VertexLayoutType ConvertVertexLayoutType(VertexAttribute8 attribute)
+    private static InputLayoutFormat ConvertInputLayoutFormat(VertexAttribute8 attribute)
     {
         var result = (attribute.Format, attribute.Count) switch
         {
-            (DataType8.UByte, 4) => VertexLayoutType.W8_X8_Y8_Z8_Unsigned,
-            (DataType8.HalfFloat, 4) => VertexLayoutType.W16_X16_Y16_Z16_Float,
-            //(DataType8.FixedPoint, 4) => VertexLayoutType.W16_X16_Y16_Z16_Signed_Normalized,
-            (DataType8.Float, 4) => VertexLayoutType.W32_X32_Y32_Z32_Float,
-            (DataType8.FixedPoint, 4) => VertexLayoutType.R8_G8_B8_A8_Unsigned_Normalized,
-            (DataType8.Float, 2) => VertexLayoutType.X32_Y32_Float,
-            (DataType8.Float, 3) => VertexLayoutType.X32_Y32_Z32_Float,
-            _ => VertexLayoutType.None
+            (DataType8.UByte, 4) => InputLayoutFormat.RGBA_8_UNSIGNED,
+            (DataType8.HalfFloat, 4) => InputLayoutFormat.RGBA_16_FLOAT,
+            (DataType8.UShort, 4) => InputLayoutFormat.RGBA_16_UNORM, // ???
+            (DataType8.Float, 4) => InputLayoutFormat.RGBA_32_FLOAT,
+            (DataType8.FixedPoint, 4) => InputLayoutFormat.RGBA_8_UNORM,
+            (DataType8.Float, 2) => InputLayoutFormat.RG_32_FLOAT,
+            (DataType8.Float, 3) => InputLayoutFormat.RGB_32_FLOAT,
+            _ => InputLayoutFormat.NONE
         };
 
-        Debug.Assert(result != VertexLayoutType.None, "Error: Conversion resulted in VertexLayoutType.None!");
+        Debug.Assert(result != InputLayoutFormat.NONE, "Error: Conversion resulted in VertexLayoutType.NONE!");
         return result;
     }
-    private VertexAttributeIndex ConvertVertexLayoutSlot(VertexAttribute8 attribute)
+    private static (InputLayoutSemanticName Semantic, uint Index) ConvertInputLayoutSemantic(VertexAttribute8 attribute)
     {
         var result = attribute.Type switch
         {
-            Attribute8.Position => VertexAttributeIndex.POSITION,
-            Attribute8.Normal => VertexAttributeIndex.NORMAL,
-            Attribute8.Tangent => VertexAttributeIndex.TANGENT,
-            Attribute8.Texcoord_0 => VertexAttributeIndex.TEX_COORD,
-            Attribute8.Texcoord_1 => VertexAttributeIndex.TEX_COORD,
-            Attribute8.Texcoord_2 => VertexAttributeIndex.TEX_COORD,
-            Attribute8.Texcoord_3 => VertexAttributeIndex.TEX_COORD,
+            Attribute8.Position => (InputLayoutSemanticName.POSITION, 0u),
+            Attribute8.Normal => (InputLayoutSemanticName.NORMAL, 0u),
+            Attribute8.Tangent => (InputLayoutSemanticName.TANGENT, 0u),
+            Attribute8.Texcoord_0 => (InputLayoutSemanticName.TEXCOORD, 0u),
+            Attribute8.Texcoord_1 => (InputLayoutSemanticName.TEXCOORD, 1u),
+            Attribute8.Texcoord_2 => (InputLayoutSemanticName.TEXCOORD, 2u),
+            Attribute8.Texcoord_3 => (InputLayoutSemanticName.TEXCOORD, 3u),
 
-            Attribute8.Color_0 => VertexAttributeIndex.COLOR,
-            Attribute8.Color_1 => VertexAttributeIndex.COLOR,
-            Attribute8.Color_2 => VertexAttributeIndex.COLOR,
-            Attribute8.Color_3 => VertexAttributeIndex.COLOR,
+            Attribute8.Color_0 => (InputLayoutSemanticName.COLOR, 0u),
+            Attribute8.Color_1 => (InputLayoutSemanticName.COLOR, 1u),
+            Attribute8.Color_2 => (InputLayoutSemanticName.COLOR, 2u),
+            Attribute8.Color_3 => (InputLayoutSemanticName.COLOR, 3u),
 
-            Attribute8.Group_Idx => VertexAttributeIndex.BLEND_INDEX,
-            Attribute8.Group_Weight => VertexAttributeIndex.BLEND_WEIGHTS,
+            Attribute8.Group_Idx => (BLEND_INDEX: InputLayoutSemanticName.BLEND_INDICES, 0u),
+            Attribute8.Group_Weight => (InputLayoutSemanticName.BLEND_WEIGHTS, 0u),
 
-            _ => VertexAttributeIndex.NONE
+            _ => (InputLayoutSemanticName.NONE, 0u)
         };
 
-        Debug.Assert(result != VertexAttributeIndex.NONE, "Error: Conversion resulted in VertexAttributeIndex.NONE!");
+        Debug.Assert(result.Item1 != InputLayoutSemanticName.NONE, "Error: Conversion resulted in InputLayoutSemanticName.NONE!");
         return result;
     }
 
-    private uint SizeOfVertexLayoutType(VertexLayoutType type)
+    private static uint SizeOfInputLayoutFormat(InputLayoutFormat format)
     {
-        var result = type switch
+        var result = format switch
         {
-            VertexLayoutType.W8_X8_Y8_Z8_Unsigned => 4u,
-            VertexLayoutType.W16_X16_Y16_Z16_Float => 8u,
-            VertexLayoutType.W16_X16_Y16_Z16_Signed_Normalized => 8u,
-            VertexLayoutType.W32_X32_Y32_Z32_Float => 16u,
-            VertexLayoutType.R8_G8_B8_A8_Unsigned_Normalized => 4u,
-            VertexLayoutType.X32_Y32_Float => 8u,
-            VertexLayoutType.X32_Y32_Z32_Float => 12u,
+            InputLayoutFormat.RGBA_8_UNSIGNED => 4u,
+            InputLayoutFormat.RGBA_16_FLOAT => 8u,
+            InputLayoutFormat.RGBA_16_UNORM => 8u,
+            InputLayoutFormat.RGBA_32_FLOAT => 16u,
+            InputLayoutFormat.RGBA_8_UNORM => 4u,
+            InputLayoutFormat.RG_32_FLOAT => 8u,
+            InputLayoutFormat.RGB_32_FLOAT => 12u,
 
             _ => 0u
         };
 
-        Debug.Assert(result != 0u, $"Error: Size of {type} resulted in '0'!");
+        Debug.Assert(result != 0u, $"Error: Size of {format} resulted in '0'!");
         return result;
     }
 
@@ -398,12 +487,11 @@ public partial class ModelConverter : Form
 
         var meshShapes = new List<MeshShape>();
         var meshBuffers = new List<MeshBuffer>();
-        for (int i = 0; i < shapes.Length; ++i)
+        foreach (var shape in shapes)
         {
-            var shape = shapes[i];
-            var buffer = buffers[shape.ShapeId];
-            var bone = bones[shape.BoneId];
-            var subMeshName = bone.Name;
+            Shape buffer = buffers[shape.ShapeId];
+            Bone8 bone = bones[shape.BoneId];
+            string subMeshName = bone.Name;
 
             subMeshName = subMeshName.Replace(sourceFileName, "", StringComparison.InvariantCultureIgnoreCase);
             subMeshName = subMeshName.Replace("skin", "", StringComparison.InvariantCultureIgnoreCase);
@@ -411,68 +499,219 @@ public partial class ModelConverter : Form
 
             // TODO:
             // shape.SortPriority;
-            // buffer.Attributes; Proper conversion
-            // buffer.Polygons;
-            // buffer.Vertices;
 
-            uint layoutOffset = 0;
-            var vertexAttributes = new List<VertexAttribute>();
-            foreach (var attribute in buffer.Attributes)
+            var inputLayout = new InputLayoutElement[buffer.Attributes.Length];
+            uint inputLayoutSize;
             {
-                var type = ConvertVertexLayoutType(attribute);
-
-                vertexAttributes.Add(new VertexAttribute
+                uint layoutOffset = 0;
+                for (var i = 0; i < buffer.Attributes.Length; i++)
                 {
-                    Type = (uint)type,
-                    Attribute = ConvertVertexLayoutSlot(attribute),
-                    AttributeLayer = 0, // TODO
-                    Offset = layoutOffset,
-                });
+                    var attribute = buffer.Attributes[i];
+                    var type = ConvertInputLayoutFormat(attribute);
+                    var slot = ConvertInputLayoutSemantic(attribute);
 
-                layoutOffset += SizeOfVertexLayoutType(type);
-            }
-
-            var subMeshes = new List<SubMesh>();
-            uint currentOffset = 0;
-            foreach (var subMesh in buffer.Polygons)
-            {
-                var mat = materials[subMesh.MaterialId];
-                subMeshes.Add(new SubMesh
-                {
-                    PolyCount = (uint)subMesh.Tris.Length,
-                    PolyOffset = currentOffset,
-                    MaterialName = mat.Name, // TODO
-                });
-
-                currentOffset += (uint)subMesh.Tris.Length;
-                // TODO: MeshBuffer.IndexBuffer.Data =  subMesh.Tris;
-            }
-
-            var bounds = shape.PackedAabb / 100;
-            meshShapes.Add(new MeshShape
-            {
-                MeshShapeName = $"{resultFileName}_{subMeshName}_mesh_shape", // TODO: Use in MMT
-                MeshName = $"{resultFileName}_{subMeshName}_mesh",
-                Attributes = new VertexAttributeLayout[]
-                {
-                    new()
+                    inputLayout[i] = new InputLayoutElement
                     {
-                        Attrs = vertexAttributes.ToArray(),
-                        Size = new VertexSize[] { new(){ Size = layoutOffset } },
-                    }
-                },
-                BoundingSphere = new PackedSphere(bounds),
-                Bounds = bounds,
-                IndexLayoutType = IndexLayoutType.IndexLayoutType_Uint16, // Always Uint16 on PLA all models
-                Weights = new BoneWeights[] { }, // TODO
-                SubMeshes = subMeshes.ToArray(),
-            });
+                        Format = type,
+                        SemanticName = slot.Semantic,
+                        SemanticIndex = slot.Index,
+                        Offset = layoutOffset,
+                    };
 
-            meshBuffers.Add(new MeshBuffer
+                    layoutOffset += SizeOfInputLayoutFormat(type);
+                }
+
+                inputLayoutSize = layoutOffset;
+            }
+
+            var subMeshes = new SubMesh[buffer.Polygons.Length];
+            uint indexCount;
             {
-                IndexBuffer = new ByteBuffer[] { new() { Data = new byte[] { } } }, // TODO
-                VertexBuffer = new ByteBuffer[] { new() { Data = new byte[] { } } }, // TODO
-            });
+                uint offset = 0;
+                for (var i = 0; i < buffer.Polygons.Length; i++)
+                {
+                    var subMesh = buffer.Polygons[i];
+                    var mat = materials[subMesh.MaterialId];
+                    subMeshes[i] = new SubMesh
+                    {
+                        IndexCount = (uint)subMesh.Indices.Length,
+                        IndexOffset = offset,
+                        MaterialName = mat.Name, // TODO
+                    };
+
+                    offset += (uint)subMesh.Indices.Length;
+                }
+
+                indexCount = offset;
+            }
+
+            var indexBuffer = new byte[indexCount * 2];
+            {
+                int offset = 0;
+                Span<byte> dst = indexBuffer.AsSpan();
+                foreach (var subMesh in buffer.Polygons)
+                {
+                    foreach (var index in subMesh.Indices)
+                    {
+                        WriteUInt16LittleEndian(dst[offset..], index);
+                        offset += 2;
+                    }
+                }
+            }
+
+
+            VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)buffer.Vertices).GetArray(data =>
+                {
+                    var vertexData = new VertexWrapper[inputLayout.Length];
+
+                    for (var j = 0; j < inputLayout.Length; j++)
+                    {
+                        var layout = inputLayout[j];
+                        var offset = (int)layout.Offset;
+
+                        vertexData[j] = new VertexWrapper(layout, layout.Format switch
+                        {
+                            InputLayoutFormat.RGBA_8_UNORM => new Vec4f(new Unorm8(data[offset]), new Unorm8(data[offset + 1]), new Unorm8(data[offset + 2]), new Unorm8(data[offset + 3])),
+                            InputLayoutFormat.RGBA_8_UNSIGNED => new Vec4i(data[offset], data[offset + 1], data[offset + 2], data[offset + 3]),
+                            InputLayoutFormat.RGBA_16_UNORM => new Vec4f(new Unorm16(ReadUInt16LittleEndian(data[offset..])), new Unorm16(ReadUInt16LittleEndian(data[(offset + 2)..])), new Unorm16(ReadUInt16LittleEndian(data[(offset + 4)..])), new Unorm16(ReadUInt16LittleEndian(data[(offset + 6)..]))),
+                            InputLayoutFormat.RGBA_16_FLOAT => new Vec4f((float)ReadHalfLittleEndian(data[offset..]), (float)ReadHalfLittleEndian(data[(offset + 2)..]), (float)ReadHalfLittleEndian(data[(offset + 4)..]), (float)ReadHalfLittleEndian(data[(offset + 6)..])),
+                            InputLayoutFormat.RG_32_FLOAT => new Vec2f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..])),
+                            InputLayoutFormat.RGB_32_FLOAT => new Vec3f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..])),
+                            InputLayoutFormat.RGBA_32_FLOAT => new Vec4f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..]), ReadSingleLittleEndian(data[(offset + 12)..])),
+                            InputLayoutFormat.NONE => throw new IndexOutOfRangeException(),
+                            _ => throw new IndexOutOfRangeException()
+                        });
+
+                        switch (layout.SemanticName)
+                        {
+                            case InputLayoutSemanticName.POSITION:
+                                vertexData[j].Data = (Vec3f)vertexData[j].Data / 100; // Scale down swsh models by 100
+                                break;
+                            case InputLayoutSemanticName.BLEND_INDICES:
+                                // TODO: Might need to update these indices
+                                break;
+                        }
+                    }
+
+                    return vertexData;
+                }
+                , (int)inputLayoutSize);
+
+            var vertexBuffer = new byte[oldVertices.Length * inputLayoutSize];
+            {
+                int offset = 0;
+                Span<byte> dst = vertexBuffer.AsSpan();
+
+                foreach (VertexWrapper[] vertices in oldVertices)
+                {
+                    foreach (VertexWrapper vertex in vertices)
+                    {
+                        var layout = vertex.LayoutElement;
+
+                        switch (layout.Format)
+                        {
+                            case InputLayoutFormat.RGBA_8_UNORM:
+                            {
+                                var data = (Vec4f)vertex.Data;
+                                dst[offset + 0] = Unorm8.FromFloat(data.X);
+                                dst[offset + 1] = Unorm8.FromFloat(data.Y);
+                                dst[offset + 2] = Unorm8.FromFloat(data.Z);
+                                dst[offset + 3] = Unorm8.FromFloat(data.W);
+                            }
+                            break;
+                            case InputLayoutFormat.RGBA_8_UNSIGNED:
+                            {
+                                var data = (Vec4i)vertex.Data;
+                                dst[offset + 0] = (byte)data.X;
+                                dst[offset + 1] = (byte)data.Y;
+                                dst[offset + 2] = (byte)data.Z;
+                                dst[offset + 3] = (byte)data.W;
+                            }
+                            break;
+                            case InputLayoutFormat.RGBA_16_UNORM:
+                            {
+                                var data = (Vec4f)vertex.Data;
+                                WriteUInt16LittleEndian(dst[(offset + 0)..], Unorm16.FromFloat(data.X));
+                                WriteUInt16LittleEndian(dst[(offset + 2)..], Unorm16.FromFloat(data.Y));
+                                WriteUInt16LittleEndian(dst[(offset + 4)..], Unorm16.FromFloat(data.Z));
+                                WriteUInt16LittleEndian(dst[(offset + 6)..], Unorm16.FromFloat(data.W));
+                            }
+                            break;
+                            case InputLayoutFormat.RGBA_16_FLOAT:
+                            {
+                                var data = (Vec4f)vertex.Data;
+                                WriteHalfLittleEndian(dst[(offset + 0)..], (Half)data.X);
+                                WriteHalfLittleEndian(dst[(offset + 2)..], (Half)data.Y);
+                                WriteHalfLittleEndian(dst[(offset + 4)..], (Half)data.Z);
+                                WriteHalfLittleEndian(dst[(offset + 6)..], (Half)data.W);
+                            }
+                            break;
+                            case InputLayoutFormat.RG_32_FLOAT:
+                            {
+                                var data = (Vec2f)vertex.Data;
+                                WriteSingleLittleEndian(dst[(offset + 0)..], data.X);
+                                WriteSingleLittleEndian(dst[(offset + 4)..], data.Y);
+                            }
+                            break;
+                            case InputLayoutFormat.RGB_32_FLOAT:
+                            {
+                                var data = (Vec3f)vertex.Data;
+                                WriteSingleLittleEndian(dst[(offset + 0)..], data.X);
+                                WriteSingleLittleEndian(dst[(offset + 4)..], data.Y);
+                                WriteSingleLittleEndian(dst[(offset + 8)..], data.Z);
+                            }
+                            break;
+                            case InputLayoutFormat.RGBA_32_FLOAT:
+                            {
+                                var data = (Vec4f)vertex.Data;
+                                WriteSingleLittleEndian(dst[(offset + 0)..], data.X);
+                                WriteSingleLittleEndian(dst[(offset + 4)..], data.Y);
+                                WriteSingleLittleEndian(dst[(offset + 8)..], data.Z);
+                                WriteSingleLittleEndian(dst[(offset + 12)..], data.W);
+                            }
+                            break;
+                            case InputLayoutFormat.NONE:
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                        offset += (int)SizeOfInputLayoutFormat(layout.Format);
+                    }
+                }
+            }
+
+            {
+                var bounds = shape.PackedAabb / 100; // Scale down swsh models by 100
+                meshShapes.Add(new MeshShape
+                {
+                    MeshShapeName = $"{resultFileName}_{subMeshName}_mesh_shape", // TODO: Use in MMT
+                    MeshName = $"{resultFileName}_{subMeshName}_mesh",
+                    VertexLayout = new VertexAttributeLayout[]
+                    {
+                        new()
+                        {
+                            Elements = inputLayout,
+                            Size = new VertexSize[] { new() { Size = inputLayoutSize } },
+                        }
+                    },
+                    BoundingSphere = new PackedSphere(bounds),
+                    Bounds = bounds,
+                    IndexLayoutFormat = IndexLayoutFormat.UINT16, // Always Uint16 on all PLA pokemon models
+                    Weights = new BoneWeights[] { }, // TODO: All bones affected by the sub-mesh + some weight
+                    SubMeshes = subMeshes,
+                });
+            }
+
+            {
+                meshBuffers.Add(new MeshBuffer
+                {
+                    IndexBuffer = new ByteBuffer[] { new() { Data = indexBuffer } },
+                    VertexBuffer = new ByteBuffer[] { new() { Data = vertexBuffer, Debug_InputLayout = new VertexAttributeLayout
+                    {
+                        Elements = inputLayout,
+                        Size = new VertexSize[] { new() { Size = inputLayoutSize } },
+                    } } },
+                });
+            }
         }
 
 
@@ -496,13 +735,6 @@ public partial class ModelConverter : Form
 
     private void ConvertToTRMeshShape()
     {
-        Shape[] shapes = SWSHModel.GFBModel.Shapes;
-        for (int i = 0; i < shapes.Length; ++i)
-        {
-            var shape = shapes[i];
-        }
-
-        Result.MeshDataBuffers = new TRMeshBuffer[1];
 
     }
 
@@ -720,53 +952,6 @@ public partial class ModelConverter : Form
                 MaterialProperties = Array.Empty<MaterialProperties>(), // TODO
             },
         };
-    }
-
-    private void ConvertToTRConfig()
-    {
-        // TODO:
-        // SWSHModel.Config.MajorVer;
-        // SWSHModel.Config.MinorVer;
-        // SWSHModel.Config.SpeciesId;
-        // SWSHModel.Config.FormId;
-        // SWSHModel.Config.Name;
-        // SWSHModel.Config.JpName;
-        // SWSHModel.Config.SpeciesOrigin;
-        // SWSHModel.Config.SizeIndex;
-        // SWSHModel.Config.Height;
-        // SWSHModel.Config.AdjustHeight;
-        // SWSHModel.Config.FieldAdjust;
-        // SWSHModel.Config.MinBX;
-        // SWSHModel.Config.MinBY;
-        // SWSHModel.Config.MinBZ;
-        // SWSHModel.Config.MaxBX;
-        // SWSHModel.Config.MaxBY;
-        // SWSHModel.Config.MaxBZ;
-        // SWSHModel.Config.InframeHeight;
-        // SWSHModel.Config.RegionId;
-        // SWSHModel.Config.WaitMotionBRate;
-        // SWSHModel.Config.WaitMotionCRate;
-        // SWSHModel.Config.Undef26;
-        // SWSHModel.Config.Undef27;
-        // SWSHModel.Config.MaterialEntries;
-        // SWSHModel.Config.SpeciesModelProperty;
-
-
-        Result.Config.InframeVerticalRotYOrigin = SWSHModel.Config.InframeVerticalRotYOrigin / 100;
-        Result.Config.InframeBottomYOffset = SWSHModel.Config.InframeBottomYOffset / 100;
-        Result.Config.InframeCenterYOffset = SWSHModel.Config.InframeCenterYOffset / 100;
-        Result.Config.InframeLeftRotation = SWSHModel.Config.InframeLeftRotation;
-        Result.Config.InframeRightRotation = SWSHModel.Config.InframeRightRotation;
-
-        // TODO:
-        // Result.Config.SomeTypeEnum_023;
-        // Result.Config.RandOffsetScaleMin;
-        // Result.Config.RandOffsetScaleMax;
-        // Result.Config.BaseScale;
-        // Result.Config.BaseX;
-        // Result.Config.RandOffsetYMin;
-        // Result.Config.RandOffsetYMax;
-        // Result.Config.BaseY;
     }
 
     private void ConvertToTRModel()

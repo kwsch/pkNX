@@ -7,15 +7,6 @@ namespace pkNX.Structures.FlatBuffers;
 // *.gfbpokecfg
 
 [FlatBufferEnum(typeof(byte))]
-public enum SpeciesSize : byte
-{
-    Size_S = 0,
-    Size_M = 1,
-    Size_L = 2,
-    Size_Ll = 3,
-}
-
-[FlatBufferEnum(typeof(byte))]
 public enum SpeciesOrigin : byte
 {
     Rg_Series = 0,
@@ -749,27 +740,29 @@ public class GFBPokeConfig
     [FlatBufferItem(07)] public SpeciesSize SizeIndex { get; set; } = SpeciesSize.Size_S;
 
     //Height Info
-    [FlatBufferItem(08)] public float Height { get; set; } = 1.0f;
-    [FlatBufferItem(09)] public float AdjustHeight { get; set; } = 1.0f;
-    [FlatBufferItem(10)] public float FieldAdjust { get; set; } = 1.0f;
+    [FlatBufferItem(08)] public float Height { get; set; }
+    [FlatBufferItem(09)] public float AdjustHeight { get; set; }
+    [FlatBufferItem(10)] public float FieldAdjust { get; set; }
 
     //Bounding Box
-    [FlatBufferItem(11)] public float MinBX { get; set; } = 1.0f;
-    [FlatBufferItem(12)] public float MinBY { get; set; } = 1.0f;
-    [FlatBufferItem(13)] public float MinBZ { get; set; } = 1.0f;
-    [FlatBufferItem(14)] public float MaxBX { get; set; } = 1.0f;
-    [FlatBufferItem(15)] public float MaxBY { get; set; } = 1.0f;
-    [FlatBufferItem(16)] public float MaxBZ { get; set; } = 1.0f;
+    [FlatBufferItem(11)] public float MinBX { get; set; }
+    [FlatBufferItem(12)] public float MinBY { get; set; }
+    [FlatBufferItem(13)] public float MinBZ { get; set; }
+    [FlatBufferItem(14)] public float MaxBX { get; set; }
+    [FlatBufferItem(15)] public float MaxBY { get; set; }
+    [FlatBufferItem(16)] public float MaxBZ { get; set; }
+
+    public AABB Bounds => new AABB() { Min = new PackedVec3f(MinBX, MinBY, MinBZ), Max = new PackedVec3f(MaxBX, MaxBY, MaxBZ) } / 100;
 
     //Frame positioning (To be properly documented soon)
-    [FlatBufferItem(17)] public float InframeHeight { get; set; } = 1.0f;
-    [FlatBufferItem(18)] public float InframeVerticalRotYOrigin { get; set; } = 1.0f;
-    [FlatBufferItem(19)] public float InframeBottomYOffset { get; set; } = 1.0f;
-    [FlatBufferItem(20)] public float InframeCenterYOffset { get; set; } = 1.0f;
-    [FlatBufferItem(21)] public float InframeLeftRotation { get; set; } = 1.0f;
-    [FlatBufferItem(22)] public float InframeRightRotation { get; set; } = 1.0f;
+    [FlatBufferItem(17)] public float InframeHeight { get; set; }
+    [FlatBufferItem(18)] public float InframeVerticalRotYOrigin { get; set; }
+    [FlatBufferItem(19)] public float InframeBottomYOffset { get; set; }
+    [FlatBufferItem(20)] public float InframeCenterYOffset { get; set; }
+    [FlatBufferItem(21)] public float InframeLeftRotation { get; set; }
+    [FlatBufferItem(22)] public float InframeRightRotation { get; set; }
 
-    [FlatBufferItem(23)] public ushort RegionId { get; set; } = 0; //Reserved for Galarian forms/crossgens
+    [FlatBufferItem(23)] public ushort RegionId { get; set; } //Reserved for Galarian forms/crossgens
 
     //it's 0.00 for some mon, 1.00 for most
     [FlatBufferItem(24)] public float WaitMotionBRate { get; set; }
