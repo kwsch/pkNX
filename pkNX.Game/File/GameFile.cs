@@ -181,6 +181,7 @@ public enum GameFile
 
     ArchiveFolder,
     PokemonArchiveFolder,
+    Debug_SWSHPokemonArchiveFolder,
 
     /// <summary> Area Resident Archive </summary>
     Resident,

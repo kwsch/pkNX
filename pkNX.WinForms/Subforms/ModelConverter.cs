@@ -59,6 +59,8 @@ public partial class ModelConverter : Form
     private string AnimationsPath => BasePath + "anm/";
 
     private FolderContainer PokemonModelDir;
+    private FolderContainer SWSHPokemonModelDir;
+
     public ModelConverter(GameManager rom)
     {
         ROM = rom;
@@ -66,7 +68,11 @@ public partial class ModelConverter : Form
 
         PokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
         PokemonModelDir.Initialize();
-        CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().ToArray());
+        CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
+
+        SWSHPokemonModelDir = (FolderContainer)ROM[GameFile.Debug_SWSHPokemonArchiveFolder];
+        SWSHPokemonModelDir.Initialize();
+        CB_SWSHSpecies.Items.AddRange(SWSHPokemonModelDir.GetFileNames().ToArray());
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -105,7 +111,7 @@ public partial class ModelConverter : Form
     private SWSHModelWrapper SWSHModel = new();
     private ModelWrapper Result = new();
 
-    private void B_Test_Click(object sender, EventArgs e)
+    private void UpdatePLAModel()
     {
         // TODO: Paths are located in 'Pokemon Resource Table', should load through there
 
@@ -126,15 +132,15 @@ public partial class ModelConverter : Form
         LoadModel(pack);
     }
 
-    private void B_TestB_Click(object sender, EventArgs e)
+    private void UpdateSWSHModel()
     {
-        SpeciesId = 25;
-        FileName = $"pm{SpeciesId:0000}_00";
+        string selectedFile = (string)CB_SWSHSpecies.SelectedItem;
+        FileName = Path.GetFileNameWithoutExtension(selectedFile);
+        SpeciesId = int.Parse(FileName.Substring(2, 4));
+
         BasePath = $"bin/pokemon/{FileName}/";
 
-        FolderContainer pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
-        pokemonModelDir.Initialize();
-        var pack = new GFPack(pokemonModelDir.GetFileData($"{FileName}.swsh.gfpak") ?? Array.Empty<byte>());
+        var pack = new GFPack(SWSHPokemonModelDir.GetFileData($"{FileName}.gfpak") ?? Array.Empty<byte>());
 
         SWSHModel.Config = FlatBufferConverter.DeserializeFrom<GFBPokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.gfbpokecfg"));
 
@@ -807,6 +813,11 @@ public partial class ModelConverter : Form
 
     private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
     {
-        B_Test_Click(null, null);
+        UpdatePLAModel();
+    }
+
+    private void CB_SWSHSpecies_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        UpdateSWSHModel();
     }
 }
