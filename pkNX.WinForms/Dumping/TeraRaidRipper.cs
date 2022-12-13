@@ -324,12 +324,13 @@ public class TeraRaidRipper
         var cfg = new TextConfig(GameVersion.SV);
         var lines = new List<string>();
         var ident = tableEncounters.Table[0].RaidEnemyInfo.No;
+        const string lang = "English";
 
-        var species = GetCommonText(ROM, "monsname", "English", cfg);
-        var items = GetCommonText(ROM, "itemname", "English", cfg);
-        var moves = GetCommonText(ROM, "wazaname", "English", cfg);
-        var types = GetCommonText(ROM, "typename", "English", cfg);
-        var natures = GetCommonText(ROM, "seikaku", "English", cfg);
+        var species = GetCommonText(ROM, "monsname", lang, cfg);
+        var items = GetCommonText(ROM, "itemname", lang, cfg);
+        var moves = GetCommonText(ROM, "wazaname", lang, cfg);
+        var types = GetCommonText(ROM, "typename", lang, cfg);
+        var natures = GetCommonText(ROM, "seikaku", lang, cfg);
 
         lines.Add($"Event Raid Identifier: {ident}");
 
@@ -426,13 +427,20 @@ public class TeraRaidRipper
 
             foreach (var item in tableDrops.Table.Where(z => z.TableName == nameDrop))
             {
-                for (int i = 0; i <= 14; i++)
+                const int count = RaidFixedRewardItem.Count;
+                for (int i = 0; i < count; i++)
                 {
-                    if (entry.RaidEnemyInfo.DropTableFix != item.TableName)
+                    if (nameDrop != item.TableName)
                         continue;
 
                     var drop = item.GetReward(i);
-                    var one = (int)item.GetReward(i).SubjectType == 3 ? " (Only Once)" : string.Empty;
+                    var limitation = (int)drop.SubjectType switch
+                    {
+                        (int)RaidRewardItemSubjectType.HOST => " (Only Host)",
+                        (int)RaidRewardItemSubjectType.CLIENT => " (Only Guests)",
+                        (int)RaidRewardItemSubjectType.ONCE => " (Only Once)",
+                        _ => string.Empty,
+                    };
 
                     string GetItemName(int item)
                     {
@@ -448,7 +456,7 @@ public class TeraRaidRipper
                                 return $"{items[(int)drop.ItemID]} {moves[tm[093 + (int)drop.ItemID - 618]]}"; // TM093 to TM095
 
                             if ((int)drop.ItemID is 690 or 691 or 692 or 693)
-                                return $"{items[(int)drop.ItemID]} {moves[tm[096 + (int)drop.ItemID - 690]]}"; // TM096 to TM99
+                                return $"{items[(int)drop.ItemID]} {moves[tm[096 + (int)drop.ItemID - 690]]}"; // TM096 to TM099
 
                             return $"{items[(int)drop.ItemID]} {moves[tm[100 + (int)drop.ItemID - 2160]]}"; // TM100 to TM171
                         }
@@ -456,14 +464,14 @@ public class TeraRaidRipper
                         return $"{items[(int)drop.ItemID]}";
                     }
 
-                    if ((int)drop.Category == 1) // Material
-                        lines.Add($"\t\t\t{drop.Num,2} × Crafting Material{one}");
+                    if ((int)drop.Category == (int)RaidRewardItemCategoryType.POKE) // Material
+                        lines.Add($"\t\t\t{drop.Num,2} × Crafting Material{limitation}");
 
-                    if ((int)drop.Category == 2) // Tera Shard
-                        lines.Add($"\t\t\t{drop.Num,2} × Tera Shard{one}");
+                    if ((int)drop.Category == (int)RaidRewardItemCategoryType.GEM) // Material
+                        lines.Add($"\t\t\t{drop.Num,2} × Tera Shard{limitation}");
 
                     if (drop.ItemID != 0)
-                        lines.Add($"\t\t\t{drop.Num,2} × {GetItemName((int)drop.ItemID)}{one}");
+                        lines.Add($"\t\t\t{drop.Num,2} × {GetItemName((int)drop.ItemID)}{limitation}");
                 }
             }
 
@@ -471,21 +479,27 @@ public class TeraRaidRipper
 
             foreach (var item in tableBonus.Table.Where(z => z.TableName == nameBonus))
             {
+                const int count = RaidLotteryRewardItem.RewardItemCount;
                 float totalRate = 0;
-                for (int i = 0; i <= 29; i++)
+                for (int i = 0; i < count; i++)
                     totalRate += item.GetRewardItem(i).Rate;
 
-                for (int i = 0; i <= 29; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    if (entry.RaidEnemyInfo.DropTableRandom != item.TableName)
+                    if (nameBonus != item.TableName)
                         continue;
 
                     var drop = item.GetRewardItem(i);
+                    float rate = (float)(Math.Round((float)((item.GetRewardItem(i).Rate / totalRate) * 100f), 2));
+
+                    if ((int)drop.Category == (int)RaidRewardItemCategoryType.POKE) // Material
+                        lines.Add($"\t\t\t{(float)rate,5}% {drop.Num,2} × Crafting Material");
+
+                    if ((int)drop.Category == (int)RaidRewardItemCategoryType.GEM) // Tera Shard
+                        lines.Add($"\t\t\t{(float)rate,5}% {drop.Num,2} × Tera Shard");
+
                     if (drop.ItemID != 0)
-                    {
-                        float rate = (float)(Math.Round((float)((item.GetRewardItem(i).Rate / totalRate) * 100f), 2));
                         lines.Add($"\t\t\t{(float)rate,5}% {drop.Num,2} × {items[(int)drop.ItemID]}");
-                    }
                 }
             }
 
