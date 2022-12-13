@@ -93,6 +93,9 @@ public class EncounterDumperSV
             //    continue;
 
             var storage = db.Get(placeNameMap[name].Index, areaName, areaInfo);
+            if (storage.Location == 124) // Area Zero
+                continue;
+
             // Here's where the fun begins. Iterate over areas inside this loop so we can look for all possible adjacent areas.
             foreach (var otherName in scene.areaNames)
             {
@@ -111,6 +114,8 @@ public class EncounterDumperSV
 
                 // Iterate over all crossover points in the other area.
                 var cross = db.Get(placeNameMap[otherNameMain].Index, otherName, otherAreaInfo);
+                if (cross.Location == 124) // Area Zero
+                    continue;
                 foreach (var point in cross.Local)
                 {
                     // If the crossover point is close enough to the current area's collider, add it to the current area's list of crossover points.
