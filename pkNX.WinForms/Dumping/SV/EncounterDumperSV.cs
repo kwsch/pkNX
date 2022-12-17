@@ -69,17 +69,6 @@ public class EncounterDumperSV
             var points = scene.isAtlantis[areaName] ? pointAtlantis : pointMain;
             storage.LoadPoints(points, collider, areaInfo.ActualMinLevel, areaInfo.ActualMaxLevel);
             storage.GetEncounters(pokeData, scene);
-
-            // Start of game downleveling... of just Yungoos.
-            // Returning to the area can access the regular range of levels (3-X), so we can just drop the min level to 2.
-            if (areaName == "a_d01")
-            {
-                foreach (var x in storage.Local)
-                {
-                    foreach (var s in x.Slots.Where(s => s.Species == (int)Structures.Species.Yungoos))
-                        s.ForceMinLevel(2);
-                }
-            }
         }
 
         // For each area, we need to peek at the other areas to see if they have any crossover points.
