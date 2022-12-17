@@ -165,16 +165,17 @@ public class EncounterDumperSV
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
             for (var i = 0; i < fsymData.Table.Length; i++)
             {
-                FixedSymbolTable? entry = fsymData.Table[i];
+                var entry = fsymData.Table[i];
                 var tableKey = entry.TableKey;
-
                 var points = gamePoints.Where(p => p.TableKey == tableKey).ToList();
                 if (points.Count == 0)
                     continue;
 
                 var areas = new List<string>();
-                foreach (var areaName in scene.areaNames)
+                var tmpPoints = points.ToList();
+                for (var x = scene.areaNames.Count - 1; x >= 0; x--)
                 {
+                    var areaName = scene.areaNames[x];
                     if (scene.isAtlantis[areaName])
                         continue;
 
@@ -182,11 +183,19 @@ public class EncounterDumperSV
                     var name = areaInfo.LocationNameMain;
                     if (string.IsNullOrEmpty(name))
                         continue;
-                    if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
+                    if (areaInfo.Tag is AreaTag.NG_Encount)
                         continue;
 
-                    if (points.Any(p => scene.IsPointContained(areaName, p.Position.X, p.Position.Y, p.Position.Z)))
-                        areas.Add(areaName);
+                    for (int p = 0; p < tmpPoints.Count; p++)
+                    {
+                        var point = tmpPoints[p];
+                        if (!scene.IsPointContained(areaName, point.Position.X, point.Position.Y, point.Position.Z))
+                            continue;
+                        tmpPoints.RemoveAt(p);
+                        p--;
+                        if (!areas.Contains(areaName))
+                            areas.Add(areaName);
+                    }
                 }
 
                 var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
@@ -244,27 +253,35 @@ public class EncounterDumperSV
                 if (bannedIndexes.Contains(i))
                     continue;
 
-                areas.Clear();
-                foreach (var areaName in scene.areaNames)
+                // If not stationary, allow some tolerance.
+                var aiStationary = GetIsStationary(entry.PokeAI.ActionId);
+                if (!aiStationary)
                 {
-                    if (scene.isAtlantis[areaName])
-                        continue;
+                    areas.Clear();
+                    foreach (var areaName in scene.areaNames)
+                    {
+                        if (scene.isAtlantis[areaName])
+                            continue;
 
-                    var areaInfo = scene.AreaInfos[areaName];
-                    var name = areaInfo.LocationNameMain;
-                    if (string.IsNullOrEmpty(name))
-                        continue;
-                    if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
-                        continue;
+                        var areaInfo = scene.AreaInfos[areaName];
+                        var name = areaInfo.LocationNameMain;
+                        if (string.IsNullOrEmpty(name))
+                            continue;
+                        if (areaInfo.Tag is AreaTag.NG_Encount)
+                            continue;
 
-                    if (!scene.TryGetContainsCheck(areaName, out var collider))
-                        continue;
-
-                    if (points.Any(p => collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ)))
-                        areas.Add(areaName);
+                        if (!scene.TryGetContainsCheck(areaName, out var collider))
+                            continue;
+                        if (points.Any(p => collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ)))
+                            areas.Add(areaName);
+                    }
                 }
 
                 locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
+                if (entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
+                    locs.Add(46); // North Province (Area One)
+
+                locs.Sort();
                 WriteFixedSymbol(serialized, entry, locs);
             }
         }
@@ -349,6 +366,17 @@ public class EncounterDumperSV
             ;
         File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
     }
+
+    private static bool GetIsStationary(PokemonActionID action) => action switch
+    {
+        PokemonActionID.FS_POP_ALWAYS_GAZE_BIRD_TARGET_PLAYER => true,
+        PokemonActionID.FS_POP_ALWAYS_GAZE_TARGET_PLAYER => true,
+        PokemonActionID.ALWAYS_GAZE_BIRD_TARGET_PLAYER_LOOP => true,
+        PokemonActionID.FS_POP_LAND_SLEEPING_CURRENT_LOCATION => true,
+        PokemonActionID.FS_POP_LEVITATION_SLEEPING_TREE_BRANCH => true,
+        PokemonActionID.FS_POP_AREA22_DRAGONITE => true, // Handle separately.
+        _ => false,
+    };
 
     private static LocationPointDetail[] ReformatPoints(PointDataArray all)
     {

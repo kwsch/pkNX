@@ -175,7 +175,6 @@ public partial class MapViewer9 : Form
             {
                 gr.FillRectangle(brush, new RectangleF((float)ConvertX(rect.Left), (float)ConvertZ(rect.Top), (float)ConvertX(rect.Width), (float)ConvertX(rect.Height)));
             }
-
         }
         else if (AreaCollisionBoxes.TryGetValue(areaName, out var colBox))
         {
@@ -196,38 +195,10 @@ public partial class MapViewer9 : Form
         Text = $"X: {x}, Z: {z}";
     }
 }
+
 public class AreaDef9
 {
     public TrinitySceneObjectSV SceneObject;
     public TrinityCollisionComponent1SV CollisionComponent;
     public AreaInfo Info;
 }
-
-public class BoxCollision9
-{
-    public PackedVec3f Position;
-    public PackedVec3f Size;
-
-    public bool ContainsPoint(float x, float y, float z)
-    {
-        var ly = y - 10000;
-        var hy = y + 1;
-
-        var box_lx = Position.X - Size.X / 2.0f;
-        var box_hx = Position.X + Size.X / 2.0f;
-        var box_ly = Position.Y - Size.Y / 2.0f;
-        var box_hy = Position.Y + Size.Y / 2.0f;
-        var box_lz = Position.Z - Size.Z / 2.0f;
-        var box_hz = Position.Z + Size.Z / 2.0f;
-
-        if (box_lx > box_hx || !(box_lx <= x && x <= box_hx))
-            return false;
-        if (box_lz > box_hz || !(box_lz <= z && z <= box_hz))
-            return false;
-        if (box_ly > box_hy || !(box_ly <= hy && ly <= box_hy))
-            return false;
-
-        return true;
-    }
-}
-
