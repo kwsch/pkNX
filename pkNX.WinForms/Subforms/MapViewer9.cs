@@ -189,6 +189,12 @@ public partial class MapViewer9 : Form
         }
     }
 
+    private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+    {
+        var x = ((e.X * 5000.0f) / pictureBox1.Width);
+        var z = ((e.Y * 5000.0f) / pictureBox1.Height) - 5500f;
+        Text = $"X: {x}, Z: {z}";
+    }
 }
 public class AreaDef9
 {
