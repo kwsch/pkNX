@@ -15,6 +15,8 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         _ => -1,
     };
 
+    public void ForceMinLevel(byte level) => MinLevel = level;
+
     // Match the Mark time of day order: Noon, Night, Evening, Morning
     private static byte GetTimeBits(TimeTable t) => (byte)((t.Noon ? 0 : 1) | (t.Night ? 0 : 2) | (t.Evening ? 0 : 4) | (t.Morning ? 0 : 8));
 

@@ -35,7 +35,7 @@ public class AreaInfo
     [FlatBufferItem(22)] public EncBiome BaseBiome { get; set; }
     [FlatBufferItem(23)] public AreaTag Tag { get; set; }
     [FlatBufferItem(24)] public OverrideBiome OverrideBiome { get; set; }
-    
+
     public int ActualMinLevel => MinEncLv != 0 ? MinEncLv : 1;
     public int ActualMaxLevel => MaxEncLv != 0 ? MaxEncLv : 100;
 }
