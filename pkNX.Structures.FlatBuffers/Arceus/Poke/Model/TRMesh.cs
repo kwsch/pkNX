@@ -87,7 +87,7 @@ public class SubMesh
 {
     [FlatBufferItem(00)] public uint IndexCount { get; set; }
     [FlatBufferItem(01)] public uint IndexOffset { get; set; }
-    [FlatBufferItem(02, DefaultValue = (uint)1)] public uint Field_02 { get; set; } // Always zero on PLA all models
+    [FlatBufferItem(02)] public uint Field_02 { get; set; } // Always zero on PLA all models
     [FlatBufferItem(03)] public string MaterialName { get; set; } = string.Empty;
     [FlatBufferItem(04, DefaultValue = -1)] public int Field_04 { get; set; } // 0 or default value
 }
@@ -113,7 +113,7 @@ public class MeshShape
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRMesh
 {
-    [FlatBufferItem(00, DefaultValue = (uint)1)] public uint Field_00 { get; set; } // Always zero on PLA all models
+    [FlatBufferItem(00)] public uint Field_00 { get; set; } // Always zero on PLA all models
     [FlatBufferItem(01)] public MeshShape[] Shapes { get; set; } = Array.Empty<MeshShape>();
     [FlatBufferItem(02)] public string BufferFileName { get; set; } = string.Empty;
 }

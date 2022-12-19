@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using FlatSharp.Attributes;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
@@ -20,7 +21,7 @@ namespace pkNX.WinForms;
 // y |  2 | Load SWSH models
 // p |  0 | Convert SWSH models to PLA
 // n |  1 |  - Textures
-// n |  3 |  - Materials
+// p |  3 |  - Materials
 // n |  3 |  - Constant buffers (material params)
 // n |  4 |  - Shaders
 // p |  2 |  - Mesh information
@@ -31,13 +32,17 @@ namespace pkNX.WinForms;
 // n |  2 | Save PLA models
 // x | 35 |
 
+// TODO: Material conversion
+// What do do with vertex color. Why are there two entries?
+
+
 // TODO's per file type
 // TRConfig -> fill in missing fields
 // TRModel -> Auto generate LODs, Field_06
 // TRMMT -> MaterialSwitches, MaterialProperties
 // TRMesh -> Split eyes into submesh and assign eye shader, maybe sort entries?
 // TRSubMesh -> Material name might need to be converted to snake_case
-// TRMeshShape -> BoneWeights[]
+// TRMeshShape -> BoneWeights[] Possibly this is just the sum of all blend indices + weights on the shape
 // TRMeshBuffer -> Update BLEND_INDICES, Possibly need to remove vertex color
 // TRMaterial -> Properly tackle this, Material name might need to be converted to snake_case
 // TRSkeleton -> Name of first bone should be updated, might need to snake_case all names
@@ -93,26 +98,26 @@ public partial class ModelConverter : Form
         CB_SWSHSpecies.Items.AddRange(SWSHPokemonModelDir.GetFileNames().ToArray());
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    private class MeshMaterialWrapper
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class MeshMaterialWrapper
     {
-        public string Name { get; set; } = string.Empty;
-        public TRMaterial[] Materials { get; set; } = Array.Empty<TRMaterial>();
+        [FlatBufferItem(0)] public string Name { get; set; } = string.Empty;
+        [FlatBufferItem(1)] public TRMaterial[] Materials { get; set; } = Array.Empty<TRMaterial>();
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    private class ModelWrapper
+    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+    public class ModelWrapper
     {
-        public TRPokeConfig Config { get; set; } = new();
-        public TRModel TRModel { get; set; } = new();
-        public TRMeshMaterial TRMMT { get; set; } = new();
-        public TRMesh[] Meshes { get; set; } = Array.Empty<TRMesh>();
-        public TRMeshBuffer[] MeshDataBuffers { get; set; } = Array.Empty<TRMeshBuffer>();
-        public TRMaterial[] DefaultMaterials { get; set; } = Array.Empty<TRMaterial>();
-        public MeshMaterialWrapper[] MeshMaterials { get; set; } = Array.Empty<MeshMaterialWrapper>();
-        public TRSkeleton Skeleton { get; set; } = new();
+        [FlatBufferItem(0)] public TRPokeConfig Config { get; set; } = new();
+        [FlatBufferItem(1)] public TRModel TRModel { get; set; } = new();
+        [FlatBufferItem(2)] public TRMultiMaterialTable TRMMT { get; set; } = new();
+        [FlatBufferItem(3)] public TRMesh[] Meshes { get; set; } = Array.Empty<TRMesh>();
+        [FlatBufferItem(4)] public TRMeshBuffer[] MeshDataBuffers { get; set; } = Array.Empty<TRMeshBuffer>();
+        [FlatBufferItem(5)] public TRMaterial[] DefaultMaterials { get; set; } = Array.Empty<TRMaterial>();
+        [FlatBufferItem(6)] public MeshMaterialWrapper[] MeshMaterials { get; set; } = Array.Empty<MeshMaterialWrapper>();
+        [FlatBufferItem(7)] public TRSkeleton Skeleton { get; set; } = new();
 
-        public string[] UsedTextures { get; set; } = Array.Empty<string>();
+        [FlatBufferItem(8)] public string[] UsedTextures { get; set; } = Array.Empty<string>();
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -168,7 +173,7 @@ public partial class ModelConverter : Form
 
     private void LoadModel(GFPack pack)
     {
-        PLAModel.TRMMT = FlatBufferConverter.DeserializeFrom<TRMeshMaterial>(pack.GetDataFullPath(ModelPath + $"{FileName}.trmmt"));
+        PLAModel.TRMMT = FlatBufferConverter.DeserializeFrom<TRMultiMaterialTable>(pack.GetDataFullPath(ModelPath + $"{FileName}.trmmt"));
         PLAModel.TRModel = FlatBufferConverter.DeserializeFrom<TRModel>(pack.GetDataFullPath(ModelPath + $"{FileName}.trmdl"));
         PLAModel.Skeleton = FlatBufferConverter.DeserializeFrom<TRSkeleton>(pack.GetDataFullPath(ModelPath + $"{PLAModel.TRModel.Skeleton.Filename}"));
 
@@ -192,7 +197,7 @@ public partial class ModelConverter : Form
         }
 
         LoadMaterials(pack);
-        LoadMeshMaterials(pack);
+        LoadMaterialTable(pack);
         LoadMeshes(pack);
 
         PG_Test.SelectedObject = PLAModel;
@@ -216,9 +221,26 @@ public partial class ModelConverter : Form
                     pass.TextureParameters.Select(texture => texture.TextureFile)
                 )
             ).ToHashSet().ToArray();
+
+        for (var i = 0; i < PLAModel.DefaultMaterials.Length; i++)
+        {
+            var material = PLAModel.DefaultMaterials[i];
+
+            for (var j = 0; j < material.MaterialPasses.Length; j++)
+            {
+                var pass = material.MaterialPasses[j];
+                var values = pass.Shaders[0].ShaderValues;
+
+                var layerCount = int.Parse(values.First(x => x.PropertyBinding.Equals("NumMaterialLayer")).StringValue);
+                Debug.Assert(layerCount == 5, "Here's one!");
+
+                var vertexBaseColor = bool.Parse(values.FirstOrDefault(x => x.PropertyBinding.Equals("EnableVertexBaseColor"))?.StringValue ?? "False");
+                Debug.Assert(!vertexBaseColor, "Here's one!");
+            }
+        }
     }
 
-    private void LoadMeshMaterials(GFPack pack)
+    private void LoadMaterialTable(GFPack pack)
     {
         PLAModel.MeshMaterials = PLAModel.TRMMT.Material.Select(
                 x => new MeshMaterialWrapper
@@ -239,7 +261,7 @@ public partial class ModelConverter : Form
 
         foreach (var mesh in PLAModel.Meshes)
         {
-            Debug.Assert(mesh.Field_00 == 1, "Here's one!");
+            Debug.Assert(mesh.Field_00 == 0, "Here's one!");
 
             foreach (var shape in mesh.Shapes)
             {
@@ -269,7 +291,7 @@ public partial class ModelConverter : Form
 
                 foreach (var subMesh in shape.SubMeshes)
                 {
-                    Debug.Assert(subMesh.Field_02 == 1, "Here's one!");
+                    Debug.Assert(subMesh.Field_02 == 0, "Here's one!");
                     Debug.Assert(subMesh.Field_04 is 0, "Here's one!");
                 }
             }
@@ -493,7 +515,7 @@ public partial class ModelConverter : Form
             Bone8 bone = bones[shape.BoneId];
             string subMeshName = bone.Name;
 
-            subMeshName = subMeshName.Replace(sourceFileName, "", StringComparison.InvariantCultureIgnoreCase);
+            subMeshName = subMeshName.Replace(sourceFileName + "_", "", StringComparison.InvariantCultureIgnoreCase);
             subMeshName = subMeshName.Replace("skin", "", StringComparison.InvariantCultureIgnoreCase);
             subMeshName = subMeshName.ToLowerInvariant();
 
@@ -560,6 +582,9 @@ public partial class ModelConverter : Form
             }
 
 
+            var uniqueColors0 = new List<PackedColor4f>();
+            var uniqueColors1 = new List<PackedColor4f>();
+
             VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)buffer.Vertices).GetArray(data =>
                 {
                     var vertexData = new VertexWrapper[inputLayout.Length];
@@ -586,6 +611,31 @@ public partial class ModelConverter : Form
                         {
                             case InputLayoutSemanticName.POSITION:
                                 vertexData[j].Data = (Vec3f)vertexData[j].Data / 100; // Scale down swsh models by 100
+                                break;
+                            case InputLayoutSemanticName.COLOR when layout.SemanticIndex == 0:
+                            {
+                                // TODO: Convert to layer mask format
+                                var color = PackedColor4f.FromByteColor((Vec4i)vertexData[j].Data);
+                                if (!uniqueColors0.Contains(color))
+                                    uniqueColors0.Add(color);
+                                // TODO: Only a single color on this layer??
+                                // {{ R: 0.69803923, G: 0.49803925, B: 1, A: 1 }}
+                                break;
+                            }
+                            case InputLayoutSemanticName.COLOR when layout.SemanticIndex == 1:
+                            {
+                                // TODO: Convert to layer mask format
+                                var color = PackedColor4f.FromByteColor((Vec4i)vertexData[j].Data);
+                                if (!uniqueColors1.Contains(color))
+                                    uniqueColors1.Add(color);
+                                // TODO: This layer contained 3 different colors
+                                // {{ R: 0.5019608, G: 0, B: 0.5411765, A: 1 }}
+                                // {{ R: 0.49411768, G: 0, B: 0.5411765, A: 1 }}
+                                // {{ R: 0.49803925, G: 0, B: 0.5411765, A: 1 }}
+                                break;
+                            }
+                            case InputLayoutSemanticName.COLOR:
+                                Debug.Assert(false, "Unhandled color semantic");
                                 break;
                             case InputLayoutSemanticName.BLEND_INDICES:
                                 // TODO: Might need to update these indices
@@ -680,10 +730,10 @@ public partial class ModelConverter : Form
             }
 
             {
-                var bounds = shape.PackedAabb / 100; // Scale down swsh models by 100
+                var bounds = shape.Bounds / 100; // Scale down swsh models by 100
                 meshShapes.Add(new MeshShape
                 {
-                    MeshShapeName = $"{resultFileName}_{subMeshName}_mesh_shape", // TODO: Use in MMT
+                    MeshShapeName = $"{resultFileName}_{subMeshName}_mesh_shape",
                     MeshName = $"{resultFileName}_{subMeshName}_mesh",
                     VertexLayout = new VertexAttributeLayout[]
                     {
@@ -738,6 +788,323 @@ public partial class ModelConverter : Form
 
     }
 
+    private TextureParameter[] ConvertTextureParams(Texture8[] oldTextures)
+    {
+        static string ConvertSamplerName(string swshSamplerName)
+        {
+            var result = swshSamplerName switch
+            {
+                "0" => "LayerMaskMap",
+                "1" => "MetallicMap",
+                "2" => "RoughnessMap",
+
+                "Col0Tex" => "BaseColorMap",
+                "EmissionMaskTex" => "",
+                "LyCol0Tex" => "",
+                "AmbientTex" => "AOMap", // TODO: New format only has R channel
+                "NormalMapTex" => "NormalMap",
+                "LightTblTex" => "",
+                "SphereMapTex" => "",
+                "EffectTex" => "",
+                _ => string.Empty
+            };
+
+            //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert sampler with name: {swshSamplerName}!");
+            return result;
+        }
+
+
+        string[] files = SWSHModel.GFBModel.TextureFiles;
+        var textures = new TextureParameter[oldTextures.Length];
+
+        for (var i = 0; i < oldTextures.Length; i++)
+        {
+            var oldTexture = oldTextures[i];
+
+            // TODO: if files[oldTexture.TextureIndex] == "dummy_col" we should probably just remove the entry
+            // TODO: Default_lta.bntx, projection_effect_col.bntx
+            textures[i] = new TextureParameter
+            {
+                PropertyBinding = ConvertSamplerName(oldTexture.SamplerName),
+                TextureSlot = (uint)i, // TODO
+                TextureFile = files[oldTexture.TextureIndex] + ".bntx",
+            };
+        }
+
+        return textures;
+    }
+
+    private SamplerState[] ConvertSamplerState(Texture8[] oldTextures)
+    {
+        var samplers = new SamplerState[oldTextures.Length + 2];
+
+        for (var i = 0; i < oldTextures.Length; i++)
+        {
+            // TODO: oldTexture.Settings;
+
+            samplers[i] = new SamplerState
+            {
+                BorderColor = new PackedColor4f(),
+            };
+        }
+
+        // Last two are always Wrap. Probably some default samplers
+        samplers[^2] = new SamplerState()
+        {
+            RepeatU = UvWrapMode.Wrap,
+            RepeatV = UvWrapMode.Wrap,
+        };
+        samplers[^1] = new SamplerState()
+        {
+            RepeatU = UvWrapMode.Wrap,
+            RepeatV = UvWrapMode.Wrap,
+        };
+        return samplers;
+    }
+
+    private StringParameter[] ConvertStringParams(Flag[] flags)
+    {
+        // StringParam possible values:
+        // "EnableParallaxMap"
+        // "EnableMetallicMap"
+        // "EnableRoughnessMap"
+        // "EnableEmissionColorMap"
+        // "EnableAOMap"
+        // "EnableAlphaTest" -> (oldMaterial.TextureAlphaTest == 0).ToString()
+        // "NumMaterialLayer" -> Number!
+        // "EnableLerpBaseColorEmission"
+        // "EnableVertexBaseColor"
+        // EnableUVScaleOffsetNormal -> enables float4 { UVScaleOffsetNormal: { R: 1, G: 1, B: 0, A: 0 } }
+
+        static string ConvertParamName(string oldName)
+        {
+            var result = oldName switch
+            {
+                "useColorTex" => "EnableBaseColorMap",
+                "SwitchEmissionMaskTexUV" => "",
+                "EmissionMaskUse" => "",
+                "SwitchPriority" => "",
+                "Layer1Enable" => "",
+                "SwitchAmbientTexUV" => "",
+                "AmbientMapEnable" => "EnableAOMap", // TODO: New format only has R channel
+                "SwitchNormalMapUV" => "",
+                "NormalMapEnable" => "EnableNormalMap",
+                "LightTableEnable" => "",
+                "SpecularMaskEnable" => "",
+                "BaseColorAddEnable" => "",
+                "SphereMapEnable" => "",
+                "SphereMaskEnable" => "",
+                "RimMaskEnable" => "",
+                "alphaShell" => "",
+                "EffectVal" => "",
+                "NormalEdgeEnable" => "",
+                "OutLineIDEnable" => "",
+                "OutLineColFixed" => "",
+
+                // Uber flags
+                "FogEnable" => "",
+                "DiscardEnable" => "", // FloatParam: DiscardValue? 
+                "CastShadow" => "",
+                "ReceiveShadow" => "",
+                "TextureAlphaTestEnable" => "",
+                "ShadowMapPrevEnable" => "",
+                "LayerCalcMulti" => "",
+                "FireMaskPathEnable" => "",
+                "GPUInstancingEnable" => "",
+                "Wireframe" => "",
+                "DepthWrite" => "",
+                "DepthTest" => "",
+                "IsErase" => "",
+                "MayaPreviewEnable" => "",
+                _ => string.Empty
+            };
+
+            //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert flag with name: {oldName}!");
+            return result;
+        }
+
+        var floats = new StringParameter[flags.Length];
+
+        for (var i = 0; i < flags.Length; i++)
+        {
+            var flag = flags[i];
+
+            floats[i] = new StringParameter
+            {
+                PropertyBinding = ConvertParamName(flag.FlagName),
+                StringValue = flag.FlagEnable.ToString(),
+            };
+        }
+
+        /*new StringParameter[]
+        {
+            new("EnableAlphaTest", (oldMaterial.TextureAlphaTest == 0).ToString()), // TODO
+            new("NumMaterialLayer", "5"), // TODO: Adds the ParamName + LayerX parameters
+            new("EnableLerpBaseColorEmission", "?"), // TODO
+            new("EnableVertexBaseColor", "?"), // TODO
+        }*/
+
+        return floats;
+    }
+
+    private FloatParameter[] ConvertFloatParams(FloatParam[] floatParams)
+    {
+        static string ConvertParamName(string oldName)
+        {
+            string? result = oldName switch
+            {
+                "0" => "DiscardValue",
+                "1" => "Metallic",
+                "2" => "Roughness",
+                "3" => "NormalHeight",
+                "4" => "EmissionIntensity",
+                "5" => "XLayer#",
+
+                "ColorUVScaleU" => "",
+                "ColorUVScaleV" => "",
+                "ColorUVTranslateU" => "",
+                "ColorBaseU" => "",
+                "ColorUVTranslateV" => "",
+                "ColorBaseV" => "",
+                "ConstantColor0Val" => "",
+                "Layer1UVScaleU" => "",
+                "Layer1UVScaleV" => "",
+                "Layer1UVTranslateU" => "",
+                "Layer1BaseU" => "",
+                "Layer1UVTranslateV" => "",
+                "Layer1BaseV" => "",
+                "EmissionMaskVal" => "",
+                "ConstantColorSd0Val" => "",
+                "ConstantColor1Val" => "",
+                "ConstantColorSd1Val" => "",
+                "ColorLerpValue" => "",
+                "L1ConstantColor0Val" => "",
+                "L1AddColor0Val" => "",
+                "L1ConstantColor1Val" => "",
+                "L1AddColor1Val" => "",
+                "L1ConstantColorSd0Val" => "",
+                "L1ConstantColorSd1Val" => "",
+                "Layer1OverLerpValue" => "",
+                "NormalMapUVScaleU" => "",
+                "NormalMapUVScaleV" => "",
+                "LightTblIndex" => "",
+                "LightMul" => "",
+                "SpecularPower" => "",
+                "SpecularScale" => "",
+                "SphereMapColorVal" => "",
+                "RimColorVal" => "",
+                "RimPower" => "",
+                "RimStrength" => "",
+                "OnGameEmissionVal" => "",
+                "ConstantColorVal" => "",
+                "ConstantAlpha" => "",
+                "OnGameColorVal" => "",
+                "OnGameAlpha" => "",
+                "OutLineID" => "",
+                "ProgID" => "",
+                "Def0_OneMin1_FreCol" => "",
+                "DistortionIntensity" => "",
+                "Sin01" => "",
+                "ScaleUV" => "",
+                "EffectTexTranslateU" => "",
+                "EffectTexTranslateV" => "",
+                "EffectTexRotate" => "",
+                "EffectTexScaleU" => "",
+                "EffectTexScaleV" => "",
+                "EffectColPower" => "",
+
+                // Uber values
+                "CullMode" => "",
+                "LightSetNo" => "",
+                "ShaderType" => "",
+                "Priority" => "",
+                "MipMapBias" => "",
+                "PreMultiplieMode" => "",
+                "BlendMode" => "",
+                "ColorMapUvIndex" => "",
+                "Layer1UvIdx" => "",
+                "EmissionMaskTexSS" => "",
+                "AmbientTexSS" => "",
+                "NormalMapTexSS" => "",
+                "Col0TexSS" => "",
+                "LyCol0TexSS" => "",
+                "PolygonOffset" => "",
+
+                _ => string.Empty
+            };
+
+            // Discard null result, this means the value no longer applies
+            //Debug.Assert(!result.Equals(string.Empty), $"Error: Couldn't convert float param with name: {oldName}!");
+            return result;
+        }
+
+        var floats = new FloatParameter[floatParams.Length];
+
+        for (var i = 0; i < floatParams.Length; i++)
+        {
+            var floatParam = floatParams[i];
+
+            floats[i] = new FloatParameter
+            {
+                PropertyBinding = ConvertParamName(floatParam.ValueName),
+                FloatValue = floatParam.Value,
+            };
+        }
+
+        return floats;
+    }
+
+    private Float4Parameter[] ConvertColorParams(Color3Param[] colorParams)
+    {
+        static string ConvertParamName(string oldName)
+        {
+            string? result = oldName switch
+            {
+                "0" => "",
+                "ConstantColor0" => "",
+                "ConstantColorSd0" => "",
+                "ConstantColor1" => "",
+                "ConstantColorSd1" => "",
+                "L1ConstantColor0" => "",
+                "L1AddColor0" => "",
+                "L1ConstantColor1" => "",
+                "L1AddColor1" => "",
+                "L1ConstantColorSd0" => "",
+                "L1ConstantColorSd1" => "",
+                "DeepShadowColor" => "",
+                "SpecularColor" => "",
+                "SphereMapColor" => "",
+                "RimColor" => "",
+                "RimColorShadow" => "",
+                "ConstantColor" => "",
+                "OnGameColor" => "",
+                "OutLineCol" => "",
+                "EffectColor01" => "",
+                _ => string.Empty
+            };
+
+            // Discard null result, this means the value no longer applies
+            //Debug.Assert(!result.Equals(string.Empty), $"Error: Couldn't convert float param with name: {oldName}!");
+            return result;
+        }
+
+        var colors = new Float4Parameter[colorParams.Length];
+
+        for (var i = 0; i < colorParams.Length; i++)
+        {
+            var colorParam = colorParams[i];
+
+            colors[i] = new Float4Parameter
+            {
+                PropertyBinding = ConvertParamName(colorParam.ColorName),
+                ColorValue = new PackedColor4f(colorParam.Color.R, colorParam.Color.G, colorParam.Color.B),
+            };
+        }
+
+        return colors;
+    }
+
+
     private MaterialPass FromStandardShaderParams(Material8 oldMaterial)
     {
         var oldFlags = oldMaterial.Flags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
@@ -751,62 +1118,20 @@ public partial class ModelConverter : Form
                 new()
                 {
                     ShaderName = "Standard",
-                    ShaderValues = new StringParameter[]
-                    {
-                        new("EnableBaseColorMap", oldFlags["useColorTex"]),
-                        new("EnableNormalMap", oldFlags["NormalMapEnable"]),
-                        new("EnableParallaxMap", "?"), // TODO
-                        new("EnableMetallicMap", "?"), // TODO
-                        new("EnableRoughnessMap", "?"), // TODO
-                        new("EnableEmissionColorMap", oldFlags["EmissionMaskUse"]),
-                        new("EnableAOMap", oldFlags["AmbientMapEnable"]),
-                        new("EnableAlphaTest", (oldMaterial.TextureAlphaTest == 0).ToString()), // TODO
-                        new("NumMaterialLayer", "5"), // TODO: Adds the ParamName + LayerX parameters
-                        new("EnableLerpBaseColorEmission", "?"), // TODO
-                        new("EnableVertexBaseColor", "?"), // TODO
-                    }
+                    ShaderValues = ConvertStringParams(oldMaterial.Flags)
                 }
             },
-            FloatParameter = new FloatParameter[]
-            {
-                new("DiscardValue", 0f),                          // TODO
-                new("Metallic", 0f),                              // TODO
-                new("MetallicLayer1", 0f),                        // TODO
-                new("MetallicLayer2", 0f),                        // TODO
-                new("MetallicLayer3", 0f),                        // TODO
-                new("MetallicLayer4", 0f),                        // TODO
-                new("Roughness", 0.5f),                           // TODO
-                new("RoughnessLayer1", 0f),                       // TODO
-                new("RoughnessLayer2", 0f),                       // TODO
-                new("RoughnessLayer3", 0.1f),                     // TODO
-                new("RoughnessLayer4", 0.1f),                     // TODO
-                new("NormalHeight", 1f),                          // TODO
-                new("EmissionIntensity", 0f),                     // TODO
-                new("EmissionIntensityLayer1", 0f),               // TODO
-                new("EmissionIntensityLayer2", 0f),               // TODO
-                new("EmissionIntensityLayer3", 0f),               // TODO
-                new("EmissionIntensityLayer4", 0f),               // TODO
-                new("LayerMaskScale1", 1f),                       // TODO
-                new("LayerMaskScale2", 1f),                       // TODO
-                new("LayerMaskScale3", 1f),                       // TODO
-                new("LayerMaskScale4", 1f),                       // TODO
-            },
-            TextureParameters = Array.Empty<TextureParameter>(), // TODO
-            Samplers = Array.Empty<SamplerState>(), // TODO
-            Field_05 = "", // TODO
+            FloatParameters = ConvertFloatParams(oldMaterial.Values),
+            TextureParameters = ConvertTextureParams(oldMaterial.Textures),
+            Samplers = ConvertSamplerState(oldMaterial.Textures),
             Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
-            Float4Parameter = Array.Empty<Float4Parameter>(), // TODO
-            Field_08 = "", // TODO
-            IntParameter = new IntParameter[]
+            Float4Parameters = ConvertColorParams(oldMaterial.Colors),
+            IntParameters = new IntParameter[]
             {
                 new("CastShadow", oldMaterial.CastShadow),
                 new("ReceiveShadow", oldMaterial.ReceiveShadow), // TODO: might want to force this to 1
                 new("CategoryLabel", 2), // TODO
-                new("UVIndexLayerMask", -1), // TODO
             },
-            Field_10 = "", // TODO
-            Field_11 = "", // TODO
-            Field_12 = "", // TODO
             ByteExtra = new WriteMask(), // TODO
             IntExtra = new IntExtra(), // TODO
             AlphaType = "" // TODO
@@ -839,7 +1164,7 @@ public partial class ModelConverter : Form
                     }
                 }
             },
-            FloatParameter = new FloatParameter[]
+            FloatParameters = new FloatParameter[]
             {
                 new("DiscardValue", 0.0f),
                 new("MetallicLayer3", 0.0f),
@@ -865,14 +1190,9 @@ public partial class ModelConverter : Form
             },
             TextureParameters = Array.Empty<TextureParameter>(), // TODO
             Samplers = Array.Empty<SamplerState>(), // TODO
-            Field_05 = "", // TODO
             Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
-            Float4Parameter = Array.Empty<Float4Parameter>(), // TODO
-            Field_08 = "", // TODO
-            IntParameter = Array.Empty<IntParameter>(), // TODO
-            Field_10 = "", // TODO
-            Field_11 = "", // TODO
-            Field_12 = "", // TODO
+            Float4Parameters = Array.Empty<Float4Parameter>(), // TODO
+            IntParameters = Array.Empty<IntParameter>(), // TODO
             ByteExtra = new WriteMask(), // TODO
             IntExtra = new IntExtra(), // TODO
             AlphaType = "" // TODO
@@ -885,7 +1205,6 @@ public partial class ModelConverter : Form
         foreach (var material in SWSHModel.GFBModel.Materials)
         {
             // TODO:
-            // material.Name;
             // material.Shader;
             // material.SortPriority;
             // material.DepthWrite;
@@ -896,16 +1215,11 @@ public partial class ModelConverter : Form
             // material.VertexShaderFileId;
             // material.GeomShaderFileId;
             // material.FragShaderFileId;
-            // material.Textures;
-            // material.Flags;
-            // material.Values;
-            // material.Colors;
             // material.ReceiveShadow;
             // material.CastShadow;
             // material.SelfShadow;
             // material.TextureAlphaTest;
             // material.DepthComparisonFunction;
-            // material.StaticParam;
             // material.DepthBias;
             // material.Field_18;
             // material.Field_19;
@@ -940,15 +1254,30 @@ public partial class ModelConverter : Form
         };
     }
 
-    private void ConvertToTRMeshMaterial(string resultFileName)
+    private void ConvertToMultiMaterialTable(string resultFileName)
     {
-        Result.TRMMT.Material = new Mmt[]
+        Debug.Assert(Result.Meshes.Length != 0, "Meshes should be converted before materials");
+
+        var allShapes = new List<MaterialSwitches>();
+        foreach (var mesh in Result.Meshes)
+        {
+            foreach (var shape in mesh.Shapes)
+            {
+                allShapes.Add(new MaterialSwitches
+                {
+                    Name = shape.MeshShapeName,
+                    Flags = 1 // TODO
+                });
+            }
+        }
+
+        Result.TRMMT.Material = new MaterialTable[]
         {
             new ()
             {
                 Name = "rare",
                 FileNames = new []{ $"{resultFileName}_rare.trmtr" },
-                MaterialSwitches = Array.Empty<MaterialSwitches>(), // TODO
+                MaterialSwitches = allShapes.ToArray(),
                 MaterialProperties = Array.Empty<MaterialProperties>(), // TODO
             },
         };
@@ -987,7 +1316,7 @@ public partial class ModelConverter : Form
         ConvertToTRMesh(sourceFileName, resultFileName);
         ConvertToTRMeshShape();
         ConvertToTRMaterial();
-        ConvertToTRMeshMaterial(resultFileName);
+        ConvertToMultiMaterialTable(resultFileName);
     }
 
     private void B_ShowConverter_Click(object sender, EventArgs e)
@@ -1004,5 +1333,66 @@ public partial class ModelConverter : Form
     private void CB_SWSHSpecies_SelectedIndexChanged(object sender, EventArgs e)
     {
         UpdateSWSHModel();
+    }
+
+    public static T DeepClone<T>(T obj) where T : class, new()
+    {
+        var data = FlatBufferConverter.SerializeFrom(obj);
+        return FlatBufferConverter.DeserializeFrom<T>(data);
+    }
+
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        //Result = DeepClone(PLAModel);
+
+        //Result.DefaultMaterials[0].MaterialPasses[3] = DeepClone(Result.DefaultMaterials[0].MaterialPasses[2]);
+
+        //PG_Converted.SelectedObject = Result;
+        //return;
+        SpeciesId = (ushort)SWSHModel.Config.SpeciesId;
+        string resultFileName = $"pm{SpeciesId:0000}_00_00";
+
+        FileName = resultFileName;
+        BasePath = Path.Combine(PokemonModelDir.FilePath!, $"bin/pokemon/pm{SpeciesId:0000}/{FileName}/");
+
+        PokemonModelDir.AddFile(BasePath + $"{FileName}.trpokecfg", FlatBufferConverter.SerializeFrom(Result.Config));
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmmt", FlatBufferConverter.SerializeFrom(Result.TRMMT));
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmdl", FlatBufferConverter.SerializeFrom(Result.TRModel));
+        PokemonModelDir.AddFile(ModelPath + $"{Result.TRModel.Skeleton.Filename}", FlatBufferConverter.SerializeFrom(Result.Skeleton));
+
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trpokecfg", FlatBufferConverter.SerializeFrom(Result.Config));
+
+        for (var i = 0; i < Result.TRModel.Materials.Length; i++)
+        {
+            var materialName = Result.TRModel.Materials[i];
+            PokemonModelDir.AddFile(ModelPath + $"{materialName}", FlatBufferConverter.SerializeFrom(Result.DefaultMaterials[i]));
+        }
+
+        for (var i = 0; i < Result.MeshMaterials.Length; i++)
+        {
+            for (var j = 0; j < Result.MeshMaterials[i].Materials.Length; j++)
+            {
+                if (Result.TRMMT.Material[i].Name == "normal")
+                    continue; // The default material was already created
+
+                var materialName = Result.TRMMT.Material[i].FileNames[j];
+                var material = Result.MeshMaterials[i].Materials[j];
+                PokemonModelDir.AddFile(ModelPath + $"{materialName}", FlatBufferConverter.SerializeFrom(material));
+            }
+        }
+
+        for (var i = 0; i < Result.TRModel.Meshes.Length; i++)
+        {
+            var meshName = Result.TRModel.Meshes[i].Filename;
+            PokemonModelDir.AddFile(ModelPath + $"{meshName}", FlatBufferConverter.SerializeFrom(Result.Meshes[i]));
+        }
+
+        for (var i = 0; i < Result.Meshes.Length; i++)
+        {
+            var meshBufferName = Result.Meshes[i].BufferFileName;
+            PokemonModelDir.AddFile(ModelPath + $"{meshBufferName}", FlatBufferConverter.SerializeFrom(Result.MeshDataBuffers[i]));
+        }
+
+        PokemonModelDir.Dump(null, null);
     }
 }

@@ -40,7 +40,7 @@ public class MaterialProperties
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class Mmt
+public class MaterialTable
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(01)] public string[] FileNames { get; set; } = Array.Empty<string>();
@@ -49,9 +49,9 @@ public class Mmt
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class TRMeshMaterial
+public class TRMultiMaterialTable
 {
     [FlatBufferItem(00)] public uint Field_00 { get; set; }
     [FlatBufferItem(01)] public uint Field_01 { get; set; }
-    [FlatBufferItem(02)] public Mmt[] Material { get; set; } = Array.Empty<Mmt>();
+    [FlatBufferItem(02)] public MaterialTable[] Material { get; set; } = Array.Empty<MaterialTable>();
 }

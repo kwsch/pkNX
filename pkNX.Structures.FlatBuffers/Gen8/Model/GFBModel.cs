@@ -114,7 +114,7 @@ public class Mesh8
 {
     [FlatBufferItem(00)] public uint BoneId { get; set; }
     [FlatBufferItem(01)] public uint ShapeId { get; set; }
-    [FlatBufferItem(02)] public PackedAABB PackedAabb { get; set; } = new();
+    [FlatBufferItem(02)] public PackedAABB Bounds { get; set; } = new();
     [FlatBufferItem(03)] public SortPriority SortPriority { get; set; } = SortPriority.S0; // Values have been 0 or 0x2 so far
 }
 
@@ -218,10 +218,10 @@ public enum FilterMode : uint
 [FlatBufferEnum(typeof(uint))]
 public enum UVWrapMode8 : uint
 {
-    Wrap = 0,
-    Clamp = 1,
-    Mirror = 2,
-    Border = 3,
+    WRAP = 0,
+    CLAMP = 1,
+    MIRROR = 2,
+    BORDER = 3,
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -276,43 +276,43 @@ public class Color3Param
 [FlatBufferEnum(typeof(uint))]
 public enum Pass : uint
 {
-    Default = 0,
-    Particle = 1, //Used for bubbles and lights
-    Addglass = 2, //add
-    Alpglass = 3 //referred to as alp
+    DEFAULT = 0,
+    PARTICLE = 1, //Used for bubbles and lights
+    ADDGLASS = 2, //add
+    ALPGLASS = 3 //referred to as alp
 }
 
 [FlatBufferEnum(typeof(uint))]
 public enum BlendMode : uint
 {
-    None = 0,
-    Alpha,
-    Add,
-    Subtract,
-    Multiply,
-    Premultiply,
-    Count,
+    NONE = 0,
+    ALPHA,
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    PREMULTIPLY,
+    COUNT,
 }
 
 [FlatBufferEnum(typeof(uint))]
 public enum CullMode : uint
 {
-    None = 0,
-    Back,
-    Front,
+    NONE = 0,
+    BACK,
+    FRONT,
 }
 
 
 [FlatBufferEnum(typeof(uint))]
 public enum DepthComparison : uint
 {
-    Never = 0,
-    Less,
-    Lessequal,
-    Greater,
-    Notequal,
-    Greaterequal,
-    Always = 7,
+    NEVER = 0,
+    LESS,
+    LESSEQUAL,
+    GREATER,
+    NOTEQUAL,
+    GREATEREQUAL,
+    ALWAYS = 7,
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
