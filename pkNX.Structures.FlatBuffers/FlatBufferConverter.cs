@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers;
 
 public static class FlatBufferConverter
 {
-    public static T[] DeserializeFrom<T>(string[] files) where T : class
+    public static T[] DeserializeFrom<T>(string[] files) where T : class, new()
     {
         var result = new T[files.Length];
         for (int i = 0; i < result.Length; i++)
@@ -28,15 +28,15 @@ public static class FlatBufferConverter
         return result;
     }
 
-    public static T DeserializeFrom<T>(string file) where T : class
+    public static T DeserializeFrom<T>(string file) where T : class, new()
     {
         var data = File.ReadAllBytes(file);
         return DeserializeFrom<T>(data);
     }
 
-    public static T DeserializeFrom<T>(byte[] data) where T : class
+    public static T DeserializeFrom<T>(byte[] data) where T : class, new()
     {
-        return FlatBufferSerializer.Default.Parse<T>(data);
+        return data.Length > 0 ? FlatBufferSerializer.Default.Parse<T>(data) : new T();
     }
 
     public static byte[] SerializeFrom<T>(T obj) where T : class

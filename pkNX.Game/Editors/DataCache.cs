@@ -84,7 +84,7 @@ public class DirectCache<T> : DataCache<T> where T : class
 /// <typeparam name="TTable">The type of table</typeparam>
 /// <typeparam name="TData">The type of data inside the table</typeparam>
 public class TableCache<TTable, TData>
-    where TTable : class, IFlatBufferArchive<TData>
+    where TTable : class, IFlatBufferArchive<TData>, new()
     where TData : class
 {
     public IFileContainer File { get; private set; }

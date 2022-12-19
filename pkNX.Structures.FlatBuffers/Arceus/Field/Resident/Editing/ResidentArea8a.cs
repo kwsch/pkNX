@@ -31,7 +31,7 @@ public sealed class ResidentArea8a
     public PlacementMkrgEntry[] Mikaruge { get; private set; } = Array.Empty<PlacementMkrgEntry>();
     public PlacementSearchItem[] SearchItem { get; private set; } = Array.Empty<PlacementSearchItem>();
 
-    private T2[] TryRead<T1, T2>(string path) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    private T2[] TryRead<T1, T2>(string path) where T1 : class, IFlatBufferArchive<T2>, new() where T2 : class
     {
         var index = Resident.GetIndexFull(path);
         if (index == -1)
@@ -56,15 +56,15 @@ public sealed class ResidentArea8a
     public void LoadInfo()
     {
         // Load encount
-        Encounters = TryRead<EncounterDataArchive8a    , EncounterTable8a     >(Settings.Encounters);
-        Locations  = TryRead<PlacementLocationArchive8a, PlacementLocation8a  >(Settings.Locations);
-        Spawners   = TryRead<PlacementSpawnerArchive8a , PlacementSpawner8a   >(Settings.Spawners);
-        Wormholes  = TryRead<PlacementSpawnerArchive8a , PlacementSpawner8a   >(Settings.WormholeSpawners);
-        LandItems  = TryRead<LandmarkItemSpawnTable8a  , LandmarkItemSpawn8a  >(Settings.LandmarkItemSpawns);
-        LandMarks  = TryRead<LandmarkItemTable8a       , LandmarkItem8a       >(Settings.LandmarkItems);
-        Unown      = TryRead<PlacementUnnnTable        , PlacementUnnnEntry   >(Settings.UnownSpawners);
-        Mikaruge   = TryRead<PlacementMkrgTable        , PlacementMkrgEntry   >(Settings.Mkrg);
-        SearchItem = TryRead<PlacementSearchItemTable  , PlacementSearchItem  >(Settings.SearchItem);
+        Encounters = TryRead<EncounterDataArchive8a, EncounterTable8a>(Settings.Encounters);
+        Locations = TryRead<PlacementLocationArchive8a, PlacementLocation8a>(Settings.Locations);
+        Spawners = TryRead<PlacementSpawnerArchive8a, PlacementSpawner8a>(Settings.Spawners);
+        Wormholes = TryRead<PlacementSpawnerArchive8a, PlacementSpawner8a>(Settings.WormholeSpawners);
+        LandItems = TryRead<LandmarkItemSpawnTable8a, LandmarkItemSpawn8a>(Settings.LandmarkItemSpawns);
+        LandMarks = TryRead<LandmarkItemTable8a, LandmarkItem8a>(Settings.LandmarkItems);
+        Unown = TryRead<PlacementUnnnTable, PlacementUnnnEntry>(Settings.UnownSpawners);
+        Mikaruge = TryRead<PlacementMkrgTable, PlacementMkrgEntry>(Settings.Mkrg);
+        SearchItem = TryRead<PlacementSearchItemTable, PlacementSearchItem>(Settings.SearchItem);
     }
 
     public void SaveInfo()

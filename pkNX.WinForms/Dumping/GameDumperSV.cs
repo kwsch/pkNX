@@ -234,7 +234,7 @@ public class GameDumperSV
     {
         const string personalPath = "avalon/data/personal_array.bin";
         Dump<PersonalTable9SVfb, PersonalInfo9SVfb>(personalPath);
-        
+
         var perbin = ROM.GetPackedFile(personalPath);
         var pt = new PersonalTable9SV(new FakeContainer(new[] { perbin }));
 
@@ -429,7 +429,7 @@ public class GameDumperSV
                 {
                     // Moves that can not be learned by any other species
                     Species.Psyduck => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
-                    Species.Spoink  => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
+                    Species.Spoink => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
                     Species.Happiny => moves.Where(z => z is not (ushort)Move.HealBell).ToArray(),
 
                     // Available after HOME
@@ -442,7 +442,7 @@ public class GameDumperSV
 
                 result[i] = Write(moves);
             }
-                
+
         }
         return result;
 
@@ -736,11 +736,11 @@ public class GameDumperSV
         Dump<TakaraSpicePowerTableArray, TakaraSpicePowerTable>("world/data/cooking/TakaraSpicePowerTable/TakaraSpicePowerTable_array.bfbs");
 
         DumpSel<FoodPowerComboArray, FoodPowerComboParam>(fpc, z => z.Table.Select(x => x.Param));
-        DumpSel<FoodPowerComboArray, FoodPowerParam>     (fpc, z => z.Table.Select(x => x.Param.FoodPower), "effect");
-        DumpSel<FoodPowerComboArray, FoodPokeTypeParam>  (fpc, z => z.Table.Select(x => x.Param.PokeTypePower), "type");
+        DumpSel<FoodPowerComboArray, FoodPowerParam>(fpc, z => z.Table.Select(x => x.Param.FoodPower), "effect");
+        DumpSel<FoodPowerComboArray, FoodPokeTypeParam>(fpc, z => z.Table.Select(x => x.Param.PokeTypePower), "type");
 
-        DumpSel<IngredientDataArray, IngredientParam>  (ipc, z => z.Table.Select(x => x.Param), "flavor");
-        DumpSel<IngredientDataArray, FoodPowerParam>   (ipc, z => z.Table.Select(x => x.Power), "effect");
+        DumpSel<IngredientDataArray, IngredientParam>(ipc, z => z.Table.Select(x => x.Param), "flavor");
+        DumpSel<IngredientDataArray, FoodPowerParam>(ipc, z => z.Table.Select(x => x.Power), "effect");
         DumpSel<IngredientDataArray, FoodPokeTypeParam>(ipc, z => z.Table.Select(x => x.PokeTypePower), "type");
 
         // Combining ingredients and seasonings fills a weight table, and the game picks boosts "randomly" from the weights.
@@ -812,7 +812,7 @@ public class GameDumperSV
     }
 
     private void Dump<TTable, TEntry>(string f)
-        where TTable : class, IFlatBufferArchive<TEntry>
+        where TTable : class, IFlatBufferArchive<TEntry>, new()
         where TEntry : class
     {
         var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
@@ -828,7 +828,7 @@ public class GameDumperSV
     }
 
     private void DumpSel<TTable, TEntry>(string f, Func<TTable, IEnumerable<TEntry>> sel, string prefix = "sel")
-        where TTable : class
+        where TTable : class, new()
         where TEntry : class
     {
         var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
@@ -842,7 +842,7 @@ public class GameDumperSV
     }
 
     private void DumpX<TTable, TEntry, TSub>(string f)
-        where TTable : class, IFlatBufferArchive<TEntry>
+        where TTable : class, IFlatBufferArchive<TEntry>, new()
         where TEntry : class, IFlatBufferArchive<TSub>
         where TSub : class
     {
@@ -863,7 +863,7 @@ public class GameDumperSV
         }
     }
 
-    private void DumpJson<T>(string f) where T : class
+    private void DumpJson<T>(string f) where T : class, new()
     {
         var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
         var flat = FlatBufferConverter.DeserializeFrom<T>(bin);

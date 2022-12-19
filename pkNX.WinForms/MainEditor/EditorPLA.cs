@@ -33,7 +33,7 @@ internal class EditorPLA : EditorBase
             WinFormsUtil.Alert($"{file} not found in the executable folder", "Some decompression functions may cause errors.");
     }
 
-    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, Action<T1>? addEntryCallback = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, Action<T1>? addEntryCallback = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2>, new() where T2 : class
     {
         var obj = ROM.GetFile(file);
         var tableCache = new TableCache<T1, T2>(obj);
@@ -769,6 +769,7 @@ internal class EditorPLA : EditorBase
     {
         var archiveFolder = ROM.GetFilteredFolder(GameFile.ArchiveFolder);
 
+        // TODO: Read from/ Write to external hash cache
         var paths = archiveFolder.GetPaths()
             .Select(p => Path.GetRelativePath(ROM.PathRomFS, p).Replace('\\', '/'))
             .ToDictionary(p => FnvHash.HashFnv1a_64(p));
