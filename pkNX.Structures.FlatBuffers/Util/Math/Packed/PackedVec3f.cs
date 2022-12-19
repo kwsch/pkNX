@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -18,27 +19,42 @@ public class PackedVec3f : IEquatable<PackedVec3f>
 
     public PackedVec3f() { }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public PackedVec3f(float x = 0, float y = 0, float z = 0)
     {
         X = x;
         Y = y;
         Z = z;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Vec3f(PackedVec3f v) => new(v.X, v.Y, v.Z);
 
     public bool IsOne => X is 1 && Y is 1 && Z is 1;
     public bool IsZero => X is 0 && Y is 0 && Z is 0;
 
     public float Magnitude => MathF.Sqrt(MagnitudeSqr);
+
     public float MagnitudeSqr => Dot(this);
+
     public PackedVec3f Normalized => this * (1 / Magnitude);
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public float Dot(PackedVec3f other) => X * other.X + Y * other.Y + Z * other.Z;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public PackedVec3f Cross(PackedVec3f other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public float DistanceTo(PackedVec3f other) => (this - other).Magnitude;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public float DistanceToSqr(PackedVec3f other) => (this - other).MagnitudeSqr;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public PackedVec3f Lerp(PackedVec3f other, float t) => this + (other - this) * t;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public PackedVec3f Clone() => new()
     {
         X = X,
