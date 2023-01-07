@@ -41,6 +41,12 @@ public class PackedColor4f : IEquatable<PackedColor4f>
     public static implicit operator Vec4f(PackedColor4f c) => new(c.R, c.G, c.B, c.A);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator PackedColor4f(PackedVec4f v) => new(v.X, v.Y, v.Z, v.W);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator PackedColor4f(Vec4f v) => new(v.X, v.Y, v.Z, v.W);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PackedColor4f FromByteColor(Vec4i c) => new(c.X * RGBToFloat, c.Y * RGBToFloat, c.Z * RGBToFloat, c.W * RGBToFloat);
 
     public bool Equals(PackedColor4f? other)

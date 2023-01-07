@@ -17,7 +17,7 @@ public class FileReference
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class LODIndex
 {
-    [FlatBufferItem(00)] public uint Index { get; set; } = 0;
+    [FlatBufferItem(00)] public uint Index { get; set; }
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -30,11 +30,11 @@ public class LOD
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRModel
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; }
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; } // Always default
     [FlatBufferItem(01)] public FileReference[] Meshes { get; set; } = Array.Empty<FileReference>();
     [FlatBufferItem(02)] public FileReference Skeleton { get; set; } = new();
     [FlatBufferItem(03)] public string[] Materials { get; set; } = Array.Empty<string>();
     [FlatBufferItem(04)] public LOD[] LODs { get; set; } = Array.Empty<LOD>();
     [FlatBufferItem(05)] public AABB Bounds { get; set; } = new();
-    [FlatBufferItem(06)] public PackedVec4f Field_06 { get; set; } = new();
+    [FlatBufferItem(06)] public PackedSphere SphereBounds { get; set; } = new();
 }

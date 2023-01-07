@@ -46,7 +46,7 @@ public enum IndexLayoutFormat : uint // Possibly part of InputLayoutFormat and s
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class BoneWeights
+public class BoneWeight
 {
     [FlatBufferItem(00)] public uint RigIndex { get; set; }
     [FlatBufferItem(01)] public float Weight { get; set; }
@@ -88,7 +88,7 @@ public class SubMesh
     [FlatBufferItem(00)] public uint IndexCount { get; set; }
     [FlatBufferItem(01)] public uint IndexOffset { get; set; }
     [FlatBufferItem(02)] public uint Field_02 { get; set; } // Always zero on PLA all models
-    [FlatBufferItem(03)] public string MaterialName { get; set; } = string.Empty;
+    [FlatBufferItem(03)] public string AppliedMaterial { get; set; } = string.Empty;
     [FlatBufferItem(04, DefaultValue = -1)] public int Field_04 { get; set; } // 0 or default value
 }
 
@@ -105,7 +105,7 @@ public class MeshShape
     [FlatBufferItem(07)] public uint Field_07 { get; set; } // Always default on PLA all models
     [FlatBufferItem(08)] public uint Field_08 { get; set; } // Always default on PLA all models
     [FlatBufferItem(09)] public PackedSphere BoundingSphere { get; set; } = new();
-    [FlatBufferItem(10)] public BoneWeights[] Weights { get; set; } = Array.Empty<BoneWeights>();
+    [FlatBufferItem(10)] public BoneWeight[] BoneWeights { get; set; } = Array.Empty<BoneWeight>();
     [FlatBufferItem(11)] public string Field_11 { get; set; } = string.Empty; // Always empty on PLA all models
     [FlatBufferItem(12)] public string MeshName { get; set; } = string.Empty;
 }
@@ -113,7 +113,7 @@ public class MeshShape
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRMesh
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; } // Always zero on PLA all models
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; } // Always zero on PLA all models
     [FlatBufferItem(01)] public MeshShape[] Shapes { get; set; } = Array.Empty<MeshShape>();
     [FlatBufferItem(02)] public string BufferFileName { get; set; } = string.Empty;
 }

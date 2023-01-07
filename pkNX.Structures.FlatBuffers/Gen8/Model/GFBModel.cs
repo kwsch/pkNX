@@ -154,7 +154,7 @@ public class Bone8
     [FlatBufferItem(02)] public int ParentIdx { get; set; } = 0; //0, 1, 2 or -1
     [FlatBufferItem(03)] public BillboardType Effect { get; set; } = 0; //0, 1, 2, mostly seen in effects (ee, em and ew)
 
-    [FlatBufferItem(04)] public bool Visible { get; set; } = true;
+    [FlatBufferItem(04)] public bool IsVisible { get; set; } = true;
 
     [FlatBufferItem(05)] public PackedVec3f Scale { get; set; }
     [FlatBufferItem(06)] public PackedVec3f Rotation { get; set; }

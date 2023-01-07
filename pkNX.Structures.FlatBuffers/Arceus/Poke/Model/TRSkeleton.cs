@@ -9,9 +9,9 @@ namespace pkNX.Structures.FlatBuffers;
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRSkeleton
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; } // Always default
-    [FlatBufferItem(01)] public TransformNode[] Bones { get; set; } = Array.Empty<TransformNode>();
-    [FlatBufferItem(02)] public Bone[] BoneParams { get; set; } = Array.Empty<Bone>();
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; } // Always default
+    [FlatBufferItem(01)] public TransformNode[] Nodes { get; set; } = Array.Empty<TransformNode>();
+    [FlatBufferItem(02)] public Bone[] Bones { get; set; } = Array.Empty<Bone>();
     [FlatBufferItem(03)] public IkControl[] Iks { get; set; } = Array.Empty<IkControl>();
     [FlatBufferItem(04)] public int RigOffset { get; set; }
 }

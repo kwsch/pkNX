@@ -14,6 +14,8 @@ public enum UvWrapMode : uint
     Clamp = 1, //0001
     Mirror = 6, //0110
     MirrorOnce = 7, //0111
+
+    Border = 99999, // TODO: Unknown value, 99999 is invalid!
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -135,10 +137,10 @@ public class WriteMask
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class IntExtra
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; }
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; }
     //0 when Transparent
     //1 when NonDirectional
-    [FlatBufferItem(01)] public int Value { get; set; } = -1;
+    [FlatBufferItem(01)] public int Value { get; set; } //= -1;
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -150,14 +152,14 @@ public class MaterialPass
     [FlatBufferItem(03)] public SamplerState[] Samplers { get; set; } = Array.Empty<SamplerState>();
     [FlatBufferItem(04)] public FloatParameter[] FloatParameters { get; set; } = Array.Empty<FloatParameter>();
     [FlatBufferItem(05)] public string[] Field_05 { get; set; } = Array.Empty<string>();
-    [FlatBufferItem(06)] public Float4Parameter[] Float4LightParameter { get; set; } = Array.Empty<Float4Parameter>();
+    [FlatBufferItem(06)] public Float4Parameter[] Float4LightParameters { get; set; } = Array.Empty<Float4Parameter>();
     [FlatBufferItem(07)] public Float4Parameter[] Float4Parameters { get; set; } = Array.Empty<Float4Parameter>();
-    [FlatBufferItem(08)] public string[] Field_08 { get; set; } // TODO
+    [FlatBufferItem(08)] public string[] Field_08 { get; set; } = Array.Empty<string>(); // TODO
     [FlatBufferItem(09)] public IntParameter[] IntParameters { get; set; } = Array.Empty<IntParameter>();
-    [FlatBufferItem(10)] public string[] Field_10 { get; set; } // TODO
-    [FlatBufferItem(11)] public string[] Field_11 { get; set; } // TODO
-    [FlatBufferItem(12)] public string[] Field_12 { get; set; } // TODO
-    [FlatBufferItem(13)] public WriteMask ByteExtra { get; set; } = new();
+    [FlatBufferItem(10)] public string[] Field_10 { get; set; } = Array.Empty<string>();// TODO
+    [FlatBufferItem(11)] public string[] Field_11 { get; set; } = Array.Empty<string>();// TODO
+    [FlatBufferItem(12)] public string[] Field_12 { get; set; } = Array.Empty<string>();// TODO
+    [FlatBufferItem(13)] public WriteMask WriteMask { get; set; } = new();
     [FlatBufferItem(14)] public IntExtra IntExtra { get; set; } = new();
     [FlatBufferItem(15)] public string AlphaType { get; set; } = string.Empty;
 }
@@ -165,6 +167,6 @@ public class MaterialPass
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRMaterial
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; } // Default
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; } // Default
     [FlatBufferItem(01)] public MaterialPass[] MaterialPasses { get; set; } = Array.Empty<MaterialPass>();
 }

@@ -42,7 +42,7 @@ namespace pkNX.WinForms;
 // TRMMT -> MaterialSwitches, MaterialProperties
 // TRMesh -> Split eyes into submesh and assign eye shader, maybe sort entries?
 // TRSubMesh -> Material name might need to be converted to snake_case
-// TRMeshShape -> BoneWeights[] Possibly this is just the sum of all blend indices + weights on the shape
+// TRMeshShape -> BoneWeight[] Possibly this is just the sum of all blend indices + weights on the shape
 // TRMeshBuffer -> Update BLEND_INDICES, Possibly need to remove vertex color
 // TRMaterial -> Properly tackle this, Material name might need to be converted to snake_case
 // TRSkeleton -> Name of first bone should be updated, might need to snake_case all names
@@ -54,7 +54,7 @@ namespace pkNX.WinForms;
 
 // GFBModel -> Version?, TextureFiles, All shaders
 // Mesh8 -> SortPriority (only used rarely)
-// Skeleton8 -> Effect and Visible 
+// Skeleton8 -> Effect and IsVisible 
 
 
 // Probably need some sort of intermediate class structure
@@ -92,10 +92,12 @@ public partial class ModelConverter : Form
         PokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
         PokemonModelDir.Initialize();
         CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
+        CB_Species.SelectedIndex = 165;
 
         SWSHPokemonModelDir = (FolderContainer)ROM[GameFile.Debug_SWSHPokemonArchiveFolder];
         SWSHPokemonModelDir.Initialize();
         CB_SWSHSpecies.Items.AddRange(SWSHPokemonModelDir.GetFileNames().ToArray());
+        CB_SWSHSpecies.SelectedIndex = 1;
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -152,7 +154,7 @@ public partial class ModelConverter : Form
 
         PLAModel.Config = FlatBufferConverter.DeserializeFrom<TRPokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.trpokecfg"));
         Debug.Assert((int)PLAModel.Config.SizeIndex <= 3, "Here's one!");
-        Debug.Assert((int)PLAModel.Config.Field_09 == 0.0f, "Here's one!");
+        Debug.Assert((int)PLAModel.Config.Reserved_09 == 0.0f, "Here's one!");
         LoadModel(pack);
     }
 
@@ -177,21 +179,21 @@ public partial class ModelConverter : Form
         PLAModel.TRModel = FlatBufferConverter.DeserializeFrom<TRModel>(pack.GetDataFullPath(ModelPath + $"{FileName}.trmdl"));
         PLAModel.Skeleton = FlatBufferConverter.DeserializeFrom<TRSkeleton>(pack.GetDataFullPath(ModelPath + $"{PLAModel.TRModel.Skeleton.Filename}"));
 
-        Debug.Assert(PLAModel.TRMMT.Field_00 == 0, "Here's one!");
-        Debug.Assert(PLAModel.TRMMT.Field_01 == 0, "Here's one!");
+        Debug.Assert(PLAModel.TRMMT.Reserved_00 == 0, "Here's one!");
+        Debug.Assert(PLAModel.TRMMT.Reserved_01 == 0, "Here's one!");
 
-        Debug.Assert(PLAModel.TRModel.Field_00 == 0, "Here's one!");
+        Debug.Assert(PLAModel.TRModel.Reserved_00 == 0, "Here's one!");
         foreach (var lod in PLAModel.TRModel.LODs)
         {
             Debug.Assert(lod.Type == "Custom", "Here's one!");
         }
 
-        Debug.Assert(PLAModel.Skeleton.Field_00 == 0, "Here's one!");
-        foreach (var node in PLAModel.Skeleton.Bones)
+        Debug.Assert(PLAModel.Skeleton.Reserved_00 == 0, "Here's one!");
+        foreach (var node in PLAModel.Skeleton.Nodes)
         {
             Debug.Assert(node.Type is NodeType.Transform or NodeType.Joint or NodeType.Locator, "Here's one!");
         }
-        foreach (var boneParam in PLAModel.Skeleton.BoneParams)
+        foreach (var boneParam in PLAModel.Skeleton.Bones)
         {
             Debug.Assert(boneParam.Field_01 == 1, "Here's one!");
         }
@@ -261,7 +263,7 @@ public partial class ModelConverter : Form
 
         foreach (var mesh in PLAModel.Meshes)
         {
-            Debug.Assert(mesh.Field_00 == 0, "Here's one!");
+            Debug.Assert(mesh.Reserved_00 == 0, "Here's one!");
 
             foreach (var shape in mesh.Shapes)
             {
@@ -357,12 +359,11 @@ public partial class ModelConverter : Form
         // SWSHModel.Config.MaterialEntries;
         // SWSHModel.Config.SpeciesModelProperty;
 
-        Result.Config.Field_01 = 0f; // TODO
-        Result.Config.Field_02 = 0f; // TODO
-        Result.Config.Field_03 = 0f; // TODO
-        Result.Config.Field_09 = 0f; // TODO
+        Result.Config.Field_01 = 1.32f; // TODO
+        Result.Config.Field_02 = 1.98f; // TODO
+        Result.Config.Field_03 = 5.45f; // TODO
         Result.Config.Field_10_YOffset = 0f; // TODO
-        Result.Config.Field_11_YOffset = 0f; // TODO
+        Result.Config.Field_11_YOffset = -0.07f; // TODO
         Result.Config.Field_12_YOffset = 0f; // TODO
 
         Result.Config.SizeIndex = SWSHModel.Config.SizeIndex;
@@ -379,11 +380,14 @@ public partial class ModelConverter : Form
 
         // TODO:
         // Result.Skeleton.SizeType;
-        // Result.Skeleton.BoneParams[];
-        // BoneParams bone matrix is maya’s transform matrix inverted
+        // Result.Skeleton.Bones[];
+        // Bones bone matrix is maya’s transform matrix inverted
         // Result.Skeleton.Iks[];
 
         // TODO: Probably need to ignore bones @ Mesh8.BoneId;
+        // TODO: New structure ends with lod groups
+        // TODO: Separate locators
+        // TODO: Figure out and apply the new bone type structure
 
         var transformNodes = new List<TransformNode>();
         int rigStart = -1;
@@ -397,7 +401,7 @@ public partial class ModelConverter : Form
 
             // TODO:
             // bone8.Effect;
-            // bone8.Visible;
+            // bone8.IsRigged;
 
             // TODO: Should be converted using bone8.IsRigged. Only IsRigged bones are used in vertex blend_indices.
             // Meaning an array of IsRigged bones is made and blend_indices index into this array.
@@ -417,12 +421,12 @@ public partial class ModelConverter : Form
                 ScalePivot = bone8.ScalePivot,
                 RotatePivot = bone8.RotatePivot,
                 ParentIdx = bone8.ParentIdx, // TODO: If some are removed, this id needs to be corrected
-                RigIdx = bone8.IsRigged ? rigIndex++ : -1,
+                RigIdx = bone8.IsVisible ? rigIndex++ : -1,
                 LocatorBone = string.Empty,
                 Type = (NodeType)bone8.Type, // TODO: A lot of these seem to be converted into transform nodes instead of joint nodes
             });
 
-            if (bone8.IsRigged && rigStart == -1)
+            if (bone8.IsVisible && rigStart == -1)
             {
                 rigStart = i;
             }
@@ -432,9 +436,9 @@ public partial class ModelConverter : Form
         Debug.Assert(rigStart > 0, "This skeleton seems to not be skinned.");
 
         Result.Skeleton.RigOffset = rigStart - 2; // By default we always skip the first two 2 nodes. Any additional offset should be marked. TODO: Is this true?
-        Result.Skeleton.Bones = transformNodes.ToArray();
+        Result.Skeleton.Nodes = transformNodes.ToArray();
 
-        // TODO: Result.Skeleton.BoneParams = new Bone[rigEnd];
+        // TODO: Result.Skeleton.Bones = new Bone[rigEnd];
     }
 
     private static InputLayoutFormat ConvertInputLayoutFormat(VertexAttribute8 attribute)
@@ -558,7 +562,7 @@ public partial class ModelConverter : Form
                     {
                         IndexCount = (uint)subMesh.Indices.Length,
                         IndexOffset = offset,
-                        MaterialName = mat.Name, // TODO
+                        AppliedMaterial = mat.Name, // TODO
                     };
 
                     offset += (uint)subMesh.Indices.Length;
@@ -746,7 +750,7 @@ public partial class ModelConverter : Form
                     BoundingSphere = new PackedSphere(bounds),
                     Bounds = bounds,
                     IndexLayoutFormat = IndexLayoutFormat.UINT16, // Always Uint16 on all PLA pokemon models
-                    Weights = new BoneWeights[] { }, // TODO: All bones affected by the sub-mesh + some weight
+                    BoneWeights = new BoneWeight[] { }, // TODO: All bones affected by the sub-mesh + some weight
                     SubMeshes = subMeshes,
                 });
             }
@@ -788,92 +792,46 @@ public partial class ModelConverter : Form
 
     }
 
-    private TextureParameter[] ConvertTextureParams(Texture8[] oldTextures)
-    {
-        static string ConvertSamplerName(string swshSamplerName)
-        {
-            var result = swshSamplerName switch
-            {
-                "0" => "LayerMaskMap",
-                "1" => "MetallicMap",
-                "2" => "RoughnessMap",
-
-                "Col0Tex" => "BaseColorMap",
-                "EmissionMaskTex" => "",
-                "LyCol0Tex" => "",
-                "AmbientTex" => "AOMap", // TODO: New format only has R channel
-                "NormalMapTex" => "NormalMap",
-                "LightTblTex" => "",
-                "SphereMapTex" => "",
-                "EffectTex" => "",
-                _ => string.Empty
-            };
-
-            //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert sampler with name: {swshSamplerName}!");
-            return result;
-        }
-
-
-        string[] files = SWSHModel.GFBModel.TextureFiles;
-        var textures = new TextureParameter[oldTextures.Length];
-
-        for (var i = 0; i < oldTextures.Length; i++)
-        {
-            var oldTexture = oldTextures[i];
-
-            // TODO: if files[oldTexture.TextureIndex] == "dummy_col" we should probably just remove the entry
-            // TODO: Default_lta.bntx, projection_effect_col.bntx
-            textures[i] = new TextureParameter
-            {
-                PropertyBinding = ConvertSamplerName(oldTexture.SamplerName),
-                TextureSlot = (uint)i, // TODO
-                TextureFile = files[oldTexture.TextureIndex] + ".bntx",
-            };
-        }
-
-        return textures;
-    }
-
-    private SamplerState[] ConvertSamplerState(Texture8[] oldTextures)
-    {
-        var samplers = new SamplerState[oldTextures.Length + 2];
-
-        for (var i = 0; i < oldTextures.Length; i++)
-        {
-            // TODO: oldTexture.Settings;
-
-            samplers[i] = new SamplerState
-            {
-                BorderColor = new PackedColor4f(),
-            };
-        }
-
-        // Last two are always Wrap. Probably some default samplers
-        samplers[^2] = new SamplerState()
-        {
-            RepeatU = UvWrapMode.Wrap,
-            RepeatV = UvWrapMode.Wrap,
-        };
-        samplers[^1] = new SamplerState()
-        {
-            RepeatU = UvWrapMode.Wrap,
-            RepeatV = UvWrapMode.Wrap,
-        };
-        return samplers;
-    }
-
     private StringParameter[] ConvertStringParams(Flag[] flags)
     {
         // StringParam possible values:
-        // "EnableParallaxMap"
-        // "EnableMetallicMap"
-        // "EnableRoughnessMap"
-        // "EnableEmissionColorMap"
-        // "EnableAOMap"
-        // "EnableAlphaTest" -> (oldMaterial.TextureAlphaTest == 0).ToString()
-        // "NumMaterialLayer" -> Number!
-        // "EnableLerpBaseColorEmission"
-        // "EnableVertexBaseColor"
+        // EnableBaseColorMap  < Maybe 'required'?
+
+        // "EnableBaseColorMap"          -> Allowed values: "True", "False"                                  | shader_bool: 1
+        // "EnableNormalMap"             -> Allowed values: "True", "False"
+        // "EnableMetallicMap"           -> Allowed values: "True", "False"
+        // "EnableRoughnessMap"          -> Allowed values: "True", "False"
+        // "EnableEmissionColorMap"      -> Allowed values: "True", "False"
+        // "EnableAOMap"                 -> Allowed values: "True", "False"
+        // "EnableAlphaTest"             -> Allowed values: "True", "False"                                  (oldMaterial.TextureAlphaTest == 0).ToString()
+        // "NumMaterialLayer"            -> Allowed values: "1", "2", "3", "4", "5"
+        // "BillboardType"               -> Allowed values: "Disable", "AxisXYZ", "AxisY"
+        // "WindReceiverType"            -> Allowed values: "Disable", "Simple", "Standard", "SimpleLeaf"
+        // "EnableWindMaskMap"           -> Allowed values: "True", "False"
+        // "EnableBaseColorMap1"         -> Allowed values: "True", "False"
+        // "EnableNormalMap1"            -> Allowed values: "True", "False"
+        // "EnableNormalMap2"            -> Allowed values: "True", "False"
+        // "EnableAOMap1"                -> Allowed values: "True", "False"
+        // "EnableAOMap2"                -> Allowed values: "True", "False"
+        // "LayerMaskSource"             -> Allowed values: "Const", "Texture", "VertexColor"                | shader_bool: 1
+        // "LayerMaskSwizzle"            -> Allowed values: "RGBA", "R111", "A111"
+        // "LayerBaseMaskSource"         -> Allowed values: "One", "OneMinusLayerMaskSum"                    | shader_bool: 1
+        // "EnableVertexBaseColor"       -> Allowed values: "True", "False"
+        // "WeatherLayerMaskSource"      -> Allowed values: "Const", "Texture"
+        // "EnableDepthFade"             -> Allowed values: "True", "False"
+        // "EnablePackedMap"             -> Allowed values: "True", "False"
+        // "EnableUVScaleOffsetNormal"   -> Allowed values: "True", "False"
+
+        // Global params:                
+        // "EnableDeferredRendering"     -> Allowed values: "True", "False"
+        // "InstancingType"              -> Allowed values: "Disable", "World", "Detail"
+        // "EnableGrassCollisionMap"     -> Allowed values: "True", "False"
+        // "NumRequiredUV"               -> Allowed values: "1", "2"
+        // "EnableWeatherLayer"          -> Allowed values: "True", "False"
+        // "EnableDisplacementMap"       -> Allowed values: "True", "False"
+        // "EnableLerpBaseColorEmission" -> Allowed values: "True", "False"
+
+
         // EnableUVScaleOffsetNormal -> enables float4 { UVScaleOffsetNormal: { R: 1, G: 1, B: 0, A: 0 } }
 
         static string ConvertParamName(string oldName)
@@ -901,7 +859,7 @@ public partial class ModelConverter : Form
                 "OutLineIDEnable" => "",
                 "OutLineColFixed" => "",
 
-                // Uber flags
+                // Global flags
                 "FogEnable" => "",
                 "DiscardEnable" => "", // FloatParam: DiscardValue? 
                 "CastShadow" => "",
@@ -1105,41 +1063,382 @@ public partial class ModelConverter : Form
     }
 
 
+    private enum StandardShaderProperties
+    {
+        // StringParam possible values:
+        // "EnableBaseColorMap"          -> Allowed values: "True", "False"                                  | shader_bool: 1 < Maybe 'required'?
+        // "EnableNormalMap"             -> Allowed values: "True", "False"
+        // "EnableMetallicMap"           -> Allowed values: "True", "False"
+        // "EnableRoughnessMap"          -> Allowed values: "True", "False"
+        // "EnableEmissionColorMap"      -> Allowed values: "True", "False"
+        // "EnableAOMap"                 -> Allowed values: "True", "False"
+        // "EnableAlphaTest"             -> Allowed values: "True", "False"                                  (oldMaterial.TextureAlphaTest == 0).ToString()
+        // "NumMaterialLayer"            -> Allowed values: "1", "2", "3", "4", "5"
+        // "BillboardType"               -> Allowed values: "Disable", "AxisXYZ", "AxisY"
+        // "WindReceiverType"            -> Allowed values: "Disable", "Simple", "Standard", "SimpleLeaf"
+        // "EnableWindMaskMap"           -> Allowed values: "True", "False"
+        // "EnableBaseColorMap1"         -> Allowed values: "True", "False"
+        // "EnableNormalMap1"            -> Allowed values: "True", "False"
+        // "EnableNormalMap2"            -> Allowed values: "True", "False"
+        // "EnableAOMap1"                -> Allowed values: "True", "False"
+        // "EnableAOMap2"                -> Allowed values: "True", "False"
+        // "LayerMaskSource"             -> Allowed values: "Const", "Texture", "VertexColor"                | shader_bool: 1
+        // "LayerMaskSwizzle"            -> Allowed values: "RGBA", "R111", "A111"
+        // "LayerBaseMaskSource"         -> Allowed values: "One", "OneMinusLayerMaskSum"                    | shader_bool: 1
+        // "EnableVertexBaseColor"       -> Allowed values: "True", "False"
+        // "WeatherLayerMaskSource"      -> Allowed values: "Const", "Texture"
+        // "EnableDepthFade"             -> Allowed values: "True", "False"
+        // "EnablePackedMap"             -> Allowed values: "True", "False"
+        // "EnableUVScaleOffsetNormal"   -> Allowed values: "True", "False"
+
+        // Global params:
+        // "EnableDeferredRendering"     -> Allowed values: "True", "False"
+        // "InstancingType"              -> Allowed values: "Disable", "World", "Detail"
+        // "EnableGrassCollisionMap"     -> Allowed values: "True", "False"
+        // "NumRequiredUV"               -> Allowed values: "1", "2"
+        // "EnableWeatherLayer"          -> Allowed values: "True", "False"
+        // "EnableDisplacementMap"       -> Allowed values: "True", "False"
+        // "EnableLerpBaseColorEmission" -> Allowed values: "True", "False"
+
+    };
+
+    private class StandardShader
+    {
+        public static StandardShader FromSWSHStandardShader(SWSHStandardShader shader)
+        {
+            return new StandardShader()
+            {
+                EnableBaseColorMap = shader.UseColorTex,
+                EnableNormalMap = shader.NormalMapEnable,
+                EnableAOMap = shader.AmbientMapEnable,
+                // EnableVertexBaseColor = shader.BaseColorAddEnable, // TODO: This seems incorrect
+            };
+        }
+
+        public bool EnableBaseColorMap { get; set; } = true;
+        public bool EnableNormalMap { get; set; } = true;
+        public bool EnableMetallicMap { get; set; } = false;
+        public bool EnableRoughnessMap { get; set; } = false;
+        public bool EnableEmissionColorMap { get; set; } = false;
+        public bool EnableAOMap { get; set; } = true;
+        public bool EnableAlphaTest { get; set; } = false;
+        public int NumMaterialLayer { get; set; } = 1;
+        public bool BillboardType { get; set; }
+        public bool WindReceiverType { get; set; }
+        public bool EnableWindMaskMap { get; set; }
+        public bool EnableBaseColorMap1 { get; set; }
+        public bool EnableNormalMap1 { get; set; }
+        public bool EnableNormalMap2 { get; set; }
+        public bool EnableAOMap1 { get; set; }
+        public bool EnableAOMap2 { get; set; }
+        public bool LayerMaskSource { get; set; }
+        public bool LayerMaskSwizzle { get; set; }
+        public bool LayerBaseMaskSource { get; set; }
+        public bool EnableVertexBaseColor { get; set; }
+        public bool WeatherLayerMaskSource { get; set; }
+        public bool EnableDepthFade { get; set; }
+        public bool EnablePackedMap { get; set; }
+        public bool EnableUVScaleOffsetNormal { get; set; }
+
+        // Global params:
+        public bool EnableDeferredRendering { get; set; }
+        public bool InstancingType { get; set; }
+        public bool EnableGrassCollisionMap { get; set; }
+        public int NumRequiredUV { get; set; } = 1;
+        public bool EnableWeatherLayer { get; set; }
+        public bool EnableDisplacementMap { get; set; }
+        public bool EnableLerpBaseColorEmission { get; set; }
+
+        public StringParameter[] BuildStringParams()
+        {
+            var stringParams = new List<StringParameter>
+            {
+                new("EnableBaseColorMap", EnableBaseColorMap.ToString()),
+                new("EnableNormalMap", EnableNormalMap.ToString()),
+                new("EnableParallaxMap", "False"), // TODO: This one seems to not be allowed by the default shader, yet it's always added?
+                new("EnableMetallicMap", EnableMetallicMap.ToString()),
+                new("EnableRoughnessMap", EnableRoughnessMap.ToString()),
+                new("EnableEmissionColorMap", EnableEmissionColorMap.ToString()),
+                new("EnableAOMap", EnableAOMap.ToString()),
+                new("EnableAlphaTest", EnableAlphaTest.ToString()),
+                new("NumMaterialLayer", NumMaterialLayer.ToString()),
+                new("EnableVertexBaseColor", EnableVertexBaseColor.ToString())
+            };
+
+            if (false)
+            {
+                stringParams.Add(new("BillboardType", BillboardType.ToString()));
+                stringParams.Add(new("WindReceiverType", WindReceiverType.ToString()));
+                stringParams.Add(new("EnableWindMaskMap", EnableWindMaskMap.ToString()));
+                stringParams.Add(new("EnableBaseColorMap1", EnableBaseColorMap1.ToString()));
+                stringParams.Add(new("EnableNormalMap1", EnableNormalMap1.ToString()));
+                stringParams.Add(new("EnableNormalMap2", EnableNormalMap2.ToString()));
+                stringParams.Add(new("EnableAOMap1", EnableAOMap1.ToString()));
+                stringParams.Add(new("EnableAOMap2", EnableAOMap2.ToString()));
+                stringParams.Add(new("LayerMaskSource", LayerMaskSource.ToString()));
+                stringParams.Add(new("LayerMaskSwizzle", LayerMaskSwizzle.ToString()));
+                stringParams.Add(new("LayerBaseMaskSource", LayerBaseMaskSource.ToString()));
+                stringParams.Add(new("WeatherLayerMaskSource", WeatherLayerMaskSource.ToString()));
+                stringParams.Add(new("EnableDepthFade", EnableDepthFade.ToString()));
+                stringParams.Add(new("EnablePackedMap", EnablePackedMap.ToString()));
+                stringParams.Add(new("EnableUVScaleOffsetNormal", EnableUVScaleOffsetNormal.ToString()));
+
+                stringParams.Add(new("EnableDeferredRendering", EnableDeferredRendering.ToString()));
+                stringParams.Add(new("InstancingType", InstancingType.ToString()));
+                stringParams.Add(new("EnableGrassCollisionMap", EnableGrassCollisionMap.ToString()));
+                stringParams.Add(new("NumRequiredUV", NumRequiredUV.ToString()));
+                stringParams.Add(new("EnableWeatherLayer", EnableWeatherLayer.ToString()));
+                stringParams.Add(new("EnableDisplacementMap", EnableDisplacementMap.ToString()));
+                stringParams.Add(new("EnableLerpBaseColorEmission", EnableLerpBaseColorEmission.ToString()));
+            }
+
+            return stringParams.ToArray();
+        }
+    }
+
+    private class SWSHStandardShader
+    {
+        public SWSHStandardShader(Material8 source)
+        {
+            // TODO
+            Dictionary<string, string> oldUberFlags = source.StaticParam.UberFlags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
+            foreach (var flag in source.Flags)
+            {
+                switch (flag.FlagName)
+                {
+                    case "useColorTex": UseColorTex = flag.FlagEnable; break;
+                    case "SwitchEmissionMaskTexUV": SwitchEmissionMaskTexUV = flag.FlagEnable; break;
+                    case "EmissionMaskUse": EmissionMaskUse = flag.FlagEnable; break;
+                    case "SwitchPriority": SwitchPriority = flag.FlagEnable; break;
+                    case "Layer1Enable": Layer1Enable = flag.FlagEnable; break;
+                    case "SwitchAmbientTexUV": SwitchAmbientTexUV = flag.FlagEnable; break;
+                    case "AmbientMapEnable": AmbientMapEnable = flag.FlagEnable; break;
+                    case "SwitchNormalMapUV": SwitchNormalMapUV = flag.FlagEnable; break;
+                    case "NormalMapEnable": NormalMapEnable = flag.FlagEnable; break;
+                    case "LightTableEnable": LightTableEnable = flag.FlagEnable; break;
+                    case "SpecularMaskEnable": SpecularMaskEnable = flag.FlagEnable; break;
+                    case "BaseColorAddEnable": BaseColorAddEnable = flag.FlagEnable; break;
+                    case "SphereMapEnable": SphereMapEnable = flag.FlagEnable; break;
+                    case "SphereMaskEnable": SphereMaskEnable = flag.FlagEnable; break;
+                    case "RimMaskEnable": RimMaskEnable = flag.FlagEnable; break;
+                    case "alphaShell": AlphaShell = flag.FlagEnable; break;
+                    case "EffectVal": EffectVal = flag.FlagEnable; break;
+                    case "NormalEdgeEnable": NormalEdgeEnable = flag.FlagEnable; break;
+                    case "OutLineIDEnable": OutLineIDEnable = flag.FlagEnable; break;
+                    case "OutLineColFixed": OutLineColFixed = flag.FlagEnable; break;
+                    // Global flags
+                    case "FogEnable": FogEnable = flag.FlagEnable; break;
+                    case "DiscardEnable": DiscardEnable = flag.FlagEnable; break;
+                    case "CastShadow": CastShadow = flag.FlagEnable; break;
+                    case "ReceiveShadow": ReceiveShadow = flag.FlagEnable; break;
+                    case "TextureAlphaTestEnable": TextureAlphaTestEnable = flag.FlagEnable; break;
+                    case "ShadowMapPrevEnable": ShadowMapPrevEnable = flag.FlagEnable; break;
+                    case "LayerCalcMulti": LayerCalcMulti = flag.FlagEnable; break;
+                    case "FireMaskPathEnable": FireMaskPathEnable = flag.FlagEnable; break;
+                    case "GPUInstancingEnable": GPUInstancingEnable = flag.FlagEnable; break;
+                    case "Wireframe": Wireframe = flag.FlagEnable; break;
+                    case "DepthWrite": DepthWrite = flag.FlagEnable; break;
+                    case "DepthTest": DepthTest = flag.FlagEnable; break;
+                    case "IsErase": IsErase = flag.FlagEnable; break;
+                    case "MayaPreviewEnable": MayaPreviewEnable = flag.FlagEnable; break;
+                    default:
+                        Debug.Assert(false, $"Error: Couldn't convert shader flag with name: {flag.FlagName}!");
+                        break;
+                }
+            }
+
+            Dictionary<string, float> valueLookup = source.Values.ToDictionary(flag => flag.ValueName, flag => flag.Value);
+            UVScaleOffset = new Vec4f(valueLookup["ColorUVScaleU"], valueLookup["ColorUVScaleV"], valueLookup["ColorBaseU"], valueLookup["ColorBaseV"]);
+            UVScaleOffsetNormal = new Vec4f(valueLookup["NormalMapUVScaleU"], valueLookup["NormalMapUVScaleV"]);
+        }
+
+        public bool UseColorTex { get; set; }
+        public bool SwitchEmissionMaskTexUV { get; set; }
+        public bool EmissionMaskUse { get; set; }
+        public bool SwitchPriority { get; set; }
+        public bool Layer1Enable { get; set; }
+        public bool SwitchAmbientTexUV { get; set; }
+        public bool AmbientMapEnable { get; set; }
+        public bool SwitchNormalMapUV { get; set; }
+        public bool NormalMapEnable { get; set; }
+        public bool LightTableEnable { get; set; }
+        public bool SpecularMaskEnable { get; set; }
+        public bool BaseColorAddEnable { get; set; }
+        public bool SphereMapEnable { get; set; }
+        public bool SphereMaskEnable { get; set; }
+        public bool RimMaskEnable { get; set; }
+        public bool AlphaShell { get; set; }
+        public bool EffectVal { get; set; }
+        public bool NormalEdgeEnable { get; set; }
+        public bool OutLineIDEnable { get; set; }
+        public bool OutLineColFixed { get; set; }
+
+        // Global flags
+        public bool FogEnable { get; set; }
+        public bool DiscardEnable { get; set; }
+        public bool CastShadow { get; set; }
+        public bool ReceiveShadow { get; set; }
+        public bool TextureAlphaTestEnable { get; set; }
+        public bool ShadowMapPrevEnable { get; set; }
+        public bool LayerCalcMulti { get; set; }
+        public bool FireMaskPathEnable { get; set; }
+        public bool GPUInstancingEnable { get; set; }
+        public bool Wireframe { get; set; }
+        public bool DepthWrite { get; set; }
+        public bool DepthTest { get; set; }
+        public bool IsErase { get; set; }
+        public bool MayaPreviewEnable { get; set; }
+
+        public Vec4f UVScaleOffset { get; set; }
+        public Vec4f UVScaleOffsetNormal { get; set; }
+
+        public bool IsTextureBound(string samplerName)
+        {
+            return samplerName switch
+            {
+                "Col0Tex" => UseColorTex,
+                "EmissionMaskTex" => EmissionMaskUse,
+                "LyCol0Tex" => Layer1Enable,
+                "AmbientTex" => AmbientMapEnable,
+                "NormalMapTex" => NormalMapEnable,
+                "LightTblTex" => false, // Don't need this anymore, so don't care
+                "SphereMapTex" => SphereMapEnable,
+                "EffectTex" => false, // TODO: EffectVal?
+                _ => false
+            };
+        }
+    }
+
+    private (TextureParameter[], SamplerState[]) ConvertTextureParams(Texture8[] oldTextures, SWSHStandardShader shader)
+    {
+        static string ConvertSamplerName(string swshSamplerName)
+        {
+            var result = swshSamplerName switch
+            {
+                "0" => "LayerMaskMap",
+                "1" => "MetallicMap",
+                "2" => "RoughnessMap",
+
+                "Col0Tex" => "BaseColorMap",
+                "EmissionMaskTex" => "",
+                "LyCol0Tex" => "",
+                "AmbientTex" => "AOMap", // TODO: New format only has R channel
+                "NormalMapTex" => "NormalMap",
+                "LightTblTex" => "",
+                "SphereMapTex" => "",
+                "EffectTex" => "",
+                _ => string.Empty
+            };
+
+            //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert sampler with name: {swshSamplerName}!");
+            return result;
+        }
+
+        static UvWrapMode FromOldWrapMode(UVWrapMode8 mode) => mode switch
+        {
+            UVWrapMode8.CLAMP => UvWrapMode.Clamp,
+            UVWrapMode8.BORDER => UvWrapMode.Border,
+            UVWrapMode8.WRAP => UvWrapMode.Wrap,
+            UVWrapMode8.MIRROR => UvWrapMode.Mirror,
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown uv mode")
+        };
+
+        string[] files = SWSHModel.GFBModel.TextureFiles;
+        var textures = new List<TextureParameter>(oldTextures.Length);
+        var samplers = new List<SamplerState>(oldTextures.Length);
+
+        foreach (var oldTexture in oldTextures)
+        {
+            if (!shader.IsTextureBound(oldTexture.SamplerName))
+                continue;
+
+            textures.Add(new TextureParameter
+            {
+                PropertyBinding = ConvertSamplerName(oldTexture.SamplerName),
+                TextureSlot = (uint)textures.Count, // TODO: Might be static ? Aka texture x is always slot y
+                TextureFile = files[oldTexture.TextureIndex] + ".bntx",
+            });
+
+            samplers.Add(new SamplerState
+            {
+                RepeatU = FromOldWrapMode(oldTexture.Settings.RepeatU),
+                RepeatV = FromOldWrapMode(oldTexture.Settings.RepeatV),
+                RepeatW = FromOldWrapMode(oldTexture.Settings.Repeat2),
+                BorderColor = oldTexture.Settings.BorderColor,
+                //SamplerState0 = oldTexture.Settings.Filtermode,
+                //SamplerState1 = oldTexture.Settings.MipMapBias
+            });
+        }
+
+        // Always two more then the texture count that are always Wrap. Probably some default samplers for deferred render buffers
+        samplers.Add(new() { RepeatU = UvWrapMode.Wrap, RepeatV = UvWrapMode.Wrap });
+        samplers.Add(new() { RepeatU = UvWrapMode.Wrap, RepeatV = UvWrapMode.Wrap });
+
+        return (textures.ToArray(), samplers.ToArray());
+    }
+
     private MaterialPass FromStandardShaderParams(Material8 oldMaterial)
     {
-        var oldFlags = oldMaterial.Flags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
-        var oldUberFlags = oldMaterial.StaticParam.UberFlags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
+        var oldShader = new SWSHStandardShader(oldMaterial);
+        var newShader = StandardShader.FromSWSHStandardShader(oldShader);
+        var (textures, samplers) = ConvertTextureParams(oldMaterial.Textures, oldShader);
 
         return new MaterialPass
         {
             Name = oldMaterial.Name,
             Shaders = new Shader[]
             {
-                new()
+                new ()
                 {
                     ShaderName = "Standard",
-                    ShaderValues = ConvertStringParams(oldMaterial.Flags)
-                }
+                    ShaderValues = newShader.BuildStringParams()
+}
             },
-            FloatParameters = ConvertFloatParams(oldMaterial.Values),
-            TextureParameters = ConvertTextureParams(oldMaterial.Textures),
-            Samplers = ConvertSamplerState(oldMaterial.Textures),
-            Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
-            Float4Parameters = ConvertColorParams(oldMaterial.Colors),
+            FloatParameters = new FloatParameter[]
+            {
+                new("DiscardValue", 0),
+                new("NormalHeight", 1),
+                new("EmissionIntensity", 0),
+            },
+            TextureParameters = textures,
+            Samplers = samplers,
+            Float4LightParameters = Array.Empty<Float4Parameter>(), // TODO
+            Float4Parameters = new Float4Parameter[]
+            {
+                new("UVScaleOffset"      , oldShader.UVScaleOffset),
+                new("UVScaleOffsetNormal", oldShader.UVScaleOffsetNormal),
+                new("EmissionColor"      , new()),
+            },
             IntParameters = new IntParameter[]
             {
                 new("CastShadow", oldMaterial.CastShadow),
-                new("ReceiveShadow", oldMaterial.ReceiveShadow), // TODO: might want to force this to 1
+                new("ReceiveShadow", 1), // TODO: might want to force this to 1
                 new("CategoryLabel", 2), // TODO
+                new("UVIndexLayerMask", -1), // TODO
             },
-            ByteExtra = new WriteMask(), // TODO
+            WriteMask = new WriteMask(), // TODO
             IntExtra = new IntExtra(), // TODO
-            AlphaType = "" // TODO
+            AlphaType = "Opaque" // TODO
         };
     }
 
     private MaterialPass FromEyeShaderParams(Material8 oldMaterial)
     {
+        // "EnableNormalMap"        -> Allowed values: "True", "False"
+        // "EnableParallaxMap"      -> Allowed values: "True", "False"
+        // "EnableMetallicMap"      -> Allowed values: "True", "False"
+        // "EnableRoughnessMap"     -> Allowed values: "True", "False"
+        // "EnableEmissionColorMap" -> Allowed values: "True", "False"
+        // "EnableAOMap"            -> Allowed values: "True", "False"
+        // "EyelidType"             -> Allowed values: "None", "Upper", "Lower", "All"
+        // "NumMaterialLayer"       -> Allowed values: "1", "2", "3", "4", "5"
+        // "EnableHighlight"        -> Allowed values: "True", "False"
+        // "UVTransformMode"        -> Allowed values: "SRT", "T"
+        // "EnableOverrideColor"    -> Allowed values: "True", "False"
+
+        // Global:
+        // "EnableWeatherLayer"     -> Allowed values: "True", "False"
+
         return new MaterialPass
         {
             Name = oldMaterial.Name,
@@ -1150,50 +1449,25 @@ public partial class ModelConverter : Form
                     ShaderName = "Eye",
                     ShaderValues = new StringParameter[]
                     {
-                        new("EnableBaseColorMap", "True"),
                         new("EnableNormalMap", "True"),
                         new("EnableParallaxMap", "False"),
                         new("EnableMetallicMap", "False"),
                         new("EnableRoughnessMap", "False"),
                         new("EnableEmissionColorMap", "False"),
                         new("EnableAOMap", "True"),
-                        new("EnableAlphaTest", "False"),
-                        new("NumMaterialLayer", "5"),
-                        new("EnableLerpBaseColorEmission", "True"),
-                        new("EnableVertexBaseColor", "False"),
+                        new("NumMaterialLayer", "1"),
                     }
                 }
             },
             FloatParameters = new FloatParameter[]
             {
-                new("DiscardValue", 0.0f),
-                new("MetallicLayer3", 0.0f),
-                new("MetallicLayer4", 0.0f),
-                new("RoughnessLayer3", 0.0f),
-                new("RoughnessLayer4", 0.0f),
-                new("NormalHeight", 0.0f),
-                new("MetallicLayer2", 0.0f),
-                new("MetallicLayer1", 0.0f),
-                new("RoughnessLayer2", 0.0f),
-                new("EmissionIntensityLayer3", 0.0f),
-                new("EmissionIntensityLayer4", 0.0f),
-                new("RoughnessLayer1", 0.0f),
-                new("LayerMaskScale3", 0.0f),
-                new("LayerMaskScale4", 0.0f),
-                new("Metallic", 0.0f),
-                new("EmissionIntensityLayer2", 0.0f),
-                new("Roughness", 0.0f),
-                new("EmissionIntensityLayer1", 0.0f),
-                new("LayerMaskScale2", 0.0f),
-                new("EmissionIntensity", 0.0f),
-                new("LayerMaskScale1", 0.0f),
             },
             TextureParameters = Array.Empty<TextureParameter>(), // TODO
             Samplers = Array.Empty<SamplerState>(), // TODO
-            Float4LightParameter = Array.Empty<Float4Parameter>(), // TODO
+            Float4LightParameters = Array.Empty<Float4Parameter>(), // TODO
             Float4Parameters = Array.Empty<Float4Parameter>(), // TODO
             IntParameters = Array.Empty<IntParameter>(), // TODO
-            ByteExtra = new WriteMask(), // TODO
+            WriteMask = new WriteMask(), // TODO
             IntExtra = new IntExtra(), // TODO
             AlphaType = "" // TODO
         };
@@ -1246,7 +1520,7 @@ public partial class ModelConverter : Form
                 {
                     new()
                     {
-                        Field_00 = 0,
+                        Reserved_00 = 0,
                         MaterialPasses = materialPasses.ToArray(),
                     }
                 }
@@ -1309,8 +1583,7 @@ public partial class ModelConverter : Form
         };
 
         Result.TRModel.Bounds = SWSHModel.GFBModel.BoundingBox / 100;
-
-        // TODO: Result.TRModel.Field_06;
+        Result.TRModel.SphereBounds = new PackedSphere(Result.TRModel.Bounds);
 
         ConvertToTRSkeleton();
         ConvertToTRMesh(sourceFileName, resultFileName);

@@ -24,7 +24,7 @@ public class TRPokeConfig
 
     [FlatBufferItem(07)] public float InframeLeftRotation { get; set; }
     [FlatBufferItem(08)] public float InframeRightRotation { get; set; }
-    [FlatBufferItem(09)] public float Field_09 { get; set; } // Always default
+    [FlatBufferItem(09)] public float Reserved_09 { get; set; } // Always default
 
     [FlatBufferItem(10)] public float Field_10_YOffset { get; set; }
     [FlatBufferItem(11)] public float Field_11_YOffset { get; set; }

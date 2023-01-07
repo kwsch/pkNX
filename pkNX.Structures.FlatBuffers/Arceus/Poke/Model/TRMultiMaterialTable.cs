@@ -51,7 +51,7 @@ public class MaterialTable
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class TRMultiMaterialTable
 {
-    [FlatBufferItem(00)] public uint Field_00 { get; set; }
-    [FlatBufferItem(01)] public uint Field_01 { get; set; }
+    [FlatBufferItem(00)] public uint Reserved_00 { get; set; } // Always default
+    [FlatBufferItem(01)] public uint Reserved_01 { get; set; } // Always default
     [FlatBufferItem(02)] public MaterialTable[] Material { get; set; } = Array.Empty<MaterialTable>();
 }
