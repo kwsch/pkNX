@@ -234,7 +234,7 @@ public class GameDumperSV
     {
         const string personalPath = "avalon/data/personal_array.bin";
         Dump<PersonalTable9SVfb, PersonalInfo9SVfb>(personalPath);
-        
+
         var perbin = ROM.GetPackedFile(personalPath);
         var pt = new PersonalTable9SV(new FakeContainer(new[] { perbin }));
 
@@ -251,9 +251,17 @@ public class GameDumperSV
         var evos = SerializeEvolutionPickle(pt);
         File.WriteAllBytes(GetPath("pkhex", "evos_sv.pkl"), MiniUtil.PackMini(evos, "sv"));
 
+        List<(ushort Internal, ushort National)> map = new();
+        for (ushort i = 0; i <= (ushort)DevID.DEV_MANKII3; i++)
+        {
+            var pi = pt[i];
+            var info = pi.FB.Info;
+            map.Add((info.SpeciesInternal, info.SpeciesNational));
+        }
+        File.WriteAllText(GetPath("pkhex", "national dex.txt"), string.Join(Environment.NewLine, map.Select(z => $"{z.Internal},{z.National}")));
+
         foreach (var lang in LanguageEnglishNames)
             RipPersonal(pt, lang);
-        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void RipPersonal(PersonalTable9SV pt, string lang)
@@ -291,22 +299,22 @@ public class GameDumperSV
         var dexOrder = pt.Table
             .Where(z => z.FB.Dex != null)
             .OrderBy(z => z.FB.Dex!.Index)
-            .GroupBy(z => z.FB.Info.DexIndexNational)
+            .GroupBy(z => z.FB.Info.SpeciesNational)
             .Select(z => z.First());
 
-        var pc = dexOrder.Select(z => $"{z.FB.Dex!.Index:000}\t{specNames[z.FB.Info.DexIndexNational]}");
+        var pc = dexOrder.Select(z => $"{z.FB.Dex!.Index:000}\t{specNames[z.FB.Info.SpeciesInternal]}");
         File.WriteAllText(GetPath(lang, "dex.txt"), string.Join(Environment.NewLine, pc));
 
         var foreign = pt.Table
             .Where(z => z.FB.Dex == null && z.IsPresentInGame)
-            .GroupBy(z => z.FB.Info.DexIndexNational)
+            .GroupBy(z => z.FB.Info.SpeciesNational)
             .Select(z => z.First());
 
         var fl = foreign
-            .Select(z => $"{z.FB.Info.DexIndexNational:000}\t{specNames[z.FB.Info.DexIndexNational]}");
+            .Select(z => $"{z.FB.Info.SpeciesNational:000}\t{specNames[z.FB.Info.SpeciesInternal]}");
         File.WriteAllText(GetPath(lang, "foreign.txt"), string.Join(Environment.NewLine, fl));
 
-        File.WriteAllLines(GetPath(lang, "species.txt"), specNames);
+        File.WriteAllLines(GetPath(lang, "species.txt"), SpeciesConverterSV.GetRearrangedAsNational(specNames));
         File.WriteAllLines(GetPath(lang, "abilities.txt"), abilNames);
         File.WriteAllLines(GetPath(lang, "items.txt"), itemNames);
         File.WriteAllLines(GetPath(lang, "moves.txt"), moveNames);
@@ -353,7 +361,7 @@ public class GameDumperSV
         {
             if (!e.IsPresentInGame)
                 return Array.Empty<byte>();
-            return Write(e.FB.Info.SpeciesCopy, e.FB.Evolutions);
+            return Write(e.FB.Info.SpeciesNational, e.FB.Evolutions);
         }
 
         static byte[] Write(int species, PersonalInfo9SVEvolutions[] evos)
@@ -376,7 +384,7 @@ public class GameDumperSV
                 bool levelRequired = method.IsLevelUpRequired();
                 bw.Write(levelRequired);
                 bw.Write(GetArg(method, m.Argument));
-                bw.Write((ushort)m.Species);
+                bw.Write(SpeciesConverterSV.GetNational9(m.SpeciesInternal));
                 bw.Write((byte)m.Form);
                 bw.Write((byte)m.Level);
                 // ReSharper restore RedundantCast
@@ -423,14 +431,16 @@ public class GameDumperSV
         {
             var p = t[i].FB;
             if (!p.IsPresentInGame)
+            {
                 result[i] = Array.Empty<byte>();
+            }
             else
             {
                 var moves = p.EggMoves.Select(z => z).ToArray();
 
                 // Some Egg Moves are still unobtainable because no other Pokémon can learn said move to share with the target species.
                 var form = t[i].Form;
-                moves = (Species)p.Info.DexIndexNational switch
+                moves = (Species)p.Info.SpeciesNational switch
                 {
                     // Moves that can not be learned by any other species
                     Species.Psyduck => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
@@ -444,10 +454,8 @@ public class GameDumperSV
                     Species.Qwilfish when form == 0 => moves.Where(z => z is not (ushort)Move.BarbBarrage).ToArray(),
                     _ => moves,
                 };
-
                 result[i] = Write(moves);
             }
-                
         }
         return result;
 
@@ -596,12 +604,12 @@ public class GameDumperSV
         var dumper = new EncounterDumperSV(ROM);
         var path = GetPath("encounters");
         var cfg = new TextConfig(GameVersion.SV);
-        var specNames = GetCommonText("monsname", "English", cfg);
+        var specNamesInternal = GetCommonText("monsname", "English", cfg);
         var moveNames = GetCommonText("wazaname", "English", cfg);
         var place_names = GetCommonText("place_name", "English", cfg);
         var ahtb = GetCommonAHTB("place_name", "English");
         var nameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
-        dumper.DumpTo(path, specNames, moveNames, nameDict);
+        dumper.DumpTo(path, specNamesInternal, moveNames, nameDict);
     }
 
     public void DumpRaid()

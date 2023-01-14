@@ -66,11 +66,13 @@ public class PersonalDumperSV
         return lines;
     }
 
+    private string GetSpeciesName(ushort nationalIndex) => Species[nationalIndex];
+
     public void AddDump(List<string> lines, PersonalTable9SV table, ushort species, byte form)
     {
         var index = table.GetFormIndex(species, form);
         var entry = table[index];
-        string name = Species[species];
+        string name = GetSpeciesName(species);
         if (form != 0)
             name += $"-{form}";
         if (entry.FB.Dex is { } dex)
@@ -175,7 +177,7 @@ public class PersonalDumperSV
 
             var method = (EvolutionType)z.Method;
             string arg = GetArgTypeDisplayValue(method, z.Argument);
-            var line = $"Evolves into {Species[z.Species]}-{z.Form} @ lv{z.Level} ({method}) [{arg}]";
+            var line = $"Evolves into {Species[z.SpeciesInternal]}-{z.Form} @ lv{z.Level} ({method}) [{arg}]";
             lines.Add(line);
         }
     }

@@ -27,8 +27,9 @@ public sealed class PersonalTable9SV : IPersonalTable, IPersonalTable<PersonalIn
         var formTable = new List<PersonalInfo9SV>();
 
         var formGrouped = Root.Table
-            .GroupBy(x => x.Info.DexIndexNational)
-            .Select(group => group).ToList();
+            .GroupBy(x => x.Info.SpeciesNational)
+            .Select(group => group).ToArray();
+        formGrouped = SpeciesConverterSV.GetRearrangedAsNational(formGrouped);
 
         for (int i = 0; i <= MaxSpecies; i++)
         {

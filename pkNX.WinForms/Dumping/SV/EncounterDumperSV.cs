@@ -17,7 +17,7 @@ public class EncounterDumperSV
 
     public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
-    public void DumpTo(string path, IReadOnlyList<string> specNames, IReadOnlyList<string> moveNames,
+    public void DumpTo(string path, IReadOnlyList<string> specNamesInternal, IReadOnlyList<string> moveNames,
         Dictionary<string, (string Name, int Index)> placeNameMap,
         bool writeText = true, bool writePickle = true)
     {
@@ -139,9 +139,9 @@ public class EncounterDumperSV
         {
             using var sw = File.CreateText(Path.Combine(path, "titan_enc.txt"));
             foreach (var s in db.Locations.Values)
-                WriteLocation(sw, specNames, placeNameMap, s.AreaName, s.AreaInfo, s.Slots);
+                WriteLocation(sw, specNamesInternal, placeNameMap, s.AreaName, s.AreaInfo, s.Slots);
             using var tw = File.CreateText(Path.Combine(path, "titan_loc_enc.txt"));
-            WriteLocEncList(tw, specNames, placeNameMap, db);
+            WriteLocEncList(tw, specNamesInternal, placeNameMap, db);
 
             using var pw = File.CreateText(Path.Combine(path, "titan_loc_point.txt"));
             WriteLocPointList(pw, placeNameMap, db);
@@ -205,7 +205,7 @@ public class EncounterDumperSV
                 gw.WriteLine("===");
                 gw.WriteLine("  PokeData:");
                 var pd = entry.PokeDataSymbol;
-                gw.WriteLine($"    Species: {specNames[(int)pd.DevId]}");
+                gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                 gw.WriteLine($"    Form:    {pd.FormId}");
                 gw.WriteLine($"    Level:   {pd.Level}");
                 gw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
@@ -320,7 +320,7 @@ public class EncounterDumperSV
                 cw.WriteLine("  PokeData:");
                 var pd = Array.Find(eventBattle.Table, e => e.Label == entry.BoxLabel)!.PokeData;
 
-                cw.WriteLine($"    Species: {specNames[(int)pd.DevId]}");
+                cw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                 cw.WriteLine($"    Form:    {pd.FormId}");
                 cw.WriteLine($"    Level:   {pd.Level}");
                 cw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
@@ -393,7 +393,7 @@ public class EncounterDumperSV
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
 
-        bw.Write((ushort)enc.DevId);
+        bw.Write(SpeciesConverterSV.GetNational9((ushort)enc.DevId));
         bw.Write((byte)enc.FormId);
         bw.Write((byte)enc.Level);
 
@@ -466,17 +466,17 @@ public class EncounterDumperSV
         throw new ArgumentException($"TableKey not found ({tableKey})");
     }
 
-    private static void WriteLocation(TextWriter tw, IReadOnlyList<string> specNames,
+    private static void WriteLocation(TextWriter tw, IReadOnlyList<string> specNamesInternal,
         IReadOnlyDictionary<string, (string Name, int Index)> placeNameMap,
         string areaName, AreaInfo areaInfo, List<PaldeaEncounter> encounts)
     {
         var loc = areaInfo.LocationNameMain;
         (string name, int index) = placeNameMap[loc];
         var heading = $"{areaName} - {loc} - {name} ({index})";
-        WriteEncounts(tw, specNames, heading, encounts);
+        WriteEncounts(tw, specNamesInternal, heading, encounts);
     }
 
-    private static void WriteLocEncList(TextWriter tw, IReadOnlyList<string> specNames,
+    private static void WriteLocEncList(TextWriter tw, IReadOnlyList<string> specNamesInternal,
         IReadOnlyDictionary<string, (string Name, int Index)> placeNameMap,
         LocationDatabase db)
     {
@@ -487,7 +487,7 @@ public class EncounterDumperSV
                 continue;
 
             var heading = $"{name} ({index})";
-            WriteEncounts(tw, specNames, heading, encounts.Slots);
+            WriteEncounts(tw, specNamesInternal, heading, encounts.Slots);
         }
     }
 
@@ -533,13 +533,13 @@ public class EncounterDumperSV
         tw.WriteLine();
     }
 
-    private static void WriteEncounts(TextWriter tw, IReadOnlyList<string> specNames, string heading, IEnumerable<PaldeaEncounter> encounts)
+    private static void WriteEncounts(TextWriter tw, IReadOnlyList<string> specNamesInternal, string heading, IEnumerable<PaldeaEncounter> encounts)
     {
         tw.WriteLine("===");
         tw.WriteLine(heading);
         tw.WriteLine("===");
         foreach (var e in encounts)
-            tw.WriteLine($" - {e.GetEncountString(specNames)}");
+            tw.WriteLine($" - {e.GetEncountString(specNamesInternal)}");
         tw.WriteLine();
     }
 

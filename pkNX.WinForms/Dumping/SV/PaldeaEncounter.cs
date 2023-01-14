@@ -24,7 +24,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         var time = GetTimeBits(pd.TimeTable);
         var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
         var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
-        return new((ushort)pd.DevId, (byte)pd.Form, (byte)pd.Sex, min, max, time);
+        return new(SpeciesConverterSV.GetNational9((ushort)pd.DevId), (byte)pd.Form, (byte)pd.Sex, min, max, time);
     }
 
     public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep)
@@ -33,12 +33,12 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         var time = GetTimeBits(pd.TimeTable);
         var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
         var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
-        return new((ushort)pd.BandPoke, (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);
+        return new(SpeciesConverterSV.GetNational9((ushort)pd.BandPoke), (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);
     }
 
-    public string GetEncountString(IReadOnlyList<string> specNames)
+    public string GetEncountString(IReadOnlyList<string> specNamesInternal)
     {
-        var species = specNames[Species];
+        var species = specNamesInternal[SpeciesConverterSV.GetInternal9(Species)];
         return GetString(species);
     }
 
