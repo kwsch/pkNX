@@ -44,7 +44,7 @@ public class PersonalInfo9SVfb
     [FlatBufferItem(15)] public byte BaseFriendship { get; set; } // byte
     [FlatBufferItem(16)] public short BaseEXPAddend { get; set; } // short
     [FlatBufferItem(17)] public byte EvoStage { get; set; } // byte
-    [FlatBufferItem(18)] public bool U18 { get; set; } // Silvally, Sylveon (1.0.0), Arceus have this flag.
+    [FlatBufferItem(18)] public bool IsTypeChangeDisallowed { get; set; } // Silvally, Arceus (and Sylveon in 1.0.0, fixed)
     [FlatBufferItem(19)] public PersonalInfo9SVStats EVYield { get; set; } = new();
     [FlatBufferItem(20)] public PersonalInfo9SVStats Base { get; set; } = new();
     [FlatBufferItem(21)] public PersonalInfo9SVEvolutions[] Evolutions { get; set; } = Array.Empty<PersonalInfo9SVEvolutions>();

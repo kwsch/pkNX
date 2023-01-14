@@ -2481,6 +2481,5 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Button B_AddTask;
         private System.Windows.Forms.Button B_DeleteTask;
         private System.Windows.Forms.Button B_CloneTask;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LevelMastery;
     }
 }

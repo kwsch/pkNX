@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using FlatSharp.Attributes;
 
@@ -6,7 +7,7 @@ namespace pkNX.Structures.FlatBuffers;
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class NpcDestinationDataTableArray : IFlatBufferArchive<NpcDestinationDataTable>
 {
-    [FlatBufferItem(0)] public NpcDestinationDataTable[] Table { get; set; }
+    [FlatBufferItem(0)] public NpcDestinationDataTable[] Table { get; set; } = Array.Empty<NpcDestinationDataTable>();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

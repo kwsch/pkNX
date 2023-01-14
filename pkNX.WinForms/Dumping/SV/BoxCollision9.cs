@@ -2,8 +2,8 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class BoxCollision9 : IContainsV3f
 {
-    public PackedVec3f Position { get; init; }
-    public PackedVec3f Size { get; init; }
+    public required PackedVec3f Position { get; init; }
+    public required PackedVec3f Size { get; init; }
 
     public bool ContainsPoint(float x, float y, float z) => ContainsPoint(x, y, z, 0, 0, 0);
 

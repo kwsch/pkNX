@@ -45,7 +45,9 @@ public partial class EncounterTableEditor8a : UserControl
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)
     {
-        PG_Encounters.SelectedObject = (EncounterTable8a)CB_Encounters.SelectedValue;
+        if (CB_Encounters.SelectedValue is not EncounterTable8a enc)
+            throw new ArgumentException(nameof(CB_Encounters.SelectedValue));
+        PG_Encounters.SelectedObject = enc;
     }
 
     private void B_NoShinyLocks_Click(object sender, EventArgs e)
@@ -68,6 +70,8 @@ public partial class EncounterTableEditor8a : UserControl
 
     private void PG_Encounters_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
     {
+        if (e.NewSelection == null)
+            return;
         var obj = e.NewSelection.Value;
         bool enable = obj is EncounterSlot8a;
         B_CloneTableEntry.Enabled = enable;
@@ -78,12 +82,11 @@ public partial class EncounterTableEditor8a : UserControl
     private void B_CloneTableEntry_Click(object sender, EventArgs e)
     {
         var obj = PG_Encounters.SelectedGridItem.Value;
-        if (obj is EncounterSlot8a slotToClone)
-        {
-            var encounterTable = (EncounterTable8a)PG_Encounters.SelectedObject;
-            encounterTable.Table = encounterTable.Table.Concat(new[] { (EncounterSlot8a)slotToClone.Clone() }).ToArray();
-            PG_Encounters.Refresh();
-        }
+        if (obj is not EncounterSlot8a slotToClone)
+            return;
+        var encounterTable = (EncounterTable8a)PG_Encounters.SelectedObject;
+        encounterTable.Table = encounterTable.Table.Concat(new[] { (EncounterSlot8a)slotToClone.Clone() }).ToArray();
+        PG_Encounters.Refresh();
     }
 
     private void B_ConfigureAsAlpha_Click(object sender, EventArgs e)

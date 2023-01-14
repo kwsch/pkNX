@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Description>Packing &amp; Unpacking</Description>
-    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="lz4net" Version="1.0.15.93" />
+    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.5" />
   </ItemGroup>
 
 </Project>

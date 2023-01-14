@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Structures.FlatBuffers;
@@ -45,7 +45,9 @@ public partial class LandmarkEditor8a : UserControl
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)
     {
-        PG_Encounters.SelectedObject = (LandmarkItemSpawn8a)CB_Encounters.SelectedValue;
+        if (CB_Encounters.SelectedValue is not LandmarkItemSpawn8a spawner)
+            throw new ArgumentException(nameof(CB_Encounters.SelectedValue));
+        PG_Encounters.SelectedObject = spawner;
     }
 
     private void B_HighEncounterChance_Click(object sender, EventArgs e)

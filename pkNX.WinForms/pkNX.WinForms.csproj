@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>pkNX.WinForms</RootNamespace>
     <NeutralLanguage>en</NeutralLanguage>
@@ -12,7 +12,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <StartupObject>pkNX.WinForms.Program</StartupObject>
     <AssemblyName>pkNX</AssemblyName>
-    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="22.11.24" />
+    <PackageReference Include="PKHeX.Core" Version="22.12.19" />
   </ItemGroup>
 
   <ItemGroup>

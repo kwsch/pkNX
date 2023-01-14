@@ -834,6 +834,8 @@ public partial class PokeDataUI8a : Form
 
     private void PG_DexResearchTasks_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
     {
+        if (e.NewSelection == null)
+            return;
         var obj = e.NewSelection.Value;
         bool enable = obj is PokedexResearchTask;
         B_CloneTask.Enabled = enable;

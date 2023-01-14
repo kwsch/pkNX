@@ -70,12 +70,14 @@ public partial class MapViewer8a : Form
 
     private void CB_Map_SelectedIndexChanged(object sender, EventArgs e)
     {
-        UpdateMap(CB_Map.SelectedIndex, (int)CB_Species.SelectedValue);
+        var index = WinFormsUtil.GetIndex(CB_Species);
+        UpdateMap(CB_Map.SelectedIndex, index);
     }
 
     private void CB_Species_SelectedIndexChanged(object sender, EventArgs e)
     {
-        UpdateMap(CB_Map.SelectedIndex, (int)CB_Species.SelectedValue);
+        var index = WinFormsUtil.GetIndex(CB_Species);
+        UpdateMap(CB_Map.SelectedIndex, index);
     }
 
     private List<AreaDef> Defs = new();
@@ -222,7 +224,7 @@ public partial class MapViewer8a : Form
 
     private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)
     {
-        SizeF imageSize = pictureBox1.BackgroundImage.Size;
+        SizeF imageSize = pictureBox1.BackgroundImage!.Size;
         SizeF controlSize = pictureBox1.Size;
         float scaleX = imageSize.Width / controlSize.Width;
         float scaleY = imageSize.Height / controlSize.Height;

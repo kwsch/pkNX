@@ -198,7 +198,7 @@ public partial class MapViewer9 : Form
 
 public class AreaDef9
 {
-    public TrinitySceneObjectSV SceneObject;
-    public TrinityCollisionComponent1SV CollisionComponent;
-    public AreaInfo Info;
+    public required TrinitySceneObjectSV SceneObject;
+    public required TrinityCollisionComponent1SV CollisionComponent;
+    public required AreaInfo Info;
 }
