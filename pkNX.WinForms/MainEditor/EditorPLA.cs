@@ -534,6 +534,57 @@ internal class EditorPLA : EditorBase
     }
 
     [EditorCallable(EditorCategory.Graphics)]
+    public void EditPokemonModels()
+    {
+        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+        pokemonModelDir.Initialize();
+        CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
+
+        using var form = new ModelConverter(ROM);
+        form.ShowDialog();
+
+        var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
+        var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
+        if (!result)
+            return;
+        gfp[index] = FlatBufferConverter.SerializeFrom(obj);*/
+
+
+        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+        pokemonModelDir.Initialize();
+        var fileNames = pokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak");
+
+
+        var pack = new GFPack(pokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
+        PokemonModelArchive archive = new(pack);
+
+
+        var cache = new DataCache<PokemonModelArchive>(obj)
+        {
+            Create = PokemonModelArchive.new(GFPack),
+            Write = FlatBufferConverter.SerializeFrom,
+        };
+
+        var tableCache = new TableCache<T1, T2>(obj);
+
+        DataCache<PokemonModelArchive> loader(GenericEditor<PokemonModelArchive> form)
+        {
+            if (form.Modified)
+                tableCache.Save();
+
+            tableCache = new TableCache<T1, T2>(obj);
+            return tableCache.Cache;
+        }
+
+        using var form = new GenericEditor<PokemonModelArchive>(loader, (z, _) => z.NPCModelHash.ToString(), "Pokemon Model Editor");
+        form.ShowDialog();
+        if (form.Modified)
+        {
+            tableCache.Save();
+        }*/
+    }
+
+    [EditorCallable(EditorCategory.Graphics)]
     public void EditPokemonModelSet()
     {
         var gfp = (GFPack)ROM.GetFile(GameFile.Resident);

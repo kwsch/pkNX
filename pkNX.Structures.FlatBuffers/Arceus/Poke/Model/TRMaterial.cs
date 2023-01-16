@@ -10,8 +10,8 @@ namespace pkNX.Structures.FlatBuffers;
 public enum UvWrapMode : uint
 {
     //Time to test these as bit fields?
-    Wrap = 0, //0000
-    Clamp = 1, //0001
+    CLAMP_TO_EDGE = 0, //0000
+    REPEAT = 1, //0001
     Mirror = 6, //0110
     MirrorOnce = 7, //0111
 
@@ -21,18 +21,18 @@ public enum UvWrapMode : uint
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class SamplerState
 {
-    [FlatBufferItem(00)] public uint SamplerState0 { get; set; } = 0x0; //default
-    [FlatBufferItem(01)] public uint SamplerState1 { get; set; } = 0x0; //default
-    [FlatBufferItem(02)] public uint SamplerState2 { get; set; } = 0x0; //default
-    [FlatBufferItem(03)] public uint SamplerState3 { get; set; } = 0x0; //default
-    [FlatBufferItem(04)] public uint SamplerState4 { get; set; } = 0x0; //default
-    [FlatBufferItem(05)] public uint SamplerState5 { get; set; } = 0x0; //default
-    [FlatBufferItem(06)] public uint SamplerState6 { get; set; } = 0x0; //default
-    [FlatBufferItem(07)] public uint SamplerState7 { get; set; } = 0x0; //default
-    [FlatBufferItem(08)] public uint SamplerState8 { get; set; } = 0x0; //default
-    [FlatBufferItem(09)] public UvWrapMode RepeatU { get; set; } = UvWrapMode.Clamp; //0x1, 0x6 or 0x7
-    [FlatBufferItem(10)] public UvWrapMode RepeatV { get; set; } = UvWrapMode.Clamp; //0x1, 0x6 or 0x7
-    [FlatBufferItem(11)] public UvWrapMode RepeatW { get; set; } = UvWrapMode.Wrap; //Never used
+    [FlatBufferItem(00)] public uint SamplerState0 { get; set; } = 0x0; //flags; default
+    [FlatBufferItem(01)] public uint SamplerState1 { get; set; } = 0x0; //magFilter; default
+    [FlatBufferItem(02)] public uint SamplerState2 { get; set; } = 0x0; //minFilter; default
+    [FlatBufferItem(03)] public uint SamplerState3 { get; set; } = 0x0; //mipmapMode; default
+    [FlatBufferItem(04)] public uint SamplerState4 { get; set; } = 0x0; //mipLodBias; default
+    [FlatBufferItem(05)] public uint SamplerState5 { get; set; } = 0x0; //anisotropyEnable; default
+    [FlatBufferItem(06)] public uint SamplerState6 { get; set; } = 0x0; //default maxAnisotropy 1.00
+    [FlatBufferItem(07)] public uint SamplerState7 { get; set; } = 0x0; //default compareEnable 0
+    [FlatBufferItem(08)] public uint SamplerState8 { get; set; } = 0x0; //default compareOp VK_COMPARE_OP_NEVER
+    [FlatBufferItem(09)] public UvWrapMode RepeatU { get; set; } = UvWrapMode.REPEAT; //0x1, 0x6 or 0x7
+    [FlatBufferItem(10)] public UvWrapMode RepeatV { get; set; } = UvWrapMode.REPEAT; //0x1, 0x6 or 0x7
+    [FlatBufferItem(11)] public UvWrapMode RepeatW { get; set; } = UvWrapMode.CLAMP_TO_EDGE; //Never used
     [FlatBufferItem(12)] public PackedColor4f BorderColor { get; set; } = new();
 }
 

@@ -108,7 +108,7 @@ public partial class ModelConverter : Form
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class ModelWrapper
+    public class PokemonModelGfpak
     {
         [FlatBufferItem(0)] public TRPokeConfig Config { get; set; } = new();
         [FlatBufferItem(1)] public TRModel TRModel { get; set; } = new();
@@ -132,9 +132,9 @@ public partial class ModelConverter : Form
         public string[] UsedTextures { get; set; } = Array.Empty<string>();
     }
 
-    private ModelWrapper PLAModel = new();
+    private PokemonModelGfpak PLAModel = new();
     private SWSHModelWrapper SWSHModel = new();
-    private ModelWrapper Result = new();
+    private PokemonModelGfpak Result = new();
 
     private void UpdatePLAModel()
     {
@@ -1110,7 +1110,7 @@ public partial class ModelConverter : Form
             {
                 EnableBaseColorMap = shader.UseColorTex,
                 EnableNormalMap = shader.NormalMapEnable,
-                EnableAOMap = shader.AmbientMapEnable,
+                // EnableAOMap = shader.AmbientMapEnable,
                 // EnableVertexBaseColor = shader.BaseColorAddEnable, // TODO: This seems incorrect
             };
         }
@@ -1120,9 +1120,9 @@ public partial class ModelConverter : Form
         public bool EnableMetallicMap { get; set; } = false;
         public bool EnableRoughnessMap { get; set; } = false;
         public bool EnableEmissionColorMap { get; set; } = false;
-        public bool EnableAOMap { get; set; } = true;
+        public bool EnableAOMap { get; set; } = false;
         public bool EnableAlphaTest { get; set; } = false;
-        public int NumMaterialLayer { get; set; } = 1;
+        public int NumMaterialLayer { get; set; } = 5;
         public bool BillboardType { get; set; }
         public bool WindReceiverType { get; set; }
         public bool EnableWindMaskMap { get; set; }
@@ -1138,7 +1138,7 @@ public partial class ModelConverter : Form
         public bool WeatherLayerMaskSource { get; set; }
         public bool EnableDepthFade { get; set; }
         public bool EnablePackedMap { get; set; }
-        public bool EnableUVScaleOffsetNormal { get; set; }
+        public bool EnableUVScaleOffsetNormal { get; set; } = true;
 
         // Global params:
         public bool EnableDeferredRendering { get; set; }
@@ -1162,6 +1162,7 @@ public partial class ModelConverter : Form
                 new("EnableAOMap", EnableAOMap.ToString()),
                 new("EnableAlphaTest", EnableAlphaTest.ToString()),
                 new("NumMaterialLayer", NumMaterialLayer.ToString()),
+                new("EnableUVScaleOffsetNormal", EnableUVScaleOffsetNormal.ToString()),
                 new("EnableVertexBaseColor", EnableVertexBaseColor.ToString())
             };
 
@@ -1181,7 +1182,6 @@ public partial class ModelConverter : Form
                 stringParams.Add(new("WeatherLayerMaskSource", WeatherLayerMaskSource.ToString()));
                 stringParams.Add(new("EnableDepthFade", EnableDepthFade.ToString()));
                 stringParams.Add(new("EnablePackedMap", EnablePackedMap.ToString()));
-                stringParams.Add(new("EnableUVScaleOffsetNormal", EnableUVScaleOffsetNormal.ToString()));
 
                 stringParams.Add(new("EnableDeferredRendering", EnableDeferredRendering.ToString()));
                 stringParams.Add(new("InstancingType", InstancingType.ToString()));
@@ -1249,7 +1249,7 @@ public partial class ModelConverter : Form
 
             Dictionary<string, float> valueLookup = source.Values.ToDictionary(flag => flag.ValueName, flag => flag.Value);
             UVScaleOffset = new Vec4f(valueLookup["ColorUVScaleU"], valueLookup["ColorUVScaleV"], valueLookup["ColorBaseU"], valueLookup["ColorBaseV"]);
-            UVScaleOffsetNormal = new Vec4f(valueLookup["NormalMapUVScaleU"], valueLookup["NormalMapUVScaleV"]);
+            UVScaleOffsetNormal = new Vec4f(valueLookup["NormalMapUVScaleU"], valueLookup["NormalMapUVScaleV"]); // TODO: Set EnableUVScaleOffsetNormal if changed
         }
 
         public bool UseColorTex { get; set; }
@@ -1298,8 +1298,8 @@ public partial class ModelConverter : Form
             {
                 "Col0Tex" => UseColorTex,
                 "EmissionMaskTex" => EmissionMaskUse,
-                "LyCol0Tex" => Layer1Enable,
-                "AmbientTex" => AmbientMapEnable,
+                "LyCol0Tex" => false, // Layer1Enable, // TODO
+                "AmbientTex" => false, // TODO: Temp set to false; AmbientMapEnable,
                 "NormalMapTex" => NormalMapEnable,
                 "LightTblTex" => false, // Don't need this anymore, so don't care
                 "SphereMapTex" => SphereMapEnable,
@@ -1311,23 +1311,23 @@ public partial class ModelConverter : Form
 
     private (TextureParameter[], SamplerState[]) ConvertTextureParams(Texture8[] oldTextures, SWSHStandardShader shader)
     {
-        static string ConvertSamplerName(string swshSamplerName)
+        static (string, int) ConvertSamplerNameAndPriority(string swshSamplerName)
         {
             var result = swshSamplerName switch
             {
-                "0" => "LayerMaskMap",
-                "1" => "MetallicMap",
-                "2" => "RoughnessMap",
+                "0" => ("LayerMaskMap", 1),
+                "1" => ("MetallicMap", 3),
+                "2" => ("RoughnessMap", 4),
 
-                "Col0Tex" => "BaseColorMap",
-                "EmissionMaskTex" => "",
-                "LyCol0Tex" => "",
-                "AmbientTex" => "AOMap", // TODO: New format only has R channel
-                "NormalMapTex" => "NormalMap",
-                "LightTblTex" => "",
-                "SphereMapTex" => "",
-                "EffectTex" => "",
-                _ => string.Empty
+                "Col0Tex" => ("BaseColorMap", 0),
+                "EmissionMaskTex" => ("", -1),
+                "LyCol0Tex" => ("", -1),
+                "AmbientTex" => ("AOMap", 3), // TODO: New format only has R channel
+                "NormalMapTex" => ("NormalMap", 2), // TODO: New format is in tangent space instead of object space
+                "LightTblTex" => ("", -1),
+                "SphereMapTex" => ("", -1),
+                "EffectTex" => ("", -1),
+                _ => (string.Empty, -1)
             };
 
             //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert sampler with name: {swshSamplerName}!");
@@ -1336,30 +1336,30 @@ public partial class ModelConverter : Form
 
         static UvWrapMode FromOldWrapMode(UVWrapMode8 mode) => mode switch
         {
-            UVWrapMode8.CLAMP => UvWrapMode.Clamp,
+            UVWrapMode8.CLAMP => UvWrapMode.REPEAT,
             UVWrapMode8.BORDER => UvWrapMode.Border,
-            UVWrapMode8.WRAP => UvWrapMode.Wrap,
+            UVWrapMode8.WRAP => UvWrapMode.CLAMP_TO_EDGE,
             UVWrapMode8.MIRROR => UvWrapMode.Mirror,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown uv mode")
         };
 
         string[] files = SWSHModel.GFBModel.TextureFiles;
-        var textures = new List<TextureParameter>(oldTextures.Length);
-        var samplers = new List<SamplerState>(oldTextures.Length);
+        var textureBindings = new List<(TextureParameter, SamplerState)>(oldTextures.Length);
 
         foreach (var oldTexture in oldTextures)
         {
             if (!shader.IsTextureBound(oldTexture.SamplerName))
                 continue;
 
-            textures.Add(new TextureParameter
-            {
-                PropertyBinding = ConvertSamplerName(oldTexture.SamplerName),
-                TextureSlot = (uint)textures.Count, // TODO: Might be static ? Aka texture x is always slot y
-                TextureFile = files[oldTexture.TextureIndex] + ".bntx",
-            });
+            var (name, priority) = ConvertSamplerNameAndPriority(oldTexture.SamplerName);
 
-            samplers.Add(new SamplerState
+            textureBindings.Add((new TextureParameter
+            {
+                PropertyBinding = name,
+                TextureSlot = (uint)priority, // TODO: priority sort
+                TextureFile = files[oldTexture.TextureIndex] + ".bntx",
+            },
+            new SamplerState
             {
                 RepeatU = FromOldWrapMode(oldTexture.Settings.RepeatU),
                 RepeatV = FromOldWrapMode(oldTexture.Settings.RepeatV),
@@ -1367,14 +1367,25 @@ public partial class ModelConverter : Form
                 BorderColor = oldTexture.Settings.BorderColor,
                 //SamplerState0 = oldTexture.Settings.Filtermode,
                 //SamplerState1 = oldTexture.Settings.MipMapBias
-            });
+            }));
         }
 
-        // Always two more then the texture count that are always Wrap. Probably some default samplers for deferred render buffers
-        samplers.Add(new() { RepeatU = UvWrapMode.Wrap, RepeatV = UvWrapMode.Wrap });
-        samplers.Add(new() { RepeatU = UvWrapMode.Wrap, RepeatV = UvWrapMode.Wrap });
+        textureBindings.Insert(1, (new TextureParameter
+        {
+            PropertyBinding = "LayerMaskMap",
+            TextureSlot = 1,
+            TextureFile = files[0].Replace("col", "lym") + ".bntx",
+        }, new()));
 
-        return (textures.ToArray(), samplers.ToArray());
+        var ordered = textureBindings.OrderBy(x => x.Item1.TextureSlot);
+        TextureParameter[] textures = ordered.Select(x => x.Item1).ToArray();
+        SamplerState[] samplers = ordered.Select(x => x.Item2)
+            // Always two more then the texture count that are always Wrap. Probably some default samplers for deferred render buffers
+            .Append(new() { RepeatU = UvWrapMode.CLAMP_TO_EDGE, RepeatV = UvWrapMode.CLAMP_TO_EDGE })
+            .Append(new() { RepeatU = UvWrapMode.CLAMP_TO_EDGE, RepeatV = UvWrapMode.CLAMP_TO_EDGE })
+            .ToArray();
+
+        return (textures, samplers);
     }
 
     private MaterialPass FromStandardShaderParams(Material8 oldMaterial)
@@ -1399,6 +1410,28 @@ public partial class ModelConverter : Form
                 new("DiscardValue", 0),
                 new("NormalHeight", 1),
                 new("EmissionIntensity", 0),
+
+                new("EmissionIntensityLayer1", 0),
+                new("EmissionIntensityLayer2", 0),
+                new("EmissionIntensityLayer3", 0),
+                new("EmissionIntensityLayer4", 0),
+
+                new("Roughness", 0.5f),
+                new("RoughnessLayer1", 0.5f),
+                new("RoughnessLayer2", 0.5f),
+                new("RoughnessLayer3", 0.5f),
+                new("RoughnessLayer4", 0.5f),
+
+                new("Metallic", 0),
+                new("MetallicLayer1", 0),
+                new("MetallicLayer2", 0),
+                new("MetallicLayer3", 0),
+                new("MetallicLayer4", 0),
+
+                new("LayerMaskScale1", 1),
+                new("LayerMaskScale2", 1),
+                new("LayerMaskScale3", 1),
+                new("LayerMaskScale4", 1),
             },
             TextureParameters = textures,
             Samplers = samplers,
@@ -1407,6 +1440,16 @@ public partial class ModelConverter : Form
             {
                 new("UVScaleOffset"      , oldShader.UVScaleOffset),
                 new("UVScaleOffsetNormal", oldShader.UVScaleOffsetNormal),
+                new("BaseColorLayer1"      , new()),
+                new("BaseColorLayer2"      , new()),
+                new("BaseColorLayer3"      , new()),
+                new("BaseColorLayer4"      , new()),
+
+                new("EmissionColorLayer1"      , new()),
+                new("EmissionColorLayer2"      , new()),
+                new("EmissionColorLayer3"      , new()),
+                new("EmissionColorLayer4"      , new()),
+
                 new("EmissionColor"      , new()),
             },
             IntParameters = new IntParameter[]
