@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using pkNX.Containers;
+using pkNX.Containers.VFS;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 
@@ -19,14 +20,25 @@ public class GameManagerPLA : GameManager
     /// </summary>
     public GameData8a Data { get; protected set; } = null!;
 
+    public VirtualFileSystem VFS { get; private set; }
+
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
         if (basePath is null)
             throw new InvalidDataException("Invalid RomFS path.");
+
         var tid = ROM.ExeFS != null ? TitleID : "arceus";
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);
+
+        // VFS test
+        var cleanRomFS = new PhysicalFileSystem(basePath + "/romfs/").AsReadOnlyFileSystem();
+        var moddedRomFS = new PhysicalFileSystem(redirect + "/romfs/");
+
+        var layeredFS = new LayeredFileSystem(moddedRomFS, cleanRomFS);
+        VFS = new VirtualFileSystem(new MountPoint("/romfs/", layeredFS));
+        var file = VFS.OpenFile("/romfs/bin/pokemon/data/poke_ai.bin", FileAccess.ReadWrite);
     }
 
     public override void Initialize()
