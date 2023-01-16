@@ -48,7 +48,7 @@ public sealed class PersonalInfo9SV : IPersonalInfoSV
     public int Height  { get => FB.Info.Height; set => FB.Info.Height = (ushort)value; }
     public int Weight  { get => FB.Info.Weight; set => FB.Info.Weight = (ushort)value; }
 
-    public ushort HatchedSpecies { get => FB.Hatch.Species; set => FB.Hatch.Species = value; }
+    public ushort HatchedSpecies { get => SpeciesConverterSV.GetNational9(FB.Hatch.SpeciesInternal); set => FB.Hatch.SpeciesInternal = SpeciesConverterSV.GetInternal9(value); }
     public ushort LocalFormIndex { get => FB.Hatch.Form; set => FB.Hatch.Form = value; }
     public bool Field_45 { get => FB.Hatch.RegionalFlags == 1; set => FB.Hatch.RegionalFlags = value ? (ushort)1 : (ushort)0; }
     public ushort Field_46 { get => FB.Hatch.EverstoneForm; set => FB.Hatch.EverstoneForm = value; }
@@ -117,7 +117,7 @@ public sealed class PersonalInfo9SV : IPersonalInfoSV
         bw.Write((ushort)DexIndex);
         bw.Write(FB.Info.Height);
         bw.Write(FB.Info.Weight);
-        bw.Write(FB.Hatch.Species);
+        bw.Write(SpeciesConverterSV.GetNational9(FB.Hatch.SpeciesInternal));
         bw.Write(FB.Hatch.Form);
         bw.Write(FB.Hatch.RegionalFlags);
         bw.Write(FB.Hatch.EverstoneForm);
