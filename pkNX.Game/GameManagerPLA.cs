@@ -39,6 +39,10 @@ public class GameManagerPLA : GameManager
         var layeredFS = new LayeredFileSystem(moddedRomFS, cleanRomFS);
         VFS = new VirtualFileSystem(new MountPoint("/romfs/", layeredFS));
         var file = VFS.OpenFile("/romfs/bin/pokemon/data/poke_ai.bin", FileAccess.ReadWrite);
+
+        FileSystemPath path = "/romfs/bin/pokemon/data/poke_ai.bin";
+        var parent = path.ParentPath;
+        var relative = path.MakeRelativeTo(parent);
     }
 
     public override void Initialize()

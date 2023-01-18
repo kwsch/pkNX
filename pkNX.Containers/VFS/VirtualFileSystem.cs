@@ -2,22 +2,36 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace pkNX.Containers.VFS;
 
-public record MountPoint(FileSystemPath Path, IFileSystem FileSystem) : IComparable<MountPoint>
+public record MountPoint
 {
-    public int CompareTo(MountPoint? other)
+    public FileSystemPath MountPath { get; }
+    public IFileSystem FileSystem { get; }
+
+    public FileSystemPath ToAbsolutePath(FileSystemPath path)
     {
-        return other?.Path.CompareTo(Path) ?? 1;
+        return MountPath.AppendPath(path);
+    }
+
+    public FileSystemPath ToRelativePath(FileSystemPath path)
+    {
+        return path.IsRoot ? path : path.MakeRelativeTo(MountPath);
+    }
+
+    public MountPoint(FileSystemPath mountPath, IFileSystem fileSystem)
+    {
+        MountPath = mountPath;
+        FileSystem = fileSystem.AsRelativeFileSystem(ToAbsolutePath, ToRelativePath);
     }
 }
 
 public class VirtualFileSystem : IFileSystem
 {
-    public bool IsReadOnly => Mounts.All(x => x.FileSystem.IsReadOnly);
-
     public SortedSet<MountPoint> Mounts { get; }
+    public bool IsReadOnly => Mounts.All(x => x.FileSystem.IsReadOnly);
 
     public VirtualFileSystem(IEnumerable<MountPoint> mounts)
     {
@@ -28,11 +42,6 @@ public class VirtualFileSystem : IFileSystem
         this(mounts.AsEnumerable())
     { }
 
-    protected MountPoint Get(FileSystemPath path)
-    {
-        return Mounts.First(pair => pair.Path == path || pair.Path.IsParentOf(path));
-    }
-
     public void Dispose()
     {
         foreach (var fs in Mounts.Select(x => x.FileSystem))
@@ -41,40 +50,64 @@ public class VirtualFileSystem : IFileSystem
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerable<FileSystemPath> GetEntities(FileSystemPath path)
+    protected MountPoint GetMountPoint(FileSystemPath path)
     {
-        MountPoint point = Get(path);
-        IEnumerable<FileSystemPath> entities = point.FileSystem.GetEntities(path.IsRoot ? path : path.RemoveParent(point.Path));
-        return entities.Select(p => point.Path.AppendPath(p));
+        return Mounts.First(mount => mount.MountPath == path || mount.MountPath.IsParentOf(path));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    {
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.GetEntityPaths(path);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    {
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.GetDirectoryPaths(path);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    {
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.GetFilePaths(path);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Exists(FileSystemPath path)
     {
-        var pair = Get(path);
-        return pair.FileSystem.Exists(path.RemoveParent(pair.Path));
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.Exists(path);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Stream CreateFile(FileSystemPath path)
     {
-        var pair = Get(path);
-        return pair.FileSystem.CreateFile(path.RemoveParent(pair.Path));
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.CreateFile(path);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Stream OpenFile(FileSystemPath path, FileAccess access)
     {
-        var pair = Get(path);
-        return pair.FileSystem.OpenFile(path.RemoveParent(pair.Path), access);
+        var mount = GetMountPoint(path);
+        return mount.FileSystem.OpenFile(path, access);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CreateDirectory(FileSystemPath path)
     {
-        var pair = Get(path);
-        pair.FileSystem.CreateDirectory(path.RemoveParent(pair.Path));
+        var mount = GetMountPoint(path);
+        mount.FileSystem.CreateDirectory(path);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete(FileSystemPath path)
     {
-        var pair = Get(path);
-        pair.FileSystem.Delete(path.RemoveParent(pair.Path));
+        var mount = GetMountPoint(path);
+        mount.FileSystem.Delete(path);
     }
 }

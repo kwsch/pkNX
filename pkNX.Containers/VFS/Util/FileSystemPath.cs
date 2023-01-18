@@ -6,31 +6,30 @@ using System.Linq;
 
 namespace pkNX.Containers.VFS;
 
-public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<FileSystemPath>
+public readonly record struct FileSystemPath : IComparable<FileSystemPath>
 {
     public const char DirectorySeparator = '/';
-    public static FileSystemPath Root { get; }
+    public static FileSystemPath Root { get; } = new(DirectorySeparator.ToString());
 
-    public string Path { get; } = "/";
+    public string Path { get; }
 
-    public bool IsDirectory => Path[^1] == DirectorySeparator;
-
+    public bool IsDirectory => Path.EndsWith(DirectorySeparator);
     public bool IsFile => !IsDirectory;
-
     public bool IsRoot => Path.Length == 1;
 
     public string EntityName
     {
         get
         {
-            string name = Path;
             if (IsRoot)
                 return string.Empty;
-            int endOfName = name.Length;
+
+            int endOfName = Path.Length;
             if (IsDirectory)
-                endOfName--;
-            int startOfName = name.LastIndexOf(DirectorySeparator, endOfName - 1, endOfName) + 1;
-            return name[startOfName..endOfName];
+                --endOfName;
+
+            int startOfName = Path.LastIndexOf(DirectorySeparator, endOfName - 1, endOfName) + 1;
+            return Path[startOfName..endOfName];
         }
     }
 
@@ -38,22 +37,16 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
     {
         get
         {
-            string parentPath = Path;
             if (IsRoot)
                 throw new InvalidOperationException("There is no parent of root.");
-            int lookaheadCount = parentPath.Length;
-            if (IsDirectory)
-                lookaheadCount--;
-            int index = parentPath.LastIndexOf(DirectorySeparator, lookaheadCount - 1, lookaheadCount);
-            Debug.Assert(index >= 0);
-            parentPath = parentPath.Remove(index + 1);
-            return new FileSystemPath(parentPath);
-        }
-    }
 
-    static FileSystemPath()
-    {
-        Root = new FileSystemPath(DirectorySeparator.ToString());
+            int endOfPath = Path.Length;
+            if (IsDirectory)
+                --endOfPath;
+
+            endOfPath = Path.LastIndexOf(DirectorySeparator, endOfPath - 1, endOfPath) + 1;
+            return new(Path[..endOfPath]);
+        }
     }
 
     private FileSystemPath(string path)
@@ -63,8 +56,7 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
 
     public static implicit operator FileSystemPath(string path)
     {
-        var parsed = FileSystemPath.Parse(path);
-        return parsed;
+        return Parse(path);
     }
 
     public static implicit operator string(FileSystemPath path)
@@ -74,9 +66,7 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
 
     public static bool IsRooted(string s)
     {
-        if (s.Length == 0)
-            return false;
-        return s[0] == DirectorySeparator;
+        return s.StartsWith(DirectorySeparator);
     }
 
     public static FileSystemPath Parse(string s)
@@ -87,24 +77,25 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
             throw new UriFormatException($"Could not parse input \"{s}\": Path is not rooted.");
         if (s.Contains(string.Concat(DirectorySeparator, DirectorySeparator)))
             throw new UriFormatException($"Could not parse input \"{s}\": Path contains double directory-separators.");
-        return new FileSystemPath(s);
+        return new(s);
     }
 
-    public FileSystemPath AppendPath(string relativePath)
+    [Pure]
+    public FileSystemPath AppendPath(string strPath)
     {
-        if (IsRooted(relativePath))
-            throw new ArgumentException("The specified path should be relative.", nameof(relativePath));
         if (!IsDirectory)
             throw new InvalidOperationException("This FileSystemPath is not a directory.");
-        return new FileSystemPath(Path + relativePath);
+
+        if (IsRooted(strPath))
+            throw new ArgumentException("The specified path is a rooted path.", nameof(strPath));
+
+        return new(Path + strPath);
     }
 
     [Pure]
     public FileSystemPath AppendPath(FileSystemPath path)
     {
-        if (!IsDirectory)
-            throw new InvalidOperationException("This FileSystemPath is not a directory.");
-        return new FileSystemPath(Path + path.Path[1..]);
+        return AppendPath(path.Path[1..]);
     }
 
     [Pure]
@@ -130,7 +121,10 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
     [Pure]
     public bool IsParentOf(FileSystemPath path)
     {
-        return IsDirectory && Path.Length != path.Path.Length && path.Path.StartsWith(Path);
+        if (!IsDirectory)
+            throw new ArgumentException($"Path \"{Path}\" can not be a parent: it is not a directory.");
+
+        return Path.Length != path.Path.Length && path.Path.StartsWith(Path);
     }
 
     [Pure]
@@ -140,13 +134,16 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
     }
 
     [Pure]
-    public FileSystemPath RemoveParent(FileSystemPath parent)
+    public FileSystemPath MakeRelativeTo(FileSystemPath parent)
     {
-        if (!parent.IsDirectory)
-            throw new ArgumentException("The specified path can not be the parent of this path: it is not a directory.");
-        if (!Path.StartsWith(parent.Path))
-            throw new ArgumentException("The specified path is not a parent of this path.");
-        return new FileSystemPath(Path.Remove(0, parent.Path.Length - 1));
+        if (Path == parent.Path)
+            return Root;
+
+        if (!IsChildOf(parent))
+            throw new ArgumentException($"Path \"{parent}\" is not a parent of \"{Path}\".");
+
+        int parentPathEnd = parent.Path.Length - 1;
+        return new(Path[parentPathEnd..]);
     }
 
     [Pure]
@@ -204,33 +201,5 @@ public readonly struct FileSystemPath : IEquatable<FileSystemPath>, IComparable<
     public override string ToString()
     {
         return Path;
-    }
-
-    [Pure]
-    public override bool Equals(object? obj)
-    {
-        return obj is FileSystemPath path && Equals(path);
-    }
-
-    [Pure]
-    public bool Equals(FileSystemPath other)
-    {
-        return other.Path.Equals(Path);
-    }
-
-    [Pure]
-    public override int GetHashCode()
-    {
-        return Path.GetHashCode();
-    }
-
-    public static bool operator ==(FileSystemPath pathA, FileSystemPath pathB)
-    {
-        return pathA.Equals(pathB);
-    }
-
-    public static bool operator !=(FileSystemPath pathA, FileSystemPath pathB)
-    {
-        return !(pathA == pathB);
     }
 }

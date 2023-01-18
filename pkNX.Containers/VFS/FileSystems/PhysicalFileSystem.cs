@@ -7,28 +7,27 @@ namespace pkNX.Containers.VFS;
 
 public class PhysicalFileSystem : IFileSystem
 {
-    #region Internals
     public string PhysicalRoot { get; }
 
     public PhysicalFileSystem(string physicalRoot)
     {
-        if (!Path.IsPathRooted(physicalRoot))
-            physicalRoot = Path.GetFullPath(physicalRoot);
-        if (physicalRoot[^1] != Path.DirectorySeparatorChar)
+        physicalRoot = Path.GetFullPath(physicalRoot);
+        if (!physicalRoot.EndsWith(Path.DirectorySeparatorChar))
             physicalRoot += Path.DirectorySeparatorChar;
         PhysicalRoot = physicalRoot;
     }
 
     public string GetPhysicalPath(FileSystemPath path)
     {
-        return Path.Combine(PhysicalRoot, path.ToString().Remove(0, 1).Replace(FileSystemPath.DirectorySeparator, Path.DirectorySeparatorChar));
+        return Path.GetFullPath(PhysicalRoot + path);
     }
 
     public FileSystemPath GetVirtualFilePath(string physicalPath)
     {
         if (!physicalPath.StartsWith(PhysicalRoot, StringComparison.InvariantCultureIgnoreCase))
             throw new ArgumentException("The specified path is not member of the PhysicalRoot.", nameof(physicalPath));
-        string virtualPath = FileSystemPath.DirectorySeparator + physicalPath.Remove(0, PhysicalRoot.Length).Replace(Path.DirectorySeparatorChar, FileSystemPath.DirectorySeparator);
+
+        string virtualPath = FileSystemPath.DirectorySeparator + physicalPath[PhysicalRoot.Length..].Replace(Path.DirectorySeparatorChar, FileSystemPath.DirectorySeparator);
         return FileSystemPath.Parse(virtualPath);
     }
 
@@ -36,56 +35,69 @@ public class PhysicalFileSystem : IFileSystem
     {
         if (!physicalPath.StartsWith(PhysicalRoot, StringComparison.InvariantCultureIgnoreCase))
             throw new ArgumentException("The specified path is not member of the PhysicalRoot.", nameof(physicalPath));
-        string virtualPath = FileSystemPath.DirectorySeparator + physicalPath.Remove(0, PhysicalRoot.Length).Replace(Path.DirectorySeparatorChar, FileSystemPath.DirectorySeparator);
-        if (virtualPath[^1] != FileSystemPath.DirectorySeparator)
+
+        string virtualPath = FileSystemPath.DirectorySeparator + physicalPath[PhysicalRoot.Length..].Replace(Path.DirectorySeparatorChar, FileSystemPath.DirectorySeparator);
+        if (!virtualPath.EndsWith(FileSystemPath.DirectorySeparator))
             virtualPath += FileSystemPath.DirectorySeparator;
         return FileSystemPath.Parse(virtualPath);
     }
 
-    #endregion
-
-    public IEnumerable<FileSystemPath> GetEntities(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
     {
-        string physicalPath = GetPhysicalPath(path);
-        string[] directories = System.IO.Directory.GetDirectories(physicalPath);
-        string[] files = System.IO.Directory.GetFiles(physicalPath);
-        var virtualDirectories = directories.Select(GetVirtualDirectoryPath);
-        var virtualFiles = files.Select(GetVirtualFilePath);
-        return virtualDirectories.Concat(virtualFiles);
+        return GetDirectoryPaths(path).Concat(GetFilePaths(path));
+    }
+
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    {
+        if (!path.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(path));
+
+        var physicalPaths = Directory.GetDirectories(GetPhysicalPath(path));
+        return physicalPaths.Select(GetVirtualDirectoryPath);
+    }
+
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    {
+        if (!path.IsDirectory)
+            throw new ArgumentException("The specified path is not a directory.", nameof(path));
+
+        var physicalPaths = Directory.GetFiles(GetPhysicalPath(path));
+        return physicalPaths.Select(GetVirtualFilePath);
     }
 
     public bool Exists(FileSystemPath path)
     {
-        return path.IsFile ? System.IO.File.Exists(GetPhysicalPath(path)) : System.IO.Directory.Exists(GetPhysicalPath(path));
+        var fullPath = GetPhysicalPath(path);
+        return path.IsFile ? File.Exists(fullPath) : Directory.Exists(fullPath);
     }
 
     public Stream CreateFile(FileSystemPath path)
     {
         if (!path.IsFile)
             throw new ArgumentException("The specified path is not a file.", nameof(path));
-        return System.IO.File.Create(GetPhysicalPath(path));
+        return File.Create(GetPhysicalPath(path));
     }
 
     public Stream OpenFile(FileSystemPath path, FileAccess access)
     {
         if (!path.IsFile)
             throw new ArgumentException("The specified path is not a file.", nameof(path));
-        return System.IO.File.Open(GetPhysicalPath(path), FileMode.Open, access);
+        return File.Open(GetPhysicalPath(path), FileMode.Open, access);
     }
 
     public void CreateDirectory(FileSystemPath path)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is not a directory.", nameof(path));
-        System.IO.Directory.CreateDirectory(GetPhysicalPath(path));
+        Directory.CreateDirectory(GetPhysicalPath(path));
     }
 
     public void Delete(FileSystemPath path)
     {
         if (path.IsFile)
-            System.IO.File.Delete(GetPhysicalPath(path));
+            File.Delete(GetPhysicalPath(path));
         else
-            System.IO.Directory.Delete(GetPhysicalPath(path), true);
+            Directory.Delete(GetPhysicalPath(path), true);
     }
 
     public void Dispose()

@@ -1,22 +1,19 @@
 using System;
+using System.Collections.Generic;
 
 namespace pkNX.Containers.VFS;
 
-public class VirtualDirectory : FileSystemEntity, IEquatable<VirtualDirectory>
+public readonly record struct VirtualDirectory(IFileSystem FileSystem, FileSystemPath Path) : IFileSystemEntity
 {
-    public VirtualDirectory(IFileSystem fileSystem, FileSystemPath path) : base(fileSystem, path)
+    public string Name => Path.EntityName;
+    public VirtualDirectory ParentDirectory => Create(FileSystem, Path.ParentPath);
+
+
+    internal static VirtualDirectory Create(IFileSystem fileSystem, FileSystemPath path)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is no directory.", nameof(path));
-    }
 
-    public bool Equals(VirtualDirectory? other)
-    {
-        return ((IEquatable<FileSystemEntity>)this).Equals(other);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as VirtualDirectory);
+        return new VirtualDirectory(fileSystem, path);
     }
 }

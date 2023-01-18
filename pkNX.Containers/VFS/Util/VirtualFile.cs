@@ -1,24 +1,23 @@
 using System;
+using System.IO;
 
 namespace pkNX.Containers.VFS;
 
-public class VirtualFile : FileSystemEntity, IEquatable<VirtualFile>
+public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath Path) : IFileSystemEntity
 {
-    public VirtualFile(IFileSystem fileSystem, FileSystemPath path) :
-        base(fileSystem, path)
+    public string Name => Path.EntityName;
+    public VirtualDirectory ParentDirectory => VirtualDirectory.Create(FileSystem, Path.ParentPath);
+
+    public Stream Open(FileAccess access)
+    {
+        return FileSystem.OpenFile(Path, access);
+    }
+
+    internal static VirtualFile Create(IFileSystem fileSystem, FileSystemPath path)
     {
         if (!path.IsFile)
             throw new ArgumentException("The specified path is no file.", nameof(path));
-    }
 
-    public bool Equals(VirtualFile? other)
-    {
-        return ((IEquatable<FileSystemEntity>)this).Equals(other);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as VirtualFile);
+        return new VirtualFile(fileSystem, path);
     }
 }
-
