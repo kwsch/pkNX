@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace pkNX.Containers.VFS;
@@ -9,15 +10,15 @@ namespace pkNX.Containers.VFS;
 public class LayeredFileSystem : IFileSystem
 {
     public IEnumerable<IFileSystem> FileSystems { get; }
+
     public LayeredFileSystem(IEnumerable<IFileSystem> fileSystems)
     {
-        FileSystems = fileSystems.ToArray();
+        FileSystems = fileSystems;
     }
 
-    public LayeredFileSystem(params IFileSystem[] fileSystems)
-    {
-        FileSystems = fileSystems.ToArray();
-    }
+    public LayeredFileSystem(params IFileSystem[] fileSystems) :
+        this(fileSystems.AsEnumerable())
+    { }
 
     public void Dispose()
     {
@@ -27,18 +28,28 @@ public class LayeredFileSystem : IFileSystem
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerable<FileSystemPath> GetEntities(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
     {
-        var entities = new SortedList<FileSystemPath, FileSystemPath>();
+        var entities = new HashSet<FileSystemPath>();
         foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-        {
-            foreach (var entity in fs.GetEntities(path))
-            {
-                if (!entities.ContainsKey(entity))
-                    entities.Add(entity, entity);
-            }
-        }
-        return entities.Values;
+            entities.UnionWith(fs.GetEntityPaths(path));
+        return entities;
+    }
+
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    {
+        var directories = new HashSet<FileSystemPath>();
+        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
+            directories.UnionWith(fs.GetDirectoryPaths(path));
+        return directories;
+    }
+
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    {
+        var files = new HashSet<FileSystemPath>();
+        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
+            files.UnionWith(fs.GetFilePaths(path));
+        return files;
     }
 
     public bool Exists(FileSystemPath path)

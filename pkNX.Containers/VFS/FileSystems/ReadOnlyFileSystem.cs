@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace pkNX.Containers.VFS;
 
@@ -21,16 +22,31 @@ public class ReadOnlyFileSystem : IFileSystem
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerable<FileSystemPath> GetEntities(FileSystemPath path)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
     {
-        return FileSystem.GetEntities(path);
+        return FileSystem.GetEntityPaths(path);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    {
+        return FileSystem.GetDirectoryPaths(path);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    {
+        return FileSystem.GetFilePaths(path);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Exists(FileSystemPath path)
     {
         return FileSystem.Exists(path);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Stream OpenFile(FileSystemPath path, FileAccess access)
     {
         if (access != FileAccess.Read)

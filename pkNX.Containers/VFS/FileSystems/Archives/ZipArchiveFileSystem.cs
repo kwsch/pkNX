@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace pkNX.Containers.VFS;
 
 public class ZipArchiveFileSystem : IFileSystem
 {
-    public ZipArchive ZipArchive { get; private set; }
+    public ZipArchive ZipArchive { get; }
 
     public bool IsReadOnly => false;
 
@@ -48,20 +49,51 @@ public class ZipArchiveFileSystem : IFileSystem
     {
         return ZipArchive.GetEntry(ToEntryPath(path));
     }
-    public IEnumerable<FileSystemPath> GetEntities(FileSystemPath path)
+
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
     {
-        return GetZipEntries().Select(ToPath).Where(path.IsParentOf)
+        return GetZipEntries()
+            .Select(ToPath)
+            .Where(path.IsParentOf)
             .Select(entryPath => entryPath.ParentPath == path
-               ? entryPath
-               : path.AppendDirectory(entryPath.RemoveParent(path).GetDirectorySegments().First()))
-            .Distinct()
-            .ToList();
+                ? entryPath
+                : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
+            .Distinct();
+    }
+
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    {
+        if (!path.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(path));
+
+        return GetZipEntries()
+            .Select(ToPath)
+            .Where(p => path.IsParentOf(p) && p.IsDirectory)
+            .Select(entryPath => entryPath.ParentPath == path
+                ? entryPath
+                : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
+            .Distinct();
+    }
+
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    {
+        if (!path.IsDirectory)
+            throw new ArgumentException("The specified path is not a directory.", nameof(path));
+
+        return GetZipEntries()
+            .Select(ToPath)
+            .Where(p => path.IsParentOf(p) && p.IsFile)
+            .Select(entryPath => entryPath.ParentPath == path
+                ? entryPath
+                : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
+            .Distinct();
     }
 
     public bool Exists(FileSystemPath path)
     {
         if (path.IsFile)
             return ToEntry(path) != null;
+
         return GetZipEntries()
             .Select(ToPath)
             .Any(entryPath => entryPath.IsChildOf(path) || entryPath.Equals(path));
