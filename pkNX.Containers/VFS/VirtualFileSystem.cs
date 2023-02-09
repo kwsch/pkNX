@@ -11,12 +11,12 @@ public record MountPoint
     public FileSystemPath MountPath { get; }
     public IFileSystem FileSystem { get; }
 
-    public FileSystemPath ToAbsolutePath(FileSystemPath path)
+    public FileSystemPath AddMountPoint(FileSystemPath path)
     {
         return MountPath.AppendPath(path);
     }
 
-    public FileSystemPath ToRelativePath(FileSystemPath path)
+    public FileSystemPath RemoveMountPoint(FileSystemPath path)
     {
         return path.IsRoot ? path : path.MakeRelativeTo(MountPath);
     }
@@ -24,7 +24,7 @@ public record MountPoint
     public MountPoint(FileSystemPath mountPath, IFileSystem fileSystem)
     {
         MountPath = mountPath;
-        FileSystem = fileSystem.AsRelativeFileSystem(ToAbsolutePath, ToRelativePath);
+        FileSystem = fileSystem.AsRelativeFileSystem(RemoveMountPoint, AddMountPoint);
     }
 }
 
