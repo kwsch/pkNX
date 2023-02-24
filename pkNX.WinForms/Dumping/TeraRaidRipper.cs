@@ -443,6 +443,9 @@ public static class TeraRaidRipper
             if (boss.RareType != RareType.DEFAULT)
                 lines.Add($"\tShiny: {shiny}");
 
+            if (boss.Item != ItemID.ITEMID_NONE)
+                lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
+
             lines.Add($"\t\tMoves:");
             lines.Add($"\t\t\t- {moves[(int)boss.Waza1.WazaId]}");
             if ((int)boss.Waza2.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza2.WazaId]}");
