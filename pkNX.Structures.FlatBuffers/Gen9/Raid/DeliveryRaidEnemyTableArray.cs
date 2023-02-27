@@ -76,8 +76,8 @@ public class RaidEnemyInfo
         bw.Write((byte)b.TalentValue.SPA);
         bw.Write((byte)b.TalentValue.SPD);
         bw.Write((byte)(b.TalentType == 0 ? 0 : 1));
+        bw.Write((byte)b.ScaleType);
         bw.Write((byte)b.ScaleValue);
-        bw.Write((byte)0);
     }
 }
 
