@@ -61,6 +61,13 @@ public class RaidEnemyInfo
         bw.Write(rate);
     }
 
+    public void SerializeType2(BinaryWriter bw)
+    {
+        var b = BossPokePara;
+        bw.Write((byte)b.ScaleType);
+        bw.Write((byte)b.ScaleValue);
+    }
+
     public void SerializeType3(BinaryWriter bw)
     {
         // Fixed Nature, fixed IVs, fixed Scale

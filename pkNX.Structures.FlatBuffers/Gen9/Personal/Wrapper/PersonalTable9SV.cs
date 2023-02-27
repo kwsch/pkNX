@@ -28,12 +28,12 @@ public sealed class PersonalTable9SV : IPersonalTable, IPersonalTable<PersonalIn
 
         var formGrouped = Root.Table
             .GroupBy(x => x.Info.SpeciesNational)
-            .Select(group => group).ToArray();
-        formGrouped = SpeciesConverterSV.GetRearrangedAsNational(formGrouped);
+            .OrderBy(x => x.Key).ToArray();
 
         for (int i = 0; i <= MaxSpecies; i++)
         {
-            var forms = formGrouped[i].ToArray();
+            var item = formGrouped[i];
+            var forms = item.ToArray();
 
             baseForms[i] = GetObj(forms[0], forms, MaxSpecies, formTable);
             for (int f = 1; f < forms.Length; f++)

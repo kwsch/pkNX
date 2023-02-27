@@ -59,33 +59,35 @@ public class PersonalDumperSV
 
         for (ushort species = 0; species <= table.MaxSpeciesID; species++)
         {
-            var spec = table[species];
-            for (byte form = 0; form < spec.FormCount; form++)
-                AddDump(lines, table, species, form);
+            var pi = table[species];
+            var specInternal = SpeciesConverterSV.GetInternal9(species);
+            for (byte form = 0; form < pi.FormCount; form++)
+                AddDump(lines, table, specInternal, species, form);
         }
         return lines;
     }
 
-    private string GetSpeciesName(ushort nationalIndex) => Species[nationalIndex];
+    private string GetSpeciesName(ushort internalIndex) => Species[internalIndex];
 
-    public void AddDump(List<string> lines, PersonalTable9SV table, ushort species, byte form)
+    public void AddDump(List<string> lines, PersonalTable9SV table, ushort speciesInternal, ushort species, byte form)
     {
         var index = table.GetFormIndex(species, form);
         var entry = table[index];
-        string name = GetSpeciesName(species);
+        string name = GetSpeciesName(speciesInternal);
         if (form != 0)
             name += $"-{form}";
         if (entry.FB.Dex is { } dex)
             name += $" #{dex.Index:000}";
-        AddDump(lines, entry, index, name, species, form);
+        AddDump(lines, entry, index, name, speciesInternal, form);
     }
 
-    private void AddDump(List<string> lines, PersonalInfo9SV pi, int entry, string name, int species, int form)
+    private void AddDump(List<string> lines, PersonalInfo9SV pi, int entry, string name, ushort speciesInternal, byte form)
     {
         if (pi is { IsPresentInGame: false })
             return;
 
-        var specCode = pi.FormCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
+        var specName = GetSpeciesName(speciesInternal);
+        var specCode = pi.FormCount > 1 ? $"{specName}-{form}" : $"{specName}";
 
         if (Settings.Stats)
             AddPersonalLines(lines, pi, entry, name, specCode);
@@ -177,7 +179,7 @@ public class PersonalDumperSV
 
             var method = (EvolutionType)z.Method;
             string arg = GetArgTypeDisplayValue(method, z.Argument);
-            var line = $"Evolves into {Species[z.SpeciesInternal]}-{z.Form} @ lv{z.Level} ({method}) [{arg}]";
+            var line = $"Evolves into {GetSpeciesName(z.SpeciesInternal)}-{z.Form} @ lv{z.Level} ({method}) [{arg}]";
             lines.Add(line);
         }
     }
@@ -199,7 +201,7 @@ public class PersonalDumperSV
         EvolutionTypeArgumentType.NoArg => value.ToString(),
         EvolutionTypeArgumentType.Items => Items[value],
         EvolutionTypeArgumentType.Moves => Moves[value],
-        EvolutionTypeArgumentType.Species => Species[value],
+        EvolutionTypeArgumentType.Species => GetSpeciesName(value),
         EvolutionTypeArgumentType.Type => Types[value],
         //EvolutionTypeArgumentType.Stat => expr,
         //EvolutionTypeArgumentType.Version => expr,
