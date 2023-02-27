@@ -471,6 +471,7 @@ public class GameDumperSV
 
     public void DumpMisc()
     {
+        DumpGymRewards();
         DumpGrow();
         DumpAudio();
         DumpAjito();
@@ -503,6 +504,24 @@ public class GameDumperSV
             var data = growTable.Slice(0x10 + (i * size), size).ToArray();
             File.WriteAllBytes(GetPath("raw", Path.Combine("avalon", "data", "growTable", $"grow_{i:00}.bin")), data);
         }
+    }
+
+    private void DumpGymRewards()
+    {
+        Dump<PopupFixTableArray, PopupFixTable>("world/data/gym/gym_denki_popup_fix/gym_denki_popup_fix_array.bfbs");
+        Dump<PopupPosTableArray, PopupPosTable>("world/data/gym/gym_denki_popup_pos/gym_denki_popup_pos_array.bfbs");
+        //Dump<ENDLESSBORDERArray, ENDLESSBORDER>("world/data/gym/gym_esper_reward_endless/gym_esper_reward_endless_array.bfbs");
+        //Dump<EXERCISECOURSESArray, EXERCISECOURSES>("world/data/gym/gym_esper_reward_exercise/gym_esper_reward_exercise_array.bfbs");
+        Dump<GymKooriCourseTableArray, GymKooriCourseTable>("world/data/gym/gym_koori_course/gym_koori_course_array.bfbs");
+        DumpJson<GymKooriCoursePokemonTable>("world/data/gym/gym_koori_course_pokemon/gym_koori_course_pokemon_base.bfbs");
+        Dump<PokeTableArray, PokeTable>("world/data/gym/gym_kusa_poke/gym_kusa_poke_array.bfbs");
+        Dump<RewardTableArray, RewardTable>("world/data/gym/gym_kusa_reward/gym_kusa_reward_array.bfbs");
+        Dump<FixTableArray, FixTable>("world/data/gym/gym_mizu_seri_fix/gym_mizu_seri_fix_array.bfbs");
+        Dump<SeriItemTableArray, SeriItemTable>("world/data/gym/gym_mizu_seri_item/gym_mizu_seri_item_array.bfbs");
+        Dump<SeriNpcTableArray, SeriNpcTable>("world/data/gym/gym_mizu_seri_npc/gym_mizu_seri_npc_array.bfbs");
+        Dump<SeriVenueTableArray, SeriVenueTable>("world/data/gym/gym_mizu_seri_venue/gym_mizu_seri_venue_array.bfbs");
+        DumpJson<GymMushiData>("world/data/gym/gym_mushi_data/gym_mushi_data.bfbs");
+        Dump<GymMushiRewardArray, GymMushiReward>("world/data/gym/gym_mushi_reward/gym_mushi_reward_array.bfbs");
     }
 
     private void DumpShopDress()
@@ -899,6 +918,21 @@ public class GameDumperSV
     {
         var files = new[]
         {
+            "world/data/gym/gym_denki_popup_fix/gym_denki_popup_fix_array.bfbs",
+            "world/data/gym/gym_denki_popup_pos/gym_denki_popup_pos_array.bfbs",
+            "world/data/gym/gym_esper_reward_endless/gym_esper_reward_endless_array.bfbs",
+            "world/data/gym/gym_esper_reward_exercise/gym_esper_reward_exercise_array.bfbs",
+            "world/data/gym/gym_koori_course/gym_koori_course_array.bfbs",
+            "world/data/gym/gym_koori_course_pokemon/gym_koori_course_pokemon_base.bfbs",
+            "world/data/gym/gym_kusa_poke/gym_kusa_poke_array.bfbs",
+            "world/data/gym/gym_kusa_reward/gym_kusa_reward_array.bfbs",
+            "world/data/gym/gym_mizu_seri_fix/gym_mizu_seri_fix_array.bfbs",
+            "world/data/gym/gym_mizu_seri_item/gym_mizu_seri_item_array.bfbs",
+            "world/data/gym/gym_mizu_seri_npc/gym_mizu_seri_npc_array.bfbs",
+            "world/data/gym/gym_mizu_seri_venue/gym_mizu_seri_venue_array.bfbs",
+            "world/data/gym/gym_mushi_data/gym_mushi_data.bfbs",
+            "world/data/gym/gym_mushi_reward/gym_mushi_reward_array.bfbs",
+
             "audio/fb/env_poke_voice/env_poke_voice_lottery_settings/env_poke_voice_lottery_settings_data.bfbs",
             "audio/fb/bgm/bgm_event/bgm_event_array.bfbs",
             "world/data/battle/plib_item_conversion/plib_item_conversion_array.bfbs",

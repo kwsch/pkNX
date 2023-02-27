@@ -31,7 +31,7 @@ public class PackedVec3f : IEquatable<PackedVec3f>
 
     public float Magnitude => MathF.Sqrt(MagnitudeSqr);
     public float MagnitudeSqr => Dot(this);
-    public PackedVec3f Normalized => this * (1 / Magnitude);
+    public PackedVec3f Normalized() => this * (1 / Magnitude);
 
     public float Dot(PackedVec3f other) => X * other.X + Y * other.Y + Z * other.Z;
     public PackedVec3f Cross(PackedVec3f other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);

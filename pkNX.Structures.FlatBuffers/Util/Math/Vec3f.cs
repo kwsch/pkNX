@@ -29,7 +29,7 @@ public class Vec3f : IEquatable<Vec3f>
 
     public float Magnitude => MathF.Sqrt(MagnitudeSqr);
     public float MagnitudeSqr => Dot(this);
-    public Vec3f Normalized => this * (1 / Magnitude);
+    public Vec3f Normalized() => this * (1 / Magnitude);
 
     public float Dot(Vec3f other) => X * other.X + Y * other.Y + Z * other.Z;
     public Vec3f Cross(Vec3f other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
