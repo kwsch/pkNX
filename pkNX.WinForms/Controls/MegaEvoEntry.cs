@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using PKHeX.Core;
 using pkNX.Structures;
 using PKHeX.Drawing.PokeSprite;
 
@@ -31,8 +32,8 @@ public partial class MegaEvoEntry : UserControl
 
     private void ChangeSpecies(int form)
     {
-        PB_Base.Image = SpriteUtil.GetSprite((ushort)Species, 0, 0, 0, 0, false, PKHeX.Core.Shiny.Never, 7);
-        PB_Preview.Image = SpriteUtil.GetSprite((ushort)Species, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never, 7);
+        PB_Base.Image = SpriteUtil.GetSprite((ushort)Species, 0, 0, 0, 0, false, PKHeX.Core.Shiny.Never, EntityContext.Gen7);
+        PB_Preview.Image = SpriteUtil.GetSprite((ushort)Species, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never, EntityContext.Gen7);
         PB_Preview.Visible = PB_Base.Visible = L_Into.Visible = CB_Method.SelectedIndex > 0;
     }
 

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="22.12.19" />
+    <PackageReference Include="PKHeX.Core" Version="23.2.27" />
   </ItemGroup>
 
   <ItemGroup>

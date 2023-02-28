@@ -538,7 +538,7 @@ public static class TeraRaidRipper
     private static string GetItemName(ushort item, ReadOnlySpan<string> items, ReadOnlySpan<string> moves)
     {
         bool isTM = IsTM(item);
-        var tm = PKHeX.Core.LearnSource9SV.TM_SV.ToArray();
+        var tm = PersonalDumperSV.TMIndexes;
 
         if (isTM) // append move name to TM
             return GetNameTM(item, items, moves, tm);
@@ -559,6 +559,6 @@ public static class TeraRaidRipper
         >= 328 and <= 419 => $"{items[item]} {moves[tm[001 + item - 328]]}", // TM001 to TM092, skip TM000 Mega Punch
         618 or 619 or 620 => $"{items[item]} {moves[tm[093 + item - 618]]}", // TM093 to TM095
         690 or 691 or 692 or 693 => $"{items[item]} {moves[tm[096 + item - 690]]}", // TM096 to TM099
-        _ => $"{items[item]} {moves[tm[100 + item - 2160]]}" // TM100 to TM171
+        _ => $"{items[item]} {moves[tm[100 + item - 2160]]}", // TM100 to TM171
     };
 }
