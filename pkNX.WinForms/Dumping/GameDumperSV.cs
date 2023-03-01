@@ -668,7 +668,16 @@ public class GameDumperSV
 
     public void DumpMoves()
     {
-        Dump<Waza9Table, Waza9>("avalon/data/waza_array.bin");
+        const string wazaPath = "avalon/data/waza_array.bin";
+        Dump<Waza9Table, Waza9>(wazaPath);
+        var table = Get<Waza9Table, Waza9>(wazaPath);
+        var outPath = GetPath("pkhex");
+
+        var pp = table.Table.Select(z => z.PP).Select(z => $"{z:00}");
+        File.WriteAllText(Path.Combine(outPath, "move_pp.txt"), string.Join(',', pp));
+
+        var types = table.Table.Select(z => z.Type).Select(z => $"{z:00}");
+        File.WriteAllText(Path.Combine(outPath, "move_type.txt"), string.Join(',', types));
     }
 
     private void DumpItems()
@@ -848,9 +857,7 @@ public class GameDumperSV
         where TTable : class, IFlatBufferArchive<TEntry>
         where TEntry : class
     {
-        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
-        var flat = FlatBufferConverter.DeserializeFrom<TTable>(bin);
-
+        var flat = Get<TTable, TEntry>(f);
         var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
         DumpJson(flat, path);
         var table = flat.Table;
@@ -858,6 +865,14 @@ public class GameDumperSV
 
         var fileName = Path.ChangeExtension(path, ".txt");
         File.WriteAllText(fileName, dump);
+    }
+
+    private TTable Get<TTable, TEntry>(string f)
+        where TTable : class, IFlatBufferArchive<TEntry>
+        where TEntry : class
+    {
+        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        return FlatBufferConverter.DeserializeFrom<TTable>(bin);
     }
 
     private void DumpSel<TTable, TEntry>(string f, Func<TTable, IEnumerable<TEntry>> sel, string prefix = "sel")
