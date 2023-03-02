@@ -471,6 +471,7 @@ public class GameDumperSV
 
     public void DumpMisc()
     {
+        DumpDLC();
         DumpGymRewards();
         DumpGrow();
         DumpAudio();
@@ -581,6 +582,11 @@ public class GameDumperSV
         const string gifts = "world/data/event/event_add_pokemon/eventAddPokemon/eventAddPokemon_array.bfbs";
         Dump<EventAddPokemonArray, EventAddPokemon>(gifts);
         DumpSel<EventAddPokemonArray, PokeDataFull>(gifts, z => z.Table.Select(x => x.PokeData));
+    }
+
+    private void DumpDLC()
+    {
+        Dump<DLCItemGroupArray, DLCItemGroup>("world/data/ui/dlc_item_data/dlc_item_group/dlc_item_group_array.bfbs");
     }
 
     private void DumpJunk()
@@ -933,6 +939,8 @@ public class GameDumperSV
     {
         var files = new[]
         {
+            "world/data/ui/dlc_item_data/dlc_item_group/dlc_item_group_array.bfbs",
+
             "world/data/gym/gym_denki_popup_fix/gym_denki_popup_fix_array.bfbs",
             "world/data/gym/gym_denki_popup_pos/gym_denki_popup_pos_array.bfbs",
             "world/data/gym/gym_esper_reward_endless/gym_esper_reward_endless_array.bfbs",
