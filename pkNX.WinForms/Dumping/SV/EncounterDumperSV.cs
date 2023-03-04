@@ -3,6 +3,7 @@ using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using PKHeX.Core;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers;
 
@@ -306,7 +307,7 @@ public class EncounterDumperSV
                     areas.Add(areaName);
             }
 
-            var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
+            // var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
 
             cw.WriteLine("===");
             cw.WriteLine(entry.Name);
@@ -338,7 +339,7 @@ public class EncounterDumperSV
                 switch (pd.WazaType)
                 {
                     case WazaType.DEFAULT:
-                        cw.WriteLine($"    Moves:   Random");
+                        cw.WriteLine( "    Moves:   Random");
                         break;
                     case WazaType.MANUAL:
                         cw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
@@ -444,26 +445,20 @@ public class EncounterDumperSV
         bw.Write(crossover);
         foreach (var slot in slots)
         {
+            byte form = slot.Species is (ushort)Species.Vivillon or (ushort)Species.Spewpa or (ushort)Species.Scatterbug ? (byte)30 : slot.Form;
+
+            // ReSharper disable RedundantCast
             bw.Write((ushort)slot.Species);
-            bw.Write((byte)slot.Form);
+            bw.Write(form);
             bw.Write((byte)slot.Gender);
 
             bw.Write((byte)slot.MinLevel);
             bw.Write((byte)slot.MaxLevel);
             bw.Write((byte)slot.Time);
             bw.Write((byte)0);
+            // ReSharper restore RedundantCast
         }
         return ms.ToArray();
-    }
-
-    private static PokeDataSymbol GetPokeDataSymbol(FixedSymbolTableArray fsymTable, string tableKey)
-    {
-        foreach (var entry in fsymTable.Table)
-        {
-            if (entry.TableKey == tableKey)
-                return entry.PokeDataSymbol;
-        }
-        throw new ArgumentException($"TableKey not found ({tableKey})");
     }
 
     private static void WriteLocation(TextWriter tw, IReadOnlyList<string> specNamesInternal,
