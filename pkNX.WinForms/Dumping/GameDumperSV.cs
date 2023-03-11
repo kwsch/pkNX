@@ -195,7 +195,7 @@ public class GameDumperSV
                 detailed[i] = $"{i:000}\t{hash:X16}\t{name}\t{line}";
             }
 
-            var pathAHTB = GetPath("textFull", $"{dest}.txt");
+            var pathAHTB = GetPath("textFull", dest);
             File.WriteAllLines(pathAHTB, detailed);
             return (lines, detailed);
         }
