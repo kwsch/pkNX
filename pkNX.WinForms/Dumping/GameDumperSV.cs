@@ -440,7 +440,7 @@ public class GameDumperSV
 
                 // Some Egg Moves are still unobtainable because no other Pokémon can learn said move to share with the target species.
                 var form = t[i].Form;
-                moves = (Species)p.Info.SpeciesNational switch
+                moves = (Species)p.Info.SpeciesInternal switch
                 {
                     // Moves that can not be learned by any other species
                     Species.Psyduck => moves.Where(z => z is not (ushort)Move.SimpleBeam).ToArray(),
