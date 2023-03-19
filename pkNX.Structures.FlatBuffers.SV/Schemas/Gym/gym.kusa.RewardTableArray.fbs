@@ -1,0 +1,16 @@
+include "../Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV.Gym;
+attribute "fs_serializer";
+
+table RewardTable {
+    Count:byte;
+    ItemId:ItemID = ITEMID_NONE;
+    ItemNum:int;
+}
+
+table RewardTableArray (fs_serializer) {
+    Table:[RewardTable] (required);
+}
+
+root_type RewardTableArray;

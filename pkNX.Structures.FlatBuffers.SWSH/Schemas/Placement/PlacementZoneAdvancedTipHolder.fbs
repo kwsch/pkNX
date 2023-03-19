@@ -1,0 +1,55 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneAdvancedTipHolder {
+    Field_00:PlacementZoneAdvancedTip (required);
+    Field_01:uint; // unused
+    Field_02:uint; // unused
+    SignHash:ulong;
+}
+
+table PlacementZoneAdvancedTip {
+    Field_00:PlacementZone_F14;
+}
+
+table PlacementZone_F14 {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    NameModel:string (required);
+    NameAnimation:string (required); // none have this
+    Field_03:float;
+    Field_04:float;
+    Field_05:string (required); // none have this
+    Field_06:string (required); // none have this
+    Field_07:float;
+    Field_08:float;
+    Field_09:float;
+    Field_10:float; // unused
+    Field_11:PlacementZone_F14_B (required);
+    Field_12:uint; // unused
+    Field_13:PlacementZone_F14_B (required);
+    Field_14:PlacementZone_F14_Union (required);
+}
+
+table PlacementZone_F14_B {
+    Field_00:uint = 2;
+    Field_01:float; // unused
+    Field_02:float; // unused
+    Field_03:float;
+    Field_04:float; // unused
+    Field_05:float; // unused
+    Field_06:float;
+    Field_07:float; // unused
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+}
+
+table PlacementZone_F14_Union {
+    Field_00:bool = true;
+    Field_01:PlacementZone_F14_Sub (required);
+}
+
+table PlacementZone_F14_Sub {
+    Field_00:float; // unused
+    Field_01:float;
+}

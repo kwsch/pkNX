@@ -1,0 +1,63 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneTrainerHolder {
+    Field_00:PlacementZone_F08 (required);
+    Field_01:float;
+    TrainerID:ulong;
+    Hash_03:ulong;
+    MovementPath:ulong;
+    Unknown:[PlacementZone_F08_ArrayEntry] (required);
+    Field_06:uint;
+    Field_07:PlacementZone_F08_Nine (required);
+    Field_08:uint; // unused
+    Field_09:uint; // unused
+    Field_10:uint;
+    Field_11:uint;
+    Field_12:uint;
+}
+
+// same as PlacementZone_F16_ArrayEntry
+table PlacementZone_F08_ArrayEntry {
+    Field_00:uint;
+    Field_01:uint;
+    Field_02:uint;
+    Field_03:float;
+    Field_04:ubyte;
+    Field_05:ulong;
+}
+
+table PlacementZone_F08_Nine {
+    Field_00:ubyte;
+    Field_01:ubyte;
+    Field_02:ubyte;
+    Field_03:uint; // unused
+    Hash_04:ulong;
+    Field_05:ubyte;
+    Field_06:uint; // unused
+    Hash_07:ulong;
+    Field_08:uint; // unused
+}
+
+table PlacementZone_F08 {
+    Field_00:PlacementZone_F08_A (required);
+}
+
+table PlacementZone_F08_A {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Hash_01:ulong;
+    HashModel:ulong;
+    Hash_03:ulong;
+    Field_04:PlacementZone_F08_IntFloat (required);
+    Field_06:uint; // unused
+    Hash_06:ulong;
+    Field_07:PlacementZone_F08_IntFloat (required);
+}
+
+table PlacementZone_F08_IntFloat {
+    Field_00:int;
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+}

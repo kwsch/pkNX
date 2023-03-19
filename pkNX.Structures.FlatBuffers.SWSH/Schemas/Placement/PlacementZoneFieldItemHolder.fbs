@@ -1,0 +1,24 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneFieldItemHolder {
+    Field_00:PlacementZoneFieldItem (required);
+}
+
+table PlacementZoneFieldItem {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Hash_01:ulong;
+    Field_02:string (required);
+    Field_03:float;
+    Field_04:float;
+    Hash_05:ulong;
+    Flags:[ulong] (required);
+    Items:[uint] (required);
+    Quantity:ubyte;
+    Field_09:PlacementZoneFieldItem_A (required);
+}
+
+table PlacementZoneFieldItem_A {
+    Field_00:bool;
+    Field_01:FlatDummyObject (required);
+}

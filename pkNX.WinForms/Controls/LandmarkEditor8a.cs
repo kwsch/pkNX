@@ -1,20 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.WinForms.Controls;
 
 public partial class LandmarkEditor8a : UserControl
 {
-    public LandmarkItemSpawn8a[] Spawners = Array.Empty<LandmarkItemSpawn8a>();
+    public IList<LandmarkItemSpawn> Spawners = Array.Empty<LandmarkItemSpawn>();
 
     public LandmarkEditor8a() => InitializeComponent();
 
-    public void LoadTable(LandmarkItemSpawn8a[] table, string path)
+    public void LoadTable(IList<LandmarkItemSpawn> table, string path)
     {
         Spawners = table;
-        if (table.Length == 0)
+        if (table.Count == 0)
         {
             Visible = false;
             return;
@@ -33,19 +34,19 @@ public partial class LandmarkEditor8a : UserControl
 
     private class ComboItem
     {
-        public ComboItem(string text, LandmarkItemSpawn8a value)
+        public ComboItem(string text, LandmarkItemSpawn value)
         {
             Text = text;
             Value = value;
         }
 
         public string Text { get; }
-        public LandmarkItemSpawn8a Value { get; }
+        public LandmarkItemSpawn Value { get; }
     }
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (CB_Encounters.SelectedValue is not LandmarkItemSpawn8a spawner)
+        if (CB_Encounters.SelectedValue is not LandmarkItemSpawn spawner)
             throw new ArgumentException(nameof(CB_Encounters.SelectedValue));
         PG_Encounters.SelectedObject = spawner;
     }

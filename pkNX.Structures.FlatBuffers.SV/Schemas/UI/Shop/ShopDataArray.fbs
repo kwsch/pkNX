@@ -1,0 +1,15 @@
+include "../Enums/ShopKind.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table ShopData {
+    Id:string (required);
+    Kind:ShopKind;
+}
+
+table ShopDataArray (fs_serializer) {
+    Table:[ShopData] (required);
+}
+
+root_type ShopDataArray;

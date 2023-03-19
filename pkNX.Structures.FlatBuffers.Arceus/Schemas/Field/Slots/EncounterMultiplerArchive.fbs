@@ -1,0 +1,25 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table EncounterMultiplier {
+    Species:int;
+    Form:int;
+    TimeOfDayMultiplier_0:float = -1;
+    TimeOfDayMultiplier_1:float = -1;
+    TimeOfDayMultiplier_2:float = -1;
+    TimeOfDayMultiplier_3:float = -1;
+    WeatherMultiplier_1:float = -1;
+    WeatherMultiplier_2:float = -1;
+    WeatherMultiplier_3:float = -1;
+    WeatherMultiplier_4:float = -1;
+    WeatherMultiplier_5:float = -1;
+    WeatherMultiplier_6:float = -1;
+    WeatherMultiplier_7:float = -1;
+    WeatherMultiplier_8:float = -1;
+}
+
+table EncounterMultiplierArchive (fs_serializer) {
+    Table:[EncounterMultiplier] (required);
+}
+
+root_type EncounterMultiplierArchive;

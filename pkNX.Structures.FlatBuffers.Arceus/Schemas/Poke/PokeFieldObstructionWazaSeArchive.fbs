@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeFieldObstructionWazaSe {
+    Field_00:uint; // ?
+    Field_01:uint; // ?
+    Field_02:uint; // ?
+}
+
+table PokeFieldObstructionWazaSeArchive (fs_serializer) {
+    Table:[PokeFieldObstructionWazaSe] (required);
+}
+
+root_type PokeFieldObstructionWazaSeArchive;

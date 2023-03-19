@@ -1,0 +1,30 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+// IK_Step
+table PlacementZoneIKStepHolder {
+    Field_00:PlacementZone_F25 (required);
+    Field_01:ubyte;
+    Field_02:ubyte; // unused
+    Field_03:ubyte;
+}
+
+table PlacementZone_F25 {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Field_01:ulong;
+    Field_02:PlacementZone_F25_X (required);
+}
+
+table PlacementZone_F25_X {
+    Field_00:uint;
+    Field_01:uint; // unused
+    Field_02:float; // unused
+    Field_03:float; // unused
+    Field_04:float; // unused
+    Field_05:float; // unused
+    Field_06:float;
+    Field_07:float; // unused
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+}

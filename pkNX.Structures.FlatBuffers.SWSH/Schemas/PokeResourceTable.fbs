@@ -1,0 +1,35 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table Version {
+    major:ushort;
+    minor:ushort;
+}
+
+table PokemonModel {
+    SpeciesInfo:Meta (required);
+    ModelPath:string (required);
+    ConfigPath:string (required);
+    ArchivePath:string (required);
+    Animations:[Animation] (required);
+}
+
+table Meta {
+    Species:ushort;
+    Forme:ushort;
+    Gender:ubyte;
+    Shiny:ubyte;
+}
+
+table Animation {
+    Name:string (required);
+    Path:string (required);
+}
+
+table GFBpmcatalog (fs_serializer) {
+    CatalogVersion:Version (required);
+    Models:[PokemonModel] (required);
+}
+
+file_extension "gfbpmcatalog";
+root_type GFBpmcatalog;

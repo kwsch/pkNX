@@ -1,0 +1,28 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+// highplace?
+table PlacementZoneQuadrantHolder {
+    Field_00:PlacementZone_F17 (required);
+}
+
+table PlacementZone_F17
+{
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Hash_01:ulong;
+    Field_02:PlacementZone_F17_Sub;
+}
+
+table PlacementZone_F17_Sub {
+    Field_00:uint; // 1 or 2
+    Field_01:float;
+    Field_02:float; // unused
+    Field_03:float;
+    Field_04:float;
+    Field_05:float; // unused
+    Field_06:float;
+    Field_07:float; // unused
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+}

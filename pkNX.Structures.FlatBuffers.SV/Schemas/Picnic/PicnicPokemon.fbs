@@ -1,0 +1,91 @@
+include "../Geometry/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table WashData {
+    HappyBoneInfoList:PokemonContactJointList (required);
+    HateBoneInfoList:PokemonContactJointList (required);
+    UseUniqueData:bool;
+    UniqueData:UniqueWashData (required);
+    DisableEraseFaceEffect:bool;
+    DisableWink:bool;
+    DisableAwaJoints:DisableAwaJointParam (required);
+}
+
+table UniqueWashJointParam {
+    Valid:bool;
+    JointName:string (required);
+    Offset:PackedVec3f;
+}
+
+table UniqueWashData {
+    Joint0:UniqueWashJointParam (required);
+    Joint1:UniqueWashJointParam (required);
+    Joint2:UniqueWashJointParam (required);
+    Joint3:UniqueWashJointParam (required);
+    Joint4:UniqueWashJointParam (required);
+    Joint5:UniqueWashJointParam (required);
+    Joint6:UniqueWashJointParam (required);
+    Joint7:UniqueWashJointParam (required);
+    Joint8:UniqueWashJointParam (required);
+    Joint9:UniqueWashJointParam (required);
+    Joint10:UniqueWashJointParam (required);
+    Joint11:UniqueWashJointParam (required);
+    Joint12:UniqueWashJointParam (required);
+    Joint13:UniqueWashJointParam (required);
+    Joint14:UniqueWashJointParam (required);
+    Joint15:UniqueWashJointParam (required);
+    Joint16:UniqueWashJointParam (required);
+    Joint17:UniqueWashJointParam (required);
+    Joint18:UniqueWashJointParam (required);
+    Joint19:UniqueWashJointParam (required);
+}
+
+table PokemonContactJointList {
+    Value0:PokemonContactJointInfo (required);
+    Value1:PokemonContactJointInfo (required);
+    Value2:PokemonContactJointInfo (required);
+    Value3:PokemonContactJointInfo (required);
+    Value4:PokemonContactJointInfo (required);
+}
+
+table PokemonContactJointInfo {
+    Name:string (required);
+    CollisionRad:float;
+}
+
+table PettingData {
+    HappyBoneInfoList:PokemonContactJointList (required);
+    HateBoneInfoList:PokemonContactJointList (required);
+}
+
+table DisableAwaJointParam {
+    Joint0:string (required);
+    Joint1:string (required);
+    Joint2:string (required);
+    Joint3:string (required);
+    Joint4:string (required);
+    Joint5:string (required);
+    Joint6:string (required);
+    Joint7:string (required);
+    Joint8:string (required);
+    Joint9:string (required);
+    Joint10:string (required);
+    Joint11:string (required);
+    Joint12:string (required);
+    Joint13:string (required);
+    Joint14:string (required);
+    Joint15:string (required);
+    Joint16:string (required);
+    Joint17:string (required);
+    Joint18:string (required);
+    Joint19:string (required);
+}
+
+table PicnicPokemon (fs_serializer) {
+    Petting:PettingData (required);
+    Wash:WashData (required);
+}
+
+root_type PicnicPokemon;

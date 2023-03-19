@@ -8,6 +8,7 @@ using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
 using static pkNX.Structures.Species;
 using Util = pkNX.Randomization.Util;
 
@@ -17,11 +18,11 @@ public partial class AreaEditor8a : Form
 {
     private readonly GameManagerPLA ROM;
     private readonly GFPack Resident;
-    private readonly AreaSettingsTable8a Settings;
+    private readonly AreaSettingsTable Settings;
 
     private readonly string[] AreaNames;
 
-    private ResidentArea8a Area;
+    private ResidentArea Area;
     private int AreaIndex;
     private readonly bool Loading;
 
@@ -31,7 +32,7 @@ public partial class AreaEditor8a : Form
 
         Resident = (GFPack)ROM.GetFile(GameFile.Resident);
         var bin_settings = Resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
-        Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
+        Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable>(bin_settings);
 
         AreaNames = Settings.Table.Select(z => z.Name).ToArray();
 
@@ -49,10 +50,10 @@ public partial class AreaEditor8a : Form
         Loading = false;
     }
 
-    private (int index, ResidentArea8a area) LoadAreaByName(string name)
+    private (int index, ResidentArea area) LoadAreaByName(string name)
     {
         var index = Array.IndexOf(AreaNames, name);
-        var area = new ResidentArea8a(Resident, Settings.Find(name));
+        var area = new ResidentArea(Resident, Settings.Find(name));
         area.LoadInfo();
         return (index, area);
     }
@@ -74,7 +75,7 @@ public partial class AreaEditor8a : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private void RandomizeArea(ResidentArea8a area, SpeciesSettings settings)
+    private void RandomizeArea(ResidentArea area, SpeciesSettings settings)
     {
         var pt = ROM.Data.PersonalData;
         var rand = new SpeciesRandomizer(ROM.Info, pt);
@@ -103,11 +104,11 @@ public partial class AreaEditor8a : Form
             .ToDictionary(z => z.Key, z => z.ToList());
 
         var encounters = area.Encounters;
-        foreach (var table in encounters)
+        foreach (var table in encounters.Table)
         {
             foreach (var enc in table.Table)
             {
-                if (enc.ShinyLock is not ShinyType8a.Random)
+                if (enc.ShinyLock is not ShinyType.Random)
                     continue;
 
                 // to progress the story in Cobalt Coastlands, you are required to show Iscan a Dusclops; ensure one can be captured
@@ -140,10 +141,10 @@ public partial class AreaEditor8a : Form
     {
         Debug.WriteLine($"Loading Area {AreaIndex}");
         PG_AreaSettings.SelectedObject = Area.Settings;
-        Edit_Encounters.LoadTable(Area.Encounters, Area.Settings.Encounters);
-        Edit_RegularSpawners.LoadTable(Area.Spawners, Area.Settings.Spawners);
-        Edit_WormholeSpawners.LoadTable(Area.Wormholes, Area.Settings.WormholeSpawners);
-        Edit_LandmarkSpawns.LoadTable(Area.LandItems, Area.Settings.LandmarkItemSpawns);
+        Edit_Encounters.LoadTable(Area.Encounters.Table, Area.Settings.Encounters);
+        Edit_RegularSpawners.LoadTable(Area.Spawners.Table, Area.Settings.Spawners);
+        Edit_WormholeSpawners.LoadTable(Area.Wormholes.Table, Area.Settings.WormholeSpawners);
+        Edit_LandmarkSpawns.LoadTable(Area.LandItems.Table, Area.Settings.LandmarkItemSpawns);
     }
 
     private void SaveArea()

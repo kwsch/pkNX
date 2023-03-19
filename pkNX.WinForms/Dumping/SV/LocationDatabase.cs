@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 

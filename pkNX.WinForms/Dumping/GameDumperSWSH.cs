@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SWSH;
 
 // ReSharper disable StringLiteralTypo
 
@@ -257,11 +258,11 @@ public class GameDumperSWSH
     {
         var pk_table_path = ROM.GetFile(GameFile.FacilityPokeNormal)[0];
         var tr_table_path = ROM.GetFile(GameFile.FacilityTrainerNormal)[0];
-        var pokes = FlatBufferConverter.DeserializeFrom<BattleTowerPoke8Archive>(pk_table_path);
-        var trainers = FlatBufferConverter.DeserializeFrom<BattleTowerTrainer8Archive>(tr_table_path);
+        var pokes = FlatBufferConverter.DeserializeFrom<BattleTowerPokeArchive>(pk_table_path);
+        var trainers = FlatBufferConverter.DeserializeFrom<BattleTowerTrainerArchive>(tr_table_path);
 
         var pk = TableUtil.GetTable(pokes.Table);
-        var tr = TableUtil.GetTable(trainers.Entries);
+        var tr = TableUtil.GetTable(trainers.Table);
 
         File.WriteAllText(GetPath("towerPoke.txt"), pk);
         File.WriteAllText(GetPath("towerTrainer.txt"), tr);
@@ -293,7 +294,7 @@ public class GameDumperSWSH
     {
         var dir = Path.Combine(ROM.PathRomFS, "bin", "pml", "waza");
         var files = Directory.GetFiles(dir);
-        var moves = FlatBufferConverter.DeserializeFrom<Waza8>(files);
+        var moves = FlatBufferConverter.DeserializeFrom<Waza>(files);
         var names = ROM.GetStrings(TextName.MoveNames);
         var lines = TableUtil.GetNamedTypeTable(moves, names, "Moves");
         var table = GetPath("MoveData.txt");
@@ -331,7 +332,7 @@ public class GameDumperSWSH
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         var data = ROM.GetFile(GameFile.EncounterTableGift)[0];
-        var gifts = FlatBufferConverter.DeserializeFrom<EncounterGift8Archive>(data);
+        var gifts = FlatBufferConverter.DeserializeFrom<EncounterGiftArchive>(data);
         var table = TableUtil.GetTable(gifts.Table);
         var fn = GetPath("Gifts.txt");
         File.WriteAllText(fn, table);
@@ -344,7 +345,7 @@ public class GameDumperSWSH
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         var data = ROM.GetFile(GameFile.EncounterTableStatic)[0];
-        var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(data);
+        var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(data);
         var table = TableUtil.GetTable(statics.Table);
         var fn = GetPath("StaticEncounters.txt");
         File.WriteAllText(fn, table);
@@ -357,10 +358,10 @@ public class GameDumperSWSH
     {
         var wildpak = ROM.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
-        var encount_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName("encount_k.bin"));
-        var encount_symbol_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName("encount_symbol_k.bin"));
-        var encount_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName("encount_t.bin"));
-        var encount_symbol_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive8>(data_table.GetDataFileName("encount_symbol_t.bin"));
+        var encount_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_k.bin"));
+        var encount_symbol_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_symbol_k.bin"));
+        var encount_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_t.bin"));
+        var encount_symbol_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_symbol_t.bin"));
 
         var species = ROM.GetStrings(TextName.SpeciesNames);
         var zones = SWSHInfo.Zones;
@@ -379,7 +380,7 @@ public class GameDumperSWSH
 
     public void DumpPlacement()
     {
-        var statics = FlatBufferConverter.DeserializeFrom<EncounterStatic8Archive>(ROM.GetFile(GameFile.EncounterTableStatic)[0]);
+        var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(ROM.GetFile(GameFile.EncounterTableStatic)[0]);
         var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
         var species_names = ROM.GetStrings(TextName.SpeciesNames);
         var weathers = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
@@ -389,9 +390,9 @@ public class GameDumperSWSH
         var obj_names = new AHTB(placement.GetDataFileName("ObjectNameHashTable.tbl")).ToDictionary();
         //var vanish_flags = new AHTB(placement.GetDataFileName("VanishFlagAutoTable.tbl")).ToDictionary();
         //var x = placement.GetDataFileName("template_data.bin"); // FlatBuffer skybox
-        var wild_area = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0101.bin"));
-        var isle_of_armor = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0201.bin"));
-        var crown_tundra = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(placement.GetDataFileName("a_wr0301.bin"));
+        var wild_area = FlatBufferConverter.DeserializeFrom<PlacementZoneArchive>(placement.GetDataFileName("a_wr0101.bin"));
+        var isle_of_armor = FlatBufferConverter.DeserializeFrom<PlacementZoneArchive>(placement.GetDataFileName("a_wr0201.bin"));
+        var crown_tundra = FlatBufferConverter.DeserializeFrom<PlacementZoneArchive>(placement.GetDataFileName("a_wr0301.bin"));
 
         File.WriteAllLines(GetPath("Placement_WildArea.txt"), wild_area.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
         File.WriteAllLines(GetPath("Placement_IsleOfArmor.txt"), isle_of_armor.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
@@ -411,7 +412,7 @@ public class GameDumperSWSH
             placement_all.Add(string.Empty);
 
             var bin = placement.GetDataFileName(fileName);
-            var data = FlatBufferConverter.DeserializeFrom<PlacementArea8Archive>(bin);
+            var data = FlatBufferConverter.DeserializeFrom<PlacementZoneArchive>(bin);
             placement_all.AddRange(data.Table.SelectMany(z => z.GetSummary(statics.Table, species_names, zone_names, zone_descs, obj_names, weathers)));
             placement_all.Add(string.Empty);
 
@@ -428,10 +429,10 @@ public class GameDumperSWSH
         var moveNames = ROM.GetStrings(TextName.MoveNames);
         var wildpak = ROM.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
-        var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNest8Archive>(data_table.GetDataFileName("nest_hole_encount.bin"));
+        var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNestArchive>(data_table.GetDataFileName("nest_hole_encount.bin"));
         //  var nest_levels = FlatBufferConverter.DeserializeFrom<NestHoleLevel8Archive>(data_table.GetDataFileName("nest_hole_level.bin"));
-        var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
-        var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
+        var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
+        var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
 
         string[][] nestHex = new string[2][];
         foreach (var game in new[] { 1, 2 })
@@ -552,7 +553,7 @@ public class GameDumperSWSH
     public void DumpMaxDens()
     {
         var file = ROM.GetFile(GameFile.DynamaxDens)[0];
-        var encounters = FlatBufferConverter.DeserializeFrom<EncounterUnderground8Archive>(file);
+        var encounters = FlatBufferConverter.DeserializeFrom<EncounterUndergroundArchive>(file);
         var lines = TableUtil.GetTable(encounters.Table);
         var table = GetPath("MaxDens.txt");
         File.WriteAllText(table, lines);
@@ -586,15 +587,15 @@ public class GameDumperSWSH
         var moveNames = ROM.GetStrings(TextName.MoveNames);
         var wildpak = ROM.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
-        var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
-        var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleReward8Archive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
+        var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
+        var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
 
         var dai_data = GetDistributionContents(Path.Combine(path, "dai_encount"), out int dai_index);
         var drop_data = GetDistributionContents(Path.Combine(path, "drop_rewards"), out int drop_index);
         var bonus_data = GetDistributionContents(Path.Combine(path, "bonus_rewards"), out int bonus_index);
-        var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(drop_data);
-        var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionReward8Archive>(bonus_data);
-        var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounter8Archive>(dai_data);
+        var dist_drops = FlatBufferConverter.DeserializeFrom<NestHoleDistributionRewardArchive>(drop_data);
+        var dist_bonus = FlatBufferConverter.DeserializeFrom<NestHoleDistributionRewardArchive>(bonus_data);
+        var dai_encounts = FlatBufferConverter.DeserializeFrom<NestHoleCrystalEncounterArchive>(dai_data);
 
         // BCAT Indexes can be reused by mixing and matching old files when reverting temporary distributions back to prior long-running distributions.
         // They don't have to match, but just note if they do.
@@ -611,7 +612,7 @@ public class GameDumperSWSH
                 return;
 
             var data = GetDistributionContents(p, out int index);
-            var encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounter8Archive>(data);
+            var encounts = FlatBufferConverter.DeserializeFrom<NestHoleDistributionEncounterArchive>(data);
             var pretty_sw = encounts.Table.Where(z => z.GameVersion == 1).SelectMany((z, x) =>
                 z.GetPrettySummary(speciesNames, itemNames, moveNames, Legal.TMHM_SWSH, nest_drops.Table, nest_bonus.Table, dist_drops.Table, dist_bonus.Table, x));
             var pretty_sh = encounts.Table.Where(z => z.GameVersion == 2).SelectMany((z, x) =>
@@ -665,7 +666,7 @@ public class GameDumperSWSH
         DumpHexCrystal(dai_encounts, speciesNames, itemNames);
     }
 
-    private void DumpHexCrystal(NestHoleCrystalEncounter8Archive dai_encounts, string[] speciesNames, string[] itemNames)
+    private void DumpHexCrystal(NestHoleCrystalEncounterArchive dai_encounts, string[] speciesNames, string[] itemNames)
     {
         string[][] nestHex = new string[2][];
         foreach (var game in new[] { 1, 2 })
@@ -864,7 +865,7 @@ public class GameDumperSWSH
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         var data = ROM.GetFile(GameFile.EncounterTableTrade)[0];
-        var trades = FlatBufferConverter.DeserializeFrom<EncounterTrade8Archive>(data);
+        var trades = FlatBufferConverter.DeserializeFrom<EncounterTradeArchive>(data);
         var table = TableUtil.GetTable(trades.Table);
         var fn = GetPath("Trades.txt");
         File.WriteAllText(fn, table);

@@ -1,0 +1,13 @@
+include "CheckCategory.fbs";
+include "TalkRankEffect.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table TalkData {
+    EventName:string (required);
+    Category:CheckCategory;
+    ValueA:int;
+    ValueB:int;
+    ValueC:int;
+    RankEffect:TalkRankEffect;
+}

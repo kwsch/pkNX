@@ -1,0 +1,12 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneParticleHolder {
+    Field_00:PlacementZoneParticle (required);
+}
+
+table PlacementZoneParticle {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    ParticleFile:string (required);
+    Number:uint; // 1200 for birds?
+}

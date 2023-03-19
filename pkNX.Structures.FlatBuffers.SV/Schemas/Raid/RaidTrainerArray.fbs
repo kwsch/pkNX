@@ -1,0 +1,12 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table RaidTrainerArray (fs_serializer) {
+    Table:[RaidTrainer] (required);
+}
+
+table RaidTrainer {
+    RaidTrainerInfo:string (required);
+    NpcPresetIndex:int;
+    NameTextLabel:string (required);
+}

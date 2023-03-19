@@ -7,20 +7,20 @@ using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SWSH;
 
 namespace pkNX.WinForms;
 
 public sealed partial class SSWE : Form
 {
-    private readonly EncounterArchive8 Symbols;
-    private readonly EncounterArchive8 Hidden;
+    private readonly EncounterArchive Symbols;
+    private readonly EncounterArchive Hidden;
     private readonly GameManagerSWSH ROM;
     private ulong entry;
 
     private readonly EncounterList8[] SL;
 
-    public SSWE(GameManagerSWSH rom, EncounterArchive8 sym, EncounterArchive8 hid)
+    public SSWE(GameManagerSWSH rom, EncounterArchive sym, EncounterArchive hid)
     {
         InitializeComponent();
         Symbols = sym;
@@ -87,16 +87,16 @@ public sealed partial class SSWE : Form
     {
         Load(SL, Symbols, "Symbols");
         Load(SL, Hidden, "Hidden");
-        void Load(EncounterList8[] arr, EncounterArchive8 arc, string name)
+        void Load(EncounterList8[] arr, EncounterArchive arc, string name)
         {
-            var table = Array.Find(arc.EncounterTables, z => z.ZoneID == zone);
+            var table = arc.EncounterTables.FirstOrDefault(z => z.ZoneID == zone);
             if (table == null)
                 return;
 
             L_Type.Text = name;
 
             var subs = table.SubTables;
-            for (int i = 0; i < subs.Length; i++)
+            for (int i = 0; i < subs.Count; i++)
             {
                 var t = subs[i];
                 arr[i].NUD_Max.Value = t.LevelMax;
@@ -106,7 +106,7 @@ public sealed partial class SSWE : Form
             }
 
             // some tables don't have tree/fish
-            for (int i = subs.Length; i < arr.Length; i++)
+            for (int i = subs.Count; i < arr.Length; i++)
                 arr[i].Visible = false;
         }
     }
@@ -118,14 +118,14 @@ public sealed partial class SSWE : Form
 
         Save(SL, Symbols);
         Save(SL, Hidden);
-        void Save(EncounterList8[] arr, EncounterArchive8 arc)
+        void Save(EncounterList8[] arr, EncounterArchive arc)
         {
-            var table = Array.Find(arc.EncounterTables, z => z.ZoneID == zone);
+            var table = arc.EncounterTables.FirstOrDefault(z => z.ZoneID == zone);
             if (table == null)
                 return;
 
             var subs = table.SubTables;
-            for (int i = 0; i < subs.Length; i++)
+            for (int i = 0; i < subs.Count; i++)
             {
                 var t = subs[i];
                 t.LevelMax = (byte)arr[i].NUD_Max.Value;
@@ -177,7 +177,7 @@ public sealed partial class SSWE : Form
             }
         }
 
-        void ApplyRand(IList<EncounterSlot8> slots)
+        void ApplyRand(IList<EncounterSlot> slots)
         {
             if (slots[0].Species == 0)
                 return;

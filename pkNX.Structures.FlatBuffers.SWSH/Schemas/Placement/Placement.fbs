@@ -1,0 +1,72 @@
+include "PlacementZone.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneArchive (fs_serializer) {
+    Table:[PlacementZone] (required);
+    Hash:ulong;
+    Description:string (required);
+    OtherDescription:string (required);
+    Unknown:PlacementArea_F04 (required);
+    Field_05:float; // unused
+    Field_06:float;
+    Field_07:float;
+    Field_08:float; // unused
+    Field_09:float; // unused
+    Field_10:float; // unused
+    Field_11:float; // unused
+    Field_12:float;
+    Field_13:float;
+    Field_14:float;
+    Field_15:float;
+    Field_16:float;
+    Field_17:float;
+    Field_18:float; // unused
+    Field_19:float; // unused
+    Field_20:float;
+    Field_21:float;
+    Field_22:float;
+    Field_23:float;
+    Field_24:PlacementArea_F24(required);
+    Field_25:uint; // 3000
+    Field_26:float;
+    Field_27:ubyte;
+    Field_28:ubyte;
+    Field_29:ubyte; // present in a_d0101
+    Field_30:ubyte;
+    Field_31:float;
+    Field_32:float;
+    Field_33:ubyte;
+}
+
+table PlacementArea_F04 {
+    Field_00:float; // unused, assumed to be same shape as other v3f-hash triplets
+    Field_01:float; // unused, assumed to be same shape as other v3f-hash triplets
+    Field_02:float; // unused, assumed to be same shape as other v3f-hash triplets
+
+    Field_03:float; // unused, assumed to be same shape as other v3f-hash triplets
+    Field_04:float; // unused, assumed to be same shape as other v3f-hash triplets
+    Field_05:float; // unused, assumed to be same shape as other v3f-hash triplets
+
+    Field_06:float;
+    Field_07:float;
+    Field_08:float;
+
+    Field_09:ulong; // unused, assumed to be same shape as other v3f-hash triplets
+    Field_10:ulong;
+    Field_11:ulong;
+}
+
+table PlacementArea_F24
+{
+    Field_00:ubyte;
+    Field_01:PlacementAreaUnknownTiny (required);
+    Field_02:float;
+}
+
+table PlacementAreaUnknownTiny {
+    Field_00:float;
+    Field_01:float;
+    Field_02:float;
+}
+
+root_type PlacementZoneArchive;

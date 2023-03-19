@@ -1,0 +1,43 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+/// poke_resource_table.trpmcatalog
+
+table PokeResourceMeta {
+    Field0:int = 5; // 4 in prior game format
+    Field1:int = 4; // 2 in prior game format
+}
+
+struct NullableInt32 (fs_valueStruct) {
+    Value:int32;
+}
+
+table PokeModelConfig {
+    Meta:PokeModelMeta (required);
+    PathModel:string (required);
+    PathMeshMaterial:string (required);
+    PathConfig:string (required);
+    Unused:byte; // unused!
+    Animations:[AnimationConfigStringTuple] (required);
+    Effects:[AnimationConfigStringTuple] (required);
+    ArceusType:NullableInt32; // Specified by Arceus' forms -- NEW!
+}
+
+table PokeModelMeta {
+    Species:ushort;
+    Form:ushort;
+    Gender:ubyte;
+}
+
+table AnimationConfigStringTuple {
+    Name:string (required);
+    Path:string (required);
+}
+
+table PokeResourceTable (fs_serializer) {
+    Meta:PokeResourceMeta (required);
+    Table:[PokeModelConfig] (required);
+}
+
+root_type PokeResourceTable;

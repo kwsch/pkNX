@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table KeyAssignmentTable (fs_serializer) {
+    Table:[KeyAssignment] (required);
+}
+
+table KeyAssignment {
+    Field_00:string (required);
+    Field_01:[string] (required);
+    Field_02:byte;
+}
+
+root_type KeyAssignmentTable;

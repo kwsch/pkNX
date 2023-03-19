@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table BattleEffectTable {
+    Enable:bool;
+    TimelinePath:string (required);
+    TemplatePath:string (required);
+    RaidFrameLength:short;
+}
+
+table BattleEffectTableArray (fs_serializer) {
+    Table:[BattleEffectTable] (required);
+}
+
+root_type BattleEffectTableArray;

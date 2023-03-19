@@ -1,0 +1,16 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ArchiveContents (fs_serializer) {
+    Table:[ArchiveContent] (required);
+}
+
+table ArchiveContent {
+    /// Eg. `bin/archive/pokemon/pm0025_00_00.gfpak` -> 0x9F0F82B368411FF
+    ArchivePathHash:ulong (key);
+
+    /// Eg. `bin/pokemon/pm0025/pm0025_00_00/pm0025_00_00.trpokecfg` -> 0x132C0BBD4E633C28
+    ArchiveContentPathHashes:[ulong] (required);
+}
+
+root_type ArchiveContents;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -6,22 +6,22 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.LGPE;
 
 namespace pkNX.WinForms;
 
 public sealed partial class GGWE : Form
 {
-    private readonly EncounterArchive7b Tables;
+    private readonly EncounterArchive Tables;
     private readonly GameManagerGG ROM;
     private int entry = -1;
 
-    public GGWE(GameManagerGG rom, EncounterArchive7b obj)
+    public GGWE(GameManagerGG rom, EncounterArchive obj)
     {
         InitializeComponent();
-        if (obj.EncounterTables.Length == 0 || obj.EncounterTables[0].GroundTable.Length == 0)
+        if (obj.Table.Count == 0 || obj.Table[0].GroundTable.Count == 0)
         {
-            WinFormsUtil.Error("Bad data provided.", $"Unable to parse to {nameof(EncounterArchive7b)} data.");
+            WinFormsUtil.Error("Bad data provided.", $"Unable to parse to {nameof(EncounterArchive)} data.");
             Close();
         }
 
@@ -62,7 +62,7 @@ public sealed partial class GGWE : Form
 
     public void LoadFile(string[] locationNames)
     {
-        var locs = Tables.EncounterTables.Select(z => z.ZoneID);
+        var locs = Tables.Table.Select(z => z.ZoneID);
         var names = GetNames(locs, locationNames);
         var dupeNamed = GetScreenedNames(names);
 
@@ -182,15 +182,15 @@ public sealed partial class GGWE : Form
     {
         SaveEntry(entry);
         entry = CB_Location.SelectedIndex;
-        var id = Tables.EncounterTables[entry].ZoneID;
+        var id = Tables.Table[entry].ZoneID;
         var iname = LocIDTable.First(z => FnvHash.HashFnv1a_64(z.Key) == id).Key;
-        L_Hash.Text = Tables.EncounterTables[entry].ZoneID.ToString("X16") + " " + iname;
+        L_Hash.Text = Tables.Table[entry].ZoneID.ToString("X16") + " " + iname;
         LoadEntry(entry);
     }
 
     private void LoadEntry(int i)
     {
-        var arr = Tables.EncounterTables[i];
+        var arr = Tables.Table[i];
 
         NUD_RankMin.Value = arr.TrainerRankMin;
         NUD_RankMax.Value = arr.TrainerRankMax;
@@ -237,7 +237,7 @@ public sealed partial class GGWE : Form
     {
         if (i < 0)
             return;
-        var arr = Tables.EncounterTables[i];
+        var arr = Tables.Table[i];
 
         arr.TrainerRankMin = (int)NUD_RankMin.Value;
         arr.TrainerRankMax = (int)NUD_RankMax.Value;
@@ -298,7 +298,7 @@ public sealed partial class GGWE : Form
     private void B_ModCount_Click(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        foreach (var area in Tables.EncounterTables)
+        foreach (var area in Tables.Table)
         {
             if (area.GroundSpawnCountMax != 0)
                 area.GroundSpawnCountMax = (int)NUD_ModCount.Value;
@@ -314,7 +314,7 @@ public sealed partial class GGWE : Form
     private void B_ModRate_Click(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        foreach (var area in Tables.EncounterTables)
+        foreach (var area in Tables.Table)
         {
             if (area.GroundTableEncounterRate != 0)
                 area.GroundTableEncounterRate = (int)NUD_ModCount.Value;
@@ -330,7 +330,7 @@ public sealed partial class GGWE : Form
     private void B_ModDuration_Click(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        foreach (var area in Tables.EncounterTables)
+        foreach (var area in Tables.Table)
         {
             if (area.GroundSpawnDuration != 0)
                 area.GroundSpawnDuration = (int)NUD_ModDuration.Value;
@@ -360,7 +360,7 @@ public sealed partial class GGWE : Form
         var pt = ROM.Data.PersonalData;
         bool IsGrassOrWater(int s) => pt[s].IsType(Types.Water) || pt[s].IsType(Types.Grass);
 
-        foreach (var area in Tables.EncounterTables)
+        foreach (var area in Tables.Table)
         {
             if (boost)
             {
@@ -382,7 +382,7 @@ public sealed partial class GGWE : Form
             ApplyRand(area.SuperRodTable);
         }
 
-        void ApplyRand(IList<EncounterSlot7b> slots)
+        void ApplyRand(IList<EncounterSlot> slots)
         {
             if (slots[0].Species == 0)
                 return;
@@ -406,7 +406,7 @@ public sealed partial class GGWE : Form
 
         if (CHK_ForceType.Checked)
         {
-            var table = Tables.EncounterTables[0];
+            var table = Tables.Table[0];
             var slots = table.GroundTable;
             while (!slots.Any(z => IsGrassOrWater(z.Species)))
                 ApplyRand(slots);
@@ -429,14 +429,14 @@ public sealed partial class GGWE : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private static IEnumerable<string> GetEncounterTableSummary(GameManager rom, EncounterArchive7b table)
+    private static IEnumerable<string> GetEncounterTableSummary(GameManager rom, EncounterArchive table)
     {
         var locationNames = rom.GetStrings(TextName.metlist_00000);
         var specs = rom.GetStrings(TextName.SpeciesNames);
 
-        var locs = table.EncounterTables.Select(z => z.ZoneID);
+        var locs = table.Table.Select(z => z.ZoneID);
         var names = GetNames(locs, locationNames);
         var dupeNamed = GetScreenedNames(names).ToArray();
-        return EncounterTable7bUtil.GetLines(table, dupeNamed, specs);
+        return EncounterTableUtil.GetLines(table, dupeNamed, specs);
     }
 }

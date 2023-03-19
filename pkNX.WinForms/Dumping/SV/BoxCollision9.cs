@@ -1,4 +1,6 @@
-namespace pkNX.Structures.FlatBuffers;
+
+using pkNX.Structures;
+using pkNX.Structures.FlatBuffers.SV;
 
 public class BoxCollision9 : IContainsV3f
 {

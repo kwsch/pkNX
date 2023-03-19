@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table GymKooriCoursePokemonTable (fs_serializer) {
+    MoveSpeed:float;
+    IsPathStartPosition:bool;
+    NextMoveDuration:float;
+    RotationDuration:float;
+    MoveSpeedChangeDuration:float;
+    BoundPower:float;
+}
+
+root_type GymKooriCoursePokemonTable;

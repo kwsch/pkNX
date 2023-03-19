@@ -1,15 +1,17 @@
 using System;
+using System.Collections.Generic;
 using pkNX.Containers;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaFieldModel
 {
-    private readonly FieldMainArea[] mainAreas;
-    private readonly FieldSubArea[] subAreas;
-    private readonly FieldInsideArea[] insideAreas;
-    private readonly FieldDungeonArea[] dungeonAreas;
-    private readonly FieldLocation[] fieldLocations;
+    private readonly IList<FieldMainArea> mainAreas;
+    private readonly IList<FieldSubArea> subAreas;
+    private readonly IList<FieldInsideArea> insideAreas;
+    private readonly IList<FieldDungeonArea> dungeonAreas;
+    private readonly IList<FieldLocation> fieldLocations;
 
     public PaldeaFieldModel(IFileInternal ROM)
     {
@@ -25,27 +27,27 @@ public class PaldeaFieldModel
         foreach (var area in mainAreas)
         {
             if (area.Name == name)
-                return area.AreaInfo;
+                return area.Info;
         }
         foreach (var area in subAreas)
         {
             if (area.Name == name)
-                return area.AreaInfo;
+                return area.Info;
         }
         foreach (var area in insideAreas)
         {
             if (area.Name == name)
-                return area.AreaInfo;
+                return area.Info;
         }
         foreach (var area in dungeonAreas)
         {
             if (area.Name == name)
-                return area.AreaInfo;
+                return area.Info;
         }
         foreach (var area in fieldLocations)
         {
             if (area.Name == name)
-                return area.AreaInfo;
+                return area.Info;
         }
         throw new ArgumentException($"Unknown area {name}");
     }

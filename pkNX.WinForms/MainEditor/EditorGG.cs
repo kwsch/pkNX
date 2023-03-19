@@ -7,6 +7,7 @@ using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.LGPE;
 
 namespace pkNX.WinForms.Controls;
 
@@ -231,13 +232,13 @@ internal class EditorGG : EditorBase
     {
         var file = ROM.GetFile(type);
         var data = file[0];
-        var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive7b>(data);
+        var obj = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data);
 
         using var form = new GGWE(ROM, obj);
         if (form.ShowDialog() != DialogResult.OK)
             return;
 
-        data = FlatBufferConverter.SerializeFrom(obj);
+        data = obj.SerializeFrom();
         file[0] = data;
     }
 
@@ -333,10 +334,10 @@ internal class EditorGG : EditorBase
         var shop = FlatBufferConverter.DeserializeFrom<ShopInventory>(data);
         if (!shop2)
         {
-            var table = shop.Shop1;
+            var table = shop.Single;
             var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
-            var cache = new DirectCache<Shop1>(table);
-            using var form = new GenericEditor<Shop1>(cache, names, $"{nameof(Shop1)} Editor", Randomize);
+            var cache = new DirectCache<SingleShop>(table);
+            using var form = new GenericEditor<SingleShop>(cache, names, $"{nameof(SingleShop)} Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
             {
@@ -346,21 +347,21 @@ internal class EditorGG : EditorBase
 
             void Randomize()
             {
-                for (int s = 1; s < table.Length; s++) // skip first table with TMs (unobtainable otherwise)
+                for (int s = 1; s < table.Count; s++) // skip first table with TMs (unobtainable otherwise)
                 {
                     var shopDefinition = table[s];
-                    var items = shopDefinition.Inventory.Items;
-                    for (int i = 0; i < items.Length; i++)
+                    var items = shopDefinition.Inventories.Items;
+                    for (int i = 0; i < items.Count; i++)
                         items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                 }
             }
         }
         else
         {
-            var table = shop.Shop2;
+            var table = shop.Multi;
             var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
-            var cache = new DirectCache<Shop2>(table);
-            using var form = new GenericEditor<Shop2>(cache, names, $"{nameof(Shop2)} Editor", Randomize);
+            var cache = new DirectCache<MultiShop>(table);
+            using var form = new GenericEditor<MultiShop>(cache, names, $"{nameof(MultiShop)} Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
             {
@@ -375,12 +376,12 @@ internal class EditorGG : EditorBase
                     foreach (var inv in shopDefinition.Inventories)
                     {
                         var items = inv.Items;
-                        for (int i = 0; i < items.Length; i++)
+                        for (int i = 0; i < items.Count; i++)
                             items[i] = PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)];
                     }
                 }
             }
         }
-        arc[0] = FlatBufferConverter.SerializeFrom(shop);
+        arc[0] = shop.SerializeFrom();
     }
 }

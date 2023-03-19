@@ -1,0 +1,18 @@
+include "../Enums/PayType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table RestaurantShopData {
+    Shopid:string (required);
+    Shopname:string (required);
+    Shopsubname:string (required);
+    Paykind:PayType = OKOZUKAI;
+    Menuid:string (required);
+}
+
+table RestaurantShopDataArray (fs_serializer) {
+    Table:[RestaurantShopData] (required);
+}
+
+root_type RestaurantShopDataArray;

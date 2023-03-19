@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct PersonalInfoDex { // give me a class, not struct.
+    Index:ushort;
+    Group:ubyte;
+}

@@ -6,9 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using pkNX.Game;
-using pkNX.Structures;
-using pkNX.Structures.FlatBuffers;
 using PKHeX.Drawing.PokeSprite;
+using pkNX.Structures;
+using pkNX.Structures.FlatBuffers.Arceus;
+using EvolutionMethod = pkNX.Structures.EvolutionMethod;
+using EvolutionSet = pkNX.Structures.FlatBuffers.Arceus.EvolutionSet;
+using EvolutionType = pkNX.Structures.EvolutionType;
+using Legal = pkNX.Structures.Legal;
 using Util = pkNX.Randomization.Util;
 
 namespace pkNX.WinForms;
@@ -40,8 +44,8 @@ public partial class PokeDataUI8a : Form
     private readonly int[] baseForms, formVal;
 
     public IPersonalInfoPLA cPersonal;
-    public Learnset8aMeta cLearnset;
-    public EvolutionSet8a cEvos;
+    public LearnsetMeta cLearnset;
+    public EvolutionSet cEvos;
 
     public PokeDataUI8a(PokeEditor8a editor, GameManager rom, GameData8a data)
     {
@@ -310,7 +314,7 @@ public partial class PokeDataUI8a : Form
         CB_Type2.SelectionLength = 0;
     }
 
-    private void LoadMisc(PokeMisc8a pokeMisc8a)
+    private void LoadMisc(PokeMisc pokeMisc8a)
     {
         PG_PokeMisc.SelectedObject = pokeMisc8a;
         TB_MiscSpecies.Text = pokeMisc8a.Species.ToString(TB_MiscSpecies.Mask);
@@ -319,8 +323,8 @@ public partial class PokeDataUI8a : Form
         TB_MiscScale.Text = pokeMisc8a.ScaleFactor.ToString("#0.0");
         TB_MiscAlphaScale.Text = pokeMisc8a.AlphaScaleFactor.ToString("#0.0");
 
-        pokeMisc8a.DropTable = Array.Find(Editor.FieldDropTables.Table, drops => drops.Hash == pokeMisc8a.DropTableRef);
-        pokeMisc8a.AlphaDropTable = Array.Find(Editor.FieldDropTables.Table, drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
+        pokeMisc8a.DropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.DropTableRef);
+        pokeMisc8a.AlphaDropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
     }
 
     private void LoadDexResearch(PokedexResearchTask[] pokedexResearchTask)
@@ -469,22 +473,22 @@ public partial class PokeDataUI8a : Form
         return true;
     }
 
-    private void LoadLearnset(Learnset8aMeta pkm)
+    private void LoadLearnset(LearnsetMeta pkm)
     {
         dgv.SuspendLayout();
         cLearnset = pkm;
         dgv.Rows.Clear();
-        if (pkm.Arceus.Length == 0)
+        if (pkm.Arceus.Count == 0)
         {
             dgv.CancelEdit();
             return;
         }
-        dgv.Rows.Add(pkm.Arceus.Length);
+        dgv.Rows.Add(pkm.Arceus.Count);
 
         // Fill Entries
-        for (int i = 0; i < pkm.Arceus.Length; i++)
+        for (int i = 0; i < pkm.Arceus.Count; i++)
         {
-            Learnset8aEntry entry = pkm.Arceus[i];
+            LearnsetEntry entry = pkm.Arceus[i];
             dgv.Rows[i].Cells[0].Value = entry.Level;
             dgv.Rows[i].Cells[1].Value = entry.LevelMaster;
             dgv.Rows[i].Cells[2].Value = movelist[entry.Move];
@@ -499,7 +503,7 @@ public partial class PokeDataUI8a : Form
         var pkm = cLearnset;
         int rowCount = dgv.Rows.Count - 1;
 
-        var entries = new List<Learnset8aEntry>();
+        var entries = new List<LearnsetEntry>();
         for (int i = 0; i < rowCount; i++)
         {
             var cells = dgv.Rows[i].Cells;
@@ -511,7 +515,7 @@ public partial class PokeDataUI8a : Form
             _ = ushort.TryParse(cells[0].Value?.ToString(), out var lvl);
             _ = ushort.TryParse(cells[1].Value?.ToString(), out var lvlMastry);
 
-            entries.Add(new Learnset8aEntry
+            entries.Add(new LearnsetEntry
             {
                 Move = (ushort)move,
                 Level = Math.Clamp(lvl, (ushort)0, (ushort)100),
@@ -524,11 +528,11 @@ public partial class PokeDataUI8a : Form
         return true;
     }
 
-    private void LoadEvolutions(EvolutionSet8a s)
+    private void LoadEvolutions(EvolutionSet s)
     {
         cEvos = s;
 
-        var numPossibleEvos = cEvos.Table.Length;
+        var numPossibleEvos = cEvos.Table.Count;
 
         flowLayoutPanel1.SuspendLayout();
         flowLayoutPanel1.Controls.Clear();
@@ -549,7 +553,7 @@ public partial class PokeDataUI8a : Form
     private bool SaveEvolutions()
     {
         var s = cEvos;
-        Debug.Assert(s.Table != null && EvoRows.Length == s.Table.Length);
+        Debug.Assert(EvoRows.Length == s.Table.Count);
         foreach (var row in EvoRows)
             row.SaveEvolution();
 
@@ -596,8 +600,8 @@ public partial class PokeDataUI8a : Form
         var la = Data.EvolutionData;
         for (int i = 0; i < la.Length; i++)
         {
-            EvolutionSet8a evoSet = la[i];
-            if (evoSet.Table != null && evoSet.Table.Length != 0)
+            var evoSet = la[i];
+            if (evoSet.Table != null && evoSet.Table.Count != 0)
                 continue;
 
             var species = evoSet.Species;
@@ -616,13 +620,13 @@ public partial class PokeDataUI8a : Form
             }
 
             var swshEvos = swsh[index];
-            var entries = new List<EvolutionEntry8a>();
+            var entries = new List<EvolutionEntry>();
             foreach (var evo in swshEvos)
             {
                 if (evo.Method == EvolutionType.None)
                     continue;
 
-                entries.Add(new EvolutionEntry8a
+                entries.Add(new EvolutionEntry
                 {
                     Species = evo.Species,
                     Form = evo.Form,

@@ -1,0 +1,10 @@
+include "PokeDropItem.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeDropItemArchive (fs_serializer) {
+    Table:[PokeDropItem] (required);
+}
+
+root_type PokeDropItemArchive;

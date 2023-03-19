@@ -1,0 +1,27 @@
+include "Enums/SeasoningType.fbs";
+include "Enums/IngredientType.fbs";
+include "Enums/RecipeType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+struct RecipeSeasoningSet (fs_valueStruct) {
+    Seasonings:[SeasoningType:4];
+}
+
+struct RecipeIngredientsSet (fs_valueStruct) {
+    Ingredients:[IngredientType:6];
+}
+
+table RecipeData {
+    Type:RecipeType = NONE;
+    Seasonings:RecipeSeasoningSet (required);
+    Ingredients:RecipeIngredientsSet (required);
+}
+
+table RecipeDataArray (fs_serializer) {
+    Table:[RecipeData] (required);
+}
+
+root_type RecipeDataArray;

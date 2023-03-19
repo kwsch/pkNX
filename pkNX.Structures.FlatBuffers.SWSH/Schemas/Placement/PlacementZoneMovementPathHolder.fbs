@@ -1,0 +1,11 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneMovementPathHolder {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    PathName:ulong;
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:bool;
+    Field_05:[PlacementZone_V3f] (required);
+}

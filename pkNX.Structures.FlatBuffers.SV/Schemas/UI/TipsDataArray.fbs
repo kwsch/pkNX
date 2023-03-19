@@ -1,0 +1,46 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table TipsData {
+    Id:int (key);
+    Sortnum:int;
+    TipslistTitle:string (required);
+    Page1Title:string (required);
+    Page1Text:string (required);
+    Page1Pic:string (required);
+    Page2Title:string (required);
+    Page2Text:string (required);
+    Page2Pic:string (required);
+    Page3Title:string (required);
+    Page3Text:string (required);
+    Page3Pic:string (required);
+    Page4Title:string (required);
+    Page4Text:string (required);
+    Page4Pic:string (required);
+    Page5Title:string (required);
+    Page5Text:string (required);
+    Page5Pic:string (required);
+    Page6Title:string (required);
+    Page6Text:string (required);
+    Page6Pic:string (required);
+    Page7Title:string (required);
+    Page7Text:string (required);
+    Page7Pic:string (required);
+    Page8Title:string (required);
+    Page8Text:string (required);
+    Page8Pic:string (required);
+    Page9Title:string (required);
+    Page9Text:string (required);
+    Page9Pic:string (required);
+    Page10Title:string (required);
+    Page10Text:string (required);
+    Page10Pic:string (required);
+    NewflagName:string (required);
+    DispflagName:string (required);
+}
+
+table TipsDataArray (fs_serializer) {
+    Table:[TipsData] (required);
+}
+
+root_type TipsDataArray;

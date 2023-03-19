@@ -1,0 +1,21 @@
+include "Enums/FoodSkillType.fbs";
+include "Enums/SeasoningType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+struct TakaraSpicePowerParam (fs_valueStruct) {
+    TakaraSeasonings:[SeasoningType:3];
+    SkillType:FoodSkillType;
+}
+
+table TakaraSpicePowerTable {
+    Param:TakaraSpicePowerParam (required);
+}
+
+table TakaraSpicePowerTableArray (fs_serializer) {
+    Table:[TakaraSpicePowerTable] (required);
+}
+
+root_type TakaraSpicePowerTableArray;

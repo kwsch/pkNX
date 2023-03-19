@@ -1,0 +1,10 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZonePokeCenterSpawnAnchorHolder {
+    Field_00:PlacementZone_F12 (required);
+}
+
+table PlacementZone_F12 {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+}

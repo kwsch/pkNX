@@ -1,0 +1,5 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+enum GenerationPattern : int {
+    Encount = 0,
+    Watch = 1,
+}

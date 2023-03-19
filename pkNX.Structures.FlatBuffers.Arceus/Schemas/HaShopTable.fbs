@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table HaShopItem {
+    Field_00:ulong;
+    Field_01:ulong;
+    ItemID:int;
+}
+
+table HaShopTable (fs_serializer) {
+    Table:[HaShopItem] (required);
+}
+
+root_type HaShopTable;

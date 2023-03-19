@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -21,7 +22,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
     public static PaldeaEncounter GetNew(EncountPokeData pd, PointData ep)
     {
         // Combine the 4 bools into a single byte
-        var time = GetTimeBits(pd.TimeTable);
+        var time = GetTimeBits(pd.Time);
         var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
         var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
         return new(SpeciesConverterSV.GetNational9((ushort)pd.DevId), (byte)pd.Form, (byte)pd.Sex, min, max, time);
@@ -30,7 +31,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
     public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep)
     {
         // Combine the 4 bools into a single byte
-        var time = GetTimeBits(pd.TimeTable);
+        var time = GetTimeBits(pd.Time);
         var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
         var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
         return new(SpeciesConverterSV.GetNational9((ushort)pd.BandPoke), (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);

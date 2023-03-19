@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using FlatSharp;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
+using EncounterSlot = pkNX.Structures.FlatBuffers.Arceus.EncounterSlot;
+using Species = pkNX.Structures.Species;
 
 namespace pkNX.WinForms.Subforms;
 
@@ -14,9 +18,9 @@ public partial class MapViewer8a : Form
 {
     private readonly GameManagerPLA ROM;
     private readonly GFPack Resident;
-    private readonly AreaSettingsTable8a Settings;
+    private readonly AreaSettingsTable Settings;
 
-    public readonly AreaInstance8a[] Areas;
+    public readonly AreaInstance[] Areas;
     private readonly bool Loading = true;
 
     public MapViewer8a(GameManagerPLA rom, GFPack resident)
@@ -24,11 +28,11 @@ public partial class MapViewer8a : Form
         ROM = rom;
         Resident = resident;
         var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
-        Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
+        Settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable>(bin_settings);
 
         InitializeComponent();
 
-        Areas = ResidentAreaSet.AreaNames.Select(z => AreaInstance8a.Create(Resident, z, Settings)).ToArray();
+        Areas = ResidentAreaSet.AreaNames.Select(z => AreaInstance.Create(Resident, z, Settings)).ToArray();
         CB_Map.Items.AddRange(Areas.Select(z => z.ParentArea?.FriendlyAreaName ?? z.FriendlyAreaName).ToArray());
 
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
@@ -82,7 +86,7 @@ public partial class MapViewer8a : Form
 
     private List<AreaDef> Defs = new();
 
-    private static string GetMapImagePath(AreaInstance8a area)
+    private static string GetMapImagePath(AreaInstance area)
     {
         string mapName = MapName(area.AreaName);
         return $"map_pla\\{mapName}.png";
@@ -159,14 +163,14 @@ public partial class MapViewer8a : Form
         }
     }
 
-    private static List<AreaDef> GetSpawnerInfo(int species, AreaInstance8a area)
+    private static List<AreaDef> GetSpawnerInfo(int species, AreaInstance area)
     {
         var result = new List<AreaDef>();
 
         foreach (var s in area.Spawners.Concat(area.SubAreas.SelectMany(z => z.Spawners)))
         {
-            var table = s.Field_20_Value.EncounterTableID;
-            var slots = Array.Find(area.Encounters, z => z.TableID == table);
+            var table = s.Field20Value.EncounterTableID;
+            var slots = area.Encounters.BinarySearchByFlatBufferKey(table);
             if (slots == null)
                 continue;
 
@@ -178,8 +182,8 @@ public partial class MapViewer8a : Form
 
         foreach (var s in area.Wormholes.Concat(area.SubAreas.SelectMany(z => z.Wormholes)))
         {
-            var table = s.Field_20_Value.EncounterTableID;
-            var slots = Array.Find(area.Encounters, z => z.TableID == table);
+            var table = s.Field20Value.EncounterTableID;
+            var slots = area.Encounters.BinarySearchByFlatBufferKey(table);
             if (slots == null)
                 continue;
 
@@ -197,7 +201,7 @@ public partial class MapViewer8a : Form
                 if (l.LandmarkItemSpawnTableID != table)
                     continue;
                 var st = l.EncounterTableID;
-                var slots = Array.Find(area.Encounters, z => z.TableID == st);
+                var slots = area.Encounters.BinarySearchByFlatBufferKey(st);
                 if (slots == null)
                     continue;
 
@@ -220,7 +224,24 @@ public partial class MapViewer8a : Form
         return result;
     }
 
-    private static readonly EncounterSlot8a[] Unown = { new() { Species = 201 } };
+    private static readonly EncounterSlot[] Unown = { new()
+        {
+            Species = 201,
+            Behavior1 = string.Empty,
+            Behavior2 = string.Empty,
+            Unused = string.Empty,
+            Eligibility = new EncounterEligiblityTraits
+            {
+                ConditionArg1 = string.Empty,
+                ConditionArg2 = string.Empty,
+                ConditionArg3 = string.Empty,
+                ConditionArg4 = string.Empty,
+                ConditionArg5 = string.Empty,
+            },
+            Oybn = new(),
+
+        }
+    };
 
     private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)
     {
@@ -254,12 +275,12 @@ public class AreaDef
     public readonly string NameSummary;
     public readonly int Min;
     public readonly int Max;
-    public readonly Vec3f Position;
+    public readonly pkNX.Structures.FlatBuffers.Arceus.Vec3f Position;
     public readonly SpawnerType Type;
-    public readonly EncounterSlot8a[] Slots;
+    public readonly IList<EncounterSlot> Slots;
     public readonly float Radius;
 
-    public AreaDef(string NameSummary, int min, int max, Vec3f position, SpawnerType type, EncounterSlot8a[] slots, float radius)
+    public AreaDef(string NameSummary, int min, int max, pkNX.Structures.FlatBuffers.Arceus.Vec3f position, SpawnerType type, IList<EncounterSlot> slots, float radius)
     {
         this.NameSummary = NameSummary;
         Min = min;

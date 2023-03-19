@@ -1,0 +1,52 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+enum ResearchTaskType : int
+{
+    Unknown_0,
+    MoveTask,
+    DefeatTask,
+    Unknown_3,
+    Unknown_4,
+    Unknown_5,
+    Unknown_6,
+    Unknown_7,
+    Unknown_8,
+    Unknown_9,
+    Unknown_10,
+    Unknown_11,
+    Unknown_12,
+    Unknown_13,
+    Unknown_14,
+    Unknown_15,
+    Unknown_16,
+    Unknown_17,
+    Unknown_18,
+    Unknown_19,
+}
+
+table PokedexResearchTask {
+    Species:int;
+    TaskType:ResearchTaskType = Unknown_0;
+    Threshold:int;
+    Move:int;
+    MoveType:int;
+    TimeOfDay:int;
+    Hash_06:ulong = 14695981039346656837;
+    Hash_07:ulong = 14695981039346656837;
+    Hash_08:ulong = 14695981039346656837;
+    Threshold1:int = 1;
+    Threshold2:int = 2;
+    Threshold3:int = 4;
+    Threshold4:int = 6;
+    Threshold5:int = 10;
+    PointsSingle:int = 10;
+    PointsBonus:int = 0;
+    RequiredForCompletion:bool; // Unused but referenced by code (bool is set to != 0)
+}
+
+table PokedexResearchTable (fs_serializer) {
+    Table:[PokedexResearchTask] (required);
+}
+
+root_type PokedexResearchTable;

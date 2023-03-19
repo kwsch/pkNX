@@ -1,0 +1,33 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PlayReportTable (fs_serializer) {
+    Table:[PlayReportItem] (required);
+}
+
+table PlayReportItem {
+    Field_00:string (required);
+    Field_01:ulong;
+    Field_02:ulong;
+    Field_03:ulong;
+    Field_04:ulong;
+    Field_05:ulong;
+    Field_06:ulong;
+    Field_07:ulong;
+    Field_08:ulong;
+    Field_09:ulong;
+    Field_10:ulong;
+    Field_11:ulong;
+    Field_12:ulong;
+    Field_13:ulong;
+    Field_14:ulong;
+    Field_15:ulong;
+    Field_16:ulong;
+    Field_17:ulong;
+    Field_18:ulong;
+    Field_19:ulong;
+    Field_20:ulong;
+    Field_21:ulong;
+}
+
+root_type PlayReportTable;

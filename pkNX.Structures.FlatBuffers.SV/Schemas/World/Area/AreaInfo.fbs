@@ -1,0 +1,34 @@
+include "AreaTag.fbs";
+include "AreaType.fbs";
+include "EncBiome.fbs";
+include "OverrideBiome.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table AreaInfo {
+    Type:AreaType = Default;
+    LocationNameMain:string (required);
+    LocationNameSub:string (required);
+    Bgm:string (required);
+    EnvBaseSound:string (required);
+    WeatherTable:string (required);
+    LightFileP1:string (required);
+    LightFileP2:string (required);
+    LightFileP3:string (required);
+    ShadowClipHeightOffset:float;
+    ShadowClipHeightMinOffset:float;
+    DisableLightOffset:bool;
+    NoDisplayLocationName:bool;
+    NoRide:bool;
+    NoFly:bool;
+    NoPicnic:bool;
+    NoPartner:bool;
+    NoSpawnSection:bool;
+    NoPokeExchange:bool;
+    NoOcclusionCulling:bool;
+    MinEncLv:int;
+    MaxEncLv:int;
+    BiomeBase:EncBiome = None;
+    Tag:AreaTag = None;
+    BiomeOverride:OverrideBiome (required);
+}

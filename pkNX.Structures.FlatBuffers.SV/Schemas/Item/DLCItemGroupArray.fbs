@@ -1,0 +1,98 @@
+include "../Shared/DevID.fbs";
+include "../Shared/ItemID.fbs";
+include "../Shared/SexType.fbs";
+include "../Shared/TokuseiType.fbs";
+include "../Shared/GemType.fbs";
+include "../Shared/RareType.fbs";
+include "../Shared/SizeType.fbs";
+include "../Shared/TalentType.fbs";
+include "../Shared/SeikakuType.fbs";
+include "../Shared/BallType.fbs";
+
+include "../Entity/ParamSet.fbs";
+include "../PokeData/WazaSet.fbs";
+include "../Waza/WazaType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum DLCItemGender : int {
+    ALL = 0,
+    MALE = 1,
+    FEMALE = 2,
+}
+
+enum DLCItemType : int {
+    DLCNONE = 0,
+    DLCItem = 1,
+    DLCDressUpItem = 2,
+    DLCPokemon = 3,
+}
+
+table DLCItemGroup {
+    ItemType:DLCItemType;
+    DataId:int;
+    SortId:int;
+    GroupNameTextLabel:string (required);
+    ItemGender:DLCItemGender;
+    ItemDataList:DLCItemDataList;
+}
+
+table DLCItemDataList {
+    ItemData01:DLCItemData;
+    ItemData02:DLCItemData;
+    ItemData03:DLCItemData;
+    ItemData04:DLCItemData;
+    ItemData05:DLCItemData;
+    ItemData06:DLCItemData;
+    ItemData07:DLCItemData;
+    ItemData08:DLCItemData;
+    ItemData09:DLCItemData;
+    ItemData10:DLCItemData;
+    ItemData11:DLCItemData;
+    ItemData12:DLCItemData;
+}
+
+table DLCItemData {
+    ItemType:DLCItemType;
+    ItemId:ItemID = ITEMID_NONE;
+    ItemNum:int;
+    DressupItemId:int;
+    PokemonData:PokeDataDLCGift;
+}
+
+table PokeDataDLCGift {
+    DevId:DevID = DEV_NULL;
+    FormId:short;
+    Level:int;
+    Sex:SexType;
+    Tokusei:TokuseiType;
+    GemType:GemType;
+    RareType:RareType;
+    ScaleType:SizeType;
+    ScaleValue:short;
+    WeightType:SizeType;
+    WaightValue:short;
+    TalentType:TalentType;
+    TalentVnum:byte;
+    TalentValue:ParamSet;
+    EffortValue:ParamSet;
+    Item:ItemID = ITEMID_NONE;
+    Seikaku:SeikakuType;
+    SeikakuHosei:SeikakuType;
+    WazaType:WazaType;
+    Waza1:WazaSet;
+    Waza2:WazaSet;
+    Waza3:WazaSet;
+    Waza4:WazaSet;
+    BallId:BallType;
+    UseNickName:bool;
+    NicknameLabel:ulong;
+    ParentSex:SexType;
+}
+
+table DLCItemGroupArray (fs_serializer) {
+    Table:[DLCItemGroup] (required);
+}
+
+root_type DLCItemGroupArray;

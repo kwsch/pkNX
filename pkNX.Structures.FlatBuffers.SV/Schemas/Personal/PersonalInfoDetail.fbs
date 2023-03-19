@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct PersonalInfoDetail { // give me a class, not struct.
+    SpeciesInternal : ushort;
+    Form            : ushort;
+    SpeciesNational : ushort;
+    Color           : ubyte ;
+    BodyType        : ubyte ;
+    Height          : ushort;
+    Weight          : ushort;
+    Reserved0       : uint  ;
+    Reserved1       : uint  ;
+    Reserved2       : uint  ;
+}

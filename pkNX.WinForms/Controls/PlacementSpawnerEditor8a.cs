@@ -1,20 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.WinForms.Controls;
 
 public partial class PlacementSpawnerEditor8a : UserControl
 {
-    public PlacementSpawner8a[] Spawners = Array.Empty<PlacementSpawner8a>();
+    public IList<PlacementSpawner> Spawners = Array.Empty<PlacementSpawner>();
 
     public PlacementSpawnerEditor8a() => InitializeComponent();
 
-    public void LoadTable(PlacementSpawner8a[] table, string path)
+    public void LoadTable(IList<PlacementSpawner> table, string path)
     {
         Spawners = table;
-        if (table.Length == 0)
+        if (table.Count == 0)
         {
             Visible = false;
             return;
@@ -23,9 +24,9 @@ public partial class PlacementSpawnerEditor8a : UserControl
         Visible = true;
         L_ConfigName.Text = path;
 
-        var items = table.Select(z => new ComboItem<PlacementSpawner8a>(z.NameSummary.Replace("\"", ""), z)).ToArray();
-        CB_Encounters.DisplayMember = nameof(ComboItem<PlacementSpawner8a>.Text);
-        CB_Encounters.ValueMember = nameof(ComboItem<PlacementSpawner8a>.Value);
+        var items = table.Select(z => new ComboItem<PlacementSpawner>(z.NameSummary.Replace("\"", ""), z)).ToArray();
+        CB_Encounters.DisplayMember = nameof(ComboItem<PlacementSpawner>.Text);
+        CB_Encounters.ValueMember = nameof(ComboItem<PlacementSpawner>.Value);
         CB_Encounters.DataSource = new BindingSource(items, null);
 
         CB_Encounters.SelectedIndex = 0;
@@ -45,7 +46,7 @@ public partial class PlacementSpawnerEditor8a : UserControl
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (CB_Encounters.SelectedValue is not PlacementSpawner8a spawner)
+        if (CB_Encounters.SelectedValue is not PlacementSpawner spawner)
             throw new ArgumentException(nameof(CB_Encounters.SelectedValue));
         PG_Spawner.SelectedObject = spawner;
     }

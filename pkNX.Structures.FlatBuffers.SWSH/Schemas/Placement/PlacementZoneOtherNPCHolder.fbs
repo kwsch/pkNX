@@ -1,0 +1,60 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+enum FlatModelState : uint {
+    Standing = 0,
+    Sitting = 2,
+}
+
+// more NPCs? Trainers?
+table PlacementZoneOtherNPCHolder {
+    Field_00:PlacementZone_F16 (required);
+    ModelVariant:uint;
+    Hash_02:ulong;
+    Hash_03:ulong;
+    Field_04:[PlacementZone_F16_ArrayEntry] (required);
+    Hash_05:ulong;
+    Flag_06:bool;
+    Flag_07:bool;
+    Field_08:uint;
+    State:FlatModelState;
+    Field_10:float;
+    Field_11:PlacementZone_F02_Nine (required);
+    Field_12:uint;
+    AnimationIndexPrimary:uint;
+    Field_14:uint;
+    Field_15:uint;
+    Field_16:uint;
+}
+
+table PlacementZone_F16_ArrayEntry {
+    Field_00:uint;
+    Field_01:uint;
+    Field_02:uint;
+    Field_03:float;
+    Field_04:ubyte;
+    Field_05:float;
+}
+
+table PlacementZone_F16 {
+    Field_00:PlacementZone_F16_A (required);
+}
+
+table PlacementZone_F16_A {
+    Identifier:PlacementZoneMetaTripleXYZ (required);
+    Hash_01:ulong;
+    HashModel:ulong;
+    Hash_03:ulong;
+    Field_04:PlacementZone_F16_IntFloat (required);
+    Flag_05:bool;
+    HashMessage:ulong;
+    Field_07:PlacementZone_F16_IntFloat (required);
+}
+
+table PlacementZone_F16_IntFloat {
+    Field_00:int;
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+}

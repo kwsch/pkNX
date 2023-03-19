@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using FlatSharp;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
 using pkNX.WinForms.Subforms;
 using static pkNX.Structures.Species;
+using EvolutionSet = pkNX.Structures.FlatBuffers.Arceus.EvolutionSet;
+using Learnset = pkNX.Structures.FlatBuffers.Arceus.Learnset;
+using TrainerData = pkNX.Structures.FlatBuffers.Arceus.TrainerData;
+using Util = pkNX.Randomization.Util;
+
 // ReSharper disable UnusedMember.Global
 
 namespace pkNX.WinForms.Controls;
@@ -33,17 +40,19 @@ internal class EditorPLA : EditorBase
             WinFormsUtil.Alert($"{file} not found in the executable folder", "Some decompression functions may cause errors.");
     }
 
-    public void PopFlat<T1, T2>(GameFile file, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, Action<T1>? addEntryCallback = null, bool canSave = true) where T1 : class, IFlatBufferArchive<T2> where T2 : class
+    public void PopFlat<T1, T2>(GameFile file, string title, Func<T1, IList<T2>> sel, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, Action<T1>? addEntryCallback = null, bool canSave = true)
+        where T1 : class, IFlatBufferSerializable<T1>
+        where T2 : class
     {
         var obj = ROM.GetFile(file);
-        var tableCache = new TableCache<T1, T2>(obj);
+        var tableCache = new TableCache<T1, T2>(obj, sel);
 
         DataCache<T2> loader(GenericEditor<T2> form)
         {
             if (form.Modified)
                 tableCache.Save();
 
-            tableCache = new TableCache<T1, T2>(obj);
+            tableCache = new TableCache<T1, T2>(obj, sel);
             return tableCache.Cache;
         }
 
@@ -59,16 +68,16 @@ internal class EditorPLA : EditorBase
         }
     }
 
-    private static bool PopFlat<T2>(T2[] arr, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, bool canSave = true) where T2 : class
+    private static bool PopFlat<T2>(IList<T2> arr, string title, Func<T2, int, string> getName, Action<IEnumerable<T2>>? rand = null, bool canSave = true) where T2 : class
     {
-        using var form = new GenericEditor<T2>(_ => new DataCache<T2>(arr), getName, title, rand, null, canSave);
+        using var form = new GenericEditor<T2>(_ => new DataCache<T2>(arr!), getName, title, rand, null, canSave);
         form.ShowDialog();
         return form.Modified;
     }
 
     public void PopFlatConfig(GameFile file, string title)
     {
-        PopFlat<ConfigArchive8a, ConfigEntry8a>(file, title, (z, _) => z.Name);
+        PopFlat<ConfigArchive, ConfigEntry>(file, title, z => z.Table, (z, _) => z.Name);
     }
 
     public int[] GetSpeciesBanlist()
@@ -108,7 +117,7 @@ internal class EditorPLA : EditorBase
             Growlithe or Arcanine or Voltorb or Electrode or Typhlosion or Qwilfish or Samurott or Lilligant or Zorua or Zoroark or Braviary or Sliggoo or Goodra or Avalugg or Decidueye => 1,
             Basculin => 2,
             Kleavor => 0,
-            _ => Randomization.Util.Random.Next(0, count),
+            _ => Util.Random.Next(0, count),
         };
     }
 
@@ -152,17 +161,17 @@ internal class EditorPLA : EditorBase
         var editor = new PokeEditor8a
         {
             Personal = Data.PersonalData,
-            PokeMisc = new(ROM.GetFile(GameFile.PokeMisc)),
-            SymbolBehave = new(ROM.GetFile(GameFile.SymbolBehave)),
+            PokeMisc = new(ROM.GetFile(GameFile.PokeMisc), z => z.Table),
+            SymbolBehave = new(ROM.GetFile(GameFile.SymbolBehave), z => z.Table),
             Evolve = Data.EvolutionData,
             Learn = Data.LevelUpData,
             FieldDropTables = Data.FieldDrops,
             BattleDropTabels = Data.BattleDrops,
             DexResearch = Data.DexResearch,
-            PokeResourceList = new(ROM.GetFile(GameFile.PokemonResourceList)),
-            PokeResourceTable = new(ROM.GetFile(GameFile.PokemonResourceTable)),
-            EncounterRateTable = new(ROM.GetFile(GameFile.EncounterRateTable)),
-            CaptureCollisionTable = new(ROM.GetFile(GameFile.PokeCaptureCollision)),
+            PokeResourceList = new(ROM.GetFile(GameFile.PokemonResourceList), z => z.Table),
+            PokeResourceTable = new(ROM.GetFile(GameFile.PokemonResourceTable), z => z.Table),
+            EncounterRateTable = new(ROM.GetFile(GameFile.EncounterRateTable), z => z.Table),
+            CaptureCollisionTable = new(ROM.GetFile(GameFile.PokeCaptureCollision), z => z.Table),
         };
         using var form = new PokeDataUI8a(editor, ROM, Data);
         form.ShowDialog();
@@ -176,21 +185,21 @@ internal class EditorPLA : EditorBase
     public void EditMiscSpeciesInfo()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeMiscTable8a, PokeMisc8a>(GameFile.PokeMisc, "Misc Species Info Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
+        PopFlat<PokeMiscTable, PokeMisc>(GameFile.PokeMisc, "Misc Species Info Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
     public void EditSymbolBehave()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAIArchive8a, PokeAI8a>(GameFile.SymbolBehave, "Symbol Behavior Editor", (z, _) => $"{names[z.Species]}{(z.IsAlpha ? "*" : "")}{(z.Form != 0 ? $"-{z.Form}" : "")}");
+        PopFlat<PokeAIArchive, PokeAI>(GameFile.SymbolBehave, "Symbol Behavior Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.IsAlpha ? "*" : "")}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
     public void EditEvolutions()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EvolutionTable8, EvolutionSet8a>(GameFile.Evolutions, "Evolution Editor",
+        PopFlat<EvolutionTable, EvolutionSet>(GameFile.Evolutions, "Evolution Editor", z => z.Table,
             (z, _) => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
@@ -201,23 +210,23 @@ internal class EditorPLA : EditorBase
     public void EditLearnsetRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<Learnset8a, Learnset8aMeta>(GameFile.Learnsets, "Learnset Editor (Raw)", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<Learnset, LearnsetMeta>(GameFile.Learnsets, "Learnset Editor (Raw)", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
     public void EditPersonalRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PersonalTableLAfb, PersonalInfoLAfb>(GameFile.PersonalStats, "Personal Info Editor (Raw)", (z, _) => $"{names[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<PersonalTable, PersonalInfo>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => z.Table, (z, _) => $"{names[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
     public void EditGift()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAdd8aArchive, PokeAdd8a>(GameFile.EncounterTableGift, "Gift Encounter Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", entries => Randomize(entries));
+        PopFlat<PokeAddArchive, PokeAdd>(GameFile.EncounterTableGift, "Gift Encounter Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", entries => Randomize(entries));
 
-        void Randomize(IEnumerable<PokeAdd8a> arr)
+        void Randomize(IEnumerable<PokeAdd> arr)
         {
             var settings = EditUtil.Settings.Species;
             var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
@@ -227,10 +236,10 @@ internal class EditorPLA : EditorBase
             {
                 t.Species = rand.GetRandomSpecies(t.Species);
                 t.Form = (byte)GetRandomForm(t.Species);
-                t.Nature = NatureType8a.Random;
+                t.Nature = NatureType.Random;
                 t.Gender = (int)FixedGender.Random;
-                t.ShinyLock = ShinyType8a.Random;
-                t.Ball = Randomization.Util.Random.Next(27, 37); // [Strange, Origin]
+                t.ShinyLock = ShinyType.Random;
+                t.Ball = Util.Random.Next(27, 37); // [Strange, Origin]
                 t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
                 t.Height = t.Weight = -1;
             }
@@ -241,7 +250,7 @@ internal class EditorPLA : EditorBase
     public void EditPokeCaptureCollision()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeCaptureCollisionArchive8a, PokeCaptureCollision8a>(GameFile.PokeCaptureCollision, "Pokemon Capture Collision Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<PokeCaptureCollisionArchive, PokeCaptureCollision>(GameFile.PokeCaptureCollision, "Pokemon Capture Collision Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Pokemon)] public void EditEventRestrictionBattle() => PopFlatConfig(GameFile.EventRestrictionBattle, "Event Restriction Battle Editor");
@@ -276,28 +285,28 @@ internal class EditorPLA : EditorBase
     {
         var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
         var data = gfp[2065];
-        var obj = FlatBufferConverter.DeserializeFrom<AreaWeatherTable8a>(data);
+        var obj = FlatBufferConverter.DeserializeFrom<AreaWeatherTable>(data);
         var result = PopFlat(obj.Table, "Area Weather Editor", (z, _) => z.Hash.ToString("X16"));
         if (!result)
             return;
-        gfp[2065] = FlatBufferConverter.SerializeFrom(obj);
+        gfp[2065] = obj.SerializeFrom();
     }
 
     [EditorCallable(EditorCategory.Field)]
     public void EditStaticEncounter()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EventEncount8aArchive, EventEncount8a>(GameFile.EncounterTableStatic, "Static Encounter Editor", (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", entries => Randomize(entries));
+        PopFlat<EventEncountArchive, EventEncount>(GameFile.EncounterTableStatic, "Static Encounter Editor", z => z.Table, (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", entries => Randomize(entries));
 
-        static string GetDetail(EventEncount8a z, string[] names)
+        static string GetDetail(EventEncount z, string[] names)
         {
-            if (z.Table is not { Length: not 0 } x)
+            if (z.Table is not { Count: not 0 } x)
                 return "No Entries";
             var s = x[0];
             return $"{names[s.Species]}{(s.Form == 0 ? "" : $"-{s.Form}")} @ Lv. {s.Level}";
         }
 
-        void Randomize(IEnumerable<EventEncount8a> arr)
+        void Randomize(IEnumerable<EventEncount> arr)
         {
             var settings = EditUtil.Settings.Species;
             var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
@@ -305,7 +314,7 @@ internal class EditorPLA : EditorBase
             rand.Initialize(settings, GetSpeciesBanlist());
             foreach (var entry in arr)
             {
-                if (entry.Table is not { Length: > 0 } x)
+                if (entry.Table is not { Count: > 0 } x)
                     continue;
                 foreach (var t in x)
                 {
@@ -317,13 +326,13 @@ internal class EditorPLA : EditorBase
 
                     t.Species = rand.GetRandomSpecies(t.Species);
                     t.Form = (byte)GetRandomForm(t.Species);
-                    t.Nature = (int)Nature.Random;
+                    t.Nature = (NatureType)Nature.Random;
                     t.Gender = (int)FixedGender.Random;
-                    t.ShinyLock = ShinyType8a.Random;
+                    t.ShinyLock = ShinyType.Random;
                     t.Move1 = t.Move2 = t.Move3 = t.Move4 = 0;
                     t.Mastered1 = t.Mastered2 = t.Mastered3 = t.Mastered4 = true;
-                    t.IV_HP = t.IV_ATK = t.IV_DEF = t.IV_SPA = t.IV_SPD = t.IV_SPE = 31;
-                    t.GV_HP = t.GV_ATK = t.GV_DEF = t.GV_SPA = t.GV_SPD = t.GV_SPE = 10;
+                    t.IVHP = t.IVATK = t.IVDEF = t.IVSPA = t.IVSPD = t.IVSPE = 31;
+                    t.GVHP = t.GVATK = t.GVDEF = t.GVSPA = t.GVSPD = t.GVSPE = 10;
                     t.Height = t.Weight = -1;
                 }
             }
@@ -334,7 +343,7 @@ internal class EditorPLA : EditorBase
     public void EditEncounterRate()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EncounterMultiplierArchive8a, EncounterMultiplier8a>(GameFile.EncounterRateTable, "Encounter Rate Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<EncounterMultiplierArchive, EncounterMultiplier>(GameFile.EncounterRateTable, "Encounter Rate Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Field)]
@@ -363,23 +372,23 @@ internal class EditorPLA : EditorBase
 
     [EditorCallable(EditorCategory.Field)]
     public void EditOutbreakDetail()
-        => PopFlat<MassOutbreakTable8a, MassOutbreak8a>(GameFile.Outbreak, "Outbreak Proc Editor", (z, _) => z.WorkValueName);
+        => PopFlat<MassOutbreakTable, MassOutbreak>(GameFile.Outbreak, "Outbreak Proc Editor", z => z.Table, (z, _) => z.WorkValueName);
 
     [EditorCallable(EditorCategory.Field)]
     public void EditNewOutbreakGroup()
-        => PopFlat<NewHugeOutbreakGroupArchive8a, NewHugeOutbreakGroup8a>(GameFile.NewHugeGroup, "New Outbreak Group Editor", (z, _) => z.Group.ToString("X16"));
+        => PopFlat<NewHugeOutbreakGroupArchive, NewHugeOutbreakGroup>(GameFile.NewHugeGroup, "New Outbreak Group Editor", z => z.Table, (z, _) => z.Group.ToString("X16"));
 
     [EditorCallable(EditorCategory.Field)]
     public void EditNewOutbreakGroupLottery()
-        => PopFlat<NewHugeOutbreakGroupLotteryArchive8a, NewHugeOutbreakGroupLottery8a>(GameFile.NewHugeGroupLottery, "New Outbreak Group Lottery Editor", (z, _) => z.LotteryGroup.ToString("X16"));
+        => PopFlat<NewHugeOutbreakGroupLotteryArchive, NewHugeOutbreakGroupLottery>(GameFile.NewHugeGroupLottery, "New Outbreak Group Lottery Editor", z => z.Table, (z, _) => z.LotteryGroup.ToString("X16"));
 
     [EditorCallable(EditorCategory.Field)]
     public void EditNewOutbreakLottery()
-        => PopFlat<NewHugeOutbreakLotteryArchive8a, NewHugeOutbreakLottery8a>(GameFile.NewHugeLottery, "New Outbreak Lottery Editor", (z, _) => z.LotteryGroupString);
+        => PopFlat<NewHugeOutbreakLotteryArchive, NewHugeOutbreakLottery>(GameFile.NewHugeLottery, "New Outbreak Lottery Editor", z => z.Table, (z, _) => z.LotteryGroupString);
 
     [EditorCallable(EditorCategory.Field)]
     public void EditNewOutbreakTimeLimit()
-        => PopFlat<NewHugeOutbreakTimeLimitArchive8a, NewHugeOutbreakTimeLimit8a>(GameFile.NewHugeTimeLimit, "New Outbreak Time Limit Editor", (z, _) => z.Duration.ToString());
+        => PopFlat<NewHugeOutbreakTimeLimitArchive, NewHugeOutbreakTimeLimit>(GameFile.NewHugeTimeLimit, "New Outbreak Time Limit Editor", z => z.Table, (z, _) => z.Duration.ToString());
 
     [EditorCallable(EditorCategory.Field)]
     public void EditFieldAttackConfig() => PopFlatConfig(GameFile.AIFieldWazaConfig, "AI Field Attack Config Editor");
@@ -414,34 +423,34 @@ internal class EditorPLA : EditorBase
         var folder = ROM.GetFilteredFolder(GameFile.TrainerSpecData);
         var names = folder.GetPaths().Select(Path.GetFileNameWithoutExtension).ToArray();
 
-        var cache = new DataCache<TrData8a>(folder)
+        var cache = new DataCache<TrainerData>(folder)
         {
-            Create = FlatBufferConverter.DeserializeFrom<TrData8a>,
+            Create = FlatBufferConverter.DeserializeFrom<TrainerData>,
             Write = FlatBufferConverter.SerializeFrom,
         };
 
-        using var form = new GenericEditor<TrData8a>(_ => cache, (_, i) => names[i] ?? string.Empty, "Trainers", Randomize, canSave: true);
+        using var form = new GenericEditor<TrainerData>(_ => cache, (_, i) => names[i] ?? string.Empty, "Trainers", Randomize, canSave: true);
 
         form.ShowDialog();
 
-        void Randomize(IEnumerable<TrData8a> arr)
+        void Randomize(IEnumerable<TrainerData> arr)
         {
             var settings = EditUtil.Settings.Species;
             var rand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
             rand.Initialize(settings, GetSpeciesBanlist());
 
-            for (int i = 0; i < arr.Count(); i++)
+            foreach (var t in arr)
             {
-                foreach (var t in arr.ElementAt(i).Team)
+                foreach (var pk in t.Team)
                 {
-                    t.Species = rand.GetRandomSpecies(t.Species);
-                    t.Form = GetRandomForm(t.Species);
-                    t.Gender = (int)FixedGender.Random;
-                    t.Nature = NatureType8a.Random;
-                    t.Move_01.Move = t.Move_02.Move = t.Move_03.Move = t.Move_04.Move = 0;
-                    t.Move_01.Mastered = t.Move_02.Mastered = t.Move_03.Mastered = t.Move_04.Mastered = true;
-                    t.Shiny = Randomization.Util.Random.Next(0, 100 + 1) < 3;
-                    t.IsOybn = Randomization.Util.Random.Next(0, 100 + 1) < 3;
+                    pk.Species = rand.GetRandomSpecies(pk.Species);
+                    pk.Form = GetRandomForm(pk.Species);
+                    pk.Gender = (int)FixedGender.Random;
+                    pk.Nature = NatureType.Random;
+                    pk.Move01.Move = pk.Move02.Move = pk.Move03.Move = pk.Move04.Move = 0;
+                    pk.Move01.Mastered = pk.Move02.Mastered = pk.Move03.Mastered = pk.Move04.Mastered = true;
+                    pk.Shiny = Util.Random.Next(0, 100 + 1) < 3;
+                    pk.IsOybn = Util.Random.Next(0, 100 + 1) < 3;
                 }
             }
         }
@@ -456,13 +465,13 @@ internal class EditorPLA : EditorBase
     public void EditMoves()
     {
         var obj = ROM[GameFile.MoveStats]; // folder
-        var cache = new DataCache<Waza8a>(obj)
+        var cache = new DataCache<Waza>(obj)
         {
-            Create = FlatBufferConverter.DeserializeFrom<Waza8a>,
+            Create = FlatBufferConverter.DeserializeFrom<Waza>,
             Write = FlatBufferConverter.SerializeFrom,
         };
         var names = ROM.GetStrings(TextName.MoveNames);
-        using var form = new GenericEditor<Waza8a>(_ => cache, (_, i) => names[i], "Move Editor");
+        using var form = new GenericEditor<Waza>(_ => cache, (_, i) => names[i], "Move Editor");
         form.ShowDialog();
         if (!form.Modified)
         {
@@ -489,22 +498,22 @@ internal class EditorPLA : EditorBase
     public void EditMoveShop()
     {
         var names = ROM.GetStrings(TextName.MoveNames);
-        PopFlat<MoveShopTable8a, MoveShopIndex>(GameFile.MoveShop, "Move Shop Editor", (z, _) => names[z.Move]);
+        PopFlat<MoveShopTable, MoveShopIndex>(GameFile.MoveShop, "Move Shop Editor", z => z.Table, (z, _) => names[z.Move]);
     }
 
     [EditorCallable(EditorCategory.Shops)]
     public void EditHaShopData()
     {
         var names = ROM.GetStrings(TextName.ItemNames);
-        PopFlat<HaShopTable8a, HaShopItem8a>(GameFile.HaShop, "ha_shop_data Editor", (z, _) => names[z.ItemID], Randomize);
+        PopFlat<HaShopTable, HaShopItem>(GameFile.HaShop, "ha_shop_data Editor", z => z.Table, (z, _) => names[z.ItemID], Randomize);
 
-        static void Randomize(IEnumerable<HaShopItem8a> arr)
+        static void Randomize(IEnumerable<HaShopItem> arr)
         {
             foreach (var t in arr)
             {
                 if (Legal.Pouch_Recipe_LA.Contains((ushort)t.ItemID)) // preserve recipes
                     continue;
-                t.ItemID = Legal.Pouch_Items_LA[Randomization.Util.Random.Next(Legal.Pouch_Items_LA.Length)];
+                t.ItemID = Legal.Pouch_Items_LA[Util.Random.Next(Legal.Pouch_Items_LA.Length)];
             }
         }
     }
@@ -519,11 +528,11 @@ internal class EditorPLA : EditorBase
         var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
         var index = gfp.GetIndexFull("bin/field/param/placement/common/npc_model_set.bin");
 
-        var obj = FlatBufferConverter.DeserializeFrom<NPCModelSet8a>(gfp[index]);
+        var obj = FlatBufferConverter.DeserializeFrom<NPCModelSet>(gfp[index]);
         var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
         if (!result)
             return;
-        gfp[index] = FlatBufferConverter.SerializeFrom(obj);
+        gfp[index] = obj.SerializeFrom();
     }
 
     [EditorCallable(EditorCategory.Graphics)]
@@ -532,20 +541,20 @@ internal class EditorPLA : EditorBase
         var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
         var index = gfp.GetIndexFull("bin/field/param/placement/common/pokemon_model_set.bin");
 
-        var obj = FlatBufferConverter.DeserializeFrom<PokeModelSet8a>(gfp[index]);
+        var obj = FlatBufferConverter.DeserializeFrom<PokeModelSet>(gfp[index]);
         var names = ROM.GetStrings(TextName.SpeciesNames);
 
         var result = PopFlat(obj.Table, "Pokemon Model Set Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ({z.VariantDesc})");
         if (!result)
             return;
-        gfp[index] = FlatBufferConverter.SerializeFrom(obj);
+        gfp[index] = obj.SerializeFrom();
     }
 
     [EditorCallable(EditorCategory.Graphics)]
     public void EditPokeResourceTable()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeResourceTable8a, PokeModelConfig8a>(GameFile.PokemonResourceTable, "Pokemon Resource Table", (z, _) => $"{names[z.Meta.Species]}{(z.Meta.Form == 0 ? "" : $"-{z.Meta.Form}")}{(z.Meta.Gender == 0 ? "" : $" ({z.Meta.Gender})")}");
+        PopFlat<PokeResourceTable, PokeModelConfig>(GameFile.PokemonResourceTable, "Pokemon Resource Table", z => z.Table, (z, _) => $"{names[z.Meta.Species]}{(z.Meta.Form == 0 ? "" : $"-{z.Meta.Form}")}{(z.Meta.Gender == 0 ? "" : $" ({z.Meta.Gender})")}");
     }
 
     [EditorCallable(EditorCategory.Graphics)]
@@ -553,14 +562,14 @@ internal class EditorPLA : EditorBase
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
 
-        PopFlat<PokeInfoList8a, PokeInfo8a>(GameFile.PokemonResourceList, "Pokemon Resource List", (z, _) => $"{names[z.Species]}");
+        PopFlat<PokeInfoList, PokeInfo>(GameFile.PokemonResourceList, "Pokemon Resource List", z => z.Table, (z, _) => $"{names[z.Species]}");
     }
 
     [EditorCallable(EditorCategory.Graphics)]
     public void EditPokeBodyParticle()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeBodyParticleArchive8a, PokeBodyParticle8a>(GameFile.PokeBodyParticle, "Pokemon Body Particle Editor", (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
+        PopFlat<PokeBodyParticleArchive, PokeBodyParticle>(GameFile.PokeBodyParticle, "Pokemon Body Particle Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
     [EditorCallable(EditorCategory.Graphics)] public void EditFieldAnimationFramerate() => PopFlatConfig(GameFile.FieldAnimationFramerateConfig, "Field Anime Framerate Config");
@@ -577,32 +586,32 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowParam()
     {
-        PopFlat<ThrowParamTable8a, ThrowParam8a>(GameFile.ThrowParam, "Throw Param Editor", (z, _) => z.ThrowParamType.ToString());
+        PopFlat<ThrowParamTable, ThrowParam>(GameFile.ThrowParam, "Throw Param Editor", z => z.Table, (z, _) => z.ThrowParamType.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowPermissionSetParam()
     {
-        PopFlat<ThrowPermissionSetDictionary8a, ThrowPermissionSetEntry8a>(GameFile.ThrowPermissionSet, "Throw Permission Editor", (z, _) => z.ThrowPermissionSet.ToString());
+        PopFlat<ThrowPermissionSetDictionary, ThrowPermissionSetEntry>(GameFile.ThrowPermissionSet, "Throw Permission Editor", z => z.Table, (z, _) => z.ThrowPermissionSet.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowableParam()
     {
         var itemNames = ROM.GetStrings(TextName.ItemNames);
-        PopFlat<ThrowableParamTable8a, ThrowableParam8a>(GameFile.ThrowableParam, "Throwable Param Editor", (z, _) => $"{itemNames[z.ItemID]} ({z.ItemID})", null, t => { t.AddEntry(0); });
+        PopFlat<ThrowableParamTable, ThrowableParam>(GameFile.ThrowableParam, "Throwable Param Editor", z => z.Table, (z, _) => $"{itemNames[z.ItemID]} ({z.ItemID})", null, t => { t.AddEntry(0); });
     }
 
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowResourceDictionary()
     {
-        PopFlat<ThrowableResourceDictionary8a, ThrowableResourceEntry8a>(GameFile.ThrowableResource, "Throwable Resource Dictionary Editor", (z, _) => z.Hash_00.ToString("X16"));
+        PopFlat<ThrowableResourceDictionary, ThrowableResourceEntry>(GameFile.ThrowableResource, "Throwable Resource Dictionary Editor", z => z.Table, (z, _) => z.Hash00.ToString("X16"));
     }
 
     [EditorCallable(EditorCategory.Items)]
     public void EditThrowResourceSetDictionary()
     {
-        PopFlat<ThrowableResourceSetDictionary8a, ThrowableResourceSetEntry8a>(GameFile.ThrowableResourceSet, "Throwable Resource Set Dictionary Editor", (z, _) => z.ItemType.ToString());
+        PopFlat<ThrowableResourceSetDictionary, ThrowableResourceSetEntry>(GameFile.ThrowableResourceSet, "Throwable Resource Set Dictionary Editor", z => z.Table, (z, _) => z.ItemType.ToString());
     }
 
     [EditorCallable(EditorCategory.Items)]
@@ -650,8 +659,8 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Player)] public void EditPlayerConfig() => PopFlatConfig(GameFile.PlayerConfig, "Player Config Editor");
     [EditorCallable(EditorCategory.Player)] public void EditPlayerControllerConfig() => PopFlatConfig(GameFile.PlayerControllerConfig, "Player Controller Config");
     [EditorCallable(EditorCategory.Player)] public void EditPlayerFaceConfig() => PopFlatConfig(GameFile.PlayerFaceConfig, "Player Face Config");
-    [EditorCallable(EditorCategory.Player)] public void EditPlayer1DressupTable() => PopFlat<DressUpTable8a, DressUpEntry8a>(GameFile.Player1DressupTable, "Player 1 DressUp Table", (z, _) => z.EntryName);
-    [EditorCallable(EditorCategory.Player)] public void EditPlayer2DressupTable() => PopFlat<DressUpTable8a, DressUpEntry8a>(GameFile.Player2DressupTable, "Player 2 DressUp Table", (z, _) => z.EntryName);
+    [EditorCallable(EditorCategory.Player)] public void EditPlayer1DressupTable() => PopFlat<DressUpTable, DressUpEntry>(GameFile.Player1DressupTable, "Player 1 DressUp Table", z => z.Table, (z, _) => z.EntryName);
+    [EditorCallable(EditorCategory.Player)] public void EditPlayer2DressupTable() => PopFlat<DressUpTable, DressUpEntry>(GameFile.Player2DressupTable, "Player 2 DressUp Table", z => z.Table, (z, _) => z.EntryName);
 
     #endregion
 
@@ -686,7 +695,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Gameplay)]
     public void EditPokedexRankTable()
     {
-        PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexRank, "Pokedex Rank Table Editor", (z, _) => z.Rank.ToString());
+        PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexRank, "Pokedex Rank Table Editor", z => z.Table, (z, _) => z.Rank.ToString());
     }
 
     [EditorCallable(EditorCategory.Gameplay)] public void EditEventBalloonRunConfig() => PopFlatConfig(GameFile.EventBalloonrunConfig, "Event Balloon Run Config Editor");
@@ -703,58 +712,58 @@ internal class EditorPLA : EditorBase
 
     #region Misc Editors
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditPokeEatingHabits()
     {
-        PopFlat<PokeEatingHabitsArchive8a, PokeEatingHabits8a>(GameFile.PokeEatingHabits, "Pokemon Eating Habits Editor", (z, _) => z.ID.ToString());
+        PopFlat<PokeEatingHabitsArchive, PokeEatingHabits>(GameFile.PokeEatingHabits, "Pokemon Eating Habits Editor", z => z.Table, (z, _) => z.ID.ToString());
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionLegend()
     {
-        PopFlat<PokeFieldObstructionWazaNsLegendArchive8a, PokeFieldObstructionWazaNsLegend8a>(GameFile.MoveObstructionLegend, "PokeFieldObstructionWazaNsLegendArchive8a Editor", (z, _) => $"error");
+        PopFlat<PokeFieldObstructionWazaNsLegendArchive, PokeFieldObstructionWazaNsLegend>(GameFile.MoveObstructionLegend, "PokeFieldObstructionWazaNsLegendArchive Editor", z => z.Table, (z, _) => "error");
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionLegendEffect()
     {
-        PopFlat<PokeFieldObstructionWazaNsLegendEffectArchive8a, PokeFieldObstructionWazaNsLegendEffect8a>(GameFile.MoveObstructionLegendEffect, "PokeFieldObstructionWazaNsLegendEffectArchive8a Editor", (z, _) => $"error");
+        PopFlat<PokeFieldObstructionWazaNsLegendEffectArchive, PokeFieldObstructionWazaNsLegendEffect>(GameFile.MoveObstructionLegendEffect, "PokeFieldObstructionWazaNsLegendEffectArchive Editor", z => z.Table, (z, _) => "error");
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionSE()
     {
-        PopFlat<PokeFieldObstructionWazaSeArchive8a, PokeFieldObstructionWazaSe8a>(GameFile.MoveObstructionSE, "PokeFieldObstructionWazaSeArchive8a Editor", (z, _) => $"error");
+        PopFlat<PokeFieldObstructionWazaSeArchive, PokeFieldObstructionWazaSe>(GameFile.MoveObstructionSE, "PokeFieldObstructionWazaSeArchive Editor", z => z.Table, (z, _) => "error");
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionWild()
     {
-        PopFlat<PokeFieldObstructionWazaWildArchive8a, PokeFieldObstructionWaza8a>(GameFile.MoveObstructionWild, "Poke Field Obstruction Waza Wild Editor", (z, _) => z.Field_00);
+        PopFlat<PokeFieldObstructionWazaWildArchive, PokeFieldObstructionWaza>(GameFile.MoveObstructionWild, "Poke Field Obstruction Waza Wild Editor", z => z.Table, (z, _) => z.Field00);
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionWildEffect()
     {
-        PopFlat<PokeFieldObstructionWazaWildEffectArchive8a, PokeFieldObstructionWazaWildEffect8a>(GameFile.MoveObstructionWildEffect, "PokeFieldObstructionWazaWildEffectArchive8a Editor", (z, _) => $"error");
+        PopFlat<PokeFieldObstructionWazaWildEffectArchive, PokeFieldObstructionWazaWildEffect>(GameFile.MoveObstructionWildEffect, "PokeFieldObstructionWazaWildEffectArchive Editor", z => z.Table, (z, _) => "error");
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionWater()
     {
-        PopFlat<PokeFieldObstructionWazaWildWaterArchive8a, PokeFieldObstructionWaza8a>(GameFile.MoveObstructionWater, "PokeFieldObstructionWazaWildWaterArchive8a Editor", (z, _) => z.Field_00);
+        PopFlat<PokeFieldObstructionWazaWildWaterArchive, PokeFieldObstructionWaza>(GameFile.MoveObstructionWater, "PokeFieldObstructionWazaWildWaterArchive Editor", z => z.Table, (z, _) => z.Field00);
     }
 
-    [EditorCallable(EditorCategory.Misc)]
+    [EditorCallable()]
     public void EditMoveObstructionWaterEffect()
     {
-        PopFlat<PokeFieldObstructionWazaWildWaterEffectArchive8a, PokeFieldObstructionWazaWildWaterEffect8a>(GameFile.MoveObstructionWaterEffect, "PokeFieldObstructionWazaWildWaterEffectArchive8a Editor", (z, _) => $"error");
+        PopFlat<PokeFieldObstructionWazaWildWaterEffectArchive, PokeFieldObstructionWazaWildWaterEffect>(GameFile.MoveObstructionWaterEffect, "PokeFieldObstructionWazaWildWaterEffectArchive Editor", z => z.Table, (z, _) => "error");
     }
 
     [EditorCallable(EditorCategory.Misc, true)]
     public void EditAppConfigList()
     {
-        PopFlat<AppConfigList8a, AppconfigEntry8a>(GameFile.AppConfigList, "App Config List", (z, _) => z.OriginalPath);
+        PopFlat<AppConfigList, AppConfigEntry>(GameFile.AppConfigList, "App Config List", z => z.Table, (z, _) => z.OriginalPath);
     }
 
     [EditorCallable(EditorCategory.Misc, true)]
@@ -766,7 +775,7 @@ internal class EditorPLA : EditorBase
             .Select(p => Path.GetRelativePath(ROM.PathRomFS, p).Replace('\\', '/'))
             .ToDictionary(p => FnvHash.HashFnv1a_64(p));
 
-        PopFlat<ArchiveContents8a, ArchiveContent8a>(GameFile.archive_contents, "Archive Contents Editor",
+        PopFlat<ArchiveContents, ArchiveContent>(GameFile.archive_contents, "Archive Contents Editor", z => z.Table,
             (z, _) => paths.GetValueOrDefault(z.ArchivePathHash) ?? z.ArchivePathHash.ToString("X16"),
             addEntryCallback: x => x.AddEntry());
     }
@@ -780,12 +789,12 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Misc, true)]
     public void EditPokeDefaultLocator()
     {
-        PopFlat<PokeDefaultLocatorArchive8a, PokeDefaultLocator8a>(GameFile.PokeDefaultLocator, "Poke Default Locator Editor", (z, _) => z.Locator);
+        PopFlat<PokeDefaultLocatorArchive, PokeDefaultLocator>(GameFile.PokeDefaultLocator, "Poke Default Locator Editor", z => z.Table, (z, _) => z.Locator);
     }
 
-    [EditorCallable(EditorCategory.Misc)] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
+    [EditorCallable()] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
     [EditorCallable(EditorCategory.Misc, true)] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
     [EditorCallable(EditorCategory.Misc, true)] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");
-    [EditorCallable(EditorCategory.Misc)] public void EditEventWork() => PopFlatConfig(GameFile.EventWork, "Event Work Editor");
+    [EditorCallable()] public void EditEventWork() => PopFlatConfig(GameFile.EventWork, "Event Work Editor");
     #endregion
 }

@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum TrainerCategory: ubyte {
+    NORMAL = 0,
+    GYM_LEADER = 1,
+}

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -6,10 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlatSharp" Version="6.3.5" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.Reflection\pkNX.Structures.FlatBuffers.Reflection.csproj" />
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
   </ItemGroup>
 

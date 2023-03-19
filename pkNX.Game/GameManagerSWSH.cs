@@ -4,6 +4,7 @@ using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SWSH;
 
 namespace pkNX.Game;
 
@@ -49,8 +50,8 @@ public class GameManagerSWSH : GameManager
         {
             MoveData = new DataCache<IMove>(move)
             {
-                Create = FlatBufferConverter.DeserializeFrom<Waza8>,
-                Write = z => FlatBufferConverter.SerializeFrom((Waza8)z),
+                Create = bytes => (IMove)FlatBufferConverter.DeserializeFrom<Waza>(bytes),
+                Write = z => ((Waza)z).SerializeFrom(),
             },
             LevelUpData = new DataCache<Learnset>(Learn)
             {

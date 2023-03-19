@@ -1,0 +1,31 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum Feature : int {
+    Stand = 0,
+    Hiding = 1,
+    Runaway = 2,
+    Tree = 3,
+    FlowerPot = 4,
+    Shopping = 5,
+}
+
+table PokeTable {
+    ObjectName:string (required);
+    FindFlagName:string (required);
+    IsBattle:bool;
+    BattleFlagName:string (required);
+    BattleId:string (required);
+    BattleMessageName:string (required);
+    RanchMessageName:string (required);
+    Feature:Feature;
+    PositionXFlagName:string (required);
+    PositionYFlagName:string (required);
+    PositionZFlagName:string (required);
+}
+
+table PokeTableArray (fs_serializer) {
+    Table:[PokeTable] (required);
+}
+
+root_type PokeTableArray;
