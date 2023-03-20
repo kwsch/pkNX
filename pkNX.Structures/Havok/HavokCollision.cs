@@ -462,7 +462,6 @@ public static class HavokCollision
                         _leafRectangles[n++] = new RectangleF(node.lx[i], node.lz[i], node.hx[i] - node.lx[i], node.hz[i] - node.lz[i]);
                 }
             }
-
         }
 
         public int NumBoundingBoxes => _numLeafRects;

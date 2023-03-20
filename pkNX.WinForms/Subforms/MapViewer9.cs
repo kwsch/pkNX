@@ -55,8 +55,8 @@ public partial class MapViewer9 : Form
                 AreaNames.Add(sceneObject.ObjectName);
                 var areaInfo = FindAreaInfo(sceneObject.ObjectName);
 
-                var shape = collisionComponent.CollisionShape;
-                if (shape is { Discriminator: 2, Item2: {} box })
+                var shape = collisionComponent.Shape;
+                if (shape.TryGet(out Box? box))
                 {
                     // Box collision, obj.ObjectPosition.Field_02 is pos, box.Field_01 is size of box
                     AreaCollisionBoxes[sceneObject.ObjectName] = new BoxCollision9
@@ -65,7 +65,7 @@ public partial class MapViewer9 : Form
                         Size = box.Field01,
                     };
                 }
-                else if (shape is { Discriminator: 4, Item4: {} havok })
+                if (shape.TryGet(out Havok? havok))
                 {
                     var havokData = ROM.GetPackedFile(havok.TrcolFilePath);
                     AreaCollisionTrees[sceneObject.ObjectName] = HavokCollision.ParseAABBTree(havokData);

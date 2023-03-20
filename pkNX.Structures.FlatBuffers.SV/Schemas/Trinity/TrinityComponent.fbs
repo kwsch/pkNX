@@ -12,7 +12,7 @@ table Sphere {
 }
 
 table Box {
-    TrcolFilePath:string (required);
+    // Just a box. No TrcolFilePath.
     Field_01:PackedVec3f (required);
     Field_02:PackedVec3f (required);
     Field_03:PackedVec3f (required);
@@ -41,11 +41,8 @@ table Vec3f {
 union CollisionUnion {Sphere, Box, Capsule, Havok}
 
 table CollisionComponent (fs_serializer) {
-    CollisionShape:CollisionUnion (required);
-    
-    /// UNDOCUMENTED???
-    Field_01:byte;
-    
+    Shape:CollisionUnion (required);
+    // field 01 is the object ptr for ^
     Field_02:uint;
     Field_03:byte;
     Field_04:uint;
