@@ -4,20 +4,19 @@ include "Enums/RecipeType.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";
-attribute "fs_valueStruct";
-
-struct RecipeSeasoningSet (fs_valueStruct) {
-    Seasonings:[SeasoningType:4];
-}
-
-struct RecipeIngredientsSet (fs_valueStruct) {
-    Ingredients:[IngredientType:6];
-}
 
 table RecipeData {
     Type:RecipeType = NONE;
-    Seasonings:RecipeSeasoningSet (required);
-    Ingredients:RecipeIngredientsSet (required);
+    Seasoning0:SeasoningType; // not a struct[4]
+    Seasoning1:SeasoningType;
+    Seasoning2:SeasoningType;
+    Seasoning3:SeasoningType;
+    Ingredient0:IngredientType; // not a struct[6]
+    Ingredient1:IngredientType;
+    Ingredient2:IngredientType;
+    Ingredient3:IngredientType;
+    Ingredient4:IngredientType;
+    Ingredient5:IngredientType;
 }
 
 table RecipeDataArray (fs_serializer) {

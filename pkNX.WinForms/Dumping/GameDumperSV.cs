@@ -23,9 +23,7 @@ public class GameDumperSV
     {
         get
         {
-            var parent = Directory.GetParent(ROM.PathRomFS);
-            if (parent is null)
-                throw new DirectoryNotFoundException($"Unable to find parent directory of {ROM.PathRomFS}");
+            var parent = Directory.GetParent(ROM.PathRomFS) ?? throw new DirectoryNotFoundException($"Unable to find parent directory of {ROM.PathRomFS}");
             return Path.Combine(parent.FullName, "Dump");
         }
     }
@@ -66,9 +64,7 @@ public class GameDumperSV
     {
         Directory.CreateDirectory(DumpFolder);
         var result = Path.Combine(DumpFolder, path);
-        var parent = Directory.GetParent(result);
-        if (parent is null)
-            throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
+        var parent = Directory.GetParent(result) ?? throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
         Directory.CreateDirectory(parent.FullName); // double check :(
         return result;
     }
@@ -77,9 +73,7 @@ public class GameDumperSV
     {
         Directory.CreateDirectory(DumpFolder);
         var result = Path.Combine(DumpFolder, parent, path);
-        var parent2 = Directory.GetParent(result);
-        if (parent2 is null)
-            throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
+        var parent2 = Directory.GetParent(result) ?? throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
         Directory.CreateDirectory(parent2.FullName); // double check :(
         return result;
     }

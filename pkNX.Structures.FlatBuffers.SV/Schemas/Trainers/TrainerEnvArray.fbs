@@ -15,11 +15,11 @@ table TrainerEnv {
     TalkData8:TalkData (required);
     TalkData9:TalkData (required);
     TalkData10:TalkData (required);
-    TalkData11:TalkData (required);
-    TalkData12:TalkData (required);
-    TalkData13:TalkData (required);
-    TalkData14:TalkData (required);
-    TalkData15:TalkData (required);
+    TalkData11:TalkData; // not required
+    TalkData12:TalkData; // not required
+    TalkData13:TalkData; // not required
+    TalkData14:TalkData; // not required
+    TalkData15:TalkData; // not required
     IntroTml:string (required);
     ThrowTml:string (required);
     CameraObjectName:string (required);

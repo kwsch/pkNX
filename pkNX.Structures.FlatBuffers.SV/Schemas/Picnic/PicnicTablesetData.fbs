@@ -41,13 +41,13 @@ table CookingPicnicTableInfo {
 
 table CookedPicnicTableInfo {
     Berryjam01Pos:Transform (required);
-    Berryjam02Pos:Transform (required);
+    Berryjam02Pos:Transform; // not required
     BottleRedPos:Transform (required);
     BottleYellowPos:Transform (required);
     BucketPos:Transform (required);
     Butter01Pos:Transform (required);
     Butter02Pos:Transform (required);
-    Creamcheese01Pos:Transform (required);
+    Creamcheese01Pos:Transform; // not required
     DishPos:Transform (required);
     LanternPos:Transform (required);
     Marmalade04Pos:Transform (required);

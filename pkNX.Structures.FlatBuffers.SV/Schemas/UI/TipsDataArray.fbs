@@ -32,9 +32,9 @@ table TipsData {
     Page9Title:string (required);
     Page9Text:string (required);
     Page9Pic:string (required);
-    Page10Title:string (required);
-    Page10Text:string (required);
-    Page10Pic:string (required);
+    Page10Title:string; // not required
+    Page10Text:string; // not required
+    Page10Pic:string; // not required
     NewflagName:string (required);
     DispflagName:string (required);
 }
