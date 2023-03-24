@@ -340,7 +340,7 @@ public static class TeraRaidRipper
         DumpJson(tableDrops, dir, "drop");
         DumpJson(tableBonus, dir, "bonus");
         DumpJson(tablePriority, dir, "priority");
-        DumpPretty(ROM, tableEncounters, tableDrops, tableBonus, dir);
+        DumpPretty(ROM, tableEncounters, tableDrops, tableBonus, tablePriority, dir);
     }
 
     private static void DumpJson(object flat, string dir, string name)
@@ -364,11 +364,11 @@ public static class TeraRaidRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, string dir)
+    private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, DeliveryRaidPriorityArray tablePriority, string dir)
     {
         var cfg = new TextConfig(GameVersion.SV);
         var lines = new List<string>();
-        var ident = tableEncounters.Table[0].RaidEnemyInfo.No;
+        var ident = tablePriority.Table[0].VersionNo;
         const string lang = "English";
 
         var species = GetCommonText(ROM, "monsname", lang, cfg);
