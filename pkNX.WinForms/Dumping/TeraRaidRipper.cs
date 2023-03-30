@@ -502,9 +502,9 @@ public static class TeraRaidRipper
                     };
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{drop.Num,2} × Crafting Material{limitation}");
+                        lines.Add($"\t\t\t{drop.Num,2} × TM Material{limitation}");
 
-                    if (drop.Category == RaidRewardItemCategoryType.GEM) // Material
+                    if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
                         lines.Add($"\t\t\t{drop.Num,2} × Tera Shard{limitation}");
 
                     if (drop.ItemID != 0)
@@ -530,7 +530,7 @@ public static class TeraRaidRipper
                     float rate = (float)(Math.Round((item.GetRewardItem(i).Rate / totalRate) * 100f, 2));
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Crafting Material");
+                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × TM Material");
 
                     if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
                         lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Tera Shard");
