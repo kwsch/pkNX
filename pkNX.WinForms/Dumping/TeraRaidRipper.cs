@@ -435,6 +435,17 @@ public static class TeraRaidRipper
                 _ => $"{entry.RaidEnemyInfo.CaptureRate}",
             };
 
+            var size = boss.ScaleType switch
+            {
+                SizeType.VALUE => $"{boss.ScaleValue}",
+                SizeType.XS => "0-15",
+                SizeType.S => "16-47",
+                SizeType.M => "48-207",
+                SizeType.L => "208-239",
+                SizeType.XL => "240-255",
+                _ => string.Empty,
+            };
+
             var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
 
             lines.Add($"{entry.RaidEnemyInfo.Difficulty}-Star {species[(int)boss.DevId]}{form}");
@@ -452,6 +463,15 @@ public static class TeraRaidRipper
 
             if (boss.RareType != RareType.DEFAULT)
                 lines.Add($"\tShiny: {shiny}");
+
+            if (boss.ScaleType != SizeType.RANDOM)
+                lines.Add($"\tScale: {size}");
+
+            if (entry.RaidEnemyInfo.Difficulty == 7)
+            {
+                float hp = entry.RaidEnemyInfo.BossDesc.HpCoef / 100f;
+                lines.Add($"\tHP Multiplier: {hp:0.0}x");
+            }
 
             if (boss.Item != ItemID.ITEMID_NONE)
                 lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
