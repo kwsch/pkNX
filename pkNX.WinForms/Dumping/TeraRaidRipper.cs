@@ -461,6 +461,21 @@ public static class TeraRaidRipper
 
             lines.Add($"\tIVs: {iv}");
 
+            if (boss.EffortValue.Stats.Any(z => z != 0))
+            {
+                string[] names = new[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                var spread = new List<string>();
+
+                for (int i = 0; i < boss.EffortValue.Stats.Length; i++)
+                {
+                    if (boss.EffortValue.Stats[i] == 0)
+                        continue;
+                    spread.Add($"{boss.EffortValue.Stats[i]} {names[i]}");
+                }
+
+                lines.Add($"\tEVs: {string.Join(" / ", spread)}");
+            }
+
             if (boss.RareType != RareType.DEFAULT)
                 lines.Add($"\tShiny: {shiny}");
 
