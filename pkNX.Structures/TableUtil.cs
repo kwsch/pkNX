@@ -103,8 +103,9 @@ public static class TableUtil
         if (mi.DeclaringType == objType)
             return obj.ToString() ?? string.Empty;
 
-        var props = objType.GetProperties();
-        return string.Join('|', props.Select(z => GetFormattedString(z.GetValue(obj))));
+        var props = objType.GetProperties().Select(z => GetFormattedString(z.GetValue(obj)));
+        var fields = objType.GetFields().Select(z => GetFormattedString(z.GetValue(obj)));
+        return string.Join('|', props.Concat(fields));
     }
 
     private static IEnumerable<object> JoinEnumerator(IEnumerator x)

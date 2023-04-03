@@ -925,7 +925,7 @@ public class GameDumperSV
 
     private static void DumpJson<T>(T flat, string filePath) where T : class
     {
-        var opt = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+        var opt = new System.Text.Json.JsonSerializerOptions { WriteIndented = true, IncludeFields = true };
         var json = System.Text.Json.JsonSerializer.Serialize(flat, opt);
 
         var fileName = Path.ChangeExtension(filePath, ".json");
