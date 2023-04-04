@@ -341,7 +341,7 @@ public static class TeraRaidRipper
         DumpJson(tableDrops, dir, "drop");
         DumpJson(tableBonus, dir, "bonus");
         DumpJson(tablePriority, dir, "priority");
-        DumpPretty(ROM, tableEncounters, tableDrops, tableBonus, dir);
+        DumpPretty(ROM, tableEncounters, tableDrops, tableBonus, tablePriority, dir);
     }
 
     private static void DumpJson(object flat, string dir, string name)
@@ -365,11 +365,11 @@ public static class TeraRaidRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, string dir)
+    private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, DeliveryRaidPriorityArray tablePriority, string dir)
     {
         var cfg = new TextConfig(GameVersion.SV);
         var lines = new List<string>();
-        var ident = tableEncounters.Table[0].Info.No;
+        var ident = tablePriority.Table[0].VersionNo;
         const string lang = "English";
 
         var species = GetCommonText(ROM, "monsname", lang, cfg);
@@ -436,6 +436,17 @@ public static class TeraRaidRipper
                 _ => $"{entry.Info.CaptureRate}",
             };
 
+            var size = boss.ScaleType switch
+            {
+                SizeType.VALUE => $"{boss.ScaleValue}",
+                SizeType.XS => "0-15",
+                SizeType.S => "16-47",
+                SizeType.M => "48-207",
+                SizeType.L => "208-239",
+                SizeType.XL => "240-255",
+                _ => string.Empty,
+            };
+
             var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
 
             lines.Add($"{entry.Info.Difficulty}-Star {species[(int)boss.DevId]}{form}");
@@ -451,8 +462,32 @@ public static class TeraRaidRipper
 
             lines.Add($"\tIVs: {iv}");
 
+            if (boss.EffortValue.Stats.Any(z => z != 0))
+            {
+                string[] names = new[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                var spread = new List<string>();
+
+                for (int i = 0; i < boss.EffortValue.Stats.Length; i++)
+                {
+                    if (boss.EffortValue.Stats[i] == 0)
+                        continue;
+                    spread.Add($"{boss.EffortValue.Stats[i]} {names[i]}");
+                }
+
+                lines.Add($"\tEVs: {string.Join(" / ", spread)}");
+            }
+
             if (boss.RareType != RareType.DEFAULT)
                 lines.Add($"\tShiny: {shiny}");
+
+            if (boss.ScaleType != SizeType.RANDOM)
+                lines.Add($"\tScale: {size}");
+
+            if (entry.RaidEnemyInfo.Difficulty == 7)
+            {
+                float hp = entry.RaidEnemyInfo.BossDesc.HpCoef / 100f;
+                lines.Add($"\tHP Multiplier: {hp:0.0}x");
+            }
 
             if (boss.Item != ItemID.ITEMID_NONE)
                 lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
@@ -503,9 +538,9 @@ public static class TeraRaidRipper
                     };
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{drop.Num,2} × Crafting Material{limitation}");
+                        lines.Add($"\t\t\t{drop.Num,2} × TM Material{limitation}");
 
-                    if (drop.Category == RaidRewardItemCategoryType.GEM) // Material
+                    if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
                         lines.Add($"\t\t\t{drop.Num,2} × Tera Shard{limitation}");
 
                     if (drop.ItemID != 0)
@@ -531,7 +566,7 @@ public static class TeraRaidRipper
                     float rate = (float)(Math.Round((item.GetRewardItem(i).Rate / totalRate) * 100f, 2));
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Crafting Material");
+                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × TM Material");
 
                     if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
                         lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Tera Shard");
