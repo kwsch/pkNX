@@ -12,4 +12,6 @@ public partial class WazaSet { }
 public partial class ParamSet
 {
     public string SlashSeparated() => $"{HP}/{ATK}/{DEF}/{SPA}/{SPD}/{SPE}";
+
+    public int[] ToArray() => new[] { HP, ATK, DEF, SPA, SPD, SPE };
 }

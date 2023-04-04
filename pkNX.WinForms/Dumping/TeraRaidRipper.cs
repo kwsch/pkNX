@@ -462,16 +462,17 @@ public static class TeraRaidRipper
 
             lines.Add($"\tIVs: {iv}");
 
-            if (boss.EffortValue.Stats.Any(z => z != 0))
+            var evs = boss.EffortValue.ToArray();
+            if (evs.Any(z => z != 0))
             {
                 string[] names = new[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
                 var spread = new List<string>();
 
-                for (int i = 0; i < boss.EffortValue.Stats.Length; i++)
+                for (int i = 0; i < evs.Length; i++)
                 {
-                    if (boss.EffortValue.Stats[i] == 0)
+                    if (evs[i] == 0)
                         continue;
-                    spread.Add($"{boss.EffortValue.Stats[i]} {names[i]}");
+                    spread.Add($"{evs[i]} {names[i]}");
                 }
 
                 lines.Add($"\tEVs: {string.Join(" / ", spread)}");
@@ -483,9 +484,9 @@ public static class TeraRaidRipper
             if (boss.ScaleType != SizeType.RANDOM)
                 lines.Add($"\tScale: {size}");
 
-            if (entry.RaidEnemyInfo.Difficulty == 7)
+            if (entry.Info.Difficulty == 7)
             {
-                float hp = entry.RaidEnemyInfo.BossDesc.HpCoef / 100f;
+                float hp = entry.Info.BossDesc.HpCoef / 100f;
                 lines.Add($"\tHP Multiplier: {hp:0.0}x");
             }
 

@@ -20,7 +20,7 @@ public partial class EvolutionSet
 {
     public byte[] Write()
     {
-        if (Table.Count == 0)
+        if (Table is null || Table.Count == 0)
             return Array.Empty<byte>();
 
         using var ms = new MemoryStream();
