@@ -1,0 +1,26 @@
+// This is exactly the same as the LGP/E schema.
+
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table ShopInventory (fs_serializer) {
+    Single:[SingleShop] (required);
+    Multi:[MultiShop] (required);
+}
+
+table SingleShop {
+    Hash:ulong;
+    Inventories:Inventory (required);
+}
+
+table MultiShop
+{
+    Hash:ulong;
+    Inventories:[Inventory] (required);
+}
+
+table Inventory {
+    Items:[int] (required);
+}
+
+root_type ShopInventory;

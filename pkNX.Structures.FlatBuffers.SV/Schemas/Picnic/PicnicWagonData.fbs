@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table LoveLevelProb {
+    Good:float;
+    Normal:float;
+    Bad:float;
+    Worst:float;
+}
+
+table PokemonEggCommonData {
+    CreateEggTimer:float;
+    CreateEggTimerShort:float;
+    CreateEggProb:LoveLevelProb (required);
+}
+
+table PicnicWagonData (fs_serializer) {
+    WagonSize:int;
+    EggCommonData:PokemonEggCommonData (required);
+}
+
+root_type PicnicWagonData;

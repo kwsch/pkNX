@@ -1,0 +1,61 @@
+include "FieldRide.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FieldPlayer (fs_serializer) {
+    Gravity:GravityParameter (required);
+    Input:InputParameter (required);
+    Move:MoveParameter (required);
+    Totter:TotterParameter (required);
+    Ground:GroundParameter (required);
+    SlideDrop:SlideDropParameter (required);
+    Ladder:LadderParameter (required);
+    Facial:FacialParameter (required);
+    Unique:PlayerUniqueParameter (required);
+    GroundKinesis:GroundKinesisParameter (required);
+    AerialKinesis:AerialKinesisParameter (required);
+    SlideDropKinesis:SlideDropKinesisParameter (required);
+    SquatKinesis:SquatKinesisParameter (required);
+    SlidingKinesis:SlidingKinesisParameter (required);
+    Selfie:SelfieParameter (required);
+    Floatation:FloatationParameter (required);
+}
+
+table TotterParameter {
+    Interval:float;
+    Height:float;
+    DistanceMax:float;
+    BackDistance:float;
+}
+
+table SelfieParameter{
+    MaxFactor:float;
+    RotAngleMax:float;
+}
+
+table PlayerUniqueParameter{
+    IdlingIntervalMin:float;
+    IdlingIntervalMax:float;
+    FacialIdlingCountMin:int;
+    FacialIdlingCountMax:int;
+    RunFacialIntervalMin:float;
+    RunFacialIntervalMax:float;
+    RunMouthIntervalMin:float;
+    RunMouthIntervalMax:float;
+    SlideDropLeanAngle:float;
+    SlideDropFwdAngle:float;
+    SquatRate:float;
+    RideChangeCheckHeight:float;
+    RideChangeBottomOffset:float;
+    RideChangeRadiusScale:float;
+    HiddenMargin:float;
+}
+table LadderParameter {
+    LowerCorrectRate:float;
+    UpperCorrectRate:float;
+    UpperLaunchAngle:float;
+    LowerLaunchAngle:float;
+    UpperForwardAngle:float;
+    LowerForwardAngle:float;
+}

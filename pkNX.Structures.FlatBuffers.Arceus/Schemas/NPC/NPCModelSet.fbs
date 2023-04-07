@@ -1,0 +1,53 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table NPCModelSetEntry {
+    NPCModelHash:ulong (key);
+    NPCIndex:string (required);
+    NPCResidentHash:ulong;
+    Animations:NPCModelAnimations (required);
+    Meshes:NPCModelMeshes (required);
+    Rigs:NPCModelRigs (required);
+    Attachment0:string (required);
+    Attachment1:string (required);
+    Attachment2:string (required);
+    Colors:NPCModelColorConfig (required);
+    ValueListID:string (required);
+    Field_11:[uint] (required);
+    ArchivePath:string (required);
+    Field_13:float;
+}
+
+table NPCModelAnimations {
+    FolderPath:[string] (required); //First value is base, usually empty string
+    AnimationPath:[string] (required);
+}
+
+table NPCModelMeshes {
+    FolderPath:[string] (required); //First value is base, usually empty string
+    MeshPath:[string] (required);
+    MeshFlags:[string] (required); //Can hide certain meshes like "hide_a_mesh"
+}
+
+table NPCModelRigs {
+    Rigs:[string] (required);
+}
+
+table NPCModelColorConfig {
+    Slots:[string] (required); // First value is base, usually empty string
+    R1:[uint] (required);
+    G1:[uint] (required);
+    B1:[uint] (required);
+    R2:[uint] (required);
+    G2:[uint] (required);
+    B2:[uint] (required);
+    R3:[uint] (required);
+    G3:[uint] (required);
+    B3:[uint] (required);
+}
+
+table NPCModelSet (fs_serializer) {
+    Table:[NPCModelSetEntry] (required);
+}
+
+root_type NPCModelSet;

@@ -1,0 +1,23 @@
+include "Enums/SeasoningType.fbs";
+include "Param/IngredientParam.fbs";
+include "Param/FoodPokeTypeParam.fbs";
+include "Param/FoodPowerParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table SeasoningData {
+    Type:SeasoningType;
+    Param:IngredientParam (required);
+    Power:FoodPowerParam (required);
+    PokeTypePower:FoodPokeTypeParam (required);
+    ObjTempName:string (required);
+    SetNum:int;
+}
+
+table SeasoningDataArray (fs_serializer) {
+    Table:[SeasoningData] (required);
+}
+
+root_type SeasoningDataArray;

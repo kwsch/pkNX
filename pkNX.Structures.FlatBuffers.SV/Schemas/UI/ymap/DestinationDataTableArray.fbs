@@ -1,0 +1,24 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum MapIconMode : int {
+    INVISIBLE = 0,
+    ACTIVE = 1,
+    ADDON_MARK = 2,
+}
+
+table DestinationDataTable {
+    EventID:string (required);
+    MapIconMode:MapIconMode = INVISIBLE;
+    IconID:string (required);
+    IsNotice:bool;
+    ChapterTitle:string (required);
+    DestinationName:string (required);
+    SubDestinationName:string (required);
+}
+
+table DestinationDataTableArray (fs_serializer) {
+    Table:[DestinationDataTable] (required);
+}
+
+root_type DestinationDataTableArray;

@@ -1,5 +1,4 @@
 using System.IO;
-using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
 using pkNX.WinForms.Subforms;

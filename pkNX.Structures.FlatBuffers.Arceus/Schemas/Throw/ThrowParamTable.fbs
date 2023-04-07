@@ -1,0 +1,24 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ThrowParam {
+    ThrowParamType:ulong (key);
+
+    /// more speed
+    Velocity:float;
+
+    /// more arc
+    Arc:float;
+
+    /// higher values make it fall less, and go less forward
+    GravityDirection:float;
+
+    /// higher values go straight up?
+    ThrowAngle:float;
+}
+
+table ThrowParamTable (fs_serializer) {
+    Table:[ThrowParam] (required);
+}
+
+root_type ThrowParamTable;

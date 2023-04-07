@@ -1,0 +1,39 @@
+namespace pkNX.Structures.FlatBuffers.SV.Trinity;
+attribute "fs_serializer";
+
+table TrinityPropertySheetField1 { Value:ulong; FieldType:byte; }
+table TrinityPropertySheetField2 { Value:uint;  FieldType:byte; }
+table TrinityPropertySheetFieldStringValue { Value:string (required); }
+table TrinityPropertySheetField4 { }
+table TrinityPropertySheetField5 { }
+table TrinityPropertySheetField6 { }
+table TrinityPropertySheetField7 { }
+table TrinityPropertySheetField8 { }
+
+ /// Recursive!
+table TrinityPropertySheetObject { Fields:[TrinityPropertySheetField] (required); }
+
+union TrinityPropertySheetValue {
+    TrinityPropertySheetField1,
+    TrinityPropertySheetField2,
+    TrinityPropertySheetFieldStringValue,
+    TrinityPropertySheetField4,
+    TrinityPropertySheetField5,
+    TrinityPropertySheetField6,
+    TrinityPropertySheetField7,
+    TrinityPropertySheetField8,
+    TrinityPropertySheetObject
+}
+
+table TrinityPropertySheetField {
+    Name:string (required);
+    Data:TrinityPropertySheetValue (required);
+}
+
+table TrinityPropertySheet (fs_serializer) {
+    Name:string (required);
+    Extra:string (required);
+    Properties:[TrinityPropertySheetObject] (required);
+}
+
+root_type TrinityPropertySheet;

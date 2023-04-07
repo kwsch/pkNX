@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum NpcTrafficPartnerType : int {
+    None = 0,
+    Npc = 1,
+    Poke = 2,
+}

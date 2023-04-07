@@ -1,0 +1,16 @@
+include "../PokeData/PokeDataFull.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table EventAddPokemon {
+    Label:string (required);
+    PokeData:PokeDataFull (required);
+    PokedexRegistration:bool;
+}
+
+table EventAddPokemonArray (fs_serializer) {
+    Table:[EventAddPokemon] (required);
+}
+
+root_type EventAddPokemonArray;

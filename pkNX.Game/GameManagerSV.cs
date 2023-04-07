@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using pkNX.Containers;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SV.Trinity;
 
 namespace pkNX.Game;
 

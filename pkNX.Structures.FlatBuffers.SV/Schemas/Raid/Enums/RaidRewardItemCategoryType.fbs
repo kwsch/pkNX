@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum RaidRewardItemCategoryType : int {
+    ITEM = 0,
+    POKE = 1,
+    GEM = 2,
+}

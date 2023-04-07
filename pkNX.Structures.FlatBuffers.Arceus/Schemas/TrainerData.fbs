@@ -1,0 +1,64 @@
+include "Shared/NatureType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table TrainerData (fs_serializer) {
+    Hash_00:ulong; // ulong
+    Hash_01:ulong; // ulong
+    Hash_02:ulong; // ulong
+    Music:string (required);
+    EE_04:string (required);
+    EE_05:string (required);
+    EE_06:string (required);
+    Hash_07:ulong; // ulong
+    Hash_08:ulong; // ulong
+    Field_09:TrFloatQuad (required);
+    Field_10:int ; // int
+    Field_11:int ; // int
+    Field_12:int ; // int
+    Field_13:byte; // UNUSED?
+    Field_14:byte; // UNUSED?
+    Field_15:byte; // UNUSED?
+    Field_16:byte; // byte
+    Field_17:byte; // byte
+    Field_18:byte; // byte
+    Field_19:byte; // UNUSED?
+    Field_20:byte; // byte
+    Field_21:byte; // byte
+    Team:[TrainerPoke] (required);
+}
+
+table TrainerPoke {
+    Species:int;
+    Form:int;
+    Move_01:WazaSet (required);
+    Move_02:WazaSet (required);
+    Move_03:WazaSet (required);
+    Move_04:WazaSet (required);
+    Level:int;
+    Nature:NatureType;
+    Gender:int;
+    GV_HP:int;
+    GV_ATK:int;
+    GV_DEF:int;
+    GV_SPE:int;
+    GV_SPA:int;
+    GV_SPD:int;
+    Shiny:bool;
+    IsOybn:bool;
+}
+
+table WazaSet {
+    Move:int;
+    Mastered:bool;
+}
+
+table TrFloatQuad {
+    Float_00:float;
+    Float_01:float;
+    Float_02:float;
+    Float_03:float;
+}
+
+root_type TrainerData;

@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct WazaInflict (fs_valueStruct) {
+    Value:ushort;
+    Chance:ubyte;
+    Turn1:ubyte;
+    Turn2:ubyte;
+    Turn3:ubyte;
+}

@@ -1,0 +1,19 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneNPCHolder {
+    Field_00:PlacementZoneNPC (required);
+}
+
+table PlacementZoneNPC {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Hash_01:ulong;
+    Message:ulong;
+    Field_03:uint;
+    WorkValue:ulong;
+    Field_05:uint;
+    Field_06:uint;
+    Field_07:ubyte; // unused
+    Byte_08:ubyte;
+    Hash_09:ulong;
+}

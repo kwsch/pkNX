@@ -1,0 +1,13 @@
+include "EncBiome.fbs";
+include "FieldAttrKey.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table OverrideBiome {
+    Attr1:FieldAttrKey = dummy;
+    Biome1:EncBiome = None;
+    Attr2:FieldAttrKey = dummy;
+    Biome2:EncBiome = None;
+    Attr3:FieldAttrKey = dummy;
+    Biome3:EncBiome = None;
+}

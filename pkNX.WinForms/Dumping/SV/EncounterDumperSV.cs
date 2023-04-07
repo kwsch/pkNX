@@ -6,6 +6,7 @@ using System.Linq;
 using PKHeX.Core;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.WinForms;
 
@@ -164,7 +165,7 @@ public class EncounterDumperSV
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
-            for (var i = 0; i < fsymData.Table.Length; i++)
+            for (var i = 0; i < fsymData.Table.Count; i++)
             {
                 var entry = fsymData.Table[i];
                 var tableKey = entry.TableKey;
@@ -205,7 +206,7 @@ public class EncounterDumperSV
                 gw.WriteLine(entry.TableKey);
                 gw.WriteLine("===");
                 gw.WriteLine("  PokeData:");
-                var pd = entry.PokeDataSymbol;
+                var pd = entry.Symbol;
                 gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                 gw.WriteLine($"    Form:    {pd.FormId}");
                 gw.WriteLine($"    Level:   {pd.Level}");
@@ -319,7 +320,7 @@ public class EncounterDumperSV
             {
                 cw.WriteLine($"  Box Label:   {entry.BoxLabel}");
                 cw.WriteLine("  PokeData:");
-                var pd = Array.Find(eventBattle.Table, e => e.Label == entry.BoxLabel)!.PokeData;
+                var pd = eventBattle.Table.First(e => e.Label == entry.BoxLabel).PokeData;
 
                 cw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                 cw.WriteLine($"    Form:    {pd.FormId}");
@@ -382,15 +383,15 @@ public class EncounterDumperSV
     private static LocationPointDetail[] ReformatPoints(PointDataArray all)
     {
         var arr = all.Table;
-        var result = new LocationPointDetail[arr.Length];
-        for (int i = 0; i < arr.Length; i++)
+        var result = new LocationPointDetail[arr.Count];
+        for (int i = 0; i < arr.Count; i++)
             result[i] = new LocationPointDetail(arr[i]);
         return result;
     }
 
     private static void WriteFixedSymbol(ICollection<byte[]> exist, FixedSymbolTable entry, IReadOnlyList<int> locs)
     {
-        var enc = entry.PokeDataSymbol;
+        var enc = entry.Symbol;
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
 

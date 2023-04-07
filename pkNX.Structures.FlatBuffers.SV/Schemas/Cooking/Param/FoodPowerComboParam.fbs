@@ -1,0 +1,14 @@
+include "../Enums/SeasoningType.fbs";
+include "../Enums/IngredientType.fbs";
+include "FoodPowerParam.fbs";
+include "FoodPokeTypeParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct FoodPowerComboParam (fs_valueStruct) {
+    Seasoning:[SeasoningType:4];
+    Ingredient:[IngredientType:6];
+    FoodPower:FoodPowerParam;
+    PokeTypePower:FoodPokeTypeParam;
+}

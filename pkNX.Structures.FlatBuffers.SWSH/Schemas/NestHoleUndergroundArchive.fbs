@@ -1,0 +1,36 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table EncounterUnderground {
+    HasFlagRequirement:bool;
+    FlagRequirementID:ulong;
+    Field_02:ubyte; // all zero, Gender?
+    Form:ubyte;
+    GigantamaxState:uint;
+    Ball:uint;
+    IndexNum:uint;
+    Level:uint;
+    Species:int;
+    UiMessageID:ulong;
+    OT_Gender:uint;
+    Version:ubyte;
+    Shiny:uint;
+    IV_SPE:byte;
+    IV_ATK:byte;
+    IV_DEF:byte;
+    IV_HP:byte;
+    IV_SPA:byte;
+    IV_SPD:byte;
+    Ability:uint; // 1,2,4
+    Field_14:ubyte; // ultra beasts only, selectability
+    Move0:uint;
+    Move1:uint;
+    Move2:uint;
+    Move3:uint;
+}
+
+table EncounterUndergroundArchive (fs_serializer) {
+    Table:[EncounterUnderground] (required);
+}
+
+root_type EncounterUndergroundArchive;

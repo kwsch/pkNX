@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum WazaAffinity : byte {
+    None = 0,
+    Support = 3,
+    Self = 4,
+    Attack = 5,
+    Strong = 6,
+    Shuriken = 7,
+}

@@ -1,0 +1,20 @@
+include "../../Geometry/Vec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table Range {
+    Origin:float;
+    Max:float;
+    Min:float;
+}
+
+table FieldInteriorCamera (fs_serializer) {
+    Yaw:Range (required);
+    Pitch:Range (required);
+    Distance:float;
+    DelayFactor:float;
+    Offset:Vec3f (required);
+}
+
+root_type FieldInteriorCamera;

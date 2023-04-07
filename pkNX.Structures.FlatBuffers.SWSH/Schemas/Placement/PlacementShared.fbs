@@ -1,0 +1,75 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_defaultCtor";
+attribute "fs_setter";
+
+table PlacementZoneMetaTripleXYZ {
+    LocationX:float;
+    LocationY:float;
+    LocationZ:float;
+    RotationX:float; // assumed
+    RotationY:float;
+    RotationZ:float; // assumed
+    ScaleX:float;
+    ScaleY:float;
+    ScaleZ:float;
+    HashObjectName:ulong;
+    Hash_10:ulong;
+    Hash_11:ulong;
+}
+
+table PlacementZone_V3f {
+    LocationX:float;
+    LocationY:float;
+    LocationZ:float;
+}
+
+table FlatDummyObject {
+    Field_00:ubyte (fs_setter:"None");
+}
+
+table PlacementZone_F02_Nine {
+    Field_00:ubyte;
+    Field_01:ubyte;
+    Field_02:ubyte;
+    Field_03:uint; // either 0 or 1, for only 3 objects in the game
+    Hash_04:ulong;
+    Field_05:ubyte;
+    Field_06:uint; // unused
+    Hash_07:ulong;
+    AnimationIndexSecondary:uint;
+    Field_09:uint;
+}
+
+table FlatDummyEntry (fs_defaultCtor:"None") { }
+
+table PlacementZoneDeepX {
+    Field_00:float;
+    Field_01:float;
+    Field_02:float;
+
+    Field_03:float;
+    Field_04:float;
+    Field_05:float;
+
+    Field_06:float;
+    Field_07:float;
+    Field_08:float;
+    
+    Field_09:ulong;
+    Field_10:ulong;
+    Field_11:ulong;
+}
+
+table PlacementZoneDeepY {
+    Field_00:uint;
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+    Field_05:float;
+    Field_06:float;
+    Field_07:float;
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+}

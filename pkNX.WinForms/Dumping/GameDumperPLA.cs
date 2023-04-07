@@ -6,6 +6,15 @@ using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
+using FnvHash = pkNX.Containers.FnvHash;
+
+using Legal = pkNX.Structures.Legal;
+using IPersonalTable = pkNX.Structures.IPersonalTable;
+using Learnset = pkNX.Structures.FlatBuffers.Arceus.Learnset;
+using PersonalInfo = pkNX.Structures.FlatBuffers.Arceus.PersonalInfo;
+using PersonalTable = pkNX.Structures.FlatBuffers.Arceus.PersonalTable;
+using Species = pkNX.Structures.Species;
 
 namespace pkNX.WinForms;
 
@@ -55,7 +64,8 @@ public class GameDumperPLA
         File.WriteAllBytes(path, test);*/
 
         var csv = GetPath("personal.csv");
-        File.WriteAllText(csv, FlatDumper.GetTable<PersonalTableLAfb, PersonalInfoLAfb>(data));
+        var dump = FlatDumper.GetTable<PersonalTable, PersonalInfo>(data, z => z.Table);
+        File.WriteAllText(csv, dump);
     }
 
     public void DumpPokeInfo()
@@ -63,9 +73,9 @@ public class GameDumperPLA
         var s = ROM.GetStrings(TextName.SpeciesNames);
 
         var lrd = ROM.GetFile(GameFile.Learnsets)[0];
-        var lr = FlatBufferConverter.DeserializeFrom<Learnset8a>(lrd);
+        var lr = FlatBufferConverter.DeserializeFrom<pkNX.Structures.FlatBuffers.Arceus.Learnset>(lrd);
         var evd = ROM.GetFile(GameFile.Evolutions)[0];
-        var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(evd);
+        var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable>(evd);
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
         var altForms = pt.GetFormList(s);
         var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
@@ -103,7 +113,7 @@ public class GameDumperPLA
         DumpMoveUsers(pt, lr);
     }
 
-    private void DumpMoveUsers(IPersonalTable pt, Learnset8a lr)
+    private void DumpMoveUsers(IPersonalTable pt, Learnset lr)
     {
         List<string> Users = new();
         var moves = ROM.GetStrings(TextName.MoveNames);
@@ -135,9 +145,9 @@ public class GameDumperPLA
         File.WriteAllLines(outname, Users);
     }
 
-    private static string GetSpeciesMove(string[] spec, Learnset8aMeta x, int move)
+    private static string GetSpeciesMove(string[] spec, LearnsetMeta x, int move)
     {
-        var learnset = Array.Find(x.Arceus, w => w.Move == move);
+        var learnset = x.Arceus.FirstOrDefault(w => w.Move == move);
         var level = learnset is null ? "INVALID" : learnset.Level.ToString();
         return $"{spec[x.Species]}{(x.Form == 0 ? "" : $"-{x.Form}")} @ {level}";
     }
@@ -224,11 +234,11 @@ public class GameDumperPLA
     {
         var names = ROM.GetStrings(TextName.ItemNames);
         var field = Path.Combine(ROM.PathRomFS, "bin", "pokemon", "data", "poke_drop_item.bin");
-        var fieldItems = FlatBufferConverter.DeserializeFrom<PokeDropItemArchive8a>(field).Table.Select(z => z.Dump(names));
+        var fieldItems = FlatBufferConverter.DeserializeFrom<PokeDropItemArchive>(field).Table.Select(z => z.Dump(names));
         File.WriteAllLines(GetPath("DropItems.txt"), fieldItems);
 
         var battle = Path.Combine(ROM.PathRomFS, "bin", "pokemon", "data", "poke_drop_item_battle.bin");
-        var battleItems = FlatBufferConverter.DeserializeFrom<PokeDropItemBattleArchive8a>(battle).Table.Select(z => z.Dump(names));
+        var battleItems = FlatBufferConverter.DeserializeFrom<PokeDropItemBattleArchive>(battle).Table.Select(z => z.Dump(names));
         File.WriteAllLines(GetPath("BattleDropItems.txt"), battleItems);
     }
 
@@ -258,13 +268,13 @@ public class GameDumperPLA
     {
         var dir = Path.Combine(ROM.PathRomFS, "bin", "pml", "waza");
         var files = Directory.GetFiles(dir);
-        var moves = FlatBufferConverter.DeserializeFrom<Waza8a>(files);
+        var moves = FlatBufferConverter.DeserializeFrom<Waza>(files);
         var names = ROM.GetStrings(TextName.MoveNames);
         var lines = TableUtil.GetNamedTypeTable(moves, names, "Moves");
         var table = GetPath("MoveData.txt");
         File.WriteAllText(table, lines);
 
-        var pp = moves.Select(z => z.FPP);
+        var pp = moves.Select(z => z.PP);
         var str = string.Join(", ", pp.Select(z => $"{z:00}"));
         var pppath = GetPath("MovePP.txt");
         File.WriteAllText(pppath, str);
@@ -289,7 +299,7 @@ public class GameDumperPLA
     public void DumpLearnsetBinary()
     {
         var data = ROM.GetFile(GameFile.Learnsets)[0];
-        var obj = FlatBufferConverter.DeserializeFrom<Learnset8a>(data);
+        var obj = FlatBufferConverter.DeserializeFrom<Learnset>(data);
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
         var result = new byte[pt.Table.Length][];
         var mastery = new byte[pt.Table.Length][];
@@ -299,7 +309,7 @@ public class GameDumperPLA
         var Dupes = new List<(int Species, int Form)>();
         foreach (var e in obj.Table)
         {
-            if (e.Arceus.Length == 0)
+            if (e.Arceus.Count == 0)
                 continue;
             var index = pt.GetFormIndex(e.Species, (byte)e.Form);
             var entry = (IPersonalInfoPLA)pt[index];
@@ -308,7 +318,7 @@ public class GameDumperPLA
             result[index] = e.WriteLearnsetAsLearn6();
             mastery[index] = e.WriteMasteryAsLearn6();
 
-            if (e.Arceus.Select(z => z.Level).Distinct().Count() != e.Arceus.Length)
+            if (e.Arceus.Select(z => z.Level).Distinct().Count() != e.Arceus.Count)
                 Dupes.Add(new(e.Species, e.Form));
         }
 
@@ -335,7 +345,7 @@ public class GameDumperPLA
     {
         // format matches past gen and PKHeX's expected format
         var data = ROM.GetFilteredFolder(GameFile.Evolutions)[0];
-        var obj = FlatBufferConverter.DeserializeFrom<EvolutionTable8>(data);
+        var obj = FlatBufferConverter.DeserializeFrom<EvolutionTable>(data);
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
         var result = new byte[pt.Table.Length][];
         for (int i = 0; i < result.Length; i++)
@@ -343,7 +353,7 @@ public class GameDumperPLA
 
         foreach (var e in obj.Table)
         {
-            if (e.Table?.Length is not > 0)
+            if (e.Table?.Count is not > 0)
                 continue;
             var index = pt.GetFormIndex(e.Species, (byte)e.Form);
             var entry = (IPersonalInfoPLA)pt[index];
@@ -361,7 +371,7 @@ public class GameDumperPLA
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         var data = ROM.GetFile(GameFile.EncounterTableGift)[0];
-        var gifts = FlatBufferConverter.DeserializeFrom<PokeAdd8aArchive>(data);
+        var gifts = FlatBufferConverter.DeserializeFrom<PokeAddArchive>(data);
         var table = TableUtil.GetTable(gifts.Table);
         var fn = GetPath("Gifts.txt");
         File.WriteAllText(fn, table);
@@ -374,7 +384,7 @@ public class GameDumperPLA
     {
         var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
         var data = ROM.GetFile(GameFile.EncounterTableStatic)[0];
-        var statics = FlatBufferConverter.DeserializeFrom<EventEncount8aArchive>(data);
+        var statics = FlatBufferConverter.DeserializeFrom<EventEncountArchive>(data);
 
         var lines = new List<string>();
 
@@ -401,18 +411,18 @@ public class GameDumperPLA
 
         Dictionary<string, (string Name, int Index)> map = GetPlaceNameMap();
         var multdata = ROM.GetFile(GameFile.EncounterRateTable)[0];
-        var multipliers = FlatBufferConverter.DeserializeFrom<EncounterMultiplierArchive8a>(multdata);
+        var multipliers = FlatBufferConverter.DeserializeFrom<EncounterMultiplierArchive>(multdata);
         var miscdata = ROM.GetFile(GameFile.PokeMisc)[0];
-        var misc = FlatBufferConverter.DeserializeFrom<PokeMiscTable8a>(miscdata);
+        var misc = FlatBufferConverter.DeserializeFrom<PokeMiscTable>(miscdata);
 
         var nhoGroup_b = ROM.GetFile(GameFile.NewHugeGroup)[0];
-        var nhoGroup = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupArchive8a>(nhoGroup_b);
+        var nhoGroup = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupArchive>(nhoGroup_b);
         var nhoGroupL_b = ROM.GetFile(GameFile.NewHugeGroupLottery)[0];
-        var nhoGroupL = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupLotteryArchive8a>(nhoGroupL_b);
+        var nhoGroupL = FlatBufferConverter.DeserializeFrom<NewHugeOutbreakGroupLotteryArchive>(nhoGroupL_b);
 
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
-        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
+        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable>(bin_settings);
 
         const string wild = "wild";
         Directory.CreateDirectory(GetPath(wild));
@@ -423,29 +433,29 @@ public class GameDumperPLA
         const float bias = 20;
 
         var hexBin = new List<byte[]>();
-        var allSlots = new List<EncounterSlot8a>();
-        var allSpawners = new List<PlacementSpawner8a>();
-        var allWormholes = new List<PlacementSpawner8a>();
-        var allLocations = new List<PlacementLocation8a>();
-        var allLandItems = new List<LandmarkItemSpawn8a>();
-        var allLandMarks = new List<LandmarkItem8a>();
+        var allSlots = new List<pkNX.Structures.FlatBuffers.Arceus.EncounterSlot>();
+        var allSpawners = new List<PlacementSpawner>();
+        var allWormholes = new List<PlacementSpawner>();
+        var allLocations = new List<PlacementLocation>();
+        var allLandItems = new List<LandmarkItemSpawn>();
+        var allLandMarks = new List<LandmarkItem>();
         var allUnown = new List<PlacementUnnnEntry>();
         var allMkrg = new List<PlacementMkrgEntry>();
         var allSearchItem = new List<PlacementSearchItem>();
         foreach (var areaNameList in ResidentAreaSet.AreaNames)
         {
-            var instance = AreaInstance8a.Create(resident, areaNameList, settings);
-            var lines = EncounterTable8aUtil.GetLines(multipliers, misc, speciesName, instance, nhoGroup, nhoGroupL, map).ToList();
+            var instance = AreaInstance.Create(resident, areaNameList, settings);
+            var lines = EncounterTableUtil.GetLines(multipliers, misc, speciesName, instance, nhoGroup, nhoGroupL, map).ToList();
             File.WriteAllLines(GetPath(wild, $"Encounters_{instance.AreaName}.txt"), lines);
 
-            var unown = EncounterTable8aUtil.GetUnownLines(instance, map).Distinct().ToList();
+            var unown = EncounterTableUtil.GetUnownLines(instance, map).Distinct().ToList();
             File.WriteAllLines(GetPath(wild, $"unown_0_{instance.AreaName}.txt"), unown);
-            var unownBias = EncounterTable8aUtil.GetUnownLinesBias(instance, map, bias).Distinct().ToList();
+            var unownBias = EncounterTableUtil.GetUnownLinesBias(instance, map, bias).Distinct().ToList();
             File.WriteAllLines(GetPath(wild, $"unown_{bias:0}_{instance.AreaName}.txt"), unownBias);
             allUnownLines.AddRange(unown);
             allUnownLinesBias.AddRange(unownBias);
 
-            var slices = EncounterTable8aUtil.GetEncounterDump(instance, map, misc, nhoGroup, nhoGroupL);
+            var slices = EncounterTableUtil.GetEncounterDump(instance, map, misc, nhoGroup, nhoGroupL);
             foreach (var s in slices)
             {
                 if (!hexBin.Any(z => z.SequenceEqual(s)))
@@ -502,9 +512,9 @@ public class GameDumperPLA
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
-        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
+        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable>(bin_settings);
         var dir = GetPath("Resident");
-        var props = typeof(AreaSettings8a).GetProperties();
+        var props = typeof(AreaSettings).GetProperties();
         foreach (var x in settings.Table)
         {
             foreach (var p in props)
@@ -544,7 +554,7 @@ public class GameDumperPLA
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
         var bin_settings = resident.GetDataFullPath("bin/field/resident/AreaSettings.bin");
-        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable8a>(bin_settings);
+        var settings = FlatBufferConverter.DeserializeFrom<AreaSettingsTable>(bin_settings);
 
         Dictionary<string, (string Name, int Index)> map = GetPlaceNameMap();
 
@@ -557,11 +567,11 @@ public class GameDumperPLA
 
         foreach (var areaNameList in ResidentAreaSet.AreaNames)
         {
-            var area = AreaInstance8a.Create(resident, areaNameList, settings);
+            var area = AreaInstance.Create(resident, areaNameList, settings);
             foreach (var subArea in new[] { area }.Concat(area.SubAreas))
             {
                 var areaName = subArea.AreaName;
-                if (subArea.Locations.Length != 0)
+                if (subArea.Locations.Count != 0)
                 {
                     var loc_lines = GetLocationBoundLines(areaName, map, subArea.Locations);
 
@@ -569,7 +579,7 @@ public class GameDumperPLA
                     location_all.Add(string.Empty);
                     File.WriteAllLines(GetPath(placement, $"Location_{areaName}.txt"), loc_lines);
                 }
-                if (subArea.Spawners.Length != 0)
+                if (subArea.Spawners.Count != 0)
                 {
                     var spwn_lines = GetSpawnLines(areaName, map, subArea.Spawners, subArea.Locations);
 
@@ -577,7 +587,7 @@ public class GameDumperPLA
                     spawner_all.Add(string.Empty);
                     File.WriteAllLines(GetPath(placement, $"Spawner_{areaName}.txt"), spwn_lines);
                 }
-                if (subArea.Wormholes.Length != 0)
+                if (subArea.Wormholes.Count != 0)
                 {
                     var spwn_lines = GetSpawnLines(areaName, map, subArea.Wormholes, subArea.Locations);
 
@@ -585,7 +595,7 @@ public class GameDumperPLA
                     wh_spawner_all.Add(string.Empty);
                     File.WriteAllLines(GetPath(placement, $"WhSpawner_{areaName}.txt"), spwn_lines);
                 }
-                if (subArea.Mikaruge.Length != 0)
+                if (subArea.Mikaruge.Count != 0)
                 {
                     var mkrg_lines = GetMikarugeLines(areaName, map, subArea.Mikaruge, subArea.Locations);
 
@@ -593,7 +603,7 @@ public class GameDumperPLA
                     mkrg_all.Add(string.Empty);
                     File.WriteAllLines(GetPath(placement, $"Mikaruge_{areaName}.txt"), mkrg_lines);
                 }
-                if (subArea.SearchItem.Length != 0)
+                if (subArea.SearchItem.Count != 0)
                 {
                     var mkrg_lines = GetSearchItemLines(areaName, map, subArea.SearchItem, subArea.Locations);
 
@@ -631,7 +641,7 @@ public class GameDumperPLA
 
     private static IReadOnlyList<string> GetLocationBoundLines(string areaName,
         IReadOnlyDictionary<string, (string Name, int Index)> map,
-        IEnumerable<PlacementLocation8a> locations)
+        IEnumerable<PlacementLocation> locations)
     {
         var result = new List<string> { $"Area: {areaName}" };
         foreach (var location in locations)
@@ -649,8 +659,8 @@ public class GameDumperPLA
 
     private static IReadOnlyList<string> GetSpawnLines(string areaName,
         IReadOnlyDictionary<string, (string Name, int Index)> map,
-        IEnumerable<PlacementSpawner8a> spawners,
-        IReadOnlyList<PlacementLocation8a> locations)
+        IEnumerable<PlacementSpawner> spawners,
+        IList<PlacementLocation> locations)
     {
         var result = new List<string> { $"Area: {areaName}" };
         foreach (var spawner in spawners)
@@ -664,7 +674,7 @@ public class GameDumperPLA
     private static IReadOnlyList<string> GetMikarugeLines(string areaName,
         IReadOnlyDictionary<string, (string Name, int Index)> map,
         IEnumerable<PlacementMkrgEntry> mkrgs,
-        IReadOnlyList<PlacementLocation8a> locations)
+        IList<PlacementLocation> locations)
     {
         var result = new List<string> { $"Area: {areaName}" };
         foreach (var mkrg in mkrgs)
@@ -678,7 +688,7 @@ public class GameDumperPLA
     private static IReadOnlyList<string> GetSearchItemLines(string areaName,
         IReadOnlyDictionary<string, (string Name, int Index)> map,
         IEnumerable<PlacementSearchItem> mkrgs,
-        IReadOnlyList<PlacementLocation8a> locations)
+        IList<PlacementLocation> locations)
     {
         var result = new List<string> { $"Area: {areaName}" };
         foreach (var psi in mkrgs)
@@ -689,8 +699,8 @@ public class GameDumperPLA
         return result;
     }
 
-    private static string GetNearbyLocationNames(PlacementSpawner8a spawner,
-        IReadOnlyList<PlacementLocation8a> locations,
+    private static string GetNearbyLocationNames(PlacementSpawner spawner,
+        IList<PlacementLocation> locations,
         IReadOnlyDictionary<string, (string Name, int Index)> map)
     {
         var containedBy = spawner.GetContainingLocations(locations);
@@ -700,7 +710,7 @@ public class GameDumperPLA
     }
 
     private static string GetNearbyLocationNames(PlacementSearchItem mkrg,
-        IReadOnlyList<PlacementLocation8a> locations,
+        IList<PlacementLocation> locations,
         IReadOnlyDictionary<string, (string Name, int Index)> map)
     {
         var containedBy = mkrg.GetContainingLocations(locations);
@@ -710,7 +720,7 @@ public class GameDumperPLA
     }
 
     private static string GetNearbyLocationNames(PlacementMkrgEntry mkrg,
-        IReadOnlyList<PlacementLocation8a> locations,
+        IList<PlacementLocation> locations,
         IReadOnlyDictionary<string, (string Name, int Index)> map)
     {
         var containedBy = mkrg.GetContainingLocations(locations);
@@ -719,7 +729,7 @@ public class GameDumperPLA
         return string.Join(", ", localized);
     }
 
-    private void DumpVisualizationData(AreaInstance8a area)
+    private void DumpVisualizationData(AreaInstance area)
     {
         var vis_lines = new List<string> { "LOCS = [" };
 
@@ -759,13 +769,13 @@ public class GameDumperPLA
     public void DumpOutbreak()
     {
         var file = ROM.GetFile(GameFile.Outbreak).FilePath;
-        var result = FlatDumper.GetTable<MassOutbreakTable8a, MassOutbreak8a>(file!);
+        var result = FlatDumper.GetTable<MassOutbreakTable, MassOutbreak>(file!, z=>z.Table);
         File.WriteAllText(GetPath("massOutbreak.txt"), result);
 
-        var arr = FlatBufferConverter.DeserializeFrom<MassOutbreakTable8a>(file!).Table;
-        var cache = new DataCache<MassOutbreak8a>(arr);
+        var arr = FlatBufferConverter.DeserializeFrom<MassOutbreakTable>(file!).Table;
+        var cache = new DataCache<MassOutbreak>(arr);
         var names = Enumerable.Range(0, cache.Length).Select(z => $"{z}").ToArray();
-        var form = new GenericEditor<MassOutbreak8a>(cache, names, "Outbreak");
+        var form = new GenericEditor<MassOutbreak>(cache, names, "Outbreak");
         form.ShowDialog();
     }
 
@@ -807,8 +817,8 @@ public class GameDumperPLA
 
         for (ushort species = 0; species <= 980; species++)
         {
-            var entries = Array.FindAll(dexResearch.Table, z => z.Species == species);
-            if (entries.Length == 0)
+            var entries = dexResearch.Table.Where(z => z.Species == species).ToList();
+            if (entries.Count == 0)
                 continue;
 
             var dexInd = GetDexIndex(species);
@@ -878,9 +888,9 @@ public class GameDumperPLA
                 br.Write((ushort)task.Move);
                 br.Write((byte)type);
                 br.Write((byte)timeOfDay);
-                br.Write(task.Hash_06);
-                br.Write(task.Hash_07);
-                br.Write(task.Hash_08);
+                br.Write(task.Hash06);
+                br.Write(task.Hash07);
+                br.Write(task.Hash08);
 
                 br.Write((byte)thresholds.Length);
                 for (var i = 0; i < 5; i++)
@@ -1027,7 +1037,7 @@ public class GameDumperPLA
     public void DumpScriptID()
     {
         var file = Path.Combine(ROM.PathRomFS, "bin", "event", "script_id_record_release.bin");
-        var text = FlatDumper.GetTable<ScriptIDRecordRelease, ScriptIDRecord>(file);
+        var text = FlatDumper.GetTable<ScriptIDRecordRelease, ScriptIDRecord>(file, z=> z.Table);
         var path = GetPath("scriptCommands.txt");
         File.WriteAllText(path, text);
     }
@@ -1051,35 +1061,17 @@ public class GameDumperPLA
             if (Path.GetFileName(f) == "trigger_preset.bin")
                 continue;
 
-            var table = FlatBufferConverter.DeserializeFrom<TriggerTable8a>(f);
+            var table = FlatBufferConverter.DeserializeFrom<TriggerTable>(f);
 
             var curLines = new List<string> { $"File: {Path.GetFileName(f)}" };
 
-            foreach (var line in Trigger8aUtil.GetTriggerTableSummary(table))
+            foreach (var line in TriggerUtil.GetTriggerTableSummary(table))
                 curLines.Add($"\t{line}");
 
             File.WriteAllLines(GetPath(outFolder, $"trigger_{Path.GetFileNameWithoutExtension(f).Replace("trigger_", string.Empty)}.txt"), curLines);
 
             allLines.AddRange(curLines);
             allLines.Add(string.Empty);
-
-            foreach (var trg in table.Table)
-            {
-                if (!Enum.IsDefined(typeof(TriggerType8a), trg.Meta.TriggerTypeID) && !unknownTriggers.Contains((ulong)trg.Meta.TriggerTypeID))
-                    unknownTriggers.Add((ulong)trg.Meta.TriggerTypeID);
-
-                foreach (var cond in trg.Conditions)
-                {
-                    if (!Enum.IsDefined(typeof(ConditionType8a), cond.ConditionTypeID) && !unknownConditions.Contains((ulong)cond.ConditionTypeID))
-                        unknownConditions.Add((ulong)cond.ConditionTypeID);
-                }
-
-                foreach (var cmd in trg.Commands)
-                {
-                    if (!Enum.IsDefined(typeof(TriggerCommandType8a), cmd.CommandTypeID) && !unknownCommands.Contains((ulong)cmd.CommandTypeID))
-                        unknownCommands.Add((ulong)cmd.CommandTypeID);
-                }
-            }
         }
 
         File.WriteAllLines(GetPath(outFolder, "triggerAll.txt"), allLines);
@@ -1092,7 +1084,7 @@ public class GameDumperPLA
     public void DumpMoveShop()
     {
         var file = ROM.GetFile(GameFile.MoveShop).FilePath;
-        var result = FlatDumper.GetTable<MoveShopTable8a, MoveShopIndex>(file!);
+        var result = FlatDumper.GetTable<MoveShopTable, MoveShopIndex>(file!, z=>z.Table);
         File.WriteAllText(GetPath("MoveShop.csv"), result);
     }
 }

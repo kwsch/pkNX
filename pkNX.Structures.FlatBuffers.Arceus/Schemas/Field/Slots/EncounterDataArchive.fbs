@@ -1,0 +1,98 @@
+include "../../Shared/AbilityType.fbs";
+include "../../Shared/NatureType.fbs";
+include "../../Shared/ShinyType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table EncounterSlot {
+    Species:int;
+    SlotID:ulong;
+    Gender:int = -1;
+    Form:int;
+    ShinyLock:ShinyType = Random;
+    AbilityRandType:AbilityType = Any12;
+    Nature:NatureType;
+    Height:int = -1;
+    Weight:int = -1;
+    Field_09:bool;
+    Field_10:bool;
+    Field_11:bool;
+    Field_12:bool;
+    GV_HP :int = -1;
+    GV_ATK:int = -1;
+    GV_DEF:int = -1;
+    GV_SPA:int = -1;
+    GV_SPD:int = -1;
+    GV_SPE:int = -1;
+    IV_HP :int = -1;
+    IV_ATK:int = -1;
+    IV_DEF:int = -1;
+    IV_SPA:int = -1;
+    IV_SPD:int = -1;
+    IV_SPE:int = -1;
+    NumPerfectIvs:int;
+    Behavior1:string (required);
+    Behavior2:string (required);
+    Field_28_AffectsLottery:byte;
+    BaseProbability:int;
+    OverrideMinLevel:int;
+    OverrideMaxLevel:int;
+    Field_32:int;
+    HasMoveset:bool;
+    Move1:int;
+    Move2:int;
+    Move3:int;
+    Move4:int;
+    Move1Mastered:bool;
+    Move2Mastered:bool;
+    Move3Mastered:bool;
+    Move4Mastered:bool;
+    Unused:string (required);
+    Field_43_Func_1A25908:int;
+    Field_44_SetsPropTo100Not8000:bool;
+    Eligibility:EncounterEligiblityTraits (required);
+    Oybn:EncounterOybnTraits (required);
+}
+
+table EncounterEligiblityTraits {
+    ConditionTypeID:ulong;
+    ConditionID:ulong;
+    ConditionArg1:string (required);
+    ConditionArg2:string (required);
+    ConditionArg3:string (required);
+    ConditionArg4:string (required);
+    ConditionArg5:string (required);
+    TimeOfDayMultiplier_0:float = -1;
+    TimeOfDayMultiplier_1:float = -1;
+    TimeOfDayMultiplier_2:float = -1;
+    TimeOfDayMultiplier_3:float = -1;
+    WeatherMultiplier_1:float = -1;
+    WeatherMultiplier_2:float = -1;
+    WeatherMultiplier_3:float = -1;
+    WeatherMultiplier_4:float = -1;
+    WeatherMultiplier_5:float = -1;
+    WeatherMultiplier_6:float = -1;
+    WeatherMultiplier_7:float = -1;
+    WeatherMultiplier_8:float = -1;
+}
+
+table EncounterOybnTraits {
+    Oybn1:bool;
+    Oybn2:bool;
+    Field_02:bool;
+    Field_03:bool;
+}
+
+table EncounterTable (fs_serializer) {
+    TableID:ulong (key);
+    MinLevel:int;
+    MaxLevel:int;
+    Table:[EncounterSlot] (required);
+}
+
+table EncounterDataArchive (fs_serializer) {
+    Table:[EncounterTable] (required);
+}
+
+root_type EncounterDataArchive;

@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FieldOutOfRangeTable {
+    OutOfRangeLowerX:float;
+    OutOfRangeLowerY:float;
+    OutOfRangeLowerZ:float;
+    OutOfRangeUpperX:float;
+    OutOfRangeUpperY:float;
+    OutOfRangeUpperZ:float;
+}
+
+table FieldOutOfRangeTableArray (fs_serializer) {
+    Table:[FieldOutOfRangeTable] (required);
+}
+
+root_type FieldOutOfRangeTableArray;

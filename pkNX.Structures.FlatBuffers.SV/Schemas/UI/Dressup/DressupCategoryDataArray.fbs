@@ -1,0 +1,20 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table DressupCategoryData {
+    Shopid:string (required);
+    Uniform:bool;
+    Leg:bool;
+    Foot:bool;
+    Glove:bool;
+    Bag:bool;
+    Head:bool;
+    Eye:bool;
+    Rotom:bool;
+}
+
+table DressupCategoryDataArray (fs_serializer) {
+    Table:[DressupCategoryData] (required);
+}
+
+root_type DressupCategoryDataArray;

@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table SettingData (fs_serializer) {
+    SpawnTime:float;
+}
+
+root_type SettingData;

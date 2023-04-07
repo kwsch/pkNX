@@ -1,0 +1,22 @@
+include "ExerciseRewardData.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct ExerciseSetting (fs_valueStruct) {
+    Variation:int;
+    InputSeconds:float;
+    InstructCount:int;
+    FixedReward:ExerciseRewardData;
+
+    // Rewards:[ExerciseRewardData:8]; (FlatSharp doesn't do custom-type/non-primitive fixed sized struct arrays)
+    Rewards1:ExerciseRewardData;
+    Rewards2:ExerciseRewardData;
+    Rewards3:ExerciseRewardData;
+    Rewards4:ExerciseRewardData;
+    Rewards5:ExerciseRewardData;
+    Rewards6:ExerciseRewardData;
+    Rewards7:ExerciseRewardData;
+    Rewards8:ExerciseRewardData;
+    RewardsCount:int;
+}

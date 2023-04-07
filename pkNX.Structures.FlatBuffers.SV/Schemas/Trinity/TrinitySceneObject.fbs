@@ -1,0 +1,24 @@
+include "../Geometry/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV.Trinity;
+attribute "fs_serializer";
+
+table TrinitySceneObjectPosition {
+    Field_00:PackedVec3f (required);
+    Field_01:PackedVec3f (required);
+    Field_02:PackedVec3f (required);
+}
+
+table TrinitySceneObject (fs_serializer) {
+    ObjectName:string (required);
+    ObjectPosition:TrinitySceneObjectPosition (required);
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:string (required);
+    Field_05:ubyte;
+    Field_06:uint;
+    Field_07:string (required);
+    Field_08:[string] (required);
+}
+
+root_type TrinitySceneObject;

@@ -1,0 +1,36 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZonePopupHolder {
+    Field_00:PlacementZone_F24 (required);
+}
+
+table PlacementZone_F24 {
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Field_01:PlacementZone_F24_IntFloat (required);
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+    Field_05:float;
+    Hash_06:ulong;
+    Field_07:string (required); // none have this
+    Hash_08:[PlacementZone_F24_Table] (required);
+    Field_09:float;
+    Field_10:float;
+    Field_11:float;
+    Hash_12:ulong;
+}
+
+table PlacementZone_F24_Table {
+    Hash_00:ulong;
+    Hash_01:ulong;
+    Field_02:uint; // multiples of 10, usually +10 from previous entry.
+}
+
+table PlacementZone_F24_IntFloat {
+    Field_00:int;
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+}

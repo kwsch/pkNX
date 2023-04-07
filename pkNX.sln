@@ -31,6 +31,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.Reflection", "pkNX.Structures.FlatBuffers.Reflection\pkNX.Structures.FlatBuffers.Reflection.csproj", "{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.SWSH", "pkNX.Structures.FlatBuffers.SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj", "{F8916261-B21C-4CFC-B6D8-4179E1CBB730}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.Arceus", "pkNX.Structures.FlatBuffers.Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj", "{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.SV", "pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.csproj", "{14B086B0-7112-48F0-98D2-10A5EEEAA755}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.LGPE", "pkNX.Structures.FlatBuffers.LGPE\pkNX.Structures.FlatBuffers.LGPE.csproj", "{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +75,26 @@ Global
 		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8916261-B21C-4CFC-B6D8-4179E1CBB730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8916261-B21C-4CFC-B6D8-4179E1CBB730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8916261-B21C-4CFC-B6D8-4179E1CBB730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8916261-B21C-4CFC-B6D8-4179E1CBB730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14B086B0-7112-48F0-98D2-10A5EEEAA755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B086B0-7112-48F0-98D2-10A5EEEAA755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B086B0-7112-48F0-98D2-10A5EEEAA755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B086B0-7112-48F0-98D2-10A5EEEAA755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

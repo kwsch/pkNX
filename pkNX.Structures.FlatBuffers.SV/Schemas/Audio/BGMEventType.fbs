@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+enum BGMEventType : int {
+    Set = 0,
+    Play = 1,
+    Stop = 2,
+    PlayWait = 3,
+    StopWait = 4,
+    Lock = 5,
+    Unlock = 6,
+    SetPlay = 7,
+    PostEvent = 8,
+    SetState = 9,
+    SetPending = 10,
+    UnsetPending = 11,
+    ResetHoldTime = 12,
+    UnlockForce = 13,
+}

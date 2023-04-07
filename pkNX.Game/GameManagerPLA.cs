@@ -6,6 +6,7 @@ using pkNX.Containers;
 using pkNX.Containers.VFS;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.Game;
 
@@ -192,23 +193,23 @@ public class GameManagerPLA : GameManager
 
             // Single Files
             PersonalData = new PersonalTable8LA(GetFile(GameFile.PersonalStats)),
-            LevelUpData = new(GetFile(GameFile.Learnsets)),
-            EvolutionData = new(GetFile(GameFile.Evolutions)),
+            LevelUpData = new(GetFile(GameFile.Learnsets), z => z.Table),
+            EvolutionData = new(GetFile(GameFile.Evolutions), z => z.Table),
 
-            FieldDrops = new(GetFile(GameFile.FieldDrops)),
-            BattleDrops = new(GetFile(GameFile.BattleDrops)),
-            DexResearch = new(GetFile(GameFile.DexResearch)),
+            FieldDrops = new(GetFile(GameFile.FieldDrops), z => z.Table),
+            BattleDrops = new(GetFile(GameFile.BattleDrops), z => z.Table),
+            DexResearch = new(GetFile(GameFile.DexResearch), z => z.Table),
         };
 
         DropTableConverter.DropTableHashes = Data.FieldDrops.Table.Select(x => x.Hash).ToArray();
     }
 
-    private DataCache<Waza8a> GetMoves()
+    private DataCache<Waza> GetMoves()
     {
         var move = GetFilteredFolder(GameFile.MoveStats);
-        return new DataCache<Waza8a>(move)
+        return new DataCache<Waza>(move)
         {
-            Create = FlatBufferConverter.DeserializeFrom<Waza8a>,
+            Create = FlatBufferConverter.DeserializeFrom<Waza>,
             Write = FlatBufferConverter.SerializeFrom,
         };
     }

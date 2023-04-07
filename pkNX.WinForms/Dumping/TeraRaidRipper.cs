@@ -7,6 +7,7 @@ using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.WinForms;
 
@@ -29,16 +30,16 @@ public static class TeraRaidRipper
             foreach (var enc in table)
             {
                 var wrap = new RaidStorage(enc, i);
-                if (enc.RaidEnemyInfo.RomVer != RaidRomType.TYPE_B)
+                if (enc.Info.RomVer != RaidRomType.TYPE_B)
                 {
                     wrap.RandRateStartScarlet = totalRateScarlet;
-                    totalRateScarlet += enc.RaidEnemyInfo.Rate;
+                    totalRateScarlet += enc.Info.Rate;
                 }
 
-                if (enc.RaidEnemyInfo.RomVer != RaidRomType.TYPE_A)
+                if (enc.Info.RomVer != RaidRomType.TYPE_A)
                 {
                     wrap.RandRateStartViolet = totalRateViolet;
-                    totalRateViolet += enc.RaidEnemyInfo.Rate;
+                    totalRateViolet += enc.Info.Rate;
                 }
                 list.Add(wrap);
             }
@@ -57,8 +58,8 @@ public static class TeraRaidRipper
         WritePickle(outPath, all, "encounter_gem_paldea.pkl");
         // Raids can be shared, and show up with the same met location regardless of shared vs not.
         // No need to differentiate.
-        // var scarlet = all.Where(z => z.Enemy.RaidEnemyInfo.RomVer != RaidRomType.TYPE_B);
-        // var violet = all.Where(z => z.Enemy.RaidEnemyInfo.RomVer != RaidRomType.TYPE_A);
+        // var scarlet = all.Where(z => z.Enemy.Info.RomVer != RaidRomType.TYPE_B);
+        // var violet = all.Where(z => z.Enemy.Info.RomVer != RaidRomType.TYPE_A);
         // WritePickle(outPath, scarlet, "encounter_gem_sl.pkl");
         // WritePickle(outPath, violet, "encounter_gem_vl.pkl");
         // However, the RNG pattern is different for the version of the host. Need to account for those.
@@ -72,7 +73,7 @@ public static class TeraRaidRipper
             {
                 var rmS = enc.GetScarletRandMinScarlet();
                 var rmV = enc.GetVioletRandMinViolet();
-                enc.Enemy.RaidEnemyInfo.SerializePKHeX(bw, (byte)enc.Stars, enc.Rate, RaidSerializationFormat.BaseROM);
+                enc.Enemy.Info.SerializePKHeX(bw, (byte)enc.Stars, enc.Rate, RaidSerializationFormat.BaseROM);
                 bw.Write(rmS);
                 bw.Write(rmV);
             }
@@ -81,27 +82,27 @@ public static class TeraRaidRipper
 
     private record RaidStorage(RaidEnemyTable Enemy, int File)
     {
-        private PokeDataBattle Poke => Enemy.RaidEnemyInfo.BossPokePara;
+        private PokeDataBattle Poke => Enemy.Info.BossPokePara;
 
-        public int Stars => Enemy.RaidEnemyInfo.Difficulty == 0 ? File + 1 : Enemy.RaidEnemyInfo.Difficulty;
+        public int Stars => Enemy.Info.Difficulty == 0 ? File + 1 : Enemy.Info.Difficulty;
         public DevID Species => Poke.DevId;
         public short Form => Poke.FormId;
-        public int Delivery => Enemy.RaidEnemyInfo.DeliveryGroupID;
-        public sbyte Rate => Enemy.RaidEnemyInfo.Rate;
+        public int Delivery => Enemy.Info.DeliveryGroupID;
+        public sbyte Rate => Enemy.Info.Rate;
 
         public int RandRateStartScarlet { get; set; }
         public int RandRateStartViolet { get; set; }
 
         public short GetScarletRandMinScarlet()
         {
-            if (Enemy.RaidEnemyInfo.RomVer == RaidRomType.TYPE_B)
+            if (Enemy.Info.RomVer == RaidRomType.TYPE_B)
                 return -1;
             return (short)RandRateStartScarlet;
         }
 
         public short GetVioletRandMinViolet()
         {
-            if (Enemy.RaidEnemyInfo.RomVer == RaidRomType.TYPE_A)
+            if (Enemy.Info.RomVer == RaidRomType.TYPE_A)
                 return -1;
             return (short)RandRateStartViolet;
         }
@@ -161,8 +162,8 @@ public static class TeraRaidRipper
         var tablePriority = FlatBufferConverter.DeserializeFrom<DeliveryRaidPriorityArray>(priority);
 
         var byGroupID = tableEncounters.Table
-            .Where(z => z.RaidEnemyInfo.Rate != 0)
-            .GroupBy(z => z.RaidEnemyInfo.DeliveryGroupID);
+            .Where(z => z.Info.Rate != 0)
+            .GroupBy(z => z.Info.DeliveryGroupID);
 
         var seven = DistroGroupSet.None;
         var other = DistroGroupSet.None;
@@ -172,13 +173,13 @@ public static class TeraRaidRipper
             var items = group.ToArray();
             var groupSet = Evaluate(items);
 
-            if (items.Any(z => z.RaidEnemyInfo.Difficulty > 7))
-                throw new Exception($"Undocumented difficulty {items.First(z => z.RaidEnemyInfo.Difficulty > 7).RaidEnemyInfo.Difficulty}");
+            if (items.Any(z => z.Info.Difficulty > 7))
+                throw new Exception($"Undocumented difficulty {items.First(z => z.Info.Difficulty > 7).Info.Difficulty}");
 
-            if (items.All(z => z.RaidEnemyInfo.Difficulty == 7))
+            if (items.All(z => z.Info.Difficulty == 7))
             {
-                if (items.Any(z => z.RaidEnemyInfo.CaptureRate != 2))
-                    throw new Exception($"Undocumented 7 star capture rate {items.First(z => z.RaidEnemyInfo.CaptureRate != 2).RaidEnemyInfo.CaptureRate}");
+                if (items.Any(z => z.Info.CaptureRate != 2))
+                    throw new Exception($"Undocumented 7 star capture rate {items.First(z => z.Info.CaptureRate != 2).Info.CaptureRate}");
 
                 if (!TryAdd(ref seven, groupSet))
                     Console.WriteLine("Already saw a 7-star group. How do we differentiate this slot determination from prior?");
@@ -186,8 +187,8 @@ public static class TeraRaidRipper
                 continue;
             }
 
-            if (items.Any(z => z.RaidEnemyInfo.Difficulty == 7))
-                throw new Exception($"Mixed difficulty {items.First(z => z.RaidEnemyInfo.Difficulty >= 7).RaidEnemyInfo.Difficulty}");
+            if (items.Any(z => z.Info.Difficulty == 7))
+                throw new Exception($"Mixed difficulty {items.First(z => z.Info.Difficulty >= 7).Info.Difficulty}");
 
             if (!TryAdd(ref other, groupSet))
                 Console.WriteLine("Already saw a not-7-star group. How do we differentiate this slot determination from prior?");
@@ -217,7 +218,7 @@ public static class TeraRaidRipper
 
     private static DistroGroupSet Evaluate(DeliveryRaidEnemyTable[] items)
     {
-        var versions = items.Select(z => z.RaidEnemyInfo.RomVer).Distinct().ToArray();
+        var versions = items.Select(z => z.Info.RomVer).Distinct().ToArray();
         if (versions.Length == 2 && versions.Contains(RaidRomType.TYPE_A) && versions.Contains(RaidRomType.TYPE_B))
             return DistroGroupSet.Both;
         if (versions.Length == 1)
@@ -240,7 +241,7 @@ public static class TeraRaidRipper
         Span<ushort> weightTotalV = stackalloc ushort[StageStars.Length];
         foreach (var enc in table)
         {
-            var info = enc.RaidEnemyInfo;
+            var info = enc.Info;
             if (info.Rate == 0)
                 continue;
             var difficulty = info.Difficulty;
@@ -259,7 +260,7 @@ public static class TeraRaidRipper
         Span<ushort> weightMinV = stackalloc ushort[StageStars.Length];
         foreach (var enc in table)
         {
-            var info = enc.RaidEnemyInfo;
+            var info = enc.Info;
             if (info.Rate == 0)
                 continue;
             var difficulty = info.Difficulty;
@@ -310,13 +311,13 @@ public static class TeraRaidRipper
         DeliveryRaidPriorityArray tablePriority)
     {
         var dumpE = TableUtil.GetTable(tableEncounters.Table);
-        var dumpEnc = TableUtil.GetTable(tableEncounters.Table.Select(z => z.RaidEnemyInfo.BossPokePara));
-        var dumpRate = TableUtil.GetTable(tableEncounters.Table.Select(z => z.RaidEnemyInfo));
-        var dumpSize = TableUtil.GetTable(tableEncounters.Table.Select(z => z.RaidEnemyInfo.BossPokeSize));
+        var dumpEnc = TableUtil.GetTable(tableEncounters.Table.Select(z => z.Info.BossPokePara));
+        var dumpRate = TableUtil.GetTable(tableEncounters.Table.Select(z => z.Info));
+        var dumpSize = TableUtil.GetTable(tableEncounters.Table.Select(z => z.Info.BossPokeSize));
         var dumpD = TableUtil.GetTable(tableDrops.Table);
         var dumpB = TableUtil.GetTable(tableBonus.Table);
         var dumpP = TableUtil.GetTable(tablePriority.Table);
-        var dumpP_2 = TableUtil.GetTable(tablePriority.Table.Select(z => z.DeliveryGroupID));
+        var dumpP_2 = TableUtil.GetTable(tablePriority.Table.Select(z => z.GroupID));
         var dump = new[]
         {
             ("encounters", dumpE),
@@ -381,15 +382,15 @@ public static class TeraRaidRipper
 
         foreach (var entry in tableEncounters.Table)
         {
-            var boss = entry.RaidEnemyInfo.BossPokePara;
-            var extra = entry.RaidEnemyInfo.BossDesc;
-            var nameDrop = entry.RaidEnemyInfo.DropTableFix;
-            var nameBonus = entry.RaidEnemyInfo.DropTableRandom;
+            var boss = entry.Info.BossPokePara;
+            var extra = entry.Info.BossDesc;
+            var nameDrop = entry.Info.DropTableFix;
+            var nameBonus = entry.Info.DropTableRandom;
 
             if (boss.DevId == DevID.DEV_NULL)
                 continue;
 
-            var version = entry.RaidEnemyInfo.RomVer switch
+            var version = entry.Info.RomVer switch
             {
                 RaidRomType.TYPE_A => "Scarlet",
                 RaidRomType.TYPE_B => "Violet",
@@ -422,17 +423,17 @@ public static class TeraRaidRipper
             var talent = boss.TalentValue;
             var iv = boss.TalentType switch
             {
-                TalentType.VALUE when talent.HP == 31 && talent.ATK == 31 && talent.DEF == 31 && talent.SPA == 31 && talent.SPD == 31 && talent.SPE == 31 => "6 Flawless",
-                TalentType.VALUE => $"{boss.TalentValue.HP}/{boss.TalentValue.ATK}/{boss.TalentValue.DEF}/{boss.TalentValue.SPA}/{boss.TalentValue.SPD}/{boss.TalentValue.SPE}",
+                TalentType.VALUE when talent is { HP: 31, ATK: 31, DEF: 31, SPA: 31, SPD: 31, SPE: 31 } => "6 Flawless",
+                TalentType.VALUE => talent.SlashSeparated(),
                 _ => $"{boss.TalentVnum} Flawless",
             };
 
-            var capture = entry.RaidEnemyInfo.CaptureRate switch
+            var capture = entry.Info.CaptureRate switch
             {
                 // 0 never?
                 // 1 always
                 2 => "Only Once",
-                _ => $"{entry.RaidEnemyInfo.CaptureRate}",
+                _ => $"{entry.Info.CaptureRate}",
             };
 
             var size = boss.ScaleType switch
@@ -448,12 +449,12 @@ public static class TeraRaidRipper
 
             var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
 
-            lines.Add($"{entry.RaidEnemyInfo.Difficulty}-Star {species[(int)boss.DevId]}{form}");
-            if (entry.RaidEnemyInfo.RomVer != RaidRomType.BOTH)
+            lines.Add($"{entry.Info.Difficulty}-Star {species[(int)boss.DevId]}{form}");
+            if (entry.Info.RomVer != RaidRomType.BOTH)
                 lines.Add($"\tVersion: {version}");
 
             lines.Add($"\tTera Type: {gem}");
-            lines.Add($"\tCapture Level: {entry.RaidEnemyInfo.CaptureLv}");
+            lines.Add($"\tCapture Level: {entry.Info.CaptureLv}");
             lines.Add($"\tAbility: {ability}");
 
             if (boss.Seikaku != SeikakuType.DEFAULT)
@@ -461,16 +462,17 @@ public static class TeraRaidRipper
 
             lines.Add($"\tIVs: {iv}");
 
-            if (boss.EffortValue.Stats.Any(z => z != 0))
+            var evs = boss.EffortValue.ToArray();
+            if (evs.Any(z => z != 0))
             {
                 string[] names = new[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
                 var spread = new List<string>();
 
-                for (int i = 0; i < boss.EffortValue.Stats.Length; i++)
+                for (int i = 0; i < evs.Length; i++)
                 {
-                    if (boss.EffortValue.Stats[i] == 0)
+                    if (evs[i] == 0)
                         continue;
-                    spread.Add($"{boss.EffortValue.Stats[i]} {names[i]}");
+                    spread.Add($"{evs[i]} {names[i]}");
                 }
 
                 lines.Add($"\tEVs: {string.Join(" / ", spread)}");
@@ -482,16 +484,16 @@ public static class TeraRaidRipper
             if (boss.ScaleType != SizeType.RANDOM)
                 lines.Add($"\tScale: {size}");
 
-            if (entry.RaidEnemyInfo.Difficulty == 7)
+            if (entry.Info.Difficulty == 7)
             {
-                float hp = entry.RaidEnemyInfo.BossDesc.HpCoef / 100f;
+                float hp = entry.Info.BossDesc.HpCoef / 100f;
                 lines.Add($"\tHP Multiplier: {hp:0.0}x");
             }
 
             if (boss.Item != ItemID.ITEMID_NONE)
                 lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
 
-            if (entry.RaidEnemyInfo.CaptureRate != 1)
+            if (entry.Info.CaptureRate != 1)
                 lines.Add($"\tCatchable: {capture}");
 
             lines.Add($"\t\tMoves:");

@@ -19,12 +19,11 @@ public static class FileRipper
 {
     public static ContainerHandler DefaultHandler { private get; set; } = new();
 
-    public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>> Loaders =
-        new()
-        {
-            GFPackDump,
-            NSODump,
-        };
+    public static readonly List<Func<BinaryReader, uint, string, ContainerHandler, FileRipperResult>> Loaders = new()
+    {
+        GFPackDump,
+        NSODump,
+    };
 
     private static FileRipperResult NSODump(BinaryReader br, uint header, string path, ContainerHandler handler)
     {

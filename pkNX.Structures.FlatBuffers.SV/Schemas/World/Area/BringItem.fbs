@@ -1,0 +1,9 @@
+include "../../Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct BringItem (fs_valueStruct) {
+    ItemID:ItemID = ITEMID_NONE;
+    BringRate:byte;
+}

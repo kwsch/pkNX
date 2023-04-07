@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using FlatSharp;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers;
 
@@ -10,13 +13,13 @@ public class DataCache<T> : IDataEditor where T : class
     public Func<byte[], T> Create { private get; set; } = null!;
     public Func<T, byte[]> Write { protected get; set; } = null!;
 
-    public DataCache(T?[] cache) => Cache = cache;
+    public DataCache(IList<T?> cache) => Cache = cache;
     public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
-    protected readonly T?[] Cache;
+    protected readonly IList<T?> Cache;
     private bool Cached;
 
-    public int Length => Cache.Length;
+    public int Length => Cache.Count;
 
     public T this[int index]
     {
@@ -26,7 +29,7 @@ public class DataCache<T> : IDataEditor where T : class
 
     public void CancelEdits()
     {
-        for (int i = 0; i < Cache.Length; i++)
+        for (int i = 0; i < Cache.Count; i++)
             Cache[i] = default;
     }
 
@@ -35,7 +38,7 @@ public class DataCache<T> : IDataEditor where T : class
     public T[] LoadAll()
     {
         if (Cached)
-            return Cache!;
+            return Cache.ToArray()!;
         for (int i = 0; i < Length; i++)
         {
             // ReSharper disable once AssignmentIsFullyDiscarded
@@ -43,13 +46,13 @@ public class DataCache<T> : IDataEditor where T : class
         }
 
         Cached = true;
-        return Cache!;
+        return Cache.ToArray()!;
     }
 
     public void ClearAll()
     {
         Cached = false;
-        for (int i = 0; i < Cache.Length; i++)
+        for (int i = 0; i < Cache.Count; i++)
             Cache[i] = null;
     }
 
@@ -58,7 +61,7 @@ public class DataCache<T> : IDataEditor where T : class
     /// </summary>
     public virtual void Save()
     {
-        for (int i = 0; i < Cache.Length; i++)
+        for (int i = 0; i < Cache.Count; i++)
         {
             var val = Cache[i];
             if (val == null)
@@ -74,7 +77,7 @@ public class DataCache<T> : IDataEditor where T : class
 /// <typeparam name="T"></typeparam>
 public class DirectCache<T> : DataCache<T> where T : class
 {
-    public DirectCache(T[] cache) : base(cache) { }
+    public DirectCache(IList<T?> cache) : base(cache) { }
     public override void Save() { }
 }
 
@@ -84,24 +87,25 @@ public class DirectCache<T> : DataCache<T> where T : class
 /// <typeparam name="TTable">The type of table</typeparam>
 /// <typeparam name="TData">The type of data inside the table</typeparam>
 public class TableCache<TTable, TData>
-    where TTable : class, IFlatBufferArchive<TData>
+    where TTable : class, IFlatBufferSerializable<TTable>
     where TData : class
 {
     public IFileContainer File { get; private set; }
     public TTable Root { get; private set; }
-    public TData[] Table => Root.Table;
+    public IList<TData> Table { get; private set; }
     public DataCache<TData> Cache { get; private set; }
 
-    public TableCache(IFileContainer f)
+    public TableCache(IFileContainer f, Func<TTable, IList<TData>> sel)
     {
         File = f;
         Root = FlatBufferConverter.DeserializeFrom<TTable>(f[0]);
-        Cache = new DirectCache<TData>(Root.Table);
+        Table = sel(Root);
+        Cache = new DirectCache<TData>(Table!);
     }
 
     public void Save()
     {
-        File[0] = FlatBufferConverter.SerializeFrom(Root);
+        File[0] = Root.SerializeFrom();
     }
 
     public TData this[int index]

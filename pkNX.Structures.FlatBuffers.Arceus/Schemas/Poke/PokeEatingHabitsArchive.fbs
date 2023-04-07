@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeEatingHabits {
+    ID:uint (key);
+    Field_01:uint;
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:uint;
+    Field_05:uint;
+    Field_06:uint;
+}
+
+table PokeEatingHabitsArchive (fs_serializer) {
+    Table:[PokeEatingHabits] (required);
+}
+
+root_type PokeEatingHabitsArchive;

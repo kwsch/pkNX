@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum NpcTrafficFormation : int {
+    Right = 0,
+    Left = 1,
+    Back = 2,
+}

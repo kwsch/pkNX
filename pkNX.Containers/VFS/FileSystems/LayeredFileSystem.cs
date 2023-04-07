@@ -72,7 +72,7 @@ public class LayeredFileSystem : IFileSystem
     {
         IFileSystem? fs = GetFirst(path);
         if (fs == null)
-            throw new FileNotFoundException();
+            throw new FileNotFoundException($"Unable to find {path.Path}");
         return fs.OpenFile(path, access);
     }
 

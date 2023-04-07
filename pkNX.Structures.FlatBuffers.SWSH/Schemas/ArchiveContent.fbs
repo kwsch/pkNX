@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table ArchiveContent {
+    Hash:ulong (key);
+    Hashes:string (required);
+}
+
+// archive_contents.bin -- 7707 entry table (file, files)
+table ArchiveContents (fs_serializer) {
+    Table:[ArchiveContent] (required);
+}
+
+root_type ArchiveContents;

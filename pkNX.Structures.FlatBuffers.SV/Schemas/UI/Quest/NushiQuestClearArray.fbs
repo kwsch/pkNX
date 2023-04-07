@@ -1,0 +1,33 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum NushiQuestClearNo : int {
+    NONE = 0,
+    IWA = 1,
+    HAGANE = 2,
+    JIMEN = 3,
+    HIKOU = 4,
+    DRAGON = 5,
+}
+
+table NushiQuestClear {
+    ID:NushiQuestClearNo = NONE;
+    NushiClearQuestType:string (required);
+    TrackName:string (required);
+    EventNpcSceneName1:string (required);
+    EventNpcObjectName1:string (required);
+    EventNpcSceneName2:string (required);
+    EventNpcObjectName2:string (required);
+    EventNpcSceneName3:string (required);
+    EventNpcObjectName3:string (required);
+    EventNpcSceneName4:string (required);
+    EventNpcObjectName4:string (required);
+    EventNpcSceneName5:string (required);
+    EventNpcObjectName5:string (required);
+}
+
+table NushiQuestClearArray (fs_serializer) {
+    Table:[NushiQuestClear] (required);
+}
+
+root_type NushiQuestClearArray;

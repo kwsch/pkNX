@@ -1,0 +1,50 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+// Gates, Elevators, Tents, Flags, FossilRepair?
+table PlacementZoneUnitObjectHolder {
+    Object:PlacementZoneUnitObject (required);
+}
+
+table PlacementZoneUnitObject{
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    NameModel:string (required);
+    NameAnimation:string (required);
+    Field_03:float;
+    Field_04:float;
+    Field_05:string (required); // none have this
+    Field_06:string (required); // none have this
+    Field_07:float;
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+    Unknown:PlacementZoneDeepY (required);
+    Number:ubyte;
+    Details:PlacementZoneUnitObjectDetails (required);
+    Dummy:PlacementZoneUnitObjectToggle (required);
+}
+
+table PlacementZoneUnitObjectDetails {
+    Field_00:int;
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+    Field_05:float; // unused
+    Field_06:float;
+    Field_07:float; // unused
+    Field_08:float;
+    Field_09:float;
+    Field_10:float;
+}
+
+// probably a union, with only 1 object type used
+table PlacementZoneUnitObjectToggle {
+    Field_00:bool;
+    Field_01:PlacementZoneUnitObjectInner (required);
+}
+
+table PlacementZoneUnitObjectInner {
+    Field_00:float; // 50 for only 1 entry
+    Field_01:float;
+}

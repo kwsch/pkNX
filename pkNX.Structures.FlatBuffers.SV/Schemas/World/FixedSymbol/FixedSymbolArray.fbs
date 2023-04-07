@@ -1,0 +1,19 @@
+include "../../PokeData/PokeDataSymbol.fbs";
+include "FixedSymbolAI.fbs";
+include "FixedSymbolGeneration.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FixedSymbolTable {
+    TableKey:string (required);
+    Symbol:PokeDataSymbol (required);
+    PokeAI:FixedSymbolAI (required);
+    PokeGeneration:FixedSymbolGeneration (required);
+}
+
+table FixedSymbolTableArray (fs_serializer) {
+    Table:[FixedSymbolTable] (required);
+}
+
+root_type FixedSymbolTableArray;

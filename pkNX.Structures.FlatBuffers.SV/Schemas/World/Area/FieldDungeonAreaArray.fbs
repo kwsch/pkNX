@@ -1,0 +1,15 @@
+include "AreaInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FieldDungeonArea {
+    Name:string (required);
+    Info:AreaInfo (required);
+}
+
+table FieldDungeonAreaArray (fs_serializer) {
+    Table:[FieldDungeonArea] (required);
+}
+
+root_type FieldDungeonAreaArray;

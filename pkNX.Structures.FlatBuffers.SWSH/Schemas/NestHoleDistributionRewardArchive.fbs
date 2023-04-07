@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table NestHoleDistributionRewardTable {
+    TableID:ulong;
+    Entries:[NestHoleDistributionReward] (required);
+}
+
+table NestHoleDistributionReward {
+    Value0:ubyte;
+    Value1:ubyte;
+    Value2:ubyte;
+    Value3:ubyte;
+    Value4:ubyte;
+    ItemID:ushort;
+}
+
+table NestHoleDistributionRewardArchive (fs_serializer) {
+    Table:[NestHoleDistributionRewardTable] (required);
+}
+
+root_type NestHoleDistributionRewardArchive;

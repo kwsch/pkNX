@@ -1,6 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.LGPE;
 using PKHeX.Drawing.PokeSprite;
 
 namespace pkNX.WinForms;
@@ -91,17 +92,17 @@ public partial class EncounterList : UserControl
         cells[0].Value = SpriteUtil.GetSprite((ushort)sp, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
     }
 
-    private EncounterSlot7b[]? Slots;
-    public static string[] SpeciesNames { private get; set; }= Array.Empty<string>();
+    private IList<EncounterSlot>? Slots;
+    public static string[] SpeciesNames { private get; set; } = Array.Empty<string>();
 
-    public void LoadSlots(EncounterSlot7b[] slots)
+    public void LoadSlots(IList<EncounterSlot> slots)
     {
         Slots = slots;
 
         dgv.Rows.Clear();
-        dgv.Rows.Add(slots.Length);
+        dgv.Rows.Add(slots.Count);
         // Fill Entries
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
             var row = dgv.Rows[i];
             row.Cells[1].Value = SpeciesNames[slots[i].Species];
@@ -117,13 +118,13 @@ public partial class EncounterList : UserControl
     {
         if (Slots == null)
             return;
-        for (int i = 0; i < Slots.Length; i++)
+        for (int i = 0; i < Slots.Count; i++)
         {
             SaveRow(i, Slots[i]);
         }
     }
 
-    private void SaveRow(int row, EncounterSlot7b s)
+    private void SaveRow(int row, EncounterSlot s)
     {
         var cells = dgv.Rows[row].Cells;
         int sp = Array.IndexOf(SpeciesNames, cells[1].Value ?? SpeciesNames[0]);

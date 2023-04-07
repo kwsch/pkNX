@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table DeliveryGroupID {
+    Groups:GroupSet (required);
+}
+
+struct GroupSet (fs_valueStruct) {
+    Groups:[ubyte:10];
+}
+
+table DeliveryRaidPriority {
+    VersionNo:int;
+    GroupID:DeliveryGroupID (required);
+}
+
+table DeliveryRaidPriorityArray (fs_serializer) {
+    Table:[DeliveryRaidPriority] (required);
+}
+
+root_type DeliveryRaidPriorityArray;

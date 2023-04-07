@@ -1,0 +1,39 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table EncounterGift {
+    IsEgg:int;
+    Form:ubyte;
+    DynamaxLevel:ubyte;
+    BallItemID:int;
+    Field_04:ubyte;
+    Hash1:ulong;
+    CanGigantamax:bool;
+    HeldItem:int;
+    Level:ubyte;
+    Species:int;
+    Field_0A:ubyte;
+    MemoryCode:ubyte;
+    MemoryData:ushort;
+    MemoryFeel:ubyte;
+    MemoryLevel:ubyte;
+    OtNameID:ulong;
+    OtGender:int;
+    ShinyLock:int;
+    Nature:int;
+    Gender:ubyte;
+    IV_SPE:byte;
+    IV_ATK:byte;
+    IV_DEF:byte;
+    IV_HP:byte;
+    IV_SPA:byte;
+    IV_SPD:byte;
+    Ability:int;
+    SpecialMove:int;
+}
+
+table EncounterGiftArchive (fs_serializer) {
+    Table:[EncounterGift] (required);
+}
+
+root_type EncounterGiftArchive;

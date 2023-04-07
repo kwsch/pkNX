@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
@@ -127,7 +128,7 @@ public class LocationStorage
         var newPoint = new PointData
         {
             Position = ep.Position,
-            LevelRange = new PackedVec2f { X = newX, Y = newY },
+            LevelRange = new SV.PackedVec2f { X = newX, Y = newY },
             Biome = ep.Biome,
             Substance = ep.Substance,
             AreaNo = ep.AreaNo,

@@ -1,0 +1,26 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table ExclusionContentSet {
+    RaidGem:bool;
+    Item:bool;
+    SymbolPokemon:bool;
+    CommonNpc:bool;
+    TrafficNpc:bool;
+    CoinPokemon:bool;
+    PartnerPokemon:bool;
+    Picnic:bool;
+    Rotom:bool;
+    OtherPlayerThings:bool;
+}
+
+table ExclusionGroup {
+    Id:string (required);
+    Content:ExclusionContentSet (required);
+}
+
+table ExclusionGroupArray (fs_serializer) {
+    Table:[ExclusionGroup] (required);
+}
+
+root_type ExclusionGroupArray;
