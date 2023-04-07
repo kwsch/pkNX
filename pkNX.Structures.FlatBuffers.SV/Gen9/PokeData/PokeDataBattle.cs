@@ -13,7 +13,7 @@ public partial class PokeDataBattle
 {
     public void SerializePKHeX(BinaryWriter bw, sbyte captureLv, RaidSerializationFormat format)
     {
-        if (format != RaidSerializationFormat.Type3)
+        if (format == RaidSerializationFormat.BaseROM)
             AssertRegularFormat();
 
         // If any PointUp for a move is nonzero, throw an exception.
@@ -29,7 +29,7 @@ public partial class PokeDataBattle
         bw.Write((byte)Sex);
 
         bw.Write((byte)Tokusei);
-        bw.Write((byte)TalentVnum);
+        bw.Write((byte)(TalentType == TalentType.V_NUM ? TalentVnum : 0));
         bw.Write((byte)RareType);
         bw.Write((byte)captureLv);
 
@@ -70,10 +70,10 @@ public enum RaidSerializationFormat
     /// <summary>
     /// Regular Distribution Raids
     /// </summary>
-    Type2,
+    Distribution,
 
     /// <summary>
     /// 7 Star Distribution Raids
     /// </summary>
-    Type3,
+    Might,
 }

@@ -183,7 +183,7 @@ public static class TeraRaidRipper
 
                 if (!TryAdd(ref seven, groupSet))
                     Console.WriteLine("Already saw a 7-star group. How do we differentiate this slot determination from prior?");
-                AddToList(items, type3, RaidSerializationFormat.Type3);
+                AddToList(items, type3, RaidSerializationFormat.Might);
                 continue;
             }
 
@@ -192,7 +192,7 @@ public static class TeraRaidRipper
 
             if (!TryAdd(ref other, groupSet))
                 Console.WriteLine("Already saw a not-7-star group. How do we differentiate this slot determination from prior?");
-            AddToList(items, type2, RaidSerializationFormat.Type2);
+            AddToList(items, type2, RaidSerializationFormat.Distribution);
         }
 
         var dirDistText = Path.Combine(path, "parse");
@@ -294,10 +294,10 @@ public static class TeraRaidRipper
             bw.Write(noTotal ? (ushort)0 : totalS[stage]);
             bw.Write(noTotal ? (ushort)0 : totalV[stage]);
         }
-        if (format == RaidSerializationFormat.Type2)
-            enc.SerializeType2(bw);
-        if (format == RaidSerializationFormat.Type3)
-            enc.SerializeType3(bw);
+        if (format == RaidSerializationFormat.Distribution)
+            enc.SerializeDistribution(bw);
+        if (format == RaidSerializationFormat.Might)
+            enc.SerializeMight(bw);
 
         var bin = ms.ToArray();
         if (!list.Any(z => z.SequenceEqual(bin)))
