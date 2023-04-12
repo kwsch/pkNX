@@ -1339,7 +1339,7 @@ public partial class ModelConverter : Form
             UVWrapMode8.CLAMP => UvWrapMode.REPEAT,
             UVWrapMode8.BORDER => UvWrapMode.Border,
             UVWrapMode8.WRAP => UvWrapMode.CLAMP_TO_EDGE,
-            UVWrapMode8.MIRROR => UvWrapMode.Mirror,
+            UVWrapMode8.MIRROR => UvWrapMode.MIRROR,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown uv mode")
         };
 

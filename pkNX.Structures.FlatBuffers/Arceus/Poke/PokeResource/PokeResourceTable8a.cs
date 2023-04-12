@@ -22,13 +22,13 @@ public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
 
     public PokeModelConfig8a GetEntry(ushort species, ushort form, byte gender)
     {
-        return Array.Find(Table, x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender) ??
+        return Array.Find(Table, x => x.SpeciesInfo.Species == species && x.SpeciesInfo.Form == form && x.SpeciesInfo.Gender == gender) ??
             new PokeModelConfig8a();
     }
 
     public bool HasEntry(ushort species, ushort form, byte gender)
     {
-        return Table.Any(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender);
+        return Table.Any(x => x.SpeciesInfo.Species == species && x.SpeciesInfo.Form == form && x.SpeciesInfo.Gender == gender);
     }
 
     public PokeModelConfig8a AddEntry(ushort species, ushort form, byte gender)
@@ -39,19 +39,19 @@ public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
         string basePath = $"bin/pokemon/pm{species:0000}/{pmStr}";
         var entry = new PokeModelConfig8a
         {
-            Meta = new() { Species = species, Form = form, Gender = gender },
-            PathModel = $"{basePath}/mdl/{pmStr}.trmdl",
-            PathMeshMaterial = $"{basePath}/mdl/{pmStr}.trmmt",
-            PathConfig = $"{basePath}/{pmStr}.trpokecfg",
+            SpeciesInfo = new() { Species = species, Form = form, Gender = gender },
+            ModelPath = $"{basePath}/mdl/{pmStr}.trmdl",
+            MaterialTablePath = $"{basePath}/mdl/{pmStr}.trmmt",
+            ConfigPath = $"{basePath}/{pmStr}.trpokecfg",
 
-            Animations = new AnimationConfigStringTuple8a[] {
+            Animations = new FileReference8a[] {
                 new(){
                     Name = "base",
                     Path = $"{basePath}/anm/{pmStr}_base.tracn",
                 }
             },
 
-            Effects = new AnimationConfigStringTuple8a[] {
+            Effects = new FileReference8a[] {
                 new() {
                     Name = "eff",
                     Path = $"{basePath}/locators/{pmStr}_eff.trskl",
@@ -60,39 +60,39 @@ public class PokeResourceTable8a : IFlatBufferArchive<PokeModelConfig8a>
         };
 
         Table = Table.Append(entry)
-            .OrderBy(x => x.Meta.Species)
-            .ThenBy(x => x.Meta.Form)
-            .ThenBy(x => x.Meta.Gender)
+            .OrderBy(x => x.SpeciesInfo.Species)
+            .ThenBy(x => x.SpeciesInfo.Form)
+            .ThenBy(x => x.SpeciesInfo.Gender)
             .ToArray();
         return entry;
     }
 
-    [FlatBufferItem(00)] public PokeResourceMeta8a Meta { get; set; } = new();
+    [FlatBufferItem(00)] public PokeResourceVersionInfo8a Version { get; set; } = new();
     [FlatBufferItem(01)] public PokeModelConfig8a[] Table { get; set; } = Array.Empty<PokeModelConfig8a>();
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PokeResourceMeta8a
+public class PokeResourceVersionInfo8a
 {
-    [FlatBufferItem(00)] public int Field0 { get; set; } = 5; // 4 in prior game format
-    [FlatBufferItem(01)] public int Field1 { get; set; } = 4; // 2 in prior game format
+    [FlatBufferItem(00)] public int Major { get; set; } = 5; // 4 in prior game format
+    [FlatBufferItem(01)] public int Minor { get; set; } = 4; // 2 in prior game format
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokeModelConfig8a
 {
-    [FlatBufferItem(00)] public PokeModelMeta8a Meta { get; set; } = new();
-    [FlatBufferItem(01)] public string PathModel { get; set; } = string.Empty; // string
-    [FlatBufferItem(02)] public string PathMeshMaterial { get; set; } = string.Empty; // string
-    [FlatBufferItem(03)] public string PathConfig { get; set; } = string.Empty; // string
+    [FlatBufferItem(00)] public PokeModelSpeciesInfo8a SpeciesInfo { get; set; } = new();
+    [FlatBufferItem(01)] public string ModelPath { get; set; } = string.Empty; // string
+    [FlatBufferItem(02)] public string MaterialTablePath { get; set; } = string.Empty; // string
+    [FlatBufferItem(03)] public string ConfigPath { get; set; } = string.Empty; // string
     [FlatBufferItem(04)] public byte Unused { get; set; } // unused!
-    [FlatBufferItem(05)] public AnimationConfigStringTuple8a[] Animations { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
-    [FlatBufferItem(06)] public AnimationConfigStringTuple8a[] Effects { get; set; } = Array.Empty<AnimationConfigStringTuple8a>();
+    [FlatBufferItem(05)] public FileReference8a[] Animations { get; set; } = Array.Empty<FileReference8a>();
+    [FlatBufferItem(06)] public FileReference8a[] Effects { get; set; } = Array.Empty<FileReference8a>();
     [FlatBufferItem(07)] public int? ArceusType { get; set; } // Specified by Arceus' forms -- NEW!
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PokeModelMeta8a
+public class PokeModelSpeciesInfo8a
 {
     [FlatBufferItem(00)] public ushort Species { get; set; }
     [FlatBufferItem(01)] public ushort Form { get; set; }
@@ -100,7 +100,7 @@ public class PokeModelMeta8a
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class AnimationConfigStringTuple8a
+public class FileReference8a
 {
     [FlatBufferItem(00)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(01)] public string Path { get; set; } = string.Empty;

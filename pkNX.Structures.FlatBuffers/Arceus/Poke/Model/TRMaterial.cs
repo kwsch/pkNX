@@ -12,8 +12,8 @@ public enum UvWrapMode : uint
     //Time to test these as bit fields?
     CLAMP_TO_EDGE = 0, //0000
     REPEAT = 1, //0001
-    Mirror = 6, //0110
-    MirrorOnce = 7, //0111
+    MIRROR = 6, //0110
+    MIRROR_ONCE = 7, //0111
 
     Border = 99999, // TODO: Unknown value, 99999 is invalid!
 }
@@ -140,7 +140,7 @@ public class IntExtra
     [FlatBufferItem(00)] public uint Reserved_00 { get; set; }
     //0 when Transparent
     //1 when NonDirectional
-    [FlatBufferItem(01)] public int Value { get; set; } //= -1;
+    [FlatBufferItem(01, DefaultValue = -1)] public int Value { get; set; } = -1;
 }
 
 [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]

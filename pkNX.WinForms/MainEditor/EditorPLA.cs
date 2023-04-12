@@ -603,7 +603,7 @@ internal class EditorPLA : EditorBase
     public void EditPokeResourceTable()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeResourceTable8a, PokeModelConfig8a>(GameFile.PokemonResourceTable, "Pokemon Resource Table", (z, _) => $"{names[z.Meta.Species]}{(z.Meta.Form == 0 ? "" : $"-{z.Meta.Form}")}{(z.Meta.Gender == 0 ? "" : $" ({z.Meta.Gender})")}");
+        PopFlat<PokeResourceTable8a, PokeModelConfig8a>(GameFile.PokemonResourceTable, "Pokemon Resource Table", (z, _) => $"{names[z.SpeciesInfo.Species]}{(z.SpeciesInfo.Form == 0 ? "" : $"-{z.SpeciesInfo.Form}")}{(z.SpeciesInfo.Gender == 0 ? "" : $" ({z.SpeciesInfo.Gender})")}");
     }
 
     [EditorCallable(EditorCategory.Graphics)]
