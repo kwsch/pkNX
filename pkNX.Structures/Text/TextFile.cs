@@ -19,6 +19,7 @@ public class TextFile
     private const ushort KEY_TEXTCLEAR = 0xBE01;
     private const ushort KEY_TEXTWAIT = 0xBE02;
     private const ushort KEY_TEXTNULL = 0xBDFF;
+    private const ushort KEY_TEXTRUBY = 0xFF01;
     private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
 
     public TextFile(TextConfig? config = null, bool remapChars = false) : this(emptyTextFile, config, remapChars) { }
@@ -192,6 +193,15 @@ public class TextFile
                     foreach (ushort v in varValues) bw.Write(v);
                     i += 1 + varText.Length;
                     break;
+                case '{':
+                    int brace = line.IndexOf('}', i);
+                    if (brace < 0)
+                        throw new ArgumentException("Ruby text is not capped properly: " + line);
+                    string rubyText = line[i..brace];
+                    var rubyValues = GetRubyValues(rubyText);
+                    foreach (ushort v in rubyValues) bw.Write(v);
+                    i += 1 + rubyText.Length;
+                    break;
                 case '\\':
                     var escapeValues = GetEscapeValues(line[i++]);
                     foreach (ushort v in escapeValues)
@@ -259,13 +269,14 @@ public class TextFile
                 case '\n': s.Append(@"\n"); break;
                 case '\\': s.Append(@"\\"); break;
                 case '[': s.Append(@"\["); break;
+                case '{': s.Append(@"\{"); break;
                 default: s.Append((char)TryUnmapChar(val)); break;
             }
         }
         return s.ToString(); // Shouldn't get hit if the string is properly terminated.
     }
 
-    private static string GetVariableString(TextConfig config, byte[] data, ref int i)
+    private string GetVariableString(TextConfig config, byte[] data, ref int i)
     {
         var s = new StringBuilder();
         ushort count = BitConverter.ToUInt16(data, i); i += 2;
@@ -283,6 +294,19 @@ public class TextFile
             case KEY_TEXTNULL: // Empty Text line? Includes linenum so maybe for betatest finding used-unused lines?
                 ushort line = BitConverter.ToUInt16(data, i); i += 2;
                 return $"[~ {line}]";
+            case KEY_TEXTRUBY: // Ruby text/furigana for Japanese
+                ushort baseLength = BitConverter.ToUInt16(data, i); i += 2;
+                ushort rubyLength = BitConverter.ToUInt16(data, i); i += 2;
+                string baseText1 = GetLineString(data.AsSpan(i, baseLength * 2).ToArray()); i += baseLength * 2;
+                string rubyText = GetLineString(data.AsSpan(i, rubyLength * 2).ToArray()); i += rubyLength * 2;
+                string baseText2 = GetLineString(data.AsSpan(i, baseLength * 2).ToArray()); i += baseLength * 2;
+                s.Append('{').Append(baseText1).Append('|').Append(rubyText);
+                if (baseText1 != baseText2)
+                {
+                    s.Append('|').Append(baseText2); // basetext1 should duplicate basetext2, so this shouldn't occur
+                }
+                s.Append('}');
+                return s.ToString();
         }
 
         string varName = config.GetVariableString(variable);
@@ -313,6 +337,7 @@ public class TextFile
             case 'n': vals.Add('\n'); return vals;
             case '\\': vals.Add('\\'); return vals;
             case '[': vals.Add('['); return vals;
+            case '{': vals.Add('{'); return vals;
             case 'r': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTRETURN }); return vals;
             case 'c': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTCLEAR }); return vals;
             default: throw new Exception("Invalid terminated line: \\" + esc);
@@ -343,6 +368,32 @@ public class TextFile
                 break;
             default: throw new Exception("Unknown variable method type: " + variable);
         }
+        return vals;
+    }
+
+    private IEnumerable<ushort> GetRubyValues(string ruby)
+    {
+        string[] split = ruby.Split('|');
+        if (split.Length < 2)
+            throw new ArgumentException("Incorrectly formatted ruby text: " + ruby);
+
+        string baseText1 = split[0];
+        string rubyText = split[1];
+        string baseText2 = split.Length < 3 ? baseText1 : split[2];
+        if (baseText1.Length != baseText2.Length)
+            throw new ArgumentException("Incorrectly formatted ruby text: " + ruby);
+
+        var vals = new List<ushort>
+        {
+            KEY_VARIABLE,
+            Convert.ToUInt16(3 + baseText1.Length + rubyText.Length),
+            KEY_TEXTRUBY,
+            Convert.ToUInt16(baseText1.Length),
+            Convert.ToUInt16(rubyText.Length)
+        };
+        vals.AddRange(baseText1.Select(val => Convert.ToUInt16(TryRemapChar(val))));
+        vals.AddRange(rubyText.Select(val => Convert.ToUInt16(TryRemapChar(val))));
+        vals.AddRange(baseText2.Select(val => Convert.ToUInt16(TryRemapChar(val))));
         return vals;
     }
 
