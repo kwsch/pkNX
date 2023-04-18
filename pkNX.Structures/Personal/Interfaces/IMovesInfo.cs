@@ -76,6 +76,11 @@ public static class IPersonalMovesExtensions
         {
             self_2.SpecialTutors = other_2.SpecialTutors;
         }
+        
+        if (self is IMovesInfo_SWSH self_SWSH && other is IMovesInfo_SWSH other_SWSH)
+        {
+            self_SWSH.TR = other_SWSH.TR;
+        }
 
         if (self is IMovesInfo_3 self_3)
         {
