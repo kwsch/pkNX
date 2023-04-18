@@ -80,6 +80,7 @@ internal class EditorSWSH : EditorBase
             Mega = Data.MegaEvolutionData,
             Personal = Data.PersonalData,
             TMHM = Legal.TMHM_SWSH,
+            TR = Legal.TR_SWSH,
         };
         using var form = new PokeDataUI(editor, ROM, Data);
         form.ShowDialog();

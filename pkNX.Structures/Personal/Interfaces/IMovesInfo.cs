@@ -29,6 +29,17 @@ public interface IMovesInfo_2 : IMovesInfo_1
 }
 
 /// <summary>
+/// TRs added in SWSH
+/// </summary>
+public interface IMovesInfo_SWSH : IMovesInfo_2
+{
+    /// <summary>
+    /// TR learn compatibility flags for individual moves.
+    /// </summary>
+    bool[] TR { get; set; }
+}
+
+/// <summary>
 /// Moves layout seems to have changed completely from the old verion
 /// </summary>
 public interface IMovesInfo_3 : IMovesInfo

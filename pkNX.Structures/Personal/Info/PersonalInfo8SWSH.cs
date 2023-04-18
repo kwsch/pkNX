@@ -14,6 +14,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     private readonly byte[] Data;
 
     public bool[] TMHM { get; set; }
+    public bool[] TR { get; set; }
     public bool[] TypeTutors { get; set; }
     public bool[][] SpecialTutors { get; set; }
 
@@ -22,9 +23,10 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         Data = data.ToArray();
         DexIndexNational = ModelID;
 
-        TMHM = new bool[CountTM + CountTR];
+        TMHM = new bool[CountTM];
+        TR = new bool[CountTR];
         FlagUtil.GetFlagArray(data[0x28..], TMHM.AsSpan(0, CountTM));
-        FlagUtil.GetFlagArray(data[0x3C..], TMHM.AsSpan(CountTM, CountTR));
+        FlagUtil.GetFlagArray(data[0x3C..], TR.AsSpan(0, CountTR));
 
         // 0x38-0x3B type tutors, but only 8 bits are valid flags.
         TypeTutors = new bool[32];
@@ -41,7 +43,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         Span<byte> data = Data;
         FlagUtil.SetFlagArray(data[0x28..], TMHM.AsSpan(0, CountTM));
         FlagUtil.SetFlagArray(data[0x38..], TypeTutors);
-        FlagUtil.SetFlagArray(data[0x3C..], TMHM.AsSpan(CountTM, CountTR));
+        FlagUtil.SetFlagArray(data[0x3C..], TR.AsSpan(0, CountTR));
         FlagUtil.SetFlagArray(data[0xA8..], SpecialTutors[0]);
         return Data;
     }

@@ -10,6 +10,7 @@ public class PokeEditor : IDataEditor
     public DataCache<EvolutionSet> Evolve { get; init; } = null!;
     public DataCache<MegaEvolutionSet[]> Mega { get; init; } = null!;
     public IReadOnlyList<ushort> TMHM { get; init; } = null!;
+    public IReadOnlyList<ushort> TR { get; init; } = null!;
 
     public void CancelEdits()
     {

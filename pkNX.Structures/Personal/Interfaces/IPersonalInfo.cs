@@ -56,7 +56,7 @@ public interface IPersonalInfoGG : IPersonalInfoSM
 {
     int GoSpecies { get; set; }
 }
-public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_2, IPersonalMisc_1
+public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_SWSH, IPersonalMisc_1
 {
     bool SpriteForm { get; set; }
     bool IsRegionalForm { get; set; }

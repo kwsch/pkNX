@@ -100,10 +100,11 @@ public partial class PokeDataUI : Form
         {
             if (GameVersion.SWSH.Contains(ROM.Game))
             {
-                for (int i = 0; i < TMs.Count / 2; i++)
+                var TRs = Editor.TR;
+                for (int i = 0; i < TMs.Count; i++)
                     CLB_TM.Items.Add($"TM{i:00} {movelist[TMs[i]]}");
-                for (int i = TMs.Count / 2; i < TMs.Count; i++)
-                    CLB_TM.Items.Add($"TR{i - 100:00} {movelist[TMs[i]]}");
+                for (int i = 0; i < TRs.Count; i++)
+                    CLB_TM.Items.Add($"TR{i:00} {movelist[TRs[i]]}");
 
                 foreach (var move in Legal.TypeTutor8)
                     CLB_TypeTutor.Items.Add(movelist[move]);
@@ -328,8 +329,23 @@ public partial class PokeDataUI : Form
 
         if (pkm is IMovesInfo_1 mi)
         {
-            for (int i = 0; i < CLB_TM.Items.Count; i++)
+            int halfList = CLB_TM.Items.Count / 2;
+            int fullList = CLB_TM.Items.Count;
+        
+            for (int i = 0; i < halfList; i++)
                 CLB_TM.SetItemChecked(i, mi.TMHM[i]); // Bitflags for TM
+                
+            if (pkm is IMovesInfo_SWSH mitr) // if SWSH, the second half is just TRs
+            {
+                for (int i = 0; i < halfList; i++)
+                    CLB_TM.SetItemChecked((i + halfList), mitr.TR[i]); // Bitflags for TR
+            }
+            else
+            {
+                for (int i = halfList; i < fullList; i++) // not SWSH, finish the remaining TMs
+                    CLB_TM.SetItemChecked(i, mi.TMHM[i]);
+            }
+            
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
                 CLB_TypeTutor.SetItemChecked(i, mi.TypeTutors[i]);
         }
@@ -415,8 +431,23 @@ public partial class PokeDataUI : Form
 
         if (pkm is IMovesInfo_1 mi)
         {
-            for (int i = 0; i < CLB_TM.Items.Count; i++)
+            int halfList = CLB_TM.Items.Count / 2;
+            int fullList = CLB_TM.Items.Count;
+            
+            for (int i = 0; i < halfList; i++)
                 mi.TMHM[i] = CLB_TM.GetItemChecked(i);
+                
+            if (pkm is IMovesInfo_SWSH mitr)
+            {
+                for (int i = 0; i < halfList; i++)
+                    mitr.TR[i] = CLB_TM.GetItemChecked(i + halfList);
+            }
+            else
+            {
+                for (int i = halfList; i < fullList; i++)
+                    mi.TMHM[i] = CLB_TM.GetItemChecked(i);
+            }
+            
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
                 mi.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
         }

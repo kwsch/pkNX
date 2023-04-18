@@ -77,7 +77,7 @@ public class GameDumperSWSH
         var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
         var moveNames = ROM.GetStrings(TextName.MoveNames);
 
-        var pd = new PersonalDumperSWSH
+        var pd = new PersonalDumper
         {
             Colors = Enum.GetNames(typeof(PokeColor)),
             EggGroups = Enum.GetNames(typeof(EggGroup)),
@@ -95,6 +95,7 @@ public class GameDumperSWSH
             ZukanA = ROM.GetStrings(TextName.PokedexEntry1),
             ZukanB = ROM.GetStrings(TextName.PokedexEntry2),
             TMIndexes = Legal.TMHM_SWSH,
+            TRIndexes = Legal.TR_SWSH,
         };
 
         var result = pd.Dump(pt);
