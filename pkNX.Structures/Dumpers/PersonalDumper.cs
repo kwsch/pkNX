@@ -5,38 +5,6 @@ using System.Linq;
 
 namespace pkNX.Structures;
 
-/* Now unused
-public class PersonalDumperSWSH : PersonalDumper
-{
-    protected override void AddTMs(List<string> lines, IMovesInfo_1 pi, string specCode)
-    {
-        base.AddTMs(lines, pi, specCode);
-        AddTRs(lines, pi, specCode);
-    }
-
-    private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
-    {
-        if (TMIndexes.Count == 0)
-            return;
-        var tmhm = pi.TMHM;
-        int count = 0;
-        lines.Add("TRs:");
-        for (int i = 0; i < 100; i++)
-        {
-            if (!tmhm[100 + i])
-                continue;
-            var move = TMIndexes[100 + i];
-            lines.Add($"- [TR{i:00}] {Moves[move]}");
-            count++;
-
-            MoveSpeciesLearn[move].Add(specCode);
-        }
-        if (count == 0)
-            lines.Add("None!");
-    }
-}
-*/
-
 public class PersonalDumperSettings
 {
     public bool Stats { get; set; } = true;
