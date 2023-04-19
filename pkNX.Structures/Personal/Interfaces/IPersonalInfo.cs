@@ -98,5 +98,10 @@ public static class IPersonalInfoExt
         {
             self_2.SetIMovesInfo(other_2);
         }
+        
+        if (self is IPersonalInfoSWSH self_SWSH && other is IPersonalInfoSWSH other_SWSH)
+        {
+            self_SWSH.SetIMovesInfo(other_SWSH);
+        }
     }
 }
