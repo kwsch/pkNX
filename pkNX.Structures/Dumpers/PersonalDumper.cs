@@ -5,36 +5,6 @@ using System.Linq;
 
 namespace pkNX.Structures;
 
-public class PersonalDumperSWSH : PersonalDumper
-{
-    protected override void AddTMs(List<string> lines, IMovesInfo_1 pi, string specCode)
-    {
-        base.AddTMs(lines, pi, specCode);
-        AddTRs(lines, pi, specCode);
-    }
-
-    private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
-    {
-        if (TMIndexes.Count == 0)
-            return;
-        var tmhm = pi.TMHM;
-        int count = 0;
-        lines.Add("TRs:");
-        for (int i = 0; i < 100; i++)
-        {
-            if (!tmhm[100 + i])
-                continue;
-            var move = TMIndexes[100 + i];
-            lines.Add($"- [TR{i:00}] {Moves[move]}");
-            count++;
-
-            MoveSpeciesLearn[move].Add(specCode);
-        }
-        if (count == 0)
-            lines.Add("None!");
-    }
-}
-
 public class PersonalDumperSettings
 {
     public bool Stats { get; set; } = true;
@@ -67,6 +37,7 @@ public class PersonalDumper
     public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; } = Array.Empty<EggMoves>();
     public IReadOnlyList<EvolutionSet> Evos { private get; set; } = Array.Empty<EvolutionSet>();
     public IReadOnlyList<ushort> TMIndexes { protected get; set; } = Array.Empty<ushort>();
+    public IReadOnlyList<ushort> TRIndexes { protected get; set; } = Array.Empty<ushort>();
 
     private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
     private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
@@ -116,6 +87,8 @@ public class PersonalDumper
             AddEggMoves(lines, species, form, specCode);
         if (Settings.TMHM && pi is IMovesInfo_1 mi)
             AddTMs(lines, mi, specCode);
+        if (Settings.TMHM && pi is IMovesInfo_SWSH mitr)
+            AddTRs(lines, mitr, specCode);
         if (Settings.Tutor && pi is IMovesInfo_2 mi2)
             AddArmorTutors(lines, mi2, specCode);
         if (Settings.Evo)
@@ -143,6 +116,25 @@ public class PersonalDumper
                 continue;
             var move = TMIndexes[i];
             lines.Add($"- [TM{i:00}] {Moves[move]}");
+            count++;
+
+            MoveSpeciesLearn[move].Add(SpecCode);
+        }
+        if (count == 0)
+            lines.Add("None!");
+    }
+    
+    protected virtual void AddTRs(List<string> lines, IMovesInfo_SWSH pi, string SpecCode)
+    {
+        var tr = pi.TR;
+        int count = 0;
+        lines.Add("TRs:");
+        for (int i = 0; i < 100; i++)
+        {
+            if (!tr[i])
+                continue;
+            var move = TRIndexes[i];
+            lines.Add($"- [TR{i:00}] {Moves[move]}");
             count++;
 
             MoveSpeciesLearn[move].Add(SpecCode);

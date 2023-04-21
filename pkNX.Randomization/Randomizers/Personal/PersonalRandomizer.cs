@@ -207,9 +207,19 @@ public class PersonalRandomizer : Randomizer
             if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
             {
                 if (Settings.InheritChildTM)
+                {
                     mi.TMHM = ((IMovesInfo_1)child).TMHM;
+                    
+                    if (z is IMovesInfo_SWSH mitr)
+                        mitr.TR = ((IMovesInfo_SWSH)child).TR;
+                }
                 else
+                {
                     RandomizeTMHM(mi);
+                    
+                    if (z is IMovesInfo_SWSH mitr)
+                        RandomizeTR(mitr);
+                }
             }
 
             if (Settings.ModifyLearnsetTypeTutors)
@@ -292,7 +302,12 @@ public class PersonalRandomizer : Randomizer
         if (z is IMovesInfo_1 mi)
         {
             if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
+            {
                 RandomizeTMHM(mi);
+                
+                if (z is IMovesInfo_SWSH mitr)
+                    RandomizeTR(mitr);
+            }
 
             if (Settings.ModifyLearnsetTypeTutors)
                 RandomizeTypeTutors(mi, species);
@@ -343,6 +358,19 @@ public class PersonalRandomizer : Randomizer
         }
 
         z.TMHM = tms;
+    }
+    
+    private void RandomizeTR(IMovesInfo_SWSH z)
+    {
+        var trs = z.TR;
+
+        if (Settings.ModifyLearnsetTM)
+        {
+            for (int j = 0; j < trs.Length; j++)
+                trs[j] = Rand.Next(100) < Settings.LearnTMPercent;
+        }
+
+        z.TR = trs;
     }
 
     private void RandomizeTypeTutors(IMovesInfo_1 z, int species)

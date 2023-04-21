@@ -29,6 +29,17 @@ public interface IMovesInfo_2 : IMovesInfo_1
 }
 
 /// <summary>
+/// TRs added in SWSH
+/// </summary>
+public interface IMovesInfo_SWSH : IMovesInfo_2
+{
+    /// <summary>
+    /// TR learn compatibility flags for individual moves.
+    /// </summary>
+    bool[] TR { get; set; }
+}
+
+/// <summary>
 /// Moves layout seems to have changed completely from the old verion
 /// </summary>
 public interface IMovesInfo_3 : IMovesInfo
@@ -64,6 +75,11 @@ public static class IPersonalMovesExtensions
         if (self is IMovesInfo_2 self_2 && other is IMovesInfo_2 other_2)
         {
             self_2.SpecialTutors = other_2.SpecialTutors;
+        }
+        
+        if (self is IMovesInfo_SWSH self_SWSH && other is IMovesInfo_SWSH other_SWSH)
+        {
+            self_SWSH.TR = other_SWSH.TR;
         }
 
         if (self is IMovesInfo_3 self_3)

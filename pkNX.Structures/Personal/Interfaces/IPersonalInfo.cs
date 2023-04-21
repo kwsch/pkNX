@@ -56,7 +56,7 @@ public interface IPersonalInfoGG : IPersonalInfoSM
 {
     int GoSpecies { get; set; }
 }
-public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_2, IPersonalMisc_1
+public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_SWSH, IPersonalMisc_1
 {
     bool SpriteForm { get; set; }
     bool IsRegionalForm { get; set; }
@@ -97,6 +97,11 @@ public static class IPersonalInfoExt
         if (self is IPersonalInfo_2 self_2 && other is IPersonalInfo_2 other_2)
         {
             self_2.SetIMovesInfo(other_2);
+        }
+        
+        if (self is IPersonalInfoSWSH self_SWSH && other is IPersonalInfoSWSH other_SWSH)
+        {
+            self_SWSH.SetIMovesInfo(other_SWSH);
         }
     }
 }
