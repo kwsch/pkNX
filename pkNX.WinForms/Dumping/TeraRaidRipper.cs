@@ -143,13 +143,28 @@ public static class TeraRaidRipper
     private static void DumpDistributionRaids(IFileInternal ROM, string path, List<byte[]> type2, List<byte[]> type3)
     {
         var enemy = Path.Combine(path, "raid_enemy_array");
+        var reward = Path.Combine(path, "fixed_reward_item_array");
+        var lottery = Path.Combine(path, "lottery_reward_item_array");
+        var priority = Path.Combine(path, "raid_priority_array");
+        const string v130 = "_1_3_0";
+
         if (!File.Exists(enemy))
             return;
 
+        if (File.Exists(enemy + v130))
+        {
+            // Starting with Ver. 1.3.0, BCAT is distributed with 1.3.0 specific binaries, in addition to the original base game binaries (e.g. raid_enemy_array_1_3_0).
+            // The original data is dummied out, while the 1.3.0 data contains the raids we want to parse.
+            enemy += v130;
+            reward += v130;
+            lottery += v130;
+            priority += v130;
+        }
+
         var dataEncounters = GetDistributionContents(enemy, out int indexEncounters);
-        var dataDrop = GetDistributionContents(Path.Combine(path, "fixed_reward_item_array"), out int indexDrop);
-        var dataBonus = GetDistributionContents(Path.Combine(path, "lottery_reward_item_array"), out int indexBonus);
-        var priority = GetDistributionContents(Path.Combine(path, "raid_priority_array"), out int indexPriority);
+        var dataDrop = GetDistributionContents(Path.Combine(path, reward), out int indexDrop);
+        var dataBonus = GetDistributionContents(Path.Combine(path, lottery), out int indexBonus);
+        var dataPriority = GetDistributionContents(Path.Combine(path, priority), out int indexPriority);
 
         // BCAT Indexes can be reused by mixing and matching old files when reverting temporary distributions back to prior long-running distributions.
         // They don't have to match, but just note if they do.
