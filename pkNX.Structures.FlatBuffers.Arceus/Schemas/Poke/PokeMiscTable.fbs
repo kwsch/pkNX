@@ -26,7 +26,7 @@ table PokeMisc {
     Field_13:int = 10;
     Field_14:bool = false;
     Field_15:int = 0;
-    Field_16:float = 0.01;
+    Field_16:float = 0;
     Field_17:float = 1.0;
     Field_18:bool = true; // false for zubat, psyduck
     Field_19:float = 0;
