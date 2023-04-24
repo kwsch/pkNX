@@ -21,4 +21,8 @@
     <FlatSharpSchema Include="Schemas\**\*.fbs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Schemas\**\*.fbs" />
+  </ItemGroup>
+
 </Project>
