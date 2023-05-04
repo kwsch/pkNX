@@ -289,15 +289,14 @@ public partial class PokeDataUI8a : Form
         CHK_InArea5.Checked = hasRegionalDexIndex && pkm.DexIndexLocal5 == pkm.DexIndexRegional;
 
         TB_LocalFormIndex.Text = pkm.LocalFormIndex.ToString(TB_LocalFormIndex.Mask);
-        TB_Field_46.Text = pkm.Field_46.ToString(TB_Field_46.Mask);
-        TB_Field_47.Text = pkm.Field_47.ToString(TB_Field_47.Mask);
+        TB_RegionalFormIndex.Text = pkm.RegionalFormIndex.ToString(TB_RegionalFormIndex.Mask);
+        TB_HatchCycles.Text = pkm.HatchCycles.ToString(TB_HatchCycles.Mask);
 
         //TB_MoveShop1.Text = pkm.MoveShop1.ToString(TB_MoveShop1.Mask);
         //TB_MoveShop2.Text = pkm.MoveShop2.ToString(TB_MoveShop2.Mask);
 
         CHK_IsPresentInGame.Checked = pkm.IsPresentInGame;
-        CHK_Field_45.Checked = pkm.Field_45;
-        //CHK_Variant.Checked = pkm.IsRegionalForm;
+        CHK_IsRegionalForm.Checked = pkm.IsRegionalForm;
 
         /*for (int i = 0; i < CLB_TM.Items.Count; i++)
             CLB_TM.SetItemChecked(i, pkm.TMHM[i]); // Bitflags for TM
@@ -453,15 +452,14 @@ public partial class PokeDataUI8a : Form
         pkm.DexIndexLocal5 = CHK_InArea5.Checked ? pkm.DexIndexRegional : (ushort)0;
 
         TB_LocalFormIndex.Text = pkm.LocalFormIndex.ToString(TB_LocalFormIndex.Mask);
-        TB_Field_46.Text = pkm.Field_46.ToString(TB_Field_46.Mask);
-        TB_Field_47.Text = pkm.Field_47.ToString(TB_Field_47.Mask);
+        TB_RegionalFormIndex.Text = pkm.RegionalFormIndex.ToString(TB_RegionalFormIndex.Mask);
+        TB_HatchCycles.Text = pkm.HatchCycles.ToString(TB_HatchCycles.Mask);
 
         //pkm.MoveShop1 = Convert.ToUInt16(TB_MoveShop1.Text);
         //pkm.MoveShop2 = Convert.ToUInt16(TB_MoveShop2.Text);
 
         pkm.IsPresentInGame = CHK_IsPresentInGame.Checked;
-        pkm.Field_45 = CHK_Field_45.Checked;
-        //pkm.IsRegionalForm = CHK_Variant.Checked;
+        pkm.IsRegionalForm = CHK_IsRegionalForm.Checked;
 
         /*for (int i = 0; i < CLB_TM.Items.Count; i++)
             pkm.TMHM[i] = CLB_TM.GetItemChecked(i);

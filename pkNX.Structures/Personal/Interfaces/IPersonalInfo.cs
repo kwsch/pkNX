@@ -68,9 +68,9 @@ public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalE
 public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_3, IMovesInfo_3, IPersonalMisc_2
 {
     byte Field_18 { get; set; } // Always Default (0)
-    bool Field_45 { get; set; } // byte
-    ushort Field_46 { get; set; } // ushort
-    byte Field_47 { get; set; } // byte
+    bool IsRegionalForm { get; set; } // byte
+    ushort RegionalFormIndex { get; set; } // ushort
+    byte HatchCycles { get; set; } // byte
 }
 public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_3
 {

@@ -47,9 +47,9 @@ table PersonalInfo {
     EggGroup2:ubyte;
     HatchedSpecies:ushort;
     LocalFormIndex:ushort;
-    Field_45:bool;
-    Field_46:ushort;
-    Field_47:ubyte;
+    IsRegionalForm:bool;
+    RegionalFormIndex:ushort; // Form hatched if holding Everstone
+    HatchCycles:ubyte;
     BaseFriendship:ubyte;
     DexIndexHisui:ushort;
     ModelID:ushort;

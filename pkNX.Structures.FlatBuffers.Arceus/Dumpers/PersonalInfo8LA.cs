@@ -82,9 +82,9 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
 
     public ushort HatchedSpecies { get => FB.HatchedSpecies; set => FB.HatchedSpecies = value; }
     public ushort LocalFormIndex { get => FB.LocalFormIndex; set => FB.LocalFormIndex = value; }
-    public bool Field_45   { get => FB.Field45; set => FB.Field45 = value; }
-    public ushort Field_46 { get => FB.Field46; set => FB.Field46 = value; }
-    public byte Field_47   { get => FB.Field47; set => FB.Field47 = value; }
+    public bool IsRegionalForm { get => FB.IsRegionalForm; set => FB.IsRegionalForm = value; }
+    public ushort RegionalFormIndex { get => FB.RegionalFormIndex; set => FB.RegionalFormIndex = value; }
+    public byte HatchCycles { get => FB.HatchCycles; set => FB.HatchCycles = value; }
 
     public ushort ModelID { get => FB.ModelID; set => FB.ModelID = value; }
     public ushort Form { get => FB.Form; set => FB.Form = value; }

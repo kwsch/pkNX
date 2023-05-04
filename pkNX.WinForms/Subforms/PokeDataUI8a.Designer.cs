@@ -54,7 +54,7 @@ namespace pkNX.WinForms
             this.L_Ability1 = new System.Windows.Forms.Label();
             this.L_Weight = new System.Windows.Forms.Label();
             this.L_Height = new System.Windows.Forms.Label();
-            this.L_Field_46 = new System.Windows.Forms.Label();
+            this.L_RegionalFormIndex = new System.Windows.Forms.Label();
             this.L_BST = new System.Windows.Forms.Label();
             this.L_Stage = new System.Windows.Forms.Label();
             this.L_FormsCount = new System.Windows.Forms.Label();
@@ -81,7 +81,7 @@ namespace pkNX.WinForms
             this.Label_SPE = new System.Windows.Forms.Label();
             this.L_EVYield = new System.Windows.Forms.Label();
             this.L_BaseStats = new System.Windows.Forms.Label();
-            this.L_Field_47 = new System.Windows.Forms.Label();
+            this.L_HatchCycles = new System.Windows.Forms.Label();
             this.Line = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TB_NationalDex = new System.Windows.Forms.MaskedTextBox();
@@ -138,9 +138,9 @@ namespace pkNX.WinForms
             this.CB_EggGroup2 = new System.Windows.Forms.ComboBox();
             this.CB_Ability3 = new System.Windows.Forms.ComboBox();
             this.CB_EggGroup1 = new System.Windows.Forms.ComboBox();
-            this.CHK_Field_45 = new System.Windows.Forms.CheckBox();
-            this.TB_Field_47 = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Field_46 = new System.Windows.Forms.MaskedTextBox();
+            this.CHK_IsRegionalForm = new System.Windows.Forms.CheckBox();
+            this.TB_HatchCycles = new System.Windows.Forms.MaskedTextBox();
+            this.TB_RegionalFormIndex = new System.Windows.Forms.MaskedTextBox();
             this.CHK_Variant = new System.Windows.Forms.CheckBox();
             this.Tab_Pokedex = new System.Windows.Forms.TabPage();
             this.B_AddTask = new System.Windows.Forms.Button();
@@ -487,16 +487,16 @@ namespace pkNX.WinForms
             this.L_Height.Text = "Height:";
             this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Field_46
+            // L_RegionalFormIndex
             // 
-            this.L_Field_46.AutoSize = true;
-            this.L_Field_46.Location = new System.Drawing.Point(24, 333);
-            this.L_Field_46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Field_46.Name = "L_Field_46";
-            this.L_Field_46.Size = new System.Drawing.Size(132, 25);
-            this.L_Field_46.TabIndex = 482;
-            this.L_Field_46.Text = "Some Form ID:";
-            this.L_Field_46.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_RegionalFormIndex.AutoSize = true;
+            this.L_RegionalFormIndex.Location = new System.Drawing.Point(24, 333);
+            this.L_RegionalFormIndex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_RegionalFormIndex.Name = "L_RegionalFormIndex";
+            this.L_RegionalFormIndex.Size = new System.Drawing.Size(132, 25);
+            this.L_RegionalFormIndex.TabIndex = 482;
+            this.L_RegionalFormIndex.Text = "Regional Form ID:";
+            this.L_RegionalFormIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_BST
             // 
@@ -816,16 +816,16 @@ namespace pkNX.WinForms
             this.L_BaseStats.Text = "Base Stats:";
             this.L_BaseStats.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Field_47
+            // L_HatchCycles
             // 
-            this.L_Field_47.AutoSize = true;
-            this.L_Field_47.Location = new System.Drawing.Point(76, 366);
-            this.L_Field_47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Field_47.Name = "L_Field_47";
-            this.L_Field_47.Size = new System.Drawing.Size(80, 25);
-            this.L_Field_47.TabIndex = 522;
-            this.L_Field_47.Text = "Field_47:";
-            this.L_Field_47.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_HatchCycles.AutoSize = true;
+            this.L_HatchCycles.Location = new System.Drawing.Point(76, 366);
+            this.L_HatchCycles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_HatchCycles.Name = "L_HatchCycles";
+            this.L_HatchCycles.Size = new System.Drawing.Size(80, 25);
+            this.L_HatchCycles.TabIndex = 522;
+            this.L_HatchCycles.Text = "HatchCycles:";
+            this.L_HatchCycles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Line
             // 
@@ -1452,13 +1452,13 @@ namespace pkNX.WinForms
             this.Tab_Personal.Controls.Add(GB_PokeMisc);
             this.Tab_Personal.Controls.Add(this.tableLayoutPanel4);
             this.Tab_Personal.Controls.Add(this.tableLayoutPanel2);
-            this.Tab_Personal.Controls.Add(this.CHK_Field_45);
-            this.Tab_Personal.Controls.Add(this.TB_Field_47);
-            this.Tab_Personal.Controls.Add(this.L_Field_47);
+            this.Tab_Personal.Controls.Add(this.CHK_IsRegionalForm);
+            this.Tab_Personal.Controls.Add(this.TB_HatchCycles);
+            this.Tab_Personal.Controls.Add(this.L_HatchCycles);
             this.Tab_Personal.Controls.Add(this.L_Field_18);
             this.Tab_Personal.Controls.Add(this.TB_Field_18);
-            this.Tab_Personal.Controls.Add(this.TB_Field_46);
-            this.Tab_Personal.Controls.Add(this.L_Field_46);
+            this.Tab_Personal.Controls.Add(this.TB_RegionalFormIndex);
+            this.Tab_Personal.Controls.Add(this.L_RegionalFormIndex);
             this.Tab_Personal.Controls.Add(this.CHK_Variant);
             this.Tab_Personal.Controls.Add(this.TB_FormCount);
             this.Tab_Personal.Controls.Add(this.L_FormsCount);
@@ -1621,39 +1621,39 @@ namespace pkNX.WinForms
             this.CB_EggGroup1.Size = new System.Drawing.Size(135, 33);
             this.CB_EggGroup1.TabIndex = 462;
             // 
-            // CHK_Field_45
+            // CHK_IsRegionalForm
             // 
-            this.CHK_Field_45.AutoSize = true;
-            this.CHK_Field_45.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Field_45.Location = new System.Drawing.Point(102, 429);
-            this.CHK_Field_45.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.CHK_Field_45.Name = "CHK_Field_45";
-            this.CHK_Field_45.Size = new System.Drawing.Size(106, 29);
-            this.CHK_Field_45.TabIndex = 524;
-            this.CHK_Field_45.Text = "Field_45:";
-            this.CHK_Field_45.UseVisualStyleBackColor = true;
+            this.CHK_IsRegionalForm.AutoSize = true;
+            this.CHK_IsRegionalForm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_IsRegionalForm.Location = new System.Drawing.Point(102, 429);
+            this.CHK_IsRegionalForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CHK_IsRegionalForm.Name = "CHK_IsRegionalForm";
+            this.CHK_IsRegionalForm.Size = new System.Drawing.Size(106, 29);
+            this.CHK_IsRegionalForm.TabIndex = 524;
+            this.CHK_IsRegionalForm.Text = "IsRegionalForm:";
+            this.CHK_IsRegionalForm.UseVisualStyleBackColor = true;
             // 
-            // TB_Field_47
+            // TB_HatchCycles
             // 
-            this.TB_Field_47.HidePromptOnLeave = true;
-            this.TB_Field_47.Location = new System.Drawing.Point(160, 363);
-            this.TB_Field_47.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Field_47.Mask = "##0";
-            this.TB_Field_47.Name = "TB_Field_47";
-            this.TB_Field_47.Size = new System.Drawing.Size(48, 31);
-            this.TB_Field_47.TabIndex = 523;
-            this.TB_Field_47.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HatchCycles.HidePromptOnLeave = true;
+            this.TB_HatchCycles.Location = new System.Drawing.Point(160, 363);
+            this.TB_HatchCycles.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.TB_HatchCycles.Mask = "##0";
+            this.TB_HatchCycles.Name = "TB_HatchCycles";
+            this.TB_HatchCycles.Size = new System.Drawing.Size(48, 31);
+            this.TB_HatchCycles.TabIndex = 523;
+            this.TB_HatchCycles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TB_Field_46
+            // TB_RegionalFormIndex
             // 
-            this.TB_Field_46.HidePromptOnLeave = true;
-            this.TB_Field_46.Location = new System.Drawing.Point(160, 330);
-            this.TB_Field_46.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.TB_Field_46.Mask = "##0";
-            this.TB_Field_46.Name = "TB_Field_46";
-            this.TB_Field_46.Size = new System.Drawing.Size(48, 31);
-            this.TB_Field_46.TabIndex = 483;
-            this.TB_Field_46.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_RegionalFormIndex.HidePromptOnLeave = true;
+            this.TB_RegionalFormIndex.Location = new System.Drawing.Point(160, 330);
+            this.TB_RegionalFormIndex.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.TB_RegionalFormIndex.Mask = "##0";
+            this.TB_RegionalFormIndex.Name = "TB_RegionalFormIndex";
+            this.TB_RegionalFormIndex.Size = new System.Drawing.Size(48, 31);
+            this.TB_RegionalFormIndex.TabIndex = 483;
+            this.TB_RegionalFormIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CHK_Variant
             // 
@@ -2409,9 +2409,9 @@ namespace pkNX.WinForms
         private System.Windows.Forms.CheckedListBox CLB_SpecialTutor;
         private System.Windows.Forms.MaskedTextBox TB_Field_18;
         private System.Windows.Forms.ComboBox CB_HatchSpecies;
-        private System.Windows.Forms.MaskedTextBox TB_Field_47;
-        private System.Windows.Forms.MaskedTextBox TB_Field_46;
-        private System.Windows.Forms.CheckBox CHK_Field_45;
+        private System.Windows.Forms.MaskedTextBox TB_HatchCycles;
+        private System.Windows.Forms.MaskedTextBox TB_RegionalFormIndex;
+        private System.Windows.Forms.CheckBox CHK_IsRegionalForm;
         private System.Windows.Forms.MaskedTextBox TB_LocalFormIndex;
         private System.Windows.Forms.TextBox TB_Classification;
         private System.Windows.Forms.ToolTip TT_ButtonTooltip;
@@ -2433,7 +2433,7 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Label L_Ability1;
         private System.Windows.Forms.Label L_Weight;
         private System.Windows.Forms.Label L_Height;
-        private System.Windows.Forms.Label L_Field_46;
+        private System.Windows.Forms.Label L_RegionalFormIndex;
         private System.Windows.Forms.Label L_BST;
         private System.Windows.Forms.Label L_Stage;
         private System.Windows.Forms.Label L_FormsCount;
@@ -2460,7 +2460,7 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Label Label_SPE;
         private System.Windows.Forms.Label L_EVYield;
         private System.Windows.Forms.Label L_BaseStats;
-        private System.Windows.Forms.Label L_Field_47;
+        private System.Windows.Forms.Label L_HatchCycles;
         private System.Windows.Forms.Panel Line;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
