@@ -177,11 +177,8 @@ public static class SchemaDump
             fbs.WriteLine($"enum {defName}{implType}");
             fbs.WriteLine("{");
             {
-                for (int j = 0; j < def.Values.Count; j++)
-                {
-                    var value = def.Values[j];
-                    fbs.WriteLine($"    {j} = {value},");
-                }
+                foreach (var value in def.Values)
+                    fbs.WriteLine($"    {value.Name} = {value.Value},");
             }
             fbs.WriteLine("}");
         }
