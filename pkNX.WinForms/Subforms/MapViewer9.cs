@@ -14,106 +14,18 @@ namespace pkNX.WinForms.Subforms;
 public partial class MapViewer9 : Form
 {
     private readonly GameManagerSV ROM;
-    private readonly bool Loading = true;
-    private readonly List<string> AreaNames;
-    private readonly Dictionary<string, AreaDef9> Areas;
-    private readonly Dictionary<string, HavokCollision.AABBTree> AreaCollisionTrees;
-    private readonly Dictionary<string, BoxCollision9> AreaCollisionBoxes;
-
-    private readonly IList<FieldMainArea> MainAreas;
-    private readonly IList<FieldSubArea> SubAreas;
-    private readonly IList<FieldInsideArea> InsideAreas;
-    private readonly IList<FieldDungeonArea> DungeonAreas;
-    private readonly IList<FieldLocation> FieldLocations;
+    private readonly bool Loading;
+    private readonly PaldeaMap Map;
 
     public MapViewer9(GameManagerSV rom)
     {
-        ROM = rom;
-
-        MainAreas = FlatBufferConverter.DeserializeFrom<FieldMainAreaArray>(ROM.GetPackedFile("world/data/field/area/field_main_area/field_main_area_array.bin")).Table;
-        SubAreas = FlatBufferConverter.DeserializeFrom<FieldSubAreaArray>(ROM.GetPackedFile("world/data/field/area/field_sub_area/field_sub_area_array.bin")).Table;
-        InsideAreas = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area/field_inside_area/field_inside_area_array.bin")).Table;
-        DungeonAreas = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area/field_dungeon_area/field_dungeon_area_array.bin")).Table;
-        FieldLocations = FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area/field_location/field_location_array.bin")).Table;
-
-        var area_management = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile(0x0573CA323061A2D3));
-
-        AreaNames = new();
-        Areas = new();
-        AreaCollisionTrees = new();
-        AreaCollisionBoxes = new();
+        Map = new(ROM = rom);
 
         InitializeComponent();
-
-        foreach (var obj in area_management.Objects)
-        {
-            if (obj.Type == "trinity_SceneObject" && obj.SubObjects.Count > 0 && obj.SubObjects[0].Type == "trinity_CollisionComponent")
-            {
-                var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(obj.Data);
-                var collisionComponent = FlatBufferConverter.DeserializeFrom<CollisionComponent>(obj.SubObjects[0].Data);
-
-                AreaNames.Add(sceneObject.ObjectName);
-                var areaInfo = FindAreaInfo(sceneObject.ObjectName);
-
-                var shape = collisionComponent.Shape;
-                if (shape.TryGet(out Box? box))
-                {
-                    // Box collision, obj.ObjectPosition.Field_02 is pos, box.Field_01 is size of box
-                    AreaCollisionBoxes[sceneObject.ObjectName] = new BoxCollision9
-                    {
-                        Position = sceneObject.ObjectPosition.Field02,
-                        Size = box.Field01,
-                    };
-                }
-                if (shape.TryGet(out Havok? havok))
-                {
-                    var havokData = ROM.GetPackedFile(havok.TrcolFilePath);
-                    AreaCollisionTrees[sceneObject.ObjectName] = HavokCollision.ParseAABBTree(havokData);
-                }
-
-                Areas[sceneObject.ObjectName] = new AreaDef9
-                {
-                    SceneObject = sceneObject,
-                    CollisionComponent = collisionComponent,
-                    Info = areaInfo,
-                };
-            }
-        }
-
-        CB_Map.Items.AddRange(AreaNames.Select(z => z).ToArray());
-
+        Loading = true;
+        CB_Map.Items.AddRange(Map.AreaNames.Select(z => z).ToArray());
         Loading = false;
         CB_Map.SelectedIndex = 0;
-    }
-
-    private AreaInfo FindAreaInfo(string name)
-    {
-        foreach (var area in MainAreas)
-        {
-            if (area.Name == name)
-                return area.Info;
-        }
-        foreach (var area in SubAreas)
-        {
-            if (area.Name == name)
-                return area.Info;
-        }
-        foreach (var area in InsideAreas)
-        {
-            if (area.Name == name)
-                return area.Info;
-        }
-        foreach (var area in DungeonAreas)
-        {
-            if (area.Name == name)
-                return area.Info;
-        }
-        foreach (var area in FieldLocations)
-        {
-            if (area.Name == name)
-                return area.Info;
-        }
-        throw new ArgumentException($"Unknown area {name}");
     }
 
     private class ComboItem
@@ -143,7 +55,7 @@ public partial class MapViewer9 : Form
         if (Loading)
             return;
 
-        var areaName = AreaNames[map];
+        var areaName = Map.AreaNames[map];
 
         var mapImagePath = System.IO.Path.GetFullPath(GetMapImagePath());
         if (System.IO.File.Exists(mapImagePath))
@@ -170,7 +82,7 @@ public partial class MapViewer9 : Form
         double ConvertX(double x) => (4096.0 / 5000.0) * x;
         double ConvertZ(double z) => (4096.0 / 5000.0) * (z + 5500.0);
 
-        if (AreaCollisionTrees.TryGetValue(areaName, out var colTree))
+        if (Map.AreaCollisionTrees.TryGetValue(areaName, out var colTree))
         {
             var brush = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
 
@@ -179,7 +91,7 @@ public partial class MapViewer9 : Form
                 gr.FillRectangle(brush, new RectangleF((float)ConvertX(rect.Left), (float)ConvertZ(rect.Top), (float)ConvertX(rect.Width), (float)ConvertX(rect.Height)));
             }
         }
-        else if (AreaCollisionBoxes.TryGetValue(areaName, out var colBox))
+        else if (Map.AreaCollisionBoxes.TryGetValue(areaName, out var colBox))
         {
             var center_x = colBox.Position.X;
             var center_z = colBox.Position.Z;
@@ -191,11 +103,111 @@ public partial class MapViewer9 : Form
         }
     }
 
-    private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+    private void Map_MouseMove(object sender, MouseEventArgs e)
     {
         var x = ((e.X * 5000.0f) / pictureBox1.Width);
         var z = ((e.Y * 5000.0f) / pictureBox1.Height) - 5500f;
         Text = $"X: {x}, Z: {z}";
+    }
+}
+
+public class PaldeaMap
+{
+    public readonly List<string> AreaNames = new();
+    private readonly Dictionary<string, AreaDef9> Areas = new();
+    public readonly Dictionary<string, HavokCollision.AABBTree> AreaCollisionTrees = new();
+    public readonly Dictionary<string, BoxCollision9> AreaCollisionBoxes = new();
+
+    private readonly IList<FieldMainArea> MainAreas;
+    private readonly IList<FieldSubArea> SubAreas;
+    private readonly IList<FieldInsideArea> InsideAreas;
+    private readonly IList<FieldDungeonArea> DungeonAreas;
+    private readonly IList<FieldLocation> FieldLocations;
+
+    public PaldeaMap(GameManagerSV ROM)
+    {
+        MainAreas = FlatBufferConverter.DeserializeFrom<FieldMainAreaArray>(ROM.GetPackedFile("world/data/field/area/field_main_area/field_main_area_array.bin")).Table;
+        SubAreas = FlatBufferConverter.DeserializeFrom<FieldSubAreaArray>(ROM.GetPackedFile("world/data/field/area/field_sub_area/field_sub_area_array.bin")).Table;
+        InsideAreas = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area/field_inside_area/field_inside_area_array.bin")).Table;
+        DungeonAreas = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area/field_dungeon_area/field_dungeon_area_array.bin")).Table;
+        FieldLocations = FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area/field_location/field_location_array.bin")).Table;
+
+        LoadScene(ROM);
+    }
+
+    private void LoadScene(GameManagerSV ROM)
+    {
+        var area_management = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile(0x0573CA323061A2D3));
+
+        foreach (var obj in area_management.Objects)
+        {
+            if (obj is not { Type: "trinity_SceneObject", SubObjects.Count: > 0 })
+                continue;
+            if (obj.SubObjects[0].Type != "trinity_CollisionComponent")
+                continue;
+
+            var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(obj.Data);
+            var trcData = obj.SubObjects[0].Data;
+            var trc = FlatBufferConverter.DeserializeFrom<TrinityComponent>(trcData);
+            var collisionComponent = trc.Component.CollisionComponent;
+
+            AreaNames.Add(sceneObject.ObjectName);
+            var areaInfo = FindAreaInfo(sceneObject.ObjectName);
+
+            var shape = collisionComponent.Shape;
+            if (shape.TryGet(out Box? box))
+            {
+                // Box collision, obj.ObjectPosition.Field_02 is pos, box.Field_01 is size of box
+                AreaCollisionBoxes[sceneObject.ObjectName] = new BoxCollision9
+                {
+                    Position = sceneObject.ObjectPosition.Field02,
+                    Size = box.Field01,
+                };
+            }
+
+            if (shape.TryGet(out Havok? havok))
+            {
+                var havokData = ROM.GetPackedFile(havok.TrcolFilePath);
+                AreaCollisionTrees[sceneObject.ObjectName] = HavokCollision.ParseAABBTree(havokData);
+            }
+
+            Areas[sceneObject.ObjectName] = new AreaDef9
+            {
+                SceneObject = sceneObject,
+                CollisionComponent = collisionComponent,
+                Info = areaInfo,
+            };
+        }
+    }
+
+    public AreaInfo FindAreaInfo(string name)
+    {
+        foreach (var area in MainAreas)
+        {
+            if (area.Name == name)
+                return area.Info;
+        }
+        foreach (var area in SubAreas)
+        {
+            if (area.Name == name)
+                return area.Info;
+        }
+        foreach (var area in InsideAreas)
+        {
+            if (area.Name == name)
+                return area.Info;
+        }
+        foreach (var area in DungeonAreas)
+        {
+            if (area.Name == name)
+                return area.Info;
+        }
+        foreach (var area in FieldLocations)
+        {
+            if (area.Name == name)
+                return area.Info;
+        }
+        throw new ArgumentException($"Unknown area {name}");
     }
 }
 

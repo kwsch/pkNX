@@ -49,3 +49,9 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 generated_code = true
 dotnet_diagnostic.CS8019.severity = none
 dotnet_analyzer_diagnostic.severity = none
+
+# Generated Code
+[**/FlatSharp.generated.cs]
+generated_code = true
+dotnet_diagnostic.CS8019.severity = none
+dotnet_analyzer_diagnostic.severity = none
