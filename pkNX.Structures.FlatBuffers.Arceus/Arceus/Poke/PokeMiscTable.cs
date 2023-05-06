@@ -11,7 +11,12 @@ using System.Diagnostics;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeMisc { }
+public partial class PokeMisc
+{
+    // lazy set reference for remembering the fetched object
+    public PokeDropItem? DropTable { get; set; }
+    public PokeDropItem? AlphaDropTable { get; set; }
+}
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeMiscTable

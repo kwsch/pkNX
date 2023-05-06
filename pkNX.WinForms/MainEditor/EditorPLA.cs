@@ -780,11 +780,11 @@ internal class EditorPLA : EditorBase
             addEntryCallback: x => x.AddEntry());
     }
 
-    [EditorCallable(EditorCategory.Misc, true)]
-    public void EditPokedexFormStorage()
-    {
-        //PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexFormStorage, "Pokedex Form Storage Editor", z => z.Rank.ToString());
-    }
+    //[EditorCallable(EditorCategory.Misc, true)]
+    //public void EditPokedexFormStorage()
+    //{
+    //    //PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexFormStorage, "Pokedex Form Storage Editor", z => z.Rank.ToString());
+    //}
 
     [EditorCallable(EditorCategory.Misc, true)]
     public void EditPokeDefaultLocator()

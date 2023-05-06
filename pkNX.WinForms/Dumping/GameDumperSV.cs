@@ -583,7 +583,7 @@ public class GameDumperSV
 
     private void DumpDLC()
     {
-        Dump<DLCItemGroupArray, DLCItemGroup>("world/data/ui/dlc_item_data/dlc_item_group/dlc_item_group_array.bfbs", z=>z.Table);
+        Dump<DLCItemGroupArray, DLCItemGroup>("world/data/ui/dlc_item_data/dlc_item_group/dlc_item_group_array.bfbs", z => z.Table);
     }
 
     private void DumpJunk()

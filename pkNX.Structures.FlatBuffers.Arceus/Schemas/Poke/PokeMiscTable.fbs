@@ -1,20 +1,17 @@
-include "PokeDropItem.fbs";
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";
 
 table PokeMisc {
     Species:int;
     Form:int;
-    Field_02:int;
+    Gender:int; // 0 male/both, 1 female, 2 genderless
     ScaleFactor:float = 1; // scale factor when not alpha
     AlphaScaleFactor:float = 2; // scale factor when alpha (forced 255)
     Field_05:int = 1; // similar scale amplification like Field 6, but not used for levels
     OybnLevelIndex:int = 2;
 
     DropTableRef:ulong;
-    DropTable:PokeDropItem; // not required
     AlphaDropTableRef:ulong;
-    AlphaDropTable:PokeDropItem; // not required
 
     /// "pm0000_00_00"
     Value:string (required);

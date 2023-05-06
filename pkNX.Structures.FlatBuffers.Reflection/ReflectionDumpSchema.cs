@@ -29,7 +29,7 @@ public static class SchemaDump
         using var fsCS = File.Create(fileCS);
         using var cs = new StreamWriter(fsCS);
 
-        var fileFBS = Path.Combine(dir, $"{rootName}.cs");
+        var fileFBS = Path.Combine(dir, $"{rootName}.fbs");
         using var fsFBS = File.Create(fileFBS);
         using var fbs = new StreamWriter(fsFBS);
 
@@ -130,7 +130,7 @@ public static class SchemaDump
             fbs.Write("    ");
             fbs.Write(field.Name);
             fbs.Write(":");
-            fbs.Write(field.Type.ToFBS(schema, field.Id));
+            fbs.Write(field.Type.ToFBS(schema, field.Type.Index));
 
             WriteAttributes(fbs, field);
 

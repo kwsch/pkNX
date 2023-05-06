@@ -16,7 +16,7 @@ struct NullableInt32 (fs_valueStruct) {
 table PokeModelConfig {
     Meta:PokeModelMeta (required);
     PathModel:string (required);
-    PathMeshMaterial:string (required);
+    PathMeshMaterial:string;
     PathConfig:string (required);
     Unused:byte; // unused!
     Animations:[AnimationConfigStringTuple] (required);
