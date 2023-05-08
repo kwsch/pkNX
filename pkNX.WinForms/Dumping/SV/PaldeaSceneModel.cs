@@ -79,11 +79,11 @@ public class PaldeaSceneModel
 
         if (shape.TryGet(out Box? box))
         {
-            // Box collision, obj.ObjectPosition.Field_02 is pos, box.Field_01 is size of box
+            // Box collision, obj.ObjectPosition.Field02 is pos, box.Field02 is size of box
             areaColBoxes[name] = new BoxCollision9
             {
                 Position = sceneObject.ObjectPosition.Field02,
-                Size = box.Field01,
+                Size = box.Field02,
             };
         }
         else if (shape.TryGet(out Havok? havok))

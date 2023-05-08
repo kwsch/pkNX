@@ -95,7 +95,7 @@ public class EncounterDumperSV
             //    continue;
 
             var storage = db.Get(placeNameMap[name].Index, areaName, areaInfo);
-            if (storage.Location == 124) // Area Zero
+            if (!IsCrossoverAllowed(storage))
                 continue;
 
             // Here's where the fun begins. Iterate over areas inside this loop so we can look for all possible adjacent areas.
@@ -116,7 +116,7 @@ public class EncounterDumperSV
 
                 // Iterate over all crossover points in the other area.
                 var cross = db.Get(placeNameMap[otherNameMain].Index, otherName, otherAreaInfo);
-                if (cross.Location == 124) // Area Zero
+                if (!IsCrossoverAllowed(cross))
                     continue;
                 foreach (var point in cross.Local)
                 {
@@ -367,6 +367,19 @@ public class EncounterDumperSV
                 .ThenBy(z => z[3]) // Level
             ;
         File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
+    }
+
+    /// <summary>
+    /// Allow encounters into and out of this location
+    /// </summary>
+    private static bool IsCrossoverAllowed(LocationStorage storage)
+    {
+        var loc = storage.Location;
+        if (loc == 124) // Area Zero
+            return false;
+        if (loc == 8) // Mesagoza
+            return false;
+        return true;
     }
 
     private static bool GetIsStationary(PokemonActionID action) => action switch
