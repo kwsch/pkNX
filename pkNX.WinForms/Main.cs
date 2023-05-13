@@ -58,7 +58,7 @@ public partial class Main : Form
         if (Editor == null)
             return;
 
-        if (Editor.Game.GetGeneration() < 7 && Language > 7)
+        if (Editor.Game.GetGeneration() < 7 && Language > 7 && !GameVersion.GG.Contains(Editor.Game))
         {
             WinFormsUtil.Alert("Selected Language is not available for this game", "Defaulting to English.");
             CB_Lang.SelectedIndex = 2;
