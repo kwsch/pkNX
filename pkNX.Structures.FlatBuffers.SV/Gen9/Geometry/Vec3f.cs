@@ -1,20 +1,14 @@
 using System;
 using System.ComponentModel;
-using FlatSharp.Attributes;
 
-namespace pkNX.Structures.FlatBuffers;
+namespace pkNX.Structures.FlatBuffers.SV;
 
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-public class Vec3f : IEquatable<Vec3f>
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public partial class Vec3f : IEquatable<Vec3f>
 {
-    [FlatBufferItem(0)] public float X { get; set; }
-    [FlatBufferItem(1)] public float Y { get; set; }
-    [FlatBufferItem(2)] public float Z { get; set; }
-
-    public static readonly Vec3f Zero = new();
+    public static readonly Vec3f Zero = new(0, 0, 0);
     public static readonly Vec3f One = new(1, 1, 1);
 
-    public Vec3f() { }
 
     public Vec3f(float x = 0, float y = 0, float z = 0)
     {
@@ -22,6 +16,7 @@ public class Vec3f : IEquatable<Vec3f>
         Y = y;
         Z = z;
     }
+
     public static implicit operator Vec3f(PackedVec3f v) => new(v.X, v.Y, v.Z);
 
     public bool IsOne => X is 1 && Y is 1 && Z is 1;

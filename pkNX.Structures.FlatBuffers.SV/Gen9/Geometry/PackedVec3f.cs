@@ -1,16 +1,11 @@
 using System;
 using System.ComponentModel;
-using FlatSharp.Attributes;
 
-namespace pkNX.Structures.FlatBuffers;
+namespace pkNX.Structures.FlatBuffers.SV;
 
-[FlatBufferStruct, TypeConverter(typeof(ExpandableObjectConverter))]
-public class PackedVec3f : IEquatable<PackedVec3f>
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public partial struct PackedVec3f : IEquatable<PackedVec3f>
 {
-    [FlatBufferItem(00)] public float X { get; set; }
-    [FlatBufferItem(01)] public float Y { get; set; }
-    [FlatBufferItem(02)] public float Z { get; set; }
-
     public override string ToString() => $"{{ X: {X}, Y: {Y}, Z: {Z} }}";
 
     public static readonly PackedVec3f Zero = new();
@@ -46,21 +41,8 @@ public class PackedVec3f : IEquatable<PackedVec3f>
         Z = Z,
     };
 
-    public bool Equals(PackedVec3f? other)
-    {
-        if (other is null) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((PackedVec3f)obj);
-    }
-
+    public override bool Equals(object? obj) => obj is PackedVec3f other && Equals(other);
+    public bool Equals(PackedVec3f other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
     public static PackedVec3f operator -(PackedVec3f v) => new(-v.X, -v.Y, -v.Z);
