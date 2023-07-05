@@ -61,7 +61,7 @@ public static class IPersonalItemExtensions
     /// <remarks>Duplicate items still count separately.</remarks>
     public static int GetNumItems(this IPersonalItems _) => 3;
 
-    public static void SetIPersonalItems(this IPersonalItems self, IPersonalItems other)
+    public static void ImportIPersonalItems(this IPersonalItems self, IPersonalItems other)
     {
         for (int j = 0; j < other.GetNumItems(); ++j)
             self.SetItemAtIndex(j, other.GetItemAtIndex(j));

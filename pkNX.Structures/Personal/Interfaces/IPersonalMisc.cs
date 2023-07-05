@@ -14,7 +14,7 @@ public interface IPersonalMisc
 /// <summary>
 /// Added since SWSH
 /// </summary>
-public interface IPersonalMisc_1 : IPersonalMisc
+public interface IPersonalMisc_SWSH : IPersonalMisc
 {
     ushort ModelID { get; set; }
     ushort Form { get; set; }
@@ -25,7 +25,7 @@ public interface IPersonalMisc_1 : IPersonalMisc
     ushort DexIndexRegional { get; set; } // ushort
 }
 
-public interface IPersonalMisc_2 : IPersonalMisc_1
+public interface IPersonalMisc_PLA : IPersonalMisc_SWSH
 {
     ushort DexIndexLocal1 { get; set; } // uint
     ushort DexIndexLocal2 { get; set; } // uint
@@ -36,12 +36,13 @@ public interface IPersonalMisc_2 : IPersonalMisc_1
 
 public static class IPersonalMiscExtensions
 {
-    public static void SetIPersonalMisc(this IPersonalMisc self, IPersonalMisc other)
+    public static void ImportIPersonalMisc(this IPersonalMisc self, IPersonalMisc other)
     {
         self.EvoStage = other.EvoStage;
 
-        if (self is IPersonalMisc_1 self_1 && other is IPersonalMisc_1 other_1)
+        if (self is IPersonalMisc_PLA self_1 && other is IPersonalMisc_SWSH other_1)
         {
+            // PLA already has most properties filled in. Only these are missing.
             self_1.DexIndexNational = other_1.DexIndexNational;
             self_1.Form = other_1.Form;
         }

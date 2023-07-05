@@ -85,7 +85,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
 
             if (s.FormCount == 0)
             {
-                s.SetPersonalInfo(u);
+                s.ImportPersonalInfo(u);
                 s.FormCount = Math.Max((byte)1, FormInfo.GetOutOfBattleFormCount(i, u.FormCount, 7));
             }
 
@@ -111,13 +111,13 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
                         if (u.FormCount <= s.FormCount || (FormInfo.HasTotemForm(i) && !FormInfo.IsTotemForm(i, f)))
                         {
                             var formU = ResourcesUtil.USUM.GetFormEntry(i, f);
-                            formS.SetPersonalInfo(formU);
+                            formS.ImportPersonalInfo(formU);
                         }
                     }
                     else
                     {
                         // No form data was found, just write the base form data
-                        formS.SetPersonalInfo(s);
+                        formS.ImportPersonalInfo(s);
                     }
 
                     formS.FormCount = s.FormCount;

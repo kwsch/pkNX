@@ -73,7 +73,7 @@ public static class IIEffortValueYieldExtensions
     /// </summary>
     public static int GetNumEVs(this IEffortValueYield _) => 6;
 
-    public static void SetIEffortValueYield(this IEffortValueYield self, IEffortValueYield other)
+    public static void ImportIEffortValueYield(this IEffortValueYield self, IEffortValueYield other)
     {
         for (int j = 0; j < other.GetNumEVs(); ++j)
             self.SetEVYieldValue(j, other.GetEVYieldValue(j));

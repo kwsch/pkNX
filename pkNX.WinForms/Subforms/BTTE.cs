@@ -588,7 +588,7 @@ public partial class BTTE : Form
         {
             var pt = Data.PersonalData;
             ban = pt.Table.Take(Game.Info.MaxSpeciesID + 1)
-                .Select((z, i) => new { Species = i, Present = ((IPersonalMisc_1)z).IsPresentInGame })
+                .Select((z, i) => new { Species = i, Present = ((IPersonalMisc_SWSH)z).IsPresentInGame })
                 .Where(z => !z.Present).Select(z => z.Species).ToArray();
         }
 

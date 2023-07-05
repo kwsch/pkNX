@@ -65,7 +65,7 @@ public static class IPersonalAbilityExtensions
     /// <remarks>Duplicate abilities still count separately.</remarks>
     public static int GetNumAbilities(this IPersonalAbility _) => 3;
 
-    public static void SetIPersonalAbility(this IPersonalAbility self, IPersonalAbility other)
+    public static void ImportIPersonalAbility(this IPersonalAbility self, IPersonalAbility other)
     {
         for (int j = 0; j < other.GetNumAbilities(); ++j)
             self.SetAbilityAtIndex(j, other.GetAbilityAtIndex(j));

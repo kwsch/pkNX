@@ -4,7 +4,7 @@ public interface IMovesInfo
 {
 }
 
-public interface IMovesInfo_1 : IMovesInfo
+public interface IMovesInfo_v1 : IMovesInfo
 {
     /// <summary>
     /// TM/HM learn compatibility flags for individual moves.
@@ -20,7 +20,7 @@ public interface IMovesInfo_1 : IMovesInfo
 /// <summary>
 /// SpecialTutors added in B2W2
 /// </summary>
-public interface IMovesInfo_2 : IMovesInfo_1
+public interface IMovesInfo_B2W2 : IMovesInfo_v1
 {
     /// <summary>
     /// Special tutor learn compatibility flags for individual moves.
@@ -31,7 +31,7 @@ public interface IMovesInfo_2 : IMovesInfo_1
 /// <summary>
 /// TRs added in SWSH
 /// </summary>
-public interface IMovesInfo_SWSH : IMovesInfo_2
+public interface IMovesInfo_SWSH : IMovesInfo_B2W2
 {
     /// <summary>
     /// TR learn compatibility flags for individual moves.
@@ -42,7 +42,7 @@ public interface IMovesInfo_SWSH : IMovesInfo_2
 /// <summary>
 /// Moves layout seems to have changed completely from the old verion
 /// </summary>
-public interface IMovesInfo_3 : IMovesInfo
+public interface IMovesInfo_PLA : IMovesInfo
 {
     uint TM_A { get; set; }
     uint TM_B { get; set; }
@@ -64,15 +64,15 @@ public interface IMovesInfo_3 : IMovesInfo
 
 public static class IPersonalMovesExtensions
 {
-    public static void SetIMovesInfo(this IMovesInfo self, IMovesInfo other)
+    public static void ImportIMovesInfo(this IMovesInfo self, IMovesInfo other)
     {
-        if (self is IMovesInfo_1 self_1 && other is IMovesInfo_1 other_1)
+        if (self is IMovesInfo_v1 self_1 && other is IMovesInfo_v1 other_1)
         {
             self_1.TMHM = other_1.TMHM;
             self_1.TypeTutors = other_1.TypeTutors;
         }
 
-        if (self is IMovesInfo_2 self_2 && other is IMovesInfo_2 other_2)
+        if (self is IMovesInfo_B2W2 self_2 && other is IMovesInfo_B2W2 other_2)
         {
             self_2.SpecialTutors = other_2.SpecialTutors;
         }
@@ -82,13 +82,13 @@ public static class IPersonalMovesExtensions
             self_SWSH.TR = other_SWSH.TR;
         }
 
-        if (self is IMovesInfo_3 self_3)
+        if (self is IMovesInfo_PLA self_3)
         {
-            if (other is IMovesInfo_2 other_2b)
+            if (other is IMovesInfo_B2W2 other_2b)
             {
                 self_3.SpecialTutors = other_2b.SpecialTutors;
             }
-            else if (other is IMovesInfo_3 other_3)
+            else if (other is IMovesInfo_PLA other_3)
             {
                 self_3.TM_A = other_3.TM_A;
                 self_3.TM_B = other_3.TM_B;

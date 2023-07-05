@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public class PersonalDumperPLA
 {
-    private void AddTRs(List<string> lines, IMovesInfo_1 pi, string specCode)
+    private void AddTRs(List<string> lines, IMovesInfo_v1 pi, string specCode)
     {
         if (!(TMIndexes?.Count > 0))
             return;
@@ -81,7 +81,7 @@ public class PersonalDumperPLA
 
     private void AddDump(List<string> lines, IPersonalInfo pi, int entry, string name, int species, int form)
     {
-        if (pi is IPersonalMisc_1 { IsPresentInGame: false })
+        if (pi is IPersonalMisc_SWSH { IsPresentInGame: false })
             return;
 
         var specCode = pi.FormCount > 1 ? $"{Species[species]}-{form}" : $"{Species[species]}";
@@ -107,7 +107,7 @@ public class PersonalDumperPLA
         lines.Add(ZukanB[entry].Replace("\\n", " "));
     }
 
-    protected virtual void AddTMs(List<string> lines, IMovesInfo_1 pi, string SpecCode)
+    protected virtual void AddTMs(List<string> lines, IMovesInfo_v1 pi, string SpecCode)
     {
         var tmhm = pi.TMHM;
         int count = 0;
@@ -128,7 +128,7 @@ public class PersonalDumperPLA
         AddTRs(lines, pi, SpecCode);
     }
 
-    protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_2 pi, string SpecCode)
+    protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_B2W2 pi, string SpecCode)
     {
         var shop = pi.SpecialTutors[0];
         int count = 0;
@@ -199,7 +199,7 @@ public class PersonalDumperPLA
         lines.Add("======");
         lines.Add($"{entry:000} - {name} (Stage: {pi.EvoStage})");
         lines.Add("======");
-        if (pi is IPersonalMisc_1 { IsPresentInGame: false })
+        if (pi is IPersonalMisc_SWSH { IsPresentInGame: false })
             lines.Add("Present: No");
         lines.Add($"Base Stats: {pi.HP}.{pi.ATK}.{pi.DEF}.{pi.SPA}.{pi.SPD}.{pi.SPE} (BST: {pi.GetBaseStatTotal()})");
         lines.Add($"EV Yield: {pi.EV_HP}.{pi.EV_ATK}.{pi.EV_DEF}.{pi.EV_SPA}.{pi.EV_SPD}.{pi.EV_SPE}");

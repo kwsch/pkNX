@@ -82,7 +82,7 @@ public partial class AreaEditor8a : Form
 
         var hasForm = new HashSet<int>();
         var banned = new HashSet<int>();
-        foreach (var pi in pt.Table.Cast<IPersonalMisc_1>())
+        foreach (var pi in pt.Table.Cast<IPersonalMisc_SWSH>())
         {
             if (pi.IsPresentInGame)
             {
@@ -98,7 +98,7 @@ public partial class AreaEditor8a : Form
         settings.Legends = false; // Legendary encounter slot conditions require you to not have captured the Legendary in order to encounter them; ban altogether.
         rand.Initialize(settings, banned.ToArray());
 
-        var formRand = pt.Table.Cast<IPersonalMisc_1>()
+        var formRand = pt.Table.Cast<IPersonalMisc_SWSH>()
             .Where(z => z.IsPresentInGame && !(Legal.BattleExclusiveForms.Contains(z.DexIndexNational) || Legal.BattleFusions.Contains(z.DexIndexNational)))
             .GroupBy(z => z.DexIndexNational)
             .ToDictionary(z => z.Key, z => z.ToList());

@@ -32,20 +32,20 @@ public static class IPersonalInfoBinExt
 /// <summary>
 /// Version one
 /// </summary>
-public interface IPersonalInfo_1 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_1, IMovesInfo_1 { }
+public interface IPersonalInfo_v1 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_v1 { }
 
 /// <summary>
 /// Version 2 adds `SpecialTutors` to moves
 /// </summary>
-public interface IPersonalInfo_2 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_1, IMovesInfo_2 { }
+public interface IPersonalInfo_v2 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_B2W2 { }
 
 // Game specific PersonalInfo interfaces
 
-public interface IPersonalInfoBW : IPersonalInfo_1 { }
-public interface IPersonalInfoXY : IPersonalInfo_1 { }
-public interface IPersonalInfoB2W2 : IPersonalInfo_2 { }
-public interface IPersonalInfoORAS : IPersonalInfo_2 { }
-public interface IPersonalInfoSM : IPersonalInfo_2
+public interface IPersonalInfoBW : IPersonalInfo_v1 { }
+public interface IPersonalInfoXY : IPersonalInfo_v1 { }
+public interface IPersonalInfoB2W2 : IPersonalInfo_v2 { }
+public interface IPersonalInfoORAS : IPersonalInfo_v2 { }
+public interface IPersonalInfoSM : IPersonalInfo_v2
 {
     int SpecialZ_Item { get; set; }
     int SpecialZ_BaseMove { get; set; }
@@ -56,7 +56,7 @@ public interface IPersonalInfoGG : IPersonalInfoSM
 {
     int GoSpecies { get; set; }
 }
-public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_2, IMovesInfo_SWSH, IPersonalMisc_1
+public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_SWSH, IMovesInfo_SWSH, IPersonalMisc_SWSH
 {
     bool SpriteForm { get; set; }
     bool IsRegionalForm { get; set; }
@@ -65,43 +65,37 @@ public interface IPersonalInfoSWSH : IPersonalInfoBin, IPersonalInfo, IPersonalE
     ushort ArmorDexIndex { get; set; }
     ushort CrownDexIndex { get; set; }
 }
-public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_3, IMovesInfo_3, IPersonalMisc_2
+public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_PLA, IMovesInfo_PLA, IPersonalMisc_PLA
 {
     byte Field_18 { get; set; } // Always Default (0)
     bool IsRegionalForm { get; set; } // byte
     ushort RegionalFormIndex { get; set; } // ushort
-    byte HatchCycles { get; set; } // byte
 }
-public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_3
+public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_SWSH
 {
 }
 
 public static class IPersonalInfoExt
 {
-    public static void SetPersonalInfo(this IPersonalInfo self, IPersonalInfo other)
+    /// <summary>
+    /// Import the missing properties from an older generation
+    /// </summary>
+    /// <param name="self">The data to fill</param>
+    /// <param name="other">The older generation that is used to fill in the missing pieces</param>
+    public static void ImportPersonalInfo(this IPersonalInfo self, IPersonalInfo other)
     {
-        self.SetIBaseStats(other);
-        self.SetIEffortValueYield(other);
-        self.SetIPersonalAbility(other);
-        self.SetIPersonalItems(other);
-        self.SetIPersonalType(other);
-        self.SetIPersonalEgg(other);
-        self.SetIPersonalTraits(other);
-        self.SetIPersonalMisc(other);
+        self.ImportIBaseStats(other);
+        self.ImportIEffortValueYield(other);
+        self.ImportIPersonalAbility(other);
+        self.ImportIPersonalItems(other);
+        self.ImportIPersonalType(other);
+        self.ImportIPersonalEgg(other);
+        self.ImportIPersonalTraits(other);
+        self.ImportIPersonalMisc(other);
 
-        if (self is IPersonalInfo_1 self_1 && other is IPersonalInfo_1 other_1)
+        if (self is IMovesInfo self_1 && other is IMovesInfo other_1)
         {
-            self_1.SetIMovesInfo(other_1);
-        }
-
-        if (self is IPersonalInfo_2 self_2 && other is IPersonalInfo_2 other_2)
-        {
-            self_2.SetIMovesInfo(other_2);
-        }
-        
-        if (self is IPersonalInfoSWSH self_SWSH && other is IPersonalInfoSWSH other_SWSH)
-        {
-            self_SWSH.SetIMovesInfo(other_SWSH);
+            self_1.ImportIMovesInfo(other_1);
         }
     }
 }

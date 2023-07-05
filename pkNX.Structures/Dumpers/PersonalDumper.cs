@@ -85,11 +85,11 @@ public class PersonalDumper
             AddLearnsets(lines, entry, specCode);
         if (Settings.Egg)
             AddEggMoves(lines, species, form, specCode);
-        if (Settings.TMHM && pi is IMovesInfo_1 mi)
+        if (Settings.TMHM && pi is IMovesInfo_v1 mi)
             AddTMs(lines, mi, specCode);
         if (Settings.TMHM && pi is IMovesInfo_SWSH mitr)
             AddTRs(lines, mitr, specCode);
-        if (Settings.Tutor && pi is IMovesInfo_2 mi2)
+        if (Settings.Tutor && pi is IMovesInfo_B2W2 mi2)
             AddArmorTutors(lines, mi2, specCode);
         if (Settings.Evo)
             AddEvolutions(lines, entry);
@@ -105,7 +105,7 @@ public class PersonalDumper
         lines.Add(ZukanB[entry].Replace("\\n", " "));
     }
 
-    protected virtual void AddTMs(List<string> lines, IMovesInfo_1 pi, string SpecCode)
+    protected virtual void AddTMs(List<string> lines, IMovesInfo_v1 pi, string SpecCode)
     {
         var tmhm = pi.TMHM;
         int count = 0;
@@ -143,7 +143,7 @@ public class PersonalDumper
             lines.Add("None!");
     }
 
-    protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_2 pi, string SpecCode)
+    protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_B2W2 pi, string SpecCode)
     {
         var armor = pi.SpecialTutors[0];
         int count = 0;
@@ -264,7 +264,7 @@ public class PersonalDumper
             ? "Egg Group: {0} / {1}"
             : "Egg Group: {0}", EggGroups[pi.EggGroup1], EggGroups[pi.EggGroup2]));
 
-        if (pi is IPersonalEgg_1 eggInfo)
+        if (pi is IPersonalEgg_v1 eggInfo)
             lines.Add($"Hatch Cycles: {eggInfo.HatchCycles}");
 
         lines.Add($"Height: {(decimal)pi.Height / 100:00.00}m, Weight: {(decimal)pi.Weight / 10:000.0}kg, Color: {Colors[pi.Color]}");

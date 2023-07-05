@@ -202,13 +202,13 @@ public class PersonalRandomizer : Randomizer
             }
         }
 
-        if (z is IMovesInfo_1 mi)
+        if (z is IMovesInfo_v1 mi)
         {
             if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
             {
                 if (Settings.InheritChildTM)
                 {
-                    mi.TMHM = ((IMovesInfo_1)child).TMHM;
+                    mi.TMHM = ((IMovesInfo_v1)child).TMHM;
                     
                     if (z is IMovesInfo_SWSH mitr)
                         mitr.TR = ((IMovesInfo_SWSH)child).TR;
@@ -225,16 +225,16 @@ public class PersonalRandomizer : Randomizer
             if (Settings.ModifyLearnsetTypeTutors)
             {
                 if (Settings.InheritChildSpecial)
-                    mi.TypeTutors = ((IMovesInfo_1)child).TypeTutors;
+                    mi.TypeTutors = ((IMovesInfo_v1)child).TypeTutors;
                 else
                     RandomizeTypeTutors(mi, species);
             }
         }
 
-        if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_2 mi2)
+        if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_B2W2 mi2)
         {
             if (Settings.InheritChildTutor)
-                mi2.SpecialTutors = ((IMovesInfo_2)child).SpecialTutors;
+                mi2.SpecialTutors = ((IMovesInfo_B2W2)child).SpecialTutors;
             else
                 RandomizeSpecialTutors(mi2);
         }
@@ -299,7 +299,7 @@ public class PersonalRandomizer : Randomizer
         if (Settings.ModifyAbility)
             RandomizeAbilities(z);
 
-        if (z is IMovesInfo_1 mi)
+        if (z is IMovesInfo_v1 mi)
         {
             if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
             {
@@ -313,7 +313,7 @@ public class PersonalRandomizer : Randomizer
                 RandomizeTypeTutors(mi, species);
         }
 
-        if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_2 mi2)
+        if (Settings.ModifyLearnsetMoveTutors && z is IMovesInfo_B2W2 mi2)
             RandomizeSpecialTutors(mi2);
 
         if (Settings.ModifyEgg)
@@ -341,7 +341,7 @@ public class PersonalRandomizer : Randomizer
         return (int)Math.Min(255, min + c);
     }
 
-    private void RandomizeTMHM(IMovesInfo_1 z)
+    private void RandomizeTMHM(IMovesInfo_v1 z)
     {
         var tms = z.TMHM;
 
@@ -373,7 +373,7 @@ public class PersonalRandomizer : Randomizer
         z.TR = trs;
     }
 
-    private void RandomizeTypeTutors(IMovesInfo_1 z, int species)
+    private void RandomizeTypeTutors(IMovesInfo_v1 z, int species)
     {
         var t = z.TypeTutors;
         for (int i = 0; i < t.Length; i++)
@@ -386,7 +386,7 @@ public class PersonalRandomizer : Randomizer
         z.TypeTutors = t;
     }
 
-    private void RandomizeSpecialTutors(IMovesInfo_2 z)
+    private void RandomizeSpecialTutors(IMovesInfo_B2W2 z)
     {
         var tutors = z.SpecialTutors;
         foreach (bool[] tutor in tutors)

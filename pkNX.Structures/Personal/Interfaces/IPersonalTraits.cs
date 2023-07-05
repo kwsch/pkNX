@@ -91,7 +91,7 @@ public static class PersonalTraitsExtensions
         return fix >= 0 ? (int)fix : Util.Rand.Next(2);
     }
 
-    public static void SetIPersonalTraits(this IPersonalTraits self, IPersonalTraits other)
+    public static void ImportIPersonalTraits(this IPersonalTraits self, IPersonalTraits other)
     {
         self.Gender = other.Gender;
         self.EXPGrowth = other.EXPGrowth;
