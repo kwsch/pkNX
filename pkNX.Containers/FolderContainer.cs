@@ -41,7 +41,7 @@ public class FolderContainer : IFileContainer
     {
         Paths.Add(file);
         Data.Add(data);
-        TrackModify.Add(false);
+        TrackModify.Add(data != null);
     }
 
     public void AddFiles(IEnumerable<string> files)
@@ -90,7 +90,7 @@ public class FolderContainer : IFileContainer
     public bool Modified
     {
         get => TrackModify.Contains(true);
-        set => CancelEdits();
+        set { if (!value) CancelEdits(); }
     }
 
     public int Count => Paths.Count;

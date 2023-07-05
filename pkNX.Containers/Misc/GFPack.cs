@@ -128,7 +128,11 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         return DecompressedFiles[index];
     }
 
-    public byte[] GetDataFull(ulong hash) => DecompressedFiles[GetIndexFull(hash)];
+    public byte[] GetDataFull(ulong hash)
+    {
+        var fileId = GetIndexFull(hash);
+        return fileId < 0 ? Array.Empty<byte>() : DecompressedFiles[fileId];
+    }
 
     public byte[] GetDataFullPath(string path) => GetDataFull(FnvHash.HashFnv1a_64(path));
 
