@@ -1,0 +1,91 @@
+include "../../Geometry/AABB.fbs";
+include "../../Geometry/Sphere.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+// *.trmsh
+
+enum InputLayoutSemanticName : uint {
+    NONE = 0,
+    POSITION,
+    NORMAL,
+    TANGENT,
+    BINORMAL,
+    COLOR,
+    TEXCOORD,
+    BLEND_INDICES,
+    BLEND_WEIGHTS,
+}
+
+enum InputLayoutFormat : uint {
+    NONE = 0,
+    RGBA_8_UNORM = 20,
+    RGBA_8_UNSIGNED = 22,
+    RGBA_16_UNORM = 39,
+    RGBA_16_FLOAT = 43,
+    RG_32_FLOAT = 48,
+    RGB_32_FLOAT = 51,
+    RGBA_32_FLOAT = 54,
+}
+
+enum IndexLayoutFormat: uint {
+    UINT8 = 0, // Unconfirmed
+    UINT16,
+    UINT32, // Unconfirmed
+    UINT64, // Unconfirmed
+}
+
+table BoneWeight {
+    RigIndex: uint;
+    Weight: float;
+}
+
+table InputLayoutElement {
+    Slot: int = -1; // Possibly input slot? Always zero on PLA all models, but zero is not the default!
+    SemanticName: InputLayoutSemanticName;
+    SemanticIndex: uint;
+    Format: InputLayoutFormat;
+    Offset: uint;
+}
+
+table VertexSize {
+    Size: uint;
+}
+
+table VertexAttributeLayout {
+    Elements: [InputLayoutElement] (required);
+    Size: [VertexSize] (required);
+}
+
+table SubMesh {
+    IndexCount: uint;
+    IndexOffset: uint;
+    Field_02: uint; // Always zero on PLA all models
+    AppliedMaterial: string;
+    Field_04: int = -1; // 0 or default value
+}
+
+table MeshShape {
+    MeshShapeName: string;
+    Bounds: AABB;
+    IndexLayoutFormat: IndexLayoutFormat;
+    VertexLayout: [VertexAttributeLayout] (required);
+    SubMeshes: [SubMesh] (required);
+    Field_05: uint; // Always default on PLA all models
+    Field_06: uint; // Always default on PLA all models
+    Field_07: uint; // Always default on PLA all models
+    Field_08: uint; // Always default on PLA all models
+    BoundingSphere: Sphere;
+    BoneWeights: [BoneWeight] (required);
+    Field_11: string; // Always empty on PLA all models
+    MeshName: string;
+}
+
+table Mesh (fs_serializer) {
+    Reserved_00: uint; // Always zero on PLA all models
+    Shapes: [MeshShape] (required);
+    BufferFileName: string;
+}
+
+root_type Mesh;

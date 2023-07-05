@@ -1,0 +1,35 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+// *.trbsm
+
+table UnkEntry {
+    Name: string;
+}
+
+table BoneEntry {
+    Name: string;
+    Slots: [string] (required);
+    Field_03: float;
+}
+
+table ScalerEntry {
+    Name: string;
+    SlotName: [string] (required);
+    Field_03: byte;
+    Field_04: [float] (required);
+}
+
+table MeshEntry {
+    Name: string;
+    SlotName: [string] (required);
+}
+
+table BoneMeshScalar (fs_serializer) {
+    Bones: [BoneEntry] (required);
+    Scalers: [ScalerEntry] (required);
+    Mesh: [MeshEntry] (required);
+    Field_04: UnkEntry;
+}
+
+root_type BoneMeshScalar;

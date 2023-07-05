@@ -1,0 +1,107 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+// *.trmtr
+
+enum UVWrapMode: uint {
+    // Time to test these as bit fields?
+    CLAMP_TO_EDGE = 0, // 0000
+    REPEAT = 1, // 0001
+    MIRROR = 6, // 0110
+    MIRROR_ONCE = 7, // 0111
+
+    Border = 99999, // TODO: Unknown value, 99999 is invalid!
+}
+
+struct Color4f (fs_valueStruct) {
+    R: float;
+    G: float;
+    B: float;
+    A: float;
+}
+
+table SamplerState {
+    SamplerState0: uint32 = 0x0; // flags; default
+    SamplerState1: uint32 = 0x0; // magFilter; default
+    SamplerState2: uint32 = 0x0; // minFilter; default
+    SamplerState3: uint32 = 0x0; // mipmapMode; default
+    SamplerState4: uint32 = 0x0; // mipLodBias; default
+    SamplerState5: uint32 = 0x0; // anisotropyEnable; default
+    SamplerState6: uint32 = 0x0; // default maxAnisotropy 1.00
+    SamplerState7: uint32 = 0x0; // default compareEnable 0
+    SamplerState8: uint32 = 0x0; // default compareOp VK_COMPARE_OP_NEVER
+    RepeatU: UVWrapMode = REPEAT; // 0x1, 0x6 or 0x7
+    RepeatV: UVWrapMode = REPEAT; // 0x1, 0x6 or 0x7
+    RepeatW: UVWrapMode = CLAMP_TO_EDGE; // Never used
+    BorderColor: Color4f;
+}
+
+table Float4Parameter {
+    PropertyBinding: string;
+    ColorValue: Color4f;
+}
+
+table FloatParameter {
+    PropertyBinding: string;
+    FloatValue: float;
+}
+
+table IntParameter {
+    PropertyBinding: string;
+    IntValue: int;
+}
+
+table StringParameter {
+    PropertyBinding: string;
+    StringValue: string;
+}
+
+table ShaderBinding {
+    ShaderName: string;
+    ShaderValues: [StringParameter] (required);
+}
+
+table TextureParameter  {
+    PropertyBinding: string;
+    TextureFile: string;
+    TextureSlot: uint;
+}
+
+table WriteMaskData {
+    // Only pm0448 has it as 0x0 in Transparent Shader
+    Mask: ubyte = 255;
+}
+
+table IntExtraData {
+    Reserved_00: uint;
+    // 0 when Transparent
+    // 1 when NonDirectional
+    Value: int = -1;
+}
+
+table MaterialPass {
+    Name: string;
+    Shaders: [ShaderBinding] (required);
+    TextureParameters: [TextureParameter] (required);
+    Samplers: [SamplerState] (required);
+    FloatParameters: [FloatParameter] (required);
+    Field_05: [string] (required);
+    Float4LightParameters: [Float4Parameter] (required);
+    Float4Parameters: [Float4Parameter] (required);
+    Field_08: [string] (required); // TODO
+    IntParameters: [IntParameter] (required);
+    Field_10: [string] (required);// TODO
+    Field_11: [string] (required);// TODO
+    Field_12: [string] (required);// TODO
+    WriteMask: WriteMaskData;
+    IntExtra: IntExtraData;
+    AlphaType: string;
+}
+
+table Material (fs_serializer) {
+    Reserved_00: uint; // Default
+    MaterialPasses: [MaterialPass] (required);
+}
+
+root_type Material;
