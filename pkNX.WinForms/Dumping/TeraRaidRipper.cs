@@ -462,6 +462,13 @@ public static class TeraRaidRipper
                 _ => string.Empty,
             };
 
+            var gender = boss.Sex switch
+            {
+                SexType.MALE => "Male",
+                SexType.FEMALE => "Female",
+                _ => string.Empty,
+            };
+
             var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
 
             lines.Add($"{entry.Info.Difficulty}-Star {species[(int)boss.DevId]}{form}");
@@ -474,6 +481,9 @@ public static class TeraRaidRipper
 
             if (boss.Seikaku != SeikakuType.DEFAULT)
                 lines.Add($"\tNature: {natures[(int)boss.Seikaku - 1]}");
+
+            if (boss.Sex != SexType.DEFAULT)
+                lines.Add($"\tGender: {gender}");
 
             lines.Add($"\tIVs: {iv}");
 
