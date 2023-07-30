@@ -4,9 +4,9 @@ attribute "fs_valueStruct";
 
 /// poke_resource_table.trpmcatalog
 
-table PokeResourceMeta {
-    Field0:int = 5; // 4 in prior game format
-    Field1:int = 4; // 2 in prior game format
+table PokeResourceVersionInfo {
+    Major: int = 5; // 4 in prior game format
+    Minor: int = 4; // 2 in prior game format
 }
 
 struct NullableInt32 (fs_valueStruct) {
@@ -14,30 +14,30 @@ struct NullableInt32 (fs_valueStruct) {
 }
 
 table PokeModelConfig {
-    Meta:PokeModelMeta (required);
-    PathModel:string (required);
-    PathMeshMaterial:string;
-    PathConfig:string (required);
-    Unused:byte; // unused!
-    Animations:[AnimationConfigStringTuple] (required);
-    Effects:[AnimationConfigStringTuple] (required);
-    ArceusType:NullableInt32; // Specified by Arceus' forms -- NEW!
+    SpeciesInfo: PokeModelSpeciesInfo (required);
+    ModelPath: string (required);
+    MaterialTablePath: string;
+    ConfigPath: string (required);
+    Unused: byte; // unused!
+    Animations: [FileNamePathPair] (required);
+    Effects: [FileNamePathPair] (required);
+    ArceusType: NullableInt32; // Specified by Arceus' forms -- NEW!
 }
 
-table PokeModelMeta {
+table PokeModelSpeciesInfo {
     Species:ushort;
     Form:ushort;
     Gender:ubyte;
 }
 
-table AnimationConfigStringTuple {
+table FileNamePathPair {
     Name:string (required);
     Path:string (required);
 }
 
 table PokeResourceTable (fs_serializer) {
-    Meta:PokeResourceMeta (required);
-    Table:[PokeModelConfig] (required);
+    Version: PokeResourceVersionInfo (required);
+    Table: [PokeModelConfig] (required);
 }
 
 root_type PokeResourceTable;

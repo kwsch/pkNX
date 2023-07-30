@@ -35,4 +35,8 @@ public partial class MaterialTable
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class MultiMaterialTable
 {
+    public static MultiMaterialTable Empty => new()
+    {
+        Material = Array.Empty<MaterialTable>()
+    };
 }

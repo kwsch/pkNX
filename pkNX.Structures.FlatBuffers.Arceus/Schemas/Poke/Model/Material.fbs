@@ -38,33 +38,33 @@ table SamplerState {
 }
 
 table Float4Parameter {
-    PropertyBinding: string;
+    PropertyBinding: string (required);
     ColorValue: Color4f;
 }
 
 table FloatParameter {
-    PropertyBinding: string;
+    PropertyBinding: string (required);
     FloatValue: float;
 }
 
 table IntParameter {
-    PropertyBinding: string;
+    PropertyBinding: string (required);
     IntValue: int;
 }
 
 table StringParameter {
-    PropertyBinding: string;
+    PropertyBinding: string (required);
     StringValue: string;
 }
 
 table ShaderBinding {
-    ShaderName: string;
+    ShaderName: string (required);
     ShaderValues: [StringParameter] (required);
 }
 
 table TextureParameter  {
-    PropertyBinding: string;
-    TextureFile: string;
+    PropertyBinding: string (required);
+    TextureFile: string (required);
     TextureSlot: uint;
 }
 
@@ -81,7 +81,7 @@ table IntExtraData {
 }
 
 table MaterialPass {
-    Name: string;
+    Name: string (required);
     Shaders: [ShaderBinding] (required);
     TextureParameters: [TextureParameter] (required);
     Samplers: [SamplerState] (required);
@@ -96,7 +96,7 @@ table MaterialPass {
     Field_12: [string] (required);// TODO
     WriteMask: WriteMaskData;
     IntExtra: IntExtraData;
-    AlphaType: string;
+    AlphaType: string (required);
 }
 
 table Material (fs_serializer) {

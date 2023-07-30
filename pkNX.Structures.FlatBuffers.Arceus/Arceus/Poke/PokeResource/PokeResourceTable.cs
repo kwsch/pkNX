@@ -21,10 +21,10 @@ public partial class PokeResourceMeta { }
 public partial class PokeModelConfig { }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelMeta { }
+public partial class PokeModelSpeciesInfo { }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class AnimationConfigStringTuple { }
+public partial class FileNamePathPair { }
 
 /// <summary> <see cref="PokeResourceTable"/> for Legends: Arceus, adding <see cref="PokeModelConfig.ArceusType"/></summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -32,20 +32,20 @@ public partial class PokeResourceTable
 {
     public PokeModelConfig GetEntry(ushort species, ushort form, byte gender)
     {
-        return Table.FirstOrDefault(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender) ?? new()
+        return Table.FirstOrDefault(x => x.SpeciesInfo.Species == species && x.SpeciesInfo.Form == form && x.SpeciesInfo.Gender == gender) ?? new()
         {
-            Animations = Array.Empty<AnimationConfigStringTuple>(),
-            Meta = new PokeModelMeta(),
-            PathModel = string.Empty,
-            PathMeshMaterial = string.Empty,
-            PathConfig = string.Empty,
-            Effects = Array.Empty<AnimationConfigStringTuple>(),
+            Animations = Array.Empty<FileNamePathPair>(),
+            SpeciesInfo = new PokeModelSpeciesInfo(),
+            ModelPath = string.Empty,
+            MaterialTablePath = string.Empty,
+            ConfigPath = string.Empty,
+            Effects = Array.Empty<FileNamePathPair>(),
         };
     }
 
     public bool HasEntry(ushort species, ushort form, byte gender)
     {
-        return Table.Any(x => x.Meta.Species == species && x.Meta.Form == form && x.Meta.Gender == gender);
+        return Table.Any(x => x.SpeciesInfo.Species == species && x.SpeciesInfo.Form == form && x.SpeciesInfo.Gender == gender);
     }
 
     public PokeModelConfig AddEntry(ushort species, ushort form, byte gender)
@@ -56,25 +56,25 @@ public partial class PokeResourceTable
         string basePath = $"bin/pokemon/pm{species:0000}/{pmStr}";
         var entry = new PokeModelConfig
         {
-            Meta = new()
+            SpeciesInfo = new()
             {
                 Species = species,
                 Form = form,
                 Gender = gender,
 
             },
-            PathModel = $"{basePath}/mdl/{pmStr}.trmdl",
-            PathMeshMaterial = $"{basePath}/mdl/{pmStr}.trmmt",
-            PathConfig = $"{basePath}/{pmStr}.trpokecfg",
+            ModelPath = $"{basePath}/mdl/{pmStr}.trmdl",
+            MaterialTablePath = $"{basePath}/mdl/{pmStr}.trmmt",
+            ConfigPath = $"{basePath}/{pmStr}.trpokecfg",
 
-            Animations = new AnimationConfigStringTuple[] {
+            Animations = new FileNamePathPair[] {
                 new(){
                     Name = "base",
                     Path = $"{basePath}/anm/{pmStr}_base.tracn",
                 }
             },
 
-            Effects = new AnimationConfigStringTuple[] {
+            Effects = new FileNamePathPair[] {
                 new() {
                     Name = "eff",
                     Path = $"{basePath}/locators/{pmStr}_eff.trskl",
@@ -83,9 +83,9 @@ public partial class PokeResourceTable
         };
 
         Table = Table.Append(entry)
-            .OrderBy(x => x.Meta.Species)
-            .ThenBy(x => x.Meta.Form)
-            .ThenBy(x => x.Meta.Gender)
+            .OrderBy(x => x.SpeciesInfo.Species)
+            .ThenBy(x => x.SpeciesInfo.Form)
+            .ThenBy(x => x.SpeciesInfo.Gender)
             .ToArray();
         return entry;
     }

@@ -25,13 +25,13 @@ public class PokemonModelArchive
     public PokeConfig Config { get; set; }
     public MultiMaterialTable TRMMT { get; set; }
     public Model TRModel { get; set; }
-    public Mesh[] Meshes { get; set; } = Array.Empty<Mesh>();
-    public MeshBufferTable[] MeshDataBuffers { get; set; } = Array.Empty<MeshBufferTable>();
-    public Material[] DefaultMaterials { get; set; } = Array.Empty<Material>();
-    public MeshMaterialWrapper[] MeshMaterials { get; set; } = Array.Empty<MeshMaterialWrapper>();
-    public Skeleton Skeleton { get; set; } = new();
+    public Mesh[] Meshes { get; set; }
+    public MeshBufferTable[] MeshDataBuffers { get; set; }
+    public Material[] DefaultMaterials { get; set; }
+    public MeshMaterialWrapper[] MeshMaterials { get; set; }
+    public Skeleton Skeleton { get; set; }
 
-    public string[] UsedTextures { get; set; } = Array.Empty<string>();
+    public string[] UsedTextures { get; set; }
 
     public PokemonModelArchive(GFPack sourceArchive)
     {

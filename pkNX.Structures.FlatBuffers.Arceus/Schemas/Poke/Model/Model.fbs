@@ -3,11 +3,12 @@ include "../../Geometry/AABB.fbs";
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";
+attribute "fs_defaultCtor";
 
 // *.trmdl
 
 table FileReference {
-    Filename: string;
+    Filename: string (required);
 }
 
 table LODIndex {
@@ -16,13 +17,13 @@ table LODIndex {
 
 table LOD {
     Entries: [LODIndex] (required);
-    Type: string;
+    Type: string (required);
 }
 
 table Model (fs_serializer) {
     Reserved_00: uint; // Always default
     Meshes: [FileReference] (required);
-    Skeleton: FileReference;
+    Skeleton: FileReference (required);
     Materials: [string] (required);
     LODs: [LOD] (required);
     Bounds: AABB;

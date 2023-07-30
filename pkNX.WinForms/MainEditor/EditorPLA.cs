@@ -522,6 +522,47 @@ internal class EditorPLA : EditorBase
 
     #region Graphics Editors
 
+    //[EditorCallable(EditorCategory.Graphics)]
+    //public void EditPokemonModels()
+    //{
+        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+        pokemonModelDir.Initialize();
+        CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
+        using var form = new ModelConverter(ROM);
+        form.ShowDialog();
+        var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
+        var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
+        if (!result)
+            return;
+        gfp[index] = FlatBufferConverter.SerializeFrom(obj);*/
+
+
+        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+        pokemonModelDir.Initialize();
+        var fileNames = pokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak");
+        var pack = new GFPack(pokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
+        PokemonModelArchive archive = new(pack);
+        var cache = new DataCache<PokemonModelArchive>(obj)
+        {
+            Create = PokemonModelArchive.new(GFPack),
+            Write = FlatBufferConverter.SerializeFrom,
+        };
+        var tableCache = new TableCache<T1, T2>(obj);
+        DataCache<PokemonModelArchive> loader(GenericEditor<PokemonModelArchive> form)
+        {
+            if (form.Modified)
+                tableCache.Save();
+            tableCache = new TableCache<T1, T2>(obj);
+            return tableCache.Cache;
+        }
+        using var form = new GenericEditor<PokemonModelArchive>(loader, (z, _) => z.NPCModelHash.ToString(), "Pokemon Model Editor");
+        form.ShowDialog();
+        if (form.Modified)
+        {
+            tableCache.Save();
+        }*/
+    //}
+
     [EditorCallable(EditorCategory.Graphics)]
     public void EditNPCModelSet()
     {
@@ -554,7 +595,7 @@ internal class EditorPLA : EditorBase
     public void EditPokeResourceTable()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeResourceTable, PokeModelConfig>(GameFile.PokemonResourceTable, "Pokemon Resource Table", z => z.Table, (z, _) => $"{names[z.Meta.Species]}{(z.Meta.Form == 0 ? "" : $"-{z.Meta.Form}")}{(z.Meta.Gender == 0 ? "" : $" ({z.Meta.Gender})")}");
+        PopFlat<PokeResourceTable, PokeModelConfig>(GameFile.PokemonResourceTable, "Pokemon Resource Table", z => z.Table, (z, _) => $"{names[z.SpeciesInfo.Species]}{(z.SpeciesInfo.Form == 0 ? "" : $"-{z.SpeciesInfo.Form}")}{(z.SpeciesInfo.Gender == 0 ? "" : $" ({z.SpeciesInfo.Gender})")}");
     }
 
     [EditorCallable(EditorCategory.Graphics)]
@@ -711,6 +752,13 @@ internal class EditorPLA : EditorBase
     #endregion
 
     #region Misc Editors
+
+    /*[EditorCallable()]
+    public void ModelConverter()
+    {
+        using var form = new ModelConverter(ROM);
+        form.ShowDialog();
+    }*/
 
     [EditorCallable()]
     public void EditPokeEatingHabits()

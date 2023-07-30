@@ -1,0 +1,307 @@
+include "../Geometry/Sphere.fbs";
+include "../Geometry/AABB.fbs";
+include "Color3f.fbs";
+include "Color4f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+attribute "fs_defaultCtor";
+
+// *.gfbmdl
+
+table LayerData (fs_serializer) {
+    LayerIndex: uint;
+    MixFactor: float;
+}
+
+table RenderLayer (fs_serializer) {
+    Layers: [LayerData] (required);
+    MixFactor: float;
+}
+
+table Info {
+    V1: ushort;
+    V2: ushort;
+}
+
+table GFBModel (fs_serializer) {
+    Version: Info;
+    BoundingBox: AABB;
+    TextureFiles: [string] (required);
+    VertexShaders: [string] (required);
+    GeometryShaders: [string] (required);
+    FragmentShaders: [string] (required);
+    Materials: [Material8] (required);
+    Mesh: [Mesh8] (required);
+    Shapes: [Shape] (required);
+    SkeletonNodes: [Bone8] (required);
+    TransparencyGroup: [TransparencyGroupNode] (required);
+    RenderLayers: [RenderLayer] (required);
+}
+
+enum Attribute8 : ubyte
+{
+    //Using GLTF friendly attribute names
+    Position,
+    Normal,
+    Tangent,
+    Texcoord_0,
+    Texcoord_1,
+    Texcoord_2,
+    Texcoord_3,
+    Color_0,
+    Color_1,
+    Color_2,
+    Color_3,
+    Group_Idx = 11,
+    Group_Weight,
+}
+
+enum DataType8 : ubyte
+{
+    Float,
+    HalfFloat = 1,
+    Byte = 2,
+    UByte = 3,
+    Short = 4,
+    UShort = 5,
+    Int = 6,
+    UInt = 7,
+    FixedPoint = 8,
+}
+
+table VertexAttribute8 {
+    Type: Attribute8;
+    Format: DataType8;
+    Count: uint;
+}
+
+table Polygon {
+    MaterialId: uint;
+    Indices: [ushort];
+}
+
+table Shape {
+    Polygons: [Polygon];
+    Attributes: [VertexAttribute8];
+    Vertices: [ubyte] (required);
+}
+
+enum SortPriority : uint
+{
+    S0,
+    S1 = 1,
+    S2 = 2,
+}
+
+table Mesh8 {
+    BoneId: uint;
+    ShapeId: uint;
+    Bounds: AABB;
+    SortPrio: SortPriority;
+}
+
+table TransparencyGroupNode {
+    BoneIndex: uint;
+    DrawLayer: uint; // Possible values: -1, 0, 1, 2
+    BoneChildren: [uint]; // Always a descending array
+    CollisionVolume: AABB;
+}
+
+enum BoneType : uint
+{
+    Transform, // Used for area and effect rigs
+    Joint = 1, // Used for normal rigs
+    Locator = 2, // Unused for the most part
+    Transparency_Group = 3, // Used for "Alphas", "Transparency", "Okus" and "Adds"
+}
+
+enum BillboardType : uint
+{
+    None,
+    AxisY = 1,
+    AxisXy = 2,
+}
+
+table Bone8
+{
+    Name: string;
+    Type: BoneType; // 0 (Default), 1, 2, 3
+    ParentIdx: int; // 0, 1, 2 or -1
+    Effect: BillboardType; // 0, 1, 2, mostly seen in effects (ee, em and ew)
+
+    IsVisible: bool = true;
+
+    Scale: PackedVec3f;
+    Rotation: PackedVec3f;
+    Translation: PackedVec3f;
+
+    ScalePivot: PackedVec3f;
+    RotatePivot: PackedVec3f;
+
+    IsRigged: bool = true;
+}
+
+table UberShaderSettings
+{
+    UberFlags: [Flag];
+    UberValue: [FloatParam];
+    UberColor: [Color3Param];
+}
+
+enum FilterMode : uint
+{
+    MinMagMipLinear,
+    MinMagMipPoint,
+    Anisotropic,
+    MinPoint_MagPoint_MipLinear,
+    MinPoint_MagLinear_MipPoint,
+    MinPoint_MagLinear_MipLinear,
+    MinLinear_MagPoint_MipPoint,
+    MinLinear_MagPoint_MipLinear,
+    MinLinear_MagLinear_MipPoint,
+    Comparison_MinPoint_MagPoint_MipPoint,
+    Comparison_MinPoint_MagPoint_MipLinear,
+    Comparison_MinPoint_MagLinear_MipPoint,
+    Comparison_MinPoint_MagLinear_MipLinear,
+    Comparison_MinLinear_MagPoint_MipPoint,
+    Comparison_MinLinear_MagPoint_MipLinear,
+    Comparison_MinLinear_MagLinear_MipPoint,
+    Comparison_MinLinear_MagLinear_MipLinear,
+    Comparison_Anisotropic,
+    Minimum_MinPoint_MagPoint_MipPoint,
+    Minimum_MinPoint_MagPoint_MipLinear,
+    Minimum_MinPoint_MagLinear_MipPoint,
+    Minimum_MinPoint_MagLinear_MipLinear,
+    Minimum_MinLinear_MagPoint_MipPoint,
+    Minimum_MinLinear_MagPoint_MipLinear,
+    Minimum_MinLinear_MagLinear_MipPoint,
+    Minimum_MinLinear_MagLinear_MipLinear,
+    Minimum_Anisotropic,
+    Maximum_MinPoint_MagPoint_MipPoint,
+    Maximum_MinPoint_MagPoint_MipLinear,
+    Maximum_MinPoint_MagLinear_MipPoint,
+    Maximum_MinPoint_MagLinear_MipLinear,
+    Maximum_MinLinear_MagPoint_MipPoint,
+    Maximum_MinLinear_MagPoint_MipLinear,
+    Maximum_MinLinear_MagLinear_MipPoint,
+    Maximum_MinLinear_MagLinear_MipLinear,
+    Maximum_Anisotropic
+}
+
+enum UVWrapMode8 : uint
+{
+    WRAP,
+    CLAMP = 1,
+    MIRROR = 2,
+    BORDER = 3,
+}
+
+table SamplerState8
+{
+    Filtermode: FilterMode;
+    RepeatU: UVWrapMode8;
+    RepeatV: UVWrapMode8; //Clamp related
+    Repeat2: UVWrapMode8; //Clamp related
+    BorderColor: Color4f;
+    MipMapBias: float;
+}
+
+table Texture8
+{
+    SamplerName: string;
+    TextureIndex: uint;
+    Settings: SamplerState8;
+}
+
+table Flag
+{
+    FlagName: string;
+    FlagEnable: bool;
+}
+
+table FloatParam
+{
+    ValueName: string;
+    Value: float;
+}
+
+table Color3Param
+{
+    ColorName: string;
+    Color: Color3f;
+}
+
+enum Pass : uint
+{
+    DEFAULT,
+    PARTICLE = 1, // Used for bubbles and lights
+    ADDGLASS = 2, // add
+    ALPGLASS = 3 // referred to as alp
+}
+
+enum BlendMode : uint
+{
+    NONE,
+    ALPHA,
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    PREMULTIPLY,
+    COUNT,
+}
+
+enum CullMode : uint
+{
+    NONE,
+    BACK,
+    FRONT,
+}
+
+enum DepthComparison : uint
+{
+    NEVER,
+    LESS,
+    LESSEQUAL,
+    GREATER,
+    NOTEQUAL,
+    GREATEREQUAL,
+    ALWAYS = 7,
+}
+
+table Material8
+{
+    Name: string;
+    Shader: string;
+
+    SortPriority: Pass;
+
+    DepthWrite: ubyte;
+    DepthTest: ubyte;
+
+    LightSetNum: uint;
+    Blend: BlendMode;
+    Cull: CullMode;
+    VertexShaderFileId: int;
+    GeomShaderFileId: int;
+    FragShaderFileId: int;
+
+    Textures: [Texture8];
+    Flags: [Flag];
+    Values: [FloatParam];
+    Colors: [Color3Param];
+
+    ReceiveShadow: ubyte;
+    CastShadow: ubyte;
+    SelfShadow: ubyte;
+    TextureAlphaTest: ubyte;
+    DepthComparisonFunction: DepthComparison;
+
+    StaticParam: UberShaderSettings;
+    DepthBias: int;
+    Field_18: float;
+    Field_19: float;
+}
+
+
+root_type GFBModel;
