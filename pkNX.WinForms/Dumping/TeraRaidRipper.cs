@@ -598,7 +598,7 @@ public static class TeraRaidRipper
                         lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Tera Shard");
 
                     if (drop.ItemID != 0)
-                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × {items[(ushort)drop.ItemID]}");
+                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × {GetItemName((ushort)drop.ItemID, items, moves)}");
                 }
             }
 
