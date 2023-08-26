@@ -1,5 +1,5 @@
-include "../../Geometry/AABB.fbs";
-include "../../Geometry/Sphere.fbs";
+include "Geometry/AABB.fbs";
+include "Geometry/Sphere.fbs";
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";

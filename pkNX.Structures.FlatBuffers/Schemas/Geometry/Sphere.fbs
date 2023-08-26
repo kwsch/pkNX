@@ -1,6 +1,6 @@
-include "../Math/math.fbs";
+include "Math/math.fbs";
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 attribute "fs_valueStruct";
 
 struct Sphere (fs_valueStruct) {

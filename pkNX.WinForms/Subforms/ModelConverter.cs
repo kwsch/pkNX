@@ -13,7 +13,7 @@ using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.Arceus;
 using pkNX.Structures.FlatBuffers.SWSH;
 using static System.Buffers.Binary.BinaryPrimitives;
-using Color4f = pkNX.Structures.FlatBuffers.Arceus.Color4f;
+using Color4f = pkNX.Structures.FlatBuffers.Color4f;
 
 namespace pkNX.WinForms;
 

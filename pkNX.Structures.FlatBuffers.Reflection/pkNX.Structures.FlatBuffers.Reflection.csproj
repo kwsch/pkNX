@@ -15,6 +15,7 @@
 
   <PropertyGroup>
     <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+    <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 
   <ItemGroup>

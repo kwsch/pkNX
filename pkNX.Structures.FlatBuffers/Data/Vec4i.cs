@@ -1,23 +1,31 @@
+using FlatSharp.Attributes;
+using System;
 using System.ComponentModel;
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Vec4f : IEquatable<Vec4f>
+public class Vec4i : IEquatable<Vec4i>
 {
-    public static readonly Vec4f Zero = new();
-    public static readonly Vec4f One = new(1, 1, 1, 1);
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Z { get; set; }
+    public int W { get; set; }
 
-    public Vec4f(float x = 0, float y = 0, float z = 0, float w = 0)
+    public static readonly Vec4i Zero = new();
+    public static readonly Vec4i One = new(1, 1, 1, 1);
+
+    public Vec4i() { }
+    
+    public Vec4i(int x = 0, int y = 0, int z = 0, int w = 0)
     {
         X = x;
         Y = y;
         Z = z;
         W = w;
     }
-    public static implicit operator Vec4f(PackedVec4f v) => new(v.X, v.Y, v.Z, v.W);
 
-    public bool Equals(Vec4f? other)
+    public bool Equals(Vec4i? other)
     {
         if (other is null) return false;
         if (ReferenceEquals(this, other)) return true;
@@ -29,10 +37,10 @@ public partial class Vec4f : IEquatable<Vec4f>
         if (obj is null) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
-        return Equals((Vec4f)obj);
+        return Equals((Vec4i)obj);
     }
 
     public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
 
-    public override string ToString() => $"{{ X: {X:0.0######}, Y: {Y:0.0######}, Z: {Z:0.0######}, W: {W:0.0######} }}";
+    public override string ToString() => $"{{ X: {X}, Y: {Y}, Z: {Z}, W: {W} }}";
 }

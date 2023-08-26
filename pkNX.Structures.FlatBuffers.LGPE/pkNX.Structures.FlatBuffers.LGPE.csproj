@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="FlatSharp.Runtime" Version="7.2.3" />
     <PackageReference Include="FlatSharp.Compiler" Version="7.2.3">
       <PrivateAssets>all</PrivateAssets>
@@ -15,10 +19,14 @@
 
   <PropertyGroup>
     <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+    <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 
   <ItemGroup>
-    <FlatSharpSchema Include="Schemas\**\*.fbs" />
+    <FlatSharpSchema Include="Schemas\**\*.fbs">
+      <IncludePath>Schemas\</IncludePath>
+      <IncludePath>..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
+    </FlatSharpSchema>
   </ItemGroup>
 
   <ItemGroup>

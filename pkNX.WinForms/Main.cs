@@ -1,12 +1,12 @@
+using PKHeX.Drawing.PokeSprite;
+using pkNX.Game;
+using pkNX.Structures;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using PKHeX.Drawing.PokeSprite;
-using pkNX.Game;
-using pkNX.Structures;
 using EditorBase = pkNX.WinForms.Controls.EditorBase;
 
 namespace pkNX.WinForms;

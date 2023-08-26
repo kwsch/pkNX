@@ -1,12 +1,14 @@
+using System;
 using System.ComponentModel;
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Vec3f : IEquatable<Vec3f>
 {
     public static readonly Vec3f Zero = new();
-    public static readonly Vec3f One = new(1, 1, 1);
+    public static readonly Vec3f One = new() { X = 1, Y = 1, Z = 1 };
+
 
     public Vec3f(float x = 0, float y = 0, float z = 0)
     {

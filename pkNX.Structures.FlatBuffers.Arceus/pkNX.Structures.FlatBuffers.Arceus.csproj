@@ -20,10 +20,14 @@
 
   <PropertyGroup>
     <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+    <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 
   <ItemGroup>
-    <FlatSharpSchema Include="Schemas\**\*.fbs" />
+    <FlatSharpSchema Include="Schemas\**\*.fbs">
+      <IncludePath>Schemas\</IncludePath>
+      <IncludePath>..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
+    </FlatSharpSchema>
   </ItemGroup>
 
   <ItemGroup>
@@ -31,52 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FlatSharpSchema Remove="Schemas\Geometry\AABB.fbs" />
-    <FlatSharpSchema Remove="schemas\geometry\math.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\Matrix4x3f.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\PackedVec2f.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\PackedVec3f.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\PackedVec4f.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\PackedVec4i.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\Quat4f.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\Sphere.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\Transform.fbs" />
-    <FlatSharpSchema Remove="Schemas\Geometry\Vec4f.fbs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Schemas\Geometry\AABB.fbs" />
-    <None Remove="schemas\geometry\math.fbs" />
-    <None Remove="Schemas\Geometry\Matrix4x3f.fbs" />
-    <None Remove="Schemas\Geometry\PackedVec2f.fbs" />
-    <None Remove="Schemas\Geometry\PackedVec3f.fbs" />
-    <None Remove="Schemas\Geometry\PackedVec4f.fbs" />
-    <None Remove="Schemas\Geometry\PackedVec4i.fbs" />
-    <None Remove="Schemas\Geometry\Quat4f.fbs" />
-    <None Remove="Schemas\Geometry\Sphere.fbs" />
-    <None Remove="Schemas\Geometry\Transform.fbs" />
-    <None Remove="Schemas\Geometry\Vec3f.fbs" />
-    <None Remove="Schemas\Geometry\Vec4f.fbs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Schemas\Poke\Model\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Schemas\Geometry\PackedVec2f.fbs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Schemas\Geometry\PackedVec3f.fbs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Schemas\Geometry\PackedVec4f.fbs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Schemas\Geometry\Transform.fbs" />
-  </ItemGroup>
-
 </Project>

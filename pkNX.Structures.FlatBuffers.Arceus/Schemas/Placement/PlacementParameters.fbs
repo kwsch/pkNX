@@ -1,4 +1,4 @@
-include "../Math/Vec3f.fbs";
+include "Math/Vec3f.fbs";
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 

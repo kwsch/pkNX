@@ -1,7 +1,7 @@
-include "../Geometry/Sphere.fbs";
-include "../Geometry/AABB.fbs";
-include "Color3f.fbs";
-include "Color4f.fbs";
+include "Geometry/Sphere.fbs";
+include "Geometry/AABB.fbs";
+include "Util/Color3f.fbs";
+include "Util/Color4f.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SWSH;
 attribute "fs_serializer";

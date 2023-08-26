@@ -1,6 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.Arceus;
-
-table Vec2f {
-    X:float;
-    Y:float;
-}

@@ -20,10 +20,14 @@
 
   <PropertyGroup>
     <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+    <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 
   <ItemGroup>
-    <FlatSharpSchema Include="Schemas\**\*.fbs" />
+    <FlatSharpSchema Include="Schemas\**\*.fbs">
+      <IncludePath>Schemas\</IncludePath>
+      <IncludePath>..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
+    </FlatSharpSchema>
   </ItemGroup>
 
   <ItemGroup>

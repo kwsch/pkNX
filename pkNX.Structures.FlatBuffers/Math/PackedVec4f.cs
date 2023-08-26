@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial struct PackedVec4f

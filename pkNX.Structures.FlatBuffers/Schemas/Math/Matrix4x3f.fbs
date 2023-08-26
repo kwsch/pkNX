@@ -1,6 +1,6 @@
 include "PackedVec3f.fbs";
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 
 table Matrix4x3f {
     X: PackedVec3f;

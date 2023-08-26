@@ -1,4 +1,4 @@
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 attribute "fs_valueStruct";
 
 struct PackedVec3f (fs_valueStruct) {

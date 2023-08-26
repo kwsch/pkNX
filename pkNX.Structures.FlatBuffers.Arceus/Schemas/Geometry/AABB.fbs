@@ -1,8 +1,0 @@
-include "../Math/math.fbs";
-
-namespace pkNX.Structures.FlatBuffers.Arceus;
-
-table AABB {
-    Min: PackedVec3f;
-    Max: PackedVec3f;
-}

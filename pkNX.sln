@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests", "pkNX.Tests\pk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Game", "pkNX.Game\pkNX.Game.csproj", "{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers", "pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj", "{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC933AB9-8BF5-4E94-BC26-7EDE48BFD300}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -33,13 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.Reflection", "pkNX.Structures.FlatBuffers.Reflection\pkNX.Structures.FlatBuffers.Reflection.csproj", "{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.SWSH", "pkNX.Structures.FlatBuffers.SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj", "{F8916261-B21C-4CFC-B6D8-4179E1CBB730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.SWSH", "pkNX.Structures.FlatBuffers.SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj", "{F8916261-B21C-4CFC-B6D8-4179E1CBB730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.Arceus", "pkNX.Structures.FlatBuffers.Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj", "{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.Arceus", "pkNX.Structures.FlatBuffers.Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj", "{0ECF2003-0E48-4C6D-B11E-EA6199FFA8D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkNX.Structures.FlatBuffers.SV", "pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.csproj", "{14B086B0-7112-48F0-98D2-10A5EEEAA755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.SV", "pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.csproj", "{14B086B0-7112-48F0-98D2-10A5EEEAA755}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.LGPE", "pkNX.Structures.FlatBuffers.LGPE\pkNX.Structures.FlatBuffers.LGPE.csproj", "{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers", "pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj", "{7E843D65-0A79-4E6F-A770-A8612096AFEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +71,6 @@ Global
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C4AF1ED-7C81-4AF8-A6DB-1D397650DA0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83E23C09-6DB8-459C-B68B-08FE4EAAC86C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECC93A01-CD80-4AF2-AB9F-FE46277571FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +91,10 @@ Global
 		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9EAEF82-BBB2-4520-B59E-3EB74A4C7487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E843D65-0A79-4E6F-A770-A8612096AFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E843D65-0A79-4E6F-A770-A8612096AFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E843D65-0A79-4E6F-A770-A8612096AFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E843D65-0A79-4E6F-A770-A8612096AFEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

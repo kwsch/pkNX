@@ -1,3 +1,5 @@
+include "Util/Color4f.fbs";
+
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";
 attribute "fs_valueStruct";
@@ -12,13 +14,6 @@ enum UVWrapMode: uint {
     MIRROR_ONCE = 7, // 0111
 
     Border = 99999, // TODO: Unknown value, 99999 is invalid!
-}
-
-struct Color4f (fs_valueStruct) {
-    R: float;
-    G: float;
-    B: float;
-    A: float;
 }
 
 table SamplerState {

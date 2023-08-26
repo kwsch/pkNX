@@ -1,22 +1,19 @@
 using System;
 using System.ComponentModel;
-using FlatSharp.Attributes;
 
-namespace pkNX.Structures.FlatBuffers.Arceus;
+namespace pkNX.Structures.FlatBuffers;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Vec2f : IEquatable<Vec2f>
 {
-
     public static readonly Vec2f Zero = new();
-    public static readonly Vec2f One = new(1, 1);
+    public static readonly Vec2f One = new() { X = 1, Y = 1 };
 
     public Vec2f(float x = 0, float y = 0)
     {
         X = x;
         Y = y;
     }
-    public static implicit operator Vec2f(PackedVec2f v) => new(v.X, v.Y);
 
     public bool Equals(Vec2f? other)
     {

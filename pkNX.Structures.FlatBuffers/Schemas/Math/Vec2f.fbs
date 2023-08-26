@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers;
+
+table Vec2f {
+    X:float;
+    Y:float;
+}
