@@ -14,13 +14,6 @@
     <AssemblyName>pkNX</AssemblyName>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Subforms\ModelConverter.cs" />
-    <Compile Remove="Subforms\ModelConverter.Designer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Subforms\ModelConverter.resx" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj" />

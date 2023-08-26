@@ -358,4 +358,6 @@ public enum GameFile
 
     DataTrpfs,
     DataTrpfd,
+
+    Debug_SWSHPokemonArchiveFolder,
 }

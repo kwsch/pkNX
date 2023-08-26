@@ -9,6 +9,7 @@ public partial class Vec3f : IEquatable<Vec3f>
     public static readonly Vec3f Zero = new();
     public static readonly Vec3f One = new() { X = 1, Y = 1, Z = 1 };
 
+    public static implicit operator Vec3f(PackedVec3f v) => new() { X = v.X, Y = v.Y, Z = v.Z };
 
     public Vec3f(float x = 0, float y = 0, float z = 0)
     {

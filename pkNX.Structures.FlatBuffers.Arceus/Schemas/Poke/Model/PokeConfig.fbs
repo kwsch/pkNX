@@ -1,15 +1,9 @@
+include "Utils/SpeciesSize.fbs";
+
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";
 
 // *.trpokecfg
-
-enum SpeciesSize : byte
-{
-    Size_S = 0,
-    Size_M = 1,
-    Size_L = 2,
-    Size_XL = 3,
-}
 
 table PokeConfig (fs_serializer) {
     SizeIndex: SpeciesSize;

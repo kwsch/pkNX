@@ -1,7 +1,7 @@
 include "Geometry/Sphere.fbs";
 include "Geometry/AABB.fbs";
-include "Util/Color3f.fbs";
-include "Util/Color4f.fbs";
+include "Utils/Color3f.fbs";
+include "Utils/Color4f.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SWSH;
 attribute "fs_serializer";
@@ -27,16 +27,16 @@ table Info {
 table GFBModel (fs_serializer) {
     Version: Info;
     BoundingBox: AABB;
-    TextureFiles: [string] (required);
-    VertexShaders: [string] (required);
-    GeometryShaders: [string] (required);
-    FragmentShaders: [string] (required);
-    Materials: [Material8] (required);
-    Mesh: [Mesh8] (required);
-    Shapes: [Shape] (required);
-    SkeletonNodes: [Bone8] (required);
-    TransparencyGroup: [TransparencyGroupNode] (required);
-    RenderLayers: [RenderLayer] (required);
+    TextureFiles: [string];
+    VertexShaders: [string];
+    GeometryShaders: [string];
+    FragmentShaders: [string];
+    Materials: [Material8];
+    Mesh: [Mesh8];
+    Shapes: [Shape];
+    SkeletonNodes: [Bone8];
+    TransparencyGroup: [TransparencyGroupNode];
+    RenderLayers: [RenderLayer];
 }
 
 enum Attribute8 : ubyte
@@ -132,12 +132,12 @@ table Bone8
 
     IsVisible: bool = true;
 
-    Scale: PackedVec3f;
-    Rotation: PackedVec3f;
-    Translation: PackedVec3f;
+    Scale: PackedVec3f (required);
+    Rotation: PackedVec3f (required);
+    Translation: PackedVec3f (required);
 
-    ScalePivot: PackedVec3f;
-    RotatePivot: PackedVec3f;
+    ScalePivot: PackedVec3f (required);
+    RotatePivot: PackedVec3f (required);
 
     IsRigged: bool = true;
 }
@@ -229,7 +229,7 @@ table FloatParam
 table Color3Param
 {
     ColorName: string;
-    Color: Color3f;
+    Color: Color3f (required);
 }
 
 enum Pass : uint
@@ -286,8 +286,8 @@ table Material8
     GeomShaderFileId: int;
     FragShaderFileId: int;
 
-    Textures: [Texture8];
-    Flags: [Flag];
+    Textures: [Texture8] (required);
+    Flags: [Flag] (required);
     Values: [FloatParam];
     Colors: [Color3Param];
 

@@ -161,13 +161,13 @@ public class PaldeaMap
                 AreaCollisionBoxes[sceneObject.ObjectName] = new BoxCollision9
                 {
                     Position = sceneObject.ObjectPosition.Field02,
-                    Size = box.Field01,
+                    Size = box!.Field01,
                 };
             }
 
             if (shape.TryGet(out Havok? havok))
             {
-                var havokData = ROM.GetPackedFile(havok.TrcolFilePath);
+                var havokData = ROM.GetPackedFile(havok!.TrcolFilePath);
                 AreaCollisionTrees[sceneObject.ObjectName] = HavokCollision.ParseAABBTree(havokData);
             }
 

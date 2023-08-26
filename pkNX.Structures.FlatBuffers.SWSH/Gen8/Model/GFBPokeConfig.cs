@@ -28,5 +28,5 @@ public partial class MaterialEntry
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class GFBPokeConfig
 {
-    public AABB Bounds => new AABB() { Min = new() { X = MinBX / 100, Y = MinBY / 100, Z = MinBZ / 100 }, Max = new() { X = MaxBX / 100, Y = MaxBY / 100, Z = MaxBZ / 100 } };
+    public AABB Bounds => new() { Min = new() { X = MinBX / 100, Y = MinBY / 100, Z = MinBZ / 100 }, Max = new() { X = MaxBX / 100, Y = MaxBY / 100, Z = MaxBZ / 100 } };
 }

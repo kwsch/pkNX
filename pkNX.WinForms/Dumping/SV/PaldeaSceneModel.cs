@@ -83,12 +83,12 @@ public class PaldeaSceneModel
             areaColBoxes[name] = new BoxCollision9
             {
                 Position = sceneObject.ObjectPosition.Field02,
-                Size = box.Field02,
+                Size = box!.Field02,
             };
         }
         else if (shape.TryGet(out Havok? havok))
         {
-            var havokData = ROM.GetPackedFile(havok.TrcolFilePath);
+            var havokData = ROM.GetPackedFile(havok!.TrcolFilePath);
             areaColTrees[name] = HavokCollision.ParseAABBTree(havokData);
         }
     }

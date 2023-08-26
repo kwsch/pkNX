@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SWSH;
-attribute "fs_valueStruct";
-
-struct Color3f (fs_valueStruct) {
-    R: float;
-    G: float;
-    B: float;
-}

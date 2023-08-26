@@ -1,4 +1,4 @@
-include "Util/Color4f.fbs";
+include "Utils/Color4f.fbs";
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 attribute "fs_serializer";
@@ -34,7 +34,7 @@ table SamplerState {
 
 table Float4Parameter {
     PropertyBinding: string (required);
-    ColorValue: Color4f;
+    ColorValue: Color4f (required);
 }
 
 table FloatParameter {

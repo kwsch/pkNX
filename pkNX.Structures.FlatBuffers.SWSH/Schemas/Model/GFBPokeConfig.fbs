@@ -1,15 +1,9 @@
+include "Utils/SpeciesSize.fbs";
+
 namespace pkNX.Structures.FlatBuffers.SWSH;
 attribute "fs_serializer";
 
 // *.gfbpokecfg
-
-enum SpeciesSize : ubyte
-{
-    Size_S = 0,
-    Size_M = 1,
-    Size_L = 2,
-    Size_XL = 3,
-}
 
 enum SpeciesOrigin : ubyte
 {

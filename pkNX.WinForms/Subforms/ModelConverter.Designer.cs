@@ -153,16 +153,6 @@ namespace pkNX.WinForms
             this.CB_Species.TabIndex = 2;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.CB_Species_SelectedIndexChanged);
             // 
-            // B_ShowConverter
-            // 
-            this.B_ShowConverter.Location = new System.Drawing.Point(231, 9);
-            this.B_ShowConverter.Name = "B_ShowConverter";
-            this.B_ShowConverter.Size = new System.Drawing.Size(209, 34);
-            this.B_ShowConverter.TabIndex = 1;
-            this.B_ShowConverter.Text = "Open Matrix Converter";
-            this.B_ShowConverter.UseVisualStyleBackColor = true;
-            this.B_ShowConverter.Click += new System.EventHandler(this.B_ShowConverter_Click);
-            // 
             // B_Convert
             // 
             this.B_Convert.Location = new System.Drawing.Point(10, 55);

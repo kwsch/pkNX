@@ -13,7 +13,6 @@ using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.Arceus;
 using pkNX.Structures.FlatBuffers.SWSH;
 using static System.Buffers.Binary.BinaryPrimitives;
-using Color4f = pkNX.Structures.FlatBuffers.Color4f;
 
 namespace pkNX.WinForms;
 
@@ -592,7 +591,7 @@ public partial class ModelConverter : Form
             var uniqueColors0 = new List<Color4f>();
             var uniqueColors1 = new List<Color4f>();
 
-            VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)buffer.Vertices).GetArray(data =>
+            VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)buffer.Vertices.Span).GetArray(data =>
                 {
                     var vertexData = new VertexWrapper[inputLayout.Length];
 
@@ -1312,7 +1311,7 @@ public partial class ModelConverter : Form
         }
     }
 
-    private (TextureParameter[], SamplerState[]) ConvertTextureParams(Texture8[] oldTextures, SWSHStandardShader shader)
+    private (TextureParameter[], SamplerState[]) ConvertTextureParams(IList<Texture8> oldTextures, SWSHStandardShader shader)
     {
         static (string, int) ConvertSamplerNameAndPriority(string swshSamplerName)
         {
@@ -1347,7 +1346,7 @@ public partial class ModelConverter : Form
         };
 
         IList<string> files = SWSHModel.GFBModel.TextureFiles;
-        var textureBindings = new List<(TextureParameter, SamplerState)>(oldTextures.Length);
+        var textureBindings = new List<(TextureParameter, SamplerState)>(oldTextures.Count);
 
         foreach (var oldTexture in oldTextures)
         {
@@ -1441,8 +1440,8 @@ public partial class ModelConverter : Form
             Float4LightParameters = Array.Empty<Float4Parameter>(), // TODO
             Float4Parameters = new Float4Parameter[]
             {
-                new() { PropertyBinding = "UVScaleOffset"      , ColorValue = oldShader.UVScaleOffset },
-                new() { PropertyBinding = "UVScaleOffsetNormal", ColorValue = oldShader.UVScaleOffsetNormal },
+                new() { PropertyBinding = "UVScaleOffset"      , ColorValue = new Color4f(oldShader.UVScaleOffset) },
+                new() { PropertyBinding = "UVScaleOffsetNormal", ColorValue = new Color4f(oldShader.UVScaleOffsetNormal) },
                 new() { PropertyBinding = "BaseColorLayer1"    , ColorValue = new() },
                 new() { PropertyBinding = "BaseColorLayer2"    , ColorValue = new() },
                 new() { PropertyBinding = "BaseColorLayer3"    , ColorValue = new() },
@@ -1464,7 +1463,13 @@ public partial class ModelConverter : Form
             },
             WriteMask = new WriteMaskData(), // TODO
             IntExtra = new IntExtraData(), // TODO
-            AlphaType = "Opaque" // TODO
+            AlphaType = "Opaque", // TODO
+
+            Field05 = Array.Empty<string>(),
+            Field08 = Array.Empty<string>(),
+            Field10 = Array.Empty<string>(),
+            Field11 = Array.Empty<string>(),
+            Field12 = Array.Empty<string>(),
         };
     }
 
@@ -1515,7 +1520,13 @@ public partial class ModelConverter : Form
             IntParameters = Array.Empty<IntParameter>(), // TODO
             WriteMask = new WriteMaskData(), // TODO
             IntExtra = new IntExtraData(), // TODO
-            AlphaType = "" // TODO
+            AlphaType = "", // TODO
+
+            Field05 = Array.Empty<string>(),
+            Field08 = Array.Empty<string>(),
+            Field10 = Array.Empty<string>(),
+            Field11 = Array.Empty<string>(),
+            Field12 = Array.Empty<string>(),
         };
     }
 
