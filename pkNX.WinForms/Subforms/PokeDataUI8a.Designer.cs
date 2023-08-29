@@ -1437,7 +1437,7 @@ namespace pkNX.WinForms
             // 
             // B_PDumpTable
             // 
-            B_PDumpTable.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_PDumpTable.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             B_PDumpTable.Location = new System.Drawing.Point(780, 580);
             B_PDumpTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             B_PDumpTable.Name = "B_PDumpTable";
