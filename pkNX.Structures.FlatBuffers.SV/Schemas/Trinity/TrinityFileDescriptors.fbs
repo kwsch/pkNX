@@ -15,7 +15,7 @@ table TrinityFileDescriptorInfo {
     FileCount:ulong;
 }
 
-table TrinityFileDescriptors (fs_serializer) {
+table TrinityFileDescriptors (fs_serializer:"Progressive") {
     SubFileHashes:[ulong] (required);
     FilePaths:[string] (required);
     SubFileInfos:[TrinityFileDescriptorSubFileInfo] (required);
