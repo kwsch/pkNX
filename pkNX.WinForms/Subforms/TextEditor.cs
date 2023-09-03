@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
 using pkNX.Randomization;
 
@@ -36,14 +37,14 @@ public partial class TextEditor : Form
     private void B_Export_Click(object sender, EventArgs e)
     {
         if (TextData.Length <= 0) return;
-        using var dump = new SaveFileDialog {Filter = "Text File|*.txt"};
+        using var dump = new SaveFileDialog { Filter = "Text File|*.txt" };
         if (dump.ShowDialog() != DialogResult.OK)
             return;
 
-        var result = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
+        var result = WinFormsUtil.Prompt(MessageBoxButton.YesNo,
             "Remove newline formatting codes? (\\n,\\r,\\c)",
             "Removing newline formatting will make it more readable but will prevent any importing of that dump.");
-        bool newline = result == DialogResult.Yes;
+        bool newline = result == MessageBoxResult.Yes;
         string path = dump.FileName;
         ExportTextFile(path, newline, TextData);
     }
@@ -67,7 +68,7 @@ public partial class TextEditor : Form
     public static void ExportTextFile(string fileName, bool newline, TextContainer lineData)
     {
         using var ms = new MemoryStream();
-        ms.Write(new byte[] {0xFF, 0xFE}, 0, 2); // Write Unicode BOM
+        ms.Write(new byte[] { 0xFF, 0xFE }, 0, 2); // Write Unicode BOM
         using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
         {
             for (int i = 0; i < lineData.Length; i++)
@@ -144,11 +145,13 @@ public partial class TextEditor : Form
         if (ctr != TextData.Length)
         {
             WinFormsUtil.Error("The amount of Text Files in the input file does not match the required for the text file.",
-                $"Received: {ctr}, Expected: {TextData.Length}"); return false; }
+                $"Received: {ctr}, Expected: {TextData.Length}"); return false;
+        }
         if (!newlineFormatting)
         {
             WinFormsUtil.Error("The input Text Files do not have the in-game newline formatting codes (\\n,\\r,\\c).",
-                "When exporting text, do not remove newline formatting."); return false; }
+                "When exporting text, do not remove newline formatting."); return false;
+        }
 
         // All Text Lines received. Store all back.
         for (int i = 0; i < TextData.Length; i++)
@@ -236,7 +239,7 @@ public partial class TextEditor : Form
         {
             if (ModifierKeys != Keys.Control && currentRow != 0)
             {
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != DialogResult.Yes)
+                if (WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Inserting in between rows will shift all subsequent lines.", "Continue?") != MessageBoxResult.Yes)
                     return;
             }
             // Insert new Row after current row.
@@ -252,7 +255,7 @@ public partial class TextEditor : Form
         int currentRow = dgv.CurrentRow!.Index;
         if (currentRow < dgv.Rows.Count - 1)
         {
-            if (ModifierKeys != Keys.Control && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
+            if (ModifierKeys != Keys.Control && MessageBoxResult.Yes != WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Deleting a row above other lines will shift all subsequent lines.", "Continue?"))
                 return;
         }
         dgv.Rows.RemoveAt(currentRow);
@@ -274,25 +277,25 @@ public partial class TextEditor : Form
     private void B_Randomize_Click(object sender, EventArgs e)
     {
         // gametext can be horribly broken if randomized
-        if (Mode == TextEditorMode.Common && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Randomizing Game Text is dangerous!", "Continue?"))
+        if (Mode == TextEditorMode.Common && MessageBoxResult.Yes != WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Randomizing Game Text is dangerous!", "Continue?"))
             return;
 
         // get if the user wants to randomize current text file or all files
-        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
+        var dr = WinFormsUtil.Prompt(MessageBoxButton.YesNoCancel,
             $"Yes: Randomize ALL{Environment.NewLine}No: Randomize current Text File{Environment.NewLine}Cancel: Abort");
 
-        if (dr == DialogResult.Cancel)
+        if (dr == MessageBoxResult.Cancel)
             return;
 
         // get if pure shuffle or smart shuffle (no shuffle if variable present)
-        var drs = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
+        var drs = WinFormsUtil.Prompt(MessageBoxButton.YesNo,
             $"Smart shuffle:{Environment.NewLine}Yes: Shuffle if no Variable present{Environment.NewLine}No: Pure random!");
 
-        if (drs == DialogResult.Cancel)
+        if (drs == MessageBoxResult.Cancel)
             return;
 
-        bool all = dr == DialogResult.Yes;
-        bool smart = drs == DialogResult.Yes;
+        bool all = dr == MessageBoxResult.Yes;
+        bool smart = drs == MessageBoxResult.Yes;
 
         // save current
         if (entry > -1)

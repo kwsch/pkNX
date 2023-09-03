@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
@@ -9,30 +10,128 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
 {
     public PersonalInfo FB { get; }
 
-    private bool[][] _SpecialTutors = Array.Empty<bool[]>();
     public bool[][] SpecialTutors
     {
-        get => _SpecialTutors;
+        get
+        {
+            bool[] flags = new bool[64];
+
+            for (int i = 0; i < 32; i++)
+                flags[i] = (MoveShop1 & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 32] = (MoveShop2 & (1ul << i)) != 0;
+
+            return new[] { flags };
+        }
+
         set
         {
-            _SpecialTutors = value;
+            Debug.Assert(value.Length == 1, "PLA only has one special tutor");
+            Debug.Assert(value[0].Length == 64, "SpecialTutors must be 64 bits long.");
 
-            BitArray bits = new(SpecialTutors[0]);
+            BitArray bits = new(value[0]);
             byte[] bytes = new byte[bits.Length / 8];
             bits.CopyTo(bytes, 0);
-            MoveShop = BitConverter.ToUInt64(bytes, 0);
+            MoveShop1 = BitConverter.ToUInt32(bytes, 0);
+            MoveShop2 = BitConverter.ToUInt32(bytes, 4);
+        }
+    }
+
+    public bool[] TypeTutors
+    {
+        get
+        {
+            bool[] flags = new bool[32];
+            for (int i = 0; i < flags.Length; i++)
+                flags[i] = (TypeTutor & (1ul << i)) != 0;
+            return flags;
+        }
+
+        set
+        {
+            Debug.Assert(value.Length == 32, "TypeTutors must be 32 bits long.");
+
+            BitArray bits = new(value);
+            byte[] bytes = new byte[bits.Length / 8];
+            bits.CopyTo(bytes, 0);
+            TypeTutor = BitConverter.ToUInt32(bytes, 0);
+        }
+    }
+
+    public bool[] TMHM
+    {
+        get
+        {
+            bool[] flags = new bool[128];
+
+            for (int i = 0; i < 32; i++)
+                flags[i] = (TM_A & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 32] = (TM_B & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 64] = (TM_C & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 96] = (TM_D & (1ul << i)) != 0;
+
+            return flags;
+        }
+
+        set
+        {
+            Debug.Assert(value.Length == 128, "TMHM must be 128 bits long.");
+
+            BitArray bits = new(value);
+            byte[] bytes = new byte[bits.Length / 8];
+            bits.CopyTo(bytes, 0);
+            TM_A = BitConverter.ToUInt32(bytes, 0);
+            TM_B = BitConverter.ToUInt32(bytes, 4);
+            TM_C = BitConverter.ToUInt32(bytes, 8);
+            TM_D = BitConverter.ToUInt32(bytes, 12);
+        }
+    }
+
+    public bool[] TR
+    {
+        get
+        {
+            bool[] flags = new bool[128];
+
+            for (int i = 0; i < 32; i++)
+                flags[i] = (TR_A & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 32] = (TR_B & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 64] = (TR_C & (1ul << i)) != 0;
+
+            for (int i = 0; i < 32; i++)
+                flags[i + 96] = (TR_D & (1ul << i)) != 0;
+
+            return flags;
+        }
+
+        set
+        {
+            Debug.Assert(value.Length == 128, "TR must be 128 bits long.");
+
+            BitArray bits = new(value);
+            byte[] bytes = new byte[bits.Length / 8];
+            bits.CopyTo(bytes, 0);
+            TR_A = BitConverter.ToUInt32(bytes, 0);
+            TR_B = BitConverter.ToUInt32(bytes, 4);
+            TR_C = BitConverter.ToUInt32(bytes, 8);
+            TR_D = BitConverter.ToUInt32(bytes, 12);
         }
     }
 
     public PersonalInfo8LA(PersonalInfo fb)
     {
         FB = fb;
-
-        var shop = MoveShop;
-        bool[] flags = new bool[64];
-        for (int i = 0; i < flags.Length; i++)
-            flags[i] = (shop & (1ul << i)) != 0;
-        SpecialTutors = new[] { flags };
     }
 
     public int HP { get => FB.StatHP; set => FB.StatHP = (byte)value; }
@@ -47,7 +146,7 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public int EvoStage { get => FB.EvoStage; set => FB.EvoStage = (byte)value; }
     public byte Field_18 { get => FB.Field18; set => FB.Field18 = value; }
 
-    public int EV_HP  { get => FB.EVHP;  set => FB.EVHP = (byte)value; }
+    public int EV_HP { get => FB.EVHP; set => FB.EVHP = (byte)value; }
     public int EV_ATK { get => FB.EVATK; set => FB.EVATK = (byte)value; }
     public int EV_DEF { get => FB.EVDEF; set => FB.EVDEF = (byte)value; }
     public int EV_SPE { get => FB.EVSPE; set => FB.EVSPE = (byte)value; }
@@ -98,7 +197,6 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
 
     public uint MoveShop1 { get => FB.MoveShop1; set => FB.MoveShop1 = value; }
     public uint MoveShop2 { get => FB.MoveShop2; set => FB.MoveShop2 = value; }
-    public ulong MoveShop { get => MoveShop1 | ((ulong)MoveShop2 << 32); set { MoveShop1 = (uint)value; MoveShop2 = (uint)(value >> 32); } }
 
     public int EscapeRate { get => 0; set { } }
     public int FormSprite { get => 0; set { } }

@@ -1,0 +1,64 @@
+<UserControl x:Class="pkNX.WinForms.EvolutionEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:pkNX.WinForms"
+             mc:Ignorable="d"
+             x:Name="Root"
+             d:Background="{StaticResource DockWindow.Background}"
+             d:DesignHeight="74" d:DesignWidth="692">
+    <UserControl.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="6" Orientation="Horizontal">
+        <Border Margin="3" BorderThickness="2" CornerRadius="1" Padding="0" Background="{StaticResource Window.Background}">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource DarkestColor}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource DarkestColor}" Offset="0.5" />
+                    <GradientStop Color="{StaticResource SecondaryColor}" Offset="0.5001" />
+                    <GradientStop Color="{StaticResource SecondaryColor}" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Image x:Name="IMG_MonPreview" Width="64" Height="64" Margin="-3" Stretch="None" d:Source="/icon.ico"/>
+        </Border>
+
+        <StackPanel VerticalAlignment="Bottom">
+            <Label Content="Method" />
+            <ComboBox Margin="3"
+                      Width="140"
+                      SelectedIndex="{Binding Method, ElementName=Root, Mode=TwoWay}"
+                      ItemsSource="{Binding Source={x:Static local:UIStaticSources.EvolutionMethods}}"/>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom" Visibility="{Binding IsMethodValid, FallbackValue=Visible, ElementName=Root, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Label Content="Evolves Into"/>
+            <ComboBox Margin="3" Width="140"
+                      SelectedIndex="{Binding Species, ElementName=Root, Mode=TwoWay}"
+                      ItemsSource="{Binding Source={x:Static local:UIStaticSources.SpeciesList}}"/>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom" Visibility="{Binding IsMethodValid, ElementName=Root, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Label Content="Form" />
+            <local:NumericTextBox
+                Margin="3"
+                MinValue="0"
+                MaxValue="255"
+                Value="{Binding Form, ElementName=Root, Mode=TwoWay}" />
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom" Visibility="{Binding HasEvolutionArgument, ElementName=Root, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Label x:Name="L_Argument" Content="Argument"/>
+            <ComboBox Margin="3" Width="140"
+                      SelectedIndex="{Binding Argument, ElementName=Root, Mode=TwoWay}" 
+                      ItemsSource="{Binding Source={x:Static local:EvolutionEntry.MethodArgumentList}}"/>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom" Visibility="{Binding IsMethodValid, ElementName=Root, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Label Content="Level" />
+            <local:NumericTextBox Margin="3" MinValue="0" MaxValue="100" Value="{Binding Level, ElementName=Root, Mode=TwoWay}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

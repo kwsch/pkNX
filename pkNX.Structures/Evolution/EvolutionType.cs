@@ -80,14 +80,14 @@ public enum EvolutionType : byte
 
 public enum EvolutionTypeArgumentType
 {
-    NoArg,
-    Level,
-    Items,
-    Moves,
-    Species,
-    Stat,
-    Type,
-    Version,
+    NoArg = 0,
+    Level = 1,
+    Items = 2,
+    Moves = 3,
+    Species = 4,
+    Stat = 5,
+    Type = 6,
+    Version = 7,
 }
 
 public static class EvolutionTypeExtensions

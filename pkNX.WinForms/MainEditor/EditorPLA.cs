@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using FlatSharp;
+using FontAwesome.Sharp;
 using pkNX.Containers;
 using pkNX.Game;
 using pkNX.Randomization;
@@ -121,7 +122,7 @@ internal class EditorPLA : EditorBase
         };
     }
 
-    [EditorCallable(EditorCategory.None)]
+    [EditorCallable(EditorCategory.None, icon: IconChar.Download)]
     public void EditMasterDump()
     {
         using var md = new DumperPLA(ROM);
@@ -155,7 +156,7 @@ internal class EditorPLA : EditorBase
     #endregion
 
     #region Pokemon Editors
-    [EditorCallable(EditorCategory.Pokemon)]
+    [EditorCallable(EditorCategory.Pokemon, icon: IconChar.Dragon)]
     public void EditPokemon()
     {
         var editor = new PokeEditor8a
@@ -173,7 +174,7 @@ internal class EditorPLA : EditorBase
             EncounterRateTable = new(ROM.GetFile(GameFile.EncounterRateTable), z => z.Table),
             CaptureCollisionTable = new(ROM.GetFile(GameFile.PokeCaptureCollision), z => z.Table),
         };
-        using var form = new PokeDataUI8a(editor, ROM, Data);
+        var form = new PokemonEditor(editor, ROM, Data);
         form.ShowDialog();
         if (!form.Modified)
             editor.CancelEdits();
@@ -182,45 +183,45 @@ internal class EditorPLA : EditorBase
     }
 
     [EditorCallable(EditorCategory.Pokemon)]
-    public void EditMiscSpeciesInfo()
-    {
-        var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeMiscTable, PokeMisc>(GameFile.PokeMisc, "Misc Species Info Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
-    }
-
-    [EditorCallable(EditorCategory.Pokemon)]
-    public void EditSymbolBehave()
+    public void EditBehaviour()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<PokeAIArchive, PokeAI>(GameFile.SymbolBehave, "Symbol Behavior Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.IsAlpha ? "*" : "")}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
-    [EditorCallable(EditorCategory.Pokemon)]
-    public void EditEvolutions()
+    [EditorCallable(EditorCategory.Pokemon, advanced: true, editorName: "(Raw) Evolutions")]
+    public void EditEvolutionsRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<EvolutionTable, EvolutionSet>(GameFile.Evolutions, "Evolution Editor", z => z.Table,
             (z, _) => $"{names[z.Species]}{(z.Form != 0 ? $"-{z.Form}" : "")}");
     }
 
-    [EditorCallable(EditorCategory.Pokemon)]
-    public void EditEvolutionConfig() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
-
-    [EditorCallable(EditorCategory.Pokemon)]
+    [EditorCallable(EditorCategory.Pokemon, advanced: true, editorName: "(Raw) Learnset")]
     public void EditLearnsetRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<Learnset, LearnsetMeta>(GameFile.Learnsets, "Learnset Editor (Raw)", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
-    [EditorCallable(EditorCategory.Pokemon)]
+    [EditorCallable(EditorCategory.Pokemon, advanced: true, editorName: "(Raw) Personal")]
     public void EditPersonalRaw()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<PersonalTable, PersonalInfo>(GameFile.PersonalStats, "Personal Info Editor (Raw)", z => z.Table, (z, _) => $"{names[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
+    [EditorCallable(EditorCategory.Pokemon, advanced: true, editorName: "(Raw) Personal Misc")]
+    public void EditMiscSpeciesInfoRaw()
+    {
+        var names = ROM.GetStrings(TextName.SpeciesNames);
+        PopFlat<PokeMiscTable, PokeMisc>(GameFile.PokeMisc, "Misc Species Info Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} ~ {z.Value}");
+    }
+
     [EditorCallable(EditorCategory.Pokemon)]
+    public void EditEvolutionConfig() => PopFlatConfig(GameFile.EvolutionConfig, "Evolution Config Editor");
+
+    [EditorCallable(EditorCategory.Pokemon, icon: IconChar.Gift)]
     public void EditGift()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
@@ -246,7 +247,7 @@ internal class EditorPLA : EditorBase
         }
     }
 
-    [EditorCallable(EditorCategory.Pokemon)]
+    [EditorCallable(EditorCategory.Pokemon, advanced: true)]
     public void EditPokeCaptureCollision()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
@@ -262,7 +263,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Pokemon)] public void EditBuddyPlayerModeConfig() => PopFlatConfig(GameFile.BuddyPlayerModeConfig, "Buddy Player Mode Config Editor");
     [EditorCallable(EditorCategory.Pokemon)] public void EditBuddyWarpConfig() => PopFlatConfig(GameFile.BuddyWarpConfig, "Buddy Warp Config Editor");
     [EditorCallable(EditorCategory.Pokemon)] public void EditCaptureConfig() => PopFlatConfig(GameFile.CaptureConfig, "Capture Config Editor");
-    [EditorCallable(EditorCategory.Pokemon)] public void EditPokemonConfig() => PopFlatConfig(GameFile.PokemonConfig, "Pokemon Config");
+    [EditorCallable(EditorCategory.Pokemon)] public void EditPokemonFieldConfig() => PopFlatConfig(GameFile.PokemonConfig, "Pokemon Field Config");
     [EditorCallable(EditorCategory.Pokemon)] public void EditPokemonControllerConfig() => PopFlatConfig(GameFile.PokemonControllerConfig, "Pokemon Controller Config");
     [EditorCallable(EditorCategory.Pokemon)] public void EditPokemonFriendshipConfig() => PopFlatConfig(GameFile.PokemonFriendshipConfig, "Pokemon Friendship Config");
     [EditorCallable(EditorCategory.Pokemon)] public void EditSizeScaleConfig() => PopFlatConfig(GameFile.SizeScaleConfig, "Size Scale Config");
@@ -280,7 +281,7 @@ internal class EditorPLA : EditorBase
     #endregion
 
     #region Field Editors
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.CloudSunRain)]
     public void EditAreaWeather()
     {
         var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
@@ -292,7 +293,7 @@ internal class EditorPLA : EditorBase
         gfp[2065] = obj.SerializeFrom();
     }
 
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.LocationCrosshairs)]
     public void EditStaticEncounter()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
@@ -339,14 +340,14 @@ internal class EditorPLA : EditorBase
         }
     }
 
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.Xmark)]
     public void EditEncounterRate()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
         PopFlat<EncounterMultiplierArchive, EncounterMultiplier>(GameFile.EncounterRateTable, "Encounter Rate Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.Map)]
     public void EditMapViewer()
     {
         var resident = (GFPack)ROM.GetFile(GameFile.Resident);
@@ -354,14 +355,14 @@ internal class EditorPLA : EditorBase
         form.ShowDialog();
     }
 
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.Mountain)]
     public void EditAreas()
     {
         using var form = new AreaEditor8a(ROM);
         form.ShowDialog();
     }
 
-    [EditorCallable(EditorCategory.Field)]
+    [EditorCallable(EditorCategory.Field, icon: IconChar.Star)]
     public void EditShinyRate() => PopFlatConfig(GameFile.ShinyRolls, "Shiny Rate Editor");
 
     [EditorCallable(EditorCategory.Field)]
@@ -393,26 +394,23 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Field)]
     public void EditFieldAttackConfig() => PopFlatConfig(GameFile.AIFieldWazaConfig, "AI Field Attack Config Editor");
 
-    [EditorCallable(EditorCategory.Field)] public void EditFieldWeatheringConfig() => PopFlatConfig(GameFile.FieldWeatheringConfig, "Field Weathering Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldWildPokemonConfig() => PopFlatConfig(GameFile.FieldWildPokemonConfig, "Field Wild Pokemon Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldLandmarkConfig() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
-    [EditorCallable(EditorCategory.Field)] public void EditField_Spawner_Config() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldAreaSpeed() => PopFlatConfig(GameFile.FieldAreaSpeedConfig, "Field Area Speed Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldCameraConfig() => PopFlatConfig(GameFile.FieldCameraConfig, "Field Camera Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldCaptureDirectorConfig() => PopFlatConfig(GameFile.FieldCaptureDirectorConfig, "Field Capture Director Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldCharaViewerConfig() => PopFlatConfig(GameFile.FieldCharaViewerConfig, "Field Chara Viewer Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldCommonConfig() => PopFlatConfig(GameFile.FieldCommonConfig, "Field Common Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldDirectItemConfig() => PopFlatConfig(GameFile.FieldDirectItemConfig, "Field Direct Item Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldEnvConfig() => PopFlatConfig(GameFile.FieldEnvConfig, "Field Env Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldItem() => PopFlatConfig(GameFile.FieldItem, "Field Item");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldItemRespawn() => PopFlatConfig(GameFile.FieldItemRespawn, "Field Item Respawn");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldLandmarkInciteConfig() => PopFlatConfig(GameFile.FieldLandmarkInciteConfig, "Field Landmark Incite Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldMyPokeBallHitNoneTargetConfig() => PopFlatConfig(GameFile.FieldBallMissedConfig, "Field My Poke Ball Hit None Target Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldObstructionWazaConfig() => PopFlatConfig(GameFile.FieldObstructionWazaConfig, "Field Obstruction Waza Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldPokemonSlopeConfig() => PopFlatConfig(GameFile.FieldPokemonSlopeConfig, "Field Pokemon Slope Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldQuestDestinationConfig() => PopFlatConfig(GameFile.FieldQuestDestinationConfig, "Field Quest Destination Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldThrowConfig() => PopFlatConfig(GameFile.FieldThrowConfig, "Field Throw Config");
-    [EditorCallable(EditorCategory.Field)] public void EditFieldThrowableAfterHitConfig() => PopFlatConfig(GameFile.FieldThrowableAfterHitConfig, "Field Throwable After Hit Config");
+    [EditorCallable(EditorCategory.Field, advanced: true)] public void EditWildPokemonConfig() => PopFlatConfig(GameFile.FieldWildPokemonConfig, "Field Wild Pokemon Config");
+    [EditorCallable(EditorCategory.Field)] public void EditLandmarkConfig() => PopFlatConfig(GameFile.FieldLandmarkConfig, "Field Landmark Config Editor");
+    [EditorCallable(EditorCategory.Field)] public void EditSpawnerConfig() => PopFlatConfig(GameFile.FieldSpawnerConfig, "Field Spawner Config Editor");
+    [EditorCallable(EditorCategory.Field)] public void EditCameraConfig() => PopFlatConfig(GameFile.FieldCameraConfig, "Field Camera Config");
+    [EditorCallable(EditorCategory.Field)] public void EditCaptureDirectorConfig() => PopFlatConfig(GameFile.FieldCaptureDirectorConfig, "Field Capture Director Config");
+    [EditorCallable(EditorCategory.Field)] public void EditCharaViewerConfig() => PopFlatConfig(GameFile.FieldCharaViewerConfig, "Field Chara Viewer Config");
+    [EditorCallable(EditorCategory.Field)] public void EditCommonConfig() => PopFlatConfig(GameFile.FieldCommonConfig, "Field Common Config");
+    [EditorCallable(EditorCategory.Field)] public void EditDirectItemConfig() => PopFlatConfig(GameFile.FieldDirectItemConfig, "Field Direct Item Config");
+    [EditorCallable(EditorCategory.Field, icon: IconChar.Clock)] public void EditEnvConfig() => PopFlatConfig(GameFile.FieldEnvConfig, "Field Env Config");
+    [EditorCallable(EditorCategory.Field)] public void EditItemRespawn() => PopFlatConfig(GameFile.FieldItemRespawn, "Field Item Respawn");
+    [EditorCallable(EditorCategory.Field)] public void EditLandmarkInciteConfig() => PopFlatConfig(GameFile.FieldLandmarkInciteConfig, "Field Landmark Incite Config");
+    [EditorCallable(EditorCategory.Field)] public void EditPokeBallNoHitConfig() => PopFlatConfig(GameFile.FieldBallMissedConfig, "Field My Poke Ball Hit None Target Config");
+    [EditorCallable(EditorCategory.Field)] public void EditObstructionWazaConfig() => PopFlatConfig(GameFile.FieldObstructionWazaConfig, "Field Obstruction Waza Config");
+    [EditorCallable(EditorCategory.Field)] public void EditPokemonSlopeConfig() => PopFlatConfig(GameFile.FieldPokemonSlopeConfig, "Field Pokemon Slope Config");
+    [EditorCallable(EditorCategory.Field)] public void EditQuestDestinationConfig() => PopFlatConfig(GameFile.FieldQuestDestinationConfig, "Field Quest Destination Config");
+    [EditorCallable(EditorCategory.Field)] public void EditThrowConfig() => PopFlatConfig(GameFile.FieldThrowConfig, "Field Throw Config");
+    [EditorCallable(EditorCategory.Field)] public void EditThrowableAfterHitConfig() => PopFlatConfig(GameFile.FieldThrowableAfterHitConfig, "Field Throwable After Hit Config");
 
     #endregion
 
@@ -525,42 +523,42 @@ internal class EditorPLA : EditorBase
     //[EditorCallable(EditorCategory.Graphics)]
     //public void EditPokemonModels()
     //{
-        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
-        pokemonModelDir.Initialize();
-        CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
-        using var form = new ModelConverter(ROM);
-        form.ShowDialog();
-        var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
-        var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
-        if (!result)
-            return;
-        gfp[index] = FlatBufferConverter.SerializeFrom(obj);*/
+    /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+    pokemonModelDir.Initialize();
+    CB_Species.Items.AddRange(PokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak").ToArray());
+    using var form = new ModelConverter(ROM);
+    form.ShowDialog();
+    var gfp = (GFPack)ROM.GetFile(GameFile.Resident);
+    var result = PopFlat(obj.Table, "NPC Model Set Editor", (z, _) => z.NPCModelHash.ToString());
+    if (!result)
+        return;
+    gfp[index] = FlatBufferConverter.SerializeFrom(obj);*/
 
 
-        /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
-        pokemonModelDir.Initialize();
-        var fileNames = pokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak");
-        var pack = new GFPack(pokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
-        PokemonModelArchive archive = new(pack);
-        var cache = new DataCache<PokemonModelArchive>(obj)
-        {
-            Create = PokemonModelArchive.new(GFPack),
-            Write = FlatBufferConverter.SerializeFrom,
-        };
-        var tableCache = new TableCache<T1, T2>(obj);
-        DataCache<PokemonModelArchive> loader(GenericEditor<PokemonModelArchive> form)
-        {
-            if (form.Modified)
-                tableCache.Save();
-            tableCache = new TableCache<T1, T2>(obj);
-            return tableCache.Cache;
-        }
-        using var form = new GenericEditor<PokemonModelArchive>(loader, (z, _) => z.NPCModelHash.ToString(), "Pokemon Model Editor");
-        form.ShowDialog();
+    /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
+    pokemonModelDir.Initialize();
+    var fileNames = pokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak");
+    var pack = new GFPack(pokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
+    PokemonModelArchive archive = new(pack);
+    var cache = new DataCache<PokemonModelArchive>(obj)
+    {
+        Create = PokemonModelArchive.new(GFPack),
+        Write = FlatBufferConverter.SerializeFrom,
+    };
+    var tableCache = new TableCache<T1, T2>(obj);
+    DataCache<PokemonModelArchive> loader(GenericEditor<PokemonModelArchive> form)
+    {
         if (form.Modified)
-        {
             tableCache.Save();
-        }*/
+        tableCache = new TableCache<T1, T2>(obj);
+        return tableCache.Cache;
+    }
+    using var form = new GenericEditor<PokemonModelArchive>(loader, (z, _) => z.NPCModelHash.ToString(), "Pokemon Model Editor");
+    form.ShowDialog();
+    if (form.Modified)
+    {
+        tableCache.Save();
+    }*/
     //}
 
     [EditorCallable(EditorCategory.Graphics)]
@@ -613,6 +611,9 @@ internal class EditorPLA : EditorBase
         PopFlat<PokeBodyParticleArchive, PokeBodyParticle>(GameFile.PokeBodyParticle, "Pokemon Body Particle Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
     }
 
+    [EditorCallable(EditorCategory.Graphics)] public void EditWeatheringConfig() => PopFlatConfig(GameFile.FieldWeatheringConfig, "Field Weathering Config");
+    [EditorCallable(EditorCategory.Graphics)] public void EditFieldBallThrowEffect() => PopFlatConfig(GameFile.FieldAreaSpeedConfig, "Field Area Speed Config");
+    [EditorCallable(EditorCategory.Graphics)] public void EditFieldItem() => PopFlatConfig(GameFile.FieldItem, "Field Item");
     [EditorCallable(EditorCategory.Graphics)] public void EditFieldAnimationFramerate() => PopFlatConfig(GameFile.FieldAnimationFramerateConfig, "Field Anime Framerate Config");
     [EditorCallable(EditorCategory.Graphics)] public void EditWaterMotion() => PopFlatConfig(GameFile.WaterMotion, "Water Motion Configuration");
     [EditorCallable(EditorCategory.Graphics)] public void EditAppliHudConfig() => PopFlatConfig(GameFile.AppliHudConfig, "Appli Hud Config Editor");
@@ -676,7 +677,7 @@ internal class EditorPLA : EditorBase
     }
 
     [EditorCallable(EditorCategory.Items)] public void EditCommonItemConfig() => PopFlatConfig(GameFile.CommonItemConfig, "Common Item Config Editor");
-    [EditorCallable(EditorCategory.Items, true)] public void EditEventItemConfig() => PopFlatConfig(GameFile.EventItemConfig, "Event Item Config Editor");
+    [EditorCallable(EditorCategory.Items, advanced: true)] public void EditEventItemConfig() => PopFlatConfig(GameFile.EventItemConfig, "Event Item Config Editor");
     #endregion
 
     #region NPC Editors
@@ -744,7 +745,7 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Gameplay)] public void EditEventMkrgRewardConfig() => PopFlatConfig(GameFile.EventMkrgRewardConfig, "Event Mkrg Reward Config Editor");
     [EditorCallable(EditorCategory.Gameplay)] public void EditFarmConfig() => PopFlatConfig(GameFile.EventFarmConfig, "Farm Config Editor");
     [EditorCallable(EditorCategory.Gameplay)] public void EditEventGameOverConfig() => PopFlatConfig(GameFile.EventGameOverConfig, "Event Game Over Config Editor");
-    [EditorCallable(EditorCategory.Gameplay, true)] public void EditEventQuestBoardConfig() => PopFlatConfig(GameFile.EventQuestBoardConfig, "Event Quest Board Config Editor");
+    [EditorCallable(EditorCategory.Gameplay, advanced: true)] public void EditEventQuestBoardConfig() => PopFlatConfig(GameFile.EventQuestBoardConfig, "Event Quest Board Config Editor");
     #endregion
 
     #region Physics Editors
@@ -753,12 +754,12 @@ internal class EditorPLA : EditorBase
 
     #region Misc Editors
 
-    /*[EditorCallable()]
+    [EditorCallable()]
     public void ModelConverter()
     {
         using var form = new ModelConverter(ROM);
         form.ShowDialog();
-    }*/
+    }
 
     [EditorCallable()]
     public void EditPokeEatingHabits()
@@ -808,13 +809,13 @@ internal class EditorPLA : EditorBase
         PopFlat<PokeFieldObstructionWazaWildWaterEffectArchive, PokeFieldObstructionWazaWildWaterEffect>(GameFile.MoveObstructionWaterEffect, "PokeFieldObstructionWazaWildWaterEffectArchive Editor", z => z.Table, (z, _) => "error");
     }
 
-    [EditorCallable(EditorCategory.Misc, true)]
+    [EditorCallable(advanced: true)]
     public void EditAppConfigList()
     {
         PopFlat<AppConfigList, AppConfigEntry>(GameFile.AppConfigList, "App Config List", z => z.Table, (z, _) => z.OriginalPath);
     }
 
-    [EditorCallable(EditorCategory.Misc, true)]
+    [EditorCallable(advanced: true)]
     public void EditArchiveContents()
     {
         var archiveFolder = ROM.GetFilteredFolder(GameFile.ArchiveFolder);
@@ -834,15 +835,15 @@ internal class EditorPLA : EditorBase
     //    //PopFlat<PokedexRankTable, PokedexRankLevel>(GameFile.DexFormStorage, "Pokedex Form Storage Editor", z => z.Rank.ToString());
     //}
 
-    [EditorCallable(EditorCategory.Misc, true)]
+    [EditorCallable(advanced: true)]
     public void EditPokeDefaultLocator()
     {
         PopFlat<PokeDefaultLocatorArchive, PokeDefaultLocator>(GameFile.PokeDefaultLocator, "Poke Default Locator Editor", z => z.Table, (z, _) => z.Locator);
     }
 
     [EditorCallable()] public void EditAppliStaffrollConfig() => PopFlatConfig(GameFile.AppliStaffrollConfig, "Appli Staffroll Config Editor");
-    [EditorCallable(EditorCategory.Misc, true)] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
-    [EditorCallable(EditorCategory.Misc, true)] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");
+    [EditorCallable(advanced: true)] public void EditCommonGeneralConfig() => PopFlatConfig(GameFile.CommonGeneralConfig, "Common General Config Editor");
+    [EditorCallable(advanced: true)] public void EditDemoConfig() => PopFlatConfig(GameFile.DemoConfig, "Demo Config Editor");
     [EditorCallable()] public void EditEventWork() => PopFlatConfig(GameFile.EventWork, "Event Work Editor");
     #endregion
 }

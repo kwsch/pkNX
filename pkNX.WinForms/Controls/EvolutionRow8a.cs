@@ -19,7 +19,7 @@ public partial class EvolutionRow8a : UserControl
     private static readonly string[] Stats = Enumerable.Range(0, 255 + 1).Select(z => z.ToString()).ToArray();
     private static readonly string[] None = { "" };
 
-    private EvolutionEntry? current;
+    private Structures.FlatBuffers.Arceus.EvolutionEntry? current;
     private EvolutionTypeArgumentType oldMethod;
 
     public EvolutionRow8a()
@@ -56,7 +56,7 @@ public partial class EvolutionRow8a : UserControl
 
     private void ChangeSpecies(int spec, int form) => PB_Preview.Image = SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
 
-    public void LoadEvolution(EvolutionEntry s)
+    public void LoadEvolution(Structures.FlatBuffers.Arceus.EvolutionEntry s)
     {
         var evo = current = s;
         CB_Species.SelectedIndex = evo.Species;

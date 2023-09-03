@@ -2,7 +2,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net7.0-windows</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>pkNX.WinForms</RootNamespace>
     <NeutralLanguage>en</NeutralLanguage>
     <Company>Project Pokémon</Company>
@@ -10,8 +9,9 @@
     <Product>pkNX</Product>
     <Description>Pokémon ROM Editor</Description>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <StartupObject>pkNX.WinForms.Program</StartupObject>
+    <StartupObject>pkNX.WinForms.App</StartupObject>
     <AssemblyName>pkNX</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
 
@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
     <PackageReference Include="PKHeX.Core" Version="23.8.23" />
   </ItemGroup>
 

@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
+using System.Runtime.Intrinsics.Arm;
+using System.Windows.Controls;
 using pkNX.Game;
 using pkNX.Structures;
 
@@ -33,11 +34,15 @@ public abstract class EditorBase
         editorAttributes = editors.Select(x => x.Callable ?? new EditorCallableAttribute(EditorCategory.None)).ToArray();
     }
 
-    public void Initialize() => ROM.Initialize();
+    public void Initialize()
+    {
+        ROM.Initialize();
+        UIStaticSources.SetupForGame(ROM);
+    }
 
     public int CountControlsForCategory(EditorCategory category) => editorAttributes.Count(a => a.Category == category);
 
-    public IEnumerable<Button> GetControls(Button templateButton, EditorCategory category = EditorCategory.None)
+    public IEnumerable<EditorButtonData> GetControls(EditorCategory category = EditorCategory.None, bool displayAdvanced = false)
     {
         for (int i = 0; i < editorMethods.Length; ++i)
         {
@@ -48,30 +53,31 @@ public abstract class EditorBase
             if (callable.Category != category)
                 continue;
 
+            // Ignore all advanced editors when the user doesn't have this view enabled
+            if (callable.IsAdvanced && !displayAdvanced)
+                continue;
+
             var name = m.Name.Replace(prefix, ""); // Might or might not contain prefix
-            var b = new Button
+            var b = new EditorButtonData
             {
-                Width = templateButton.Width,
-                Height = templateButton.Height,
-                Margin = templateButton.Margin,
-                Font = templateButton.Font,
-                Name = $"B_{name}",
-                Text = callable.HasCustomEditorName() ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
-            };
-            b.Click += (s, e) =>
-            {
-                try
+                Title = callable.HasCustomEditorName() ? callable.EditorName : WinFormsUtil.GetSpacedCapitalized(name),
+                Icon = callable.HasIcon() ? callable.Icon : null,
+                OnClick = (_, _) =>
                 {
-                    m.Invoke(this, null);
-                }
-                catch (Exception exception)
-                {
-                    if (exception.InnerException is { } x)
-                        exception = x;
-                    Console.WriteLine(exception);
-                    WinFormsUtil.Error(exception.Message, exception.StackTrace ?? string.Empty);
+                    try
+                    {
+                        m.Invoke(this, null);
+                    }
+                    catch (Exception exception)
+                    {
+                        if (exception.InnerException is { } x)
+                            exception = x;
+                        Console.WriteLine(exception);
+                        WinFormsUtil.Error(exception.Message, exception.StackTrace ?? string.Empty);
+                    }
                 }
             };
+
             yield return b;
         }
     }

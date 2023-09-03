@@ -1,5 +1,6 @@
 using System;
-using System.Windows.Forms;
+using System.Media;
+using System.Windows;
 
 namespace pkNX.WinForms;
 
@@ -9,33 +10,33 @@ public static class WinFormsUtil
     /// Displays a dialog showing the details of an error.
     /// </summary>
     /// <param name="lines">User-friendly message about the error.</param>
-    /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
-    internal static DialogResult Error(params string[] lines)
+    /// <returns>The <see cref="MessageBoxResult"/> associated with the dialog.</returns>
+    internal static MessageBoxResult Error(params string[] lines)
     {
-        System.Media.SystemSounds.Hand.Play();
+        SystemSounds.Hand.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-        return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    internal static DialogResult Alert(params string[] lines)
+    internal static MessageBoxResult Alert(params string[] lines)
     {
-        System.Media.SystemSounds.Asterisk.Play();
+        SystemSounds.Asterisk.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-        return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return MessageBox.Show(msg, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
+    internal static MessageBoxResult Prompt(MessageBoxButton btn, params string[] lines)
     {
-        System.Media.SystemSounds.Question.Play();
+        SystemSounds.Question.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-        return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
+        return MessageBox.Show(msg, "Prompt", btn, MessageBoxImage.Asterisk);
     }
 
     /// <summary>
     /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
     /// </summary>
     /// <param name="cb">ComboBox to retrieve value for.</param>
-    internal static int GetIndex(ComboBox cb) => (int)(cb.SelectedValue ?? 0);
+    internal static int GetIndex(System.Windows.Forms.ComboBox cb) => (int)(cb.SelectedValue ?? 0);
 
     /// <summary>
     /// Manual implementation of setting Title Case, replacing underscores and upper-casing spaced words.

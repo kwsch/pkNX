@@ -3,11 +3,16 @@ using pkNX.Game;
 using pkNX.Structures;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
+using Application = System.Windows.Forms.Application;
+using Clipboard = System.Windows.Forms.Clipboard;
+using DataFormats = System.Windows.Forms.DataFormats;
+using DragDropEffects = System.Windows.Forms.DragDropEffects;
 using EditorBase = pkNX.WinForms.Controls.EditorBase;
+using Size = System.Drawing.Size;
 
 namespace pkNX.WinForms;
 
@@ -91,7 +96,7 @@ public partial class Main : Form
     {
         if (ModifierKeys == Keys.Control) // triggered via hotkey
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Quit {nameof(pkNX)}?"))
+            if (MessageBoxResult.Yes != WinFormsUtil.Prompt(MessageBoxButton.YesNo, $"Quit {nameof(pkNX)}?"))
                 return;
         }
         Close();
@@ -99,9 +104,9 @@ public partial class Main : Form
 
     private void Menu_SetRNGSeed_Click(object sender, EventArgs e)
     {
-        var result = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Reseed RNG?",
+        var result = WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Reseed RNG?",
             "If yes, copy the 32 bit (not hex) integer seed to the clipboard before hitting Yes.");
-        if (DialogResult.Yes != result)
+        if (MessageBoxResult.Yes != result)
             return;
 
         string val = GetClipboardTextString();
@@ -170,7 +175,7 @@ public partial class Main : Form
 
             var prompt = $"Clicking 'OK' will allow pkNX to create a working directory in the following folder:\n\"{parentPath}\"";
 
-            if (WinFormsUtil.Prompt(MessageBoxButtons.OKCancel, errorMsg, prompt) != DialogResult.OK)
+            if (WinFormsUtil.Prompt(MessageBoxButton.OKCancel, errorMsg, prompt) != MessageBoxResult.OK)
                 return;
 
             (editor, result) = EditorBase.GetEditor(parentPath, Language, gameOverride);
@@ -228,10 +233,10 @@ public partial class Main : Form
 
     private void AddEditorButtonsForCategory(EditorCategory category)
     {
-        var ctrls = Editor!.GetControls(B_TemplateButton, category).OrderBy(x => x.Text);
+        /*var ctrls = Editor!.GetControls(B_TemplateButton, category).OrderBy(x => x.Text);
 
         foreach (var ctrl in ctrls)
-            FLP_Controls.Controls.Add(ctrl);
+            FLP_Controls.Controls.Add(ctrl);*/
     }
 
     public Button CreateCategoryButton(EditorCategory category)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using PKHeX.Core;
 using pkNX.Containers;
@@ -218,10 +219,10 @@ internal class EditorSWSH : EditorBase
     {
         if (ROM.Game == GameVersion.SWSH)
         {
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "No ExeFS data found. Please choose which game's encounter tables you wish to edit.", "Yes for Sword, No for Shield.");
-            if (dr == DialogResult.Cancel)
+            var dr = WinFormsUtil.Prompt(MessageBoxButton.YesNoCancel, "No ExeFS data found. Please choose which game's encounter tables you wish to edit.", "Yes for Sword, No for Shield.");
+            if (dr == MessageBoxResult.Cancel)
                 return;
-            PopWildEdit(dr == DialogResult.Yes ? "k" : "t");
+            PopWildEdit(dr == MessageBoxResult.Yes ? "k" : "t");
         }
         else
         {
@@ -591,7 +592,7 @@ internal class EditorSWSH : EditorBase
         cache.Save();
         Data.MoveData.ClearAll(); // force reload if used again
     }
-    
+
     public void EditRental()
     {
         var obj = ROM[GameFile.Rentals];

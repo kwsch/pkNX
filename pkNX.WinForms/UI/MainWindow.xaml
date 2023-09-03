@@ -1,0 +1,129 @@
+﻿<Window x:Class="pkNX.WinForms.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pkNX.WinForms" 
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d"
+        Background="{StaticResource Window.Background}"
+        Title="pkNX"
+        UseLayoutRounding="True"
+        Height="450" Width="750"
+        WindowStartupLocation="CenterScreen"
+        AllowDrop="True" Closing="Window_Closing">
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed"/>
+        <CommandBinding Command="Save" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding Command="Close" Executed="ExitCommandBinding_Executed"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="Close"/>
+    </Window.InputBindings>
+
+    <DockPanel x:Name="DP_Content">
+        <StackPanel Height="25" Orientation="Horizontal" DockPanel.Dock="Top" x:Name="SP_Header">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open..." Command="Open" InputGestureText="Ctrl+O">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="FolderOpen" IconFont="Solid" SnapsToDevicePixels="True" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Save" Command="Save" InputGestureText="Ctrl+S">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="Save" IconFont="Solid" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Exit" Command="Close" InputGestureText="Alt+F4">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="DoorOpen" IconFont="Solid" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Options">
+                    <MenuItem Header="Language">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="Language" IconFont="Solid" />
+                        </MenuItem.Icon>
+                        <MenuItem Padding="0" Template="{DynamicResource {ComponentResourceKey ResourceId=SubmenuComboboxItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}">
+                            <MenuItem.Header>
+                                <ComboBox x:Name="CB_Lang" SelectionChanged="ChangeLanguage"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Randomization">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="Dice" IconFont="Solid"/>
+                        </MenuItem.Icon>
+
+                        <MenuItem x:Name="Menu_SetRNGSeed" Header="Set int32 seed" Click="Menu_SetRNGSeed_Click"/>
+                    </MenuItem>
+                    <MenuItem x:Name="Menu_Restore" Header="Restore Original Files">
+                        <MenuItem.Icon>
+                            <local:IconImage Icon="ArrowRotateLeft" IconFont="Solid" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="Menu_Current" Header="Open Game Folder" Click="Menu_Current_Click"/>
+                    <MenuItem x:Name="Menu_DisplayAdvanced" Header="Display Advanced Editors" Click="Menu_DisplayAdvanced_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <Label x:Name="L_Path" Content="No Game Loaded" Margin="24,0,0,0" Foreground="#FFBCBCBC" IsHitTestVisible="False" Padding="0,8,6,0" FontSize="9"/>
+        </StackPanel>
+
+        <ScrollViewer x:Name="SV_Controls" Padding="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Background="{StaticResource DockWindow.Background}">
+            <ItemsControl x:Name="IC_Controls" ItemsSource="{Binding Path=Categories }">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:EditorButtonData}">
+                        <Button Width="{Binding Source={x:Static local:EditorButtonData.Width}}" 
+                                Height="{Binding Source={x:Static local:EditorButtonData.Height}}" 
+                                Margin="{Binding Source={x:Static local:EditorButtonData.Margin}}"
+                                Click="Button_Click">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <local:IconImage x:Name="BtnIcon" Icon="{Binding Icon, TargetNullValue=ExclamationTriangle}" IconFont="Solid" Width="18" Height="18" Margin="3,1,3,-1">
+                                    <local:IconImage.Style>
+                                        <Style TargetType="{x:Type local:IconImage}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:IconImage.Style>
+                                </local:IconImage>
+                                <TextBlock Grid.Column="1" Margin="3" Text="{Binding Title}" FontSize="14" FontWeight="DemiBold" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <d:ItemsControl.ItemsSource>
+                    <x:Array Type="{x:Type local:EditorButtonData}">
+                        <local:EditorButtonData Title="Back" Icon="ChevronLeft"/>
+                        <local:EditorButtonData Title="Category 1"/>
+                        <local:EditorButtonData Title="Category 2"/>
+                        <local:EditorButtonData Title="Category 3"/>
+                        <local:EditorButtonData Title="Category 4"/>
+                        <local:EditorButtonData Title="Category 5"/>
+                        <local:EditorButtonData Title="Very long Category 6 text"/>
+                    </x:Array>
+                </d:ItemsControl.ItemsSource>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </DockPanel>
+</Window>

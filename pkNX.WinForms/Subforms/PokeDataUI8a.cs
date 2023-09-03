@@ -4,11 +4,13 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using pkNX.Game;
 using PKHeX.Drawing.PokeSprite;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers.Arceus;
+using Clipboard = System.Windows.Forms.Clipboard;
 using EvolutionMethod = pkNX.Structures.EvolutionMethod;
 using EvolutionSet = pkNX.Structures.FlatBuffers.Arceus.EvolutionSet;
 using EvolutionType = pkNX.Structures.EvolutionType;
@@ -373,8 +375,8 @@ public partial class PokeDataUI8a : Form
 
         if (!regionalDex.Contains(dexIndex))
             return false;
-        var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Regional Dex Index '{dexIndex}' is already in use.", "Would you like the index to be automatically updated to a valid one?");
-        if (prompt != DialogResult.Yes)
+        var prompt = WinFormsUtil.Prompt(MessageBoxButton.YesNo, $"Regional Dex Index '{dexIndex}' is already in use.", "Would you like the index to be automatically updated to a valid one?");
+        if (prompt != MessageBoxResult.Yes)
             return false;
 
         TB_HisuianDex.Text = (regionalDex.Max() + 1).ToString();
@@ -618,13 +620,13 @@ public partial class PokeDataUI8a : Form
             }
 
             var swshEvos = swsh[index];
-            var entries = new List<EvolutionEntry>();
+            var entries = new List<Structures.FlatBuffers.Arceus.EvolutionEntry>();
             foreach (var evo in swshEvos)
             {
                 if (evo.Method == EvolutionType.None)
                     continue;
 
-                entries.Add(new EvolutionEntry
+                entries.Add(new()
                 {
                     Species = evo.Species,
                     Form = evo.Form,
