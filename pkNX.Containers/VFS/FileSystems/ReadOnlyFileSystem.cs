@@ -23,21 +23,21 @@ public class ReadOnlyFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetEntityPaths(path);
+        return FileSystem.GetEntityPaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetDirectoryPaths(path);
+        return FileSystem.GetDirectoryPaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetFilePaths(path);
+        return FileSystem.GetFilePaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

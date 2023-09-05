@@ -28,27 +28,27 @@ public class LayeredFileSystem : IFileSystem
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var entities = new HashSet<FileSystemPath>();
         foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            entities.UnionWith(fs.GetEntityPaths(path));
+            entities.UnionWith(fs.GetEntityPaths(path, filter));
         return entities;
     }
 
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var directories = new HashSet<FileSystemPath>();
         foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            directories.UnionWith(fs.GetDirectoryPaths(path));
+            directories.UnionWith(fs.GetDirectoryPaths(path, filter));
         return directories;
     }
 
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var files = new HashSet<FileSystemPath>();
         foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            files.UnionWith(fs.GetFilePaths(path));
+            files.UnionWith(fs.GetFilePaths(path, filter));
         return files;
     }
 

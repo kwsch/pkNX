@@ -7,24 +7,24 @@ namespace pkNX.Containers.VFS;
 
 public static class FileSystemExtensions
 {
-    public static IEnumerable<FileSystemPath> GetEntityPaths(this VirtualDirectory directory)
+    public static IEnumerable<FileSystemPath> GetEntityPaths(this VirtualDirectory directory, Func<FileSystemPath, bool>? filter = null)
     {
-        return directory.FileSystem.GetEntityPaths(directory.Path);
+        return directory.FileSystem.GetEntityPaths(directory.Path, filter);
     }
 
-    public static IEnumerable<FileSystemPath> GetEntitiesRecursive(this IFileSystem fileSystem, FileSystemPath path)
+    public static IEnumerable<FileSystemPath> GetEntitiesRecursive(this IFileSystem fileSystem, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is not a directory.");
 
-        foreach (var entity in fileSystem.GetEntityPaths(path))
+        foreach (var entity in fileSystem.GetEntityPaths(path, filter))
         {
             yield return entity;
 
             if (!entity.IsDirectory)
                 continue;
 
-            foreach (var subEntity in fileSystem.GetEntitiesRecursive(entity))
+            foreach (var subEntity in fileSystem.GetEntitiesRecursive(entity, filter))
                 yield return subEntity;
         }
     }

@@ -56,24 +56,24 @@ public class VirtualFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var mount = GetMountPoint(path);
-        return mount.FileSystem.GetEntityPaths(path);
+        return mount.FileSystem.GetEntityPaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var mount = GetMountPoint(path);
-        return mount.FileSystem.GetDirectoryPaths(path);
+        return mount.FileSystem.GetDirectoryPaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         var mount = GetMountPoint(path);
-        return mount.FileSystem.GetFilePaths(path);
+        return mount.FileSystem.GetFilePaths(path, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

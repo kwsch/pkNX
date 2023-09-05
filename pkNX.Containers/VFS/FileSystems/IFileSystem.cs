@@ -7,9 +7,9 @@ namespace pkNX.Containers.VFS;
 
 public interface IFileSystem : IDisposable
 {
-    IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path);
-    IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path);
-    IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path);
+    IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
+    IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
+    IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
 
     bool Exists(FileSystemPath path);
     Stream CreateFile(FileSystemPath path);
@@ -51,18 +51,18 @@ public static class IFileSystemExtensions
         return new(self, toAbsolutePath, toRelativePath);
     }
 
-    public static IEnumerable<IFileSystemEntity> GetEntities(this IFileSystem self, FileSystemPath path)
+    public static IEnumerable<IFileSystemEntity> GetEntities(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetEntityPaths(path).Select(p => IFileSystemEntity.Create(self, p));
+        return self.GetEntityPaths(path, filter).Select(p => IFileSystemEntity.Create(self, p));
     }
 
-    public static IEnumerable<VirtualDirectory> GetDirectories(this IFileSystem self, FileSystemPath path)
+    public static IEnumerable<VirtualDirectory> GetDirectories(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetDirectoryPaths(path).Select(p => VirtualDirectory.Create(self, p));
+        return self.GetDirectoryPaths(path, filter).Select(p => VirtualDirectory.Create(self, p));
     }
 
-    public static IEnumerable<VirtualFile> GetFiles(this IFileSystem self, FileSystemPath path)
+    public static IEnumerable<VirtualFile> GetFiles(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetFilePaths(path).Select(p => VirtualFile.Create(self, p));
+        return self.GetFilePaths(path, filter).Select(p => VirtualFile.Create(self, p));
     }
 }

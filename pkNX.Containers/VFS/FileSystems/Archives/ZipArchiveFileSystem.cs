@@ -50,40 +50,50 @@ public class ZipArchiveFileSystem : IFileSystem
         return ZipArchive.GetEntry(ToEntryPath(path));
     }
 
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return GetZipEntries()
-            .Select(ToPath)
-            .Where(path.IsParentOf)
-            .Select(entryPath => entryPath.ParentPath == path
+        var entries = GetZipEntries().Select(ToPath).Where(path.IsParentOf);
+
+        if (filter != null)
+            entries = entries.Where(filter);
+
+        return entries.Select(entryPath => entryPath.ParentPath == path
                 ? entryPath
                 : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
             .Distinct();
     }
 
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("This FileSystemPath is not a directory.", nameof(path));
 
-        return GetZipEntries()
+        var entries = GetZipEntries()
             .Select(ToPath)
-            .Where(p => path.IsParentOf(p) && p.IsDirectory)
-            .Select(entryPath => entryPath.ParentPath == path
-                ? entryPath
-                : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
+            .Where(p => path.IsParentOf(p) && p.IsDirectory);
+
+        if (filter != null)
+            entries = entries.Where(filter);
+
+        return entries.Select(entryPath =>
+                entryPath.ParentPath == path ? entryPath :
+                path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
             .Distinct();
     }
 
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is not a directory.", nameof(path));
 
-        return GetZipEntries()
+        var entries = GetZipEntries()
             .Select(ToPath)
-            .Where(p => path.IsParentOf(p) && p.IsFile)
-            .Select(entryPath => entryPath.ParentPath == path
+            .Where(p => path.IsParentOf(p) && p.IsFile);
+
+        if (filter != null)
+            entries = entries.Where(filter);
+
+        return entries.Select(entryPath => entryPath.ParentPath == path
                 ? entryPath
                 : path.AppendDirectory(entryPath.MakeRelativeTo(path).GetDirectorySegments().First()))
             .Distinct();

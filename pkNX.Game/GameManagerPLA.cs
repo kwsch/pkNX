@@ -33,13 +33,11 @@ public class GameManagerPLA : GameManager
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);
 
-        // VFS test
         var cleanRomFS = new PhysicalFileSystem(basePath + "/romfs/").AsReadOnlyFileSystem();
         var moddedRomFS = new PhysicalFileSystem(redirect + "/romfs/");
 
         var layeredFS = new LayeredFileSystem(moddedRomFS, cleanRomFS);
         VFS = new VirtualFileSystem(new MountPoint("/romfs/", layeredFS));
-        using var file = VFS.OpenFile("/romfs/bin/pokemon/data/poke_ai.bin", FileAccess.Read);
     }
 
     public override void Initialize()

@@ -42,27 +42,37 @@ public class PhysicalFileSystem : IFileSystem
         return FileSystemPath.Parse(virtualPath);
     }
 
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return GetDirectoryPaths(path).Concat(GetFilePaths(path));
+        return GetDirectoryPaths(path, filter).Concat(GetFilePaths(path, filter));
     }
 
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("This FileSystemPath is not a directory.", nameof(path));
 
         var physicalPaths = Directory.GetDirectories(GetPhysicalPath(path));
-        return physicalPaths.Select(GetVirtualDirectoryPath);
+        var virtualPaths = physicalPaths.Select(GetVirtualDirectoryPath);
+
+        if (filter == null)
+            return virtualPaths;
+
+        return virtualPaths.Where(filter);
     }
 
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path)
+    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is not a directory.", nameof(path));
 
         var physicalPaths = Directory.GetFiles(GetPhysicalPath(path));
-        return physicalPaths.Select(GetVirtualFilePath);
+        var virtualPaths = physicalPaths.Select(GetVirtualFilePath);
+
+        if (filter == null)
+            return virtualPaths;
+
+        return virtualPaths.Where(filter);
     }
 
     public bool Exists(FileSystemPath path)
