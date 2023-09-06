@@ -22,22 +22,25 @@
     <Color x:Key="SelectionColor">#5781BA</Color>
     <Color x:Key="InactiveSelectionColor">#335C85</Color>
 
-    <Color x:Key="HighlightColor">#C7C7C7</Color>
     <Color x:Key="PressedColor">#E7E7E7</Color>
     <Color x:Key="BorderColor">#111111</Color>
 
     <Color x:Key="ForegroundColor">#EFEFEF</Color>
     <Color x:Key="ForegroundColor.Disabled">#878787</Color>
+    <Color x:Key="ForegroundColor.Header">#303030</Color>
 
-    <!-- Base color theme -->
+    <!-- Base color theme (https://color.adobe.com/create/color-wheel) -->
     <Color x:Key="DarkestColor">#2B2B2B</Color>
+    
     <Color x:Key="DarkColor">#333333</Color>
-    <Color x:Key="PrimaryColor">#3B3B3B</Color>
     <Color x:Key="SecondaryColor">#474747</Color>
+    <Color x:Key="PrimaryColor">#3B3B3B</Color>
     <Color x:Key="LightColor">#878787</Color>
+    <Color x:Key="HighlightColor">#C7C7C7</Color>
 
     <!-- Darken Base 60% https://mdigi.tools/darken-color/ -->
     <Color x:Key="DarkestColor.Disabled">#111111</Color>
+    
     <Color x:Key="DarkColor.Disabled">#141414</Color>
     <Color x:Key="PrimaryColor.Disabled">#181818</Color>
     <Color x:Key="SecondaryColor.Disabled">#1c1c1c</Color>
@@ -45,9 +48,10 @@
 
     <!-- Lighten Base 10% https://mdigi.tools/lighten-color/ -->
     <Color x:Key="DarkestColor.Highlight">#404040</Color>
+    
     <Color x:Key="DarkColor.Highlight">#474747</Color>
-    <Color x:Key="PrimaryColor.Highlight">#4f4f4f</Color>
     <Color x:Key="SecondaryColor.Highlight">#595959</Color>
+    <Color x:Key="PrimaryColor.Highlight">#4f4f4f</Color>
     <Color x:Key="LightColor.Highlight">#939393</Color>
 
     <!-- Lighten Base 5% https://mdigi.tools/lighten-color/ -->
@@ -59,7 +63,7 @@
 
     <!--Brushes-->
     <SolidColorBrush x:Key="TestBrush" Color="Red"/>
-    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor }"/>
     <SolidColorBrush x:Key="ForegroundBrush.Disabled" Color="{StaticResource ForegroundColor.Disabled}"/>
     <SolidColorBrush x:Key="ForegroundBrush.Highlight" Color="{StaticResource ForegroundColor}"/>
 
@@ -166,15 +170,21 @@
 
     <SolidColorBrush x:Key="Separator.Background" Color="#4C4C4C"/>
 
-    <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="{StaticResource LightColor}"/>
-    <SolidColorBrush x:Key="DataGridHeaderBackgroundBrush" Color="{StaticResource LightColor}"/>
-    <SolidColorBrush x:Key="DataGridHeaderMouseOverBrush" Color="#AAAAAA"/>
-    <SolidColorBrush x:Key="DataGridHeaderBorderBrush" Color="{StaticResource SecondaryColor}"/>
-    <SolidColorBrush x:Key="DataGridRowBorderBrush" Color="{StaticResource SecondaryColor}"/>
-    <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="{StaticResource LightColor}"/>
-    <SolidColorBrush x:Key="DataGridRowSelectedBrush" Color="{StaticResource HighlightColor}"/>
-    <SolidColorBrush x:Key="GridLinesBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="Red"/>
+    <SolidColorBrush x:Key="DataGrid.Background" Color="{StaticResource DarkestColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Border" Color="{StaticResource SecondaryColor}"/>
+
+    <SolidColorBrush x:Key="DataGrid.Header.Background" Color="{StaticResource SecondaryColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Header.Border" Color="{StaticResource PrimaryColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Header.Highlight" Color="{StaticResource SecondaryColor.Highlight}"/>
+
+    <SolidColorBrush x:Key="DataGrid.Column.Border" Color="Transparent"/>
+
+    <SolidColorBrush x:Key="DataGrid.Row.Border" Color="{StaticResource SecondaryColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Row.Background" Color="{StaticResource DarkColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Row.Selected" Color="{StaticResource SelectionColor}"/>
+    <SolidColorBrush x:Key="DataGrid.Row.Hover" Color="{StaticResource PrimaryColor.Highlight}"/>
+
+    <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="Transparent"/>
 
     <Geometry x:Key="MenuScrollDownArrowGeometry">M-0.7,5.2 L-2.2,6.7 3.6,12.6 9.5,6.7 8,5.2 3.6,9.6 z</Geometry>
     <Geometry x:Key="MenuScrollUpArrowGeometry">M-2.2,10.9 L-0.7,12.4 3.7,8 8,12.4 9.5,10.9 3.7,5 z</Geometry>
@@ -3330,17 +3340,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Rectangle x:Name="Border" Fill="{StaticResource DataGridHeaderBackgroundBrush}"
+                        <Rectangle x:Name="Border" Fill="{StaticResource DataGrid.Header.Background}"
                                    SnapsToDevicePixels="True"/>
                         <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3"
                                  Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Stroke" TargetName="Border" Value="{StaticResource DataGridHeaderMouseOverBrush}"/>
+                            <Setter Property="Stroke" TargetName="Border" Value="{StaticResource DataGrid.Header.Highlight}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" TargetName="Border" Value="{StaticResource DataGridHeaderMouseOverBrush}"/>
+                            <Setter Property="Fill" TargetName="Border" Value="{StaticResource DataGrid.Header.Highlight}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
@@ -3357,12 +3367,13 @@
         <Setter Property="ToolTipService.BetweenShowDelay" Value="{StaticResource ToolTipBetweenShowDelay}"/>
 
         <Setter Property="RowHeight" Value="22" />
-        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource GridLinesBrush}"/>
-        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource GridLinesBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource DataGridBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource DataGridHeaderBorderBrush}"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource DataGrid.Row.Border}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource DataGrid.Column.Border}"/>
+        <Setter Property="Background" Value="{StaticResource DataGrid.Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DataGrid.Border}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
@@ -3394,18 +3405,22 @@
                                                 Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}"
                                                 Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                                 Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+
                                         <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
                                                 Grid.Column="1"
                                                 Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+
                                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                                 CanContentScroll="{TemplateBinding CanContentScroll}"
                                                 Grid.ColumnSpan="2" Grid.Row="1"/>
+
                                         <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}"
                                                 Orientation="Vertical" Grid.Row="1"
                                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                                 Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                 ViewportSize="{TemplateBinding ViewportHeight}"
                                                 Style="{StaticResource VerticalScrollBarStyle}"/>
+                                        
                                         <Grid Grid.Column="1" Grid.Row="2">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
@@ -3456,19 +3471,19 @@
         <Setter Property="ToolTipService.BetweenShowDelay" Value="{StaticResource ToolTipBetweenShowDelay}"/>
 
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="BorderThickness" Value="1 1 0 1"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource DataGridHeaderBorderBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource DataGridHeaderBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource DataGrid.Header.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource DataGrid.Header.Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="7,3,5,2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                     <Grid>
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                                         Background="{TemplateBinding Background}"
-                                                         Padding="{TemplateBinding Padding}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -3481,8 +3496,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource DataGridHeaderMouseOverBrush}"/>
-                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Background" Value="{StaticResource DataGrid.Header.Highlight}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -3495,11 +3509,11 @@
         <Setter Property="ToolTipService.InitialShowDelay" Value="{StaticResource ToolTipInitialShowDelay}"/>
         <Setter Property="ToolTipService.BetweenShowDelay" Value="{StaticResource ToolTipBetweenShowDelay}"/>
 
-        <Setter Property="Background" Value="{DynamicResource DataGridRowBackgroundBrush}"/>
+        <Setter Property="Background" Value="{StaticResource DataGrid.Row.Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Border.CornerRadius" Value="3"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="ValidationErrorTemplate">
             <Setter.Value>
@@ -3512,10 +3526,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
                     <Border x:Name="DGR_Border"
+                            TextElement.Foreground="{TemplateBinding Foreground}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="0"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding Border.CornerRadius}"
                             SnapsToDevicePixels="True">
                         <SelectiveScrollingGrid>
                             <SelectiveScrollingGrid.ColumnDefinitions>
@@ -3534,6 +3548,7 @@
                                                       Visibility="{TemplateBinding DetailsVisibility}"/>
                             <DataGridRowHeader Grid.RowSpan="2"
                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                               Foreground="{TemplateBinding Foreground}"
                                                Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                         </SelectiveScrollingGrid>
                     </Border>
@@ -3543,11 +3558,10 @@
                                 <Condition Property="IsMouseOver" Value="true"/>
                                 <Condition Property="IsSelected" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="DGR_Border" Value="{StaticResource MouseOverListItem}"/>
+                            <Setter TargetName="DGR_Border" Property="Background" Value="{StaticResource DataGrid.Row.Hover}"/>
                         </MultiTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DGR_Border" Property="Background" Value="{StaticResource DataGridRowSelectedBrush}" />
-                            <Setter TargetName="DGR_Border" Property="CornerRadius" Value="3" />
+                            <Setter Property="Background" TargetName="DGR_Border" Value="{StaticResource DataGrid.Row.Selected}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -3558,8 +3572,7 @@
                 <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DataGridRowSelectedBrush}"/>
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="{StaticResource DataGrid.Row.Selected}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -3571,7 +3584,8 @@
 
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="-1"/>
         <Setter Property="Padding" Value="5,0,5,0"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -3579,10 +3593,10 @@
                     <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                VerticalAlignment="Center"
-                                                Margin="{TemplateBinding Padding}"/>
+                                                VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -3590,7 +3604,6 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
@@ -3601,7 +3614,7 @@
                     <Condition Property="IsSelected" Value="true"/>
                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{StaticResource DataGridRowSelectedBrush}"/>
+                <Setter Property="Background" Value="{StaticResource DataGrid.Row.Selected}"/>
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -3629,9 +3642,9 @@
         <Setter Property="ToolTipService.InitialShowDelay" Value="{StaticResource ToolTipInitialShowDelay}"/>
         <Setter Property="ToolTipService.BetweenShowDelay" Value="{StaticResource ToolTipBetweenShowDelay}"/>
 
-        <Setter Property="Background" Value="{DynamicResource DataGridBackgroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource DataGridBackgroundBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource DataGrid.Header.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DataGrid.Header.Border}"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
