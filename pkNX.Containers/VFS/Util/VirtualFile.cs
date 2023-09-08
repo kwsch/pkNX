@@ -26,9 +26,29 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
         return Name[(lastPeriod + 1)..];
     }
 
-    public Stream Open(FileAccess access = FileAccess.Read)
+    public Stream Open(FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {
-        return FileSystem.OpenFile(Path, access);
+        return FileSystem.OpenFile(Path, mode, access);
+    }
+
+    public Stream OpenRead()
+    {
+        return FileSystem.OpenFile(Path, FileMode.Open, FileAccess.Read);
+    }
+
+    public Stream OpenWrite()
+    {
+        return FileSystem.OpenWrite(Path);
+    }
+
+    public void CopyTo(VirtualDirectory destination)
+    {
+        FileSystem.Copy(Path, destination.FileSystem, destination.Path.AppendFile(Name));
+    }
+
+    public void MoveTo(VirtualDirectory destination)
+    {
+        FileSystem.Move(Path, destination.FileSystem, destination.Path.AppendFile(Name));
     }
 
     public ReadOnlySpan<byte> ReadAllBytes()
@@ -57,13 +77,13 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
 
     public void WriteAllBytes(ReadOnlySpan<byte> bytes)
     {
-        using var stream = Open(FileAccess.Write);
+        using var stream = OpenWrite();
         stream.Write(bytes);
     }
 
     public void WriteAllText(string text)
     {
-        using var stream = Open(FileAccess.Write);
+        using var stream = OpenWrite();
         using var writer = new StreamWriter(stream);
         writer.Write(text);
     }

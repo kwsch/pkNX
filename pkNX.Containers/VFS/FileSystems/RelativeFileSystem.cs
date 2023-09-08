@@ -58,9 +58,9 @@ public class RelativeFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Stream OpenFile(FileSystemPath path, FileAccess access)
+    public Stream OpenFile(FileSystemPath path, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {
-        return FileSystem.OpenFile(ToAbsolutePath(path), access);
+        return FileSystem.OpenFile(ToAbsolutePath(path), mode, access);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

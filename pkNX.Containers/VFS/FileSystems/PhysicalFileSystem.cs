@@ -88,11 +88,11 @@ public class PhysicalFileSystem : IFileSystem
         return File.Create(GetPhysicalPath(path));
     }
 
-    public Stream OpenFile(FileSystemPath path, FileAccess access)
+    public Stream OpenFile(FileSystemPath path, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {
         if (!path.IsFile)
             throw new ArgumentException("The specified path is not a file.", nameof(path));
-        return File.Open(GetPhysicalPath(path), FileMode.Open, access);
+        return File.Open(GetPhysicalPath(path), mode, access);
     }
 
     public void CreateDirectory(FileSystemPath path)

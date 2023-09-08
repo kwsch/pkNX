@@ -111,13 +111,13 @@ public class ZipArchiveFileSystem : IFileSystem
 
     public Stream CreateFile(FileSystemPath path)
     {
-        var zae = ZipArchive.CreateEntry(ToEntryPath(path));
-        return zae.Open();
+        ZipArchiveEntry entry = ZipArchive.CreateEntry(ToEntryPath(path));
+        return entry.Open();
     }
 
-    public Stream OpenFile(FileSystemPath path, FileAccess access)
+    public Stream OpenFile(FileSystemPath path, FileMode mode, FileAccess access)
     {
-        var entry = ZipArchive.GetEntry(ToEntryPath(path));
+        ZipArchiveEntry? entry = ZipArchive.GetEntry(ToEntryPath(path));
         return entry?.Open() ?? Stream.Null;
     }
 
@@ -128,7 +128,7 @@ public class ZipArchiveFileSystem : IFileSystem
 
     public void Delete(FileSystemPath path)
     {
-        var entry = ZipArchive.GetEntry(ToEntryPath(path));
+        ZipArchiveEntry? entry = ZipArchive.GetEntry(ToEntryPath(path));
         entry?.Delete();
     }
 }

@@ -30,12 +30,15 @@ public record MountPoint
 
 public class VirtualFileSystem : IFileSystem
 {
+    public static VirtualFileSystem Current { get; private set; } = null!;
+
     public SortedSet<MountPoint> Mounts { get; }
     public bool IsReadOnly => Mounts.All(x => x.FileSystem.IsReadOnly);
 
     public VirtualFileSystem(IEnumerable<MountPoint> mounts)
     {
         Mounts = new SortedSet<MountPoint>(mounts);
+        Current = this;
     }
 
     public VirtualFileSystem(params MountPoint[] mounts) :
@@ -84,18 +87,17 @@ public class VirtualFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Stream CreateFile(FileSystemPath path)
+    public Stream OpenFile(FileSystemPath path, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {
         var mount = GetMountPoint(path);
-        return mount.FileSystem.CreateFile(path);
+        return mount.FileSystem.OpenFile(path, mode, access);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Stream OpenFile(FileSystemPath path, FileAccess access)
-    {
-        var mount = GetMountPoint(path);
-        return mount.FileSystem.OpenFile(path, access);
-    }
+    public Stream OpenWrite(FileSystemPath path) => OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Stream CreateFile(FileSystemPath path) => OpenFile(path, FileMode.Create, FileAccess.Write);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CreateDirectory(FileSystemPath path)

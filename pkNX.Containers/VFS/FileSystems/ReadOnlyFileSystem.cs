@@ -47,25 +47,28 @@ public class ReadOnlyFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Stream OpenFile(FileSystemPath path, FileAccess access)
+    public Stream OpenFile(FileSystemPath path, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {
         if (access != FileAccess.Read)
-            throw new InvalidOperationException("This is a read-only filesystem.");
-        return FileSystem.OpenFile(path, access);
+            throw new UnauthorizedAccessException("This is a read-only filesystem.");
+        return FileSystem.OpenFile(path, mode, access);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Stream CreateFile(FileSystemPath path)
     {
-        throw new InvalidOperationException("This is a read-only filesystem.");
+        throw new UnauthorizedAccessException("This is a read-only filesystem.");
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CreateDirectory(FileSystemPath path)
     {
-        throw new InvalidOperationException("This is a read-only filesystem.");
+        throw new UnauthorizedAccessException("This is a read-only filesystem.");
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Delete(FileSystemPath path)
     {
-        throw new InvalidOperationException("This is a read-only filesystem.");
+        throw new UnauthorizedAccessException("This is a read-only filesystem.");
     }
 }
