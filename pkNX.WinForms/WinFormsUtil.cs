@@ -25,6 +25,13 @@ public static class WinFormsUtil
         return MessageBox.Show(msg, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
+    internal static MessageBoxResult Warn(MessageBoxButton btn, params string[] lines)
+    {
+        SystemSounds.Hand.Play();
+        string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
+        return MessageBox.Show(msg, "Warning", btn, MessageBoxImage.Warning);
+    }
+
     internal static MessageBoxResult Prompt(MessageBoxButton btn, params string[] lines)
     {
         SystemSounds.Question.Play();
