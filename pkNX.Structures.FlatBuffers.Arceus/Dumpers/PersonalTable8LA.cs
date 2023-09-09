@@ -145,6 +145,13 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
             for (byte f = 1; f < l.FormCount; f++)
             {
                 var formL = Table[l.FormStatsIndex + (f - 1)];
+
+                if (formL.Form != f)
+                {
+                    Debug.Assert(formL.Form == f);
+                    formL.Form = f;
+                }
+
                 if (formL.HP != 0)
                     continue;
 
