@@ -212,9 +212,26 @@ public class LayeredFileSystem : IFileSystem
         fs.CreateDirectory(path);
     }
 
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
-        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            fs.Delete(path);
+        switch (mode)
+        {
+            case DeleteMode.TopMostLayer:
+                GetFirstWhereExists(path)?.Delete(path);
+                break;
+            case DeleteMode.TopMostWriteableLayer:
+                GetFirstWritableWhereExists(path)?.Delete(path);
+                break;
+            case DeleteMode.AllWritable:
+                foreach (var fs in FileSystems.Where(fs => !fs.IsReadOnly && fs.Exists(path)))
+                    fs.Delete(path);
+                break;
+            case DeleteMode.All:
+                foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
+                    fs.Delete(path);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+        }
     }
 }

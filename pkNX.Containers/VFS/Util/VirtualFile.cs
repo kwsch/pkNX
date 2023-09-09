@@ -51,6 +51,11 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
         FileSystem.Move(Path, destination.FileSystem, destination.Path.AppendFile(Name));
     }
 
+    public void Delete(DeleteMode mode = DeleteMode.TopMostLayer)
+    {
+        FileSystem.Delete(Path, mode);
+    }
+
     public ReadOnlySpan<byte> ReadAllBytes()
     {
         using var stream = Open();

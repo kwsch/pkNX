@@ -102,7 +102,7 @@ public class PhysicalFileSystem : IFileSystem
         Directory.CreateDirectory(GetPhysicalPath(path));
     }
 
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
         if (path.IsFile)
             File.Delete(GetPhysicalPath(path));

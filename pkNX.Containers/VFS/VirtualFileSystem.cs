@@ -107,9 +107,9 @@ public class VirtualFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
         var mount = GetMountPoint(path);
-        mount.FileSystem.Delete(path);
+        mount.FileSystem.Delete(path, mode);
     }
 }

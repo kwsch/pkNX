@@ -5,6 +5,14 @@ using System.Linq;
 
 namespace pkNX.Containers.VFS;
 
+public enum DeleteMode
+{
+    TopMostLayer,
+    TopMostWriteableLayer,
+    AllWritable,
+    All
+}
+
 public interface IFileSystem : IDisposable
 {
     bool IsReadOnly => false;
@@ -53,7 +61,8 @@ public interface IFileSystem : IDisposable
     /// Deletes the specified file or directory. Does not throw an exception if the specified file or directory does not exist.
     /// </summary>
     /// <param name="path">The path and name of the file or directory to delete.</param>
-    void Delete(FileSystemPath path);
+    /// <param name="mode">The method to use when deleting the file or directory.</param>
+    void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer);
 
     public void Move(FileSystemPath sourcePath, IFileSystem destinationFileSystem, FileSystemPath destinationPath)
     {

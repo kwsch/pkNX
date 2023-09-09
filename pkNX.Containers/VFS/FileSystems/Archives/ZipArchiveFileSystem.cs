@@ -126,7 +126,7 @@ public class ZipArchiveFileSystem : IFileSystem
         ZipArchive.CreateEntry(ToEntryPath(path));
     }
 
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
         ZipArchiveEntry? entry = ZipArchive.GetEntry(ToEntryPath(path));
         entry?.Delete();

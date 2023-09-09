@@ -76,8 +76,8 @@ public class RelativeFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
-        FileSystem.Delete(ToAbsolutePath(path));
+        FileSystem.Delete(ToAbsolutePath(path), mode);
     }
 }

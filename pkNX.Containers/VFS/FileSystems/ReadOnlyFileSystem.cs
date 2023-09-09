@@ -67,7 +67,7 @@ public class ReadOnlyFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Delete(FileSystemPath path)
+    public void Delete(FileSystemPath path, DeleteMode mode = DeleteMode.TopMostLayer)
     {
         throw new UnauthorizedAccessException("This is a read-only filesystem.");
     }

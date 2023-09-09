@@ -18,6 +18,11 @@ public readonly record struct VirtualDirectory(IFileSystem FileSystem, FileSyste
         FileSystem.Move(Path, destination.FileSystem, destination.Path.AppendDirectory(Name));
     }
 
+    public void Delete(DeleteMode mode = DeleteMode.TopMostLayer)
+    {
+        FileSystem.Delete(Path, mode);
+    }
+
     internal static VirtualDirectory Create(IFileSystem fileSystem, FileSystemPath path)
     {
         if (!path.IsDirectory)

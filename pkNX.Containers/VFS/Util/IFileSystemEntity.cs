@@ -17,9 +17,9 @@ public interface IFileSystemEntity
         FileSystem.Move(Path, destinationFileSystem, destinationPath);
     }
 
-    public void Delete()
+    public void Delete(DeleteMode mode = DeleteMode.TopMostLayer)
     {
-        FileSystem.Delete(Path);
+        FileSystem.Delete(Path, mode);
     }
 
     public void Exists()
