@@ -46,7 +46,6 @@ public partial class MainWindow
     public static readonly DependencyProperty CategoriesProperty = DependencyProperty.Register(
         nameof(Categories), typeof(EditorButtonData[]), typeof(MainWindow), new PropertyMetadata(Array.Empty<EditorButtonData>()));
 
-    public static readonly string ProgramSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
     private static readonly string[] SupportedLanguages = {
         "カタカナ",
         "漢字",
@@ -86,7 +85,7 @@ public partial class MainWindow
         SpriteName.AllowShinySprite = true;
         SpriteBuilderUtil.SpriterPreference = SpriteBuilderPreference.ForceSprites;
 
-        Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
+        Settings = ProgramSettings.LoadSettings();
         CB_Lang.SelectedIndex = Settings.Language;
         Menu_DisplayAdvanced.IsChecked = Settings.DisplayAdvanced;
 
@@ -312,7 +311,7 @@ public partial class MainWindow
         Settings.Language = CB_Lang.SelectedIndex;
         Settings.GamePath = (string)L_Path.Content;
         Settings.GameOverride = Editor.Game;
-        await SettingsSerializer.SaveSettings(Settings, ProgramSettingsPath);
+        await ProgramSettings.SaveSettings(Settings);
     }
 
     private void Menu_Current_Click(object sender, EventArgs e)
@@ -370,10 +369,11 @@ public partial class MainWindow
         data.OnClick.Invoke(sender, e);
     }
 
-    private void Menu_DisplayAdvanced_Click(object sender, RoutedEventArgs e)
+    private async void Menu_DisplayAdvanced_Click(object sender, RoutedEventArgs e)
     {
         Menu_DisplayAdvanced.IsChecked = !Menu_DisplayAdvanced.IsChecked;
         Settings.DisplayAdvanced = Menu_DisplayAdvanced.IsChecked;
+        await ProgramSettings.SaveSettings(Settings);
 
         // Force reload of editor buttons
         LoadEditorButtons();
