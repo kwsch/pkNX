@@ -21,11 +21,11 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
     {
         foreach (var item in pItems)
         {
-            this.Add(item);
+            Add(item);
         }
     }
 
-    private void FullObservableCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void FullObservableCollectionCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.NewItems != null)
         {
