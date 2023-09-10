@@ -989,7 +989,7 @@ public class GameDumperPLA
     private void ChangeLanguage(int index)
     {
         ROM.Language = index;
-        ROM.ResetText();
+        GamePath.Initialize(ROM.Game, ROM.Language);
     }
 
     public void DumpStrings()

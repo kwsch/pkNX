@@ -1,3 +1,4 @@
+using pkNX.Containers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,9 +25,9 @@ public class TextFile
 
     public TextFile(TextConfig? config = null, bool remapChars = false) : this(emptyTextFile, config, remapChars) { }
 
-    public TextFile(byte[] data, TextConfig? config = null, bool remapChars = false)
+    public TextFile(ReadOnlySpan<byte> data, TextConfig? config = null, bool remapChars = false)
     {
-        Data = (byte[])data.Clone();
+        Data = data.ToArray();
 
         if (InitialKey != 0)
             throw new Exception("Invalid initial key! Not 0?");
@@ -37,6 +38,12 @@ public class TextFile
 
         Config = config ?? TextConfig.Default;
         RemapChars = remapChars;
+    }
+
+    public TextFile(IEnumerable<string> lines, TextConfig? config = null, bool remapChars = false)
+        : this(config, remapChars)
+    {
+        Lines = lines.ToArray();
     }
 
     public byte[] Data;
@@ -171,7 +178,7 @@ public class TextFile
         return result;
     }
 
-    private byte[] GetLineData(string line)
+    private byte[] GetLineData(ReadOnlySpan<char> line)
     {
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
@@ -187,8 +194,8 @@ public class TextFile
                     // grab the string
                     int bracket = line.IndexOf(']', i);
                     if (bracket < 0)
-                        throw new ArgumentException("Variable text is not capped properly: " + line);
-                    string varText = line[i..bracket];
+                        throw new ArgumentException("Variable text is not capped properly: " + line.ToString());
+                    var varText = line[i..bracket];
                     var varValues = GetVariableValues(varText);
                     foreach (ushort v in varValues) bw.Write(v);
                     i += 1 + varText.Length;
@@ -196,9 +203,9 @@ public class TextFile
                 case '{':
                     int brace = line.IndexOf('}', i);
                     if (brace < 0)
-                        throw new ArgumentException("Ruby text is not capped properly: " + line);
-                    string rubyText = line[i..brace];
-                    var rubyValues = GetRubyValues(rubyText);
+                        throw new ArgumentException("Ruby text is not capped properly: " + line.ToString());
+                    var rubyText = line[i..brace];
+                    var rubyValues = GetRubyValues(rubyText.ToString());
                     foreach (ushort v in rubyValues) bw.Write(v);
                     i += 1 + rubyText.Length;
                     break;
@@ -291,7 +298,7 @@ public class TextFile
             case KEY_TEXTWAIT: // Dramatic pause for a text line. New!
                 ushort time = BitConverter.ToUInt16(data, i); i += 2;
                 return $"[WAIT {time}]";
-            case KEY_TEXTNULL: // Empty Text line? Includes linenum so maybe for betatest finding used-unused lines?
+            case KEY_TEXTNULL: // nullptr text, Includes linenum
                 ushort line = BitConverter.ToUInt16(data, i); i += 2;
                 return $"[~ {line}]";
             case KEY_TEXTRUBY: // Ruby text/furigana for Japanese
@@ -344,29 +351,32 @@ public class TextFile
         }
     }
 
-    private IEnumerable<ushort> GetVariableValues(string variable)
+    private IEnumerable<ushort> GetVariableValues(ReadOnlySpan<char> variable)
     {
-        string[] split = variable.Split(' ');
-        if (split.Length < 2)
-            throw new ArgumentException("Incorrectly formatted variable text: " + variable);
+        var spaceIndex = variable.IndexOf(' ');
+        if (spaceIndex == -1)
+            throw new ArgumentException("Incorrectly formatted variable text: " + variable.ToString());
+
+        var cmd = variable[..spaceIndex];
+        var args = variable[(spaceIndex + 1)..];
 
         var vals = new List<ushort> { KEY_VARIABLE };
-        switch (split[0])
+        switch (cmd)
         {
-            case "~": // Blank Text Line Variable (No text set - debug/quality testing variable?)
+            case "~": // Blank Text Line Variable (nullptr text)
                 vals.Add(1);
                 vals.Add(KEY_TEXTNULL);
-                vals.Add(Convert.ToUInt16(split[1]));
+                vals.Add(ushort.Parse(args));
                 break;
             case "WAIT": // Event pause Variable.
                 vals.Add(1);
                 vals.Add(KEY_TEXTWAIT);
-                vals.Add(Convert.ToUInt16(split[1]));
+                vals.Add(ushort.Parse(args));
                 break;
             case "VAR": // Text Variable
-                vals.AddRange(GetVariableParameters(split[1]));
+                vals.AddRange(GetVariableParameters(args));
                 break;
-            default: throw new Exception("Unknown variable method type: " + variable);
+            default: throw new Exception("Unknown variable method type: " + variable.ToString());
         }
         return vals;
     }
@@ -397,17 +407,17 @@ public class TextFile
         return vals;
     }
 
-    private IEnumerable<ushort> GetVariableParameters(string text)
+    private IEnumerable<ushort> GetVariableParameters(ReadOnlySpan<char> text)
     {
         var vals = new List<ushort>();
         int bracket = text.IndexOf('(');
         bool noArgs = bracket < 0;
-        string variable = noArgs ? text : text[..bracket];
-        ushort varVal = Config.GetVariableNumber(variable);
+        var variable = noArgs ? text : text[..bracket];
+        ushort varVal = Config.GetVariableNumber(variable.ToString());
 
         if (!noArgs)
         {
-            string[] args = text.Substring(bracket + 1, text.Length - bracket - 2).Split(',');
+            string[] args = text[(bracket + 1)..(text.Length - bracket - 2)].ToString().Split(',');
             vals.Add((ushort)(1 + args.Length));
             vals.Add(varVal);
             vals.AddRange(args.Select(t => Convert.ToUInt16(t, 16)));
@@ -431,8 +441,8 @@ public class TextFile
         catch { return null; }
     }
 
-    public static byte[] GetBytes(string[] lines, TextConfig? config = null, bool remapChars = false)
+    public static byte[] GetBytes(IEnumerable<string> lines, TextConfig? config = null, bool remapChars = false)
     {
-        return new TextFile(config: config, remapChars: remapChars) { Lines = lines }.Data;
+        return new TextFile(lines, config, remapChars).Data;
     }
 }

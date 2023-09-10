@@ -86,6 +86,13 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
         stream.Write(bytes);
     }
 
+    public void WriteAllBytes(IBinarySerializable source)
+    {
+        using var stream = OpenWrite();
+        using var bw = new BinaryWriter(stream);
+        source.Write(bw);
+    }
+
     public void WriteAllText(string text)
     {
         using var stream = OpenWrite();

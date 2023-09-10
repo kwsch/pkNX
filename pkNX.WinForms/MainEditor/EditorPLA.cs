@@ -133,25 +133,17 @@ internal class EditorPLA : EditorBase
     [EditorCallable(EditorCategory.Dialog)]
     public void EditCommon()
     {
-        var text = ROM.GetFilteredFolder(GameFile.GameText, z => Path.GetExtension(z) == ".dat");
         var config = new TextConfig(ROM.Game);
-        var tc = new TextContainer(text, config);
-        using var form = new TextEditor(tc, TextEditor.TextEditorMode.Common);
+        var form = new WPFTextEditor(WPFTextEditor.TextEditorMode.Common, config);
         form.ShowDialog();
-        if (!form.Modified)
-            text.CancelEdits();
     }
 
     [EditorCallable(EditorCategory.Dialog)]
     public void EditScript()
     {
-        var text = ROM.GetFilteredFolder(GameFile.StoryText, z => Path.GetExtension(z) == ".dat");
         var config = new TextConfig(ROM.Game);
-        var tc = new TextContainer(text, config);
-        using var form = new TextEditor(tc, TextEditor.TextEditorMode.Script);
+        var form = new WPFTextEditor(WPFTextEditor.TextEditorMode.Script, config);
         form.ShowDialog();
-        if (!form.Modified)
-            text.CancelEdits();
     }
     #endregion
 

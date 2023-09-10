@@ -3574,6 +3574,9 @@
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource DataGrid.Row.Selected}"/>
             </Trigger>
+            <DataTrigger Binding="{Binding IsReadOnly}" Value="True" >
+                <Setter Property="IsEnabled" Value="False" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 

@@ -36,6 +36,7 @@ public abstract class EditorBase
 
     public void Initialize()
     {
+        GamePath.Initialize(ROM.Game, ROM.Language);
         ROM.Initialize();
         UIStaticSources.SetupForGame(ROM);
     }

@@ -21,7 +21,7 @@ public class GameManagerPLA : GameManager
     /// </summary>
     public GameData8a Data { get; protected set; } = null!;
 
-    public VirtualFileSystem VFS { get; private set; }
+    public VirtualFileSystem VFS { get; private set; } = null!;
 
     protected override void SetMitm()
     {
