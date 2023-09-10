@@ -31,23 +31,23 @@ public class RelativeFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetEntityPaths(ToAbsolutePath(path), filter)
+        return FileSystem.GetEntitiesInDirectory(ToAbsolutePath(directory), filter)
             .Select(p => ToRelativePath(p));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetDirectoriesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetDirectoryPaths(ToAbsolutePath(path), filter)
+        return FileSystem.GetDirectoriesInDirectory(ToAbsolutePath(directory), filter)
             .Select(p => ToRelativePath(p));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetFilesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetFilePaths(ToAbsolutePath(path), filter)
+        return FileSystem.GetFilesInDirectory(ToAbsolutePath(directory), filter)
             .Select(p => ToRelativePath(p));
     }
 

@@ -55,7 +55,7 @@ public class ZipArchiveFSTest
                 textfileAPath,
                 directoryPath,
                 scratchDirectoryPath
-            }, fileSystem.GetEntityPaths(FileSystemPath.Root).ToArray());
+            }, fileSystem.GetEntitiesInDirectory(FileSystemPath.Root).ToArray());
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class ZipArchiveFSTest
         Assert.Equal(new[]
         {
                 fileInDirectoryPath
-            }, fileSystem.GetEntityPaths(directoryPath).ToArray());
+            }, fileSystem.GetEntitiesInDirectory(directoryPath).ToArray());
     }
 
     [Fact]

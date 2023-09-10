@@ -17,9 +17,9 @@ public interface IFileSystem : IDisposable
 {
     bool IsReadOnly => false;
 
-    IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
-    IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
-    IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null);
+    IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null);
+    IEnumerable<FileSystemPath> GetDirectoriesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null);
+    IEnumerable<FileSystemPath> GetFilesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null);
 
     /// <summary>
     /// Checks if the specified path exists in the filesystem.
@@ -79,7 +79,7 @@ public interface IFileSystem : IDisposable
         if (!path.IsDirectory)
             throw new ArgumentException("The specified path is not a directory.");
 
-        foreach (var entity in GetEntityPaths(path, filter))
+        foreach (var entity in GetEntitiesInDirectory(path, filter))
         {
             yield return entity;
 
@@ -135,16 +135,16 @@ public static class IFileSystemExtensions
 
     public static IEnumerable<IFileSystemEntity> GetEntities(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetEntityPaths(path, filter).Select(p => IFileSystemEntity.Create(self, p)).OrderBy(x => x.Path);
+        return self.GetEntitiesInDirectory(path, filter).Select(p => IFileSystemEntity.Create(self, p)).OrderBy(x => x.Path);
     }
 
     public static IEnumerable<VirtualDirectory> GetDirectories(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetDirectoryPaths(path, filter).Select(p => VirtualDirectory.Create(self, p)).OrderBy(x => x.Path);
+        return self.GetDirectoriesInDirectory(path, filter).Select(p => VirtualDirectory.Create(self, p)).OrderBy(x => x.Path);
     }
 
     public static IEnumerable<VirtualFile> GetFiles(this IFileSystem self, FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
     {
-        return self.GetFilePaths(path, filter).Select(p => VirtualFile.Create(self, p)).OrderBy(x => x.Path);
+        return self.GetFilesInDirectory(path, filter).Select(p => VirtualFile.Create(self, p)).OrderBy(x => x.Path);
     }
 }

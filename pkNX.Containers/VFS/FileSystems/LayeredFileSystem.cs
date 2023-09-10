@@ -10,75 +10,84 @@ namespace pkNX.Containers.VFS;
 
 public class LayeredFileSystem : IFileSystem
 {
-    public IReadOnlyList<IFileSystem> FileSystems { get; }
+    private readonly IFileSystem[] _fileSystems;
 
-    public LayeredFileSystem(IReadOnlyList<IFileSystem> fileSystems)
-    {
-        FileSystems = fileSystems;
-
-        Debug.Assert(FileSystems.Any(), "No filesystems provided.");
-        Debug.Assert(FileSystems.Any(fs => !fs.IsReadOnly), "Should contain at least one writable filesystem.");
-    }
-
-    public LayeredFileSystem(params IFileSystem[] fileSystems) :
-        this(fileSystems.AsReadOnly())
+    public LayeredFileSystem(IEnumerable<IFileSystem> fileSystems) :
+        this(fileSystems.ToArray())
     { }
+
+    public LayeredFileSystem(params IFileSystem[] fileSystems)
+    {
+        _fileSystems = fileSystems;
+
+        Debug.Assert(_fileSystems.Any(), "At least one file system should be provided.");
+        Debug.Assert(_fileSystems.Any(fs => !fs.IsReadOnly), "Should contain at least one writable filesystem.");
+    }
 
     public void Dispose()
     {
-        foreach (var fs in FileSystems)
+        foreach (var fs in _fileSystems)
             fs.Dispose();
 
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
+        if (!directory.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(directory));
+
         var entities = new HashSet<FileSystemPath>();
-        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            entities.UnionWith(fs.GetEntityPaths(path, filter));
+        foreach (var fs in _fileSystems.Where(fs => fs.Exists(directory)))
+            entities.UnionWith(fs.GetEntitiesInDirectory(directory, filter));
         return entities;
     }
 
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetDirectoriesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
+        if (!directory.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(directory));
+
         var directories = new HashSet<FileSystemPath>();
-        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            directories.UnionWith(fs.GetDirectoryPaths(path, filter));
+        foreach (var fs in _fileSystems.Where(fs => fs.Exists(directory)))
+            directories.UnionWith(fs.GetDirectoriesInDirectory(directory, filter));
         return directories;
     }
 
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetFilesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
+        if (!directory.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(directory));
+
         var files = new HashSet<FileSystemPath>();
-        foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
-            files.UnionWith(fs.GetFilePaths(path, filter));
+        foreach (var fs in _fileSystems.Where(fs => fs.Exists(directory)))
+            files.UnionWith(fs.GetFilesInDirectory(directory, filter));
         return files;
     }
 
     public IFileSystem GetFirst()
     {
-        return FileSystems.First();
+        return _fileSystems[0];
     }
 
     public IFileSystem GetFirstWritable()
     {
-        return FileSystems.First(fs => !fs.IsReadOnly);
+        return _fileSystems.First(fs => !fs.IsReadOnly);
     }
 
     public bool Exists(FileSystemPath path)
     {
-        return FileSystems.Any(fs => fs.Exists(path));
+        return _fileSystems.Any(fs => fs.Exists(path));
     }
 
     public IFileSystem? GetFirstWhereExists(FileSystemPath path)
     {
-        return FileSystems.FirstOrDefault(fs => fs.Exists(path));
+        return _fileSystems.FirstOrDefault(fs => fs.Exists(path));
     }
 
     public IFileSystem? GetFirstWritableWhereExists(FileSystemPath path)
     {
-        return FileSystems.FirstOrDefault(fs => !fs.IsReadOnly && fs.Exists(path));
+        return _fileSystems.FirstOrDefault(fs => !fs.IsReadOnly && fs.Exists(path));
     }
 
     private bool ValidateOpenMode(FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
@@ -223,11 +232,11 @@ public class LayeredFileSystem : IFileSystem
                 GetFirstWritableWhereExists(path)?.Delete(path);
                 break;
             case DeleteMode.AllWritable:
-                foreach (var fs in FileSystems.Where(fs => !fs.IsReadOnly && fs.Exists(path)))
+                foreach (var fs in _fileSystems.Where(fs => !fs.IsReadOnly && fs.Exists(path)))
                     fs.Delete(path);
                 break;
             case DeleteMode.All:
-                foreach (var fs in FileSystems.Where(fs => fs.Exists(path)))
+                foreach (var fs in _fileSystems.Where(fs => fs.Exists(path)))
                     fs.Delete(path);
                 break;
             default:

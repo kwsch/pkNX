@@ -33,6 +33,6 @@ public readonly record struct VirtualDirectory(IFileSystem FileSystem, FileSyste
 
     public IEnumerable<FileSystemPath> GetEntityPaths(Func<FileSystemPath, bool>? filter = null)
     {
-        return FileSystem.GetEntityPaths(Path, filter);
+        return FileSystem.GetEntitiesInDirectory(Path, filter);
     }
 }

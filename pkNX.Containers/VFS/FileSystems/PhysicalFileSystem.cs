@@ -42,17 +42,17 @@ public class PhysicalFileSystem : IFileSystem
         return FileSystemPath.Parse(virtualPath);
     }
 
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        return GetDirectoryPaths(path, filter).Concat(GetFilePaths(path, filter));
+        return GetDirectoriesInDirectory(directory, filter).Concat(GetFilesInDirectory(directory, filter));
     }
 
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetDirectoriesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        if (!path.IsDirectory)
-            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(path));
+        if (!directory.IsDirectory)
+            throw new ArgumentException("This FileSystemPath is not a directory.", nameof(directory));
 
-        var physicalPaths = Directory.GetDirectories(GetPhysicalPath(path));
+        var physicalPaths = Directory.GetDirectories(GetPhysicalPath(directory));
         var virtualPaths = physicalPaths.Select(GetVirtualDirectoryPath);
 
         if (filter == null)
@@ -61,12 +61,12 @@ public class PhysicalFileSystem : IFileSystem
         return virtualPaths.Where(filter);
     }
 
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetFilesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        if (!path.IsDirectory)
-            throw new ArgumentException("The specified path is not a directory.", nameof(path));
+        if (!directory.IsDirectory)
+            throw new ArgumentException("The specified path is not a directory.", nameof(directory));
 
-        var physicalPaths = Directory.GetFiles(GetPhysicalPath(path));
+        var physicalPaths = Directory.GetFiles(GetPhysicalPath(directory));
         var virtualPaths = physicalPaths.Select(GetVirtualFilePath);
 
         if (filter == null)

@@ -59,24 +59,24 @@ public class VirtualFileSystem : IFileSystem
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetEntityPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        var mount = GetMountPoint(path);
-        return mount.FileSystem.GetEntityPaths(path, filter);
+        var mount = GetMountPoint(directory);
+        return mount.FileSystem.GetEntitiesInDirectory(directory, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetDirectoryPaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetDirectoriesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        var mount = GetMountPoint(path);
-        return mount.FileSystem.GetDirectoryPaths(path, filter);
+        var mount = GetMountPoint(directory);
+        return mount.FileSystem.GetDirectoriesInDirectory(directory, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<FileSystemPath> GetFilePaths(FileSystemPath path, Func<FileSystemPath, bool>? filter = null)
+    public IEnumerable<FileSystemPath> GetFilesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {
-        var mount = GetMountPoint(path);
-        return mount.FileSystem.GetFilePaths(path, filter);
+        var mount = GetMountPoint(directory);
+        return mount.FileSystem.GetFilesInDirectory(directory, filter);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
