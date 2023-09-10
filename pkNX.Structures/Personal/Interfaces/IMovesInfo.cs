@@ -25,7 +25,7 @@ public interface IMovesInfo_B2W2 : IMovesInfo_v1
     /// <summary>
     /// Special tutor learn compatibility flags for individual moves.
     /// </summary>
-    bool[][] SpecialTutors { get; set; }
+    bool[] SpecialTutors { get; set; }
 }
 
 /// <summary>
@@ -67,11 +67,6 @@ public static class IPersonalMovesExtensions
         {
             self_1.TMHM = other_1.TMHM;
             self_1.TypeTutors = other_1.TypeTutors;
-        }
-
-        if (self is IMovesInfo_B2W2 self_2 && other is IMovesInfo_B2W2 other_2)
-        {
-            self_2.SpecialTutors = other_2.SpecialTutors;
         }
 
         if (self is IMovesInfo_SWSH self_SWSH && other is IMovesInfo_SWSH other_SWSH)

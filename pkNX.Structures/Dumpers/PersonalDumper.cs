@@ -123,7 +123,7 @@ public class PersonalDumper
         if (count == 0)
             lines.Add("None!");
     }
-    
+
     protected virtual void AddTRs(List<string> lines, IMovesInfo_SWSH pi, string SpecCode)
     {
         var tr = pi.TR;
@@ -145,7 +145,7 @@ public class PersonalDumper
 
     protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_B2W2 pi, string SpecCode)
     {
-        var armor = pi.SpecialTutors[0];
+        var armor = pi.SpecialTutors;
         int count = 0;
         lines.Add("Armor Tutors:");
         for (int i = 0; i < armor.Length; i++)

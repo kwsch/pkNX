@@ -199,7 +199,7 @@ public partial class PokemonEditor
         foreach (var item in CLB_SpecialTutor.Items)
         {
             var move = (CheckedMove)item;
-            pkm.SpecialTutors[0][move.Index] = move.IsChecked;
+            pkm.SpecialTutors[move.Index] = move.IsChecked;
         }
 
         return true;
@@ -280,7 +280,7 @@ public partial class PokemonEditor
         CLB_TM.ItemsSource = Legal.TMHM_SWSH.Select((moveID, i) => new CheckedMove(i, $"TM{i:00} {UIStaticSources.MovesList[moveID]}", pkm.TMHM[i]));
         CLB_TR.ItemsSource = Legal.TR_SWSH.Select((moveID, i) => new CheckedMove(i, $"TR{i:00} {UIStaticSources.MovesList[moveID]}", pkm.TR[i]));
         CLB_TypeTutor.ItemsSource = Legal.TypeTutor8.Select((moveID, i) => new CheckedMove(i, UIStaticSources.MovesList[moveID], pkm.TypeTutors[i]));
-        CLB_SpecialTutor.ItemsSource = Legal.MoveShop8_LA.Select((moveID, i) => new CheckedMove(i, UIStaticSources.MovesList[moveID], pkm.SpecialTutors[0][i]));
+        CLB_SpecialTutor.ItemsSource = Legal.MoveShop8_LA.Select((moveID, i) => new CheckedMove(i, UIStaticSources.MovesList[moveID], pkm.SpecialTutors[i]));
     }
 
     private void LoadMisc(PokeMisc pokeMisc8a)

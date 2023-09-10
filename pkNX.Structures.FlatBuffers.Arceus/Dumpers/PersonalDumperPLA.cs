@@ -130,7 +130,7 @@ public class PersonalDumperPLA
 
     protected virtual void AddArmorTutors(List<string> lines, IMovesInfo_B2W2 pi, string SpecCode)
     {
-        var shop = pi.SpecialTutors[0];
+        var shop = pi.SpecialTutors;
         int count = 0;
         lines.Add("Move Shop:");
         for (int i = 0; i < Math.Min(shop.Length, Legal.MoveShop8_LA.Length); i++)

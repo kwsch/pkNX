@@ -305,7 +305,7 @@ public partial class PokeDataUI8a : Form
         for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
             CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);*/
         for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-            CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[0][i]);
+            CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[i]);
 
 
         // For some reason editing the combobox value causes these 4 to get selected ???
@@ -468,7 +468,7 @@ public partial class PokeDataUI8a : Form
         for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
             pkm.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);*/
         for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-            pkm.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
+            pkm.SpecialTutors[i] = CLB_SpecialTutor.GetItemChecked(i);
 
         return true;
     }

@@ -13,7 +13,7 @@ public sealed class PersonalInfo7SM : IPersonalInfoSM
     private readonly byte[] Data;
     public bool[] TMHM { get; set; }
     public bool[] TypeTutors { get; set; }
-    public bool[][] SpecialTutors { get; set; }
+    public bool[] SpecialTutors { get; set; }
 
     public PersonalInfo7SM(byte[] data)
     {
@@ -21,17 +21,14 @@ public sealed class PersonalInfo7SM : IPersonalInfoSM
         TMHM = GetBits(Data.AsSpan(0x28, 0x10)); // 36-39
         TypeTutors = GetBits(Data.AsSpan(0x38, 0x4)); // 40
 
-        SpecialTutors = new[]
-        {
-            GetBits(Data.AsSpan(0x3C, 0x0A)),
-        };
+        SpecialTutors = GetBits(Data.AsSpan(0x3C, 0x0A));
     }
 
     public byte[] Write()
     {
         SetBits(TMHM, Data.AsSpan(0x28));
         SetBits(TypeTutors, Data.AsSpan(0x38));
-        SetBits(SpecialTutors[0], Data.AsSpan(0x3C));
+        SetBits(SpecialTutors, Data.AsSpan(0x3C));
         return Data;
     }
 

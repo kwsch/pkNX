@@ -10,7 +10,7 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
 {
     public PersonalInfo FB { get; }
 
-    public bool[][] SpecialTutors
+    public bool[] SpecialTutors
     {
         get
         {
@@ -22,15 +22,14 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
             for (int i = 0; i < 32; i++)
                 flags[i + 32] = (MoveShop2 & (1ul << i)) != 0;
 
-            return new[] { flags };
+            return flags;
         }
 
         set
         {
-            Debug.Assert(value.Length == 1, "PLA only has one special tutor");
-            Debug.Assert(value[0].Length == 64, "SpecialTutors must be 64 bits long.");
+            Debug.Assert(value.Length == 64, "SpecialTutors must be 64 bits long.");
 
-            BitArray bits = new(value[0]);
+            BitArray bits = new(value);
             byte[] bytes = new byte[bits.Length / 8];
             bits.CopyTo(bytes, 0);
             MoveShop1 = BitConverter.ToUInt32(bytes, 0);
@@ -206,7 +205,7 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public int GetMoveShopCount()
     {
         // Return a count of true indexes from Tutors
-        var arr = SpecialTutors[0];
+        var arr = SpecialTutors;
         int count = 0;
         foreach (var index in arr)
         {
@@ -219,7 +218,7 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
     public int GetMoveShopIndex(int randIndexFromCount)
     {
         // Return a count of true indexes from Tutors
-        var arr = SpecialTutors[0];
+        var arr = SpecialTutors;
         for (var i = 0; i < arr.Length; i++)
         {
             var index = arr[i];

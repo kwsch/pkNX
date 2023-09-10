@@ -131,7 +131,7 @@ public class GameDumperPLA
             List<string> r = new() { $"{moves[move]}:" };
             if (isShop)
             {
-                var species = pt.Table.OfType<IPersonalInfoPLA>().Where(z => z.SpecialTutors[0][shopIndex] && z.IsPresentInGame);
+                var species = pt.Table.OfType<IPersonalInfoPLA>().Where(z => z.SpecialTutors[shopIndex] && z.IsPresentInGame);
                 var names = species.Select(z => $"{spec[z.DexIndexNational]}{(z.Form == 0 ? "" : $"-{z.Form}")}");
                 r.Add($"\tTutors: {string.Join(", ", names)}");
             }

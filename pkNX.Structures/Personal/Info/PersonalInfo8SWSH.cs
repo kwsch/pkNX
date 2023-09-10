@@ -16,7 +16,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
     public bool[] TMHM { get; set; }
     public bool[] TR { get; set; }
     public bool[] TypeTutors { get; set; }
-    public bool[][] SpecialTutors { get; set; }
+    public bool[] SpecialTutors { get; set; }
 
     public PersonalInfo8SWSH(ReadOnlySpan<byte> data)
     {
@@ -35,7 +35,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         // 0xA8-0xAC are armor type tutors, one bit for each type
         var armor = new bool[32];
         FlagUtil.GetFlagArray(data[0xA8..], armor);
-        SpecialTutors = new[] { armor };
+        SpecialTutors = armor;
     }
 
     public byte[] Write()
@@ -44,7 +44,7 @@ public sealed class PersonalInfo8SWSH : IPersonalInfoSWSH
         FlagUtil.SetFlagArray(data[0x28..], TMHM.AsSpan(0, CountTM));
         FlagUtil.SetFlagArray(data[0x38..], TypeTutors);
         FlagUtil.SetFlagArray(data[0x3C..], TR.AsSpan(0, CountTR));
-        FlagUtil.SetFlagArray(data[0xA8..], SpecialTutors[0]);
+        FlagUtil.SetFlagArray(data[0xA8..], SpecialTutors);
         return Data;
     }
 

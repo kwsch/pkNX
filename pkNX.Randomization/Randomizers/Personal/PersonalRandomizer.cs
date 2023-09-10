@@ -209,14 +209,14 @@ public class PersonalRandomizer : Randomizer
                 if (Settings.InheritChildTM)
                 {
                     mi.TMHM = ((IMovesInfo_v1)child).TMHM;
-                    
+
                     if (z is IMovesInfo_SWSH mitr)
                         mitr.TR = ((IMovesInfo_SWSH)child).TR;
                 }
                 else
                 {
                     RandomizeTMHM(mi);
-                    
+
                     if (z is IMovesInfo_SWSH mitr)
                         RandomizeTR(mitr);
                 }
@@ -304,7 +304,7 @@ public class PersonalRandomizer : Randomizer
             if (Settings.ModifyLearnsetTM || Settings.ModifyLearnsetHM)
             {
                 RandomizeTMHM(mi);
-                
+
                 if (z is IMovesInfo_SWSH mitr)
                     RandomizeTR(mitr);
             }
@@ -359,7 +359,7 @@ public class PersonalRandomizer : Randomizer
 
         z.TMHM = tms;
     }
-    
+
     private void RandomizeTR(IMovesInfo_SWSH z)
     {
         var trs = z.TR;
@@ -388,14 +388,11 @@ public class PersonalRandomizer : Randomizer
 
     private void RandomizeSpecialTutors(IMovesInfo_B2W2 z)
     {
-        var tutors = z.SpecialTutors;
-        foreach (bool[] tutor in tutors)
-        {
-            for (int i = 0; i < tutor.Length; i++)
-                tutor[i] = Rand.Next(100) < Settings.LearnMoveTutorPercent;
-        }
+        var tutor = z.SpecialTutors;
+        for (int i = 0; i < tutor.Length; i++)
+            tutor[i] = Rand.Next(100) < Settings.LearnMoveTutorPercent;
 
-        z.SpecialTutors = tutors;
+        z.SpecialTutors = tutor;
     }
 
     private void RandomizeAbilities(IPersonalAbility z)

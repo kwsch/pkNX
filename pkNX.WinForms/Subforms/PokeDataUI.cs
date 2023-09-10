@@ -331,10 +331,10 @@ public partial class PokeDataUI : Form
         {
             int halfList = CLB_TM.Items.Count / 2;
             int fullList = CLB_TM.Items.Count;
-        
+
             for (int i = 0; i < halfList; i++)
                 CLB_TM.SetItemChecked(i, mi.TMHM[i]); // Bitflags for TM
-                
+
             if (pkm is IMovesInfo_SWSH mitr) // if SWSH, the second half is just TRs
             {
                 for (int i = 0; i < halfList; i++)
@@ -345,7 +345,7 @@ public partial class PokeDataUI : Form
                 for (int i = halfList; i < fullList; i++) // not SWSH, finish the remaining TMs
                     CLB_TM.SetItemChecked(i, mi.TMHM[i]);
             }
-            
+
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
                 CLB_TypeTutor.SetItemChecked(i, mi.TypeTutors[i]);
         }
@@ -353,7 +353,7 @@ public partial class PokeDataUI : Form
         if (pkm is IMovesInfo_B2W2 mi2)
         {
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                CLB_SpecialTutor.SetItemChecked(i, mi2.SpecialTutors[0][i]);
+                CLB_SpecialTutor.SetItemChecked(i, mi2.SpecialTutors[i]);
         }
     }
 
@@ -433,10 +433,10 @@ public partial class PokeDataUI : Form
         {
             int halfList = CLB_TM.Items.Count / 2;
             int fullList = CLB_TM.Items.Count;
-            
+
             for (int i = 0; i < halfList; i++)
                 mi.TMHM[i] = CLB_TM.GetItemChecked(i);
-                
+
             if (pkm is IMovesInfo_SWSH mitr)
             {
                 for (int i = 0; i < halfList; i++)
@@ -447,7 +447,7 @@ public partial class PokeDataUI : Form
                 for (int i = halfList; i < fullList; i++)
                     mi.TMHM[i] = CLB_TM.GetItemChecked(i);
             }
-            
+
             for (int i = 0; i < CLB_TypeTutor.Items.Count; i++)
                 mi.TypeTutors[i] = CLB_TypeTutor.GetItemChecked(i);
         }
@@ -455,7 +455,7 @@ public partial class PokeDataUI : Form
         if (pkm is IMovesInfo_B2W2 mi2)
         {
             for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
-                mi2.SpecialTutors[0][i] = CLB_SpecialTutor.GetItemChecked(i);
+                mi2.SpecialTutors[i] = CLB_SpecialTutor.GetItemChecked(i);
         }
     }
 
