@@ -53,7 +53,7 @@
             <Label x:Name="L_Argument" Content="Argument"/>
             <ComboBox Margin="3" Width="140"
                       SelectedIndex="{Binding Argument, ElementName=Root, Mode=TwoWay}" 
-                      ItemsSource="{Binding Source={x:Static local:EvolutionEntry.MethodArgumentList}}"/>
+                      ItemsSource="{Binding MethodArgumentList, ElementName=Root}"/>
         </StackPanel>
 
         <StackPanel VerticalAlignment="Bottom" Visibility="{Binding IsMethodValid, ElementName=Root, Converter={StaticResource BoolToVisibilityConverter}}">

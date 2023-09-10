@@ -17,14 +17,13 @@ namespace pkNX.WinForms;
 /// </summary>
 public partial class EvolutionEntry : INotifyPropertyChanged
 {
-    public static string[] MethodArgumentList = Array.Empty<string>();
-
     public static readonly DependencyProperty MethodProperty = DependencyProperty.Register(nameof(Method), typeof(int), typeof(EvolutionEntry), new PropertyMetadata(0, OnMethodChanged));
     public static readonly DependencyProperty ArgumentProperty = DependencyProperty.Register(nameof(Argument), typeof(int), typeof(EvolutionEntry), new PropertyMetadata(0));
     public static readonly DependencyProperty SpeciesProperty = DependencyProperty.Register(nameof(Species), typeof(int), typeof(EvolutionEntry), new PropertyMetadata(0, OnSpeciesChanged));
     public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(int), typeof(EvolutionEntry), new PropertyMetadata(0, OnSpeciesChanged));
     public static readonly DependencyProperty LevelProperty = DependencyProperty.Register(nameof(Level), typeof(ushort), typeof(EvolutionEntry), new PropertyMetadata((ushort)0));
 
+    public string[] MethodArgumentList { get; set; } = Array.Empty<string>();
     public int Method
     {
         get => (int)GetValue(MethodProperty);
@@ -86,8 +85,10 @@ public partial class EvolutionEntry : INotifyPropertyChanged
             return;
 
         self.SetArgumentLabel();
-        MethodArgumentList = GetArgs(self.EvolutionArgumentType);
-        self.Argument = 0;
+        self.MethodArgumentList = GetArgs(self.EvolutionArgumentType);
+        //self.Argument = 0;
+        self.OnPropertyChanged(nameof(Argument));
+        self.OnPropertyChanged(nameof(MethodArgumentList));
     }
 
     private void SetArgumentLabel()
