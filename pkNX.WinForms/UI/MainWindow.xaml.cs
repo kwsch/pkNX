@@ -145,6 +145,10 @@ public partial class MainWindow
         }
         catch (Exception ex)
         {
+            // Rethrow to have a better debugging experience
+            if (Debugger.IsAttached)
+                throw;
+
             WinFormsUtil.Error($"Failed to open -- {path}", ex.Message);
         }
     }
@@ -197,6 +201,10 @@ public partial class MainWindow
         }
         catch (Exception ex)
         {
+            // Rethrow to have a better debugging experience
+            if (Debugger.IsAttached)
+                throw;
+
             var msg = "Failed to initialize ROM data." + Environment.NewLine +
                       "Please ensure your dump is correctly set up, with updated patches merged in (if applicable).";
             var stack = ex.StackTrace ?? string.Empty;
