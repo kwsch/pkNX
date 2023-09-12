@@ -20,6 +20,9 @@ namespace pkNX.WinForms
 
         public static void SetupForGame(GameManager ROM)
         {
+            if (ROM.Game == GameVersion.SV)
+                return; // SV doesn't support these file mappings yet
+
             SpeciesList = ROM.GetStrings(TextName.SpeciesNames);
             FormsList = ROM.GetStrings(TextName.Forms);
             ItemsList = ROM.GetStrings(TextName.ItemNames);
