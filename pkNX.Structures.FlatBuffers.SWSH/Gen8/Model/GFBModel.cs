@@ -18,7 +18,7 @@ public partial class RenderLayer
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Info
+public partial class VersionInfo
 {
 }
 
@@ -28,7 +28,7 @@ public partial class GFBModel
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class VertexAttribute8
+public partial class VertexAttribute
 {
 }
 
@@ -43,7 +43,7 @@ public partial class Shape
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Mesh8
+public partial class Mesh
 {
 }
 
@@ -53,7 +53,7 @@ public partial class TransparencyGroupNode
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Bone8
+public partial class Bone
 {
 }
 
@@ -63,12 +63,12 @@ public partial class UberShaderSettings
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SamplerState8
+public partial class SamplerState
 {
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Texture8
+public partial class Texture
 {
     public override string ToString() => $"{{ texture[{TextureIndex}], Bound to: {SamplerName}, {Settings} }}";
 }
@@ -92,6 +92,6 @@ public partial class Color3Param
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Material8
+public partial class Material
 {
 }

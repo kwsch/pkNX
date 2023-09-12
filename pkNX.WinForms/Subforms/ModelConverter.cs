@@ -14,6 +14,18 @@ using pkNX.Structures.FlatBuffers.Arceus;
 using pkNX.Structures.FlatBuffers.SWSH;
 using static System.Buffers.Binary.BinaryPrimitives;
 
+using Material = pkNX.Structures.FlatBuffers.Arceus.Material;
+using Mesh = pkNX.Structures.FlatBuffers.Arceus.Mesh;
+using Bone = pkNX.Structures.FlatBuffers.Arceus.Bone;
+using SamplerState = pkNX.Structures.FlatBuffers.Arceus.SamplerState;
+using UVWrapMode = pkNX.Structures.FlatBuffers.Arceus.UVWrapMode;
+
+using Material8 = pkNX.Structures.FlatBuffers.SWSH.Material;
+using Mesh8 = pkNX.Structures.FlatBuffers.SWSH.Mesh;
+using Bone8 = pkNX.Structures.FlatBuffers.SWSH.Bone;
+using SamplerState8 = pkNX.Structures.FlatBuffers.SWSH.SamplerState;
+using UVWrapMode8 = pkNX.Structures.FlatBuffers.SWSH.UVWrapMode;
+
 namespace pkNX.WinForms;
 
 // Model loading Tasks
@@ -304,7 +316,7 @@ public partial class ModelConverter : Form
         LoadMeshBuffers(PLAModel.Meshes, pack);
     }
 
-    private void LoadMeshBuffers(Mesh[] trMeshes, GFPack pack)
+    private void LoadMeshBuffers(Structures.FlatBuffers.Arceus.Mesh[] trMeshes, GFPack pack)
     {
         PLAModel.MeshDataBuffers = trMeshes.Select(x => x.BufferFileName)
             .Select(x => FlatBufferConverter.DeserializeFrom<MeshBufferTable>(pack.GetDataFullPath(ModelPath + $"{x}")))
@@ -443,42 +455,42 @@ public partial class ModelConverter : Form
         // TODO: Result.Skeleton.Bones = new Bone[rigEnd];
     }
 
-    private static InputLayoutFormat ConvertInputLayoutFormat(VertexAttribute8 attribute)
+    private static InputLayoutFormat ConvertInputLayoutFormat(VertexAttribute attribute)
     {
         var result = (attribute.Format, attribute.Count) switch
         {
-            (DataType8.UByte, 4) => InputLayoutFormat.RGBA_8_UNSIGNED,
-            (DataType8.HalfFloat, 4) => InputLayoutFormat.RGBA_16_FLOAT,
-            (DataType8.UShort, 4) => InputLayoutFormat.RGBA_16_UNORM, // ???
-            (DataType8.Float, 4) => InputLayoutFormat.RGBA_32_FLOAT,
-            (DataType8.FixedPoint, 4) => InputLayoutFormat.RGBA_8_UNORM,
-            (DataType8.Float, 2) => InputLayoutFormat.RG_32_FLOAT,
-            (DataType8.Float, 3) => InputLayoutFormat.RGB_32_FLOAT,
+            (DataType.UByte, 4) => InputLayoutFormat.RGBA_8_UNSIGNED,
+            (DataType.HalfFloat, 4) => InputLayoutFormat.RGBA_16_FLOAT,
+            (DataType.UShort, 4) => InputLayoutFormat.RGBA_16_UNORM, // ???
+            (DataType.Float, 4) => InputLayoutFormat.RGBA_32_FLOAT,
+            (DataType.FixedPoint, 4) => InputLayoutFormat.RGBA_8_UNORM,
+            (DataType.Float, 2) => InputLayoutFormat.RG_32_FLOAT,
+            (DataType.Float, 3) => InputLayoutFormat.RGB_32_FLOAT,
             _ => InputLayoutFormat.NONE
         };
 
         Debug.Assert(result != InputLayoutFormat.NONE, "Error: Conversion resulted in VertexLayoutType.NONE!");
         return result;
     }
-    private static (InputLayoutSemanticName Semantic, uint Index) ConvertInputLayoutSemantic(VertexAttribute8 attribute)
+    private static (InputLayoutSemanticName Semantic, uint Index) ConvertInputLayoutSemantic(VertexAttribute attribute)
     {
         var result = attribute.Type switch
         {
-            Attribute8.Position => (InputLayoutSemanticName.POSITION, 0u),
-            Attribute8.Normal => (InputLayoutSemanticName.NORMAL, 0u),
-            Attribute8.Tangent => (InputLayoutSemanticName.TANGENT, 0u),
-            Attribute8.Texcoord_0 => (InputLayoutSemanticName.TEXCOORD, 0u),
-            Attribute8.Texcoord_1 => (InputLayoutSemanticName.TEXCOORD, 1u),
-            Attribute8.Texcoord_2 => (InputLayoutSemanticName.TEXCOORD, 2u),
-            Attribute8.Texcoord_3 => (InputLayoutSemanticName.TEXCOORD, 3u),
+            VertexAttributeType.Position => (InputLayoutSemanticName.POSITION, 0u),
+            VertexAttributeType.Normal => (InputLayoutSemanticName.NORMAL, 0u),
+            VertexAttributeType.Tangent => (InputLayoutSemanticName.TANGENT, 0u),
+            VertexAttributeType.Texcoord_0 => (InputLayoutSemanticName.TEXCOORD, 0u),
+            VertexAttributeType.Texcoord_1 => (InputLayoutSemanticName.TEXCOORD, 1u),
+            VertexAttributeType.Texcoord_2 => (InputLayoutSemanticName.TEXCOORD, 2u),
+            VertexAttributeType.Texcoord_3 => (InputLayoutSemanticName.TEXCOORD, 3u),
 
-            Attribute8.Color_0 => (InputLayoutSemanticName.COLOR, 0u),
-            Attribute8.Color_1 => (InputLayoutSemanticName.COLOR, 1u),
-            Attribute8.Color_2 => (InputLayoutSemanticName.COLOR, 2u),
-            Attribute8.Color_3 => (InputLayoutSemanticName.COLOR, 3u),
+            VertexAttributeType.Color_0 => (InputLayoutSemanticName.COLOR, 0u),
+            VertexAttributeType.Color_1 => (InputLayoutSemanticName.COLOR, 1u),
+            VertexAttributeType.Color_2 => (InputLayoutSemanticName.COLOR, 2u),
+            VertexAttributeType.Color_3 => (InputLayoutSemanticName.COLOR, 3u),
 
-            Attribute8.Group_Idx => (BLEND_INDEX: InputLayoutSemanticName.BLEND_INDICES, 0u),
-            Attribute8.Group_Weight => (InputLayoutSemanticName.BLEND_WEIGHTS, 0u),
+            VertexAttributeType.Group_Idx => (BLEND_INDEX: InputLayoutSemanticName.BLEND_INDICES, 0u),
+            VertexAttributeType.Group_Weight => (InputLayoutSemanticName.BLEND_WEIGHTS, 0u),
 
             _ => (InputLayoutSemanticName.NONE, 0u)
         };
@@ -591,7 +603,7 @@ public partial class ModelConverter : Form
             var uniqueColors0 = new List<Color4f>();
             var uniqueColors1 = new List<Color4f>();
 
-            VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)buffer.Vertices.Span).GetArray(data =>
+            VertexWrapper[][] oldVertices = ((ReadOnlySpan<byte>)(buffer.Vertices ?? Memory<byte>.Empty).Span).GetArray(data =>
                 {
                     var vertexData = new VertexWrapper[inputLayout.Length];
 
@@ -1057,7 +1069,7 @@ public partial class ModelConverter : Form
             colors[i] = new Float4Parameter
             {
                 PropertyBinding = ConvertParamName(colorParam.ColorName),
-                ColorValue = new() { R = colorParam.Color.R, G = colorParam.Color.G, B = colorParam.Color.B },
+                ColorValue = new() { R = colorParam.Color?.R ?? 0, G = colorParam.Color?.G ?? 0, B = colorParam.Color?.B ?? 0 },
             };
         }
 
@@ -1311,7 +1323,7 @@ public partial class ModelConverter : Form
         }
     }
 
-    private (TextureParameter[], SamplerState[]) ConvertTextureParams(IList<Texture8> oldTextures, SWSHStandardShader shader)
+    private (TextureParameter[], SamplerState[]) ConvertTextureParams(IList<Texture> oldTextures, SWSHStandardShader shader)
     {
         static (string, int) ConvertSamplerNameAndPriority(string swshSamplerName)
         {

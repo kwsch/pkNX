@@ -1,5 +1,5 @@
 include "Geometry/Sphere.fbs";
-include "Geometry/AABB.fbs";
+include "Geometry/PackedAABB.fbs";
 include "Utils/Color3f.fbs";
 include "Utils/Color4f.fbs";
 
@@ -15,32 +15,31 @@ table LayerData (fs_serializer) {
 }
 
 table RenderLayer (fs_serializer) {
-    Layers: [LayerData] (required);
+    Layers: [LayerData];
     MixFactor: float;
 }
 
-table Info {
+struct VersionInfo {
     V1: ushort;
     V2: ushort;
 }
 
 table GFBModel (fs_serializer) {
-    Version: Info;
-    BoundingBox: AABB;
+    Version: VersionInfo;
+    BoundingBox: PackedAABB;
     TextureFiles: [string];
     VertexShaders: [string];
     GeometryShaders: [string];
     FragmentShaders: [string];
-    Materials: [Material8];
-    Mesh: [Mesh8];
+    Materials: [Material];
+    Mesh: [Mesh];
     Shapes: [Shape];
-    SkeletonNodes: [Bone8];
+    SkeletonNodes: [Bone];
     TransparencyGroup: [TransparencyGroupNode];
     RenderLayers: [RenderLayer];
 }
 
-enum Attribute8 : ubyte
-{
+enum VertexAttributeType : uint8 {
     //Using GLTF friendly attribute names
     Position,
     Normal,
@@ -57,8 +56,7 @@ enum Attribute8 : ubyte
     Group_Weight,
 }
 
-enum DataType8 : ubyte
-{
+enum DataType : uint8 {
     Float,
     HalfFloat = 1,
     Byte = 2,
@@ -70,34 +68,33 @@ enum DataType8 : ubyte
     FixedPoint = 8,
 }
 
-table VertexAttribute8 {
-    Type: Attribute8;
-    Format: DataType8;
+table VertexAttribute {
+    Type: VertexAttributeType;
+    Format: DataType;
     Count: uint;
 }
 
 table Polygon {
     MaterialId: uint;
-    Indices: [ushort];
+    Indices: [uint16];
 }
 
 table Shape {
     Polygons: [Polygon];
-    Attributes: [VertexAttribute8];
-    Vertices: [ubyte] (required);
+    Attributes: [VertexAttribute];
+    Vertices: [uint8];
 }
 
-enum SortPriority : uint
-{
+enum SortPriority : uint {
     S0,
     S1 = 1,
     S2 = 2,
 }
 
-table Mesh8 {
+table Mesh {
     BoneId: uint;
     ShapeId: uint;
-    Bounds: AABB;
+    Bounds: PackedAABB (required);
     SortPrio: SortPriority;
 }
 
@@ -105,26 +102,23 @@ table TransparencyGroupNode {
     BoneIndex: uint;
     DrawLayer: uint; // Possible values: -1, 0, 1, 2
     BoneChildren: [uint]; // Always a descending array
-    CollisionVolume: AABB;
+    CollisionVolume: PackedAABB;
 }
 
-enum BoneType : uint
-{
+enum BoneType : uint {
     Transform, // Used for area and effect rigs
     Joint = 1, // Used for normal rigs
     Locator = 2, // Unused for the most part
     Transparency_Group = 3, // Used for "Alphas", "Transparency", "Okus" and "Adds"
 }
 
-enum BillboardType : uint
-{
+enum BillboardType : uint {
     None,
     AxisY = 1,
     AxisXy = 2,
 }
 
-table Bone8
-{
+table Bone {
     Name: string;
     Type: BoneType; // 0 (Default), 1, 2, 3
     ParentIdx: int; // 0, 1, 2 or -1
@@ -132,25 +126,23 @@ table Bone8
 
     IsVisible: bool = true;
 
-    Scale: PackedVec3f (required);
-    Rotation: PackedVec3f (required);
-    Translation: PackedVec3f (required);
+    Scale: PackedVec3f;
+    Rotation: PackedVec3f;
+    Translation: PackedVec3f;
 
-    ScalePivot: PackedVec3f (required);
-    RotatePivot: PackedVec3f (required);
+    ScalePivot: PackedVec3f;
+    RotatePivot: PackedVec3f;
 
     IsRigged: bool = true;
 }
 
-table UberShaderSettings
-{
+table UberShaderSettings {
     UberFlags: [Flag];
     UberValue: [FloatParam];
     UberColor: [Color3Param];
 }
 
-enum FilterMode : uint
-{
+enum FilterMode : uint {
     MinMagMipLinear,
     MinMagMipPoint,
     Anisotropic,
@@ -189,59 +181,51 @@ enum FilterMode : uint
     Maximum_Anisotropic
 }
 
-enum UVWrapMode8 : uint
-{
+enum UVWrapMode : uint {
     WRAP,
     CLAMP = 1,
     MIRROR = 2,
     BORDER = 3,
 }
 
-table SamplerState8
-{
+table SamplerState {
     Filtermode: FilterMode;
-    RepeatU: UVWrapMode8;
-    RepeatV: UVWrapMode8; //Clamp related
-    Repeat2: UVWrapMode8; //Clamp related
+    RepeatU: UVWrapMode;
+    RepeatV: UVWrapMode; //Clamp related
+    Repeat2: UVWrapMode; //Clamp related
     BorderColor: Color4f;
     MipMapBias: float;
 }
 
-table Texture8
-{
+table Texture {
     SamplerName: string;
     TextureIndex: uint;
-    Settings: SamplerState8;
+    Settings: SamplerState;
 }
 
-table Flag
-{
+table Flag {
     FlagName: string;
     FlagEnable: bool;
 }
 
-table FloatParam
-{
+table FloatParam {
     ValueName: string;
     Value: float;
 }
 
-table Color3Param
-{
+table Color3Param {
     ColorName: string;
-    Color: Color3f (required);
+    Color: Color3f;
 }
 
-enum Pass : uint
-{
+enum Pass : uint {
     DEFAULT,
     PARTICLE = 1, // Used for bubbles and lights
     ADDGLASS = 2, // add
     ALPGLASS = 3 // referred to as alp
 }
 
-enum BlendMode : uint
-{
+enum BlendMode : uint {
     NONE,
     ALPHA,
     ADD,
@@ -251,15 +235,13 @@ enum BlendMode : uint
     COUNT,
 }
 
-enum CullMode : uint
-{
+enum CullMode : uint {
     NONE,
     BACK,
     FRONT,
 }
 
-enum DepthComparison : uint
-{
+enum DepthComparison : uint {
     NEVER,
     LESS,
     LESSEQUAL,
@@ -269,15 +251,15 @@ enum DepthComparison : uint
     ALWAYS = 7,
 }
 
-table Material8
+table Material
 {
     Name: string;
     Shader: string;
 
     SortPriority: Pass;
 
-    DepthWrite: ubyte;
-    DepthTest: ubyte;
+    DepthWrite: uint8;
+    DepthTest: uint8;
 
     LightSetNum: uint;
     Blend: BlendMode;
@@ -286,15 +268,15 @@ table Material8
     GeomShaderFileId: int;
     FragShaderFileId: int;
 
-    Textures: [Texture8] (required);
-    Flags: [Flag] (required);
+    Textures: [Texture];
+    Flags: [Flag];
     Values: [FloatParam];
     Colors: [Color3Param];
 
-    ReceiveShadow: ubyte;
-    CastShadow: ubyte;
-    SelfShadow: ubyte;
-    TextureAlphaTest: ubyte;
+    ReceiveShadow: uint8;
+    CastShadow: uint8;
+    SelfShadow: uint8;
+    TextureAlphaTest: uint8;
     DepthComparisonFunction: DepthComparison;
 
     StaticParam: UberShaderSettings;

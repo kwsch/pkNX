@@ -50,10 +50,7 @@ public partial class Vec3f : IEquatable<Vec3f>
 
     public override bool Equals(object? obj)
     {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((Vec3f)obj);
+        return obj is Vec3f other && Equals(other);
     }
 
     public override int GetHashCode() => HashCode.Combine(X, Y, Z);
