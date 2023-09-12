@@ -371,6 +371,12 @@ public partial class WPFTextEditor
         if (Entries.Count <= 0)
             return;
 
+        if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+        {
+            BatchExport();
+            return;
+        }
+
         using var dump = new System.Windows.Forms.SaveFileDialog();
         dump.Filter = @"Text File|*.txt";
         dump.FileName = FileNames[LoadedFileIndex] + ".txt";
@@ -381,6 +387,37 @@ public partial class WPFTextEditor
         bool newline = result == MessageBoxResult.Yes;
         string path = dump.FileName;
         ExportTextFile(path, newline);
+
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void BatchExport()
+    {
+        using var dumpFolder = new System.Windows.Forms.FolderBrowserDialog();
+        dumpFolder.Description = "Select export folder";
+        dumpFolder.UseDescriptionForTitle = true;
+        dumpFolder.ShowNewFolderButton = true;
+
+        if (dumpFolder.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            return;
+
+        // If not directory is empty, prompt to replace all files
+        if (Directory.EnumerateFiles(dumpFolder.SelectedPath).Any())
+        {
+            var replaceResult = WinFormsUtil.Prompt(MessageBoxButton.YesNoCancel, "The selected folder is not empty. Would you like to continue and replace all text files?");
+            if (replaceResult == MessageBoxResult.Cancel)
+                return;
+        }
+
+
+        var result = WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Would you like to unescape newline characters?");
+        bool newline = result == MessageBoxResult.Yes;
+
+        foreach (var fileName in FileNames)
+        {
+            string path = Path.Combine(dumpFolder.SelectedPath, fileName + ".txt");
+            ExportTextFile(path, newline);
+        }
 
         System.Media.SystemSounds.Asterisk.Play();
     }

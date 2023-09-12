@@ -37,7 +37,7 @@
             <ComboBox Grid.Column="1" x:Name="CB_Entry" ItemsSource="{Binding FileNames, ElementName=Root}" MinWidth="152" VerticalAlignment="Center" Margin="3" SelectionChanged="CB_Entry_SelectionChanged"/>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="6,0,0,0">
-                <Button x:Name="B_Export" Content="Export (.txt)" Width="90" Margin="3" Click="B_Export_Click"/>
+                <Button x:Name="B_Export" Content="Export (.txt)" Width="90" Margin="3" Click="B_Export_Click" ToolTip="Hold shift while clicking to batch export all files"/>
                 <Button x:Name="B_Import" Content="Import (.txt)" Width="90" Margin="3" Click="B_Import_Click"/>
             </StackPanel>
 
