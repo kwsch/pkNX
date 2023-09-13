@@ -28,6 +28,7 @@ table AreaInfo {
     NoOcclusionCulling:bool;
     MinEncLv:int;
     MaxEncLv:int;
+    AdjustEncLv:int;
     BiomeBase:EncBiome = None;
     Tag:AreaTag = None;
     BiomeOverride:OverrideBiome (required);

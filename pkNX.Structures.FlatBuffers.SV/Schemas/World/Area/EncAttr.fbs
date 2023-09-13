@@ -20,4 +20,9 @@ enum EncAttr : ubyte {
     kusamura_kare = 16,
     shiba = 17,
     dummy = 18,
+    jari = 19,
+    kawara = 20,
+    kawasuna = 21,
+    hate_kusa = 22,
+    hate_iwa = 23,
 }

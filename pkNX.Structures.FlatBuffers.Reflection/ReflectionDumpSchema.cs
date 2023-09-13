@@ -16,7 +16,7 @@ public static class SchemaDump
     /// <param name="settings"></param>
     public static Schema HandleReflection(byte[] data, string filePath, string dir, SchemaDumpSettings settings)
     {
-        var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.Greedy);
+        var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
         DumpSchema(schema, filePath, dir, settings);
         return schema;
     }
@@ -38,7 +38,7 @@ public static class SchemaDump
 
     public static void DumpSchema(byte[] data, TextWriter fbs, TextWriter cs, SchemaDumpSettings settings)
     {
-        var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.Greedy);
+        var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
         DumpSchema(schema, fbs, cs, settings);
     }
 

@@ -39,5 +39,10 @@ enum FieldAttrKey : int {
     takenoha = 35,
     kawara = 36,
     takara = 37,
+    tanbo = 38,
+    kawasuna = 40,
+    hate_kusa = 41,
+    hate_iwa = 42,
+    hate_tsuchi = 43,
     dummy = 99,
 }

@@ -137,7 +137,7 @@ public class PaldeaMap
 
     private void LoadScene(GameManagerSV ROM)
     {
-        var area_management = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile(0x0573CA323061A2D3));
+        var area_management = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/resident_event/resident_area_collision_/resident_area_collision_0.trscn"));
 
         foreach (var obj in area_management.Objects)
         {
