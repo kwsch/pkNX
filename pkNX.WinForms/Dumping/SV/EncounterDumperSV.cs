@@ -76,6 +76,226 @@ public class EncounterDumperSV
             SerializeEncounters(binPath, db);
         }
 
+        // Fixed symbols
+        List<byte[]> serialized = new();
+        int[] bannedIndexes =
+        {
+            31, // Lighthouse Wingull
+        };
+        var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
+        var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
+        foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
+        {
+            using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
+            foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami })
+            {
+                for (var i = 0; i < fsymData.Table.Count; i++)
+                {
+                    var entry = fsymData.Table[i];
+                    var tableKey = entry.TableKey;
+                    var points = gamePoints[(int)fieldIndex].Where(p => p.TableKey == tableKey).ToList();
+                    if (points.Count == 0)
+                        continue;
+
+                    var areas = new List<string>();
+                    var tmpPoints = points.ToList();
+                    for (var x = scene.AreaNames[(int)fieldIndex].Count - 1; x >= 0; x--)
+                    {
+                        var areaName = scene.AreaNames[(int)fieldIndex][x];
+                        if (scene.IsAtlantis[(int)fieldIndex][areaName])
+                            continue;
+
+                        var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
+                        var name = areaInfo.LocationNameMain;
+                        if (string.IsNullOrEmpty(name))
+                            continue;
+                        if (areaInfo.Tag is AreaTag.NG_Encount)
+                            continue;
+
+                        for (int p = 0; p < tmpPoints.Count; p++)
+                        {
+                            var point = tmpPoints[p];
+                            if (!scene.IsPointContained(fieldIndex, areaName, point.Position.X, point.Position.Y, point.Position.Z))
+                                continue;
+                            tmpPoints.RemoveAt(p);
+                            p--;
+                            if (!areas.Contains(areaName))
+                                areas.Add(areaName);
+                        }
+                    }
+
+                    var locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
+
+                    gw.WriteLine("===");
+                    gw.WriteLine(entry.TableKey);
+                    gw.WriteLine("===");
+                    gw.WriteLine("  PokeData:");
+                    var pd = entry.Symbol;
+                    gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
+                    gw.WriteLine($"    Form:    {pd.FormId}");
+                    gw.WriteLine($"    Level:   {pd.Level}");
+                    gw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
+                    gw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
+
+                    var talentStr = pd.TalentType switch
+                    {
+                        TalentType.RANDOM => "Random",
+                        TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
+                        TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+                        _ => "Invalid",
+                    };
+                    gw.WriteLine($"    IVs:     {talentStr}");
+                    gw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.TokuseiIndex]}");
+                    switch (pd.WazaType)
+                    {
+                        case WazaType.DEFAULT:
+                            gw.WriteLine("    Moves:   Random");
+                            break;
+                        case WazaType.MANUAL:
+                            gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                            break;
+                    }
+
+                    gw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
+                    gw.WriteLine($"    GemType: {(int)pd.GemType}");
+
+                    gw.WriteLine("  Points:");
+                    foreach (var point in points)
+                    {
+                        gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
+                    }
+                    gw.WriteLine("  Areas:");
+                    foreach (var areaName in areas)
+                    {
+                        var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
+                        var loc = areaInfo.LocationNameMain;
+                        (string name, int index) = placeNameMap[loc];
+                        gw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
+                    }
+
+                    // Serialize
+                    if (locs.Count == 0)
+                        continue;
+                    if (bannedIndexes.Contains(i))
+                        continue;
+
+                    // If not stationary, allow some tolerance.
+                    var aiStationary = GetIsStationary(entry.PokeAI.ActionId);
+                    if (!aiStationary)
+                    {
+                        areas.Clear();
+                        foreach (var areaName in scene.AreaNames[(int)fieldIndex])
+                        {
+                            if (scene.IsAtlantis[(int)fieldIndex][areaName])
+                                continue;
+
+                            var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
+                            var name = areaInfo.LocationNameMain;
+                            if (string.IsNullOrEmpty(name))
+                                continue;
+                            if (areaInfo.Tag is AreaTag.NG_Encount)
+                                continue;
+
+                            if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
+                                continue;
+                            if (points.Any(p => collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ)))
+                                areas.Add(areaName);
+                        }
+                    }
+
+                    locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
+                    if (fieldIndex == PaldeaFieldIndex.Paldea && entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
+                        locs.Add(46); // North Province (Area One)
+
+                    locs.Sort();
+                    WriteFixedSymbol(serialized, entry, locs);
+                }
+            }
+        }
+
+        // TODO: Are there coin symbols for kitakami?
+        using var cw = File.CreateText(Path.Combine(path, "titan_coin_symbol.txt"));
+        foreach (var entry in csym.Points[(int)PaldeaFieldIndex.Paldea])
+        {
+            var areas = new List<string>();
+            foreach (var areaName in scene.AreaNames[(int)PaldeaFieldIndex.Paldea])
+            {
+                if (scene.IsAtlantis[(int)PaldeaFieldIndex.Paldea][areaName])
+                    continue;
+        
+                var areaInfo = scene.AreaInfos[(int)PaldeaFieldIndex.Paldea][areaName];
+                var name = areaInfo.LocationNameMain;
+                if (string.IsNullOrEmpty(name))
+                    continue;
+                if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
+                    continue;
+        
+                if (scene.IsPointContained(PaldeaFieldIndex.Paldea, areaName, entry.Position.X, entry.Position.Y, entry.Position.Z))
+                    areas.Add(areaName);
+            }
+        
+            // var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
+        
+            cw.WriteLine("===");
+            cw.WriteLine(entry.Name);
+            cw.WriteLine("===");
+            cw.WriteLine($"  First Num:   {entry.FirstNum}");
+            cw.WriteLine($"  Coordinates: ({entry.Position.X}, {entry.Position.Y}, {entry.Position.Z})");
+        
+            if (entry.IsBox)
+            {
+                cw.WriteLine($"  Box Label:   {entry.BoxLabel}");
+                cw.WriteLine("  PokeData:");
+                var pd = eventBattle.Table.First(e => e.Label == entry.BoxLabel).PokeData;
+        
+                cw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
+                cw.WriteLine($"    Form:    {pd.FormId}");
+                cw.WriteLine($"    Level:   {pd.Level}");
+                cw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
+                cw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
+        
+                var talentStr = pd.TalentType switch
+                {
+                    TalentType.RANDOM => "Random",
+                    TalentType.V_NUM => $"{pd.TalentVnum} Perfect",
+                    TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+                    _ => "Invalid",
+                };
+                cw.WriteLine($"    IVs:     {talentStr}");
+                cw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.Tokusei]}");
+                switch (pd.WazaType)
+                {
+                    case WazaType.DEFAULT:
+                        cw.WriteLine( "    Moves:   Random");
+                        break;
+                    case WazaType.MANUAL:
+                        cw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                        break;
+                }
+        
+                cw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
+                cw.WriteLine($"    GemType: {(int)pd.GemType}");
+            }
+        
+            cw.WriteLine("  Areas:");
+            foreach (var areaName in areas)
+            {
+                var areaInfo = scene.AreaInfos[(int)PaldeaFieldIndex.Paldea][areaName];
+                var loc = areaInfo.LocationNameMain;
+                (string name, int index) = placeNameMap[loc];
+                cw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
+            }
+        }
+        var pathPickle = Path.Combine(path, "encounter_fixed_paldea.pkl");
+        var ordered = serialized
+                .OrderBy(z => BinaryPrimitives.ReadUInt16LittleEndian(z)) // Species
+                .ThenBy(z => z[2]) // Form
+                .ThenBy(z => z[3]) // Level
+            ;
+        File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
+        return;
+
+        // HELPERS
         LocationPointDetail[]? GetPoints(PaldeaFieldIndex fieldIndex, bool isAtlantis) => fieldIndex switch
         {
             PaldeaFieldIndex.Paldea => isAtlantis ? pointAtlantis : pointMain,
@@ -182,219 +402,6 @@ public class EncounterDumperSV
             }
         }
 
-        // // Fixed symbols
-        // List<byte[]> serialized = new();
-        // int[] bannedIndexes =
-        // {
-        //     31, // Lighthouse Wingull
-        // };
-        // var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
-        // var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
-        // foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
-        // {
-        //     using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
-        //     for (var i = 0; i < fsymData.Table.Count; i++)
-        //     {
-        //         var entry = fsymData.Table[i];
-        //         var tableKey = entry.TableKey;
-        //         var points = gamePoints.Where(p => p.TableKey == tableKey).ToList();
-        //         if (points.Count == 0)
-        //             continue;
-        // 
-        //         var areas = new List<string>();
-        //         var tmpPoints = points.ToList();
-        //         for (var x = scene.areaNames.Count - 1; x >= 0; x--)
-        //         {
-        //             var areaName = scene.areaNames[x];
-        //             if (scene.isAtlantis[areaName])
-        //                 continue;
-        // 
-        //             var areaInfo = scene.AreaInfos[areaName];
-        //             var name = areaInfo.LocationNameMain;
-        //             if (string.IsNullOrEmpty(name))
-        //                 continue;
-        //             if (areaInfo.Tag is AreaTag.NG_Encount)
-        //                 continue;
-        // 
-        //             for (int p = 0; p < tmpPoints.Count; p++)
-        //             {
-        //                 var point = tmpPoints[p];
-        //                 if (!scene.IsPointContained(areaName, point.Position.X, point.Position.Y, point.Position.Z))
-        //                     continue;
-        //                 tmpPoints.RemoveAt(p);
-        //                 p--;
-        //                 if (!areas.Contains(areaName))
-        //                     areas.Add(areaName);
-        //             }
-        //         }
-        // 
-        //         var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
-        // 
-        //         gw.WriteLine("===");
-        //         gw.WriteLine(entry.TableKey);
-        //         gw.WriteLine("===");
-        //         gw.WriteLine("  PokeData:");
-        //         var pd = entry.Symbol;
-        //         gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
-        //         gw.WriteLine($"    Form:    {pd.FormId}");
-        //         gw.WriteLine($"    Level:   {pd.Level}");
-        //         gw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
-        //         gw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
-        // 
-        //         var talentStr = pd.TalentType switch
-        //         {
-        //             TalentType.RANDOM => "Random",
-        //             TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
-        //             TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
-        //             _ => "Invalid",
-        //         };
-        //         gw.WriteLine($"    IVs:     {talentStr}");
-        //         gw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.TokuseiIndex]}");
-        //         switch (pd.WazaType)
-        //         {
-        //             case WazaType.DEFAULT:
-        //                 gw.WriteLine("    Moves:   Random");
-        //                 break;
-        //             case WazaType.MANUAL:
-        //                 gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
-        //                 break;
-        //         }
-        // 
-        //         gw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
-        //         gw.WriteLine($"    GemType: {(int)pd.GemType}");
-        // 
-        //         gw.WriteLine("  Points:");
-        //         foreach (var point in points)
-        //         {
-        //             gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
-        //         }
-        //         gw.WriteLine("  Areas:");
-        //         foreach (var areaName in areas)
-        //         {
-        //             var areaInfo = scene.AreaInfos[areaName];
-        //             var loc = areaInfo.LocationNameMain;
-        //             (string name, int index) = placeNameMap[loc];
-        //             gw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
-        //         }
-        // 
-        //         // Serialize
-        //         if (locs.Count == 0)
-        //             continue;
-        //         if (bannedIndexes.Contains(i))
-        //             continue;
-        // 
-        //         // If not stationary, allow some tolerance.
-        //         var aiStationary = GetIsStationary(entry.PokeAI.ActionId);
-        //         if (!aiStationary)
-        //         {
-        //             areas.Clear();
-        //             foreach (var areaName in scene.areaNames)
-        //             {
-        //                 if (scene.isAtlantis[areaName])
-        //                     continue;
-        // 
-        //                 var areaInfo = scene.AreaInfos[areaName];
-        //                 var name = areaInfo.LocationNameMain;
-        //                 if (string.IsNullOrEmpty(name))
-        //                     continue;
-        //                 if (areaInfo.Tag is AreaTag.NG_Encount)
-        //                     continue;
-        // 
-        //                 if (!scene.TryGetContainsCheck(areaName, out var collider))
-        //                     continue;
-        //                 if (points.Any(p => collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ)))
-        //                     areas.Add(areaName);
-        //             }
-        //         }
-        // 
-        //         locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
-        //         if (entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
-        //             locs.Add(46); // North Province (Area One)
-        // 
-        //         locs.Sort();
-        //         WriteFixedSymbol(serialized, entry, locs);
-        //     }
-        // }
-        // 
-        // using var cw = File.CreateText(Path.Combine(path, "titan_coin_symbol.txt"));
-        // foreach (var entry in csym.Points)
-        // {
-        //     var areas = new List<string>();
-        //     foreach (var areaName in scene.areaNames)
-        //     {
-        //         if (scene.isAtlantis[areaName])
-        //             continue;
-        // 
-        //         var areaInfo = scene.AreaInfos[areaName];
-        //         var name = areaInfo.LocationNameMain;
-        //         if (string.IsNullOrEmpty(name))
-        //             continue;
-        //         if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
-        //             continue;
-        // 
-        //         if (scene.IsPointContained(areaName, entry.Position.X, entry.Position.Y, entry.Position.Z))
-        //             areas.Add(areaName);
-        //     }
-        // 
-        //     // var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
-        // 
-        //     cw.WriteLine("===");
-        //     cw.WriteLine(entry.Name);
-        //     cw.WriteLine("===");
-        //     cw.WriteLine($"  First Num:   {entry.FirstNum}");
-        //     cw.WriteLine($"  Coordinates: ({entry.Position.X}, {entry.Position.Y}, {entry.Position.Z})");
-        // 
-        //     if (entry.IsBox)
-        //     {
-        //         cw.WriteLine($"  Box Label:   {entry.BoxLabel}");
-        //         cw.WriteLine("  PokeData:");
-        //         var pd = eventBattle.Table.First(e => e.Label == entry.BoxLabel).PokeData;
-        // 
-        //         cw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
-        //         cw.WriteLine($"    Form:    {pd.FormId}");
-        //         cw.WriteLine($"    Level:   {pd.Level}");
-        //         cw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
-        //         cw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
-        // 
-        //         var talentStr = pd.TalentType switch
-        //         {
-        //             TalentType.RANDOM => "Random",
-        //             TalentType.V_NUM => $"{pd.TalentVnum} Perfect",
-        //             TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
-        //             _ => "Invalid",
-        //         };
-        //         cw.WriteLine($"    IVs:     {talentStr}");
-        //         cw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.Tokusei]}");
-        //         switch (pd.WazaType)
-        //         {
-        //             case WazaType.DEFAULT:
-        //                 cw.WriteLine( "    Moves:   Random");
-        //                 break;
-        //             case WazaType.MANUAL:
-        //                 cw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
-        //                 break;
-        //         }
-        // 
-        //         cw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
-        //         cw.WriteLine($"    GemType: {(int)pd.GemType}");
-        //     }
-        // 
-        //     cw.WriteLine("  Areas:");
-        //     foreach (var areaName in areas)
-        //     {
-        //         var areaInfo = scene.AreaInfos[areaName];
-        //         var loc = areaInfo.LocationNameMain;
-        //         (string name, int index) = placeNameMap[loc];
-        //         cw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
-        //     }
-        // }
-        // var pathPickle = Path.Combine(path, "encounter_fixed_paldea.pkl");
-        // var ordered = serialized
-        //         .OrderBy(z => BinaryPrimitives.ReadUInt16LittleEndian(z)) // Species
-        //         .ThenBy(z => z[2]) // Form
-        //         .ThenBy(z => z[3]) // Level
-        //     ;
-        // File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
     }
 
     /// <summary>
