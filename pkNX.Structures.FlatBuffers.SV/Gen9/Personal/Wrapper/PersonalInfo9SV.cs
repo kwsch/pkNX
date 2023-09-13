@@ -113,7 +113,8 @@ public sealed class PersonalInfo9SV : IPersonalInfo
         bw.Write(FormCount);
         bw.Write(FB.Info.Color);
         bw.Write(FB.IsPresentInGame);
-        bw.Write((byte)DexGroup);
+
+        bw.Write((byte)(DexGroup == 1 ? 1 : FB.KitagamiDex != 0 ? 2 : FB.BlueberryDex != 0 ? 2 : 0));
         bw.Write((ushort)DexIndex);
         bw.Write(FB.Info.Height);
         bw.Write(FB.Info.Weight);
@@ -124,7 +125,7 @@ public sealed class PersonalInfo9SV : IPersonalInfo
         // 0x2C
 
         // TMs
-        byte[] tmFlags = new byte[0x18];
+        byte[] tmFlags = new byte[0x1E];
         if (IsPresentInGame)
         {
             foreach (ushort tm in FB.TechnicalMachine)
@@ -137,6 +138,8 @@ public sealed class PersonalInfo9SV : IPersonalInfo
             }
         }
         bw.Write(tmFlags);
+        bw.Write(FB.KitagamiDex);
+        bw.Write(FB.BlueberryDex);
     }
 
     public static readonly ushort[] TMIndexes =
@@ -158,6 +161,9 @@ public sealed class PersonalInfo9SV : IPersonalInfo
         417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
         444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
         542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
-        796, 851,
+        796, 851, 046, 268, 114, 092, 328, 180, 356, 479,
+        360, 282, 450, 162, 410, 679, 667, 333, 503, 535,
+        669, 253, 264, 311, 803, 807, 812, 814, 809, 808,
+        799, 802,
     };
 }

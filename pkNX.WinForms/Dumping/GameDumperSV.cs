@@ -249,7 +249,7 @@ public class GameDumperSV
         File.WriteAllBytes(GetPath("pkhex", "evos_sv.pkl"), MiniUtil.PackMini(evos, "sv"));
 
         List<(ushort Internal, ushort National)> map = new();
-        for (ushort i = 0; i <= (ushort)DevID.DEV_MANKII3; i++)
+        for (ushort i = 0; i <= (ushort)DevID.DEV_MATCHA2; i++)
         {
             var pi = pt[i];
             var info = pi.FB.Info;
