@@ -78,9 +78,9 @@ public class EncounterDumperSV
 
         // Fixed symbols
         List<byte[]> serialized = new();
-        int[] bannedIndexes =
+        string[] bannedNames =
         {
-            31, // Lighthouse Wingull
+            "ai_area01_30", // Lighthouse Wingull
         };
         var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
         var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
@@ -176,7 +176,7 @@ public class EncounterDumperSV
                     // Serialize
                     if (locs.Count == 0)
                         continue;
-                    if (bannedIndexes.Contains(i))
+                    if (bannedNames.Contains(entry.TableKey))
                         continue;
 
                     // If not stationary, allow some tolerance.
@@ -323,8 +323,6 @@ public class EncounterDumperSV
             foreach (var areaName in scene.AreaNames[(int)fieldIndex])
             {
                 var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
-                if (areaInfo.AdjustEncLv != 0)
-                    System.Diagnostics.Debug.WriteLine($"{areaName}: {areaInfo.AdjustEncLv}");
 
                 // Determine potential spawners
                 if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
