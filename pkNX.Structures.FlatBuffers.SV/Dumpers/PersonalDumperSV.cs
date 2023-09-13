@@ -40,7 +40,10 @@ public class PersonalDumperSV
         417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
         444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
         542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
-        796, 851,
+        796, 851, 046, 268, 114, 092, 328, 180, 356, 479,
+        360, 282, 450, 162, 410, 679, 667, 333, 503, 535,
+        669, 253, 264, 311, 803, 807, 812, 814, 809, 808,
+        799, 802
     };
 
     private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
@@ -78,6 +81,10 @@ public class PersonalDumperSV
             name += $"-{form}";
         if (entry.FB.Dex is { } dex)
             name += $" #{dex.Index:000}";
+        if (entry.FB.KitagamiDex != 0)
+            name += $" K#{entry.FB.KitagamiDex:000}";
+        if (entry.FB.BlueberryDex != 0)
+            name += $" B#{entry.FB.BlueberryDex:000}";
         AddDump(lines, entry, index, name, speciesInternal, form);
     }
 
@@ -203,7 +210,7 @@ public class PersonalDumperSV
         EvolutionTypeArgumentType.Moves => Moves[value],
         EvolutionTypeArgumentType.Species => GetSpeciesName(value),
         EvolutionTypeArgumentType.Type => Types[value],
-        //EvolutionTypeArgumentType.Stat => expr,
+        EvolutionTypeArgumentType.Stat => value.ToString(),
         //EvolutionTypeArgumentType.Version => expr,
         _ => throw new ArgumentOutOfRangeException(nameof(argType), argType, null),
     };
@@ -353,5 +360,8 @@ public static class Plib9
         { 0091, 0000 }, //
         { 0092, 0218 }, // Soothe Bell
         { 0093, 0109 }, // Dawn Stone
+        { 0094, 2403 }, // ???
+        { 0095, 2404 }, // ???
+        { 0096, 2402 }, // ???
     };
 }

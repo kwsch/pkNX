@@ -422,19 +422,19 @@ public class GameDumperSV
 
     public void DumpMisc()
     {
+        DumpBattle();
+        DumpEncount();
         DumpDLC();
         DumpGymRewards();
         DumpGrow();
         DumpAudio();
         DumpAjito();
         DumpField();
-        DumpEncount();
         DumpJunk();
         DumpRaid();
         DumpItems();
         DumpFieldReturn();
         DumpGem();
-        DumpBattle();
         DumpPokeDex();
         DumpUI();
         DumpUniquePath();
@@ -520,7 +520,9 @@ public class GameDumperSV
         Dump<TreeShakePokemonArray, TreeShakePokemon>("world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs", z => z.Table);
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_atlantis.bfbs", z => z.Table);
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_100000.bfbs", z => z.Table);
+        Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_su1.bfbs", z => z.Table);
         Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata/pokedata_array.bfbs", z => z.Table);
+        Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bfbs", z => z.Table);
         DumpJson<SettingData>("world/data/encount/setting/setting/data.bfbs");
         Dump<RaidDifficultyLotteryTableArray, RaidDifficultyLotteryTable>("world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs", z => z.Table);
         DumpJson<RaidGemSetting>("world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs");

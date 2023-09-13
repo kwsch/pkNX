@@ -13,6 +13,8 @@ table PersonalInfo {
     Info:PersonalInfoDetail (required);
     IsPresentInGame:bool;
     Dex:PersonalInfoDex; // not required
+    KitagamiDex:ubyte;
+    BlueberryDex:ubyte;
     Type1:ubyte;
     Type2:ubyte;
     Ability1:ushort;

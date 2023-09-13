@@ -3,7 +3,7 @@ namespace pkNX.Structures;
 public static partial class Legal
 {
     // todo sv
-    public const int MaxSpeciesID_9 = 1010;
+    public const int MaxSpeciesID_9 = 1017;
     public const int MaxMoveID_9 = (int)Move.MagicalTorque;
     public const int MaxItemID_9 = 2400; // Yellow Dish
     public const int MaxBallID_9 = (int)Ball.LAOrigin;
