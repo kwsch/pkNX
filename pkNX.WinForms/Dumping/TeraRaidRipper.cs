@@ -13,7 +13,7 @@ namespace pkNX.WinForms;
 
 public static class TeraRaidRipper
 {
-    public static void DumpRaids(IFileInternal ROM, IReadOnlyList<string> internalRaidFiles, string outPath)
+    public static void DumpRaids(IFileInternal ROM, IReadOnlyList<string> internalRaidFiles, string outPath, string rateFileName, string pickleFileName)
     {
         var list = new List<RaidStorage>();
         var rateTotal = new (int Scarlet, int Violet)[8];
@@ -54,8 +54,8 @@ public static class TeraRaidRipper
             .ToList();
 
         var rateString = string.Join(Environment.NewLine, rateTotal.Select((z, i) => $"{i}\t{z.Scarlet}\t{z.Violet}"));
-        File.WriteAllText(Path.Combine(outPath, "rateTotal.txt"), rateString);
-        WritePickle(outPath, all, "encounter_gem_paldea.pkl");
+        File.WriteAllText(Path.Combine(outPath, rateFileName), rateString);
+        WritePickle(outPath, all, pickleFileName);
         // Raids can be shared, and show up with the same met location regardless of shared vs not.
         // No need to differentiate.
         // var scarlet = all.Where(z => z.Enemy.Info.RomVer != RaidRomType.TYPE_B);

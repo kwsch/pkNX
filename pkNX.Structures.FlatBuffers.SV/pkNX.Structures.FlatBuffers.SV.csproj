@@ -20,7 +20,7 @@
 
   <PropertyGroup>
     <!-- Progressive only for this project so we can modify trpfs lazily -->
-    <FlatSharpDeserializers>GreedyMutable;Progressive;Lazy</FlatSharpDeserializers> 
+    <FlatSharpDeserializers>GreedyMutable;Progressive;Lazy</FlatSharpDeserializers>
     <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 
@@ -34,4 +34,5 @@
   <ItemGroup>
     <Content Include="Schemas\**\*.fbs" />
   </ItemGroup>
+
 </Project>

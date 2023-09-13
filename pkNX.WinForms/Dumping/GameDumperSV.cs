@@ -603,8 +603,9 @@ public class GameDumperSV
         Dump<RaidTrainerArray, RaidTrainer>("world/data/raid/raid_trainer_01/raid_trainer_01_array.bfbs", z => z.Table);
         Dump<RaidTrainerArray, RaidTrainer>("world/data/raid/raid_trainer_02/raid_trainer_02_array.bfbs", z => z.Table);
         Dump<RaidTrainerArray, RaidTrainer>("world/data/raid/raid_trainer_03/raid_trainer_03_array.bfbs", z => z.Table);
+        DumpJson<RaidGemItemRewardBoost>("world/data/raid/raid_gem_item_reward_boost/data.bfbs");
 
-        var allRaids = new[]
+        var mainRaids = new[]
         {
             "world/data/raid/raid_enemy_01/raid_enemy_01_array.bfbs",
             "world/data/raid/raid_enemy_02/raid_enemy_02_array.bfbs",
@@ -613,8 +614,18 @@ public class GameDumperSV
             "world/data/raid/raid_enemy_05/raid_enemy_05_array.bfbs",
             "world/data/raid/raid_enemy_06/raid_enemy_06_array.bfbs",
         };
+        var su1Raids = new[]
+        {
 
-        foreach (var f in allRaids)
+            "world/data/raid/su1_raid_enemy_01/su1_raid_enemy_01_array.bfbs",
+            "world/data/raid/su1_raid_enemy_02/su1_raid_enemy_02_array.bfbs",
+            "world/data/raid/su1_raid_enemy_03/su1_raid_enemy_03_array.bfbs",
+            "world/data/raid/su1_raid_enemy_04/su1_raid_enemy_04_array.bfbs",
+            "world/data/raid/su1_raid_enemy_05/su1_raid_enemy_05_array.bfbs",
+            "world/data/raid/su1_raid_enemy_06/su1_raid_enemy_06_array.bfbs",
+        };
+
+        foreach (var f in mainRaids.Concat(su1Raids))
         {
             Dump<RaidEnemyTableArray, RaidEnemyTable>(f, z => z.Table);
             static IEnumerable<PokeDataBattle> sel(RaidEnemyTableArray z) => z.Table.Select(x => x.Info.BossPokePara);
@@ -622,7 +633,8 @@ public class GameDumperSV
         }
 
         var outPath = GetPath("pkhex");
-        TeraRaidRipper.DumpRaids(ROM, allRaids, outPath);
+        TeraRaidRipper.DumpRaids(ROM, mainRaids, outPath, "raidTotal.txt", "encounter_gem_paldea.pkl");
+        TeraRaidRipper.DumpRaids(ROM, su1Raids, outPath, "raidTotalKitakami.txt", "encounter_gem_kitakami.pkl");
     }
 
     public void DumpMoves()
@@ -1005,6 +1017,13 @@ public class GameDumperSV
             "world/data/raid/raid_trainer_01/raid_trainer_01_array.bfbs",
             "world/data/raid/raid_trainer_02/raid_trainer_02_array.bfbs",
             "world/data/raid/raid_trainer_03/raid_trainer_03_array.bfbs",
+            "world/data/raid/raid_gem_item_reward_boost/data.bfbs",
+            "world/data/raid/su1_raid_enemy_01/su1_raid_enemy_01_array.bfbs",
+            "world/data/raid/su1_raid_enemy_02/su1_raid_enemy_02_array.bfbs",
+            "world/data/raid/su1_raid_enemy_03/su1_raid_enemy_03_array.bfbs",
+            "world/data/raid/su1_raid_enemy_04/su1_raid_enemy_04_array.bfbs",
+            "world/data/raid/su1_raid_enemy_05/su1_raid_enemy_05_array.bfbs",
+            "world/data/raid/su1_raid_enemy_06/su1_raid_enemy_06_array.bfbs",
 
             // Coin
             "world/data/field/coin_symbol/coin_symbol_manager/coin_symbol_manager_data.bfbs",
