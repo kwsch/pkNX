@@ -19,23 +19,24 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
     // Match the Mark time of day order: Noon, Night, Evening, Morning
     private static byte GetTimeBits(TimeTable t) => (byte)((t.Noon ? 0 : 1) | (t.Night ? 0 : 2) | (t.Evening ? 0 : 4) | (t.Morning ? 0 : 8));
 
-    public static PaldeaEncounter GetNew(EncountPokeData pd, PointData ep)
+    public static PaldeaEncounter GetNew(EncountPokeData pd, PointData ep, int adjust = 0)
     {
         // Combine the 4 bools into a single byte
         var time = GetTimeBits(pd.Time);
-        var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
-        var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
+        var min = (byte)(Math.Max(ep.LevelRange.X, pd.MinLevel) + adjust);
+        var max = (byte)(Math.Min(ep.LevelRange.Y, pd.MaxLevel) + adjust);
         return new(SpeciesConverterSV.GetNational9((ushort)pd.DevId), (byte)pd.Form, (byte)pd.Sex, min, max, time);
     }
 
-    public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep)
+    public static PaldeaEncounter GetBand(EncountPokeData pd, PointData ep, int adjust = 0)
     {
         // Combine the 4 bools into a single byte
         var time = GetTimeBits(pd.Time);
-        var min = (byte)Math.Max(ep.LevelRange.X, pd.MinLevel);
-        var max = (byte)Math.Min(ep.LevelRange.Y, pd.MaxLevel);
+        var min = (byte)(Math.Max(ep.LevelRange.X, pd.MinLevel) + adjust);
+        var max = (byte)(Math.Min(ep.LevelRange.Y, pd.MaxLevel) + adjust);
         return new(SpeciesConverterSV.GetNational9((ushort)pd.BandPoke), (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);
     }
+
 
     public string GetEncountString(IReadOnlyList<string> specNamesInternal)
     {

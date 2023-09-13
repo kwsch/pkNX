@@ -8,22 +8,30 @@ namespace pkNX.WinForms;
 
 public class PaldeaFixedSymbolModel
 {
-    public readonly List<PaldeaFixedSymbolPoint> scarletPoints;
-    public readonly List<PaldeaFixedSymbolPoint> violetPoints;
+    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new() };
+    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new() };
 
     public PaldeaFixedSymbolModel(IFileInternal ROM)
     {
-        scarletPoints = new List<PaldeaFixedSymbolPoint>();
-        violetPoints = new List<PaldeaFixedSymbolPoint>();
-
+        // Paldea
         var p0Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_fixed_placement_symbol_/world_fixed_placement_symbol_0.trscn");
         var p1Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_fixed_placement_symbol_/world_fixed_placement_symbol_1.trscn");
 
         var p0 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(p0Data);
         var p1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(p1Data);
 
-        scarletPoints.AddRange(GetObjectTemplateSymbolPoints(p0));
-        violetPoints.AddRange(GetObjectTemplateSymbolPoints(p1));
+        scarletPoints[(int)PaldeaFieldIndex.Paldea].AddRange(GetObjectTemplateSymbolPoints(p0));
+        violetPoints[(int)PaldeaFieldIndex.Paldea].AddRange(GetObjectTemplateSymbolPoints(p1));
+
+        // Kitakami
+        var k0Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/su1_world_fixed_placement_symbol_/su1_world_fixed_placement_symbol_0.trscn");
+        var k1Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/su1_world_fixed_placement_symbol_/su1_world_fixed_placement_symbol_1.trscn");
+
+        var k0 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(k0Data);
+        var k1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(k1Data);
+
+        scarletPoints[(int)PaldeaFieldIndex.Kitakami].AddRange(GetObjectTemplateSymbolPoints(k0));
+        violetPoints[(int)PaldeaFieldIndex.Kitakami].AddRange(GetObjectTemplateSymbolPoints(k1));
     }
 
     private IEnumerable<PaldeaFixedSymbolPoint> GetObjectTemplateSymbolPoints(TrinitySceneObjectTemplate template)
@@ -82,7 +90,18 @@ public class PaldeaFixedSymbolModel
                     foreach (var f in GetScenePointSymbolPoints(subScenePoint, sobj.SubObjects))
                         yield return f;
                     break;
-                }
+                    }
+                case "trinity_ObjectTemplate":
+                    {
+                        var ssObj = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateData>(sobj.Data);
+                        if (ssObj.Type != "trinity_ScenePoint")
+                            continue;
+                        var subScenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePoint>(ssObj.Data);
+
+                        foreach (var f in GetScenePointSymbolPoints(subScenePoint, sobj.SubObjects))
+                            yield return f;
+                        break;
+                    }
                 default:
                     throw new ArgumentException($"Unknown SubObject {sobj.Type}");
             }
