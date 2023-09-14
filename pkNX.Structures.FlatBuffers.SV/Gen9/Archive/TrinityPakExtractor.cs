@@ -47,7 +47,7 @@ public static class TrinityPakExtractor
 
         var outexpakdir = Path.Combine(outexdir, packFilePath);
         Directory.CreateDirectory(outexpakdir);
-        var trpak = FlatBufferConverter.DeserializeFrom<TrinityPak>(data, FlatBufferDeserializationOption.Lazy);
+        var trpak = FlatBufferConverter.DeserializeFrom<TrinityPak>(data, FlatBufferDeserializationOption.GreedyMutable);
         ExtractPack(trpak, outexpakdir);
     }
 

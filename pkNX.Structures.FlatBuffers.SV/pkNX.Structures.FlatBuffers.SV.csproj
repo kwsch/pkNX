@@ -20,7 +20,7 @@
 
   <PropertyGroup>
     <!-- Progressive only for this project so we can modify trpfs lazily -->
-    <FlatSharpDeserializers>GreedyMutable;Progressive;Lazy</FlatSharpDeserializers>
+    <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
     <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
   </PropertyGroup>
 

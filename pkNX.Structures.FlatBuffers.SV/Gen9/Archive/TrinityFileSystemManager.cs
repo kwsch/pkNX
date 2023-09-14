@@ -32,11 +32,11 @@ public sealed class TrinityFileSystemManager : IDisposable, IFileInternal
 
         // Extract the meta FlatBuffer
         var dataMetaFB = br.ReadBytes((int)(totalLength - ofsMetaFB));
-        var meta = TrinityFileSystemMetadata.Serializer.Parse(dataMetaFB, FlatBufferDeserializationOption.Progressive);
+        var meta = TrinityFileSystemMetadata.Serializer.Parse(dataMetaFB, FlatBufferDeserializationOption.GreedyMutable);
 
         // Read the trpfd
         var dataFd = File.ReadAllBytes(pathFd);
-        var fd = TrinityFileDescriptors.Serializer.Parse(dataFd, FlatBufferDeserializationOption.Progressive);
+        var fd = TrinityFileDescriptors.Serializer.Parse(dataFd, FlatBufferDeserializationOption.GreedyMutable);
         Debug.Assert(meta.FileHashes.Count == fd.FileInfos.Count);
 
         Reader = br;
@@ -61,7 +61,7 @@ public sealed class TrinityFileSystemManager : IDisposable, IFileInternal
     public TrinityPak GetPak(int index)
     {
         var data = GetPakData(index);
-        return TrinityPak.Serializer.Parse(data);
+        return TrinityPak.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
     }
 
     public byte[] GetPakData(int index)
