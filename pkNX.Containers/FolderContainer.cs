@@ -33,6 +33,7 @@ public class FolderContainer : IFileContainer
         IEnumerable<string> files = Directory.GetFiles(FilePath, "*", SearchOption.AllDirectories);
         if (filter != null)
             files = files.Where(filter);
+        files = files.OrderBy(z => Path.GetFileName(z).Length); // alphabetical sorting doesn't play nice with 100 & 1000
 
         AddFiles(files);
     }
