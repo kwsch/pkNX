@@ -402,8 +402,24 @@ public class GameDumperSV
         var t = pt.Table;
         var result = new byte[t.Length][];
         for (int i = 0; i < t.Length; i++)
-            result[i] = Write(t[i].FB.Learnset);
+        {
+            var p = t[i];
+            var learn = p.FB.Learnset;
+            if (i == (int)Species.Zorua && p.Form == 1)
+                learn = Insert(learn, 28, Move.Spite);
+            else if (i == (int)Species.Larvesta && p.Form == 0)
+                learn = Insert(learn, 24, Move.BugBite);
+            result[i] = Write(learn);
+        }
         return result;
+
+        static List<PersonalInfoMove> Insert(IList<PersonalInfoMove> learn, sbyte level, Move move)
+        {
+            var list = learn.ToList();
+            var index = list.FindIndex(z => z.Level > level);
+            list.Add(new PersonalInfoMove { Level = level, Move = (ushort)move });
+            return list.OrderBy(z => z.Level).ToList();
+        }
 
         static byte[] Write(IEnumerable<PersonalInfoMove> fbLearnset)
         {
