@@ -133,7 +133,12 @@ public class EncounterDumperSV
                     var pd = entry.Symbol;
                     gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                     gw.WriteLine($"    Form:    {pd.FormId}");
-                    gw.WriteLine($"    Level:   {pd.Level}");
+                    gw.Write($"    Level:   {pd.Level}");
+                    foreach (var adj in areas.Select(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv).Where(lv => lv != 0).Distinct().Order())
+                    {
+                        gw.Write($", {pd.Level + adj}");
+                    }
+                    gw.WriteLine();
                     gw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
                     gw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
 
@@ -203,12 +208,20 @@ public class EncounterDumperSV
                         }
                     }
 
+
                     locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
                     if (fieldIndex == PaldeaFieldIndex.Paldea && entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
                         locs.Add(46); // North Province (Area One)
 
                     locs.Sort();
                     WriteFixedSymbol(serialized, entry, locs);
+
+                    foreach (var adjustLevel in areas.Select(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv).Where(lv => lv != 0).Distinct())
+                    {
+                        locs = areas.Where(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv == adjustLevel).Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
+                        locs.Sort();
+                        WriteFixedSymbol(serialized, entry, locs, adjustLevel);
+                    }
                 }
             }
         }
@@ -435,7 +448,7 @@ public class EncounterDumperSV
         return result;
     }
 
-    private static void WriteFixedSymbol(ICollection<byte[]> exist, FixedSymbolTable entry, IReadOnlyList<int> locs)
+    private static void WriteFixedSymbol(ICollection<byte[]> exist, FixedSymbolTable entry, IReadOnlyList<int> locs, int adjustLevel = 0)
     {
         var enc = entry.Symbol;
         using var ms = new MemoryStream();
@@ -443,7 +456,7 @@ public class EncounterDumperSV
 
         bw.Write(SpeciesConverterSV.GetNational9((ushort)enc.DevId));
         bw.Write((byte)enc.FormId);
-        bw.Write((byte)enc.Level);
+        bw.Write((byte)(enc.Level + adjustLevel));
 
         bw.Write((byte)enc.TalentVNum);
         bw.Write((byte)enc.GemType);
