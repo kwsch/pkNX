@@ -199,6 +199,26 @@
     <Geometry x:Key="ExpanderToggleButtonArrow">M5,-0 L9,5 1,5 z</Geometry>
 
     <Geometry x:Key="SliderThumb.Horizontal.Default">M0 26 L0 6 Q0 0 3 0 Q6 0 6 6 L6 26 Q6 32 3 32 Q0 32 0 26 z</Geometry>
+
+    <!-- local:LabeledControl -->
+    <Style TargetType="{x:Type local:LabeledControl}">
+        <Setter Property="Label" Value="Label: "/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LabeledControl}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{TemplateBinding Label}" HorizontalAlignment="Right" />
+                        <ContentControl Grid.Column="1" Content="{TemplateBinding Content}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--FontStyle-->
     <Style TargetType="{x:Type local:IconImage}">
         <Setter Property="ToolTipService.InitialShowDelay" Value="{StaticResource ToolTipInitialShowDelay}"/>

@@ -347,7 +347,7 @@ public partial class MainWindow
 
     private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        using FolderBrowserDialog fbd = new();
+        using System.Windows.Forms.FolderBrowserDialog fbd = new();
         fbd.Description = "Select a folder containing the game files.";
         fbd.UseDescriptionForTitle = true;
         fbd.ShowNewFolderButton = false;
@@ -385,5 +385,12 @@ public partial class MainWindow
 
         // Force reload of editor buttons
         LoadEditorButtons();
+    }
+
+    private void Menu_EditWorkspaceSettings_Click(object sender, RoutedEventArgs e)
+    {
+        var form = new Settings();
+        form.ShowDialog();
+        Editor.SetupVFS();
     }
 }

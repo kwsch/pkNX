@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              x:Name="Root"
              d:Background="{StaticResource DockWindow.Background}"
-             d:DesignHeight="74" d:DesignWidth="692">
+             d:DesignWidth="692">
     <UserControl.Resources>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>

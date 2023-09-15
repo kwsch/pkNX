@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace pkNX.Structures;
@@ -199,16 +200,16 @@ public static class ArrayUtil
 
 public static class ArrayUtilsExt
 {
-    public static TSource[] Append<TSource>(this TSource[] first, TSource second, params TSource[] third)
+    [Pure]
+    public static TSource[] Concat<TSource>(this TSource[] src, params TSource[] toAdd)
     {
-        return ArrayUtil.ConcatAll(first, new[] { second }, third);
+        return ArrayUtil.ConcatAll(src, toAdd);
     }
 
-    public static TSource[] Remove<TSource>(this TSource[] first, TSource toRemove)
+    [Pure]
+    public static TSource[] Remove<TSource>(this TSource[] src, params TSource[] toRemove)
     {
-        var list = first.ToList();
-        list.Remove(toRemove);
-        return list.ToArray();
+        return src.Except(toRemove).ToArray();
     }
 }
 

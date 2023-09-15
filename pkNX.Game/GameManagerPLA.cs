@@ -21,8 +21,6 @@ public class GameManagerPLA : GameManager
     /// </summary>
     public GameData8a Data { get; protected set; } = null!;
 
-    public VirtualFileSystem VFS { get; private set; } = null!;
-
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
@@ -32,12 +30,6 @@ public class GameManagerPLA : GameManager
         var tid = ROM.ExeFS != null ? TitleID : "arceus";
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);
-
-        var cleanRomFS = new PhysicalFileSystem(basePath + "/romfs/").AsReadOnlyFileSystem();
-        var moddedRomFS = new PhysicalFileSystem(redirect + "/romfs/");
-
-        var layeredFS = new LayeredFileSystem(moddedRomFS, cleanRomFS);
-        VFS = new VirtualFileSystem(new MountPoint("/romfs/", layeredFS));
     }
 
     public override void Initialize()

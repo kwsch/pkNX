@@ -409,7 +409,6 @@ public partial class WPFTextEditor
                 return;
         }
 
-
         var result = WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Would you like to unescape newline characters?");
         bool newline = result == MessageBoxResult.Yes;
 

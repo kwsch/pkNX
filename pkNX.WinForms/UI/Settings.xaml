@@ -1,0 +1,55 @@
+<Window x:Class="pkNX.WinForms.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pkNX.WinForms"
+        mc:Ignorable="d"
+        x:Name="Root"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Window.Background}"
+        Title="Settings" Height="450" Width="800" Closing="Window_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <GroupBox Header="Game File Paths">
+                <ItemsControl ItemsSource="{Binding Config.GameConfigs, ElementName=Root}" d:ItemsSource="{d:SampleData ItemCount=3}" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Margin="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="local:GameConfig">
+                            <Expander Header="{Binding GameTitle}" Grid.IsSharedSizeScope="True" IsExpanded="{Binding IsValid, Mode=OneTime}">
+                                <StackPanel Margin="14 3 3 3">
+                                    <local:LabeledControl Label="Workspace Path:">
+                                        <local:PathSelector Path="{Binding WorkspacePath}"/>
+                                    </local:LabeledControl>
+                                    <local:LabeledControl Label="Override Paths:">
+                                        <CheckBox x:Name="CHK_Split" VerticalAlignment="Center" Margin="3" IsChecked="{Binding OverrideDefaultPaths}"/>
+                                    </local:LabeledControl>
+                                    <StackPanel Visibility="{Binding IsChecked, ElementName=CHK_Split, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <local:LabeledControl Label="RomFS:">
+                                            <local:PathSelector Path="{Binding RomFSPath }" IsEnabled="{Binding IsChecked, ElementName=CHK_Split}"/>
+                                        </local:LabeledControl>
+                                        <local:LabeledControl Label="ExeFS:">
+                                            <local:PathSelector Path="{Binding ExeFSPath}" IsEnabled="{Binding IsChecked, ElementName=CHK_Split}"/>
+                                        </local:LabeledControl>
+                                        <local:LabeledControl Label="Mod Export:">
+                                            <local:PathSelector Path="{Binding ExportPath}" IsEnabled="{Binding IsChecked, ElementName=CHK_Split}"/>
+                                        </local:LabeledControl>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+        </ScrollViewer>
+    </Grid>
+</Window>

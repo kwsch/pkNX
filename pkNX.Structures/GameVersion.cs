@@ -1,3 +1,5 @@
+using pkNX.Containers.VFS;
+
 namespace pkNX.Structures;
 
 /// <summary>
@@ -511,4 +513,40 @@ public enum GameVersion
     /// </summary>
     Stadium2,
     #endregion
+}
+
+
+public static class GameVersionExt
+{
+    public static string GetTitleID(this GameVersion game) => game switch
+    {
+        GameVersion.PLA => "01001F5010DFA000",
+        GameVersion.SW => "0100ABF008968000",
+        GameVersion.SH => "01008DB008C2C000",
+        GameVersion.SL => "0100A3D008C5C000",
+        GameVersion.VL => "01008F6008C5E000",
+        _ => throw new System.NotImplementedException(),
+    };
+
+    public static string GetTitleName(this GameVersion game) => game switch
+    {
+        GameVersion.PLA => "Pokémon Legends Arceus",
+        GameVersion.SW => "Pokémon Sword",
+        GameVersion.SH => "Pokémon Shield",
+        GameVersion.SL => "Pokémon Scarlet",
+        GameVersion.VL => "Pokémon Violet",
+        _ => throw new System.NotImplementedException(),
+    };
+
+    public static string ToLowerString(this GameVersion game) => game.ToString().ToLowerInvariant();
+    public static FileSystemPath ToMountPath(this GameVersion game) => $"/{game.ToString().ToLowerInvariant()}/";
+}
+
+public static class VFSExt
+{
+    public static bool IsGameLoaded(this VirtualFileSystem vfs, GameVersion game)
+    {
+        var gamePath = game.ToMountPath() + "romfs/";
+        return vfs.IsMounted(gamePath);
+    }
 }

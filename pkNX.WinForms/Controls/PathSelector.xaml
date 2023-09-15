@@ -1,0 +1,19 @@
+<UserControl x:Class="pkNX.WinForms.PathSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:pkNX.WinForms"
+             x:Name="Root"
+             mc:Ignorable="d" d:DesignWidth="500">
+    <Grid Height="27">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" Text="{Binding Path, ElementName=Root}" Margin="3" IsReadOnly="{Binding IsPathReadOnly, ElementName=Root}" TextChanged="TextBox_TextChanged" />
+        <Button Grid.Column="1" Margin="3" Padding="3" Width="32" Click="B_PathSelect_Click">
+            <local:IconImage Icon="FolderOpen" IconFont="Solid" Height="14" />
+        </Button>
+    </Grid>
+</UserControl>

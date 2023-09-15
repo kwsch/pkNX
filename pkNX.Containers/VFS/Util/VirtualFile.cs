@@ -8,23 +8,11 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
     public string Name => Path.EntityName;
     public VirtualDirectory ParentDirectory => VirtualDirectory.Create(FileSystem, Path.ParentPath);
 
-    public (string, string) GetFileNameAndExtension()
-    {
-        int lastPeriod = Name.LastIndexOf('.');
-        return (Name[..lastPeriod], Name[(lastPeriod + 1)..]);
-    }
+    public override string ToString() => Path.ToString();
 
-    public string GetFileNameWithoutExtension()
-    {
-        int lastPeriod = Name.LastIndexOf('.');
-        return Name[..lastPeriod];
-    }
-
-    public string GetExtension()
-    {
-        int lastPeriod = Name.LastIndexOf('.');
-        return Name[(lastPeriod + 1)..];
-    }
+    public (string, string) GetFileNameAndExtension() => Path.GetFileNameAndExtension();
+    public string GetFileNameWithoutExtension() => Path.GetFileNameWithoutExtension();
+    public string GetExtension() => Path.GetExtension();
 
     public Stream Open(FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
     {

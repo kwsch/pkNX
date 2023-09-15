@@ -1,53 +1,56 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace pkNX.Containers.VFS;
 
-public record MountPoint
+public record MountPoint : IComparable<MountPoint>
 {
     public FileSystemPath MountPath { get; }
     public IFileSystem FileSystem { get; }
 
-    public FileSystemPath AddMountPoint(FileSystemPath path)
-    {
-        return MountPath.AppendPath(path);
-    }
-
-    public FileSystemPath RemoveMountPoint(FileSystemPath path)
-    {
-        return path.IsRoot ? path : path.MakeRelativeTo(MountPath);
-    }
-
     public MountPoint(FileSystemPath mountPath, IFileSystem fileSystem)
     {
         MountPath = mountPath;
-        FileSystem = fileSystem.AsRelativeFileSystem(RemoveMountPoint, AddMountPoint);
+        FileSystem = fileSystem.AsRelativeFileSystem(
+            path => path.IsRoot ? path : path.MakeRelativeTo(MountPath),
+            path => MountPath.AppendPath(path)
+            );
+    }
+
+    public int CompareTo(MountPoint? other)
+    {
+        if (other == null)
+            return 1;
+
+        return MountPath.CompareTo(other.MountPath);
     }
 }
 
 public class VirtualFileSystem : IFileSystem
 {
     public static VirtualFileSystem Current { get; private set; } = null!;
+    public bool IsReadOnly => _mounts.All(x => x.FileSystem.IsReadOnly);
 
-    public SortedSet<MountPoint> Mounts { get; }
-    public bool IsReadOnly => Mounts.All(x => x.FileSystem.IsReadOnly);
+    private readonly SortedSet<MountPoint> _mounts;
 
-    public VirtualFileSystem(IEnumerable<MountPoint> mounts)
+    public VirtualFileSystem(IEnumerable<MountPoint> mounts) :
+        this(mounts.ToArray())
     {
-        Mounts = new SortedSet<MountPoint>(mounts);
+    }
+
+    public VirtualFileSystem(params MountPoint[] mounts)
+    {
+        _mounts = new(mounts);
         Current = this;
     }
 
-    public VirtualFileSystem(params MountPoint[] mounts) :
-        this(mounts.AsEnumerable())
-    { }
-
     public void Dispose()
     {
-        foreach (var fs in Mounts.Select(x => x.FileSystem))
+        foreach (var fs in _mounts.Select(x => x.FileSystem))
             fs.Dispose();
 
         GC.SuppressFinalize(this);
@@ -55,7 +58,22 @@ public class VirtualFileSystem : IFileSystem
 
     protected MountPoint GetMountPoint(FileSystemPath path)
     {
-        return Mounts.First(mount => mount.MountPath == path || mount.MountPath.IsParentOf(path));
+        return _mounts.First(mount => mount.MountPath == path || mount.MountPath.IsParentOf(path));
+    }
+
+    public bool IsMounted(FileSystemPath mountPath)
+    {
+        return _mounts.Any(mount => mount.MountPath == mountPath || mount.MountPath.IsParentOf(mountPath));
+    }
+
+    public void Mount(MountPoint mountPoint)
+    {
+        _mounts.Add(mountPoint);
+    }
+
+    public void UnMount(MountPoint mountPoint)
+    {
+        _mounts.Remove(mountPoint);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

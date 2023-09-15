@@ -11,8 +11,15 @@ namespace pkNX.Game;
 
 public static class GamePath
 {
+    public static readonly GameVersion[] SupportedGames = { GameVersion.SW, GameVersion.SH, GameVersion.PLA, GameVersion.SL, GameVersion.VL };
+
     private static GameVersion CurrentGame { get; set; }
     private static int CurrentLanguage { get; set; }
+
+    public static void InitializeWorkspace()
+    {
+
+    }
 
     public static void Initialize(GameVersion game, int language)
     {
@@ -30,6 +37,11 @@ public static class GamePath
         return GetDirectoryPath(file, CurrentGame, language);
     }
 
+    public static FileSystemPath GetDirectoryPath(GameFile file, GameVersion game)
+    {
+        return GetDirectoryPath(file, game, CurrentLanguage);
+    }
+
     public static FileSystemPath GetDirectoryPath(GameFile file, GameVersion game, int language)
     {
         if (file is GameFile.GameText or GameFile.StoryText)
@@ -38,8 +50,12 @@ public static class GamePath
         return game switch
         {
             GameVersion.GG => GetDirectoryPath_GG(file),
+            GameVersion.SW => GetDirectoryPath_SWSH(file),
+            GameVersion.SH => GetDirectoryPath_SWSH(file),
             GameVersion.SWSH => GetDirectoryPath_SWSH(file),
             GameVersion.PLA => GetDirectoryPath_PLA(file),
+            GameVersion.SL => GetDirectoryPath_SV(file),
+            GameVersion.VL => GetDirectoryPath_SV(file),
             GameVersion.SV => GetDirectoryPath_SV(file),
 
             _ => throw new NotSupportedException($"The selected game ({game}) is currently not mapped")
@@ -88,6 +104,8 @@ public static class GamePath
         GameFile.StoryText7 => "/romfs/bin/message/Korean/script/",
         GameFile.StoryText8 => "/romfs/bin/message/Simp_Chinese/script/",
         GameFile.StoryText9 => "/romfs/bin/message/Trad_Chinese/script/",
+
+        GameFile.PokemonArchiveFolder => "/romfs/bin/archive/pokemon/",
 
         _ => throw new NotSupportedException($"The selected file ({file}) is currently not mapped")
     };

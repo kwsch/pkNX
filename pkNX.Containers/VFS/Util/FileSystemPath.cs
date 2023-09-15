@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace pkNX.Containers.VFS;
 
@@ -59,7 +60,7 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
         return Parse(path);
     }
 
-    public static implicit operator string(FileSystemPath path)
+    public static explicit operator string(FileSystemPath path)
     {
         return path.ToString();
     }
@@ -78,6 +79,21 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
         if (s.Contains(string.Concat(DirectorySeparator, DirectorySeparator)))
             throw new UriFormatException($"Could not parse input \"{s}\": Path contains double directory-separators.");
         return new(s);
+    }
+
+    public static FileSystemPath operator +(FileSystemPath path, string strPathToAppend)
+    {
+        return path.AppendPath(strPathToAppend);
+    }
+
+    public static FileSystemPath operator +(FileSystemPath path, FileSystemPath pathToAppend)
+    {
+        return path.AppendPath(pathToAppend);
+    }
+
+    public static string operator +(string path, FileSystemPath pathToAppend)
+    {
+        return path + (string)pathToAppend;
     }
 
     [Pure]
@@ -159,9 +175,29 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
     {
         if (!IsFile)
             throw new ArgumentException("The specified FileSystemPath is not a file.");
-        string name = EntityName;
-        int extensionIndex = name.LastIndexOf('.');
-        return extensionIndex <= 0 ? string.Empty : name[extensionIndex..];
+
+        int lastPeriod = EntityName.LastIndexOf('.');
+        return EntityName[(lastPeriod + 1)..];
+    }
+
+    [Pure]
+    public string GetFileNameWithoutExtension()
+    {
+        if (!IsFile)
+            throw new ArgumentException("The specified FileSystemPath is not a file.");
+
+        int lastPeriod = EntityName.LastIndexOf('.');
+        return EntityName[..lastPeriod];
+    }
+
+    [Pure]
+    public (string, string) GetFileNameAndExtension()
+    {
+        if (!IsFile)
+            throw new ArgumentException("The specified FileSystemPath is not a file.");
+
+        int lastPeriod = EntityName.LastIndexOf('.');
+        return (EntityName[..lastPeriod], EntityName[(lastPeriod + 1)..]);
     }
 
     [Pure]
@@ -169,6 +205,7 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
     {
         if (!IsFile)
             throw new ArgumentException("The specified FileSystemPath is not a file.");
+
         string name = EntityName;
         int extensionIndex = name.LastIndexOf('.');
         if (extensionIndex < 0)

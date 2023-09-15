@@ -31,14 +31,6 @@ public partial class PokemonEditor
 
     public static readonly DependencyProperty SelectedSpeciesProperty = DependencyProperty.Register(nameof(SelectedSpecies), typeof(ushort), typeof(PokemonEditor), new PropertyMetadata((ushort)0, OnSelectedSpeciesChanged));
 
-    private static void OnSelectedSpeciesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var self = (PokemonEditor)d;
-        if (self.Loaded)
-            self.SaveCurrent();
-        self.LoadSelectedSpecies();
-    }
-
     private readonly bool Loaded;
     private readonly GameData8a Data;
 
@@ -83,7 +75,7 @@ public partial class PokemonEditor
         var pt = Data.PersonalData;
         var index = pt.GetFormIndex(SelectedSpecies, SelectedForm);
 
-        //TB_FormName.Text = UIStaticSources.FormsList[index];
+        TB_FormName.Text = UIStaticSources.FormsList[index];
 
         LoadPersonal((IPersonalInfoPLA)Data.PersonalData[index]);
         LoadMisc(Editor.PokeMisc.Root.GetEntry(SelectedSpecies, SelectedForm));
@@ -294,6 +286,8 @@ public partial class PokemonEditor
 
         pokeMisc8a.DropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.DropTableRef);
         pokeMisc8a.AlphaDropTable = Editor.FieldDropTables.Table.FirstOrDefault(drops => drops.Hash == pokeMisc8a.AlphaDropTableRef);
+
+        DG_Drops.ItemsSource = Editor.FieldDropTables.Table;
     }
 
     private void LoadDexResearch(PokedexResearchTask[] pokedexResearchTask)
@@ -428,6 +422,14 @@ public partial class PokemonEditor
             }
             evoSet.Table = entries.ToArray();
         }
+    }
+
+    private static void OnSelectedSpeciesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var self = (PokemonEditor)d;
+        if (self.Loaded)
+            self.SaveCurrent();
+        self.LoadSelectedSpecies();
     }
 
     private void B_DumpTable_Click(object sender, RoutedEventArgs e)

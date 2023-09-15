@@ -749,8 +749,8 @@ internal class EditorPLA : EditorBase
     [EditorCallable()]
     public void ModelConverter()
     {
-        using var form = new ModelConverter(ROM);
-        form.ShowDialog();
+        var form = new ModelEditor();
+        form.Show();
     }
 
     [EditorCallable()]

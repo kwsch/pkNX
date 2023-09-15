@@ -15,6 +15,9 @@ public class PhysicalFileSystem : IFileSystem
         if (!physicalRoot.EndsWith(Path.DirectorySeparatorChar))
             physicalRoot += Path.DirectorySeparatorChar;
         PhysicalRoot = physicalRoot;
+
+        if (!Directory.Exists(PhysicalRoot))
+            throw new ArgumentException("The specified path does not exist.", nameof(physicalRoot));
     }
 
     public string GetPhysicalPath(FileSystemPath path)

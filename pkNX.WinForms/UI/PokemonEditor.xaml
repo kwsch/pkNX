@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:pkNX.WinForms"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:arceus="clr-namespace:pkNX.Structures.FlatBuffers.Arceus;assembly=pkNX.Structures.FlatBuffers.Arceus"
+        xmlns:controls="clr-namespace:pkNX.WinForms.Controls"
         mc:Ignorable="d"
         x:Name="PkmEditor"
         Background="{StaticResource Window.Background}"
@@ -151,8 +152,8 @@
                     <Label Grid.Column="0" Grid.Row="5" Content="EXP Group:" HorizontalContentAlignment="Right"/>
                     <ComboBox Grid.Column="1" Grid.Row="5" x:Name="CB_EXPGroup" Margin="3" Grid.ColumnSpan="2" ItemsSource="{Binding Source={x:Static local:UIStaticSources.EXPGroups}}"/>
 
-                    <Label Grid.Column="0" Grid.Row="6" Content="Form Name:" HorizontalContentAlignment="Right" Visibility="Hidden"/>
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" x:Name="TB_FormName" Margin="3" IsReadOnly="True" Visibility="Hidden"/>
+                    <Label Grid.Column="0" Grid.Row="6" Content="Form Name:" HorizontalContentAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" x:Name="TB_FormName" Margin="3" IsReadOnly="True" />
                 </Grid>
 
                 <!-- Status -->
@@ -242,7 +243,7 @@
         <!-- Tabs -->
         <TabControl x:Name="tabControl1" Grid.Row="2" Margin="3">
             <!-- Personal Tab -->
-            <!-- TODO: The personal tab should contain data that is shared between games and the Details section at the top should contain all game specific data -->
+            <!-- TODO: Sort out the properties better between the personal tab and the details section at the top. The section at the top should contain all the info you'd want to see/edit when other tabs are open -->
             <TabItem Header="Personal" >
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
@@ -519,7 +520,7 @@
 
                     <!-- Level Up -->
                     <GroupBox Grid.Column="0" Header="Level Up Learnset:">
-                        <DataGrid x:Name="DG_LevelUp" AutoGenerateColumns="False">
+                        <DataGrid x:Name="DG_LevelUp" AutoGenerateColumns="False" UseLayoutRounding="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Level" MinWidth="32" Binding="{Binding Level}"/>
                                 <DataGridTextColumn Header="Mastery Level" MinWidth="32" Binding="{Binding LevelMaster}"/>
@@ -598,8 +599,34 @@
 
             </TabItem>
 
+            <!-- Drops Tab -->
+            <TabItem Header="Drops">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <controls:ItemDrop/>
+                        <controls:ItemDrop Grid.Column="1"/>
+                    </Grid>
+
+                    <DataGrid x:Name="DG_Drops" Grid.Row="1" Margin="0,22,0,0"/>
+                </Grid>
+            </TabItem>
+
             <!-- Enhancements Tab -->
-            <TabItem Header="Enhancements" Visibility="Hidden">
+            <TabItem Header="Randomizer" Visibility="Hidden">
 
                 <TabControl>
                     <!-- Enhancement sections -->

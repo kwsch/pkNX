@@ -1,0 +1,55 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pkNX.WinForms"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="pkNX.WinForms.ModelEditor"
+        Background="{StaticResource Window.Background}"
+        WindowStartupLocation="CenterScreen"
+        x:Name="Root"
+        mc:Ignorable="d"
+        Title="ModelEditor" MinWidth="420" MinHeight="250" Width="560" Height="720">
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <local:LabeledControl Label="Convert Mode:">
+                <CheckBox x:Name="CHK_ConvertMode" Margin="3" VerticalAlignment="Center" IsChecked="True"/>
+            </local:LabeledControl>
+            <local:LabeledControl Grid.Column="1" Label="Output Format:" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}, ElementName=CHK_ConvertMode}">
+                <ComboBox MinWidth="108" Margin="3" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}, ElementName=CHK_ConvertMode}"/>
+            </local:LabeledControl>
+            
+            <Button Grid.Column="2" Click="B_Convert_Click" Margin="3" Width="80" Content="Convert" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <local:LabeledControl Label="Source:">
+                <ComboBox x:Name="CB_GameSource" MinWidth="168" Margin="3" DisplayMemberPath="GameTitle" SelectionChanged="CB_GameSource_SelectionChanged"/>
+            </local:LabeledControl>
+            <local:LabeledControl Grid.Column="1" Label="Species:">
+                <ComboBox x:Name="CB_Species" Margin="3" DisplayMemberPath="Name" SelectionChanged="CB_Species_SelectionChanged"/>
+            </local:LabeledControl>
+        </Grid>
+        <WindowsFormsHost Grid.Row="2" Margin="3">
+            <forms:PropertyGrid x:Name="PG_Model" HelpVisible="False" ToolbarVisible="False"/>
+        </WindowsFormsHost>
+    </Grid>
+</Window>

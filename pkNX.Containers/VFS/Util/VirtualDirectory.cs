@@ -8,6 +8,8 @@ public readonly record struct VirtualDirectory(IFileSystem FileSystem, FileSyste
     public string Name => Path.EntityName;
     public VirtualDirectory ParentDirectory => Create(FileSystem, Path.ParentPath);
 
+    public override string ToString() => Path.ToString();
+
     public void CopyTo(VirtualDirectory destination)
     {
         FileSystem.Copy(Path, destination.FileSystem, destination.Path.AppendDirectory(Name));
