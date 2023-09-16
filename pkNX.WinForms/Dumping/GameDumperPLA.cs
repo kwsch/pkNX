@@ -206,7 +206,7 @@ public class GameDumperPLA
             for (var i = 0; i < pak.HashAbsolute.Length; i++)
             {
                 var x = pak.HashAbsolute[i];
-                gf.Add($"{x.HashFnv1aPathFull:X16}\t{f}.Absolute[{i}]");
+                gf.Add($"{x:X16}\t{f}.Absolute[{i}]");
             }
 
             for (var i = 0; i < pak.HashInFolder.Length; i++)

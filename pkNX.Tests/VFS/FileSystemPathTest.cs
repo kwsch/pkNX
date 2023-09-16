@@ -4,6 +4,7 @@ using System;
 using pkNX.Containers.VFS;
 using SharpFileSystem.Tests;
 using Xunit;
+// ReSharper disable ReturnValueOfPureMethodIsNotUsed
 
 namespace pkNX.Tests;
 
@@ -99,6 +100,9 @@ public class FileSystemPathTest
     {
         string s = "/directorya/";
         Assert.Equal(s, FileSystemPath.Parse(s).ToString());
+        Assert.Equal(s, (string)FileSystemPath.Parse(s));
+
+        Assert.Equal("C:\\" + s, "C:\\" + FileSystemPath.Parse(s));
     }
 
     /// <summary>
@@ -138,6 +142,7 @@ public class FileSystemPathTest
     public void ParseTest()
     {
         Assert.True(_paths.All(p => p == FileSystemPath.Parse(p.ToString())));
+        Assert.True(_paths.All(p => p == p.ToString()));
         EAssert.Throws<UriFormatException>(() => FileSystemPath.Parse("thisisnotapath"));
         EAssert.Throws<UriFormatException>(() => FileSystemPath.Parse("/thisisainvalid//path"));
     }
@@ -212,6 +217,32 @@ public class FileSystemPathTest
     }
 
     /// <summary>
+    ///A test for GetFileNameAndExtension
+    ///</summary>
+    [Fact]
+    public void GetFileNameAndExtensionTest()
+    {
+        Assert.Equal(("filea", ""), fileA.GetFileNameAndExtension());
+        Assert.Equal(("fileb", ".txt"), fileB.GetFileNameAndExtension());
+        fileC = FileSystemPath.Parse("/directory.txt/filec");
+        Assert.Equal(("filec", ""), fileC.GetFileNameAndExtension());
+        EAssert.Throws<ArgumentException>(() => directoryA.GetFileNameAndExtension());
+    }
+
+    /// <summary>
+    ///A test for GetFileNameAndExtension
+    ///</summary>
+    [Fact]
+    public void GetFileNameWithoutExtensionTest()
+    {
+        Assert.Equal("filea", fileA.GetFileNameWithoutExtension());
+        Assert.Equal("fileb", fileB.GetFileNameWithoutExtension());
+        fileC = FileSystemPath.Parse("/directory.txt/filec");
+        Assert.Equal("filec", fileC.GetFileNameWithoutExtension());
+        EAssert.Throws<ArgumentException>(() => directoryA.GetFileNameWithoutExtension());
+    }
+
+    /// <summary>
     ///A test for GetDirectorySegments
     ///</summary>
     [Fact]
@@ -261,18 +292,26 @@ public class FileSystemPathTest
         var subpath = FileSystemPath.Parse("/dir/file");
         var subpathstr = "dir/file";
         foreach (var p in Directories)
-            Assert.True(p.AppendPath(subpath).ParentPath.ParentPath == p);
-        foreach (var p in Directories)
-            Assert.True(p.AppendPath(subpathstr).ParentPath.ParentPath == p);
-        foreach (var pa in Directories)
         {
+            Assert.True(p.AppendPath(subpath).ParentPath.ParentPath == p);
+            Assert.True(p.AppendPath(subpathstr).ParentPath.ParentPath == p);
+
+            Assert.True((p + subpath).ParentPath.ParentPath == p);
+            Assert.True((p + subpathstr).ParentPath.ParentPath == p);
+
             foreach (var pb in _paths.Where(pb => !pb.IsRoot))
-                Assert.True(pa.AppendPath(pb).IsChildOf(pa));
+            {
+                Assert.True(p.AppendPath(pb).IsChildOf(p));
+                Assert.True((p + pb).IsChildOf(p));
+            }
         }
 
         EAssert.Throws<InvalidOperationException>(() => fileA.AppendPath(subpath));
         EAssert.Throws<InvalidOperationException>(() => fileA.AppendPath(subpathstr));
         EAssert.Throws<ArgumentException>(() => directoryA.AppendPath("/rootedpath/"));
+        EAssert.Throws<InvalidOperationException>(() => _ = fileA + subpath);
+        EAssert.Throws<InvalidOperationException>(() => _ = fileA + subpathstr);
+        EAssert.Throws<ArgumentException>(() => _ = directoryA + "/rootedpath/");
     }
 
     /// <summary>
@@ -282,11 +321,11 @@ public class FileSystemPathTest
     public void AppendFileTest()
     {
         foreach (var d in Directories)
+        {
             Assert.True(d.AppendFile("file").IsFile);
-        foreach (var d in Directories)
             Assert.True(d.AppendFile("file").EntityName == "file");
-        foreach (var d in Directories)
             Assert.True(d.AppendFile("file").ParentPath == d);
+        }
         EAssert.Throws<InvalidOperationException>(() => fileA.AppendFile("file"));
         EAssert.Throws<ArgumentException>(() => directoryA.AppendFile("dir/file"));
     }
@@ -298,11 +337,11 @@ public class FileSystemPathTest
     public void AppendDirectoryTest()
     {
         foreach (var d in Directories)
+        {
             Assert.True(d.AppendDirectory("dir").IsDirectory);
-        foreach (var d in Directories)
             Assert.True(d.AppendDirectory("dir").EntityName == "dir");
-        foreach (var d in Directories)
             Assert.True(d.AppendDirectory("dir").ParentPath == d);
+        }
         EAssert.Throws<InvalidOperationException>(() => fileA.AppendDirectory("dir"));
         EAssert.Throws<ArgumentException>(() => root.AppendDirectory("dir/dir"));
     }

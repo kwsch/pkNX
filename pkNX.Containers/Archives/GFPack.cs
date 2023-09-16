@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -17,9 +18,9 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
     // Overall structure: Header, metadata, and the raw compressed files
     public GFPackHeader Header { get; set; }
     public GFPackPointers Pointers { get; set; }
-    public FileHashAbsolute[] HashAbsolute { get; set; }
+    public ulong[] HashAbsolute { get; set; }
     public FileHashFolder[] HashInFolder { get; set; }
-    public FileData[] FileTable { get; set; }
+    public GFPackFileHeader[] FileTable { get; set; }
 
     public byte[][] CompressedFiles { get; set; }
     public byte[][] DecompressedFiles { get; set; }
@@ -49,9 +50,9 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         Pointers = new GFPackPointers(br, Header.CountFolders);
 
         Debug.Assert(Pointers.PtrHashPaths == br.BaseStream.Position);
-        HashAbsolute = new FileHashAbsolute[Header.CountFiles];
+        HashAbsolute = new ulong[Header.CountFiles];
         for (int i = 0; i < HashAbsolute.Length; i++)
-            HashAbsolute[i] = br.ReadBytes(FileHashAbsolute.SIZE).ToClass<FileHashAbsolute>();
+            HashAbsolute[i] = br.ReadUInt64();
 
         HashInFolder = new FileHashFolder[Header.CountFolders];
         for (int f = 0; f < HashInFolder.Length; f++)
@@ -67,10 +68,13 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         }
 
         Debug.Assert(Pointers.PtrFileTable == br.BaseStream.Position);
-        FileTable = new FileData[Header.CountFiles];
+        FileTable = new GFPackFileHeader[Header.CountFiles];
         for (int i = 0; i < FileTable.Length; i++)
-            FileTable[i] = br.ReadBytes(FileData.SIZE).ToClass<FileData>();
+            FileTable[i] = br.ReadBytes(GFPackFileHeader.SIZE).ToClass<GFPackFileHeader>();
 
+
+
+        // read all files into memory after the directory was read
         CompressedFiles = new byte[Header.CountFiles][];
         for (int i = 0; i < CompressedFiles.Length; i++)
         {
@@ -78,6 +82,10 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
             CompressedFiles[i] = br.ReadBytes(FileTable[i].SizeCompressed);
         }
 
+
+
+
+        // decompress all files once they have been read
         DecompressedFiles = new byte[Header.CountFiles][];
         for (int i = 0; i < DecompressedFiles.Length; i++)
             DecompressedFiles[i] = Decompress(CompressedFiles[i], FileTable[i].SizeDecompressed, FileTable[i].Type);
@@ -97,7 +105,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         }
     }
 
-    public int GetIndexFull(ulong hash) => Array.FindIndex(HashAbsolute, z => z.HashFnv1aPathFull == hash);
+    public int GetIndexFull(ulong hash) => Array.FindIndex(HashAbsolute, z => z == hash);
     public int GetIndexFull(string path) => GetIndexFull(FnvHash.HashFnv1a_64(path));
 
     public int GetIndexFileName(ulong hash)
@@ -155,9 +163,9 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         var files = groups.SelectMany(z => z).ToArray();
         Header = new GFPackHeader { CountFolders = directories.Length, CountFiles = files.Length };
 
-        HashAbsolute = new FileHashAbsolute[files.Length];
+        HashAbsolute = new ulong[files.Length];
         HashInFolder = new FileHashFolder[groups.Length];
-        FileTable = new FileData[files.Length];
+        FileTable = new GFPackFileHeader[files.Length];
         DecompressedFiles = new byte[files.Length][];
         CompressedFiles = new byte[files.Length][];
 
@@ -190,8 +198,8 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
             var namelong = file[file.IndexOf(parent, StringComparison.Ordinal)..];
             ulong hashFull = FnvHash.HashFnv1a_64(namelong);
 
-            HashAbsolute[i] = new FileHashAbsolute { HashFnv1aPathFull = hashFull };
-            FileTable[i] = new FileData { Type = type };
+            HashAbsolute[i] = hashFull;
+            FileTable[i] = new GFPackFileHeader { Type = type };
             DecompressedFiles[i] = FileMitm.ReadAllBytes(file);
         }
         Modified = true;
@@ -223,7 +231,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         return ms.ToArray();
     }
 
-    private static byte[] Decompress(byte[] encryptedData, int decryptedLength, CompressionType type)
+    public static byte[] Decompress(byte[] encryptedData, int decryptedLength, CompressionType type)
     {
         return type switch
         {
@@ -268,7 +276,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         Pointers.Write(bw);
         Pointers.PtrHashPaths = bw.BaseStream.Position;
         foreach (var hp in HashAbsolute)
-            bw.Write(hp.ToBytesClass());
+            bw.Write(hp);
 
         for (var f = 0; f < Pointers.PtrHashFolders.Length; f++)
         {
@@ -342,7 +350,7 @@ public class GFPackHeader
 public class GFPackPointers
 {
     /// <summary>
-    /// Data offset for the <see cref="FileData"/> table.
+    /// Data offset for the <see cref="GFPackFileHeader"/> table.
     /// </summary>
     public long PtrFileTable; // array stored at end
 
@@ -374,19 +382,6 @@ public class GFPackPointers
         foreach (var table in PtrHashFolders)
             bw.Write(table);
     }
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public class FileHashAbsolute
-{
-    public const int SIZE = 0x08;
-
-    /// <summary>
-    /// Filename (with directory details) hash.
-    /// </summary>
-    public ulong HashFnv1aPathFull;
-
-    public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFull;
 }
 
 public class FileHashFolder
@@ -428,7 +423,7 @@ public class FileHashIndex
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public class FileData
+public class GFPackFileHeader
 {
     public const int SIZE = 0x18;
 

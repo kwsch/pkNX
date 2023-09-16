@@ -177,7 +177,10 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
             throw new ArgumentException("The specified FileSystemPath is not a file.");
 
         int lastPeriod = EntityName.LastIndexOf('.');
-        return EntityName[(lastPeriod + 1)..];
+        if (lastPeriod < 0)
+            return string.Empty; // No extension found
+
+        return EntityName[lastPeriod..];
     }
 
     [Pure]
@@ -187,6 +190,9 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
             throw new ArgumentException("The specified FileSystemPath is not a file.");
 
         int lastPeriod = EntityName.LastIndexOf('.');
+        if (lastPeriod < 0)
+            return EntityName; // No extension found
+
         return EntityName[..lastPeriod];
     }
 
@@ -197,20 +203,16 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
             throw new ArgumentException("The specified FileSystemPath is not a file.");
 
         int lastPeriod = EntityName.LastIndexOf('.');
-        return (EntityName[..lastPeriod], EntityName[(lastPeriod + 1)..]);
+        if (lastPeriod < 0)
+            return (EntityName, string.Empty); // No extension found
+
+        return (EntityName[..lastPeriod], EntityName[lastPeriod..]);
     }
 
     [Pure]
     public FileSystemPath ChangeExtension(string extension)
     {
-        if (!IsFile)
-            throw new ArgumentException("The specified FileSystemPath is not a file.");
-
-        string name = EntityName;
-        int extensionIndex = name.LastIndexOf('.');
-        if (extensionIndex < 0)
-            return Parse(Path + extension);
-        return ParentPath.AppendFile(name[..extensionIndex] + extension);
+        return ParentPath + (GetFileNameWithoutExtension() + extension);
     }
 
     [Pure]
