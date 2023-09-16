@@ -85,7 +85,8 @@ public partial class DumperSV : Form
 
     private void B_DumpPath_Click(object sender, EventArgs e)
     {
-        using var f = new TextInput();
+        bool Valid(string path) => Game.HasFile(path);
+        using var f = new TextInput(Valid);
         f.ShowDialog();
         if (f.DialogResult != DialogResult.OK)
             return; // cancel
