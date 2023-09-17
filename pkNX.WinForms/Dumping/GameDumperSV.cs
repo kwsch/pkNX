@@ -749,8 +749,13 @@ public class GameDumperSV
     private void DumpPokeDex()
     {
         Dump<BlacklistArray, Blacklist>("world/data/ui/pokedex/blacklist/blacklist_array.bfbs", z => z.Table);
+        Dump<BlacklistArray, Blacklist>("world/data/ui/pokedex/blacklist_dlc1/blacklist_dlc1_array.bfbs", z => z.Table);
+
         Dump<MemoPokeTableArray, MemoPokeTable>("world/data/ui/pokedex/memo_poke_data/memo_poke_data_array.bfbs", z => z.Table);
+        Dump<MemoPokeTableArray, MemoPokeTable>("world/data/ui/pokedex/memo_poke_data_dlc1/memo_poke_data_dlc1_array.bfbs", z => z.Table);
+
         Dump<RewardDataArray, RewardData>("world/data/ui/pokedex/reward_data/reward_data_array.bfbs", z => z.Table);
+        Dump<RewardDataArray, RewardData>("world/data/ui/pokedex/reward_data_dlc1/reward_data_dlc1_array.bfbs", z => z.Table);
 
         DumpX<DistributionRootArray, DistributionRoot, DistributionData>("world/data/ui/pokedex/distribution_data/distribution_data_array.bfbs", z => z.Table, z => z.Table);
         DumpX<DistributionRootArray, DistributionRoot, DistributionData>("world/data/ui/pokedex/distribution_data_dlc1/distribution_data_dlc1_array.bfbs", z => z.Table, z => z.Table);
@@ -948,7 +953,6 @@ public class GameDumperSV
     {
         var files = new[]
         {
-            "world/data/ui/pokedex/distribution_data_dlc1/distribution_data_dlc1_array.bfbs",
             "world/data/oniballoon/reward_action_param/reward_action_param_array.bfbs",
             "world/data/oniballoon/result_demo_param/result_demo_param_array.bfbs",
             //"?? "FirstRewardParamArray" bfbs",
@@ -1034,6 +1038,11 @@ public class GameDumperSV
             "world/data/ui/pokedex/distribution_data/distribution_data_array.bfbs",
             "world/data/ui/pokedex/memo_poke_data/memo_poke_data_array.bfbs",
             "world/data/ui/pokedex/reward_data/reward_data_array.bfbs",
+
+            "world/data/ui/pokedex/blacklist_dlc1/blacklist_dlc1_array.bfbs",
+            "world/data/ui/pokedex/distribution_data_dlc1/distribution_data_dlc1_array.bfbs",
+            "world/data/ui/pokedex/memo_poke_data_dlc1/memo_poke_data_dlc1_array.bfbs",
+            "world/data/ui/pokedex/reward_data_dlc1/reward_data_dlc1_array.bfbs",
 
             // UI
             "world/data/ui/shop/shop_data/shop_data_array.bfbs",
