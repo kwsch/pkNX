@@ -1,23 +1,20 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers.SV;
 using pkNX.Structures.FlatBuffers.SV.Trinity;
-using pkNX.WinForms.Subforms;
 
 namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaSceneModel
 {
-    public readonly List<string>[] AreaNames = new List<string>[] { new(), new() };
-    public readonly Dictionary<string, AreaInfo>[] AreaInfos = new Dictionary<string, AreaInfo>[] { new(), new() };
-    public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = new Dictionary<string, HavokCollision.AABBTree>[] { new(), new() };
-    public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = new Dictionary<string, BoxCollision9>[] { new(), new() };
-    public readonly Dictionary<string, bool>[] IsAtlantis = new Dictionary<string, bool>[] { new(), new() };
+    public List<string>[] AreaNames { get; } = { new(), new() };
+    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = { new(), new() };
+    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = { new(), new() };
+    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = { new(), new() };
+    public Dictionary<string, bool>[] IsAtlantis { get; } = { new(), new() };
 
     public PaldeaSceneModel(IFileInternal ROM, PaldeaFieldModel field)
     {

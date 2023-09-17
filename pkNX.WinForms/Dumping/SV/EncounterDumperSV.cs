@@ -3,6 +3,7 @@ using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
@@ -226,7 +227,7 @@ public class EncounterDumperSV
             }
         }
 
-        // TODO: Are there coin symbols for kitakami?
+        // Gimmighoul only in Paldea
         using var cw = File.CreateText(Path.Combine(path, "titan_coin_symbol.txt"));
         foreach (var entry in csym.Points[(int)PaldeaFieldIndex.Paldea])
         {
@@ -306,6 +307,8 @@ public class EncounterDumperSV
                 .ThenBy(z => z[3]) // Level
             ;
         File.WriteAllBytes(pathPickle, ordered.SelectMany(z => z).ToArray());
+        DumpScene(scene, path);
+        DumpField(field, path);
         return;
 
         // HELPERS
@@ -412,7 +415,22 @@ public class EncounterDumperSV
                 }
             }
         }
+    }
 
+    private void DumpScene(PaldeaSceneModel scene, string path)
+    {
+        // Dump each property to json.
+        var dest = Path.Combine(path, "paldea_scene.json");
+        var json = JsonSerializer.Serialize(scene, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(dest, json);
+    }
+
+    private void DumpField(PaldeaFieldModel field, string path)
+    {
+        // Dump each property to json.
+        var dest = Path.Combine(path, "paldea_field.json");
+        var json = JsonSerializer.Serialize(field, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(dest, json);
     }
 
     /// <summary>

@@ -7,11 +7,12 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaFieldModel
 {
-    private readonly IList<FieldMainArea>[] MainAreas = new IList<FieldMainArea>[2];
-    private readonly IList<FieldSubArea>[] SubAreas = new IList<FieldSubArea>[2];
-    private readonly IList<FieldInsideArea>[] InsideAreas = new IList<FieldInsideArea>[2];
-    private readonly IList<FieldDungeonArea>[] DungeonAreas = new IList<FieldDungeonArea>[2];
-    private readonly IList<FieldLocation>[] FieldLocations = new IList<FieldLocation>[2];
+	private const int MapCount = 2;
+    private IList<FieldMainArea>[] MainAreas { get; } = new IList<FieldMainArea>[MapCount];
+    private IList<FieldSubArea>[] SubAreas { get; } = new IList<FieldSubArea>[MapCount];
+    private IList<FieldInsideArea>[] InsideAreas { get; } = new IList<FieldInsideArea>[MapCount];
+    private IList<FieldDungeonArea>[] DungeonAreas { get; } = new IList<FieldDungeonArea>[MapCount];
+    private IList<FieldLocation>[] FieldLocations { get; } = new IList<FieldLocation>[MapCount];
 
     public PaldeaFieldModel(IFileInternal ROM)
     {
