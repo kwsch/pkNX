@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.IO;
 
 namespace pkNX.Containers.VFS;
@@ -47,25 +48,19 @@ public readonly record struct VirtualFile(IFileSystem FileSystem, FileSystemPath
     public ReadOnlySpan<byte> ReadAllBytes()
     {
         using var stream = Open();
-        using var memoryStream = new MemoryStream();
-        stream.CopyTo(memoryStream);
-        return memoryStream.ToArray();
+        return stream.ReadAllBytes();
     }
 
-    public void ReadAllBytes(Span<byte> bytes)
+    public void ReadAllBytes(Span<byte> destination)
     {
         using var stream = Open();
-        int bytesRead = stream.Read(bytes);
-
-        if (bytesRead != bytes.Length)
-            throw new IOException("Could not read all bytes.");
+        stream.ReadAllBytes(destination);
     }
 
     public string ReadAllText()
     {
         using var stream = Open();
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
+        return stream.ReadAllText();
     }
 
     public void WriteAllBytes(ReadOnlySpan<byte> bytes)

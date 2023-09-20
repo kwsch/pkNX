@@ -46,6 +46,11 @@ public static class Oodle
         return Decompress(input, result);
     }
 
+    public static long Decompress(ReadOnlySpan<byte> input, Span<byte> destination)
+    {
+        return OodleLZ_Decompress(ref MemoryMarshal.GetReference(input), input.Length, ref MemoryMarshal.GetReference(destination), destination.Length);
+    }
+
     private static byte[]? Decompress(ReadOnlySpan<byte> input, byte[] result)
     {
         var dest = result.AsSpan();

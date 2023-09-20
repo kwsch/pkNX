@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace pkNX.Containers;
@@ -49,7 +50,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static ulong HashFnv1a_64(IEnumerable<char> input, ulong hash = kOffsetBasis_64)
+    public static ulong HashFnv1a_64(ReadOnlySpan<char> input, ulong hash = kOffsetBasis_64)
     {
         foreach (var c in input)
         {
