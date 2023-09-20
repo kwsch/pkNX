@@ -147,14 +147,23 @@ public static class TeraRaidRipper
         var lottery = Path.Combine(path, "lottery_reward_item_array");
         var priority = Path.Combine(path, "raid_priority_array");
         const string v130 = "_1_3_0";
+        const string v200 = "_2_0_0";
 
         if (!File.Exists(enemy))
             return;
 
-        if (File.Exists(enemy + v130))
+        // Starting with Ver. 1.3.0, BCAT is distributed with patch-specific binaries, in addition to the original base game binaries (e.g. raid_enemy_array_1_3_0).
+        // The original data is dummied out, while the latest patch-specific data contains the raids we want to parse.
+        if (File.Exists(enemy + v200))
         {
-            // Starting with Ver. 1.3.0, BCAT is distributed with 1.3.0 specific binaries, in addition to the original base game binaries (e.g. raid_enemy_array_1_3_0).
-            // The original data is dummied out, while the 1.3.0 data contains the raids we want to parse.
+            enemy += v200;
+            reward += v200;
+            lottery += v200;
+            priority += v200;
+        }
+
+        else if (File.Exists(enemy + v130))
+        {
             enemy += v130;
             reward += v130;
             lottery += v130;
