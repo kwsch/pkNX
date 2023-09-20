@@ -134,14 +134,17 @@ public class LayeredFileSystem : IFileSystem
                     // The file exists, now we need to check if we can open it with the requested access
                     // readonly fs requires special handling for write requests.
                     // if readonly access is requested, we can open it if the fs is readonly
+                    if (!fs.IsReadOnly)
+                        return fs.OpenFile(path, FileMode.Open, access);
+
                     var readStream = fs.OpenFile(path);
-                    if (!fs.IsReadOnly || access == FileAccess.Read)
+                    if (access == FileAccess.Read)
                         return readStream;
 
                     // For write-only access, we can just create a new empty file
                     IFileSystem writableFs = GetFirstWritable();
                     writableFs.CreateDirectoryRecursive(path.ParentPath);
-                    var writeStream = writableFs.CreateFile(path);
+                    var writeStream = writableFs.OpenFile(path, FileMode.Create, access);
 
                     if (access == FileAccess.Write)
                         return writeStream;
