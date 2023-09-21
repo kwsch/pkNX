@@ -316,7 +316,7 @@ public static class Plib9
         { 0047, 0000 }, //
         { 0048, 0000 }, //
         { 0049, 0326 }, // Razor Claw
-        { 0050, 0000 }, //
+        { 0050, 0327 }, // Razor Fang
         { 0051, 0644 }, // Pixie Plate
         { 0052, 0849 }, // Ice Stone
         { 0053, 0000 }, //
@@ -336,7 +336,7 @@ public static class Plib9
         { 0067, 0000 }, //
         { 0068, 0000 }, //
         { 0069, 0000 }, //
-        { 0070, 0000 }, //
+        { 0070, 1103 }, // Rusted Sword
         { 0071, 1104 }, // Rusted Shield
         { 0072, 0000 }, //
         { 0073, 0000 }, //
@@ -360,8 +360,10 @@ public static class Plib9
         { 0091, 0000 }, //
         { 0092, 0218 }, // Soothe Bell
         { 0093, 0109 }, // Dawn Stone
-        { 0094, 2403 }, // ???
-        { 0095, 2404 }, // ???
-        { 0096, 2402 }, // ???
+        { 0094, 2403 }, // Unremarkable Teacup
+        { 0095, 2404 }, // Masterpiece Teacup
+        { 0096, 2402 }, // Syrupy Apple
+        { 0111, 0537 }, // Prism Scale
+        { 0112, 0325 }, // Reaper Cloth
     };
 }
