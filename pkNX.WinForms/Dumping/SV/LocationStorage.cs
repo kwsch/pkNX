@@ -133,14 +133,7 @@ public class LocationStorage
     {
         var newX = Math.Max(ep.LevelRange.X, areaMin);
         var newY = Math.Min(ep.LevelRange.Y, areaMax);
-        var newPoint = new PointData
-        {
-            Position = ep.Position,
-            LevelRange = new SV.PackedVec2f { X = newX, Y = newY },
-            Biome = ep.Biome,
-            Substance = ep.Substance,
-            AreaNo = ep.AreaNo,
-        };
+        var newPoint = ep with { LevelRange = new PackedVec2f { X = newX, Y = newY } };
         return new LocationPointDetail(newPoint) { Location = location, LevelAdjust = adjust };
     }
 

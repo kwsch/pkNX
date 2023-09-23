@@ -9,7 +9,12 @@ using pkNX.Game;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.SV;
+using pkNX.Structures.FlatBuffers.SV.Trinity;
+using EvolutionType = pkNX.Structures.EvolutionType;
+using GameVersion = pkNX.Structures.GameVersion;
+using Move = pkNX.Structures.Move;
 using Schema = pkNX.Structures.FlatBuffers.Reflection;
+using Species = pkNX.Structures.Species;
 
 // ReSharper disable StringLiteralTypo
 
@@ -1190,6 +1195,9 @@ public class GameDumperSV
     {
         ulong[] files =
         {
+            0x3D345A77E8F5C8E7, // main
+            0xF7210579A5527E7F, // su1
+            0x882BE83639392011, // su2
             0x6B3C7A393C4806BB,
             0xABA6B518253AEEEB,
             0xCC942F5FDA362FF3,

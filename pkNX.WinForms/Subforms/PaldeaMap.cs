@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
-using System.Windows.Forms;
 using pkNX.Game;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
@@ -14,10 +10,10 @@ namespace pkNX.WinForms.Subforms
 {
     public class PaldeaMap
     {
-        public readonly List<string>[] AreaNames = new List<string>[] { new(), new() };
-        private readonly Dictionary<string, AreaDef9>[] Areas = new Dictionary<string, AreaDef9>[] { new(), new() };
-        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = new Dictionary<string, HavokCollision.AABBTree>[] { new(), new() };
-        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = new Dictionary<string, BoxCollision9>[] { new(), new() };
+        public readonly List<string>[] AreaNames = { new(), new() };
+        private readonly Dictionary<string, AreaDef9>[] Areas = { new(), new() };
+        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = { new(), new() };
+        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = { new(), new() };
 
         private readonly IList<FieldMainArea>[] MainAreas = new IList<FieldMainArea>[2];
         private readonly IList<FieldSubArea>[] SubAreas = new IList<FieldSubArea>[2];

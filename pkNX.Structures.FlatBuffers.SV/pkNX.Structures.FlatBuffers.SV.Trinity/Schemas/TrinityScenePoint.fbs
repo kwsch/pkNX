@@ -1,0 +1,12 @@
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV.Trinity;
+attribute "fs_serializer";
+
+table TrinityScenePoint (fs_serializer) {
+    Name:string (required);
+    Position:PackedVec3f (required);
+    Field_02:ubyte;
+}
+
+root_type TrinityScenePoint;

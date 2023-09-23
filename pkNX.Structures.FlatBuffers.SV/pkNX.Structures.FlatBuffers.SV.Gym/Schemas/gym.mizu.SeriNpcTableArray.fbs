@@ -1,0 +1,27 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table SeriNpcTable {
+    SeriNpcTableId:int;
+    IsEventOnly:bool;
+    NpcName:string (required);
+    TemplateName:string (required);
+    WishItemId:ItemID = ITEMID_NONE;
+    BaseBudgetRate:float;
+    WishBudgetRate:float;
+    MinBidPrice:int;
+    MaxBidPrice:int;
+    BidMessageLabelName:string (required);
+    LargeMessageLabelName:string (required);
+    WishMessageLabelName:string (required);
+    BlessingMessageLabelName:string (required);
+    WindowOffset:float;
+}
+
+table SeriNpcTableArray (fs_serializer) {
+    Table:[SeriNpcTable] (required);
+}
+
+root_type SeriNpcTableArray;

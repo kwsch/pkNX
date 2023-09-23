@@ -37,7 +37,6 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         return new(SpeciesConverterSV.GetNational9((ushort)pd.BandPoke), (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);
     }
 
-
     public string GetEncountString(IReadOnlyList<string> specNamesInternal)
     {
         var species = specNamesInternal[SpeciesConverterSV.GetInternal9(Species)];

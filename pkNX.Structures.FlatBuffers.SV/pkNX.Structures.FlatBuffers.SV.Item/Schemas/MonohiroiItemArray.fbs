@@ -1,0 +1,48 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table OneMonohiroiItem {
+    ItemId:ItemID = ITEMID_NONE;
+    Rate:int;
+}
+
+table MonohiroiItem {
+    Item01:OneMonohiroiItem;
+    Item02:OneMonohiroiItem;
+    Item03:OneMonohiroiItem;
+    Item04:OneMonohiroiItem;
+    Item05:OneMonohiroiItem;
+    Item06:OneMonohiroiItem;
+    Item07:OneMonohiroiItem;
+    Item08:OneMonohiroiItem;
+    Item09:OneMonohiroiItem;
+    Item10:OneMonohiroiItem;
+    Item11:OneMonohiroiItem;
+    Item12:OneMonohiroiItem;
+    Item13:OneMonohiroiItem;
+    Item14:OneMonohiroiItem;
+    Item15:OneMonohiroiItem;
+    Item16:OneMonohiroiItem;
+    Item17:OneMonohiroiItem;
+    Item18:OneMonohiroiItem;
+    Item19:OneMonohiroiItem;
+    Item20:OneMonohiroiItem;
+    Item21:OneMonohiroiItem;
+    Item22:OneMonohiroiItem;
+    Item23:OneMonohiroiItem;
+    Item24:OneMonohiroiItem;
+    Item25:OneMonohiroiItem;
+    Item26:OneMonohiroiItem;
+    Item27:OneMonohiroiItem;
+    Item28:OneMonohiroiItem;
+    Item29:OneMonohiroiItem;
+    Item30:OneMonohiroiItem;
+}
+
+table MonohiroiItemArray (fs_serializer) {
+    Table:[MonohiroiItem] (required);
+}
+
+root_type MonohiroiItemArray;

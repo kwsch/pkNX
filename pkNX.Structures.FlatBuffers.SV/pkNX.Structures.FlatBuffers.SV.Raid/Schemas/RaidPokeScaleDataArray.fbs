@@ -1,0 +1,19 @@
+include "Shared/DevID.fbs";
+include "Shared/SexType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table RaidPokeScaleData {
+    Monsno:DevID = DEV_NULL;
+    Formno:short;
+    Sex:SexType;
+    Scale:float;
+    Offset:float;
+}
+
+table RaidPokeScaleDataArray (fs_serializer) {
+    Table:[RaidPokeScaleData] (required);
+}
+
+root_type RaidPokeScaleDataArray;

@@ -1,6 +1,6 @@
 
 using pkNX.Structures;
-using pkNX.Structures.FlatBuffers.SV;
+using pkNX.Structures.FlatBuffers;
 
 public class BoxCollision9 : IContainsV3f
 {

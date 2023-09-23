@@ -1,8 +1,0 @@
-include "../Waza/WazaID.fbs";
-
-namespace pkNX.Structures.FlatBuffers.SV;
-
-table WazaSet {
-    WazaId:WazaID;
-    PointUp:byte;
-}

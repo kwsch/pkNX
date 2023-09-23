@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-table Vec3f {
-    X:float;
-    Y:float;
-    Z:float;
-}
