@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -147,43 +146,45 @@ public static class HavokCollision
         Debug.Assert(nodesItem.Type.Fields[0].Type.SubType.Name == "hkUint32");
         Debug.Assert(nodesItem.Type.Fields[1].Name == "isLeaf");
         Debug.Assert(nodesItem.Type.Fields[1].Type.FormatType == FormatType.Bool);
-
-        static float[] ReadVector4(ReadOnlySpan<byte> buf, int ofs) => new[]
-        {
-            ReadSingleLittleEndian(buf[ofs..]),
-            ReadSingleLittleEndian(buf[(ofs+4)..]),
-            ReadSingleLittleEndian(buf[(ofs+8)..]),
-            ReadSingleLittleEndian(buf[(ofs+12)..]),
-        };
-
-        static uint[] ReadNodeData(ReadOnlySpan<byte> buf, int ofs) => new[]
-        {
-            ReadUInt32LittleEndian(buf[ofs..]),
-            ReadUInt32LittleEndian(buf[(ofs+4)..]),
-            ReadUInt32LittleEndian(buf[(ofs+8)..]),
-            ReadUInt32LittleEndian(buf[(ofs+12)..]),
-        };
-
-        var nodes = new List<hkcdSimdTreeNode>();
+        var nodes = new List<hkcdSimdTreeNode>((int)nodesItem.Count);
         for (var i = 0; i < nodesItem.Count; ++i)
         {
-            var nofs = (int)ofs + ((int)nodesItem.Type.Size * i);
+            var type = nodesItem.Type;
+            var nofs = (int)ofs + ((int)type.Size * i);
+            var slice = data[nofs..];
 
+            var parentFields = type.Parent.Fields;
             nodes.Add(new hkcdSimdTreeNode
             {
-                lx = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[0].Offset),
-                hx = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[1].Offset),
-                ly = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[2].Offset),
-                hy = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[3].Offset),
-                lz = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[4].Offset),
-                hz = ReadVector4(data, nofs + (int)nodesItem.Type.Parent.Fields[5].Offset),
-                data = ReadNodeData(data, nofs + (int)nodesItem.Type.Fields[0].Offset),
-                IsLeaf = data[nofs + (int)nodesItem.Type.Fields[1].Offset] != 0,
+                LoX = ReadVector4(slice[(int)parentFields[0].Offset..]),
+                HiX = ReadVector4(slice[(int)parentFields[1].Offset..]),
+                LoY = ReadVector4(slice[(int)parentFields[2].Offset..]),
+                HiY = ReadVector4(slice[(int)parentFields[3].Offset..]),
+                LoZ = ReadVector4(slice[(int)parentFields[4].Offset..]),
+                HiZ = ReadVector4(slice[(int)parentFields[5].Offset..]),
+                Data = ReadNodeData(slice[(int)type.Fields[0].Offset..]),
+                IsLeaf = slice[(int)type.Fields[1].Offset] != 0,
             });
         }
 
         return new(nodes);
     }
+
+    private static float[] ReadVector4(ReadOnlySpan<byte> buf) => new[]
+    {
+        ReadSingleLittleEndian(buf),
+        ReadSingleLittleEndian(buf[4..]),
+        ReadSingleLittleEndian(buf[8..]),
+        ReadSingleLittleEndian(buf[12..]),
+    };
+
+    private static uint[] ReadNodeData(ReadOnlySpan<byte> buf) => new[]
+    {
+        ReadUInt32LittleEndian(buf),
+        ReadUInt32LittleEndian(buf[4..]),
+        ReadUInt32LittleEndian(buf[8..]),
+        ReadUInt32LittleEndian(buf[12..]),
+    };
 
     private static List<string> ReadStrings(ReadOnlySpan<byte> buffer)
     {
@@ -198,7 +199,7 @@ public static class HavokCollision
             while (buffer[endOfs] != 0)
                 endOfs++;
 
-            strings.Add(System.Text.Encoding.ASCII.GetString(buffer[ofs..endOfs].ToArray()));
+            strings.Add(System.Text.Encoding.ASCII.GetString(buffer[ofs..endOfs]));
 
             ofs = endOfs + 1;
         }
@@ -207,24 +208,22 @@ public static class HavokCollision
 
     private static List<HavokTypeObject> ReadTna1(ReadOnlySpan<byte> buffer, List<string> tst1)
     {
-        var tna1 = new List<HavokTypeObject>();
-
         var (ofs, count) = ReadVar32(buffer);
+        var tna1 = new List<HavokTypeObject>((int)count + 1);
         for (var i = 0; i < count + 1; ++i)
-            tna1.Add(new HavokTypeObject { Name = "Invalid", }); // Types are 1-indexed.
+            tna1.Add(new HavokTypeObject { Name = "Invalid" }); // Types are 1-indexed.
 
-        for (var i = 0u; i < count; ++i)
+        for (var i = 0; i < count; ++i)
         {
             var (tiCnt, ti) = ReadVar32(buffer[ofs..]);
             ofs += tiCnt;
-
-            var tna = tna1[(int)i + 1];
-
-            tna.Name = tst1[(int)ti];
-            tna.Template = new List<HavokTemplateParam>();
-
             var (pCnt, numParams) = ReadVar32(buffer[ofs..]);
             ofs += pCnt;
+
+            var tna = tna1[i + 1];
+            tna.Name = tst1[(int)ti];
+            var list = tna.Template = new List<HavokTemplateParam>((int)numParams);
+
             for (var n = 0; n < numParams; ++n)
             {
                 var (pnCnt, pni) = ReadVar32(buffer[ofs..]);
@@ -235,10 +234,10 @@ public static class HavokCollision
                 var (pvCnt, pVal) = ReadVar32(buffer[ofs..]);
                 ofs += pvCnt;
 
-                if (templateName[0] == 't')
-                    tna.Template.Add(new HavokTemplateParam { Name = templateName, TypeValue = tna1[(int)pVal] });
+                if (templateName.StartsWith('t'))
+                    list.Add(new HavokTemplateParam { Name = templateName, TypeValue = tna1[(int)pVal] });
                 else
-                    tna.Template.Add(new HavokTemplateParam { Name = templateName, IntValue = (int)pVal });
+                    list.Add(new HavokTemplateParam { Name = templateName, IntValue = (int)pVal });
             }
         }
 
@@ -301,13 +300,13 @@ public static class HavokCollision
 
                 tna.Flags = (ushort)flags;
             }
-            tna.Fields = new List<HavokField>();
             if (tna.IsOptionFields)
             {
                 (cnt, var fieldPair) = ReadVar32(buffer[ofs..]);
                 ofs += cnt;
 
                 var numFields = fieldPair & 0xFFFF;
+                tna.Fields = new List<HavokField>((int)numFields);
                 for (var i = 0; i < numFields; ++i)
                 {
                     (cnt, var fnIdx) = ReadVar32(buffer[ofs..]);
@@ -328,11 +327,15 @@ public static class HavokCollision
                     });
                 }
             }
-            tna.Interfaces = new List<HavokInterface>();
+            else
+            {
+                tna.Fields = new List<HavokField>();
+            }
             if (tna.IsOptionInterfaces)
             {
                 (cnt, var intCount) = ReadVar32(buffer[ofs..]);
                 ofs += cnt;
+                tna.Interfaces = new List<HavokInterface>((int)intCount);
 
                 for (var i = 0; i < (int)intCount; ++i)
                 {
@@ -347,6 +350,10 @@ public static class HavokCollision
                         Name = fst1[(int)nIdx],
                     });
                 }
+            }
+            else
+            {
+                tna.Interfaces = new List<HavokInterface>();
             }
             if (tna.IsOptionAttribute)
             {
@@ -427,46 +434,42 @@ public static class HavokCollision
 
     public class AABBTree : IContainsV3f
     {
-        private readonly List<hkcdSimdTreeNode> _nodes;
-        private int _numLeafRects;
-        private readonly RectangleF[] _leafRectangles;
-
-        public const float MaxValue = 3.40282E+38F;
-        public const float MinValue = -3.40282E+38F;
+        public List<hkcdSimdTreeNode> Nodes { get; }
+        public int NumBoundingBoxes { get; }
+        public Rectangle3D[] BoundingBoxRectangles { get; }
 
         public AABBTree(List<hkcdSimdTreeNode> nodes)
         {
-            _nodes = nodes;
-
-            _numLeafRects = 0;
-            foreach (var node in _nodes)
+            Nodes = nodes;
+            foreach (var node in Nodes)
             {
-                if (!node.IsLeaf) continue;
+                if (!node.IsLeaf)
+                    continue;
 
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
                 {
-                    if (node.lx[i] <= node.hx[i] && node.ly[i] <= node.hy[i] && node.lz[i] <= node.hz[i])
-                        _numLeafRects++;
+                    if (node.IsBound(i))
+                        NumBoundingBoxes++;
                 }
             }
 
-            _leafRectangles = new RectangleF[_numLeafRects];
+            BoundingBoxRectangles = new Rectangle3D[NumBoundingBoxes];
             var n = 0;
-            foreach (var node in _nodes)
+            foreach (var node in Nodes)
             {
-                if (!node.IsLeaf) continue;
+                if (!node.IsLeaf)
+                    continue;
 
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
                 {
-                    if (node.lx[i] <= node.hx[i] && node.ly[i] <= node.hy[i] && node.lz[i] <= node.hz[i])
-                        _leafRectangles[n++] = new RectangleF(node.lx[i], node.lz[i], node.hx[i] - node.lx[i], node.hz[i] - node.lz[i]);
+                    if (!node.IsBound(i))
+                        continue;
+                    var lo = new Vector3(node.LoX[i], node.LoY[i], node.LoZ[i]);
+                    var hi = new Vector3(node.HiX[i], node.HiY[i], node.HiZ[i]);
+                    BoundingBoxRectangles[n++] = new Rectangle3D(lo, hi);
                 }
             }
         }
-
-        public int NumBoundingBoxes => _numLeafRects;
-
-        public RectangleF[] BoundingBoxRectangles => _leafRectangles;
 
         // Official logic for area-containment checks for y intersection between y+1 and y-10000.0
         public bool ContainsPoint(float x, float y, float z) => ContainsPointInNode(1, x, y - 10000, y + 1, z);
@@ -478,35 +481,79 @@ public static class HavokCollision
             if (nodeIndex == 0)
                 return false;
 
-            var node = _nodes[nodeIndex];
-            for (var i = 0; i < 4; i++)
+            var node = Nodes[nodeIndex];
+            for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
             {
-                if (node.lx[i] > node.hx[i] || !(node.lx[i] - tx <= x) || !(node.hx[i] + tx >= x))
+                if (node.LoX[i] > node.HiX[i] || !(node.LoX[i] - tx <= x) || !(node.HiX[i] + tx >= x))
                     continue;
-                if (node.lz[i] > node.hz[i] || !(node.lz[i] - tz <= z) || !(node.hz[i] + tz >= z))
+                if (node.LoZ[i] > node.HiZ[i] || !(node.LoZ[i] - tz <= z) || !(node.HiZ[i] + tz >= z))
                     continue;
-                if (node.ly[i] > node.hy[i] || !(node.ly[i] - ty <= hy) || !(node.hy[i] + ty >= ly))
+                if (node.LoY[i] > node.HiY[i] || !(node.LoY[i] - ty <= hy) || !(node.HiY[i] + ty >= ly))
                     continue;
                 if (node.IsLeaf)
                     return true;
-                if (ContainsPointInNode((int)node.data[i], x, ly, hy, z, tx, ty, tz))
+                if (ContainsPointInNode((int)node.Data[i], x, ly, hy, z, tx, ty, tz))
                     return true;
             }
             return false;
         }
     }
 
+    public struct Rectangle3D
+    {
+        /// <summary> X-coordinate of one corner </summary>
+        public float X { get; set; }
+        /// <summary> Y-coordinate of one corner </summary>
+        public float Y { get; set; }
+        /// <summary> Z-coordinate of one corner </summary>
+        public float Z { get; set; }
+
+        /// <summary> Width of the rectangle (X) </summary>
+        public float Width { get; set; }
+        /// <summary> Height of the rectangle (Y) </summary>
+        public float Height { get; set; }
+        /// <summary> Depth of the rectangle (Z) </summary>
+        public float Depth { get; set; }
+
+        public Rectangle3D(float x, float y, float z, float width, float height, float depth)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            Width = width;
+            Height = height;
+            Depth = depth;
+        }
+
+        public Rectangle3D(Vector3 lo, Vector3 hi)
+        {
+            X = lo.X;
+            Y = lo.Y;
+            Z = lo.Z;
+            Width = hi.X - lo.X;
+            Height = hi.Y - lo.Y;
+            Depth = hi.Z - lo.Z;
+        }
+    }
+
 #nullable disable
+    /// <summary>
+    /// Represents 4 nodes in a 3D spatial tree structure used for spatial logic, able to work with SIMD (Single Instruction, Multiple Data) operations
+    /// </summary>
     public class hkcdSimdTreeNode
     {
-        public float[] lx;
-        public float[] hx;
-        public float[] ly;
-        public float[] hy;
-        public float[] lz;
-        public float[] hz;
-        public uint[] data;
-        public bool IsLeaf;
+        public required float[] LoX { get; set; }
+        public required float[] LoY { get; set; }
+        public required float[] LoZ { get; set; }
+
+        public required float[] HiX {get; set; }
+        public required float[] HiY {get; set; }
+        public required float[] HiZ {get; set; }
+
+        public required uint[] Data { get; set; }
+        public required bool IsLeaf { get; set; }
+        public bool IsBound(int i) => LoX[i] <= HiX[i] && LoY[i] <= HiY[i] && LoZ[i] <= HiZ[i];
+        public const int NodeCount = 4;
     }
 
     private class HavokTypeObject
@@ -562,7 +609,7 @@ public static class HavokCollision
         public int IntValue;
         public HavokTypeObject TypeValue;
 
-        public bool IsType => Name.Length > 0 && Name[0] == 't';
+        public bool IsType => Name.StartsWith('t');
     }
 
     private struct HavokField

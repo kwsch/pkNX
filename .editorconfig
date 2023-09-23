@@ -22,6 +22,15 @@ indent_style = space
 indent_size = 2
 
 # Code Files
+[*.fbs]
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+tab_width = 2
+end_of_line = lf
+
+# Code Files
 [*.cs]
 insert_final_newline = true
 trim_trailing_whitespace = true

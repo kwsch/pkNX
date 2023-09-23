@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Intrinsics.Arm;
 using System.Windows.Forms;
 using pkNX.Game;
-using pkNX.Structures;
-using pkNX.Structures.FlatBuffers;
-using pkNX.Structures.FlatBuffers.SV;
-using pkNX.Structures.FlatBuffers.SV.Trinity;
 
 namespace pkNX.WinForms.Subforms;
 
@@ -20,27 +14,9 @@ public partial class MapViewer9 : Form
 
     private int FieldIndex => CB_Field.SelectedIndex != -1 ? CB_Field.SelectedIndex : 0;
 
-    private double ScaleX => FieldIndex switch
-    {
-        0 => 5000,
-        1 => 2000,
-    };
-
-    private double ScaleZ => FieldIndex switch
-    {
-        0 => 5000,
-        1 => 2000,
-    };
-
-    private double OffsetZ => FieldIndex switch
-    {
-        0 => 5500,
-        1 => 2000,
-    };
-
     public MapViewer9(GameManagerSV rom)
     {
-        Map = new(ROM = rom!);
+        Map = new(ROM = rom);
 
         InitializeComponent();
         Loading = true;
@@ -49,17 +25,31 @@ public partial class MapViewer9 : Form
         CB_Field.SelectedIndex = 0;
     }
 
-    private class ComboItem
+    private double ScaleX => FieldIndex switch
     {
-        public ComboItem(string text, int value)
-        {
-            Text = text;
-            Value = value;
-        }
+        0 => 5000,
+        1 => 2000,
+        _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
+    };
 
-        public string Text { get; }
-        public int Value { get; }
-    }
+    private double ScaleZ => FieldIndex switch
+    {
+        0 => 5000,
+        1 => 2000,
+        _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
+    };
+
+    private double OffsetZ => FieldIndex switch
+    {
+        0 => 5500,
+        1 => 2000,
+        _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
+    };
+
+    private double ConvertWidth(double s) => (4096.0 / ScaleX) * s;
+    private double ConvertHeight(double s) => (4096.0 / ScaleZ) * s;
+    private double ConvertX(double x) => (4096.0 / ScaleX) * x;
+    private double ConvertZ(double z) => (4096.0 / ScaleZ) * (z + OffsetZ);
 
     private void CB_Field_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -77,30 +67,12 @@ public partial class MapViewer9 : Form
         UpdateMap(CB_Map.SelectedIndex);
     }
 
-    private void NUP_Scale_ValueChanged(object sender, EventArgs e)
+    private static string GetMapImagePath(int field) => field switch
     {
-        UpdateMap(CB_Map.SelectedIndex);
-    }
-
-    private void NUP_XOffset_ValueChanged(object sender, EventArgs e)
-    {
-        UpdateMap(CB_Map.SelectedIndex);
-    }
-
-    private void NUP_ZOffset_ValueChanged(object sender, EventArgs e)
-    {
-        UpdateMap(CB_Map.SelectedIndex);
-    }
-
-    private static string GetMapImagePath(int field)
-    {
-        return field switch
-        {
-            0 => @"map_sv\paldea.png",
-            1 => @"map_sv\kitakami.png",
-            _ => throw new ArgumentException($"Unknown field {field}")
-        };
-    }
+        0 => @"map_sv\paldea.png",
+        1 => @"map_sv\kitakami.png",
+        _ => throw new ArgumentException($"Unknown field {field}"),
+    };
 
     private void UpdateMap(int map)
     {
@@ -121,28 +93,21 @@ public partial class MapViewer9 : Form
         }
 
         using var gr = Graphics.FromImage(pictureBox1.BackgroundImage);
-        var r = new SolidBrush(Color.FromArgb(100, 255, 0, 0));
-        var g = new SolidBrush(Color.FromArgb(20, 20, 255, 10));
-        var b = new SolidBrush(Color.FromArgb(100, 10, 0, 255));
-        var c = new SolidBrush(Color.FromArgb(100, 0, 255, 255));
-
-        var rs = new Pen(Color.FromArgb(255, 255, 0, 0)) { Width = 3 };
-        var gs = new Pen(Color.FromArgb(255, 20, 255, 10)) { Width = 3 };
-        var bs = new Pen(Color.FromArgb(255, 10, 0, 255)) { Width = 3 };
-        var cs = new Pen(Color.FromArgb(255, 10, 255, 255)) { Width = 3 };
-
-        double ConvertWidth(double s) => (4096.0 / ScaleX) * s;
-        double ConvertHeight(double s) => (4096.0 / ScaleZ) * s;
-        double ConvertX(double x) => (4096.0 / ScaleX) * x;
-        double ConvertZ(double z) => (4096.0 / ScaleZ) * (z + OffsetZ);
-
+        // var r = new SolidBrush(Color.FromArgb(100, 255, 0, 0));
+        // var g = new SolidBrush(Color.FromArgb(20, 20, 255, 10));
+        // var b = new SolidBrush(Color.FromArgb(100, 10, 0, 255));
+        // var c = new SolidBrush(Color.FromArgb(100, 0, 255, 255));
+        // var rs = new Pen(Color.FromArgb(255, 255, 0, 0)) { Width = 3 };
+        // var gs = new Pen(Color.FromArgb(255, 20, 255, 10)) { Width = 3 };
+        // var bs = new Pen(Color.FromArgb(255, 10, 0, 255)) { Width = 3 };
+        // var cs = new Pen(Color.FromArgb(255, 10, 255, 255)) { Width = 3 };
         if (Map.AreaCollisionTrees[FieldIndex].TryGetValue(areaName, out var colTree))
         {
-            var brush = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
+            using var brush = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
 
             foreach (var rect in colTree.BoundingBoxRectangles)
             {
-                gr.FillRectangle(brush, new RectangleF((float)ConvertX(rect.Left), (float)ConvertZ(rect.Top), (float)ConvertWidth(rect.Width), (float)ConvertHeight(rect.Height)));
+                gr.FillRectangle(brush, new RectangleF((float)ConvertX(rect.X), (float)ConvertZ(rect.Z), (float)ConvertWidth(rect.Width), (float)ConvertHeight(rect.Depth)));
             }
         }
         else if (Map.AreaCollisionBoxes[FieldIndex].TryGetValue(areaName, out var colBox))
@@ -152,7 +117,7 @@ public partial class MapViewer9 : Form
             var size_x = colBox.Size.X;
             var size_z = colBox.Size.Z;
 
-            var brush = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
+            using var brush = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
             gr.FillRectangle(brush, new RectangleF((float)ConvertX(center_x - (size_x / 2.0)), (float)ConvertZ(center_z - (size_z / 2.0)), (float)ConvertWidth(size_x), (float)ConvertHeight(size_z)));
         }
         pictureBox1.BackgroundImage.Save($"{GetMapImagePath(FieldIndex).Replace(".png", "")}_{areaName}.png");
@@ -165,5 +130,3 @@ public partial class MapViewer9 : Form
         Text = $"X: {x}, Z: {z}";
     }
 }
-
-
