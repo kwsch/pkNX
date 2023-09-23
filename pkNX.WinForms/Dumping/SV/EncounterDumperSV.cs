@@ -85,7 +85,7 @@ public class EncounterDumperSV
         };
         var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
         var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
-        foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints)})
+        foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
             foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami })
@@ -140,8 +140,8 @@ public class EncounterDumperSV
                         gw.Write($", {pd.Level + adj}");
                     }
                     gw.WriteLine();
-                    gw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
-                    gw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
+                    gw.WriteLine($"    Sex:     {Humanize(pd.Sex)}");
+                    gw.WriteLine($"    Shiny:   {Humanize(pd.RareType)}");
 
                     var talentStr = pd.TalentType switch
                     {
@@ -151,7 +151,7 @@ public class EncounterDumperSV
                         _ => "Invalid",
                     };
                     gw.WriteLine($"    IVs:     {talentStr}");
-                    gw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.TokuseiIndex]}");
+                    gw.WriteLine($"    Ability: {Humanize(pd.TokuseiIndex)}");
                     switch (pd.WazaType)
                     {
                         case WazaType.DEFAULT:
@@ -162,7 +162,7 @@ public class EncounterDumperSV
                             break;
                     }
 
-                    gw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
+                    gw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
                     gw.WriteLine($"    GemType: {(int)pd.GemType}");
 
                     gw.WriteLine("  Points:");
@@ -209,7 +209,6 @@ public class EncounterDumperSV
                         }
                     }
 
-
                     locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
                     if (fieldIndex == PaldeaFieldIndex.Paldea && entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
                         locs.Add(46); // North Province (Area One)
@@ -236,38 +235,38 @@ public class EncounterDumperSV
             {
                 if (scene.IsAtlantis[(int)PaldeaFieldIndex.Paldea][areaName])
                     continue;
-        
+
                 var areaInfo = scene.AreaInfos[(int)PaldeaFieldIndex.Paldea][areaName];
                 var name = areaInfo.LocationNameMain;
                 if (string.IsNullOrEmpty(name))
                     continue;
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
-        
+
                 if (scene.IsPointContained(PaldeaFieldIndex.Paldea, areaName, entry.Position.X, entry.Position.Y, entry.Position.Z))
                     areas.Add(areaName);
             }
-        
+
             // var locs = areas.Select(a => placeNameMap[scene.AreaInfos[a].LocationNameMain].Index).Distinct().ToList();
-        
+
             cw.WriteLine("===");
             cw.WriteLine(entry.Name);
             cw.WriteLine("===");
             cw.WriteLine($"  First Num:   {entry.FirstNum}");
             cw.WriteLine($"  Coordinates: ({entry.Position.X}, {entry.Position.Y}, {entry.Position.Z})");
-        
+
             if (entry.IsBox)
             {
                 cw.WriteLine($"  Box Label:   {entry.BoxLabel}");
                 cw.WriteLine("  PokeData:");
                 var pd = eventBattle.Table.First(e => e.Label == entry.BoxLabel).PokeData;
-        
+
                 cw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                 cw.WriteLine($"    Form:    {pd.FormId}");
                 cw.WriteLine($"    Level:   {pd.Level}");
-                cw.WriteLine($"    Sex:     {new[] { "Random", "Male", "Female" }[(int)pd.Sex]}");
-                cw.WriteLine($"    Shiny:   {new[] { "Random", "Never", "Always" }[(int)pd.RareType]}");
-        
+                cw.WriteLine($"    Sex:     {Humanize(pd.Sex)}");
+                cw.WriteLine($"    Shiny:   {Humanize(pd.RareType)}");
+
                 var talentStr = pd.TalentType switch
                 {
                     TalentType.RANDOM => "Random",
@@ -276,21 +275,21 @@ public class EncounterDumperSV
                     _ => "Invalid",
                 };
                 cw.WriteLine($"    IVs:     {talentStr}");
-                cw.WriteLine($"    Ability: {new[] { "1/2", "1/2/3", "1", "2", "3" }[(int)pd.Tokusei]}");
+                cw.WriteLine($"    Ability: {Humanize(pd.Tokusei)}");
                 switch (pd.WazaType)
                 {
                     case WazaType.DEFAULT:
-                        cw.WriteLine( "    Moves:   Random");
+                        cw.WriteLine("    Moves:   Random");
                         break;
                     case WazaType.MANUAL:
                         cw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
                         break;
                 }
-        
-                cw.WriteLine($"    Scale:   {new[] { "Random", "XS", "S", "M", "L", "XL", $"{pd.ScaleValue}" }[(int)pd.ScaleType]}");
+
+                cw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
                 cw.WriteLine($"    GemType: {(int)pd.GemType}");
             }
-        
+
             cw.WriteLine("  Areas:");
             foreach (var areaName in areas)
             {
@@ -312,18 +311,18 @@ public class EncounterDumperSV
         return;
 
         // HELPERS
-        LocationPointDetail[]? GetPoints(PaldeaFieldIndex fieldIndex, bool isAtlantis) => fieldIndex switch
+        LocationPointDetail[] GetPoints(PaldeaFieldIndex fieldIndex, bool isAtlantis) => fieldIndex switch
         {
             PaldeaFieldIndex.Paldea => isAtlantis ? pointAtlantis : pointMain,
             PaldeaFieldIndex.Kitakami => pointSu1,
-            _ => throw new ArgumentException($"Could not handle {fieldIndex}")
+            _ => throw new ArgumentException($"Could not handle {fieldIndex}"),
         };
 
-        EncountPokeDataArray? GetPokeData(PaldeaFieldIndex fieldIndex) => fieldIndex switch
+        EncountPokeDataArray GetPokeData(PaldeaFieldIndex fieldIndex) => fieldIndex switch
         {
             PaldeaFieldIndex.Paldea => pokeDataMain,
             PaldeaFieldIndex.Kitakami => pokeDataSu1,
-            _ => throw new ArgumentException($"Could not handle {fieldIndex}")
+            _ => throw new ArgumentException($"Could not handle {fieldIndex}"),
         };
 
         void ProcessAreas(PaldeaFieldIndex fieldIndex)
@@ -416,6 +415,44 @@ public class EncounterDumperSV
             }
         }
     }
+
+    private static string Humanize(SizeType type, short value) => type switch
+    {
+        SizeType.RANDOM => "Random",
+        SizeType.XS => "XS",
+        SizeType.S => "S",
+        SizeType.M => "M",
+        SizeType.L => "L",
+        SizeType.XL => "XL",
+        SizeType.VALUE => value.ToString(),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
+
+    private static string Humanize(RareType type) => type switch
+    {
+        RareType.DEFAULT => "Random",
+        RareType.NO_RARE => "Never",
+        RareType.RARE => "Always",
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
+
+    private static string Humanize(SexType type) => type switch
+    {
+        SexType.DEFAULT => "Random",
+        SexType.MALE => "Male",
+        SexType.FEMALE => "Female",
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
+
+    private static string Humanize(TokuseiType type) => type switch
+    {
+        TokuseiType.RANDOM_12 => "1/2",
+        TokuseiType.RANDOM_123 => "1/2/H",
+        TokuseiType.SET_1 => "1",
+        TokuseiType.SET_2 => "2",
+        TokuseiType.SET_3 => "H",
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Invalid ability index"),
+    };
 
     private void DumpScene(PaldeaSceneModel scene, string path)
     {
