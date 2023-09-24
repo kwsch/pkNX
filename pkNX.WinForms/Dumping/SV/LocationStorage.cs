@@ -219,33 +219,22 @@ public class LocationStorage
         return int.TryParse(areaName[start..], out var x) && areaNo == x;
     }
 
-    private static bool IsInArea(ReadOnlySpan<char> locName, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
+    private static bool IsInArea(string locName, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
     {
         if (locName.Length == 0)
             return true; // Filter not specified
 
-        // Enumerate the string, split by comma.
-        while (true)
+        var split = locName.Split(",");
+        foreach (string a in split)
         {
-            int i = locName.IndexOf(',');
-            if (i == -1)
-                break;
-            var name = locName[..i];
-            if (IsInAreaCheck(name, areaName, scene, fieldIndex, ep))
+            if (a == areaName)
                 return true;
 
-            locName = locName[(i + 1)..];
-        }
-        return false;
-    }
+            if (!scene.IsPointContained(fieldIndex, a, ep.Position.X, ep.Position.Y, ep.Position.Z))
+                continue;
 
-    private static bool IsInAreaCheck(ReadOnlySpan<char> name, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
-    {
-        if (name == areaName)
             return true;
-        var a = name.ToString();
-        if (scene.IsPointContained(fieldIndex, a, ep.Position.X, ep.Position.Y, ep.Position.Z))
-            return true;
+        }
         return false;
     }
 }
