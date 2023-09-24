@@ -147,47 +147,48 @@ public class LocationStorage
                     continue;
 
                 // Add encount
-                spawner.Add(PaldeaEncounter.GetNew(pd, spawner.Point));
+                var point = spawner.Point;
+                spawner.Add(PaldeaEncounter.GetNew(pd, point));
                 if (pd.BandPoke != 0) // Add band encount
-                    spawner.Add(PaldeaEncounter.GetBand(pd, spawner.Point));
-                if (spawner.LevelAdjust != 0)
-                {
-                    spawner.Add(PaldeaEncounter.GetNew(pd, spawner.Point, spawner.LevelAdjust));
-                    if (pd.BandPoke != 0) // Add band encount
-                        spawner.Add(PaldeaEncounter.GetBand(pd, spawner.Point, spawner.LevelAdjust));
-                }
+                    spawner.Add(PaldeaEncounter.GetBand(pd, point));
+
+                var boost = spawner.LevelAdjust;
+                if (boost == 0)
+                    continue;
+
+                // Add adjusted encount (different level range)
+                spawner.Add(PaldeaEncounter.GetNew(pd, point, boost));
+                if (pd.BandPoke != 0) // Add band encount
+                    spawner.Add(PaldeaEncounter.GetBand(pd, point, boost));
             }
         }
     }
 
     private static bool IsAbleToSpawnAt(EncountPokeData pd, LocationPointDetail ep, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex)
     {
+        var point = ep.Point;
         // Check area
-        if (!string.IsNullOrEmpty(pd.Area) && !IsInArea(pd.Area, ep.Point.AreaNo))
+        if (!string.IsNullOrEmpty(pd.Area) && !IsInArea(pd.Area, point.AreaNo))
             return false;
 
         // Check loc
-        if (!string.IsNullOrEmpty(pd.LocationName) && !IsInArea(pd.LocationName, areaName, scene, fieldIndex, ep.Point))
+        if (!IsInArea(pd.LocationName, areaName, scene, fieldIndex, point))
             return false;
 
         // Check biome
-        if (!HasBiome(pd, (Biome)(int)ep.Point.Biome))
+        if (!HasBiome(pd, (Biome)(int)point.Biome))
             return false;
 
         // check level range overlap
         // check area level range overlap -- already done via point
-        if (!LevelWithinRange(pd, ep.Point))
+        var range = point.LevelRange;
+        if (!pd.IsLevelRangeOverlap(range.X, range.Y))
             return false;
 
         // Assume flag, enable table, timetable are fine
         // Assume version is fine -- union wireless sessions can share encounters.
 
         return true;
-    }
-
-    private static bool LevelWithinRange(EncountPokeData pd, PointData clamp)
-    {
-        return clamp.LevelRange.X <= pd.MaxLevel && pd.MinLevel <= clamp.LevelRange.Y;
     }
 
     private static bool HasBiome(EncountPokeData pd, Biome biome)
@@ -218,19 +219,33 @@ public class LocationStorage
         return int.TryParse(areaName[start..], out var x) && areaNo == x;
     }
 
-    private static bool IsInArea(string locName, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
+    private static bool IsInArea(ReadOnlySpan<char> locName, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
     {
-        var split = locName.Split(",");
-        foreach (string a in split)
+        if (locName.Length == 0)
+            return true; // Filter not specified
+
+        // Enumerate the string, split by comma.
+        while (true)
         {
-            if (a == areaName)
+            int i = locName.IndexOf(',');
+            if (i == -1)
+                break;
+            var name = locName[..i];
+            if (IsInAreaCheck(name, areaName, scene, fieldIndex, ep))
                 return true;
 
-            if (!scene.IsPointContained(fieldIndex, a, ep.Position.X, ep.Position.Y, ep.Position.Z))
-                continue;
-
-            return true;
+            locName = locName[(i + 1)..];
         }
+        return false;
+    }
+
+    private static bool IsInAreaCheck(ReadOnlySpan<char> name, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
+    {
+        if (name == areaName)
+            return true;
+        var a = name.ToString();
+        if (scene.IsPointContained(fieldIndex, a, ep.Position.X, ep.Position.Y, ep.Position.Z))
+            return true;
         return false;
     }
 }

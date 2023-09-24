@@ -25,6 +25,8 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         var time = GetTimeBits(pd.Time);
         var min = (byte)(Math.Max(ep.LevelRange.X, pd.MinLevel) + adjust);
         var max = (byte)(Math.Min(ep.LevelRange.Y, pd.MaxLevel) + adjust);
+        if (max > 100)
+            max = 100;
         return new(SpeciesConverterSV.GetNational9((ushort)pd.DevId), (byte)pd.Form, (byte)pd.Sex, min, max, time);
     }
 

@@ -426,9 +426,9 @@ public class GameDumperSV
             return list.OrderBy(z => z.Level).ToList();
         }
 
-        static byte[] Write(IEnumerable<PersonalInfoMove> fbLearnset)
+        static byte[] Write(IList<PersonalInfoMove> fbLearnset)
         {
-            using var ms = new MemoryStream();
+            using var ms = new MemoryStream(4 + (4 * fbLearnset.Count));
             using var bw = new BinaryWriter(ms);
             foreach (var m in fbLearnset)
             {
@@ -958,6 +958,11 @@ public class GameDumperSV
     {
         var files = new[]
         {
+            "world/data/encount/delivery_outbreak/delivery_outbreak_pokedata/delivery_outbreak_pokedata_array.bfbs",
+            "world/data/encount/delivery_outbreak/delivery_outbreak_zone_main/delivery_outbreak_zone_main_array.bfbs",
+            "world/data/encount/delivery_outbreak/delivery_outbreak_zone_su1/delivery_outbreak_zone_su1_array.bfbs",
+            "world/data/encount/delivery_outbreak/delivery_outbreak_zone_su2/delivery_outbreak_zone_su2_array.bfbs",
+
             "world/data/oniballoon/reward_action_param/reward_action_param_array.bfbs",
             "world/data/oniballoon/result_demo_param/result_demo_param_array.bfbs",
             //"?? "FirstRewardParamArray" bfbs",
@@ -1195,9 +1200,6 @@ public class GameDumperSV
     {
         ulong[] files =
         {
-            0x3D345A77E8F5C8E7, // main
-            0xF7210579A5527E7F, // su1
-            0x882BE83639392011, // su2
             0x6B3C7A393C4806BB,
             0xABA6B518253AEEEB,
             0xCC942F5FDA362FF3,

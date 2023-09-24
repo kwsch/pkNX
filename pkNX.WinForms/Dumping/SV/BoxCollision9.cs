@@ -1,6 +1,4 @@
-
-using pkNX.Structures;
-using pkNX.Structures.FlatBuffers;
+namespace pkNX.Structures.FlatBuffers;
 
 public class BoxCollision9 : IContainsV3f
 {
@@ -30,4 +28,6 @@ public class BoxCollision9 : IContainsV3f
 
         return true;
     }
+
+    public bool ContainedBy(IContainsV3f outer) => outer.ContainsPoint(Position.X, Position.Y, Position.Z, Size.X / 2.0f, Size.Y / 2.0f, Size.Z / 2.0f);
 }

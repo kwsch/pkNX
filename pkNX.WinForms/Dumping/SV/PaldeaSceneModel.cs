@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -124,6 +125,30 @@ public class PaldeaSceneModel
         }
 
         result = null;
+        return false;
+    }
+
+    public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, IContainsV3f inner, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
+    {
+        foreach (var name in AreaNames[(int)fieldIndex])
+        {
+            if (name == areaName)
+                continue;
+
+            if (!criteria(name))
+                continue;
+
+            if (!TryGetContainsCheck(fieldIndex, name, out var outer))
+                continue;
+
+            if (!inner.ContainedBy(outer))
+                continue;
+
+            parent = name;
+            return true;
+        }
+
+        parent = null;
         return false;
     }
 }

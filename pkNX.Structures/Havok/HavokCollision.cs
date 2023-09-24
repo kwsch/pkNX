@@ -497,6 +497,8 @@ public static class HavokCollision
             }
             return false;
         }
+
+        public bool ContainedBy(IContainsV3f other) => other.ContainsPoint(BoundingBoxRectangles[0].X, BoundingBoxRectangles[0].Y, BoundingBoxRectangles[0].Z);
     }
 
     public struct Rectangle3D
@@ -639,4 +641,11 @@ public interface IContainsV3f
 {
     bool ContainsPoint(float x, float y, float z);
     bool ContainsPoint(float x, float y, float z, float toleranceX, float toleranceY, float toleranceZ);
+
+    /// <summary>
+    /// Checks if an outer collision volume contains this (inner) volume
+    /// </summary>
+    /// <param name="outer">Outer collision volume</param>
+    /// <returns>True if the inner volume is contained within this volume</returns>
+    bool ContainedBy(IContainsV3f outer);
 }
