@@ -172,7 +172,7 @@ public class LocationStorage
             return false;
 
         // Check loc
-        if (!IsInArea(pd.LocationName, areaName, scene, fieldIndex, point))
+        if (!IsMatchAreaFilter(pd.LocationName, areaName, scene, fieldIndex, point))
             return false;
 
         // Check biome
@@ -219,22 +219,23 @@ public class LocationStorage
         return int.TryParse(areaName[start..], out var x) && areaNo == x;
     }
 
-    private static bool IsInArea(string locName, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
+    private static bool IsMatchAreaFilter(ReadOnlySpan<char> filterToLocations, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
     {
-        if (locName.Length == 0)
+        if (filterToLocations.Length == 0)
             return true; // Filter not specified
 
-        var split = locName.Split(",");
-        foreach (string a in split)
+        while (true)
         {
-            if (a == areaName)
+            var index = filterToLocations.IndexOf(',');
+            var name = index == -1 ? filterToLocations : filterToLocations[..index];
+            if (name.SequenceEqual(areaName))
+                return true;
+            if (scene.IsPointContained(fieldIndex, name.ToString(), ep.Position.X, ep.Position.Y, ep.Position.Z))
                 return true;
 
-            if (!scene.IsPointContained(fieldIndex, a, ep.Position.X, ep.Position.Y, ep.Position.Z))
-                continue;
-
-            return true;
+            if (index == -1)
+                return false;
+            filterToLocations = filterToLocations[(index + 1)..];
         }
-        return false;
     }
 }

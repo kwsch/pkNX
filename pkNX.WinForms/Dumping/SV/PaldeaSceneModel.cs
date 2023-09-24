@@ -130,8 +130,10 @@ public class PaldeaSceneModel
 
     public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, IContainsV3f inner, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
     {
-        foreach (var name in AreaNames[(int)fieldIndex])
+        var areas = AreaNames[(int)fieldIndex];
+        for (var i = areas.Count - 1; i >= 0; i--)
         {
+            var name = areas[i];
             if (name == areaName)
                 continue;
 
@@ -144,6 +146,7 @@ public class PaldeaSceneModel
             if (!inner.ContainedBy(outer))
                 continue;
 
+            //Debug.WriteLine($"Remapped {areaName} to {name}");
             parent = name;
             return true;
         }

@@ -20,6 +20,11 @@ public class EncounterDumperSV
 
     public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
+    private static readonly string[] BannedFixedSpawnNames =
+    {
+        "ai_area01_30", // Lighthouse Wingull
+    };
+
     public void DumpTo(string path, IReadOnlyList<string> specNamesInternal, IReadOnlyList<string> moveNames,
         Dictionary<string, (string Name, int Index)> placeNameMap,
         bool writeText = true, bool writePickle = true)
@@ -79,10 +84,6 @@ public class EncounterDumperSV
 
         // Fixed symbols
         List<byte[]> serialized = new();
-        string[] bannedNames =
-        {
-            "ai_area01_30", // Lighthouse Wingull
-        };
         var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
         var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
@@ -90,42 +91,51 @@ public class EncounterDumperSV
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
             foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami })
             {
+                var areaNames = scene.AreaNames[(int)fieldIndex];
+                var areas = scene.AreaInfos[(int)fieldIndex];
+                var atlantis = scene.IsAtlantis[(int)fieldIndex];
+                var allPoints = gamePoints[(int)fieldIndex];
+
                 for (var i = 0; i < fsymData.Table.Count; i++)
                 {
                     var entry = fsymData.Table[i];
                     var tableKey = entry.TableKey;
-                    var points = gamePoints[(int)fieldIndex].Where(p => p.TableKey == tableKey).ToList();
+                    var points = allPoints.FindAll(p => p.TableKey == tableKey);
                     if (points.Count == 0)
                         continue;
 
-                    var areas = new List<string>();
-                    var tmpPoints = points.ToList();
-                    for (var x = scene.AreaNames[(int)fieldIndex].Count - 1; x >= 0; x--)
+                    var appearAreas = new List<AppearTuple>();
+                    for (var x = areaNames.Count - 1; x >= 0; x--)
                     {
-                        var areaName = scene.AreaNames[(int)fieldIndex][x];
-                        if (scene.IsAtlantis[(int)fieldIndex][areaName])
+                        var areaName = areaNames[x];
+                        if (atlantis[areaName])
                             continue;
 
-                        var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
-                        var name = areaInfo.LocationNameMain;
-                        if (string.IsNullOrEmpty(name))
-                            continue;
+                        var areaInfo = areas[areaName];
                         if (areaInfo.Tag is AreaTag.NG_Encount)
                             continue;
-
-                        for (int p = 0; p < tmpPoints.Count; p++)
+                        if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
+                            continue;
+                        if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                            continue;
+                        areaName = areaNames[x];
+                        for (int p = 0; p < points.Count; p++)
                         {
-                            var point = tmpPoints[p];
-                            if (!scene.IsPointContained(fieldIndex, areaName, point.Position.X, point.Position.Y, point.Position.Z))
+                            var point = points[p];
+                            var pt = point.Position;
+                            if (!scene.IsPointContained(fieldIndex, areaName, pt.X, pt.Y, pt.Z))
                                 continue;
-                            tmpPoints.RemoveAt(p);
+                            if (!appearAreas.Exists(z => z.AreaName == areaName))
+                                appearAreas.Add(new(placeName, areaName, areaInfo.AdjustEncLv));
+                            points.RemoveAt(p);
                             p--;
-                            if (!areas.Contains(areaName))
-                                areas.Add(areaName);
                         }
+
+                        if (points.Count == 0)
+                            break;
                     }
 
-                    var locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
+                    var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index).Distinct().ToList();
 
                     gw.WriteLine("===");
                     gw.WriteLine(entry.TableKey);
@@ -135,7 +145,7 @@ public class EncounterDumperSV
                     gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
                     gw.WriteLine($"    Form:    {pd.FormId}");
                     gw.Write($"    Level:   {pd.Level}");
-                    foreach (var adj in areas.Select(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv).Where(lv => lv != 0).Distinct().Order())
+                    foreach (var adj in appearAreas.Select(a => a.Adjust).Where(lv => lv != 0).Distinct().Order())
                     {
                         gw.Write($", {pd.Level + adj}");
                     }
@@ -147,7 +157,8 @@ public class EncounterDumperSV
                     {
                         TalentType.RANDOM => "Random",
                         TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
-                        TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+                        TalentType.VALUE =>
+                            $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
                         _ => "Invalid",
                     };
                     gw.WriteLine($"    IVs:     {talentStr}");
@@ -158,7 +169,8 @@ public class EncounterDumperSV
                             gw.WriteLine("    Moves:   Random");
                             break;
                         case WazaType.MANUAL:
-                            gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                            gw.WriteLine(
+                                $"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
                             break;
                     }
 
@@ -170,57 +182,59 @@ public class EncounterDumperSV
                     {
                         gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
                     }
+
                     gw.WriteLine("  Areas:");
-                    foreach (var areaName in areas)
+                    foreach (var area in appearAreas)
                     {
-                        var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
-                        var loc = areaInfo.LocationNameMain;
+                        var loc = area.PlaceName;
                         (string name, int index) = placeNameMap[loc];
-                        gw.WriteLine($"    - {areaName} - {loc} - {name} ({index})");
+                        gw.WriteLine($"    - {area.PlaceName} - {loc} - {name} ({index})");
                     }
 
                     // Serialize
                     if (locs.Count == 0)
                         continue;
-                    if (bannedNames.Contains(entry.TableKey))
+                    if (BannedFixedSpawnNames.Contains(entry.TableKey))
                         continue;
 
                     // If not stationary, allow some tolerance.
                     var aiStationary = GetIsStationary(entry.PokeAI.ActionId);
+                    var wanderAreas = new List<AppearTuple>(0);
                     if (!aiStationary)
                     {
-                        areas.Clear();
-                        foreach (var areaName in scene.AreaNames[(int)fieldIndex])
+                        for (var a = 0; a < areaNames.Count; a++)
                         {
+                            var areaName = areaNames[a];
                             if (scene.IsAtlantis[(int)fieldIndex][areaName])
                                 continue;
 
-                            var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
-                            var name = areaInfo.LocationNameMain;
-                            if (string.IsNullOrEmpty(name))
+                            var areaInfo = areas[areaName];
+                            if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
                                 continue;
                             if (areaInfo.Tag is AreaTag.NG_Encount)
                                 continue;
+                            if (!TryGetBleedArea(points, collider, appearAreas, scene, fieldIndex, out var bledFrom))
+                                continue; // can't bleed into this area
 
-                            if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
+                            // Bleeding from zones should start from the sub-zone, so we don't need to check other sub-zones.
+                            if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
                                 continue;
-                            if (points.Any(p => collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ)))
-                                areas.Add(areaName);
+                            wanderAreas.Add(new(placeName, areaNames[a], bledFrom.Adjust));
                         }
                     }
 
-                    locs = areas.Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
-                    if (fieldIndex == PaldeaFieldIndex.Paldea && entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
-                        locs.Add(46); // North Province (Area One)
-
-                    locs.Sort();
-                    WriteFixedSymbol(serialized, entry, locs);
-
-                    foreach (var adjustLevel in areas.Select(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv).Where(lv => lv != 0).Distinct())
+                    foreach (var area in appearAreas.GroupBy(z => z.Adjust))
                     {
-                        locs = areas.Where(a => scene.AreaInfos[(int)fieldIndex][a].AdjustEncLv == adjustLevel).Select(a => placeNameMap[scene.AreaInfos[(int)fieldIndex][a].LocationNameMain].Index).Distinct().ToList();
-                        locs.Sort();
-                        WriteFixedSymbol(serialized, entry, locs, adjustLevel);
+                        var adjust = area.Key;
+                        var wander = wanderAreas.Where(z => z.Adjust == adjust);
+                        var allLocations = area.Concat(wander);
+                        var locationIDs = allLocations.Select(z => placeNameMap[z.PlaceName].Index).Distinct().ToList();
+                        if (fieldIndex == PaldeaFieldIndex.Paldea && entry.PokeAI.ActionId == PokemonActionID.FS_POP_AREA22_DRAGONITE) // Flies around not using tolerance.
+                            locationIDs.Add(46); // North Province (Area One)
+                        locationIDs.Sort();
+
+                        WriteFixedSymbol(serialized, entry, locs);
+                        WriteFixedSymbol(serialized, entry, locs, adjust);
                     }
                 }
             }
@@ -238,7 +252,7 @@ public class EncounterDumperSV
 
                 var areaInfo = scene.AreaInfos[(int)PaldeaFieldIndex.Paldea][areaName];
                 var name = areaInfo.LocationNameMain;
-                if (string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(name)) // Don't worry about subzones
                     continue;
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
@@ -336,9 +350,10 @@ public class EncounterDumperSV
 
             // Fill the point lists for each area, then spawn everything into those points.
             var areaNames = scene.AreaNames[(int)fieldIndex];
-            foreach (var areaName in areaNames)
+            var areas = scene.AreaInfos[(int)fieldIndex];
+            for (var i = areaNames.Count - 1; i >= 0; i--)
             {
-                var areas = scene.AreaInfos[(int)fieldIndex];
+                var areaName = areaNames[i];
                 var areaInfo = areas[areaName];
 
                 // Determine potential spawners
@@ -349,29 +364,12 @@ public class EncounterDumperSV
                 }
 
                 // Areas without a location name can't be reversed into location ID.
-                var name = areaInfo.LocationNameMain;
-                if (string.IsNullOrEmpty(name))
-                {
-                    // Maybe this is a sub-area? Try to get the parent area name.
-                    bool IsValidParentAreaName(string aName)
-                    {
-                        var n = areas[aName].LocationNameMain;
-                        if (string.IsNullOrEmpty(n))
-                            return false;
-                        return placeNameMap.ContainsKey(n);
-                    }
-
-                    if (!scene.TryGetParentAreaName(fieldIndex, areaName, collider, IsValidParentAreaName, out var parentAreaName))
-                    {
-                        Console.WriteLine($"No parent area for {areaName}");
-                        continue;
-                    }
-                    name = areas[parentAreaName].LocationNameMain;
-                }
+                if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                    continue;
 
                 // Locations that do not spawn encounters can still have crossovers bleed into them.
                 // We'll have empty local encounter lists for them.
-                var storage = db.Get(placeNameMap[name].Index, fieldIndex, areaName, areaInfo);
+                var storage = db.Get(placeNameMap[placeName].Index, fieldIndex, areaName, areaInfo);
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
 
@@ -383,7 +381,7 @@ public class EncounterDumperSV
             // For each area, we need to peek at the other areas to see if they have any crossover points.
             // For each of those crossover points, we need to see if they are in the current area's collider.
             // If they are, we need to add them to the current area's list of crossover points.
-            foreach (var areaName in scene.AreaNames[(int)fieldIndex])
+            foreach (var areaName in areaNames)
             {
                 // Same sanity checking as above iteration.
                 var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
@@ -411,7 +409,7 @@ public class EncounterDumperSV
                     // Skip self
                     if (otherName == areaName)
                         continue;
-                    // Skip areas that don't have a location name
+                    // Skip areas that don't have a location name -- subzones were the initial spawn spot if so.
                     var otherAreaInfo = scene.AreaInfos[(int)fieldIndex][otherName];
                     var otherNameMain = otherAreaInfo.LocationNameMain;
                     if (string.IsNullOrEmpty(otherNameMain))
@@ -435,6 +433,53 @@ public class EncounterDumperSV
             }
         }
     }
+
+    private static bool TryGetBleedArea(List<PaldeaFixedSymbolPoint> points, IContainsV3f collider, List<AppearTuple> appearAreas, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out AppearTuple bledFrom)
+    {
+        foreach (var p in points)
+        {
+            if (!collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ))
+                continue;
+            // Get the original area it bled from.
+            bledFrom = appearAreas.First(z =>
+                scene.TryGetContainsCheck(fieldIndex, z.AreaName, out var c) &&
+                c.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z));
+            return true;
+        }
+        bledFrom = default;
+        return false;
+    }
+
+    private static bool TryGetPlaceName(ref string areaName, AreaInfo areaInfo,
+        IContainsV3f collider, Dictionary<string, (string Name, int Index)> placeNameMap,
+        IReadOnlyDictionary<string, AreaInfo> areas,
+        PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out string placeName)
+    {
+        placeName = areaInfo.LocationNameMain;
+        if (!string.IsNullOrEmpty(placeName))
+            return true;
+
+        // Maybe this is a sub-area? Try to get the parent area name.
+        bool IsValidParentAreaName(string aName)
+        {
+            var n = areas[aName].LocationNameMain;
+            if (string.IsNullOrEmpty(n))
+                return false;
+            return placeNameMap.ContainsKey(n);
+        }
+
+        if (!scene.TryGetParentAreaName(fieldIndex, areaName, collider, IsValidParentAreaName, out var parentAreaName))
+        {
+            Console.WriteLine($"No parent area for {areaName}");
+            return false;
+        }
+
+        areaName = parentAreaName;
+        placeName = areas[parentAreaName].LocationNameMain;
+        return true;
+    }
+
+    private record struct AppearTuple(string PlaceName, string AreaName, int Adjust);
 
     private static string Humanize(SizeType type, short value) => type switch
     {
@@ -478,7 +523,7 @@ public class EncounterDumperSV
     {
         // Dump each property to json.
         var dest = Path.Combine(path, "paldea_scene.json");
-        var json = JsonSerializer.Serialize(scene, new JsonSerializerOptions { WriteIndented = true });
+        var json = JsonSerializer.Serialize(scene, new JsonSerializerOptions { WriteIndented = true, IncludeFields = true });
         File.WriteAllText(dest, json);
     }
 
@@ -486,7 +531,7 @@ public class EncounterDumperSV
     {
         // Dump each property to json.
         var dest = Path.Combine(path, "paldea_field.json");
-        var json = JsonSerializer.Serialize(field, new JsonSerializerOptions { WriteIndented = true });
+        var json = JsonSerializer.Serialize(field, new JsonSerializerOptions { WriteIndented = true, IncludeFields = true });
         File.WriteAllText(dest, json);
     }
 
@@ -601,6 +646,8 @@ public class EncounterDumperSV
         string areaName, AreaInfo areaInfo, List<PaldeaEncounter> encounts)
     {
         var loc = areaInfo.LocationNameMain;
+        if (!placeNameMap.ContainsKey(loc))
+            return;
         (string name, int index) = placeNameMap[loc];
         var heading = $"{areaName} - {loc} - {name} ({index})";
         WriteEncounts(tw, specNamesInternal, heading, encounts);
@@ -648,7 +695,7 @@ public class EncounterDumperSV
 
     private static void WriteBiomes(TextWriter tw, string heading, List<LocationPointDetail> points)
     {
-        var biomes = points.Select(z => z.Point.Biome).Distinct().Select(z => z.ToString()).OrderBy(z => z);
+        var biomes = points.Select(z => z.Point.Biome).Distinct().Select(z => z.ToString()).Order();
         var btext = string.Join(',', biomes);
         tw.WriteLine($"{heading}\t{btext}");
     }
