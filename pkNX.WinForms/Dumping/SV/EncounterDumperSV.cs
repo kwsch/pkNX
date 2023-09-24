@@ -335,9 +335,11 @@ public class EncounterDumperSV
             // Just compute everything (big memory!) then crunch it all down.
 
             // Fill the point lists for each area, then spawn everything into those points.
-            foreach (var areaName in scene.AreaNames[(int)fieldIndex])
+            var areaNames = scene.AreaNames[(int)fieldIndex];
+            foreach (var areaName in areaNames)
             {
-                var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
+                var areas = scene.AreaInfos[(int)fieldIndex];
+                var areaInfo = areas[areaName];
 
                 // Determine potential spawners
                 if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
@@ -346,11 +348,29 @@ public class EncounterDumperSV
                     continue;
                 }
 
-                // Locations that do not spawn encounters can still have crossovers bleed into them.
-                // We'll have empty local encounter lists for them.
+                // Areas without a location name can't be reversed into location ID.
                 var name = areaInfo.LocationNameMain;
                 if (string.IsNullOrEmpty(name))
-                    continue;
+                {
+                    // Maybe this is a sub-area? Try to get the parent area name.
+                    bool IsValidParentAreaName(string aName)
+                    {
+                        var n = areas[aName].LocationNameMain;
+                        if (string.IsNullOrEmpty(n))
+                            return false;
+                        return placeNameMap.ContainsKey(n);
+                    }
+
+                    if (!scene.TryGetParentAreaName(fieldIndex, areaName, collider, IsValidParentAreaName, out var parentAreaName))
+                    {
+                        Console.WriteLine($"No parent area for {areaName}");
+                        continue;
+                    }
+                    name = areas[parentAreaName].LocationNameMain;
+                }
+
+                // Locations that do not spawn encounters can still have crossovers bleed into them.
+                // We'll have empty local encounter lists for them.
                 var storage = db.Get(placeNameMap[name].Index, fieldIndex, areaName, areaInfo);
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
@@ -454,7 +474,7 @@ public class EncounterDumperSV
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Invalid ability index"),
     };
 
-    private void DumpScene(PaldeaSceneModel scene, string path)
+    private static void DumpScene(PaldeaSceneModel scene, string path)
     {
         // Dump each property to json.
         var dest = Path.Combine(path, "paldea_scene.json");
@@ -462,7 +482,7 @@ public class EncounterDumperSV
         File.WriteAllText(dest, json);
     }
 
-    private void DumpField(PaldeaFieldModel field, string path)
+    private static void DumpField(PaldeaFieldModel field, string path)
     {
         // Dump each property to json.
         var dest = Path.Combine(path, "paldea_field.json");
