@@ -96,6 +96,13 @@ public class EncounterDumperSV
                 var atlantis = scene.IsAtlantis[(int)fieldIndex];
                 var allPoints = gamePoints[(int)fieldIndex];
 
+                if (fieldIndex == PaldeaFieldIndex.Kitakami)
+                {
+                    areas = areas.Where(z => z.Value.AdjustEncLv != 0)
+                        .ToDictionary(z => z.Key, z => z.Value);
+                    areaNames = areas.Keys.ToList();
+                }
+
                 for (var i = 0; i < fsymData.Table.Count; i++)
                 {
                     var entry = fsymData.Table[i];
@@ -116,17 +123,17 @@ public class EncounterDumperSV
                             continue;
                         if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
                             continue;
-                        if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
-                            continue;
-                        areaName = areaNames[x];
                         for (int p = 0; p < points.Count; p++)
                         {
                             var point = points[p];
                             var pt = point.Position;
-                            if (!scene.IsPointContained(fieldIndex, areaName, pt.X, pt.Y, pt.Z))
+                            if (!collider.ContainsPoint(pt.X, pt.Y, pt.Z))
                                 continue;
-                            if (!appearAreas.Exists(z => z.AreaName == areaName))
-                                appearAreas.Add(new(placeName, areaName, areaInfo.AdjustEncLv));
+                            if (!TryGetPlaceName(ref areaName, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                                continue;
+                            areaName = areaNames[x];
+                            if (!appearAreas.Exists(z => z.Point == pt && z.AreaName == areaName))
+                                appearAreas.Add(new(placeName, areaName, areaInfo.AdjustEncLv, pt));
                             points.RemoveAt(p);
                             p--;
                         }
@@ -138,7 +145,7 @@ public class EncounterDumperSV
                     var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index).Distinct().ToList();
 
                     gw.WriteLine("===");
-                    gw.WriteLine(entry.TableKey);
+                    gw.WriteLine($"{tableKey} - {i}");
                     gw.WriteLine("===");
                     gw.WriteLine("  PokeData:");
                     var pd = entry.Symbol;
@@ -157,8 +164,7 @@ public class EncounterDumperSV
                     {
                         TalentType.RANDOM => "Random",
                         TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
-                        TalentType.VALUE =>
-                            $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+                        TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
                         _ => "Invalid",
                     };
                     gw.WriteLine($"    IVs:     {talentStr}");
@@ -169,8 +175,7 @@ public class EncounterDumperSV
                             gw.WriteLine("    Moves:   Random");
                             break;
                         case WazaType.MANUAL:
-                            gw.WriteLine(
-                                $"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                            gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
                             break;
                     }
 
@@ -202,24 +207,26 @@ public class EncounterDumperSV
                     var wanderAreas = new List<AppearTuple>(0);
                     if (!aiStationary)
                     {
-                        for (var a = 0; a < areaNames.Count; a++)
+                        var allInfos = scene.AreaInfos[(int)fieldIndex];
+                        var allNames = scene.AreaNames[(int)fieldIndex];
+                        for (var a = 0; a < allNames.Count; a++)
                         {
-                            var areaName = areaNames[a];
-                            if (scene.IsAtlantis[(int)fieldIndex][areaName])
+                            var areaName = allNames[a];
+                            if (atlantis[areaName])
                                 continue;
 
-                            var areaInfo = areas[areaName];
+                            var areaInfo = allInfos[areaName];
                             if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
                                 continue;
                             if (areaInfo.Tag is AreaTag.NG_Encount)
                                 continue;
-                            if (!TryGetBleedArea(points, collider, appearAreas, scene, fieldIndex, out var bledFrom))
+                            if (!TryGetBleedArea(collider, appearAreas, scene, fieldIndex, out var bledFrom))
                                 continue; // can't bleed into this area
 
                             // Bleeding from zones should start from the sub-zone, so we don't need to check other sub-zones.
-                            if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                            if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, allInfos, scene, fieldIndex, out var placeName))
                                 continue;
-                            wanderAreas.Add(new(placeName, areaNames[a], bledFrom.Adjust));
+                            wanderAreas.Add(bledFrom with { PlaceName = placeName, AreaName = allNames[a] });
                         }
                     }
 
@@ -233,8 +240,8 @@ public class EncounterDumperSV
                             locationIDs.Add(46); // North Province (Area One)
                         locationIDs.Sort();
 
-                        WriteFixedSymbol(serialized, entry, locs);
-                        WriteFixedSymbol(serialized, entry, locs, adjust);
+                        WriteFixedSymbol(serialized, entry, locationIDs);
+                        WriteFixedSymbol(serialized, entry, locationIDs, adjust);
                     }
                 }
             }
@@ -351,6 +358,7 @@ public class EncounterDumperSV
             // Fill the point lists for each area, then spawn everything into those points.
             var areaNames = scene.AreaNames[(int)fieldIndex];
             var areas = scene.AreaInfos[(int)fieldIndex];
+            var atlantis = scene.IsAtlantis[(int)fieldIndex];
             for (var i = areaNames.Count - 1; i >= 0; i--)
             {
                 var areaName = areaNames[i];
@@ -373,7 +381,7 @@ public class EncounterDumperSV
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
 
-                var points = GetPoints(fieldIndex, scene.IsAtlantis[(int)fieldIndex][areaName]);
+                var points = GetPoints(fieldIndex, atlantis[areaName]);
                 storage.LoadPoints(points, collider, areaInfo.ActualMinLevel, areaInfo.ActualMaxLevel, areaInfo.AdjustEncLv);
                 storage.GetEncounters(GetPokeData(fieldIndex), scene);
             }
@@ -384,7 +392,7 @@ public class EncounterDumperSV
             foreach (var areaName in areaNames)
             {
                 // Same sanity checking as above iteration.
-                var areaInfo = scene.AreaInfos[(int)fieldIndex][areaName];
+                var areaInfo = areas[areaName];
 
                 // Determine potential spawners
                 if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
@@ -404,13 +412,13 @@ public class EncounterDumperSV
                     continue;
 
                 // Here's where the fun begins. Iterate over areas inside this loop so we can look for all possible adjacent areas.
-                foreach (var otherName in scene.AreaNames[(int)fieldIndex])
+                foreach (var otherName in areaNames)
                 {
                     // Skip self
                     if (otherName == areaName)
                         continue;
                     // Skip areas that don't have a location name -- subzones were the initial spawn spot if so.
-                    var otherAreaInfo = scene.AreaInfos[(int)fieldIndex][otherName];
+                    var otherAreaInfo = areas[otherName];
                     var otherNameMain = otherAreaInfo.LocationNameMain;
                     if (string.IsNullOrEmpty(otherNameMain))
                         continue;
@@ -434,16 +442,17 @@ public class EncounterDumperSV
         }
     }
 
-    private static bool TryGetBleedArea(List<PaldeaFixedSymbolPoint> points, IContainsV3f collider, List<AppearTuple> appearAreas, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out AppearTuple bledFrom)
+    private static bool TryGetBleedArea(IContainsV3f collider, List<AppearTuple> appearAreas, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out AppearTuple bledFrom)
     {
-        foreach (var p in points)
+        foreach (var a in appearAreas)
         {
-            if (!collider.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z, tolX, tolY, tolZ))
+            var p = a.Point;
+            if (!collider.ContainsPoint(p.X, p.Y, p.Z, tolX, tolY, tolZ))
                 continue;
             // Get the original area it bled from.
             bledFrom = appearAreas.First(z =>
                 scene.TryGetContainsCheck(fieldIndex, z.AreaName, out var c) &&
-                c.ContainsPoint(p.Position.X, p.Position.Y, p.Position.Z));
+                c.ContainsPoint(p.X, p.Y, p.Z));
             return true;
         }
         bledFrom = default;
@@ -462,7 +471,9 @@ public class EncounterDumperSV
         // Maybe this is a sub-area? Try to get the parent area name.
         bool IsValidParentAreaName(string aName)
         {
-            var n = areas[aName].LocationNameMain;
+            if (!areas.TryGetValue(aName, out var info))
+                return false;
+            var n = info.LocationNameMain;
             if (string.IsNullOrEmpty(n))
                 return false;
             return placeNameMap.ContainsKey(n);
@@ -479,7 +490,38 @@ public class EncounterDumperSV
         return true;
     }
 
-    private record struct AppearTuple(string PlaceName, string AreaName, int Adjust);
+    private static bool TryGetPlaceName(ref string areaName, AreaInfo areaInfo,
+        PackedVec3f point, Dictionary<string, (string Name, int Index)> placeNameMap,
+        IReadOnlyDictionary<string, AreaInfo> areas,
+        PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out string placeName)
+    {
+        placeName = areaInfo.LocationNameMain;
+        if (!string.IsNullOrEmpty(placeName))
+            return true;
+
+        // Maybe this is a sub-area? Try to get the parent area name.
+        bool IsValidParentAreaName(string aName)
+        {
+            if (!areas.TryGetValue(aName, out var info))
+                return false;
+            var n = info.LocationNameMain;
+            if (string.IsNullOrEmpty(n))
+                return false;
+            return placeNameMap.ContainsKey(n);
+        }
+
+        if (!scene.TryGetParentAreaName(fieldIndex, areaName, point, IsValidParentAreaName, out var parentAreaName))
+        {
+            Console.WriteLine($"No parent area for {areaName}");
+            return false;
+        }
+
+        areaName = parentAreaName;
+        placeName = areas[parentAreaName].LocationNameMain;
+        return true;
+    }
+
+    private record struct AppearTuple(string PlaceName, string AreaName, int Adjust, PackedVec3f Point);
 
     private static string Humanize(SizeType type, short value) => type switch
     {

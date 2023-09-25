@@ -128,6 +128,33 @@ public class PaldeaSceneModel
         return false;
     }
 
+    public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, PackedVec3f point, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
+    {
+        var areas = AreaNames[(int)fieldIndex];
+        for (var i = areas.Count - 1; i >= 0; i--)
+        {
+            var name = areas[i];
+            if (name == areaName)
+                continue;
+
+            if (!criteria(name))
+                continue;
+
+            if (!TryGetContainsCheck(fieldIndex, name, out var outer))
+                continue;
+
+            if (!outer.ContainsPoint(point.X, point.Y, point.Z))
+                continue;
+
+            //Debug.WriteLine($"Remapped {areaName} to {name}");
+            parent = name;
+            return true;
+        }
+
+        parent = null;
+        return false;
+    }
+
     public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, IContainsV3f inner, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
     {
         var areas = AreaNames[(int)fieldIndex];
