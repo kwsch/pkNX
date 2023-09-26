@@ -114,7 +114,7 @@ public sealed class PersonalInfo9SV : IPersonalInfo
         bw.Write(FB.Info.Color);
         bw.Write(FB.IsPresentInGame);
 
-        bw.Write((byte)(DexGroup == 1 ? 1 : FB.KitagamiDex != 0 ? 2 : FB.BlueberryDex != 0 ? 2 : 0));
+        bw.Write((byte)(DexGroup == 1 ? 1 : FB.KitakamiDex != 0 ? 2 : FB.BlueberryDex != 0 ? 2 : 0));
         bw.Write((ushort)DexIndex);
         bw.Write(FB.Info.Height);
         bw.Write(FB.Info.Weight);
@@ -138,7 +138,7 @@ public sealed class PersonalInfo9SV : IPersonalInfo
             }
         }
         bw.Write(tmFlags);
-        bw.Write(FB.KitagamiDex);
+        bw.Write(FB.KitakamiDex);
         bw.Write(FB.BlueberryDex);
     }
 

@@ -81,8 +81,8 @@ public class PersonalDumperSV
             name += $"-{form}";
         if (entry.FB.Dex is { } dex)
             name += $" #{dex.Index:000}";
-        if (entry.FB.KitagamiDex != 0)
-            name += $" K#{entry.FB.KitagamiDex:000}";
+        if (entry.FB.KitakamiDex != 0)
+            name += $" K#{entry.FB.KitakamiDex:000}";
         if (entry.FB.BlueberryDex != 0)
             name += $" B#{entry.FB.BlueberryDex:000}";
         AddDump(lines, entry, index, name, speciesInternal, form);
