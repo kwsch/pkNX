@@ -127,6 +127,16 @@ public partial class DumperSV : Form
         Dumper.DumpDistributionRaids(path);
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    private void B_DeliveryOutbreaks_Click(object sender, EventArgs e)
+    {
+        using var fbd = new FolderBrowserDialog();
+        if (fbd.ShowDialog() != DialogResult.OK)
+            return;
+        var path = fbd.SelectedPath;
+        Dumper.DumpDeliveryOutbreaks(path);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
     #endregion
 
     private void B_Encount_Click(object sender, EventArgs e)

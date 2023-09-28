@@ -1244,4 +1244,9 @@ public class GameDumperSV
     {
         TeraRaidRipper.DumpDistributionRaids(ROM, path);
     }
+
+    public void DumpDeliveryOutbreaks(string path)
+    {
+        MassOutbreakRipper.DumpDeliveryOutbreaks(ROM, path);
+    }
 }
