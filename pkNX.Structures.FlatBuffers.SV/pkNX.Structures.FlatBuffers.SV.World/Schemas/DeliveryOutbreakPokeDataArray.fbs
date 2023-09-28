@@ -56,7 +56,7 @@ table AreaNo {
 }
 
 table DeliveryOutbreakPokeDataArray (fs_serializer) {
-    values:[DeliveryOutbreakPokeData] (required);
+    Table:[DeliveryOutbreakPokeData] (required);
 }
 
 root_type DeliveryOutbreakPokeDataArray;

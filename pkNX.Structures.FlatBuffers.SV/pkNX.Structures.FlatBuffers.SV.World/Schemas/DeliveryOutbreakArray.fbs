@@ -17,7 +17,7 @@ table DeliveryOutbreak {
 }
 
 table DeliveryOutbreakArray (fs_serializer) {
-    values:[DeliveryOutbreak] (required);
+    Table:[DeliveryOutbreak] (required);
 }
 
 root_type DeliveryOutbreakArray;
