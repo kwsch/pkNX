@@ -490,7 +490,7 @@ public class EncounterDumperSV
         return true;
     }
 
-    private static bool TryGetPlaceName(ref string areaName, AreaInfo areaInfo,
+    public static bool TryGetPlaceName(ref string areaName, AreaInfo areaInfo,
         PackedVec3f point, Dictionary<string, (string Name, int Index)> placeNameMap,
         IReadOnlyDictionary<string, AreaInfo> areas,
         PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, out string placeName)
@@ -583,12 +583,15 @@ public class EncounterDumperSV
     private static bool IsCrossoverAllowed(LocationStorage storage)
     {
         var loc = storage.Location;
-        if (loc == 124) // Area Zero
-            return false;
-        if (loc == 8) // Mesagoza
-            return false;
-        return true;
+        return IsCrossoverAllowed(loc);
     }
+
+    public static bool IsCrossoverAllowed(int MetLocation) => MetLocation switch
+    {
+        8 => false, // Mesagoza
+        124 => false, // Area Zero
+        _ => true,
+    };
 
     private static bool GetIsStationary(PokemonActionID action) => action switch
     {
