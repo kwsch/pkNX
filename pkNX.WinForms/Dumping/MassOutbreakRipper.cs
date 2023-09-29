@@ -36,12 +36,12 @@ public static class MassOutbreakRipper
         public required RibbonIndex Ribbon { get; init; }
         public required byte MetBase { get; init; }
 
-        public UInt128 MetPermit { get; set; }
+        public required Dictionary<int, UInt128> MetPermit { get; init; }
 
-        public bool ForceScaleRange { get; init; }
-        public byte ScaleMin { get; init; }
-        public byte ScaleMax { get; init; }
-        public bool IsShiny { get; init; }
+        public required bool ForceScaleRange { get; init; }
+        public required byte ScaleMin { get; init; }
+        public required byte ScaleMax { get; init; }
+        public required bool IsShiny { get; init; }
     }
 
     private static void DumpDeliveryOutbreakData(IFileInternal ROM, string path)
@@ -78,17 +78,24 @@ public static class MassOutbreakRipper
         using var fs = File.Create(dest);
         using var bw = new BinaryWriter(fs);
         foreach (var enc in encounters.DistinctBy(x => x))
-            WriteEncounter(enc, bw);
+        {
+            foreach (var kvp in enc.MetPermit)
+            {
+                var boost = kvp.Key;
+                var permit = kvp.Value;
+                WriteEncounter(enc, bw, boost, permit);
+            }
+        }
     }
 
-    private static void WriteEncounter(PickledOutbreak enc, BinaryWriter bw)
+    private static void WriteEncounter(PickledOutbreak enc, BinaryWriter bw, int boost, UInt128 permit)
     {
         bw.Write(enc.Species);
         bw.Write(enc.Form);
         bw.Write(enc.Gender);
 
-        bw.Write(enc.LevelMin);
-        bw.Write(enc.LevelMax);
+        bw.Write(Clamp(enc.LevelMin, boost));
+        bw.Write(Clamp(enc.LevelMax, boost));
         bw.Write((byte)enc.Ribbon);
         bw.Write(enc.MetBase);
 
@@ -97,8 +104,11 @@ public static class MassOutbreakRipper
         bw.Write(enc.ScaleMax);
         bw.Write(enc.IsShiny ? (byte)1 : (byte)0);
 
-        bw.Write((ulong)enc.MetPermit);
-        bw.Write((ulong)(enc.MetPermit >> 64));
+        bw.Write((ulong)permit);
+        bw.Write((ulong)(permit >> 64));
+
+        return;
+        static byte Clamp(byte val, int b) => (byte)Math.Clamp(val + b, 1, 100);
     }
 
     private static void AddToPickleJar(IFileInternal ROM, DeliveryOutbreakArray f0, DeliveryOutbreakArray f1, DeliveryOutbreakArray f2, DeliveryOutbreakPokeDataArray pd)
@@ -169,12 +179,17 @@ public static class MassOutbreakRipper
 
                 // Cool, can spawn at this point.
                 // Find all met location IDs we can wander to, then bitflag them into the enc field.
-                var metFlags = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point);
-                enc.MetFlags |= metFlags;
+                var metData = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point);
+                enc.BoostMetFlags.TryGetValue(metData.Boost, out var val);
+                enc.BoostMetFlags[metData.Boost] = val | metData.Met;
             }
         }
 
-        // Add to pickle jar.
+        AddToJar(encs);
+    }
+
+    private static void AddToJar(CachedOutbreak[] encs)
+    {
         foreach (var enc in encs)
         {
             var pk = enc.Poke;
@@ -203,38 +218,60 @@ public static class MassOutbreakRipper
                 ScaleMax = (byte)pk.MaxScale,
                 IsShiny = pk.RarePercentage >= 100,
                 MetBase = enc.MetBase,
-                MetPermit = enc.MetFlags,
+                MetPermit = enc.BoostMetFlags,
             };
             Encounters.Add(pickled);
         }
     }
 
-    private static UInt128 GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
+    private static (UInt128 Met, int Boost)  GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
         byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point)
     {
         UInt128 result = 0;
-        foreach (string area in areaNames)
+        int boost = 0;
+        for (var i = areaNames.Count - 1; i >= 0; i--)
         {
-            var areaName = area;
+            var areaName = areaNames[i];
             var areaInfo = areas[areaName];
             if (areaInfo.Tag is AreaTag.NG_Encount)
                 continue;
             if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
                 continue;
             var pt = point.Position;
-            if (!collider.ContainsPoint(pt.X, pt.Y, pt.Z, TolX, TolY, TolZ))
+            if (!collider.ContainsPoint(pt.X, pt.Y, pt.Z))
                 continue;
-            if (!EncounterDumperSV.TryGetPlaceName(ref areaName, areaInfo, pt, placeNameMap, areas, scene, fieldIndex,
-                    out var placeName))
+            if (!EncounterDumperSV.TryGetPlaceName(ref areaName, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out var placeName))
                 continue;
             var loc = placeNameMap[placeName].Index;
-            if (!EncounterDumperSV.IsCrossoverAllowed(loc))
-                continue;
 
+            var info = areas[areaName];
+            boost = info.AdjustEncLv;
             var actual = loc - baseMet;
             result |= (UInt128)1 << actual;
+
+            for (var x = 0; x < areaNames.Count; x++)
+            {
+                var area = areaNames[x];
+                if (area == areaName)
+                    continue;
+
+                if (!scene.TryGetContainsCheck(fieldIndex, area, out var subCol))
+                    continue;
+                if (!subCol.ContainsPoint(pt.X, pt.Y, pt.Z, TolX, TolY, TolZ))
+                    continue;
+                if (!EncounterDumperSV.TryGetPlaceName(ref area, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out placeName))
+                    continue;
+                loc = placeNameMap[placeName].Index;
+                if (!EncounterDumperSV.IsCrossoverAllowed(loc))
+                    continue;
+
+                actual = loc - baseMet;
+                result |= (UInt128)1 << actual;
+            }
+
+            break;
         }
-        return result;
+        return (result, boost);
     }
 
     private class CachedOutbreak
@@ -243,7 +280,7 @@ public static class MassOutbreakRipper
         public required DeliveryOutbreakPokeData Poke { get; init; }
 
         public byte MetBase { get; set; }
-        public UInt128 MetFlags;
+        public readonly Dictionary<int, UInt128> BoostMetFlags = new();
     }
 
     private static CachedOutbreak[] GetMetaEncounter(IEnumerable<DeliveryOutbreak> possibleTable, DeliveryOutbreakPokeDataArray pd)
