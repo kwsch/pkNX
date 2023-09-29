@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using PKHeX.Core;
 using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
@@ -9,11 +12,24 @@ namespace pkNX.WinForms;
 
 public static class MassOutbreakRipper
 {
+    private static readonly List<PickledOutbreak> Encounters = new();
+
     public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path)
     {
+        Encounters.Clear();
         var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).OrderBy(z => z);
         foreach (var dir in dirs)
             DumpDeliveryOutbreakData(ROM, dir);
+    }
+
+    private class PickledOutbreak
+    {
+        public required ushort Species { get; init; }
+        public required byte Form { get; init; }
+        public required byte LevelMin { get; init; }
+        public required byte LevelMax { get; init; }
+        public byte Gender { get; init; } = 0xFF;
+        public required RibbonIndex Ribbon { get; init; }
     }
 
     private static void DumpDeliveryOutbreakData(IFileInternal ROM, string path)
@@ -40,6 +56,8 @@ public static class MassOutbreakRipper
 
         var dirDistText = Path.Combine(path, "parse");
         ExportParse(ROM, dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
+
+        ExportPickle(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
     }
 
     private static byte[] GetDistributionContents(string path, out int index)
@@ -47,6 +65,38 @@ public static class MassOutbreakRipper
         index = 0; //  todo
         return File.ReadAllBytes(path);
     }
+
+    private static void ExportPickle(IFileInternal ROM, DeliveryOutbreakArray f0, DeliveryOutbreakArray f1, DeliveryOutbreakArray f2, DeliveryOutbreakPokeDataArray pd)
+    {
+        return; // todo
+        var pointsF0 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bin"));
+        var pointsF1 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bin"));
+        var field = new PaldeaFieldModel(ROM);
+        var scene = new PaldeaSceneModel(ROM, field);
+        var fsym = new PaldeaFixedSymbolModel(ROM);
+        var csym = new PaldeaCoinSymbolModel(ROM);
+    }
+
+    private static string Humanize(OutbreakEnableTable enable)
+    {
+        var sb = new StringBuilder();
+        if (enable.Air1) sb.Append(" Air1");
+        if (enable.Air2) sb.Append(" Air2");
+        if (enable.Land) sb.Append(" Land");
+        if (enable.UpWater) sb.Append(" UpWater");
+        if (enable.UnderWater) sb.Append(" Underwater");
+        if (sb.Length == 0)
+            return "Enable: Unrestricted";
+        return "Enable:" + sb;
+    }
+
+    private static string Humanize(VersionTable ver) => ver switch
+    {
+        { A: true, B: true } => "Version: Both",
+        { A: true } => "Version: Scarlet",
+        { B: true } => "Version: Violet",
+        _ => "Version: None",
+    };
 
     private static void ExportParse(IFileInternal ROM, string dir, DeliveryOutbreakArray tableZoneF0, DeliveryOutbreakArray tableZoneF1, DeliveryOutbreakArray tableZoneF2, DeliveryOutbreakPokeDataArray tablePokeData)
     {
@@ -59,7 +109,7 @@ public static class MassOutbreakRipper
             ("zone_main", dumpZ0),
             ("zone_su1", dumpZ1),
             ("zone_su2", dumpZ2),
-            ("pokedata", dumpPD), 
+            ("pokedata", dumpPD),
         };
 
         Directory.CreateDirectory(dir);
