@@ -22,7 +22,7 @@ table Waza {
     Flinch:ubyte;
     EffectSequence:ushort;
     Recoil:byte;
-    RawHealing:ubyte;
+    RawHealing:byte;
     RawTarget:ubyte;
     StatAmps:WazaEntityStat (required);
     Affinity:WazaAffinity = None;
