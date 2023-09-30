@@ -1007,9 +1007,11 @@ public class GameDumperSV
             // Encounters
             "world/data/encount/point_data/point_data/encount_data_atlantis.bfbs",
             "world/data/encount/point_data/point_data/encount_data_100000.bfbs",
+            "world/data/encount/point_data/point_data/encount_data_su1.bfbs",
             "world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bfbs",
             "world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bfbs",
             "world/data/encount/pokedata/pokedata/pokedata_array.bfbs",
+            "world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bfbs",
             "world/data/encount/setting/setting/data.bfbs",
             "world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs",
             "world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs",
