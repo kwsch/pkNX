@@ -8,6 +8,7 @@ using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.SV;
+using static pkNX.Structures.Species;
 
 namespace pkNX.WinForms;
 
@@ -389,6 +390,12 @@ public static class TeraRaidRipper
         return new TextFile(data, cfg).Lines;
     }
 
+    private static AHTB GetCommonAHTB(IFileInternal ROM, string name, string lang)
+    {
+        var data = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.tbl");
+        return new AHTB(data);
+    }
+
     private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, DeliveryRaidPriorityArray tablePriority, string dir)
     {
         var cfg = new TextConfig(GameVersion.SV);
@@ -401,6 +408,7 @@ public static class TeraRaidRipper
         var moves = GetCommonText(ROM, "wazaname", lang, cfg);
         var types = GetCommonText(ROM, "typename", lang, cfg);
         var natures = GetCommonText(ROM, "seikaku", lang, cfg);
+        var abilities = GetCommonText(ROM, "tokusei", lang, cfg);
 
         lines.Add($"Event Raid Identifier: {ident}");
 
@@ -410,6 +418,7 @@ public static class TeraRaidRipper
             var extra = entry.Info.BossDesc;
             var nameDrop = entry.Info.DropTableFix;
             var nameBonus = entry.Info.DropTableRandom;
+            var pi = PKHeX.Core.PersonalTable.SV.GetFormEntry(SpeciesConverterSV.GetNational9((ushort)boss.DevId), (byte)boss.FormId);
 
             if (boss.DevId == DevID.DEV_NULL)
                 continue;
@@ -430,11 +439,11 @@ public static class TeraRaidRipper
 
             var ability = boss.Tokusei switch
             {
-                TokuseiType.SET_1 => "1 Only",
-                TokuseiType.SET_2 => "2 Only",
-                TokuseiType.SET_3 => "Hidden Only",
-                TokuseiType.RANDOM_12 => "1/2",
-                _ => "1/2/H",
+                TokuseiType.SET_1 => $"{abilities[pi.Ability1]} (1)",
+                TokuseiType.SET_2 => $"{abilities[pi.Ability2]} (2)",
+                TokuseiType.SET_3 => $"{abilities[pi.AbilityH]} (H)",
+                TokuseiType.RANDOM_12 => "Any (1/2)",
+                _ => "Any (1/2/H)",
             };
 
             var shiny = boss.RareType switch
@@ -478,7 +487,12 @@ public static class TeraRaidRipper
                 _ => string.Empty,
             };
 
-            var form = boss.FormId == 0 ? string.Empty : $"-{(int)boss.FormId}";
+            var form = GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId) switch
+            {
+                not "" when boss.FormId is 0 => $" ({GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId)})",
+                not "" => $"-{boss.FormId} ({GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId)})",
+                _ => string.Empty,
+            };
 
             lines.Add($"{entry.Info.Difficulty}-Star {species[(int)boss.DevId]}{form}");
             if (entry.Info.RomVer != RaidRomType.BOTH)
@@ -615,6 +629,49 @@ public static class TeraRaidRipper
         }
 
         File.WriteAllLines(Path.Combine(dir, $"pretty_{ident}.txt"), lines);
+    }
+
+    private static string GetFormName(IFileInternal ROM, ushort species, byte form)
+    {
+        const string lang = "English";
+        var cfg = new TextConfig(GameVersion.SV);
+        var ahtb = GetCommonAHTB(ROM, "zkn_form", lang);
+        var text = GetCommonText(ROM, "zkn_form", lang, cfg);
+        var type = GetCommonText(ROM, "typename", lang, cfg);
+
+        var GenericFormNames = new HashSet<Species>() { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
+        string[] TaurosForms = new[] { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
+        char[] UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?".ToCharArray();
+        for (int i = 0; i < text.Length; i++)
+        {
+            var entry = ahtb.Entries[i];
+            var name = entry.Name;
+            var line = text[i];
+
+            // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
+            if (GenericFormNames.Contains((Species)species))
+            {
+                return (Species)species switch
+                {
+                    Tauros when form is not 0 => $"Paldean Form / {TaurosForms[form]}",
+                    Unown => $"Unown {UnownForms[form]}", // A-Z!?
+                    Kyogre or Groudon when form is 0 => "", // Kyogre-0 / Groudon-0
+                    Rotom when form is 0 => "", // Rotom-0
+                    Arceus => $"{type[form]}", // Types
+                    Kyurem when form is 0 => "", // Kyurem-0
+                    Greninja when form is 1 => "", // Battle Bond Greninja
+                    Rockruff when form is 1 => "", // Own Tempo Rockruff
+                    _ => "",
+                };
+            }
+
+            else if (name == $"ZKN_FORM_{species:000}_{form:000}")
+            {
+                return line;
+            }
+        }
+
+        return "";
     }
 
     private static string GetItemName(ushort item, ReadOnlySpan<string> items, ReadOnlySpan<string> moves)
