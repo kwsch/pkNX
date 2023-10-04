@@ -443,14 +443,14 @@ public static class TeraRaidRipper
                 TokuseiType.SET_2 => $"{abilities[pi.Ability2]} (2)",
                 TokuseiType.SET_3 => $"{abilities[pi.AbilityH]} (H)",
                 TokuseiType.RANDOM_12 => "Any (1/2)",
-                _ => "Any (1/2/H)",
+                _ => "Any (1/2/H)", // RANDOM_123
             };
 
             var shiny = boss.RareType switch
             {
                 RareType.RARE => "Always",
                 RareType.NO_RARE => "Never",
-                _ => string.Empty,
+                _ => string.Empty, // Random
             };
 
             var talent = boss.TalentValue;
@@ -484,7 +484,7 @@ public static class TeraRaidRipper
             {
                 SexType.MALE => "Male",
                 SexType.FEMALE => "Female",
-                _ => string.Empty,
+                _ => string.Empty, // Default
             };
 
             var form = GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId) switch
@@ -532,11 +532,8 @@ public static class TeraRaidRipper
             if (boss.ScaleType != SizeType.RANDOM)
                 lines.Add($"\tScale: {size}");
 
-            if (entry.Info.Difficulty == 7)
-            {
-                float hp = entry.Info.BossDesc.HpCoef / 100f;
-                lines.Add($"\tHP Multiplier: {hp:0.0}x");
-            }
+            float hp = entry.Info.BossDesc.HpCoef / 100f;
+            lines.Add($"\tHP Multiplier: {hp:0.0}x");
 
             if (boss.Item != ItemID.ITEMID_NONE)
                 lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
@@ -550,21 +547,22 @@ public static class TeraRaidRipper
             if ((int)boss.Waza3.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza3.WazaId]}");
             if ((int)boss.Waza4.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza4.WazaId]}");
 
-            lines.Add($"\t\tExtra Moves:");
-
-            if ((int)extra.ExtraAction1.Wazano == 0 && (int)extra.ExtraAction2.Wazano == 0 && (int)extra.ExtraAction3.Wazano == 0 && (int)extra.ExtraAction4.Wazano == 0 && (int)extra.ExtraAction5.Wazano == 0 && (int)extra.ExtraAction6.Wazano == 0)
+            if (extra.PowerChargeTrigerHp != 0 && extra.PowerChargeTrigerTime != 0)
             {
-                lines.Add("\t\t\tNone!");
+                lines.Add($"\t\tShield Activation:");
+                lines.Add($"\t\t\t- {extra.PowerChargeTrigerHp}% HP Remaining");
+                lines.Add($"\t\t\t- {extra.PowerChargeTrigerTime}% Time Remaining");
             }
 
-            else
+            if ((int)extra.ExtraAction1.Action != 0 || (int)extra.ExtraAction2.Action != 0 || (int)extra.ExtraAction3.Action != 0 || (int)extra.ExtraAction4.Action != 0 || (int)extra.ExtraAction5.Action != 0 || (int)extra.ExtraAction6.Action != 0)
             {
-                if ((int)extra.ExtraAction1.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction1.Wazano]}");
-                if ((int)extra.ExtraAction2.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction2.Wazano]}");
-                if ((int)extra.ExtraAction3.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction3.Wazano]}");
-                if ((int)extra.ExtraAction4.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction4.Wazano]}");
-                if ((int)extra.ExtraAction5.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction5.Wazano]}");
-                if ((int)extra.ExtraAction6.Wazano != 0) lines.Add($"\t\t\t- {moves[(int)extra.ExtraAction6.Wazano]}");
+                lines.Add("\t\tExtra Actions:");
+                if ((int)extra.ExtraAction1.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction1, moves)}");
+                if ((int)extra.ExtraAction2.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction2, moves)}");
+                if ((int)extra.ExtraAction3.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction3, moves)}");
+                if ((int)extra.ExtraAction4.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction4, moves)}");
+                if ((int)extra.ExtraAction5.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction5, moves)}");
+                if ((int)extra.ExtraAction6.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction6, moves)}");
             }
 
             lines.Add("\t\tItem Drops:");
@@ -700,4 +698,17 @@ public static class TeraRaidRipper
         690 or 691 or 692 or 693 => $"{items[item]} {moves[tm[096 + item - 690]]}", // TM096 to TM099
         _ => $"{items[item]} {moves[tm[100 + item - 2160]]}", // TM100 to TM229
     };
+
+    private static string GetExtraActionInfo(RaidBossExtraData action, string[] moves)
+    {
+        var type = action.Timing == RaidBossExtraTimingType.TIME ? "Time" : "HP";
+        return action.Action switch
+        {
+            RaidBossExtraActType.BOSS_STATUS_RESET => $"Reset Raid Boss' Stat Changes at {action.Value}% {type} Remaining",
+            RaidBossExtraActType.PLAYER_STATUS_RESET => $"Reset Player's Stat Changes at {action.Value}% {type} Remaining",
+            RaidBossExtraActType.WAZA => $"Use {moves[(int)action.Wazano]} at {action.Value}% {type} Remaining",
+            RaidBossExtraActType.GEM_COUNT => $"Reduce Tera Orb Charge at {action.Value}% {type} Remaining",
+            _ => "",
+        };
+    }
 }
