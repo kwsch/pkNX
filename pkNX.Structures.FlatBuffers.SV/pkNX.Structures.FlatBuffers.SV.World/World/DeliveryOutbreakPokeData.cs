@@ -59,6 +59,13 @@ public partial class DeliveryOutbreakPokeData
 
     public bool IsCompatibleArea(ulong areaName) => LocationName == LocationNone || LocationName == areaName;
     public bool IsCompatibleArea(byte area) => !IsAreaLimited(out var bits) || (bits & (1u << area)) != 0;
+
+    public bool IsLevelRangeCompatible(PackedVec2f range)
+    {
+        var rMin = range.X;
+        var rMax = range.Y;
+        return rMin <= MaxLevel && MinLevel <= rMax;
+    }
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]

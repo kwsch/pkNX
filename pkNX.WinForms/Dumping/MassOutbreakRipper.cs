@@ -45,7 +45,7 @@ public static class MassOutbreakRipper
         public required RibbonIndex Ribbon { get; init; }
         public required byte MetBase { get; init; }
 
-        public required Dictionary<int, UInt128> MetPermit { get; init; }
+        public required Dictionary<LevelRange, UInt128> MetPermit { get; init; }
 
         public required bool ForceScaleRange { get; init; }
         public required byte ScaleMin { get; init; }
@@ -82,30 +82,30 @@ public static class MassOutbreakRipper
         DumpPretty(path); // todo
     }
 
-    private static void ExportPickle(string dump, List<PickledOutbreak> encounters)
+    private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
     {
         var dest = Path.Combine(dump, "encounter_outbreak_paldea.pkl");
         using var fs = File.Create(dest);
         using var bw = new BinaryWriter(fs);
         foreach (var enc in encounters.DistinctBy(x => x))
         {
-            foreach (var kvp in enc.MetPermit)
-            {
-                var boost = kvp.Key;
-                var permit = kvp.Value;
-                WriteEncounter(enc, bw, boost, permit);
-            }
+            var ordered = enc.MetPermit
+                .OrderBy(z => z.Key.Min)
+                .ThenBy(z => z.Key.Max);
+
+            foreach (var (range, permit) in ordered)
+                WriteEncounter(enc, bw, range, permit);
         }
     }
 
-    private static void WriteEncounter(PickledOutbreak enc, BinaryWriter bw, int boost, UInt128 permit)
+    private static void WriteEncounter(PickledOutbreak enc, BinaryWriter bw, LevelRange range, UInt128 permit)
     {
         bw.Write(enc.Species);
         bw.Write(enc.Form);
         bw.Write(enc.Gender);
 
-        bw.Write(ClampAddBoost(enc.LevelMin, boost));
-        bw.Write(ClampAddBoost(enc.LevelMax, boost));
+        bw.Write(range.Min);
+        bw.Write(range.Max);
         bw.Write((byte)enc.Ribbon);
         bw.Write(enc.MetBase);
 
@@ -170,11 +170,20 @@ public static class MassOutbreakRipper
 
         var areas = scene.AreaInfos[(int)fieldIndex];
         var areaNames = scene.AreaNames[(int)fieldIndex];
+        var atlantis = scene.IsAtlantis[(int)fieldIndex];
+        if (fieldIndex == PaldeaFieldIndex.Kitakami)
+        {
+            areas = areas.Where(z => z.Value.AdjustEncLv != 0)
+                .ToDictionary(z => z.Key, z => z.Value);
+            areaNames = areas.Keys.ToList();
+        }
         foreach (var point in points)
         {
             foreach (var enc in encs)
             {
                 var poke = enc.Poke;
+                if (!poke.IsLevelRangeCompatible(point.LevelRange))
+                    continue;
                 if (!poke.IsEnableCompatible(point.EnableTable))
                     continue;
                 if (!poke.IsCompatibleArea((byte)point.AreaNo))
@@ -182,22 +191,67 @@ public static class MassOutbreakRipper
                 if (!poke.IsCompatibleArea(point.AreaName))
                     continue;
 
+                var min = Math.Max((byte)poke.MinLevel, (byte)point.LevelRange.X);
+                var max = Math.Min((byte)poke.MaxLevel, (byte)point.LevelRange.Y);
                 // Cool, can spawn at this point.
                 // Find all met location IDs we can wander to, then bitflag them into the enc field.
-                var metData = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point);
-                enc.BoostMetFlags.TryGetValue(metData.Boost, out var val);
-                enc.BoostMetFlags[metData.Boost] = val | metData.Met;
+                var metData = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point, atlantis);
+                var tuple = new LevelRange(min, max);
+                enc.MetInfo.TryGetValue(tuple, out var val);
+                enc.MetInfo[tuple] = val | metData.Met;
+                if (metData.Boost != 0)
+                {
+                    tuple = new LevelRange(ClampAddBoost(tuple.Min, metData.Boost), ClampAddBoost(tuple.Max, metData.Boost));
+                    enc.MetInfo.TryGetValue(tuple, out val);
+                    enc.MetInfo[tuple] = val | metData.Met;
+                }
             }
         }
 
+        ConsolidateMetInfo(encs);
+
         foreach (var e in encs)
         {
-            if (e.BoostMetFlags.Count == 0)
+            if (e.MetInfo.Count == 0)
                 throw new Exception("No met flags found for encounter!");
         }
 
         AddToJar(encs);
     }
+
+    private static void ConsolidateMetInfo(IEnumerable<CachedOutbreak> encs)
+    {
+        foreach (var e in encs)
+        {
+            var ranges = e.MetInfo.ToList();
+            // If the level ranges overlap for any key value pair with the same flags, consolidate them.
+            // For each entry, if a later entry has the same flags, and the level ranges overlap, delete the later entry after merging the level ranges into the first entry.
+            for (int i = 0; i < ranges.Count; i++)
+            {
+                var ((min, max), met) = ranges[i];
+                for (int j = i + 1; j < ranges.Count; j++)
+                {
+                    var (min2, max2) = ranges[j].Key;
+                    var met2 = ranges[j].Value;
+                    if (met != met2)
+                        continue;
+                    if (min2 > max || max2 < min)
+                        continue;
+                    // Overlap, merge.
+                    min = Math.Min(min, min2);
+                    max = Math.Max(max, max2);
+                    ranges.RemoveAt(j);
+                    j--;
+                }
+                ranges[i] = new(new(min, max), met);
+            }
+            e.MetInfo.Clear();
+            foreach (var r in ranges)
+                e.MetInfo[r.Key] = r.Value;
+        }
+    }
+
+    private record struct LevelRange(byte Min, byte Max);
 
     private static void AddToJar(CachedOutbreak[] encs)
     {
@@ -230,14 +284,14 @@ public static class MassOutbreakRipper
                 ScaleMax = (byte)pk.MaxScale,
                 IsShiny = pk.RarePercentage >= 100,
                 MetBase = enc.MetBase,
-                MetPermit = enc.BoostMetFlags,
+                MetPermit = enc.MetInfo,
             };
             Encounters.Add(pickled);
         }
     }
 
-    private static (UInt128 Met, int Boost)  GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
-        byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point)
+    private static (UInt128 Met, int Boost) GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
+        byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point, Dictionary<string, bool> atlantis)
     {
         UInt128 result = 0;
         int boost = 0;
@@ -245,6 +299,9 @@ public static class MassOutbreakRipper
         {
             var areaName = areaNames[i];
             var areaInfo = areas[areaName];
+            if (atlantis[areaName])
+                continue;
+
             if (areaInfo.Tag is AreaTag.NG_Encount)
                 continue;
             if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
@@ -292,7 +349,7 @@ public static class MassOutbreakRipper
         public required DeliveryOutbreakPokeData Poke { get; init; }
 
         public byte MetBase { get; set; }
-        public readonly Dictionary<int, UInt128> BoostMetFlags = new();
+        public readonly Dictionary<LevelRange, UInt128> MetInfo = new();
     }
 
     private static CachedOutbreak[] GetMetaEncounter(IEnumerable<DeliveryOutbreak> possibleTable, DeliveryOutbreakPokeDataArray pd)
@@ -409,14 +466,14 @@ public static class MassOutbreakRipper
         {
             var parent = enc.Parent;
             WriteParent(sw, parent);
-            WriteLocationList(sw, parent.BoostMetFlags, parent.MetBase, enc.LevelMin, enc.LevelMax);
+            WriteLocationList(sw, parent.MetInfo, parent.MetBase, enc.LevelMin, enc.LevelMax);
             sw.WriteLine();
         }
     }
 
-    private static void WriteLocationList(TextWriter sw, Dictionary<int, UInt128> metFlags, byte baseMet, byte min, byte max)
+    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet, byte min, byte max)
     {
-        foreach ((int boost, UInt128 flags) in metFlags)
+        foreach ((var range, UInt128 flags) in metFlags.OrderBy(z => z.Key.Min).ThenBy(z => z.Key.Max))
         {
             for (int i = 0; i < 128; i++)
             {
@@ -425,7 +482,7 @@ public static class MassOutbreakRipper
 
                 var met = baseMet + i;
                 var location = NameDict.First(z => z.Value.Index == met);
-                sw.WriteLine($"{ClampAddBoost(min, boost)}-{ClampAddBoost(max, boost)} (+{boost}) @ {location}");
+                sw.WriteLine($"{range.Min}-{range.Max} @ {location}");
             }
         }
     }
