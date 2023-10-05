@@ -15,18 +15,27 @@ namespace pkNX.WinForms;
 public static class MassOutbreakRipper
 {
     private static readonly List<PickledOutbreak> Encounters = new();
+    private static Dictionary<string, (string Name, int Index)> NameDict = new();
 
-    public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path)
+    public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
     {
         Encounters.Clear();
+
+        var cfg = new TextConfig(Structures.GameVersion.SV);
+        var place_names = GetCommonText(ROM, "place_name", "English", cfg);
+        var data = ROM.GetPackedFile("message/dat/English/common/place_name.tbl");
+        var ahtb = new AHTB(data);
+        NameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
+
         var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).OrderBy(z => z);
         foreach (var dir in dirs)
             DumpDeliveryOutbreakData(ROM, dir);
-        ExportPickle(Encounters, path);
+        ExportPickle(dump, Encounters);
     }
 
     private sealed record PickledOutbreak
     {
+        public required CachedOutbreak Parent { get; init; }
         public required ushort Species { get; init; }
         public required byte Form { get; init; }
         public byte Gender { get; init; } = 0xFF;
@@ -70,11 +79,12 @@ public static class MassOutbreakRipper
         ExportParse(ROM, dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
+        DumpPretty(path); // todo
     }
 
-    private static void ExportPickle(List<PickledOutbreak> encounters, string path)
+    private static void ExportPickle(string dump, List<PickledOutbreak> encounters)
     {
-        var dest = Path.Combine(path, "encounters", "outbreak_sv.pkl");
+        var dest = Path.Combine(dump, "encounter_outbreak_paldea.pkl");
         using var fs = File.Create(dest);
         using var bw = new BinaryWriter(fs);
         foreach (var enc in encounters.DistinctBy(x => x))
@@ -94,8 +104,8 @@ public static class MassOutbreakRipper
         bw.Write(enc.Form);
         bw.Write(enc.Gender);
 
-        bw.Write(Clamp(enc.LevelMin, boost));
-        bw.Write(Clamp(enc.LevelMax, boost));
+        bw.Write(ClampAddBoost(enc.LevelMin, boost));
+        bw.Write(ClampAddBoost(enc.LevelMax, boost));
         bw.Write((byte)enc.Ribbon);
         bw.Write(enc.MetBase);
 
@@ -108,8 +118,9 @@ public static class MassOutbreakRipper
         bw.Write((ulong)(permit >> 64));
 
         return;
-        static byte Clamp(byte val, int b) => (byte)Math.Clamp(val + b, 1, 100);
     }
+
+    private static byte ClampAddBoost(byte val, int b) => (byte)Math.Clamp(val + b, 1, 100);
 
     private static void AddToPickleJar(IFileInternal ROM, DeliveryOutbreakArray f0, DeliveryOutbreakArray f1, DeliveryOutbreakArray f2, DeliveryOutbreakPokeDataArray pd)
     {
@@ -124,16 +135,10 @@ public static class MassOutbreakRipper
         var field = new PaldeaFieldModel(ROM);
         var scene = new PaldeaSceneModel(ROM, field);
 
-        var cfg = new TextConfig(Structures.GameVersion.SV);
-        var place_names = GetCommonText(ROM, "place_name", "English", cfg);
-        var data = ROM.GetPackedFile("message/dat/English/common/place_name.tbl");
-        var ahtb = new AHTB(data);
-        var nameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
-
         ScanAssertions(pd);
-        AddForMap(pointsF0, f0, pd, scene, nameDict, PaldeaFieldIndex.Paldea, 6);
-        AddForMap(pointsF1, f1, pd, scene, nameDict, PaldeaFieldIndex.Kitakami, 132);
-      //AddForMap(pointsF2, f2, pd, scene, nameDict, PaldeaFieldIndex.Blueberry, 170);
+        AddForMap(pointsF0, f0, pd, scene, NameDict, PaldeaFieldIndex.Paldea, 6);
+        AddForMap(pointsF1, f1, pd, scene, NameDict, PaldeaFieldIndex.Kitakami, 132);
+      //AddForMap(pointsF2, f2, pd, scene, NameDict, PaldeaFieldIndex.Blueberry, 170);
     }
 
     private static void ScanAssertions(params DeliveryOutbreakPokeDataArray[] obs)
@@ -185,6 +190,12 @@ public static class MassOutbreakRipper
             }
         }
 
+        foreach (var e in encs)
+        {
+            if (e.BoostMetFlags.Count == 0)
+                throw new Exception("No met flags found for encounter!");
+        }
+
         AddToJar(encs);
     }
 
@@ -200,6 +211,7 @@ public static class MassOutbreakRipper
 
             var pickled = new PickledOutbreak
             {
+                Parent = enc,
                 Species = species,
                 Form = form,
                 Gender = pk.Sex switch
@@ -211,7 +223,7 @@ public static class MassOutbreakRipper
                 },
                 LevelMin = (byte)pk.MinLevel,
                 LevelMax = (byte)pk.MaxLevel,
-                Ribbon = pk.AddRibbonPercentage == 0 ? unchecked((RibbonIndex)(-1)) : (RibbonIndex)pk.AddRibbonType,
+                Ribbon = unchecked((RibbonIndex)(pk.AddRibbonPercentage == 0 ? -1 : (int)pk.AddRibbonType - 1)),
 
                 ForceScaleRange = pk.EnableScaleRange,
                 ScaleMin = (byte)pk.MinScale,
@@ -325,7 +337,20 @@ public static class MassOutbreakRipper
         return "Enable:" + sb;
     }
 
-    private static string Humanize(VersionTable ver) => ver switch
+    private static string Humanize(EnableTable enable)
+    {
+        var sb = new StringBuilder();
+        if (enable.Air1) sb.Append(" Air1");
+        if (enable.Air2) sb.Append(" Air2");
+        if (enable.Land) sb.Append(" Land");
+        if (enable.UpWater) sb.Append(" UpWater");
+        if (enable.Underwater) sb.Append(" Underwater");
+        if (sb.Length == 0)
+            return "Enable: Unrestricted";
+        return "Enable:" + sb;
+    }
+
+    private static string Humanize(VersionTable? ver) => ver switch
     {
         { A: true, B: true } => "Version: Both",
         { A: true } => "Version: Scarlet",
@@ -358,7 +383,6 @@ public static class MassOutbreakRipper
         DumpJson(tableZoneF1, dir, "zone_su1");
         DumpJson(tableZoneF2, dir, "zone_su2");
         DumpJson(tablePokeData, dir, "pokedata");
-        DumpPretty(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData, dir); // todo
     }
 
     private static void DumpJson(object flat, string dir, string name)
@@ -376,8 +400,50 @@ public static class MassOutbreakRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static void DumpPretty(IFileInternal ROM, DeliveryOutbreakArray tableZoneF0, DeliveryOutbreakArray tableZoneF1, DeliveryOutbreakArray tableZoneF2, DeliveryOutbreakPokeDataArray tablePokeData, string dir)
+    private static void DumpPretty(string dir)
     {
-        // todo
+        const string fileName = "outbreaks_pretty.txt";
+        using var sw = File.CreateText(Path.Combine(dir, fileName));
+
+        foreach (var enc in Encounters)
+        {
+            var parent = enc.Parent;
+            WriteParent(sw, parent);
+            WriteLocationList(sw, parent.BoostMetFlags, parent.MetBase, enc.LevelMin, enc.LevelMax);
+            sw.WriteLine();
+        }
+    }
+
+    private static void WriteLocationList(TextWriter sw, Dictionary<int, UInt128> metFlags, byte baseMet, byte min, byte max)
+    {
+        foreach ((int boost, UInt128 flags) in metFlags)
+        {
+            for (int i = 0; i < 128; i++)
+            {
+                if (((flags >> i) & 1) != 1)
+                    continue;
+
+                var met = baseMet + i;
+                var location = NameDict.First(z => z.Value.Index == met);
+                sw.WriteLine($"{ClampAddBoost(min, boost)}-{ClampAddBoost(max, boost)} (+{boost}) @ {location}");
+            }
+        }
+    }
+
+    private static void WriteParent(StreamWriter sw, CachedOutbreak parent)
+    {
+        sw.WriteLine($"ID: {parent.Poke.ID}");
+        sw.WriteLine($"{(Species)SpeciesConverterSV.GetNational9((ushort)parent.Poke.DevId)}-{parent.Poke.FormId}");
+        sw.WriteLine(Humanize(parent.Poke.Enable!.Value));
+        sw.WriteLine(Humanize(parent.Poke.Version));
+        sw.WriteLine($"Base Level Range: {parent.Poke.MinLevel}-{parent.Poke.MaxLevel}");
+        if (parent.Poke.Sex is not SexType.DEFAULT)
+            sw.WriteLine($"Gender: {parent.Poke.Sex}");
+        if (parent.Poke.EnableScaleRange)
+            sw.WriteLine($"Scale: {parent.Poke.MinScale}-{parent.Poke.MaxScale}");
+        if (parent.Poke.EnableRarePercentage)
+            sw.WriteLine($"Rare: {parent.Poke.RarePercentage}%");
+        if (parent.Poke.AddRibbonPercentage != 0)
+            sw.WriteLine($"Ribbon: {(RibbonIndex)(parent.Poke.AddRibbonType - 1)} @ {parent.Poke.AddRibbonPercentage}%");
     }
 }

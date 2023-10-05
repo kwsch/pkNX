@@ -2,7 +2,6 @@ using System.ComponentModel;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedType.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers.SV;
 
@@ -47,28 +46,18 @@ public partial class DeliveryOutbreakPokeData
     public bool IsSpecificArea => LocationName != LocationNone;
     public bool IsAreaConstrained => IsAreaLimited(out _);
 
-    public bool IsEnableCompatible(OutbreakEnableTable other)
+    public bool IsEnableCompatible(OutbreakEnableTable point) => Enable is not { } en || point switch
     {
-        if (Enable is not { } en)
-            return true;
-        if (en.IsUnrestricted)
-            return true;
-        if (other.IsUnrestricted)
-            return true;
-        if (other.Air1 == en.Air1)
-            return true;
-        if (other.Air2 == en.Air2)
-            return true;
-        if (other.Land == en.Land)
-            return true;
-        if (other.UpWater == en.UpWater)
-            return true;
-        if (other.UnderWater == en.Underwater)
-            return true;
-        return false;
-    }
+        { Air1: true } when en.Air1 => true,
+        { Air2: true } when en.Air2 => true,
+        { Land: true } when en.Land => true,
+        { UpWater: true } when en.UpWater => true,
+        { UnderWater: true } when en.Underwater => true,
+        { IsUnrestricted: true } => true,
+        _ => en.IsUnrestricted,
+    };
 
-    public bool IsCompatibleArea(ulong areaName) => LocationName != LocationNone && LocationName == areaName;
+    public bool IsCompatibleArea(ulong areaName) => LocationName == LocationNone || LocationName == areaName;
     public bool IsCompatibleArea(byte area) => !IsAreaLimited(out var bits) || (bits & (1u << area)) != 0;
 }
 

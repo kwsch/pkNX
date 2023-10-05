@@ -421,7 +421,6 @@ public class GameDumperSV
         static List<PersonalInfoMove> Insert(IList<PersonalInfoMove> learn, sbyte level, Move move)
         {
             var list = learn.ToList();
-            var index = list.FindIndex(z => z.Level > level);
             list.Add(new PersonalInfoMove { Level = level, Move = (ushort)move });
             return list.OrderBy(z => z.Level).ToList();
         }
@@ -1249,6 +1248,7 @@ public class GameDumperSV
 
     public void DumpDeliveryOutbreaks(string path)
     {
-        MassOutbreakRipper.DumpDeliveryOutbreaks(ROM, path);
+        var dump = GetPath("encounters");
+        MassOutbreakRipper.DumpDeliveryOutbreaks(ROM, path, dump);
     }
 }
