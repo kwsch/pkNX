@@ -8,7 +8,7 @@ using pkNX.Containers;
 using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.SV;
-using Species = pkNX.Structures.Species;
+using static pkNX.Structures.Species;
 
 namespace pkNX.WinForms;
 
@@ -79,7 +79,7 @@ public static class MassOutbreakRipper
         ExportParse(ROM, dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
-        DumpPretty(path); // todo
+        DumpPretty(ROM, dirDistText);
     }
 
     private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
@@ -260,7 +260,7 @@ public static class MassOutbreakRipper
             var pk = enc.Poke;
             ushort species = SpeciesConverterSV.GetNational9((ushort)pk.DevId);
             byte form = (byte)pk.FormId;
-            if (species is (int)Species.Scatterbug or (int)Species.Spewpa or (int)Species.Vivillon)
+            if (species is (int)Scatterbug or (int)Spewpa or (int)Vivillon)
                 form = 30;
 
             var pickled = new PickledOutbreak
@@ -425,7 +425,7 @@ public static class MassOutbreakRipper
         {
             ("zone_main", dumpZ0),
             ("zone_su1", dumpZ1),
-            ("zone_su2", dumpZ2),
+          //("zone_su2", dumpZ2),
             ("pokedata", dumpPD),
         };
 
@@ -438,7 +438,7 @@ public static class MassOutbreakRipper
 
         DumpJson(tableZoneF0, dir, "zone_main");
         DumpJson(tableZoneF1, dir, "zone_su1");
-        DumpJson(tableZoneF2, dir, "zone_su2");
+      //DumpJson(tableZoneF2, dir, "zone_su2");
         DumpJson(tablePokeData, dir, "pokedata");
     }
 
@@ -457,15 +457,15 @@ public static class MassOutbreakRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static void DumpPretty(string dir)
+    private static void DumpPretty(IFileInternal ROM, string dir)
     {
-        const string fileName = "outbreaks_pretty.txt";
+        string fileName = $"pretty_{Encounters[0].Parent.Poke.ID}.txt";
         using var sw = File.CreateText(Path.Combine(dir, fileName));
 
         foreach (var enc in Encounters)
         {
             var parent = enc.Parent;
-            WriteParent(sw, parent);
+            WriteParent(ROM, sw, parent);
             WriteLocationList(sw, parent.MetInfo, parent.MetBase, enc.LevelMin, enc.LevelMax);
             sw.WriteLine();
         }
@@ -482,25 +482,84 @@ public static class MassOutbreakRipper
 
                 var met = baseMet + i;
                 var location = NameDict.First(z => z.Value.Index == met);
-                sw.WriteLine($"{range.Min}-{range.Max} @ {location}");
+                sw.WriteLine($"\tLv. {range.Min}-{range.Max} @ {location}");
             }
         }
     }
 
-    private static void WriteParent(StreamWriter sw, CachedOutbreak parent)
+    private static void WriteParent(IFileInternal ROM, StreamWriter sw, CachedOutbreak parent)
     {
-        sw.WriteLine($"ID: {parent.Poke.ID}");
-        sw.WriteLine($"{(Species)SpeciesConverterSV.GetNational9((ushort)parent.Poke.DevId)}-{parent.Poke.FormId}");
-        sw.WriteLine(Humanize(parent.Poke.Enable!.Value));
-        sw.WriteLine(Humanize(parent.Poke.Version));
-        sw.WriteLine($"Base Level Range: {parent.Poke.MinLevel}-{parent.Poke.MaxLevel}");
-        if (parent.Poke.Sex is not SexType.DEFAULT)
-            sw.WriteLine($"Gender: {parent.Poke.Sex}");
-        if (parent.Poke.EnableScaleRange)
-            sw.WriteLine($"Scale: {parent.Poke.MinScale}-{parent.Poke.MaxScale}");
-        if (parent.Poke.EnableRarePercentage)
-            sw.WriteLine($"Rare: {parent.Poke.RarePercentage}%");
-        if (parent.Poke.AddRibbonPercentage != 0)
-            sw.WriteLine($"Ribbon: {(RibbonIndex)(parent.Poke.AddRibbonType - 1)} @ {parent.Poke.AddRibbonPercentage}%");
+        const string lang = "English";
+        var cfg = new TextConfig(Structures.GameVersion.SV);
+        var enc = parent.Poke;
+
+        var species = GetCommonText(ROM, "monsname", lang, cfg);
+        var ribbons = GetCommonText(ROM, "ribbon", lang, cfg);
+
+        var form = GetFormName(ROM, (ushort)parent.Poke.DevId, (byte)parent.Poke.FormId) switch
+        {
+            not "" when enc.FormId is 0 => $" ({GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId)})",
+            not "" => $"-{enc.FormId} ({GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId)})",
+            _ => string.Empty,
+        };
+
+        sw.WriteLine($"ID: {enc.ID}");
+        sw.WriteLine($"{species[(int)enc.DevId]}{form}");
+        sw.WriteLine(Humanize(enc.Enable!.Value));
+        sw.WriteLine(Humanize(enc.Version));
+        sw.WriteLine($"Base Level Range: {enc.MinLevel}-{enc.MaxLevel}");
+        if (enc.Sex is not SexType.DEFAULT)
+            sw.WriteLine($"Gender: {enc.Sex}");
+        if (enc.EnableScaleRange)
+            sw.WriteLine($"Scale: {enc.MinScale}-{enc.MaxScale}");
+        if (enc.EnableRarePercentage)
+            sw.WriteLine($"Shiny Rate: {enc.RarePercentage}%");
+        if (enc.AddRibbonPercentage != 0)
+            sw.WriteLine($"Ribbon/Mark: {ribbons[(int)enc.AddRibbonType - 1]} ({enc.AddRibbonPercentage}%)");
+    }
+
+    private static string GetFormName(IFileInternal ROM, ushort species, byte form)
+    {
+        const string lang = "English";
+        var cfg = new TextConfig(Structures.GameVersion.SV);
+        var text = GetCommonText(ROM, "zkn_form", lang, cfg);
+        var abil = GetCommonText(ROM, "tokusei", lang, cfg);
+        var type = GetCommonText(ROM, "typename", lang, cfg);
+        var path = ROM.GetPackedFile("message/dat/English/common/zkn_form.tbl");
+        var ahtb = new AHTB(path);
+
+        var GenericFormNames = new HashSet<Structures.Species>() { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
+        string[] TaurosForms = new[] { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
+        char[] UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?".ToCharArray();
+        for (int i = 0; i < text.Length; i++)
+        {
+            var entry = ahtb.Entries[i];
+            var name = entry.Name;
+            var line = text[i];
+
+            // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
+            if (GenericFormNames.Contains((Structures.Species)species))
+            {
+                return (Structures.Species)species switch
+                {
+                    Tauros when form is not 0 => $"Paldean Form / {TaurosForms[form]}",
+                    Unown => $"Unown {UnownForms[form]}", // A-Z!?
+                    Kyogre or Groudon when form is 0 => "", // Kyogre-0 / Groudon-0
+                    Rotom when form is 0 => "", // Rotom-0
+                    Arceus => $"{type[form]}", // Types
+                    Kyurem when form is 0 => "", // Kyurem-0
+                    Greninja when form is 1 => $"{abil[210]}", // Battle Bond Greninja
+                    Rockruff when form is 1 => $"{abil[020]}", // Own Tempo Rockruff
+                    _ => "",
+                };
+            }
+
+            else if (name == $"ZKN_FORM_{species:000}_{form:000}")
+            {
+                return line;
+            }
+        }
+
+        return "";
     }
 }

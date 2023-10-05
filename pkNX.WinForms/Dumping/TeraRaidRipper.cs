@@ -390,12 +390,6 @@ public static class TeraRaidRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static AHTB GetCommonAHTB(IFileInternal ROM, string name, string lang)
-    {
-        var data = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.tbl");
-        return new AHTB(data);
-    }
-
     private static void DumpPretty(IFileInternal ROM, DeliveryRaidEnemyTableArray tableEncounters, DeliveryRaidFixedRewardItemArray tableDrops, DeliveryRaidLotteryRewardItemArray tableBonus, DeliveryRaidPriorityArray tablePriority, string dir)
     {
         var cfg = new TextConfig(GameVersion.SV);
@@ -633,9 +627,10 @@ public static class TeraRaidRipper
     {
         const string lang = "English";
         var cfg = new TextConfig(GameVersion.SV);
-        var ahtb = GetCommonAHTB(ROM, "zkn_form", lang);
         var text = GetCommonText(ROM, "zkn_form", lang, cfg);
         var type = GetCommonText(ROM, "typename", lang, cfg);
+        var path = ROM.GetPackedFile("message/dat/English/common/zkn_form.tbl");
+        var ahtb = new AHTB(path);
 
         var GenericFormNames = new HashSet<Species>() { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
         string[] TaurosForms = new[] { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
