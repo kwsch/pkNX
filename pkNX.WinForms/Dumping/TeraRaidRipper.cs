@@ -1,7 +1,6 @@
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using pkNX.Containers;
@@ -162,7 +161,6 @@ public static class TeraRaidRipper
             lottery += v200;
             priority += v200;
         }
-
         else if (File.Exists(enemy + v130))
         {
             enemy += v130;
@@ -171,15 +169,10 @@ public static class TeraRaidRipper
             priority += v130;
         }
 
-        var dataEncounters = GetDistributionContents(enemy, out int indexEncounters);
-        var dataDrop = GetDistributionContents(Path.Combine(path, reward), out int indexDrop);
-        var dataBonus = GetDistributionContents(Path.Combine(path, lottery), out int indexBonus);
-        var dataPriority = GetDistributionContents(Path.Combine(path, priority), out int indexPriority);
-
-        // BCAT Indexes can be reused by mixing and matching old files when reverting temporary distributions back to prior long-running distributions.
-        // They don't have to match, but just note if they do.
-        Debug.WriteLineIf(indexEncounters == indexDrop && indexDrop == indexBonus && indexBonus == indexPriority,
-            $"Info: BCAT indexes are inconsistent! enc:{indexEncounters} drop:{indexDrop} bonus:{indexBonus} priority:{indexPriority}");
+        var dataEncounters = GetDistributionContents(enemy);
+        var dataDrop = GetDistributionContents(Path.Combine(path, reward));
+        var dataBonus = GetDistributionContents(Path.Combine(path, lottery));
+      //var dataPriority = GetDistributionContents(Path.Combine(path, priority));
 
         var tableEncounters = FlatBufferConverter.DeserializeFrom<DeliveryRaidEnemyTableArray>(dataEncounters);
         var tableDrops = FlatBufferConverter.DeserializeFrom<DeliveryRaidFixedRewardItemArray>(dataDrop);
@@ -378,11 +371,7 @@ public static class TeraRaidRipper
         File.WriteAllText(Path.Combine(dir, fileName), json);
     }
 
-    private static byte[] GetDistributionContents(string path, out int index)
-    {
-        index = 0; //  todo
-        return File.ReadAllBytes(path);
-    }
+    private static byte[] GetDistributionContents(string path) => File.ReadAllBytes(path);
 
     private static string[] GetCommonText(IFileInternal ROM, string name, string lang, TextConfig cfg)
     {
@@ -481,10 +470,11 @@ public static class TeraRaidRipper
                 _ => string.Empty, // Default
             };
 
-            var form = GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId) switch
+            var formName = GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId);
+            var form = formName switch
             {
-                not "" when boss.FormId is 0 => $" ({GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId)})",
-                not "" => $"-{boss.FormId} ({GetFormName(ROM, (ushort)boss.DevId, (byte)boss.FormId)})",
+                not "" when boss.FormId is 0 => $" ({formName})",
+                not "" => $"-{boss.FormId} ({formName})",
                 _ => string.Empty,
             };
 
@@ -623,7 +613,7 @@ public static class TeraRaidRipper
         File.WriteAllLines(Path.Combine(dir, $"pretty_{ident}.txt"), lines);
     }
 
-    private static string GetFormName(IFileInternal ROM, ushort species, byte form)
+    public static string GetFormName(IFileInternal ROM, ushort species, byte form)
     {
         const string lang = "English";
         var cfg = new TextConfig(GameVersion.SV);
@@ -632,9 +622,9 @@ public static class TeraRaidRipper
         var path = ROM.GetPackedFile("message/dat/English/common/zkn_form.tbl");
         var ahtb = new AHTB(path);
 
-        var GenericFormNames = new HashSet<Species>() { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
-        string[] TaurosForms = new[] { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
-        char[] UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?".ToCharArray();
+        var GenericFormNames = new HashSet<Species> { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
+        string[] TaurosForms = { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
+        ReadOnlySpan<char> UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?";
         for (int i = 0; i < text.Length; i++)
         {
             var entry = ahtb.Entries[i];
@@ -657,13 +647,9 @@ public static class TeraRaidRipper
                     _ => "",
                 };
             }
-
-            else if (name == $"ZKN_FORM_{species:000}_{form:000}")
-            {
+            if (name == $"ZKN_FORM_{species:000}_{form:000}")
                 return line;
-            }
         }
-
         return "";
     }
 

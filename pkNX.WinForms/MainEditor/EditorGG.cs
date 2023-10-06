@@ -335,7 +335,7 @@ internal class EditorGG : EditorBase
         if (!shop2)
         {
             var table = shop.Single;
-            var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+            var names = table.Select((z, _) => $"{(SingleShop.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
             var cache = new DirectCache<SingleShop>(table);
             using var form = new GenericEditor<SingleShop>(cache, names, $"{nameof(SingleShop)} Editor", Randomize);
             form.ShowDialog();
@@ -359,7 +359,7 @@ internal class EditorGG : EditorBase
         else
         {
             var table = shop.Multi;
-            var names = table.Select((z, _) => $"{(z.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
+            var names = table.Select((z, _) => $"{(MultiShop.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
             var cache = new DirectCache<MultiShop>(table);
             using var form = new GenericEditor<MultiShop>(cache, names, $"{nameof(MultiShop)} Editor", Randomize);
             form.ShowDialog();

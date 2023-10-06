@@ -4,12 +4,12 @@ namespace pkNX.Structures.FlatBuffers.LGPE;
 
 public static class EncounterTableUtil
 {
-    public static IEnumerable<string> GetLines(EncounterArchive t, string[] names, string[] species)
+    public static IEnumerable<string> GetLines(EncounterArchive t, string[] metLocationNames, string[] species)
     {
         for (var i = 0; i < t.Table.Count; i++)
         {
             var enc = t.Table[i];
-            yield return $"{i:000} - {names[i]}";
+            yield return $"{i:000} - {metLocationNames[i]}";
 
             if (enc.GroundTableEncounterRate != 0)
             {

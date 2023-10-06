@@ -40,8 +40,6 @@ public static class MassOutbreakRipper
         public required byte Form { get; init; }
         public byte Gender { get; init; } = 0xFF;
 
-        public required byte LevelMin { get; init; }
-        public required byte LevelMax { get; init; }
         public required RibbonIndex Ribbon { get; init; }
         public required byte MetBase { get; init; }
 
@@ -65,10 +63,10 @@ public static class MassOutbreakRipper
         if (!File.Exists(zoneF2)) // temporary workaround until DLC 2
             zoneF2 = zoneF1;
 
-        var dataZoneF0 = GetDistributionContents(zoneF0, out int indexZoneF0);
-        var dataZoneF1 = GetDistributionContents(Path.Combine(path, zoneF1), out int indexZoneF1);
-        var dataZoneF2 = GetDistributionContents(Path.Combine(path, zoneF2), out int indexZoneF2);
-        var dataPokeData = GetDistributionContents(Path.Combine(path, pokedata), out int indexPokeData);
+        var dataZoneF0 = GetDistributionContents(zoneF0);
+        var dataZoneF1 = GetDistributionContents(Path.Combine(path, zoneF1));
+        var dataZoneF2 = GetDistributionContents(Path.Combine(path, zoneF2));
+        var dataPokeData = GetDistributionContents(Path.Combine(path, pokedata));
 
         var tableZoneF0 = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakArray>(dataZoneF0);
         var tableZoneF1 = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakArray>(dataZoneF1);
@@ -76,7 +74,7 @@ public static class MassOutbreakRipper
         var tablePokeData = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakPokeDataArray>(dataPokeData);
 
         var dirDistText = Path.Combine(path, "parse");
-        ExportParse(ROM, dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
+        ExportParse(dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
         DumpPretty(ROM, dirDistText);
@@ -253,7 +251,7 @@ public static class MassOutbreakRipper
 
     private record struct LevelRange(byte Min, byte Max);
 
-    private static void AddToJar(CachedOutbreak[] encs)
+    private static void AddToJar(IEnumerable<CachedOutbreak> encs)
     {
         foreach (var enc in encs)
         {
@@ -275,8 +273,6 @@ public static class MassOutbreakRipper
                     SexType.FEMALE => 1,
                     _ => throw new ArgumentOutOfRangeException(nameof(SexType), pk.Sex, "Unknown Gender"),
                 },
-                LevelMin = (byte)pk.MinLevel,
-                LevelMax = (byte)pk.MaxLevel,
                 Ribbon = unchecked((RibbonIndex)(pk.AddRibbonPercentage == 0 ? -1 : (int)pk.AddRibbonType - 1)),
 
                 ForceScaleRange = pk.EnableScaleRange,
@@ -375,24 +371,7 @@ public static class MassOutbreakRipper
         return ret.ToArray();
     }
 
-    private static byte[] GetDistributionContents(string path, out int index)
-    {
-        index = 0; //  todo
-        return File.ReadAllBytes(path);
-    }
-
-    private static string Humanize(OutbreakEnableTable enable)
-    {
-        var sb = new StringBuilder();
-        if (enable.Air1) sb.Append(" Air1");
-        if (enable.Air2) sb.Append(" Air2");
-        if (enable.Land) sb.Append(" Land");
-        if (enable.UpWater) sb.Append(" UpWater");
-        if (enable.UnderWater) sb.Append(" Underwater");
-        if (sb.Length == 0)
-            return "Enable: Unrestricted";
-        return "Enable:" + sb;
-    }
+    private static byte[] GetDistributionContents(string path) => File.ReadAllBytes(path);
 
     private static string Humanize(EnableTable enable)
     {
@@ -415,11 +394,11 @@ public static class MassOutbreakRipper
         _ => "Version: None",
     };
 
-    private static void ExportParse(IFileInternal ROM, string dir, DeliveryOutbreakArray tableZoneF0, DeliveryOutbreakArray tableZoneF1, DeliveryOutbreakArray tableZoneF2, DeliveryOutbreakPokeDataArray tablePokeData)
+    private static void ExportParse(string dir, DeliveryOutbreakArray tableZoneF0, DeliveryOutbreakArray tableZoneF1, DeliveryOutbreakArray tableZoneF2, DeliveryOutbreakPokeDataArray tablePokeData)
     {
         var dumpZ0 = TableUtil.GetTable(tableZoneF0.Table);
         var dumpZ1 = TableUtil.GetTable(tableZoneF1.Table);
-        var dumpZ2 = TableUtil.GetTable(tableZoneF2.Table);
+      //var dumpZ2 = TableUtil.GetTable(tableZoneF2.Table);
         var dumpPD = TableUtil.GetTable(tablePokeData.Table);
         var dump = new[]
         {
@@ -466,12 +445,12 @@ public static class MassOutbreakRipper
         {
             var parent = enc.Parent;
             WriteParent(ROM, sw, parent);
-            WriteLocationList(sw, parent.MetInfo, parent.MetBase, enc.LevelMin, enc.LevelMax);
+            WriteLocationList(sw, parent.MetInfo, parent.MetBase);
             sw.WriteLine();
         }
     }
 
-    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet, byte min, byte max)
+    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet)
     {
         foreach ((var range, UInt128 flags) in metFlags.OrderBy(z => z.Key.Min).ThenBy(z => z.Key.Max))
         {
@@ -496,10 +475,11 @@ public static class MassOutbreakRipper
         var species = GetCommonText(ROM, "monsname", lang, cfg);
         var ribbons = GetCommonText(ROM, "ribbon", lang, cfg);
 
-        var form = GetFormName(ROM, (ushort)parent.Poke.DevId, (byte)parent.Poke.FormId) switch
+        var formName = TeraRaidRipper.GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId);
+        var form = formName switch
         {
-            not "" when enc.FormId is 0 => $" ({GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId)})",
-            not "" => $"-{enc.FormId} ({GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId)})",
+            not "" when enc.FormId is 0 => $" ({formName})",
+            not "" => $"-{enc.FormId} ({formName})",
             _ => string.Empty,
         };
 
@@ -516,50 +496,5 @@ public static class MassOutbreakRipper
             sw.WriteLine($"Shiny Rate: {enc.RarePercentage}%");
         if (enc.AddRibbonPercentage != 0)
             sw.WriteLine($"Ribbon/Mark: {ribbons[(int)enc.AddRibbonType - 1]} ({enc.AddRibbonPercentage}%)");
-    }
-
-    private static string GetFormName(IFileInternal ROM, ushort species, byte form)
-    {
-        const string lang = "English";
-        var cfg = new TextConfig(Structures.GameVersion.SV);
-        var text = GetCommonText(ROM, "zkn_form", lang, cfg);
-        var abil = GetCommonText(ROM, "tokusei", lang, cfg);
-        var type = GetCommonText(ROM, "typename", lang, cfg);
-        var path = ROM.GetPackedFile("message/dat/English/common/zkn_form.tbl");
-        var ahtb = new AHTB(path);
-
-        var GenericFormNames = new HashSet<Structures.Species>() { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
-        string[] TaurosForms = new[] { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
-        char[] UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?".ToCharArray();
-        for (int i = 0; i < text.Length; i++)
-        {
-            var entry = ahtb.Entries[i];
-            var name = entry.Name;
-            var line = text[i];
-
-            // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
-            if (GenericFormNames.Contains((Structures.Species)species))
-            {
-                return (Structures.Species)species switch
-                {
-                    Tauros when form is not 0 => $"Paldean Form / {TaurosForms[form]}",
-                    Unown => $"Unown {UnownForms[form]}", // A-Z!?
-                    Kyogre or Groudon when form is 0 => "", // Kyogre-0 / Groudon-0
-                    Rotom when form is 0 => "", // Rotom-0
-                    Arceus => $"{type[form]}", // Types
-                    Kyurem when form is 0 => "", // Kyurem-0
-                    Greninja when form is 1 => $"{abil[210]}", // Battle Bond Greninja
-                    Rockruff when form is 1 => $"{abil[020]}", // Own Tempo Rockruff
-                    _ => "",
-                };
-            }
-
-            else if (name == $"ZKN_FORM_{species:000}_{form:000}")
-            {
-                return line;
-            }
-        }
-
-        return "";
     }
 }

@@ -5,6 +5,6 @@ namespace pkNX.Structures.FlatBuffers.Reflection;
 /// </summary>
 public sealed record SchemaDumpSettings
 {
-    public bool StripNamespace { get; set; } = true;
-    public string FileNamespace { get; set; } = "pkNX.Structures.FlatBuffers";
+    public bool StripNamespace { get; init; } = true;
+    public string FileNamespace { get; init; } = "pkNX.Structures.FlatBuffers";
 }

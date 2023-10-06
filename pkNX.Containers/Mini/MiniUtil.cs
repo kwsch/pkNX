@@ -8,9 +8,9 @@ namespace pkNX.Containers;
 /// </summary>
 public static class MiniUtil
 {
-    public static byte[] PackMini(string folder, string identifier) => PackMini(Directory.GetFiles(folder), identifier);
+    public static byte[] PackMini(string folder, ReadOnlySpan<char> identifier) => PackMini(Directory.GetFiles(folder), identifier);
 
-    public static byte[] PackMini(string[] files, string identifier)
+    public static byte[] PackMini(ReadOnlySpan<string> files, ReadOnlySpan<char> identifier)
     {
         byte[][] fileData = new byte[files.Length][];
         for (int i = 0; i < fileData.Length; i++)
@@ -18,7 +18,7 @@ public static class MiniUtil
         return PackMini(fileData, identifier);
     }
 
-    public static byte[] PackMini(byte[][] fileData, string identifier)
+    public static byte[] PackMini(byte[][] fileData, ReadOnlySpan<char> identifier)
     {
         // Create new Binary with the relevant header bytes
         byte[] data = new byte[4];
@@ -60,13 +60,13 @@ public static class MiniUtil
         return newPack.ToArray();
     }
 
-    public static byte[][] UnpackMini(string file, string identifier)
+    public static byte[][] UnpackMini(string file, ReadOnlySpan<char> identifier)
     {
         byte[] fileData = FileMitm.ReadAllBytes(file);
         return UnpackMini(fileData, identifier);
     }
 
-    public static byte[][] UnpackMini(byte[] fileData, string identifier)
+    public static byte[][] UnpackMini(byte[] fileData, ReadOnlySpan<char> identifier)
     {
         if (fileData.Length < 4)
             throw new ArgumentOutOfRangeException(nameof(fileData));

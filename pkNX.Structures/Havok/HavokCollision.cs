@@ -6,6 +6,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
+/// <summary>
+/// Collision data for a map, used by Scarlet / Violet.
+/// </summary>
 public static class HavokCollision
 {
     public static AABBTree ParseAABBTree(ReadOnlySpan<byte> trcol)

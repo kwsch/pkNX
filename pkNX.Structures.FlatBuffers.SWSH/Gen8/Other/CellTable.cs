@@ -41,17 +41,14 @@ public partial class CellMetaQuad
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial struct CellUnion
 {
-    public override string ToString()
+    public override string ToString() => Discriminator switch
     {
-        return Discriminator switch
-        {
-            1 => Item1.ToString(),
-            2 => Item2.ToString(),
-            3 => Item3.ToString(),
-            4 => Item4.ToString(),
-            _ => $"Unrecognized: {Discriminator}",
-        };
-    }
+        1 => Item1.ToString(),
+        2 => Item2.ToString(),
+        3 => Item3.ToString(),
+        4 => Item4.ToString(),
+        _ => $"Unrecognized: {Discriminator}",
+    };
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))] public partial class CellInt    { public override string ToString() => Value.ToString(); }

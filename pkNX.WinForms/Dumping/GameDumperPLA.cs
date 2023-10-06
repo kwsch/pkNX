@@ -73,7 +73,7 @@ public class GameDumperPLA
         var s = ROM.GetStrings(TextName.SpeciesNames);
 
         var lrd = ROM.GetFile(GameFile.Learnsets)[0];
-        var lr = FlatBufferConverter.DeserializeFrom<pkNX.Structures.FlatBuffers.Arceus.Learnset>(lrd);
+        var lr = FlatBufferConverter.DeserializeFrom<Learnset>(lrd);
         var evd = ROM.GetFile(GameFile.Evolutions)[0];
         var ev = FlatBufferConverter.DeserializeFrom<EvolutionTable>(evd);
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
@@ -145,7 +145,7 @@ public class GameDumperPLA
         File.WriteAllLines(outname, Users);
     }
 
-    private static string GetSpeciesMove(string[] spec, LearnsetMeta x, int move)
+    private static string GetSpeciesMove(ReadOnlySpan<string> spec, LearnsetMeta x, int move)
     {
         var learnset = x.Arceus.FirstOrDefault(w => w.Move == move);
         var level = learnset is null ? "INVALID" : learnset.Level.ToString();
@@ -433,7 +433,7 @@ public class GameDumperPLA
         const float bias = 20;
 
         var hexBin = new List<byte[]>();
-        var allSlots = new List<pkNX.Structures.FlatBuffers.Arceus.EncounterSlot>();
+        var allSlots = new List<EncounterSlot>();
         var allSpawners = new List<PlacementSpawner>();
         var allWormholes = new List<PlacementSpawner>();
         var allLocations = new List<PlacementLocation>();

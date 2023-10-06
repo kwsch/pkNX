@@ -10,6 +10,6 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // poke_resource_table.gfbpmcatalog
-/// <summary> <see cref="Gfbpmcatalog"/> for Sword/Shield</summary>
+/// <summary> <see cref="GFBpmcatalog"/> for Sword/Shield</summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Gfbpmcatalog { }
+partial class GFBpmcatalog { }

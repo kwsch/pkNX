@@ -14,14 +14,14 @@ public static class SchemaDump
     /// <param name="filePath"></param>
     /// <param name="dir"></param>
     /// <param name="settings"></param>
-    public static Schema HandleReflection(byte[] data, string filePath, string dir, SchemaDumpSettings settings)
+    public static Schema HandleReflection(Memory<byte> data, ReadOnlySpan<char> filePath, string dir, SchemaDumpSettings settings)
     {
         var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
         DumpSchema(schema, filePath, dir, settings);
         return schema;
     }
 
-    public static void DumpSchema(Schema schema, string filePath, string dir, SchemaDumpSettings settings)
+    public static void DumpSchema(Schema schema, ReadOnlySpan<char> filePath, string dir, SchemaDumpSettings settings)
     {
         var rootName = schema.RootTable?.Name ?? Path.GetFileNameWithoutExtension(filePath);
 
@@ -36,7 +36,7 @@ public static class SchemaDump
         DumpSchema(schema, fbs, cs, settings);
     }
 
-    public static void DumpSchema(byte[] data, TextWriter fbs, TextWriter cs, SchemaDumpSettings settings)
+    public static void DumpSchema(Memory<byte> data, TextWriter fbs, TextWriter cs, SchemaDumpSettings settings)
     {
         var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
         DumpSchema(schema, fbs, cs, settings);
@@ -54,7 +54,7 @@ public static class SchemaDump
             fbs.WriteLine($"root_type {x};");
     }
 
-    private static void WriteHeaderFBS(Schema schema, TextWriter fbs, string fileNameSpace)
+    private static void WriteHeaderFBS(Schema schema, TextWriter fbs, ReadOnlySpan<char> fileNameSpace)
     {
         fbs.WriteLine($"namespace {fileNameSpace};");
         fbs.WriteLine();
@@ -71,7 +71,7 @@ public static class SchemaDump
         fbs.WriteLine($"// Enum Count: {schema.Enums.Count}");
     }
 
-    private static void WriteHeaderCS(Schema schema, TextWriter cs, string fileNameSpace)
+    private static void WriteHeaderCS(Schema schema, TextWriter cs, ReadOnlySpan<char> fileNameSpace)
     {
         cs.WriteLine("using System.Collections.Generic;");
         cs.WriteLine("using System.ComponentModel;");
