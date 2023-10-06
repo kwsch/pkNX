@@ -28,43 +28,43 @@ namespace pkNX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.Input = new System.Windows.Forms.TextBox();
-            this.B_Export = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            Input = new System.Windows.Forms.TextBox();
+            B_Export = new System.Windows.Forms.Button();
+            SuspendLayout();
             // 
             // Input
             // 
-            this.Input.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Input.Location = new System.Drawing.Point(12, 12);
-            this.Input.Name = "Input";
-            this.Input.Size = new System.Drawing.Size(260, 23);
-            this.Input.TabIndex = 0;
-            this.Input.TextChanged += new System.EventHandler(this.Input_TextChanged);
+            Input.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            Input.Location = new System.Drawing.Point(12, 12);
+            Input.Name = "Input";
+            Input.Size = new System.Drawing.Size(320, 23);
+            Input.TabIndex = 0;
+            Input.TextChanged += Input_TextChanged;
             // 
             // B_Export
             // 
-            this.B_Export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Export.Location = new System.Drawing.Point(197, 41);
-            this.B_Export.Name = "B_Export";
-            this.B_Export.Size = new System.Drawing.Size(75, 23);
-            this.B_Export.TabIndex = 1;
-            this.B_Export.Text = "Export...";
-            this.B_Export.UseVisualStyleBackColor = true;
-            this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
+            B_Export.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Export.Location = new System.Drawing.Point(257, 41);
+            B_Export.Name = "B_Export";
+            B_Export.Size = new System.Drawing.Size(75, 23);
+            B_Export.TabIndex = 1;
+            B_Export.Text = "Export...";
+            B_Export.UseVisualStyleBackColor = true;
+            B_Export.Click += B_Export_Click;
             // 
             // TextInput
             // 
-            this.ClientSize = new System.Drawing.Size(284, 72);
-            this.Controls.Add(this.B_Export);
-            this.Controls.Add(this.Input);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "TextInput";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Input Text";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            ClientSize = new System.Drawing.Size(344, 72);
+            Controls.Add(B_Export);
+            Controls.Add(Input);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(360, 111);
+            Name = "TextInput";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Input Text";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

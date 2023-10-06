@@ -1,0 +1,89 @@
+include "Shared/DevID.fbs";
+include "Shared/SexType.fbs";
+include "Motion/NpcTrafficPartnerType.fbs";
+include "Motion/FieldNpcFaceType.fbs";
+include "Motion/NpcTrafficFormation.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table NpcTrafficGenerateTable {
+    Id:string (required);
+    Data1:NpcTrafficGenerateData (required);
+    Data2:NpcTrafficGenerateData (required);
+    Data3:NpcTrafficGenerateData (required);
+    Data4:NpcTrafficGenerateData (required);
+    Data5:NpcTrafficGenerateData (required);
+    Data6:NpcTrafficGenerateData (required);
+    Data7:NpcTrafficGenerateData (required);
+    Data8:NpcTrafficGenerateData (required);
+    Data9:NpcTrafficGenerateData (required);
+    Data10:NpcTrafficGenerateData (required);
+    Data11:NpcTrafficGenerateData (required);
+    Data12:NpcTrafficGenerateData (required);
+    Data13:NpcTrafficGenerateData (required);
+    Data14:NpcTrafficGenerateData (required);
+    Data15:NpcTrafficGenerateData (required);
+    Data16:NpcTrafficGenerateData (required);
+    Data17:NpcTrafficGenerateData (required);
+    Data18:NpcTrafficGenerateData (required);
+    Data19:NpcTrafficGenerateData (required);
+    Data20:NpcTrafficGenerateData (required);
+}
+
+table PokemonSimpleParam {
+    DevId:DevID = DEV_NULL;
+    FormId:short;
+    Sex:SexType;
+    IsRare:bool;
+    IsEgg:bool;
+    Scale:float;
+}
+
+table NpcTrafficGenerateData {
+    Probability:uint;
+    Ccparam:CharaCreateParam (required);
+    Messageid:string (required);
+    PartnerType:NpcTrafficPartnerType = None;
+    PartnerCcparam:CharaCreateParam (required);
+    PartnerPkparam:PokemonSimpleParam (required);
+    PartnerMessageid:string (required);
+    PartnerRange:float;
+    Formation:NpcTrafficFormation = Back;
+    Speed:int;
+    FaceType:FieldNpcFaceType = Empty;
+    LipSync:bool;
+}
+
+table FieldNpcMotionIntValue {
+    Name:string (required);
+    Value:int;
+}
+
+table FieldNpcMotionBoolValue {
+    Name:string (required);
+    Value:bool;
+}
+
+table FieldNpcAnimationConfig {
+    Trigger:string (required);
+    IntValue:FieldNpcMotionIntValue (required);
+    BoolValue:FieldNpcMotionBoolValue (required);
+}
+
+table CharaCreateFilePath {
+    Role:string (required);
+    Character:string (required);
+}
+
+table CharaCreateParam {
+    FilePath:CharaCreateFilePath (required);
+    Label:string (required);
+    AnimSlot:uint;
+}
+
+table NpcTrafficGenerateTableArray (fs_serializer) {
+    Table:[NpcTrafficGenerateTable] (required);
+}
+
+root_type NpcTrafficGenerateTableArray;

@@ -1,0 +1,87 @@
+include "WazaInflict.fbs";
+include "WazaAffinity.fbs";
+include "WazaEntityStat.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table Waza {
+    MoveID:ushort;
+    CanUseMove:bool;
+    Type:ubyte;
+    Quality:ubyte;
+    Category:ubyte;
+    Power:ubyte;
+    Accuracy:ubyte;
+    PP:ubyte;
+    Priority:byte;
+    HitMax:ubyte;
+    HitMin:ubyte;
+    Inflict:WazaInflict (required);
+    CritStage:ubyte;
+    Flinch:ubyte;
+    EffectSequence:ushort;
+    Recoil:byte;
+    RawHealing:byte;
+    RawTarget:ubyte;
+    StatAmps:WazaEntityStat (required);
+    Affinity:WazaAffinity = None;
+    Flag_MakesContact:bool;
+    Flag_Charge:bool;
+    Flag_Recharge:bool;
+    Flag_Protect:bool;
+    Flag_Reflectable:bool;
+    Flag_Snatch:bool;
+    Flag_Mirror:bool;
+    Flag_Punch:bool;
+    Flag_Sound:bool;
+    Flag_Dance:bool;
+    Flag_Gravity:bool;
+    Flag_Defrost:bool;
+    Flag_DistanceTriple:bool;
+    Flag_Heal:bool;
+    Flag_IgnoreSubstitute:bool;
+    Flag_FailSkyBattle:bool;
+    Flag_AnimateAlly:bool;
+    Flag_Metronome:bool;
+    Flag_FailEncore:bool;
+    Flag_FailMeFirst:bool;
+    Flag_FutureAttack:bool;
+    Flag_Pressure:bool;
+    Flag_Combo:bool;
+    Flag_NoSleepTalk:bool;
+    Flag_NoAssist:bool;
+    Flag_FailCopycat:bool;
+    Flag_FailMimic:bool;
+    Flag_FailInstruct:bool;
+    Flag_Powder:bool;
+    Flag_Bite:bool;
+    Flag_Bullet:bool;
+    Flag_NoMultiHit:bool;
+    Flag_NoEffectiveness:bool;
+    Flag_SheerForce:bool;
+    Flag_Slicing:bool;
+    Flag_Wind:bool;
+    Unknown_56:bool;
+    Unknown_57:bool;
+    Unknown_58:bool;
+    Unknown_59:bool;
+    Unknown_60:bool;
+    Unused_61:bool;
+    Unused_62:bool;
+    Unused_63:bool;
+    Unused_64:bool;
+    Unused_65:bool;
+    Unused_66:bool;
+    Unused_67:bool;
+    Unused_68:bool;
+    Unused_69:bool;
+    Unused_70:bool;
+    Flag_CantUseTwice:bool;
+}
+
+table WazaTable (fs_serializer) {
+    Table:[Waza] (required);
+}
+
+root_type WazaTable;

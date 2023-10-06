@@ -1,0 +1,41 @@
+include "PokeData/PokeDataBattle.fbs";
+include "Shared/BattleType.fbs";
+include "Shared/DataType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table TrDataMain {
+    TrId:string (required);
+    TrNameLabel:string (required);
+    TrainerType:string (required);
+    IsStrong:bool;
+    BattleType:BattleType;
+    DataType:DataType;
+    MoneyRate:byte;
+    ChangeGem:bool;
+    Poke1:PokeDataBattle (required);
+    Poke2:PokeDataBattle (required);
+    Poke3:PokeDataBattle (required);
+    Poke4:PokeDataBattle (required);
+    Poke5:PokeDataBattle (required);
+    Poke6:PokeDataBattle (required);
+    AiBasic:bool;
+    AiHigh:bool;
+    AiExpert:bool;
+    AiDouble:bool;
+    AiRaid:bool;
+    AiWeak:bool;
+    AiItem:bool;
+    AiChange:bool;
+    PopupLabelNormal1:string (required);
+    PopupLabelNormal2:string (required);
+    PopupLabelPinch1:string (required);
+    PopupLabelPinch2:string (required);
+}
+
+table TrDataMainArray (fs_serializer) {
+    Table:[TrDataMain] (required);
+}
+
+root_type TrDataMainArray;

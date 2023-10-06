@@ -1,0 +1,21 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum PokedexType : int {
+    TITAN = 0,
+}
+
+table RewardData {
+    PokedexType:PokedexType;
+    CaptureNum:int;
+    ItemId:ItemID = ITEMID_NONE;
+    ItemNum:int;
+}
+
+table RewardDataArray (fs_serializer) {
+    Table:[RewardData] (required);
+}
+
+root_type RewardDataArray;

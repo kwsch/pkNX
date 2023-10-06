@@ -10,7 +10,7 @@
     <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj" />
     <ProjectReference Include="..\pkNX.Structures.FlatBuffers.Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj" />
     <ProjectReference Include="..\pkNX.Structures.FlatBuffers.LGPE\pkNX.Structures.FlatBuffers.LGPE.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.csproj" />
+    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Trinity\pkNX.Structures.FlatBuffers.SV.Trinity.csproj" />
     <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj" />
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
   </ItemGroup>

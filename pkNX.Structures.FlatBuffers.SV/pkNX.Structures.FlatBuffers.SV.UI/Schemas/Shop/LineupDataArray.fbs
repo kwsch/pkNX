@@ -1,0 +1,20 @@
+include "Shared/CondEnum.fbs";
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table LineupData {
+    Lineupid:string (required);
+    Sortnum:int;
+    Item:ItemID = ITEMID_NONE;
+    ItemCondkind:CondEnum = NONE;
+    ItemCondvalue:string (required);
+    GymBadgeNum:int;
+}
+
+table LineupDataArray (fs_serializer) {
+    Table:[LineupData] (required);
+}
+
+root_type LineupDataArray;

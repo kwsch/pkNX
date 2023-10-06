@@ -8,18 +8,18 @@ namespace pkNX.WinForms;
 
 public class PaldeaCoinSymbolModel
 {
-    public readonly List<PaldeaCoinSymbolPoint> Points;
+    public readonly List<PaldeaCoinSymbolPoint>[] Points = new List<PaldeaCoinSymbolPoint>[] { new(), new() };
 
     public PaldeaCoinSymbolModel(IFileInternal ROM)
     {
-        Points = new List<PaldeaCoinSymbolPoint>();
-
         var cData = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_coin_placement_symbol_/world_coin_placement_symbol_0.trscn");
         // NOTE: Fine to only use Scarlet, Violet data is identical.
 
         var c = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(cData);
 
-        Points.AddRange(GetObjectTemplateSymbolPoints(c));
+        Points[(int)PaldeaFieldIndex.Paldea].AddRange(GetObjectTemplateSymbolPoints(c));
+
+        // TODO: are there coin points in su1/su2?
     }
 
     private static IEnumerable<PaldeaCoinSymbolPoint> GetObjectTemplateSymbolPoints(TrinitySceneObjectTemplate template)

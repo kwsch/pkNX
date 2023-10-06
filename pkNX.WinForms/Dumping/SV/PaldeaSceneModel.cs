@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -10,27 +11,34 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaSceneModel
 {
-    public readonly List<string> areaNames = new();
-    public readonly Dictionary<string, AreaInfo> AreaInfos = new();
-    public readonly Dictionary<string, HavokCollision.AABBTree> areaColTrees = new();
-    public readonly Dictionary<string, BoxCollision9> areaColBoxes = new();
-    public readonly Dictionary<string, bool> isAtlantis = new();
+    public List<string>[] AreaNames { get; } = { new(), new() };
+    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = { new(), new() };
+    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = { new(), new() };
+    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = { new(), new() };
+    public Dictionary<string, bool>[] IsAtlantis { get; } = { new(), new() };
 
     public PaldeaSceneModel(IFileInternal ROM, PaldeaFieldModel field)
     {
         // NOTE: Safe to only use _0 because _1 is identical.
-        var area_management = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/field_system/area_management_/area_management_0.trscn"));
-        Debug.Assert(area_management.ObjectTemplateName == "area_management");
+        var area_collision = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/resident_event/resident_area_collision_/resident_area_collision_0.trscn"));
+        Debug.Assert(area_collision.ObjectTemplateName == "resident_area_collision");
 
         // NOTE: Safe to only use _0 because _1 is identical.
         var a_w23_field_area_col = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/room/a_w23_field/a_w23_field_area_col_/a_w23_field_area_col_0.trscn"));
         Debug.Assert(a_w23_field_area_col.ObjectTemplateName == "a_w23_field_area_col");
 
-        foreach (var obj in area_management.Objects.Concat(a_w23_field_area_col.Objects))
-            AddIfAppropriate(ROM, field, a_w23_field_area_col, obj);
+        foreach (var obj in area_collision.Objects.Concat(a_w23_field_area_col.Objects))
+            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Paldea, a_w23_field_area_col.Objects, obj);
+
+        // TODO: is this _0 or _1? Identical? Name?
+        var area_collision_su1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile(0x441FE0A17C85BEAA));
+        Debug.Assert(area_collision_su1.ObjectTemplateName == "resident_area_collision");
+
+        foreach (var obj in area_collision_su1.Objects)
+            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Kitakami, new List<TrinitySceneObjectTemplateEntry>(), obj);
     }
 
-    private void AddIfAppropriate(IFileInternal ROM, PaldeaFieldModel field, TrinitySceneObjectTemplate w23, TrinitySceneObjectTemplateEntry obj)
+    private void AddIfAppropriate(IFileInternal ROM, PaldeaFieldModel field, PaldeaFieldIndex index, IList<TrinitySceneObjectTemplateEntry> atlantis, TrinitySceneObjectTemplateEntry obj)
     {
         if (!(obj.SubObjects.Count > 0 && obj.SubObjects[0].Type == "trinity_CollisionComponent"))
             return;
@@ -39,7 +47,7 @@ public class PaldeaSceneModel
         var tcom = FlatBufferConverter.DeserializeFrom<TrinityComponent>(inner);
         var collision = tcom.Component.CollisionComponent.Shape;
 
-        var isAtlantisObj = w23.Objects.Contains(obj);
+        var isAtlantisObj = atlantis.Contains(obj);
         switch (obj.Type)
         {
             case "trinity_ObjectTemplate":
@@ -50,15 +58,15 @@ public class PaldeaSceneModel
                 var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(sObj.Data);
                 Debug.Assert(sceneObject.ObjectName == sObj.ObjectTemplateExtra);
 
-                AddSceneObject(sObj.ObjectTemplateName, sceneObject, collision, field, ROM);
-                isAtlantis[sObj.ObjectTemplateName] = isAtlantisObj;
+                AddSceneObject(index, sObj.ObjectTemplateName, sceneObject, collision, field, ROM);
+                IsAtlantis[(int)index][sObj.ObjectTemplateName] = isAtlantisObj;
                 break;
             }
             case "trinity_SceneObject":
             {
                 var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(obj.Data);
-                AddSceneObject(sceneObject.ObjectName, sceneObject, collision, field, ROM);
-                isAtlantis[sceneObject.ObjectName] = isAtlantisObj;
+                AddSceneObject(index, sceneObject.ObjectName, sceneObject, collision, field, ROM);
+                IsAtlantis[(int)index][sceneObject.ObjectName] = isAtlantisObj;
                 break;
             }
             // ReSharper disable once RedundantEmptySwitchSection
@@ -70,17 +78,17 @@ public class PaldeaSceneModel
         }
     }
 
-    private void AddSceneObject(string name, TrinitySceneObject sceneObject, CollisionUnion shape, PaldeaFieldModel field, IFileInternal ROM)
+    private void AddSceneObject(PaldeaFieldIndex index, string name, TrinitySceneObject sceneObject, CollisionUnion shape, PaldeaFieldModel field, IFileInternal ROM)
     {
-        areaNames.Add(name);
-        AreaInfos[name] = field.FindAreaInfo(name);
+        AreaNames[(int)index].Add(name);
+        AreaInfos[(int)index][name] = field.FindAreaInfo(index, name);
 
         Debug.Assert(shape.Discriminator is 2 or 4);
 
         if (shape.TryGet(out Box? box))
         {
             // Box collision, obj.ObjectPosition.Field02 is pos, box.Field02 is size of box
-            areaColBoxes[name] = new BoxCollision9
+            AreaCollisionBoxes[(int)index][name] = new BoxCollision9
             {
                 Position = sceneObject.ObjectPosition.Field02,
                 Size = box!.Field02,
@@ -89,34 +97,88 @@ public class PaldeaSceneModel
         else if (shape.TryGet(out Havok? havok))
         {
             var havokData = ROM.GetPackedFile(havok!.TrcolFilePath);
-            areaColTrees[name] = HavokCollision.ParseAABBTree(havokData);
+            AreaCollisionTrees[(int)index][name] = HavokCollision.ParseAABBTree(havokData);
         }
     }
 
-    public bool IsPointContained(string areaName, float x, float y, float z)
+    public bool IsPointContained(PaldeaFieldIndex index, string areaName, float x, float y, float z)
     {
-        if (areaColTrees.TryGetValue(areaName, out var tree))
+        if (AreaCollisionTrees[(int)index].TryGetValue(areaName, out var tree))
             return tree.ContainsPoint(x, y, z);
-        if (areaColBoxes.TryGetValue(areaName, out var box))
+        if (AreaCollisionBoxes[(int)index].TryGetValue(areaName, out var box))
             return box.ContainsPoint(x, y, z);
         return false;
     }
 
-    public bool TryGetContainsCheck(string areaName, [NotNullWhen(true)] out IContainsV3f? result)
+    public bool TryGetContainsCheck(PaldeaFieldIndex index, string areaName, [NotNullWhen(true)] out IContainsV3f? result)
     {
-        if (areaColTrees.TryGetValue(areaName, out var tree))
+        if (AreaCollisionTrees[(int)index].TryGetValue(areaName, out var tree))
         {
             result = tree;
             return true;
         }
 
-        if (areaColBoxes.TryGetValue(areaName, out var box))
+        if (AreaCollisionBoxes[(int)index].TryGetValue(areaName, out var box))
         {
             result = box;
             return true;
         }
 
         result = null;
+        return false;
+    }
+
+    public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, PackedVec3f point, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
+    {
+        var areas = AreaNames[(int)fieldIndex];
+        for (var i = areas.Count - 1; i >= 0; i--)
+        {
+            var name = areas[i];
+            if (name == areaName)
+                continue;
+
+            if (!criteria(name))
+                continue;
+
+            if (!TryGetContainsCheck(fieldIndex, name, out var outer))
+                continue;
+
+            if (!outer.ContainsPoint(point.X, point.Y, point.Z))
+                continue;
+
+            //Debug.WriteLine($"Remapped {areaName} to {name}");
+            parent = name;
+            return true;
+        }
+
+        parent = null;
+        return false;
+    }
+
+    public bool TryGetParentAreaName(PaldeaFieldIndex fieldIndex, string areaName, IContainsV3f inner, Func<string, bool> criteria, [NotNullWhen(true)] out string? parent)
+    {
+        var areas = AreaNames[(int)fieldIndex];
+        for (var i = areas.Count - 1; i >= 0; i--)
+        {
+            var name = areas[i];
+            if (name == areaName)
+                continue;
+
+            if (!criteria(name))
+                continue;
+
+            if (!TryGetContainsCheck(fieldIndex, name, out var outer))
+                continue;
+
+            if (!inner.ContainedBy(outer))
+                continue;
+
+            //Debug.WriteLine($"Remapped {areaName} to {name}");
+            parent = name;
+            return true;
+        }
+
+        parent = null;
         return false;
     }
 }

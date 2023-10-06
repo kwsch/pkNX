@@ -1,0 +1,33 @@
+include "../Shared/DevID.fbs";
+include "../Shared/SexType.fbs";
+include "../Shared/RareType.fbs";
+include "../Shared/TalentType.fbs";
+include "../Shared/TokuseiType.fbs";
+include "../Shared/SizeType.fbs";
+include "../Shared/GemType.fbs";
+
+include "../PokeData/WazaSet.fbs";
+include "../Entity/ParamSet.fbs";
+include "../Shared/WazaType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table PokeDataSymbol {
+    DevId:DevID = DEV_NULL;
+    FormId:short;
+    Level:int;
+    Sex:SexType;
+    RareType:RareType;
+    TalentType:TalentType;
+    TalentValue:ParamSet (required);
+    TalentVNum:byte;
+    WazaType:WazaType;
+    Waza1:WazaSet (required);
+    Waza2:WazaSet (required);
+    Waza3:WazaSet (required);
+    Waza4:WazaSet (required);
+    TokuseiIndex:TokuseiType;
+    ScaleType:SizeType;
+    ScaleValue:short;
+    GemType:GemType;
+}

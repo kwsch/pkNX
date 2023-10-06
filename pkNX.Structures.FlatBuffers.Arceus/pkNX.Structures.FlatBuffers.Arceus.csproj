@@ -11,8 +11,8 @@
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FlatSharp.Runtime" Version="7.2.3" />
-    <PackageReference Include="FlatSharp.Compiler" Version="7.2.3">
+    <PackageReference Include="FlatSharp.Runtime" Version="7.3.0" />
+    <PackageReference Include="FlatSharp.Compiler" Version="7.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <FlatSharpSchema Include="Schemas\**\*.fbs">
-      <IncludePath>Schemas\</IncludePath>
       <IncludePath>..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
     </FlatSharpSchema>
   </ItemGroup>

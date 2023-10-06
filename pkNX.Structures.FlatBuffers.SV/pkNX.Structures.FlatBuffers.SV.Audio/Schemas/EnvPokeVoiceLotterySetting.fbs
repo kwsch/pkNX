@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+// Root Type: titan_audio.fb.EnvPokeVoiceLotterySetting
+table EnvPokeVoiceLotterySetting (fs_serializer) {
+    LotteryTimer:float;
+    SearchRadiusMin:float;
+    SearchRadiusMax:float;
+}
+root_type EnvPokeVoiceLotterySetting;

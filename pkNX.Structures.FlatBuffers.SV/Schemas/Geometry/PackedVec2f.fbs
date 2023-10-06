@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-attribute "fs_valueStruct";
-
-struct PackedVec2f (fs_valueStruct) {
-    X:float;
-    Y:float;
-}

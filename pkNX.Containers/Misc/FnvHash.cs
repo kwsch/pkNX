@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace pkNX.Containers;
 
@@ -17,7 +17,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static ulong HashFnv1_64(IEnumerable<char> input, ulong hash = kOffsetBasis_64)
+    public static ulong HashFnv1_64(ReadOnlySpan<char> input, ulong hash = kOffsetBasis_64)
     {
         foreach (var c in input)
         {
@@ -33,7 +33,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static ulong HashFnv1_64(IEnumerable<byte> input, ulong hash = kOffsetBasis_64)
+    public static ulong HashFnv1_64(ReadOnlySpan<byte> input, ulong hash = kOffsetBasis_64)
     {
         foreach (var c in input)
         {
@@ -49,7 +49,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static ulong HashFnv1a_64(IEnumerable<char> input, ulong hash = kOffsetBasis_64)
+    public static ulong HashFnv1a_64(ReadOnlySpan<char> input, ulong hash = kOffsetBasis_64)
     {
         foreach (var c in input)
         {
@@ -65,7 +65,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static ulong HashFnv1a_64(IEnumerable<byte> input, ulong hash = kOffsetBasis_64)
+    public static ulong HashFnv1a_64(ReadOnlySpan<byte> input, ulong hash = kOffsetBasis_64)
     {
         foreach (var c in input)
         {
@@ -85,7 +85,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static uint HashFnv1_32(IEnumerable<char> input, uint hash = kOffsetBasis_32)
+    public static uint HashFnv1_32(ReadOnlySpan<char> input, uint hash = kOffsetBasis_32)
     {
         foreach (var c in input)
         {
@@ -101,7 +101,7 @@ public static class FnvHash
     /// <param name="input">Input sequence</param>
     /// <param name="hash">Initial hash value</param>
     /// <returns>Computed hash code</returns>
-    public static uint HashFnv1a_32(IEnumerable<char> input, uint hash = kOffsetBasis_32)
+    public static uint HashFnv1a_32(ReadOnlySpan<char> input, uint hash = kOffsetBasis_32)
     {
         foreach (var c in input)
         {

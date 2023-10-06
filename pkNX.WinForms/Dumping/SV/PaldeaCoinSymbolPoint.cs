@@ -1,4 +1,4 @@
-using pkNX.Structures.FlatBuffers.SV;
+using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.WinForms;
 

@@ -7,6 +7,7 @@ namespace pkNX.Structures.FlatBuffers;
 public class LocationStorage
 {
     public readonly int Location;
+    private readonly PaldeaFieldIndex FieldIndex;
     public readonly AreaInfo AreaInfo;
     public readonly string AreaName;
 
@@ -16,9 +17,10 @@ public class LocationStorage
     public readonly List<LocationPointDetail> Local = new();
     public readonly List<LocationPointDetail> Nearby = new();
 
-    public LocationStorage(int loc, string areaName, AreaInfo info)
+    public LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaName, AreaInfo info)
     {
         Location = loc;
+        FieldIndex = fieldIndex;
         AreaName = areaName;
         AreaInfo = info;
     }
@@ -32,8 +34,9 @@ public class LocationStorage
 
     private void AddCrossover(PaldeaEncounter slot, int loc)
     {
+        // If slots cross over, they are necessarily in the same field
         if (!SlotsCrossover.TryGetValue(loc, out var s))
-            SlotsCrossover[loc] = s = new LocationStorage(loc, AreaName, AreaInfo);
+            SlotsCrossover[loc] = s = new LocationStorage(loc, FieldIndex, AreaName, AreaInfo);
         s.Add(slot with { CrossFromLocation = (ushort)Location });
     }
 
@@ -53,7 +56,12 @@ public class LocationStorage
 
     public void Consolidate()
     {
-        ConsolidateEncounters(Slots);
+        var len = -1;
+        while (len != Slots.Count)
+        {
+            len = Slots.Count;
+            ConsolidateEncounters(Slots);
+        }
         foreach (var loc in SlotsCrossover.Values)
             loc.Consolidate();
     }
@@ -106,7 +114,7 @@ public class LocationStorage
         return false;
     }
 
-    public void LoadPoints(IEnumerable<LocationPointDetail> points, IContainsV3f collider, int areaMin, int areaMax)
+    public void LoadPoints(IEnumerable<LocationPointDetail> points, IContainsV3f collider, int areaMin, int areaMax, int areaAdjust)
     {
         foreach (var w in points)
         {
@@ -114,26 +122,19 @@ public class LocationStorage
                 continue;
             if (collider.ContainsPoint(w.X, w.Y, w.Z))
             {
-                var composite = GetCompositePoint(w.Point, areaMin, areaMax, Location);
+                var composite = GetCompositePoint(w.Point, areaMin, areaMax, areaAdjust, Location);
                 Local.Add(composite); // native
             }
             // Don't check here for cross-area, as our areaMin/areaMax is not valid for that crossover case.
         }
     }
 
-    private static LocationPointDetail GetCompositePoint(PointData ep, int areaMin, int areaMax, int location)
+    private static LocationPointDetail GetCompositePoint(PointData ep, int areaMin, int areaMax, int adjust, int location)
     {
         var newX = Math.Max(ep.LevelRange.X, areaMin);
         var newY = Math.Min(ep.LevelRange.Y, areaMax);
-        var newPoint = new PointData
-        {
-            Position = ep.Position,
-            LevelRange = new SV.PackedVec2f { X = newX, Y = newY },
-            Biome = ep.Biome,
-            Substance = ep.Substance,
-            AreaNo = ep.AreaNo,
-        };
-        return new LocationPointDetail(newPoint) { Location = location };
+        var newPoint = ep with { LevelRange = new PackedVec2f { X = newX, Y = newY } };
+        return new LocationPointDetail(newPoint) { Location = location, LevelAdjust = adjust };
     }
 
     public void GetEncounters(EncountPokeDataArray pokeData, PaldeaSceneModel scene)
@@ -142,45 +143,52 @@ public class LocationStorage
         {
             foreach (var pd in pokeData.Table)
             {
-                if (!IsAbleToSpawnAt(pd, spawner, AreaName, scene))
+                if (!IsAbleToSpawnAt(pd, spawner, AreaName, scene, FieldIndex))
                     continue;
 
                 // Add encount
-                spawner.Add(PaldeaEncounter.GetNew(pd, spawner.Point));
+                var point = spawner.Point;
+                spawner.Add(PaldeaEncounter.GetNew(pd, point));
                 if (pd.BandPoke != 0) // Add band encount
-                    spawner.Add(PaldeaEncounter.GetBand(pd, spawner.Point));
+                    spawner.Add(PaldeaEncounter.GetBand(pd, point));
+
+                var boost = spawner.LevelAdjust;
+                if (boost == 0)
+                    continue;
+
+                // Add adjusted encount (different level range)
+                spawner.Add(PaldeaEncounter.GetNew(pd, point, boost));
+                if (pd.BandPoke != 0) // Add band encount
+                    spawner.Add(PaldeaEncounter.GetBand(pd, point, boost));
             }
         }
     }
 
-    private static bool IsAbleToSpawnAt(EncountPokeData pd, LocationPointDetail ep, string areaName, PaldeaSceneModel scene)
+    private static bool IsAbleToSpawnAt(EncountPokeData pd, LocationPointDetail ep, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex)
     {
+        var point = ep.Point;
         // Check area
-        if (!string.IsNullOrEmpty(pd.Area) && !IsInArea(pd.Area, ep.Point.AreaNo))
+        if (!string.IsNullOrEmpty(pd.Area) && !IsInArea(pd.Area, point.AreaNo))
             return false;
 
         // Check loc
-        if (!string.IsNullOrEmpty(pd.LocationName) && !IsInArea(pd.LocationName, areaName, scene, ep.Point))
+        if (!IsMatchAreaFilter(pd.LocationName, areaName, scene, fieldIndex, point))
             return false;
 
         // Check biome
-        if (!HasBiome(pd, (Biome)(int)ep.Point.Biome))
+        if (!HasBiome(pd, (Biome)(int)point.Biome))
             return false;
 
         // check level range overlap
         // check area level range overlap -- already done via point
-        if (!LevelWithinRange(pd, ep.Point))
+        var range = point.LevelRange;
+        if (!pd.IsLevelRangeOverlap(range.X, range.Y))
             return false;
 
         // Assume flag, enable table, timetable are fine
         // Assume version is fine -- union wireless sessions can share encounters.
 
         return true;
-    }
-
-    private static bool LevelWithinRange(EncountPokeData pd, PointData clamp)
-    {
-        return clamp.LevelRange.X <= pd.MaxLevel && pd.MinLevel <= clamp.LevelRange.Y;
     }
 
     private static bool HasBiome(EncountPokeData pd, Biome biome)
@@ -211,19 +219,23 @@ public class LocationStorage
         return int.TryParse(areaName[start..], out var x) && areaNo == x;
     }
 
-    private static bool IsInArea(string locName, string areaName, PaldeaSceneModel scene, PointData ep)
+    private static bool IsMatchAreaFilter(ReadOnlySpan<char> filterToLocations, string areaName, PaldeaSceneModel scene, PaldeaFieldIndex fieldIndex, PointData ep)
     {
-        var split = locName.Split(",");
-        foreach (string a in split)
+        if (filterToLocations.Length == 0)
+            return true; // Filter not specified
+
+        while (true)
         {
-            if (a == areaName)
+            var index = filterToLocations.IndexOf(',');
+            var name = index == -1 ? filterToLocations : filterToLocations[..index];
+            if (name.SequenceEqual(areaName))
+                return true;
+            if (scene.IsPointContained(fieldIndex, name.ToString(), ep.Position.X, ep.Position.Y, ep.Position.Z))
                 return true;
 
-            if (!scene.IsPointContained(a, ep.Position.X, ep.Position.Y, ep.Position.Z))
-                continue;
-
-            return true;
+            if (index == -1)
+                return false;
+            filterToLocations = filterToLocations[(index + 1)..];
         }
-        return false;
     }
 }
