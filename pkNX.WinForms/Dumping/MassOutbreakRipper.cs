@@ -482,6 +482,7 @@ public static class MassOutbreakRipper
             not "" => $"-{enc.FormId} ({formName})",
             _ => string.Empty,
         };
+        var shiny = enc.EnableRarePercentage ? $"{enc.RarePercentage}%" : "Standard";
 
         sw.WriteLine($"ID: {enc.ID}");
         sw.WriteLine($"{species[(int)enc.DevId]}{form}");
@@ -492,8 +493,7 @@ public static class MassOutbreakRipper
             sw.WriteLine($"Gender: {enc.Sex}");
         if (enc.EnableScaleRange)
             sw.WriteLine($"Scale: {enc.MinScale}-{enc.MaxScale}");
-        if (enc.EnableRarePercentage)
-            sw.WriteLine($"Shiny Rate: {enc.RarePercentage}%");
+        sw.WriteLine($"Shiny Rate: {shiny}");
         if (enc.AddRibbonPercentage != 0)
             sw.WriteLine($"Ribbon/Mark: {ribbons[(int)enc.AddRibbonType - 1]} ({enc.AddRibbonPercentage}%)");
     }
