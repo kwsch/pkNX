@@ -569,10 +569,10 @@ public static class TeraRaidRipper
                     };
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{drop.Num,2} × TM Material{limitation}");
+                        lines.Add($"\t\t\t{drop.Num,2} × {GetNameMaterial(ROM, boss.DevId, items)}{limitation}");
 
                     if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
-                        lines.Add($"\t\t\t{drop.Num,2} × Tera Shard{limitation}");
+                        lines.Add($"\t\t\t{drop.Num,2} × {GetNameShard(boss.GemType, types)}{limitation}");
 
                     if (drop.ItemID != 0)
                         lines.Add($"\t\t\t{drop.Num,2} × {GetItemName((ushort)drop.ItemID, items, moves)}{limitation}");
@@ -597,10 +597,10 @@ public static class TeraRaidRipper
                     float rate = (float)(Math.Round((item.GetRewardItem(i).Rate / totalRate) * 100f, 2));
 
                     if (drop.Category == RaidRewardItemCategoryType.POKE) // Material
-                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × TM Material");
+                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × {GetNameMaterial(ROM, boss.DevId, items)}");
 
                     if (drop.Category == RaidRewardItemCategoryType.GEM) // Tera Shard
-                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × Tera Shard");
+                        lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × {GetNameShard(boss.GemType, types)}");
 
                     if (drop.ItemID != 0)
                         lines.Add($"\t\t\t{rate,5}% {drop.Num,2} × {GetItemName((ushort)drop.ItemID, items, moves)}");
@@ -622,34 +622,41 @@ public static class TeraRaidRipper
         var path = ROM.GetPackedFile("message/dat/English/common/zkn_form.tbl");
         var ahtb = new AHTB(path);
 
-        var GenericFormNames = new HashSet<Species> { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff };
+        var GenericFormNames = new HashSet<Species> { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff, Minior };
         string[] TaurosForms = { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
         ReadOnlySpan<char> UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?";
+        string[] MiniorForms = { "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet" };
+
+        // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
+        if (GenericFormNames.Contains((Species)species))
+        {
+            return (Species)species switch
+            {
+                Tauros when form is not 0 => $"Paldean Form / {TaurosForms[form]}",
+                Unown => $"Unown {UnownForms[form]}", // A-Z!?
+                Kyogre or Groudon when form is 0 => "", // Kyogre-0 / Groudon-0
+                Rotom when form is 0 => "", // Rotom-0
+                Arceus => $"Type: {type[form]}", // Types
+                Kyurem when form is 0 => "", // Kyurem-0
+                Greninja when form is 1 => "", // Battle Bond Greninja
+                Rockruff when form is 1 => "", // Own Tempo Rockruff
+                Minior when form is <= 6 => $"{MiniorForms[form]} Meteor Form", // Meteor Forms
+                _ => "",
+            };
+        }
+
         for (int i = 0; i < text.Length; i++)
         {
             var entry = ahtb.Entries[i];
             var name = entry.Name;
             var line = text[i];
 
-            // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
-            if (GenericFormNames.Contains((Species)species))
-            {
-                return (Species)species switch
-                {
-                    Tauros when form is not 0 => $"Paldean Form / {TaurosForms[form]}",
-                    Unown => $"Unown {UnownForms[form]}", // A-Z!?
-                    Kyogre or Groudon when form is 0 => "", // Kyogre-0 / Groudon-0
-                    Rotom when form is 0 => "", // Rotom-0
-                    Arceus => $"{type[form]}", // Types
-                    Kyurem when form is 0 => "", // Kyurem-0
-                    Greninja when form is 1 => "", // Battle Bond Greninja
-                    Rockruff when form is 1 => "", // Own Tempo Rockruff
-                    _ => "",
-                };
-            }
+            if (species is (int)Scatterbug or (int)Spewpa) // workaround to get Vivillon form strings
+                species = (int)Vivillon;
             if (name == $"ZKN_FORM_{species:000}_{form:000}")
                 return line;
         }
+
         return "";
     }
 
@@ -678,6 +685,26 @@ public static class TeraRaidRipper
         618 or 619 or 620 => $"{items[item]} {moves[tm[093 + item - 618]]}", // TM093 to TM095
         690 or 691 or 692 or 693 => $"{items[item]} {moves[tm[096 + item - 690]]}", // TM096 to TM099
         _ => $"{items[item]} {moves[tm[100 + item - 2160]]}", // TM100 to TM229
+    };
+
+    private static string GetNameMaterial(IFileInternal ROM, DevID species, ReadOnlySpan<string> items)
+    {
+        var data = ROM.GetPackedFile("world/data/item/dropitemdata/dropitemdata_array.bin");
+        var obj = FlatBufferConverter.DeserializeFrom<DropItemDataArray>(data);
+        foreach (var t in obj.Table)
+        {
+            var item = t.Item1.ItemId;
+            if (t.DevId == species && item != 0)
+                return $"{items[(int)t.Item1.ItemId]}";
+        }
+
+        return "TM Material"; // no material, but the raid data may have it in the drop table anyway
+    }
+
+    private static string GetNameShard(GemType gem, ReadOnlySpan<string> types) => gem switch
+    {
+        GemType.DEFAULT or GemType.RANDOM => "Tera Shard", // variable, matches boss gemtype
+        _ => $"{types[(int)gem - 2]} Tera Shard",
     };
 
     private static string GetExtraActionInfo(RaidBossExtraData action, string[] moves)
