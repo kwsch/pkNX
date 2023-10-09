@@ -1,0 +1,38 @@
+include "../Ajito/AjitoDifficultEnum.fbs";
+include "../Ajito/AjitoTypeEnum.fbs";
+include "Entity/ParamSet.fbs";
+include "Shared/MoveType.fbs";
+include "Shared/TokuseiID.fbs";
+include "Shared/WazaID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table DanBossCarBattleTable {
+    Type:AjitoTypeEnum;
+    Difficulty:AjitoDifficultEnum;
+    Level:int;
+    ActualValue:ParamSet;
+    HpCoef:int;
+    Waza1:WazaID;
+    Waza2:WazaID;
+    Waza3:WazaID;
+    Waza4:WazaID;
+    Radio:int;
+    PokemonId:int;
+    TrainerId:string;
+    EventId:string;
+    TokuseiId:TokuseiID;
+    Type1:MoveType;
+    Type2:MoveType;
+}
+
+table DanCarBattleDataArray (fs_serializer) {
+    Table:[DanCarBattleData] (required);
+}
+
+table DanCarBattleData {
+    DanBossCarBattleStruct:DanBossCarBattleTable;
+}
+
+root_type DanCarBattleDataArray;

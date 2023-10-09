@@ -534,6 +534,7 @@ public class GameDumperSV
         Dump<AjitoCommonLevelArray, AjitoCommonLevel>("world/data/ajito/AjitoCommonLevel/AjitoCommonLevel_array.bfbs", z => z.Table);
         Dump<AjitoPokemonArray, AjitoPokemon>("world/data/ajito/AjitoPokemon/AjitoPokemon_array.bfbs", z => z.Table);
         Dump<AjitoUnitArray, AjitoUnit>("world/data/ajito/AjitoUnit/AjitoUnit_array.bfbs", z => z.Table);
+        Dump<DanCarBattleDataArray, DanCarBattleData>("world/data/danbattle/boss/dan_car_battle_data/dan_car_battle_data_array.bfbs", z => z.Table);
     }
 
     private void DumpEncount()
@@ -972,6 +973,7 @@ public class GameDumperSV
             "world/data/oniballoon/score_base_param/score_base_param_array.bfbs",
 
             "world/data/ui/dlc_item_data/dlc_item_group/dlc_item_group_array.bfbs",
+            "world/data/fieldwork/fieldwork_bear_poke/fieldwork_bear_poke_array.bfbs",
 
             "world/data/gym/gym_denki_popup_fix/gym_denki_popup_fix_array.bfbs",
             "world/data/gym/gym_denki_popup_pos/gym_denki_popup_pos_array.bfbs",
@@ -1120,6 +1122,7 @@ public class GameDumperSV
             "world/data/battle/wazaeffecttable/wazaeffecttable_array.bfbs",
             "world/data/ui/dressup_preset/dressup_preset_data/dressup_preset_data_array.bfbs",
             "world/data/ui/dressup_style/dressup_style_data/dressup_style_data_array.bfbs",
+            "world/data/ui/pokeicon/poke_icon_general_scale/poke_icon_general_scale_array.bfbs",
             "world/data/ui/shop/dressup_shop/dressup_category_data/dressup_category_data_array.bfbs",
             "world/data/ui/shop/dressup_shop/dressup_item_data/dressup_item_data_array.bfbs",
             "world/data/ui/shop/dressup_shop/dressup_shop_data/dressup_shop_data_array.bfbs",
@@ -1130,6 +1133,7 @@ public class GameDumperSV
             "world/data/ajito/AjitoCommonLevel/AjitoCommonLevel_array.bfbs",
             "world/data/ajito/AjitoPokemon/AjitoPokemon_array.bfbs",
             "world/data/ajito/AjitoUnit/AjitoUnit_array.bfbs",
+            "world/data/danbattle/boss/dan_car_battle_data/dan_car_battle_data_array.bfbs",
 
             "world/data/field/area_range/field_auto_return_data/field_auto_return_data_array.bfbs",
             "world/data/field/area_range/field_auto_return_pos/field_auto_return_pos_array.bfbs",
