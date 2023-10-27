@@ -15,6 +15,7 @@ namespace pkNX.WinForms;
 public static class MassOutbreakRipper
 {
     private static readonly List<PickledOutbreak> Encounters = new();
+    private static int EncounterIndex;
     private static Dictionary<string, (string Name, int Index)> NameDict = new();
 
     public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
@@ -78,6 +79,7 @@ public static class MassOutbreakRipper
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
         DumpPretty(ROM, dirDistText);
+        EncounterIndex += Encounters.Count;
     }
 
     private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
@@ -438,11 +440,14 @@ public static class MassOutbreakRipper
 
     private static void DumpPretty(IFileInternal ROM, string dir)
     {
-        string fileName = $"pretty_{Encounters[0].Parent.Poke.ID}.txt";
+        string ident = $"{Encounters[EncounterIndex].Parent.Poke.ID}"[..8]; // yyyyMMdd, remove 3 digit index
+        string fileName = $"pretty_{ident}.txt";
         using var sw = File.CreateText(Path.Combine(dir, fileName));
 
         foreach (var enc in Encounters)
         {
+            if (EncounterIndex > Encounters.IndexOf(enc))
+                continue;
             var parent = enc.Parent;
             WriteParent(ROM, sw, parent);
             WriteLocationList(sw, parent.MetInfo, parent.MetBase);
