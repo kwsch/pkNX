@@ -72,7 +72,7 @@ public static class TrinityPakExtractor
     private static string GuessExtension(ReadOnlySpan<byte> data)
     {
         const string defaultExtension = "bin";
-        if (data.Length < 4)
+        if (data.Length < 8)
             return defaultExtension;
         var u32 = ReadUInt32LittleEndian(data);
         if (ReadUInt32LittleEndian(data[4..8]) == 0x53424642)
