@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using FlatSharp;
 using pkNX.Containers;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 
@@ -73,7 +74,9 @@ public static class TrinityPakExtractor
         const string defaultExtension = "bin";
         if (data.Length < 4)
             return defaultExtension;
-        var u32 = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(data);
+        var u32 = ReadUInt32LittleEndian(data);
+        if (ReadUInt32LittleEndian(data[4..8]) == 0x53424642)
+            return "bfbs";
         return u32 switch
         {
             AHTB.Magic => "ahtb",
