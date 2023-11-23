@@ -9,7 +9,7 @@ public enum MoveStat : int
     Attack = 1,
     Defense = 2,
     SpecialAttack = 3,
-    SpecialDDefense = 4,
+    SpecialDefense = 4,
     Speed = 5,
     Accuracy = 6,
     Evasiveness = 7,
