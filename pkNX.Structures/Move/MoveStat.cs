@@ -13,6 +13,6 @@ public enum MoveStat : int
     Speed = 5,
     Accuracy = 6,
     Evasiveness = 7,
-    All = 8
+    All = 8 // Used in Ancient Power and the like
 }
 
