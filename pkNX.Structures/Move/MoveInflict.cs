@@ -17,8 +17,6 @@ public enum MoveInflict : int
     TransientDamage            = 8, // Used in Fire Spin, Wrap, etc.
 
     Nightmare            = 9,
-    Unknown          = 10, // Not used by any move
-    Unknown   = 11, // Not used by any move
     Torment             = 12,
     Disable = 13,
     Drowsiness    = 14,
@@ -28,8 +26,8 @@ public enum MoveInflict : int
     Seed              = 18, // Used by Leech Seed
     Embargo              = 19,
     SingPerish              = 20, // Used by Perish Song
-    Ingrain              = 22,
-    ThroatAche           = 23, // Used by Throat Chop
+    Ingrain              = 21,
+    ThroatAche           = 24, // Used by Throat Chop
     FireWeakness              = 42, // Used by Tar Shot
 }
 
