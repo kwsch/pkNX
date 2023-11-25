@@ -26,5 +26,6 @@ public enum MoveInflict : int
   Ingrain = 21,
   ChopThroat = 24, // Used by Throat Chop
   FireWeaken = 42, // Used by Tar Shot
+  ParalyzeFreezeBurn = 65535 // Used by Tri Attack
 }
 
