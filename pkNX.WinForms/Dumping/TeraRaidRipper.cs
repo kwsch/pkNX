@@ -446,7 +446,7 @@ public static class TeraRaidRipper
 
             var capture = entry.Info.CaptureRate switch
             {
-                // 0 never?
+                // 0 never
                 // 1 always
                 2 => "Only Once",
                 _ => $"{entry.Info.CaptureRate}",
@@ -483,6 +483,8 @@ public static class TeraRaidRipper
                 lines.Add($"\tVersion: {version}");
 
             lines.Add($"\tTera Type: {gem}");
+            if (boss.Level != entry.Info.CaptureLv)
+                lines.Add($"\tBattle Level: {boss.Level}");
             lines.Add($"\tCapture Level: {entry.Info.CaptureLv}");
             lines.Add($"\tAbility: {ability}");
 
@@ -497,7 +499,7 @@ public static class TeraRaidRipper
             var evs = boss.EffortValue.ToArray();
             if (evs.Any(z => z != 0))
             {
-                string[] names = new[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                string[] names = [ "HP", "Atk", "Def", "SpA", "SpD", "Spe" ];
                 var spread = new List<string>();
 
                 for (int i = 0; i < evs.Length; i++)
@@ -517,7 +519,7 @@ public static class TeraRaidRipper
                 lines.Add($"\tScale: {size}");
 
             float hp = entry.Info.BossDesc.HpCoef / 100f;
-            lines.Add($"\tHP Multiplier: {hp:0.0}x");
+            lines.Add($"\tHP Multiplier: {hp:0.0}×");
 
             if (boss.Item != ItemID.ITEMID_NONE)
                 lines.Add($"\tHeld Item: {items[(int)boss.Item]}");
@@ -538,15 +540,16 @@ public static class TeraRaidRipper
                 lines.Add($"\t\t\t- {extra.PowerChargeTrigerTime}% Time Remaining");
             }
 
-            if ((int)extra.ExtraAction1.Action != 0 || (int)extra.ExtraAction2.Action != 0 || (int)extra.ExtraAction3.Action != 0 || (int)extra.ExtraAction4.Action != 0 || (int)extra.ExtraAction5.Action != 0 || (int)extra.ExtraAction6.Action != 0)
+            var actions = new[] { extra.ExtraAction1, extra.ExtraAction2, extra.ExtraAction3, extra.ExtraAction4, extra.ExtraAction5, extra.ExtraAction6 };
+            if (actions.Any(IsExtraActionValid))
             {
                 lines.Add("\t\tExtra Actions:");
-                if ((int)extra.ExtraAction1.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction1, moves)}");
-                if ((int)extra.ExtraAction2.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction2, moves)}");
-                if ((int)extra.ExtraAction3.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction3, moves)}");
-                if ((int)extra.ExtraAction4.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction4, moves)}");
-                if ((int)extra.ExtraAction5.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction5, moves)}");
-                if ((int)extra.ExtraAction6.Action != 0) lines.Add($"\t\t\t- {GetExtraActionInfo(extra.ExtraAction6, moves)}");
+                if (IsExtraActionValid(actions[0])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[0], moves)}");
+                if (IsExtraActionValid(actions[1])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[1], moves)}");
+                if (IsExtraActionValid(actions[2])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[2], moves)}");
+                if (IsExtraActionValid(actions[3])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[3], moves)}");
+                if (IsExtraActionValid(actions[4])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[4], moves)}");
+                if (IsExtraActionValid(actions[5])) lines.Add($"\t\t\t- {GetExtraActionInfo(actions[5], moves)}");
             }
 
             lines.Add("\t\tItem Drops:");
@@ -623,9 +626,9 @@ public static class TeraRaidRipper
         var ahtb = new AHTB(path);
 
         var GenericFormNames = new HashSet<Species> { Tauros, Unown, Kyogre, Groudon, Rotom, Arceus, Kyurem, Greninja, Rockruff, Minior };
-        string[] TaurosForms = { "", "Combat Breed", "Blaze Breed", "Aqua Breed" };
+        string[] TaurosForms = [ "", "Combat Breed", "Blaze Breed", "Aqua Breed" ];
         ReadOnlySpan<char> UnownForms = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!?";
-        string[] MiniorForms = { "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet" };
+        string[] MiniorForms = [ "Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet" ];
 
         // some species have form strings that are just the species name (Rotom), or are not descriptive (e.g. Unown "One form"), or no form string at all!
         if (GenericFormNames.Contains((Species)species))
@@ -706,6 +709,17 @@ public static class TeraRaidRipper
         GemType.DEFAULT or GemType.RANDOM => "Tera Shard", // variable, matches boss gemtype
         _ => $"{types[(int)gem - 2]} Tera Shard",
     };
+
+    private static bool IsExtraActionValid(RaidBossExtraData action)
+    {
+        if (action.Action == RaidBossExtraActType.NONE) // no action set
+            return false;
+        if (action.Value == 0) // no percentage set
+            return false;
+        if (action.Action == RaidBossExtraActType.WAZA && action.Wazano == WazaID.WAZA_NULL) // no move set
+            return false;
+        return true;
+    }
 
     private static string GetExtraActionInfo(RaidBossExtraData action, string[] moves)
     {
