@@ -79,7 +79,7 @@ public static class MassOutbreakRipper
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
         DumpPretty(ROM, dirDistText);
-        EncounterIndex += Encounters.Count;
+        EncounterIndex = Encounters.Count;
     }
 
     private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
@@ -148,7 +148,7 @@ public static class MassOutbreakRipper
         {
             foreach (var o in ob.Table)
             {
-                if (o.EnableRarePercentage) // Likely will never be 100%, so if we ever see this, change the check to assert that instead.
+                if (o.EnableRarePercentage && o.RarePercentage == 100.0f) // Likely will never be 100%, so if we ever see this, change the check to assert that instead.
                     throw new Exception($"Elevated shiny rate {o.RarePercentage}%!");
                 if (o.EnableScaleRange)
                     throw new Exception($"Enforced scale range {o.MinScale}-{o.MaxScale}!");
@@ -440,7 +440,7 @@ public static class MassOutbreakRipper
 
     private static void DumpPretty(IFileInternal ROM, string dir)
     {
-        string ident = $"{Encounters[EncounterIndex].Parent.Poke.ID}"[..8]; // yyyyMMdd, remove 3 digit index
+        string ident = $"{Encounters[EncounterIndex].Parent.Poke.ID}"[..8]; // yyyyMMdd, remove 2 digit index at the end
         string fileName = $"pretty_{ident}.txt";
         using var sw = File.CreateText(Path.Combine(dir, fileName));
 
@@ -479,6 +479,7 @@ public static class MassOutbreakRipper
 
         var species = GetCommonText(ROM, "monsname", lang, cfg);
         var ribbons = GetCommonText(ROM, "ribbon", lang, cfg);
+        var gender = enc.Sex is SexType.MALE ? "Male" : "Female";
 
         var formName = TeraRaidRipper.GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId);
         var form = formName switch
@@ -495,7 +496,7 @@ public static class MassOutbreakRipper
         sw.WriteLine(Humanize(enc.Version));
         sw.WriteLine($"Base Level Range: {enc.MinLevel}-{enc.MaxLevel}");
         if (enc.Sex is not SexType.DEFAULT)
-            sw.WriteLine($"Gender: {enc.Sex}");
+            sw.WriteLine($"Gender: {gender}");
         if (enc.EnableScaleRange)
             sw.WriteLine($"Scale: {enc.MinScale}-{enc.MaxScale}");
         sw.WriteLine($"Shiny Rate: {shiny}");
