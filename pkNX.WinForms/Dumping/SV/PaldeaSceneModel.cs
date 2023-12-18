@@ -11,11 +11,11 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaSceneModel
 {
-    public List<string>[] AreaNames { get; } = { new(), new() };
-    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = { new(), new() };
-    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = { new(), new() };
-    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = { new(), new() };
-    public Dictionary<string, bool>[] IsAtlantis { get; } = { new(), new() };
+    public List<string>[] AreaNames { get; } = { new(), new(), new() };
+    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = { new(), new(), new() };
+    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = { new(), new(), new() };
+    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = { new(), new(), new() };
+    public Dictionary<string, bool>[] IsAtlantis { get; } = { new(), new(), new() };
 
     public PaldeaSceneModel(IFileInternal ROM, PaldeaFieldModel field)
     {
@@ -30,12 +30,19 @@ public class PaldeaSceneModel
         foreach (var obj in area_collision.Objects.Concat(a_w23_field_area_col.Objects))
             AddIfAppropriate(ROM, field, PaldeaFieldIndex.Paldea, a_w23_field_area_col.Objects, obj);
 
-        // TODO: is this _0 or _1? Identical? Name?
-        var area_collision_su1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile(0x441FE0A17C85BEAA));
+        // NOTE: Safe to only use _0 because _1 is identical.
+        var area_collision_su1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/main/field_1/field_main/resident_event/resident_area_collision_/resident_area_collision_0.trscn"));
         Debug.Assert(area_collision_su1.ObjectTemplateName == "resident_area_collision");
 
         foreach (var obj in area_collision_su1.Objects)
             AddIfAppropriate(ROM, field, PaldeaFieldIndex.Kitakami, new List<TrinitySceneObjectTemplateEntry>(), obj);
+
+        // NOTE: Safe to only use _0 because _1 is identical.
+        var area_collision_su2 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/main/field_2/field_main/resident_event/resident_area_collision_/resident_area_collision_0.trscn"));
+        Debug.Assert(area_collision_su2.ObjectTemplateName == "resident_area_collision");
+
+        foreach (var obj in area_collision_su2.Objects)
+            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Terarium, new List<TrinitySceneObjectTemplateEntry>(), obj);
     }
 
     private void AddIfAppropriate(IFileInternal ROM, PaldeaFieldModel field, PaldeaFieldIndex index, IList<TrinitySceneObjectTemplateEntry> atlantis, TrinitySceneObjectTemplateEntry obj)

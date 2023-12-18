@@ -8,8 +8,8 @@ namespace pkNX.WinForms;
 
 public class PaldeaFixedSymbolModel
 {
-    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new() };
-    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new() };
+    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new(), new() };
+    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new(), new() };
 
     public PaldeaFixedSymbolModel(IFileInternal ROM)
     {
@@ -32,6 +32,16 @@ public class PaldeaFixedSymbolModel
 
         scarletPoints[(int)PaldeaFieldIndex.Kitakami].AddRange(GetObjectTemplateSymbolPoints(k0));
         violetPoints[(int)PaldeaFieldIndex.Kitakami].AddRange(GetObjectTemplateSymbolPoints(k1));
+
+        // Terarium
+        var b0Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/su2_world_fixed_placement_symbol_/su2_world_fixed_placement_symbol_0.trscn");
+        var b1Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/su2_world_fixed_placement_symbol_/su2_world_fixed_placement_symbol_1.trscn");
+
+        var b0 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(b0Data);
+        var b1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(b1Data);
+
+        scarletPoints[(int)PaldeaFieldIndex.Terarium].AddRange(GetObjectTemplateSymbolPoints(b0));
+        violetPoints[(int)PaldeaFieldIndex.Terarium].AddRange(GetObjectTemplateSymbolPoints(b1));
     }
 
     private IEnumerable<PaldeaFixedSymbolPoint> GetObjectTemplateSymbolPoints(TrinitySceneObjectTemplate template)

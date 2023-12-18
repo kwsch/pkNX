@@ -7,7 +7,7 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaFieldModel
 {
-	private const int MapCount = 2;
+	private const int MapCount = 3;
     public IList<FieldMainArea>[] MainAreas { get; } = new IList<FieldMainArea>[MapCount];
     public IList<FieldSubArea>[] SubAreas { get; } = new IList<FieldSubArea>[MapCount];
     public IList<FieldInsideArea>[] InsideAreas { get; } = new IList<FieldInsideArea>[MapCount];
@@ -27,6 +27,12 @@ public class PaldeaFieldModel
         InsideAreas[(int)PaldeaFieldIndex.Kitakami] = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area_su1/field_inside_area_su1/field_inside_area_su1_array.bin")).Table;
         DungeonAreas[(int)PaldeaFieldIndex.Kitakami] = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area_su1/field_dungeon_area_su1/field_dungeon_area_su1_array.bin")).Table;
         FieldLocations[(int)PaldeaFieldIndex.Kitakami] = FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su1/field_location_su1/field_location_su1_array.bin")).Table;
+
+        MainAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldMainAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_main_area_su2/field_main_area_su2_array.bin")).Table;
+        SubAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldSubAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_sub_area_su2/field_sub_area_su2_array.bin")).Table;
+        InsideAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_inside_area_su2/field_inside_area_su2_array.bin")).Table;
+        DungeonAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_dungeon_area_su2/field_dungeon_area_su2_array.bin")).Table;
+        FieldLocations[(int)PaldeaFieldIndex.Terarium] = new List<FieldLocation>(); //FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su2/field_location_su2/field_location_su2_array.bin")).Table;
     }
 
     public AreaInfo FindAreaInfo(PaldeaFieldIndex index, string name)
@@ -64,5 +70,5 @@ public enum PaldeaFieldIndex
 {
     Paldea = 0,
     Kitakami = 1,
-    Blueberry = 2,
+    Terarium = 2,
 }

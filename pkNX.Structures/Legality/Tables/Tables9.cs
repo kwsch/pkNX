@@ -3,12 +3,12 @@ namespace pkNX.Structures;
 public static partial class Legal
 {
     // todo sv
-    public const int MaxSpeciesID_9 = 1017;
-    public const int MaxMoveID_9 = (int)Move.MagicalTorque;
-    public const int MaxItemID_9 = 2400; // Yellow Dish
+    public const int MaxSpeciesID_9 = 1025;
+    public const int MaxMoveID_9 = (int)Move.MalignantChain;
+    public const int MaxItemID_9 = 2557; // Briar's Book
     public const int MaxBallID_9 = (int)Ball.LAOrigin;
     public const int MaxGameID_9 = (int)GameVersion.VL;
-    public const int MaxAbilityID_9 = 298; // Mycelium Might
+    public const int MaxAbilityID_9 = 310; // Poison Puppeteer
 
     #region Inventory Pouch
     internal static readonly ushort[] Pouch_Medicine_SV =

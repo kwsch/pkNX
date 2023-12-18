@@ -12,6 +12,7 @@ table SeriVenueTable {
     SeriVenueTableId:int;
     IsEventOnly:bool;
     IsLegend:bool;
+    IsNpcSelectAll:bool;
     VenueType:VenueType;
     McName:string (required);
     BarkerMessageLabelName:string (required);

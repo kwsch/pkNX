@@ -39,8 +39,10 @@ public class EncounterDumperSV
         var mlEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_100000.bin"));
         var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
         var su1EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin"));
+        var su2EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su2.bin"));
         var pokeDataMain = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata/pokedata_array.bin"));
         var pokeDataSu1 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bin"));
+        var pokeDataSu2 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bin"));
 
         var db = new LocationDatabase();
 
@@ -48,10 +50,12 @@ public class EncounterDumperSV
         var pointMain = ReformatPoints(mlEncPoints);
         var pointAtlantis = ReformatPoints(alEncPoints);
         var pointSu1 = ReformatPoints(su1EncPoints);
+        var pointSu2 = ReformatPoints(su2EncPoints);
 
         // Process all field indices
         ProcessAreas(PaldeaFieldIndex.Paldea);
         ProcessAreas(PaldeaFieldIndex.Kitakami);
+        ProcessAreas(PaldeaFieldIndex.Terarium);
 
         // Each area and their local / crossover points have been aggregated.
         // Integrate the points' slots into a single list, and consolidate entries with same level ranges to as few objects as possible.
@@ -89,14 +93,14 @@ public class EncounterDumperSV
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
-            foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami })
+            foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami, PaldeaFieldIndex.Terarium })
             {
                 var areaNames = scene.AreaNames[(int)fieldIndex];
                 var areas = scene.AreaInfos[(int)fieldIndex];
                 var atlantis = scene.IsAtlantis[(int)fieldIndex];
                 var allPoints = gamePoints[(int)fieldIndex];
 
-                if (fieldIndex == PaldeaFieldIndex.Kitakami)
+                if (fieldIndex == PaldeaFieldIndex.Kitakami || fieldIndex == PaldeaFieldIndex.Terarium)
                 {
                     areas = areas.Where(z => z.Value.AdjustEncLv != 0)
                         .ToDictionary(z => z.Key, z => z.Value);
@@ -346,6 +350,7 @@ public class EncounterDumperSV
         {
             PaldeaFieldIndex.Paldea => isAtlantis ? pointAtlantis : pointMain,
             PaldeaFieldIndex.Kitakami => pointSu1,
+            PaldeaFieldIndex.Terarium => pointSu2,
             _ => throw new ArgumentException($"Could not handle {fieldIndex}"),
         };
 
@@ -353,6 +358,7 @@ public class EncounterDumperSV
         {
             PaldeaFieldIndex.Paldea => pokeDataMain,
             PaldeaFieldIndex.Kitakami => pokeDataSu1,
+            PaldeaFieldIndex.Terarium => pokeDataSu2,
             _ => throw new ArgumentException($"Could not handle {fieldIndex}"),
         };
 
@@ -364,6 +370,11 @@ public class EncounterDumperSV
             // 3 - At each area, absorb crossover points into crossover points.
             // 4 - Consolidate the encounters from both point lists.
             // Just compute everything (big memory!) then crunch it all down.
+
+            if (fieldIndex == PaldeaFieldIndex.Terarium)
+            {
+                var z = -1;
+            }
 
             // Fill the point lists for each area, then spawn everything into those points.
             var areaNames = scene.AreaNames[(int)fieldIndex];
@@ -387,7 +398,7 @@ public class EncounterDumperSV
 
                 // Locations that do not spawn encounters can still have crossovers bleed into them.
                 // We'll have empty local encounter lists for them.
-                var storage = db.Get(placeNameMap[placeName].Index, fieldIndex, areaName, areaInfo);
+                var storage = db.Get(placeNameMap[placeName].Index, fieldIndex, areaName, areas[areaName]);
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
 

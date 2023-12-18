@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.SV.Trinity;
+attribute "fs_serializer";
+
+table TrinityEnvironmentParameter (fs_serializer) {
+    Field_00:string (required);
+    Field_01:float;
+}
+
+root_type TrinityEnvironmentParameter;

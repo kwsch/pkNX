@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#nullable disable // meh
 
 namespace pkNX.Structures.FlatBuffers.SV;
 
@@ -21,30 +20,7 @@ public class PersonalDumperSV
     public IReadOnlyList<string> ZukanA { private get; init; }
     public IReadOnlyList<string> ZukanB { private get; init; }
 
-    public static readonly ushort[] TMIndexes =
-    {
-        005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
-        423, 352, 067, 491, 512, 522, 060, 109, 168, 574,
-        885, 884, 886, 451, 083, 263, 342, 332, 523, 506,
-        555, 232, 129, 345, 196, 341, 317, 577, 488, 490,
-        314, 500, 101, 374, 525, 474, 419, 203, 521, 241,
-        240, 201, 883, 684, 473, 091, 331, 206, 280, 428,
-        369, 421, 492, 706, 339, 403, 034, 007, 009, 008,
-        214, 402, 486, 409, 115, 113, 350, 127, 337, 605,
-        118, 447, 086, 398, 707, 156, 157, 269, 014, 776,
-        191, 390, 286, 430, 399, 141, 598, 019, 285, 442,
-        349, 408, 441, 164, 334, 404, 529, 261, 242, 271,
-        710, 202, 396, 366, 247, 406, 446, 304, 257, 412,
-        094, 484, 227, 057, 861, 053, 085, 583, 133, 347,
-        270, 676, 226, 414, 179, 058, 604, 580, 678, 581,
-        417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
-        444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
-        542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
-        796, 851, 046, 268, 114, 092, 328, 180, 356, 479,
-        360, 282, 450, 162, 410, 679, 667, 333, 503, 535,
-        669, 253, 264, 311, 803, 807, 812, 814, 809, 808,
-        799, 802,
-    };
+    public static ushort[] TMIndexes => PersonalInfo9SV.TMIndexes;
 
     private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
 
@@ -211,7 +187,7 @@ public class PersonalDumperSV
         EvolutionTypeArgumentType.Species => GetSpeciesName(value),
         EvolutionTypeArgumentType.Type => Types[value],
         EvolutionTypeArgumentType.Stat => value.ToString(),
-        //EvolutionTypeArgumentType.Version => expr,
+        EvolutionTypeArgumentType.Version => value.ToString(),
         _ => throw new ArgumentOutOfRangeException(nameof(argType), argType, null),
     };
 
@@ -277,14 +253,14 @@ public static class Plib9
         { 0008, 0108 }, // Dusk Stone
         { 0009, 0110 }, // Oval Stone
         { 0010, 1779 }, // Griseous Core
-        { 0011, 0000 }, //
-        { 0012, 0000 }, //
-        { 0013, 0000 }, //
-        { 0014, 0000 }, //
+        { 0011, 0000 },
+        { 0012, 0000 },
+        { 0013, 0000 },
+        { 0014, 0000 },
         { 0015, 0229 }, // Everstone
         { 0016, 0236 }, // Light Ball
-        { 0017, 0000 }, //
-        { 0018, 0000 }, //
+        { 0017, 0000 },
+        { 0018, 0000 },
         { 0019, 0280 }, // Destiny Knot
         { 0020, 0289 }, // Power Bracer
         { 0021, 0290 }, // Power Belt
@@ -308,43 +284,43 @@ public static class Plib9
         { 0039, 0311 }, // Draco Plate
         { 0040, 0312 }, // Dread Plate
         { 0041, 0313 }, // Iron Plate
-        { 0042, 0000 }, //
-        { 0043, 0000 }, //
-        { 0044, 0000 }, //
-        { 0045, 0000 }, //
-        { 0046, 0000 }, //
-        { 0047, 0000 }, //
-        { 0048, 0000 }, //
+        { 0042, 0000 },
+        { 0043, 0000 },
+        { 0044, 0000 },
+        { 0045, 0000 },
+        { 0046, 0000 },
+        { 0047, 0000 },
+        { 0048, 0000 },
         { 0049, 0326 }, // Razor Claw
         { 0050, 0327 }, // Razor Fang
         { 0051, 0644 }, // Pixie Plate
         { 0052, 0849 }, // Ice Stone
-        { 0053, 0000 }, //
-        { 0054, 0000 }, //
-        { 0055, 0000 }, //
-        { 0056, 0000 }, //
-        { 0057, 0000 }, //
-        { 0058, 0000 }, //
-        { 0059, 0000 }, //
-        { 0060, 0000 }, //
-        { 0061, 0000 }, //
-        { 0062, 0000 }, //
-        { 0063, 0000 }, //
-        { 0064, 0000 }, //
-        { 0065, 0000 }, //
-        { 0066, 0000 }, //
-        { 0067, 0000 }, //
-        { 0068, 0000 }, //
-        { 0069, 0000 }, //
+        { 0053, 0000 },
+        { 0054, 0000 },
+        { 0055, 0000 },
+        { 0056, 0000 },
+        { 0057, 0000 },
+        { 0058, 0000 },
+        { 0059, 0000 },
+        { 0060, 0000 },
+        { 0061, 0000 },
+        { 0062, 0000 },
+        { 0063, 0000 },
+        { 0064, 0000 },
+        { 0065, 0000 },
+        { 0066, 0000 },
+        { 0067, 0000 },
+        { 0068, 0000 },
+        { 0069, 0000 },
         { 0070, 1103 }, // Rusted Sword
         { 0071, 1104 }, // Rusted Shield
-        { 0072, 0000 }, //
-        { 0073, 0000 }, //
-        { 0074, 0000 }, //
-        { 0075, 0000 }, //
-        { 0076, 0000 }, //
-        { 0077, 0000 }, //
-        { 0078, 0000 }, //
+        { 0072, 1109 }, // Strawberry Sweet
+        { 0073, 1110 }, // Love Sweet
+        { 0074, 1111 }, // Berry Sweet
+        { 0075, 1112 }, // Clover Sweet
+        { 0076, 1113 }, // Flower Sweet
+        { 0077, 1114 }, // Star Sweet
+        { 0078, 1115 }, // Ribbon Sweet
         { 0079, 1116 }, // Sweet Apple
         { 0080, 1117 }, // Tart Apple
         { 0081, 1253 }, // Cracked Pot
@@ -356,8 +332,8 @@ public static class Plib9
         { 0087, 2345 }, // Leader’s Crest
         { 0088, 1857 }, // Scroll of Darkness
         { 0089, 1858 }, // Scroll of Waters
-        { 0090, 0000 }, //
-        { 0091, 0000 }, //
+        { 0090, 0000 },
+        { 0091, 0000 },
         { 0092, 0218 }, // Soothe Bell
         { 0093, 0109 }, // Dawn Stone
         { 0094, 2403 }, // Unremarkable Teacup
@@ -365,5 +341,12 @@ public static class Plib9
         { 0096, 2402 }, // Syrupy Apple
         { 0111, 0537 }, // Prism Scale
         { 0112, 0325 }, // Reaper Cloth
+        { 0113, 0252 }, // Upgrade
+        { 0114, 0324 }, // Dubious Disc
+        { 0115, 0322 }, // Electirizer
+        { 0116, 0323 }, // Magmarizer
+        { 0117, 0321 }, // Protector
+        { 0118, 0235 }, // Dragon Scale
+        { 0119, 2482 }, // Metal Alloy
     };
 }

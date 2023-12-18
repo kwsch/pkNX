@@ -1,0 +1,18 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table LegendPokeTable (fs_serializer) {
+    StateWorkName:string;
+    ReleaseItemId:ItemID;
+    ReactionMessage:string;
+    EscapeMessage:string;
+    BattleEnemyId:string;
+    BattlePlayerPosName:string;
+    BattlePokePosName:string;
+    DisableGrounding:bool;
+    ReleaseBgmFlagName:string;
+}
+
+root_type LegendPokeTable;

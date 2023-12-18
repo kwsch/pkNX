@@ -1,0 +1,82 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum ClubRoomBoardInfoType : byte
+{
+    ReleaseThrowForm = 0,
+    ThrowForm1 = 1,
+    ThrowForm2 = 2,
+    ThrowForm3 = 3,
+    ChangeForm = 4,
+    ReleaseItemMachine = 5,
+    ReleasePhotoDeco = 6,
+    PhotoDeco1 = 7,
+    PhotoDeco2 = 8,
+    PhotoMachineLerning = 9,
+    PhotoScan = 10,
+    ReleaseRoomChange = 11,
+    RoomChange = 12,
+    RoomChange1 = 13,
+    RoomChange2 = 14,
+    RoomChange3 = 15,
+    ReleaseBgmChange = 16,
+    Bgm1 = 17,
+    Bgm2 = 18,
+    Bgm3 = 19,
+    Bgm4 = 20,
+    Bgm5 = 21,
+    DoomEncount1 = 22,
+    DoomEncount2 = 23,
+    DoomEncount3 = 24,
+    DoomEncount4 = 25,
+    BBSchoolHead = 26,
+    Max = 27,
+}
+
+enum ClubRoomBoardLockType : byte
+{
+    None = 0,
+    Released = 1,
+    ClubAll = 2,
+    BgmKitakamiLock = 3,
+    All = 4,
+    Boss = 5,
+}
+
+enum ClubRoomBoardLockViewType : byte
+{
+    None = 0,
+    Invisible = 1,
+    LockIcon = 2,
+}
+
+enum ClubType : byte
+{
+    BASEBALL = 0,
+    PHOTO = 1,
+    SCIENCE = 2,
+    ART = 3,
+    MUSIC = 4,
+    DOME = 5,
+    BOSS = 6,
+}
+
+table ClubRoomBoardInfo {
+    InfoType:ClubRoomBoardInfoType;
+    NameLabel:string (required);
+    ClubType:ClubType;
+    LockType:ClubRoomBoardLockType;
+    LockedBoard:ClubRoomBoardInfoType;
+    LockViewType:ClubRoomBoardLockViewType;
+    Bp:int;
+    ContentsLabel:string (required);
+    RewardLabel:string (required);
+    Once:bool;
+    SortIndex:byte;
+}
+
+table ClubRoomBoardInfoArray (fs_serializer) {
+    Table:[ClubRoomBoardInfo] (required);
+}
+
+root_type ClubRoomBoardInfoArray;

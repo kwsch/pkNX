@@ -10,16 +10,16 @@ namespace pkNX.WinForms.Subforms
 {
     public class PaldeaMap
     {
-        public readonly List<string>[] AreaNames = { new(), new() };
-        private readonly Dictionary<string, AreaDef9>[] Areas = { new(), new() };
-        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = { new(), new() };
-        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = { new(), new() };
+        public readonly List<string>[] AreaNames = { new(), new(), new() };
+        private readonly Dictionary<string, AreaDef9>[] Areas = { new(), new(), new() };
+        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = { new(), new(), new() };
+        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = { new(), new(), new() };
 
-        private readonly IList<FieldMainArea>[] MainAreas = new IList<FieldMainArea>[2];
-        private readonly IList<FieldSubArea>[] SubAreas = new IList<FieldSubArea>[2];
-        private readonly IList<FieldInsideArea>[] InsideAreas = new IList<FieldInsideArea>[2];
-        private readonly IList<FieldDungeonArea>[] DungeonAreas = new IList<FieldDungeonArea>[2];
-        private readonly IList<FieldLocation>[] FieldLocations = new IList<FieldLocation>[2];
+        private readonly IList<FieldMainArea>[] MainAreas = new IList<FieldMainArea>[3];
+        private readonly IList<FieldSubArea>[] SubAreas = new IList<FieldSubArea>[3];
+        private readonly IList<FieldInsideArea>[] InsideAreas = new IList<FieldInsideArea>[3];
+        private readonly IList<FieldDungeonArea>[] DungeonAreas = new IList<FieldDungeonArea>[3];
+        private readonly IList<FieldLocation>[] FieldLocations = new IList<FieldLocation>[3];
 
         public PaldeaMap(GameManagerSV ROM)
         {
@@ -35,6 +35,12 @@ namespace pkNX.WinForms.Subforms
             DungeonAreas[1] = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area_su1/field_dungeon_area_su1/field_dungeon_area_su1_array.bin")).Table;
             FieldLocations[1] = FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su1/field_location_su1/field_location_su1_array.bin")).Table;
 
+            MainAreas[2] = FlatBufferConverter.DeserializeFrom<FieldMainAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_main_area_su2/field_main_area_su2_array.bin")).Table;
+            SubAreas[2] = FlatBufferConverter.DeserializeFrom<FieldSubAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_sub_area_su2/field_sub_area_su2_array.bin")).Table;
+            InsideAreas[2] = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_inside_area_su2/field_inside_area_su2_array.bin")).Table;
+            DungeonAreas[2] = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_dungeon_area_su2/field_dungeon_area_su2_array.bin")).Table;
+            FieldLocations[2] = new List<FieldLocation>(); // FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su2/field_location_su2/field_location_su2_array.bin")).Table;
+
             LoadScenes(ROM);
         }
 
@@ -44,7 +50,10 @@ namespace pkNX.WinForms.Subforms
             LoadScene(ROM, ROM.GetPackedFile("world/scene/parts/field/resident_event/resident_area_collision_/resident_area_collision_0.trscn"), 0);
 
             // Load default scenes
-            LoadScene(ROM, ROM.GetPackedFile(0x441FE0A17C85BEAA), 1);
+            LoadScene(ROM, ROM.GetPackedFile("world/scene/parts/field/main/field_1/field_main/resident_event/resident_area_collision_/resident_area_collision_0.trscn"), 1);
+
+            // Load default scenes
+            LoadScene(ROM, ROM.GetPackedFile("world/scene/parts/field/main/field_2/field_main/resident_event/resident_area_collision_/resident_area_collision_0.trscn"), 2);
         }
 
         private void LoadScene(GameManagerSV ROM, byte[] collisionFile, int index)

@@ -5,10 +5,7 @@ namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 attribute "fs_serializer";
 
 table Sphere {
-    TrcolFilePath:string (required);
-    Field_01:PackedVec3f (required);
-    Field_02:PackedVec3f (required);
-    Field_03:PackedVec3f (required);
+    Field_00:PackedVec3f;
 }
 
 table Box {
@@ -19,9 +16,9 @@ table Box {
 }
 
 table Capsule {
-    TrcolFilePath:string (required);
-    Field_01:PackedVec3f (required);
-    Field_02:PackedVec3f (required);
+    Field_00:PackedVec3f (required);
+    Field_01:float;
+    Field_02:float;
     Field_03:PackedVec3f (required);
 }
 
@@ -32,23 +29,17 @@ table Havok {
     Field_03:PackedVec3f (required);
 }
 
-table Vec3f {
-    X:float;
-    Y:float;
-    Z:float;
-}
-
 union CollisionUnion {Sphere, Box, Capsule, Havok}
 
 table CollisionComponent (fs_serializer) {
     Shape:CollisionUnion (required);
     // field 01 is the object ptr for ^
-    Field_02:uint;
+    Field_02:uint; //unknown
     Field_03:byte;
-    Field_04:uint;
-    Field_05:uint;
+    Field_04:uint; //unknown
+    Field_05:uint; //unknown
     Field_06:uint;
-    Field_07:uint;
+    Field_07:uint; //unknown
     Field_08:Vec3f (required);
     Field_09:string (required);
     Field_0A:uint;

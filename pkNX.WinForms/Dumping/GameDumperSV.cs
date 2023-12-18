@@ -442,6 +442,7 @@ public class GameDumperSV
 
     public void DumpMisc()
     {
+        DumpItemMachine();
         DumpBalloon();
         DumpBattle();
         DumpEncount();
@@ -462,6 +463,7 @@ public class GameDumperSV
         DumpNetBattle();
         DumpTrades();
         DumpShopDress();
+        DumpClubroom();
     }
 
     private void DumpGrow()
@@ -543,14 +545,18 @@ public class GameDumperSV
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_atlantis.bfbs", z => z.Table);
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_100000.bfbs", z => z.Table);
         Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_su1.bfbs", z => z.Table);
+        Dump<PointDataArray, PointData>("world/data/encount/point_data/point_data/encount_data_su2.bfbs", z => z.Table);
         Dump<OutbreakPointArray, OutbreakPointData>("world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bfbs", z => z.Table);
         Dump<OutbreakPointArray, OutbreakPointData>("world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bfbs", z => z.Table);
+        Dump<OutbreakPointArray, OutbreakPointData>("world/data/encount/point_data/outbreak_point_data/outbreak_point_su2.bfbs", z => z.Table);
         Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata/pokedata_array.bfbs", z => z.Table);
         Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bfbs", z => z.Table);
+        Dump<EncountPokeDataArray, EncountPokeData>("world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bfbs", z => z.Table);
         DumpJson<SettingData>("world/data/encount/setting/setting/data.bfbs");
         Dump<RaidDifficultyLotteryTableArray, RaidDifficultyLotteryTable>("world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs", z => z.Table);
         DumpJson<RaidGemSetting>("world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs");
         DumpJson<RaidGemSetting>("world/data/encount/setting/raid_gem_setting/su1_raid_gem_setting.bfbs");
+        DumpJson<RaidGemSetting>("world/data/encount/setting/raid_gem_setting/su2_raid_gem_setting.bfbs");
         DumpJson<OutbreakSetting>("world/data/encount/setting/outbreak_setting/data.bfbs");
         Dump<FieldDungeonAreaArray, FieldDungeonArea>("world/data/field/area/field_dungeon_area/field_dungeon_area_array.bfbs", z => z.Table);
         Dump<FieldInsideAreaArray, FieldInsideArea>("world/data/field/area/field_inside_area/field_inside_area_array.bfbs", z => z.Table);
@@ -562,10 +568,20 @@ public class GameDumperSV
         Dump<FieldLocationArray, FieldLocation>("world/data/field/area_su1/field_location_su1/field_location_su1_array.bfbs", z => z.Table);
         Dump<FieldMainAreaArray, FieldMainArea>("world/data/field/area_su1/field_main_area_su1/field_main_area_su1_array.bfbs", z => z.Table);
         Dump<FieldSubAreaArray, FieldSubArea>("world/data/field/area_su1/field_sub_area_su1/field_sub_area_su1_array.bfbs", z => z.Table);
+        Dump<FieldDungeonAreaArray, FieldDungeonArea>("world/data/field/area_su2/field_dungeon_area_su2/field_dungeon_area_su2_array.bfbs", z => z.Table);
+        Dump<FieldInsideAreaArray, FieldInsideArea>("world/data/field/area_su2/field_inside_area_su2/field_inside_area_su2_array.bfbs", z => z.Table);
+        //Dump<FieldLocationArray, FieldLocation>("world/data/field/area_su2/field_location_su2/field_location_su2_array.bfbs", z => z.Table);
+        Dump<FieldMainAreaArray, FieldMainArea>("world/data/field/area_su2/field_main_area_su2/field_main_area_su2_array.bfbs", z => z.Table);
+        Dump<FieldSubAreaArray, FieldSubArea>("world/data/field/area_su2/field_sub_area_su2/field_sub_area_su2_array.bfbs", z => z.Table);
 
         const string gifts = "world/data/event/event_add_pokemon/eventAddPokemon/eventAddPokemon_array.bfbs";
         Dump<EventAddPokemonArray, EventAddPokemon>(gifts, z => z.Table);
         DumpSel<EventAddPokemonArray, PokeDataFull>(gifts, z => z.Table.Select(x => x.PokeData));
+
+        for (int i = 13; i <= 37; i++)
+            DumpJson<LegendPokeTable>($"world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_{i:000}_legend_poke.bfbs");
+
+        Dump<ReleasePokeTableArray, ReleasePokeTable>("world/data/event/s2_sub_012_legend_poke/release_poke/release_poke_array.bfbs", z => z.Table);
     }
 
     private void DumpDLC()
@@ -605,7 +621,11 @@ public class GameDumperSV
         Dump<TipsDataArray, TipsData>("world/data/ui/tips/tips_data/tips_data_array.bfbs", z => z.Table);
         Dump<NpcDestinationDataTableArray, NpcDestinationDataTable>("world/data/ui/ymap/yamp_npc_navigation_data/yamp_npc_navigation_data_array.bfbs", z => z.Table);
         Dump<DestinationDataTableArray, DestinationDataTable>("world/data/ui/ymap/ymap_destination_data/ymap_destination_data_array.bfbs", z => z.Table);
+        Dump<DestinationDataTableArray, DestinationDataTable>("world/data/ui/ymap/ymap_destination_dlc1_data/ymap_destination_dlc1_data_array.bfbs", z => z.Table);
+        Dump<DestinationDataTableArray, DestinationDataTable>("world/data/ui/ymap/ymap_destination_dlc2_data/ymap_destination_dlc2_data_array.bfbs", z => z.Table);
         Dump<PlaceNameDataTableArray, PlaceNameDataTable>("world/data/ui/ymap/ymap_place_name_data/ymap_place_name_data_array.bfbs", z => z.Table);
+        Dump<PlaceNameDataTableArray, PlaceNameDataTable>("world/data/ui/ymap/ymap_place_name_dlc1_data/ymap_place_name_dlc1_data_array.bfbs", z => z.Table);
+        Dump<PlaceNameDataTableArray, PlaceNameDataTable>("world/data/ui/ymap/ymap_place_name_dlc2_data/ymap_place_name_dlc2_data_array.bfbs", z => z.Table);
     }
 
     public void DumpBalloon()
@@ -670,8 +690,16 @@ public class GameDumperSV
             "world/data/raid/su1_raid_enemy_05/su1_raid_enemy_05_array.bfbs",
             "world/data/raid/su1_raid_enemy_06/su1_raid_enemy_06_array.bfbs",
         };
-
-        foreach (var f in mainRaids.Concat(su1Raids))
+        var su2Raids = new[]
+        {
+            "world/data/raid/su2_raid_enemy_01/su2_raid_enemy_01_array.bfbs",
+            "world/data/raid/su2_raid_enemy_02/su2_raid_enemy_02_array.bfbs",
+            "world/data/raid/su2_raid_enemy_03/su2_raid_enemy_03_array.bfbs",
+            "world/data/raid/su2_raid_enemy_04/su2_raid_enemy_04_array.bfbs",
+            "world/data/raid/su2_raid_enemy_05/su2_raid_enemy_05_array.bfbs",
+            "world/data/raid/su2_raid_enemy_06/su2_raid_enemy_06_array.bfbs",
+        };
+        foreach (var f in (string[])[.. mainRaids, .. su1Raids, .. su2Raids])
         {
             Dump<RaidEnemyTableArray, RaidEnemyTable>(f, z => z.Table);
             static IEnumerable<PokeDataBattle> sel(RaidEnemyTableArray z) => z.Table.Select(x => x.Info.BossPokePara);
@@ -681,6 +709,7 @@ public class GameDumperSV
         var outPath = GetPath("pkhex");
         TeraRaidRipper.DumpRaids(ROM, mainRaids, outPath, "raidTotal.txt", "encounter_gem_paldea.pkl");
         TeraRaidRipper.DumpRaids(ROM, su1Raids, outPath, "raidTotalKitakami.txt", "encounter_gem_kitakami.pkl");
+        TeraRaidRipper.DumpRaids(ROM, su2Raids, outPath, "raidTotalBlueberry.txt", "encounter_gem_blueberry.pkl");
     }
 
     public void DumpMoves()
@@ -697,16 +726,27 @@ public class GameDumperSV
         File.WriteAllText(Path.Combine(outPath, "move_type.txt"), string.Join(',', types));
     }
 
+    private void DumpItemMachine()
+    {
+        Dump<ItemMachineItemTableArray, ItemMachineItemTable>("world/data/ui/item_machine/item_table/item_table_array.bfbs", z => z.Table);
+        Dump<ItemMachineLotteryTableArray, ItemMachineLotteryTable>("world/data/ui/item_machine/lottery_rate/lottery_rate_array.bfbs", z => z.Table);
+        Dump<ItemMachineSpecialTableArray, ItemMachineSpecialTable>("world/data/ui/item_machine/special_item_table/special_item_table_array.bfbs", z => z.Table);
+        Dump<EffectTableArray, EffectTable>("world/data/ui/item_machine/effect_table/effect_table_array.bfbs", z => z.Table);
+        Dump<MaterialBaseParamArray, MaterialBaseParam>("world/data/ui/item_machine/base_param/base_param_array.bfbs", z => z.Table);
+    }
+
     private void DumpItems()
     {
         Dump<RummagingItemDataTableArray, RummagingItemDataTable>("world/data/item/rummagingItemDataTable/rummagingItemDataTable_array.bfbs", z => z.Table);
         Dump<ItemPointTypeBiomeTableArray, ItemPointTypeBiomeTable>("world/data/item/itemPointTypeBiomeTable/itemPointTypeBiomeTable_array.bfbs", z => z.Table);
         Dump<HiddenItemBiomeTableArray, HiddenItemBiomeTable>("world/data/item/hiddenItemBiomeTable/hiddenItemBiomeTable_array.bfbs", z => z.Table);
         Dump<HiddenItemBiomeTableArray, HiddenItemBiomeTable>("world/data/item/hiddenItemBiomeTable_su1/hiddenItemBiomeTable_su1_array.bfbs", z => z.Table);
+        Dump<HiddenItemBiomeTableArray, HiddenItemBiomeTable>("world/data/item/hiddenItemBiomeTable_su2/hiddenItemBiomeTable_su2_array.bfbs", z => z.Table);
         Dump<DropItemDataArray, DropItemData>("world/data/item/dropitemdata/dropitemdata_array.bfbs", z => z.Table);
         Dump<ItemDataArray, ItemData>("world/data/item/itemdata/itemdata_array.bfbs", z => z.Table);
         Dump<HiddenItemDataTableArray, HiddenItemDataTable>("world/data/item/hiddenItemDataTable/hiddenItemDataTable_array.bfbs", z => z.Table);
         Dump<HiddenItemDataTableArray, HiddenItemDataTable>("world/data/item/hiddenItemDataTable_su1/hiddenItemDataTable_su1_array.bfbs", z => z.Table);
+        Dump<HiddenItemDataTableArray, HiddenItemDataTable>("world/data/item/hiddenItemDataTable_su2/hiddenItemDataTable_su2_array.bfbs", z => z.Table);
         Dump<MonohiroiItemArray, MonohiroiItem>("world/data/item/monohiroiItemData/monohiroiItemData_array.bfbs", z => z.Table);
     }
 
@@ -755,15 +795,19 @@ public class GameDumperSV
     {
         Dump<BlacklistArray, Blacklist>("world/data/ui/pokedex/blacklist/blacklist_array.bfbs", z => z.Table);
         Dump<BlacklistArray, Blacklist>("world/data/ui/pokedex/blacklist_dlc1/blacklist_dlc1_array.bfbs", z => z.Table);
+        Dump<BlacklistArray, Blacklist>("world/data/ui/pokedex/blacklist_dlc2/blacklist_dlc2_array.bfbs", z => z.Table);
 
         Dump<MemoPokeTableArray, MemoPokeTable>("world/data/ui/pokedex/memo_poke_data/memo_poke_data_array.bfbs", z => z.Table);
         Dump<MemoPokeTableArray, MemoPokeTable>("world/data/ui/pokedex/memo_poke_data_dlc1/memo_poke_data_dlc1_array.bfbs", z => z.Table);
+        Dump<MemoPokeTableArray, MemoPokeTable>("world/data/ui/pokedex/memo_poke_data_dlc2/memo_poke_data_dlc2_array.bfbs", z => z.Table);
 
         Dump<RewardDataArray, RewardData>("world/data/ui/pokedex/reward_data/reward_data_array.bfbs", z => z.Table);
         Dump<RewardDataArray, RewardData>("world/data/ui/pokedex/reward_data_dlc1/reward_data_dlc1_array.bfbs", z => z.Table);
+        Dump<RewardDataArray, RewardData>("world/data/ui/pokedex/reward_data_dlc2/reward_data_dlc2_array.bfbs", z => z.Table);
 
         DumpX<DistributionRootArray, DistributionRoot, DistributionData>("world/data/ui/pokedex/distribution_data/distribution_data_array.bfbs", z => z.Table, z => z.Table);
         DumpX<DistributionRootArray, DistributionRoot, DistributionData>("world/data/ui/pokedex/distribution_data_dlc1/distribution_data_dlc1_array.bfbs", z => z.Table, z => z.Table);
+        DumpX<DistributionRootArray, DistributionRoot, DistributionData>("world/data/ui/pokedex/distribution_data_dlc2/distribution_data_dlc2_array.bfbs", z => z.Table, z => z.Table);
     }
 
     private void DumpUI()
@@ -878,12 +922,36 @@ public class GameDumperSV
             z => z.Table.Select(x => x.PokeData));
     }
 
+    private void DumpClubroom()
+    {
+        Dump<MissionInfosArray, MissionInfos>("world/data/club/MissionInfo/MissionInfo_array.bfbs", z => z.Table);
+        Dump<MissionSettingsArray, MissionSettings>("world/data/club/MissionSettings/MissionSettings_array.bfbs", z => z.Table);
+        Dump<ClubRoomBoardInfoArray, ClubRoomBoardInfo>("world/data/club/ClubRoomBoardInfo/ClubRoomBoardInfo_array.bfbs", z => z.Table);
+        Dump<ClubNpcRewardListArray, ClubNpcRewardList>("world/data/club/ClubNpcRewardList/ClubNpcRewardList_array.bfbs", z => z.Table);
+        DumpJson<MetamonBlockInfo>("world/data/club/MetamonBlockInfo/metamonBlockInfoData.bfbs");
+    }
+
+    private void Dump<TTable, TEntry>(ulong hash, Func<TTable, IList<TEntry>> sel)
+        where TTable : class, IFlatBufferSerializable<TTable>
+        where TEntry : notnull
+    {
+        var flat = Get<TTable>(hash);
+        var path = GetPath(hash.ToString("X16"));
+        Dump(sel, flat, path);
+    }
+
     private void Dump<TTable, TEntry>(string f, Func<TTable, IList<TEntry>> sel)
         where TTable : class, IFlatBufferSerializable<TTable>
         where TEntry : notnull
     {
         var flat = Get<TTable>(f);
         var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
+        Dump(sel, flat, path);
+    }
+
+    private static void Dump<TTable, TEntry>(Func<TTable, IList<TEntry>> sel, TTable flat, string path)
+        where TTable : class, IFlatBufferSerializable<TTable> where TEntry : notnull
+    {
         DumpJson(flat, path);
         var table = sel(flat);
         var dump = TableUtil.GetTable(table);
@@ -892,23 +960,38 @@ public class GameDumperSV
         File.WriteAllText(fileName, dump);
     }
 
+    private TTable Get<TTable>(ulong hash)
+        where TTable : class, IFlatBufferSerializable<TTable>
+    {
+        var bin = ROM.GetPackedFile(hash);
+        return Get<TTable>(bin);
+    }
+
     private TTable Get<TTable>(string f)
         where TTable : class, IFlatBufferSerializable<TTable>
     {
         var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
-        return FlatBufferConverter.DeserializeFrom<TTable>(bin);
+        return Get<TTable>(bin);
     }
+
+    private static TTable Get<TTable>(Memory<byte> bin) where TTable : class, IFlatBufferSerializable<TTable> => FlatBufferConverter.DeserializeFrom<TTable>(bin);
 
     private void DumpSel<TTable, TEntry>(string f, Func<TTable, IEnumerable<TEntry>> sel, string prefix = "sel")
         where TTable : class, IFlatBufferSerializable<TTable>
         where TEntry : notnull
     {
         var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
+        DumpSel(sel, prefix, bin, path);
+    }
+
+    private static void DumpSel<TTable, TEntry>(Func<TTable, IEnumerable<TEntry>> sel, string prefix, Memory<byte> bin, string path)
+        where TTable : class, IFlatBufferSerializable<TTable> where TEntry : notnull
+    {
         var flat = FlatBufferConverter.DeserializeFrom<TTable>(bin);
         var table = sel(flat);
         var dump = TableUtil.GetTable(table);
 
-        var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
         var fileName = Path.ChangeExtension(path, $".{prefix}.txt");
         File.WriteAllText(fileName, dump);
     }
@@ -958,6 +1041,12 @@ public class GameDumperSV
     {
         var files = new[]
         {
+            "world/data/ui/item_machine/item_table/item_table_array.bfbs",
+            "world/data/ui/item_machine/lottery_rate/lottery_rate_array.bfbs",
+            "world/data/ui/item_machine/special_item_table/special_item_table_array.bfbs",
+            "world/data/ui/item_machine/effect_table/effect_table_array.bfbs",
+            "world/data/ui/item_machine/base_param/base_param_array.bfbs",
+
             "world/data/encount/delivery_outbreak/delivery_outbreak_pokedata/delivery_outbreak_pokedata_array.bfbs",
             "world/data/encount/delivery_outbreak/delivery_outbreak_zone_main/delivery_outbreak_zone_main_array.bfbs",
             "world/data/encount/delivery_outbreak/delivery_outbreak_zone_su1/delivery_outbreak_zone_su1_array.bfbs",
@@ -1009,16 +1098,21 @@ public class GameDumperSV
             "world/data/encount/point_data/point_data/encount_data_atlantis.bfbs",
             "world/data/encount/point_data/point_data/encount_data_100000.bfbs",
             "world/data/encount/point_data/point_data/encount_data_su1.bfbs",
+            "world/data/encount/point_data/point_data/encount_data_su2.bfbs",
             "world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bfbs",
             "world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bfbs",
+            "world/data/encount/point_data/outbreak_point_data/outbreak_point_su2.bfbs",
             "world/data/encount/pokedata/pokedata/pokedata_array.bfbs",
             "world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bfbs",
+            "world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bfbs",
             "world/data/encount/setting/setting/data.bfbs",
             "world/data/encount/setting/raid_difficulty_lottery/raid_difficulty_lottery_array.bfbs",
             "world/data/encount/setting/raid_gem_setting/raid_gem_setting.bfbs",
             "world/data/encount/setting/raid_gem_setting/su1_raid_gem_setting.bfbs",
+            "world/data/encount/setting/raid_gem_setting/su2_raid_gem_setting.bfbs",
             "world/data/encount/setting/outbreak_setting/data.bfbs",
             "world/data/event/treeshake/treeshake_pokemon/treeshake_pokemon_array.bfbs",
+            "world/data/event/npc_management/npc_management_s1_sub_003_always/npc_management_s1_sub_003_always_array.bfbs",
             // Field
             "world/data/field/area/field_dungeon_area/field_dungeon_area_array.bfbs",
             "world/data/field/area/field_inside_area/field_inside_area_array.bfbs",
@@ -1030,6 +1124,11 @@ public class GameDumperSV
             "world/data/field/area_su1/field_location_su1/field_location_su1_array.bfbs",
             "world/data/field/area_su1/field_main_area_su1/field_main_area_su1_array.bfbs",
             "world/data/field/area_su1/field_sub_area_su1/field_sub_area_su1_array.bfbs",
+            "world/data/field/area_su2/field_dungeon_area_su2/field_dungeon_area_su2_array.bfbs",
+            "world/data/field/area_su2/field_inside_area_su2/field_inside_area_su2_array.bfbs",
+            //"world/data/field/area_su2/field_location_su2/field_location_su2_array.bfbs", DOES NOT EXIST.
+            "world/data/field/area_su2/field_main_area_su2/field_main_area_su2_array.bfbs",
+            "world/data/field/area_su2/field_sub_area_su2/field_sub_area_su2_array.bfbs",
             "world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bfbs",
             // Event Trade
             "world/data/event/eventTradeList/eventTradeList_array.bfbs",
@@ -1169,11 +1268,71 @@ public class GameDumperSV
             "world/data/ui/tips/tips_data/tips_data_array.bfbs",
             "world/data/ui/ymap/yamp_npc_navigation_data/yamp_npc_navigation_data_array.bfbs",
             "world/data/ui/ymap/ymap_destination_data/ymap_destination_data_array.bfbs",
+            "world/data/ui/ymap/ymap_destination_dlc1_data/ymap_destination_dlc1_data_array.bfbs",
+            "world/data/ui/ymap/ymap_destination_dlc2_data/ymap_destination_dlc2_data_array.bfbs",
             "world/data/ui/ymap/ymap_place_name_data/ymap_place_name_data_array.bfbs",
 
             "world/data/ui/schoolmap/schoolmap_data/schoolmap_data_array.bfbs",
             "world/data/ui/shop/friendlyshop/friendlyshop_data/friendlyshop_data_array.bfbs",
             "world/data/ui/shop/friendlyshop/friendlyshop_lineup_data/friendlyshop_lineup_data_array.bfbs",
+
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_013_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_014_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_015_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_016_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_017_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_018_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_019_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_020_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_021_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_022_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_023_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_024_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_025_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_026_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_027_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_028_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_029_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_030_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_031_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_032_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_033_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_034_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_035_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_036_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/legend_poke/s2_sub_037_legend_poke.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/release_poke/release_poke_array.bfbs",
+            "world/data/event/sub_012/sub_012_reward/sub_012_reward_array.bfbs",
+            "world/data/event/s2_sub_012_legend_poke/release_config/default.bfbs",
+
+            "world/data/event/s1_sub_013/s1_sub_013_chair_reward/s1_sub_013_chair_reward_array.bfbs",
+            "world/data/event/s1_sub_013/s1_sub_013_complete_reward/s1_sub_013_complete_reward_array.bfbs",
+            "world/data/event/s1_sub_013/s1_sub_013_food_reward/s1_sub_013_food_reward_array.bfbs",
+
+            "world/data/bb_challenge/fairy_challenge_questionInfos/fairy_challenge_questionInfos_array.bfbs",
+            "world/data/bb_challenge/fairy_challenge_targetInfos/fairy_challenge_targetInfos_array.bfbs",
+            "world/data/bb_challenge/hagane_challenge_course/hagane_challenge_course_array.bfbs",
+            "world/data/bb_challenge/honoo_challenge_npc/honoo_challenge_npc_array.bfbs",
+
+            "world/data/ui/schoolmap/bb_schoolmap_data/bb_schoolmap_data_array.bfbs",
+
+            "world/data/club/ClubNpcRandomRewardList/ClubNpcRandomRewardList_array.bfbs",
+            "world/data/club/ClubNpcRewardList/ClubNpcRewardList_array.bfbs",
+            "world/data/club/ClubNpcTradeList/ClubNpcTradeList_array.bfbs",
+            "world/data/club/ClubPairNpcFaceInfo/ClubPairNpcFaceInfo_array.bfbs",
+            "world/data/club/ClubRoomNpcPairTable/ClubRoomNpcPairTable_array.bfbs",
+            "world/data/club/MetamonBlockInfo/metamonBlockInfoData.bfbs",
+            "world/data/club/MissionInfo/MissionInfo_array.bfbs",
+            "world/data/club/Quiz/quiz_poke_data_easy/quiz_poke_data_easy_array.bfbs",
+            "world/data/club/Quiz/quiz_poke_data_normal/quiz_poke_data_normal_array.bfbs",
+            "world/data/club/Quiz/quiz_poke_data_hard/quiz_poke_data_hard_array.bfbs",
+            "world/data/ui/clubroom_bgm_select/clubroom_bgm_select_data/clubroom_bgm_select_data_array.bfbs",
+            "world/data/club/ClubRoomBoardInfo/ClubRoomBoardInfo_array.bfbs",
+            "world/data/club/MissionSettings/MissionSettings_array.bfbs",
+
+            "world/data/field/synchro/synchro_data/synchro_data_array.bfbs",
+
+            "world/data/event/field_npc/event_field_npc_message/event_field_npc_message_condition_flagwork/event_field_npc_message_condition_flagwork_array.bfbs",
         };
         foreach (var f in files)
         {

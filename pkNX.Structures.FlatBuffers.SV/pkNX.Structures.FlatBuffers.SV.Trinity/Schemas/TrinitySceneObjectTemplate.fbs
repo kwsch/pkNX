@@ -18,11 +18,11 @@ table TrinitySceneObjectTemplateEntry {
 
 table TrinitySceneObjectTemplate (fs_serializer) {
     ObjectTemplateName:string (required);
-    ObjectTemplateExtra:string (required);
+    ObjectTemplateExtra:string;
     Field_02:uint;
     Field_03:uint;
     Objects:[TrinitySceneObjectTemplateEntry] (required);
-    Field_05:[uint] (required);
+    Field_05:[string] (required);
     Field_06:ubyte;
 }
 

@@ -20,7 +20,7 @@ public partial class MapViewer9 : Form
 
         InitializeComponent();
         Loading = true;
-        CB_Field.Items.AddRange(new[] { "Paldea", "Kitakami" });
+        CB_Field.Items.AddRange(new[] { "Paldea", "Kitakami", "Terarium" });
         Loading = false;
         CB_Field.SelectedIndex = 0;
     }
@@ -29,6 +29,7 @@ public partial class MapViewer9 : Form
     {
         0 => 5000,
         1 => 2000,
+        2 => 2000,
         _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
     };
 
@@ -36,6 +37,7 @@ public partial class MapViewer9 : Form
     {
         0 => 5000,
         1 => 2000,
+        2 => 2000,
         _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
     };
 
@@ -43,6 +45,7 @@ public partial class MapViewer9 : Form
     {
         0 => 5500,
         1 => 2000,
+        2 => 2000,
         _ => throw new ArgumentOutOfRangeException(nameof(FieldIndex)),
     };
 
@@ -71,6 +74,7 @@ public partial class MapViewer9 : Form
     {
         0 => @"map_sv\paldea.png",
         1 => @"map_sv\kitakami.png",
+        2 => @"map_sv\terarium.png",
         _ => throw new ArgumentException($"Unknown field {field}"),
     };
 

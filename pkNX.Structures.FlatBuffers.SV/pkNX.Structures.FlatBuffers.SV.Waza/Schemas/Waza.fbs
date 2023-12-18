@@ -78,6 +78,7 @@ table Waza {
     Unused_69:bool;
     Unused_70:bool;
     Flag_CantUseTwice:bool;
+    Flag_NoSketch:bool; // new in SV DLC 2 (introduction of Smeargle)
 }
 
 table WazaTable (fs_serializer) {

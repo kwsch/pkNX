@@ -92,6 +92,7 @@ public sealed class GameLocation
     private const int FILECOUNT_SV_120 = 26; // Ver. 1.2.0 (Paradox x2)
     private const int FILECOUNT_SV_130 = 27; // Ver. 1.3.0 (Paradox x2 Bad Egg fix)
     private const int FILECOUNT_SV_201 = 28; // Ver. 2.0.1 (Teal Mask)
+    private const int FILECOUNT_SV_300 = 30; // Ver. 3.0.0 (Indigo Disk)
 
     private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
     {
@@ -151,6 +152,7 @@ public sealed class GameLocation
             case FILECOUNT_SV_120:
             case FILECOUNT_SV_130:
             case FILECOUNT_SV_201:
+            case FILECOUNT_SV_300:
             {
                 if (exefs == null)
                     return GameVersion.SV;

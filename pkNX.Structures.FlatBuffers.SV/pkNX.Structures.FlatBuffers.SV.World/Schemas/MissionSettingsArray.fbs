@@ -1,0 +1,16 @@
+include "MissionType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table MissionSettingsArray (fs_serializer) {
+    Table:[MissionSettings];
+}
+
+table MissionSettings {
+    MissionType:MissionType;
+    Variation:int;
+    Text:string;
+}
+
+root_type MissionSettingsArray;
