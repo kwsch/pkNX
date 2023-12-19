@@ -100,11 +100,11 @@ public class EncounterDumperSV
                 var atlantis = scene.IsAtlantis[(int)fieldIndex];
                 var allPoints = gamePoints[(int)fieldIndex];
 
-                if (fieldIndex == PaldeaFieldIndex.Kitakami || fieldIndex == PaldeaFieldIndex.Terarium)
+                if (fieldIndex is PaldeaFieldIndex.Kitakami)
                 {
                     areas = areas.Where(z => z.Value.AdjustEncLv != 0)
                         .ToDictionary(z => z.Key, z => z.Value);
-                    areaNames = areas.Keys.ToList();
+                    areaNames = [.. areas.Keys];
                 }
 
                 for (var i = 0; i < fsymData.Table.Count; i++)
@@ -141,11 +141,11 @@ public class EncounterDumperSV
                                 var pt = point.Position;
                                 if (!collider.ContainsPoint(pt.X, pt.Y, pt.Z))
                                     continue;
-                                if (!TryGetPlaceName(ref areaName, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                                var tmp = areaName;
+                                if (!TryGetPlaceName(ref tmp, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out var placeName))
                                     continue;
-                                areaName = areaNames[x];
-                                if (!appearAreas.Exists(z => z.Point == pt && z.AreaName == areaName))
-                                    appearAreas.Add(new(placeName, areaName, areaInfo.AdjustEncLv, pt));
+                                if (!appearAreas.Exists(z => z.Point == pt && z.AreaName == tmp))
+                                    appearAreas.Add(new(placeName, tmp, areaInfo.AdjustEncLv, pt));
                                 points.RemoveAt(p);
                                 p--;
                             }
@@ -370,11 +370,6 @@ public class EncounterDumperSV
             // 3 - At each area, absorb crossover points into crossover points.
             // 4 - Consolidate the encounters from both point lists.
             // Just compute everything (big memory!) then crunch it all down.
-
-            if (fieldIndex == PaldeaFieldIndex.Terarium)
-            {
-                var z = -1;
-            }
 
             // Fill the point lists for each area, then spawn everything into those points.
             var areaNames = scene.AreaNames[(int)fieldIndex];
@@ -640,8 +635,13 @@ public class EncounterDumperSV
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
 
-        bw.Write(SpeciesConverterSV.GetNational9((ushort)enc.DevId));
-        bw.Write((byte)enc.FormId);
+        ushort species = SpeciesConverterSV.GetNational9((ushort)enc.DevId);
+        byte form = (byte)enc.FormId;
+        if (species == (int)Species.Minior)
+            form = 31; // Form Random
+
+        bw.Write(species);
+        bw.Write(form);
         bw.Write((byte)(enc.Level + adjustLevel));
 
         bw.Write((byte)enc.TalentVNum);
@@ -691,10 +691,16 @@ public class EncounterDumperSV
         bw.Write(crossover);
         foreach (var slot in slots)
         {
-            byte form = slot.Species is (ushort)Species.Vivillon or (ushort)Species.Spewpa or (ushort)Species.Scatterbug ? (byte)30 : slot.Form;
+            ushort species = slot.Species;
+            byte form = slot.Species switch
+            {
+                (ushort)Species.Vivillon or (ushort)Species.Spewpa or (ushort)Species.Scatterbug => 30,
+                (ushort)Species.Minior => 31,
+                _ => slot.Form,
+            };
 
             // ReSharper disable RedundantCast
-            bw.Write((ushort)slot.Species);
+            bw.Write(species);
             bw.Write(form);
             bw.Write((byte)slot.Gender);
 
