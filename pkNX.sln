@@ -75,11 +75,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Structures.FlatBuffers.SV.Audio", "pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Audio\pkNX.Structures.FlatBuffers.SV.Audio.csproj", "{97BC69AF-3CE9-48BC-A2AC-197D43184821}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests.Trinity", "..\idNX\pkNX.Tests\pkNX.Tests.Trinity\pkNX.Tests.Trinity.csproj", "{99593CBB-F0E6-4D27-ACB0-E89B383D0F9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests.Trinity", "..\pkNX\pkNX.Tests\pkNX.Tests.Trinity\pkNX.Tests.Trinity.csproj", "{99593CBB-F0E6-4D27-ACB0-E89B383D0F9E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D571A50B-59B6-4DA6-9184-0C1A546D7137}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests.FileSystem", "..\idNX\pkNX.Tests\pkNX.Tests.FileSystem\pkNX.Tests.FileSystem.csproj", "{B186AD07-C9BB-4609-B7DD-42D8DF9FE92A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pkNX.Tests.FileSystem", "..\pkNX\pkNX.Tests\pkNX.Tests.FileSystem\pkNX.Tests.FileSystem.csproj", "{B186AD07-C9BB-4609-B7DD-42D8DF9FE92A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
