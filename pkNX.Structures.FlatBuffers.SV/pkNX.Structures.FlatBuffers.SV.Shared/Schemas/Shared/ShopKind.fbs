@@ -16,4 +16,7 @@ enum ShopKind : int {
     SUPERMARKET = 12,
     KOUBAI = 13,
     PICNIC = 14,
+    SYOUTEN = 15,
+    BBKOUBAI = 16,
+    BBZIHANKI = 17,
 }

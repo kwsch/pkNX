@@ -5,6 +5,7 @@ include "../Shared/TalentType.fbs";
 include "../Shared/TokuseiType.fbs";
 include "../Shared/SizeType.fbs";
 include "../Shared/GemType.fbs";
+include "../Shared/MahoippuViewID.fbs";
 
 include "../PokeData/WazaSet.fbs";
 include "../Entity/ParamSet.fbs";
@@ -30,4 +31,5 @@ table PokeDataSymbol {
     ScaleType:SizeType;
     ScaleValue:short;
     GemType:GemType;
+    MahoippuViewId:MahoippuViewID;
 }

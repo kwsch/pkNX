@@ -1047,6 +1047,7 @@ public class GameDumperSV
             "world/data/ui/item_machine/effect_table/effect_table_array.bfbs",
             "world/data/ui/item_machine/base_param/base_param_array.bfbs",
 
+            // Delivery Outbreak
             "world/data/encount/delivery_outbreak/delivery_outbreak_pokedata/delivery_outbreak_pokedata_array.bfbs",
             "world/data/encount/delivery_outbreak/delivery_outbreak_zone_main/delivery_outbreak_zone_main_array.bfbs",
             "world/data/encount/delivery_outbreak/delivery_outbreak_zone_su1/delivery_outbreak_zone_su1_array.bfbs",
@@ -1156,6 +1157,11 @@ public class GameDumperSV
             "world/data/ui/pokedex/memo_poke_data_dlc1/memo_poke_data_dlc1_array.bfbs",
             "world/data/ui/pokedex/reward_data_dlc1/reward_data_dlc1_array.bfbs",
 
+            "world/data/ui/pokedex/blacklist_dlc2/blacklist_dlc2_array.bfbs",
+            "world/data/ui/pokedex/distribution_data_dlc2/distribution_data_dlc2_array.bfbs",
+            "world/data/ui/pokedex/memo_poke_data_dlc2/memo_poke_data_dlc2_array.bfbs",
+            "world/data/ui/pokedex/reward_data_dlc2/reward_data_dlc2_array.bfbs",
+
             // UI
             "world/data/ui/shop/shop_data/shop_data_array.bfbs",
             "world/data/ui/status/ribbon/ribbon_array.bfbs",
@@ -1208,6 +1214,12 @@ public class GameDumperSV
             "world/data/raid/su1_raid_enemy_04/su1_raid_enemy_04_array.bfbs",
             "world/data/raid/su1_raid_enemy_05/su1_raid_enemy_05_array.bfbs",
             "world/data/raid/su1_raid_enemy_06/su1_raid_enemy_06_array.bfbs",
+            "world/data/raid/su2_raid_enemy_01/su2_raid_enemy_01_array.bfbs",
+            "world/data/raid/su2_raid_enemy_02/su2_raid_enemy_02_array.bfbs",
+            "world/data/raid/su2_raid_enemy_03/su2_raid_enemy_03_array.bfbs",
+            "world/data/raid/su2_raid_enemy_04/su2_raid_enemy_04_array.bfbs",
+            "world/data/raid/su2_raid_enemy_05/su2_raid_enemy_05_array.bfbs",
+            "world/data/raid/su2_raid_enemy_06/su2_raid_enemy_06_array.bfbs",
 
             // Coin
             "world/data/field/coin_symbol/coin_symbol_manager/coin_symbol_manager_data.bfbs",

@@ -112,4 +112,5 @@ enum RibbonType : int
     TITAN_OYABUN = 108,
     TITAN_STRONGEST = 109,
     TITAN_NUSHI = 110,
+    SUDACHI_PARTNER = 111,
 }

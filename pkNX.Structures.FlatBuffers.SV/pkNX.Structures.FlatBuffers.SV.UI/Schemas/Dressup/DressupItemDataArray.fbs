@@ -18,6 +18,8 @@ enum DressupBlandType : int {
     Ruggle = 12,
     Ortiga = 13,
     ROTOM = 14,
+    WONDERWEAR = 15,
+    KABUREYA = 16,
 }
 
 enum DressupItemType : int {

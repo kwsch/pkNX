@@ -21,4 +21,5 @@ enum GemType : int {
     DRAGON = 17,
     AKU = 18,
     FAIRY = 19,
+    NIJI = 101,
 }

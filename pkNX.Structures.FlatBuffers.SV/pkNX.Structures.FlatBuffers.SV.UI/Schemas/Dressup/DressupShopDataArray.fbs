@@ -1,8 +1,16 @@
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";
 
+enum DressupHairsalonUnlockType : int
+{
+    NONE = 0,
+    OSYARE_CARD1 = 1,
+    OSYARE_CARD2 = 2,
+}
+
 table DressupShopData {
     ShopId:string (required);
+    UnlockType:DressupHairsalonUnlockType;
     DressupItemid1:int;
     DressupItemid2:int;
     DressupItemid3:int;

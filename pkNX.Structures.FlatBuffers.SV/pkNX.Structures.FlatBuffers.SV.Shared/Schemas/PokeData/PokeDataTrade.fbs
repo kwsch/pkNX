@@ -8,6 +8,7 @@ include "../Shared/TalentType.fbs";
 include "../Shared/RareType.fbs";
 include "../Shared/SizeType.fbs";
 include "../Shared/BallType.fbs";
+include "../Shared/RibbonType.fbs";
 
 include "../Entity/ParamSet.fbs";
 include "../PokeData/WazaSet.fbs";
@@ -45,4 +46,5 @@ table PokeDataTrade {
     ParentNameLabel:ulong;
     TrainerId:long;
     ParentSex:SexType;
+    SetRibbon:RibbonType;
 }

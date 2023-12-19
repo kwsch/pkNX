@@ -4,6 +4,14 @@ include "Shared/CondEnum.fbs";
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";
 
+enum AddRegion : int
+{
+    NONE = 0,
+    TITAN = 1,
+    SUDACHI1 = 2,
+    SUDACHI2 = 3,
+}
+
 table ShopWazamachineData {
     WazaNo:int;
     WazaItemID:ItemID = ITEMID_NONE;
@@ -19,6 +27,7 @@ table ShopWazamachineData {
     Item03:ItemID = ITEMID_NONE;
     ItemNum03:int;
     DevNo03:int;
+    AddRegion:AddRegion;
 }
 
 table ShopWazamachineDataArray (fs_serializer) {
