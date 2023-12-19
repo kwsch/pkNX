@@ -726,6 +726,12 @@ public class GameDumperSV
         File.WriteAllText(Path.Combine(outPath, "move_type.txt"), string.Join(',', types));
     }
 
+    public void DumpAbilities()
+    {
+        const string tokuseiPath = "avalon/data/tokusei_array.bin";
+        Dump<TokuseiTable, Tokusei>(tokuseiPath, z => z.Table);
+    }
+
     private void DumpItemMachine()
     {
         Dump<ItemMachineItemTableArray, ItemMachineItemTable>("world/data/ui/item_machine/item_table/item_table_array.bfbs", z => z.Table);

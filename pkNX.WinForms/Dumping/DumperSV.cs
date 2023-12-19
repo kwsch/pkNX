@@ -44,9 +44,10 @@ public partial class DumperSV : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private void B_DumpMoves_Click(object sender, EventArgs e)
+    private void B_DumpMovesAbilities_Click(object sender, EventArgs e)
     {
         Dumper.DumpMoves();
+        Dumper.DumpAbilities();
         System.Media.SystemSounds.Asterisk.Play();
     }
 

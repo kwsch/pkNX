@@ -36,7 +36,7 @@ namespace pkNX.WinForms
             B_PKText = new System.Windows.Forms.Button();
             B_Trainers = new System.Windows.Forms.Button();
             B_Encount = new System.Windows.Forms.Button();
-            B_DumpMoves = new System.Windows.Forms.Button();
+            B_DumpMovesAbilities = new System.Windows.Forms.Button();
             B_Cooking = new System.Windows.Forms.Button();
             Tab_Misc = new System.Windows.Forms.TabPage();
             flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -91,7 +91,7 @@ namespace pkNX.WinForms
             flowLayoutPanel1.Controls.Add(B_PKText);
             flowLayoutPanel1.Controls.Add(B_Trainers);
             flowLayoutPanel1.Controls.Add(B_Encount);
-            flowLayoutPanel1.Controls.Add(B_DumpMoves);
+            flowLayoutPanel1.Controls.Add(B_DumpMovesAbilities);
             flowLayoutPanel1.Controls.Add(B_Cooking);
             flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             flowLayoutPanel1.Location = new System.Drawing.Point(4, 3);
@@ -155,16 +155,16 @@ namespace pkNX.WinForms
             B_Encount.UseVisualStyleBackColor = true;
             B_Encount.Click += B_Encount_Click;
             // 
-            // B_DumpMoves
+            // B_DumpMovesAbilities
             // 
-            B_DumpMoves.Location = new System.Drawing.Point(308, 72);
-            B_DumpMoves.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_DumpMoves.Name = "B_DumpMoves";
-            B_DumpMoves.Size = new System.Drawing.Size(144, 63);
-            B_DumpMoves.TabIndex = 20;
-            B_DumpMoves.Text = "Moves";
-            B_DumpMoves.UseVisualStyleBackColor = true;
-            B_DumpMoves.Click += B_DumpMoves_Click;
+            B_DumpMovesAbilities.Location = new System.Drawing.Point(308, 72);
+            B_DumpMovesAbilities.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DumpMovesAbilities.Name = "B_DumpMoves";
+            B_DumpMovesAbilities.Size = new System.Drawing.Size(144, 63);
+            B_DumpMovesAbilities.TabIndex = 20;
+            B_DumpMovesAbilities.Text = "Moves/Abilities";
+            B_DumpMovesAbilities.UseVisualStyleBackColor = true;
+            B_DumpMovesAbilities.Click += B_DumpMovesAbilities_Click;
             // 
             // B_Cooking
             // 
@@ -356,7 +356,7 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Button B_Trainers;
         private System.Windows.Forms.Button B_Misc;
         private System.Windows.Forms.Button B_Encount;
-        private System.Windows.Forms.Button B_DumpMoves;
+        private System.Windows.Forms.Button B_DumpMovesAbilities;
         private System.Windows.Forms.Button B_Cooking;
         private System.Windows.Forms.Button B_DumpPath;
         private System.Windows.Forms.Button B_DeliveryOutbreaks;
