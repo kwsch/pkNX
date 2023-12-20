@@ -56,13 +56,24 @@ public static class MassOutbreakRipper
     {
         var zoneF0 = Path.Combine(path, "zone_main_array_2_0_0");
         var zoneF1 = Path.Combine(path, "zone_su1_array_2_0_0");
-        var zoneF2 = Path.Combine(path, "zone_su2_array_2_0_0");
+        var zoneF2 = Path.Combine(path, "zone_su2_array_3_0_0"); // does not exist in 2.0.1
         var pokedata = Path.Combine(path, "pokedata_array_2_0_0");
+        const string v200 = "_2_0_0";
+        const string v300 = "_3_0_0";
 
         if (!File.Exists(pokedata))
             return;
-        if (!File.Exists(zoneF2)) // temporary workaround until DLC 2
+
+        if (!File.Exists(zoneF2))
             zoneF2 = zoneF1;
+
+        // BCAT 3.0.0 onward
+        if (File.Exists(Path.Combine(path, "pokedata_array_3_0_0")))
+        {
+            zoneF0 = zoneF0.Replace(v200, v300);
+            zoneF1 = zoneF1.Replace(v200, v300);
+            pokedata = pokedata.Replace(v200, v300);
+        }
 
         var dataZoneF0 = GetDistributionContents(zoneF0);
         var dataZoneF1 = GetDistributionContents(Path.Combine(path, zoneF1));
@@ -78,7 +89,8 @@ public static class MassOutbreakRipper
         ExportParse(dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
 
         AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
-        DumpPretty(ROM, dirDistText);
+        DumpPretty(ROM, dirDistText, false);
+        DumpPretty(ROM, dirDistText, true);
         EncounterIndex = Encounters.Count;
     }
 
@@ -94,7 +106,12 @@ public static class MassOutbreakRipper
                 .ThenBy(z => z.Key.Max);
 
             foreach (var (range, permit) in ordered)
+            {
+                // pre-3.0.0 BCAT
+                if ((enc.Parent.Poke.ID < 2023120801 || enc.Parent.Poke.ID == 20230929001) && enc.MetBase == 170)
+                    continue;
                 WriteEncounter(enc, bw, range, permit);
+            }
         }
     }
 
@@ -126,11 +143,11 @@ public static class MassOutbreakRipper
     {
         var dpF0 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bin");
         var dpF1 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bin");
-      //var dpF2 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su2.bin");
+        var dpF2 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su2.bin");
 
         var pointsF0 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF0).Table;
         var pointsF1 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF1).Table;
-      //var pointsF2 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF2).Table;
+        var pointsF2 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF2).Table;
 
         var field = new PaldeaFieldModel(ROM);
         var scene = new PaldeaSceneModel(ROM, field);
@@ -138,7 +155,8 @@ public static class MassOutbreakRipper
         ScanAssertions(pd);
         AddForMap(pointsF0, f0, pd, scene, NameDict, PaldeaFieldIndex.Paldea, 6);
         AddForMap(pointsF1, f1, pd, scene, NameDict, PaldeaFieldIndex.Kitakami, 132);
-      //AddForMap(pointsF2, f2, pd, scene, NameDict, PaldeaFieldIndex.Blueberry, 170);
+        if (f1 != f2)
+            AddForMap(pointsF2, f2, pd, scene, NameDict, PaldeaFieldIndex.Terarium, 170);
     }
 
     private static void ScanAssertions(params DeliveryOutbreakPokeDataArray[] obs)
@@ -214,6 +232,10 @@ public static class MassOutbreakRipper
         {
             if (e.MetInfo.Count == 0)
                 throw new Exception("No met flags found for encounter!");
+
+            // pre-3.0.0 BCAT
+            if ((e.Poke.ID < 2023120801 || e.Poke.ID == 20230929001) && e.MetBase == 170)
+                continue;
         }
 
         AddToJar(encs);
@@ -400,26 +422,29 @@ public static class MassOutbreakRipper
     {
         var dumpZ0 = TableUtil.GetTable(tableZoneF0.Table);
         var dumpZ1 = TableUtil.GetTable(tableZoneF1.Table);
-      //var dumpZ2 = TableUtil.GetTable(tableZoneF2.Table);
+        var dumpZ2 = TableUtil.GetTable(tableZoneF2.Table);
         var dumpPD = TableUtil.GetTable(tablePokeData.Table);
         var dump = new[]
         {
             ("zone_main", dumpZ0),
             ("zone_su1", dumpZ1),
-          //("zone_su2", dumpZ2),
+            ("zone_su2", dumpZ2),
             ("pokedata", dumpPD),
         };
 
         Directory.CreateDirectory(dir);
         foreach (var (name, data) in dump)
         {
+            if (name == "zone_su2" && dumpZ1 == dumpZ2)
+                continue;
             var path2 = Path.Combine(dir, $"{name}.txt");
             File.WriteAllText(path2, data);
         }
 
         DumpJson(tableZoneF0, dir, "zone_main");
         DumpJson(tableZoneF1, dir, "zone_su1");
-      //DumpJson(tableZoneF2, dir, "zone_su2");
+        if (dumpZ1 != dumpZ2)
+            DumpJson(tableZoneF2, dir, "zone_su2");
         DumpJson(tablePokeData, dir, "pokedata");
     }
 
@@ -438,10 +463,10 @@ public static class MassOutbreakRipper
         return new TextFile(data, cfg).Lines;
     }
 
-    private static void DumpPretty(IFileInternal ROM, string dir)
+    private static void DumpPretty(IFileInternal ROM, string dir, bool locations)
     {
         string ident = $"{Encounters[EncounterIndex].Parent.Poke.ID}"[..8]; // yyyyMMdd, remove 2 digit index at the end
-        string fileName = $"pretty_{ident}.txt";
+        string fileName = locations ? $"pretty_{ident}_with_locations.txt" : $"pretty_{ident}.txt";
         using var sw = File.CreateText(Path.Combine(dir, fileName));
 
         foreach (var enc in Encounters)
@@ -449,24 +474,42 @@ public static class MassOutbreakRipper
             if (EncounterIndex > Encounters.IndexOf(enc))
                 continue;
             var parent = enc.Parent;
+
+            // pre-3.0.0 BCAT
+            if ((parent.Poke.ID < 2023120801 || parent.Poke.ID == 20230929001) && parent.MetBase == 170)
+                continue;
+
             WriteParent(ROM, sw, parent);
-            WriteLocationList(sw, parent.MetInfo, parent.MetBase);
+            WriteLocationList(sw, parent.MetInfo, parent.MetBase, locations);
             sw.WriteLine();
         }
     }
 
-    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet)
+    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet, bool locations)
     {
-        foreach ((var range, UInt128 flags) in metFlags.OrderBy(z => z.Key.Min).ThenBy(z => z.Key.Max))
+        string map = baseMet switch
         {
-            for (int i = 0; i < 128; i++)
-            {
-                if (((flags >> i) & 1) != 1)
-                    continue;
+            132 => "Kitakami",
+            170 => "Blueberry Academy",
+            _ => "Paldea", // 6
+        };
 
-                var met = baseMet + i;
-                var location = NameDict.First(z => z.Value.Index == met);
-                sw.WriteLine($"\tLv. {range.Min}-{range.Max} @ {location}");
+        sw.WriteLine($"Location: {map}");
+
+        // detailed list of zones
+        if (locations)
+        {
+            foreach ((var range, UInt128 flags) in metFlags.OrderBy(z => z.Key.Min).ThenBy(z => z.Key.Max))
+            {
+                for (int i = 0; i < 128; i++)
+                {
+                    if (((flags >> i) & 1) != 1)
+                        continue;
+
+                    var met = baseMet + i;
+                    var location = NameDict.First(z => z.Value.Index == met);
+                    sw.WriteLine($"\tLv. {range.Min}-{range.Max} @ {location}");
+                }
             }
         }
     }
