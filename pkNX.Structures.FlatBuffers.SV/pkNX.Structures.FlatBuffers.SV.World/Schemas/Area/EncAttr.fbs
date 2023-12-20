@@ -25,4 +25,9 @@ enum EncAttr : ubyte {
     kawasuna = 21,
     hate_kusa = 22,
     hate_iwa = 23,
+    tsuchi_sado = 24,
+    koori = 25,
+    tetsu_karui = 26,
+    tetsu = 27,
+    denkiishi = 28,
 }

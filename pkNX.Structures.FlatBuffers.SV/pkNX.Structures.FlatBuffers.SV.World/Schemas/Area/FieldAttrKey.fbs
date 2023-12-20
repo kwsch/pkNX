@@ -44,5 +44,6 @@ enum FieldAttrKey : int {
     hate_kusa = 41,
     hate_iwa = 42,
     hate_tsuchi = 43,
+    cube = 44,
     dummy = 99,
 }

@@ -9,4 +9,5 @@ table FixedSymbolGeneration {
     GenerationPattern:GenerationPattern = Encount;
     FirstGenerate:bool;
     RepopProbability:int;
+    RequireScenarioId:string;
 }

@@ -13,7 +13,7 @@ enum EncBiome : ubyte {
     Riverside = 9,
     Ocean = 10,
     Underground = 11,
-    Rocky_area = 12,
+    RockyArea = 12,
     Cave = 13,
     Beach = 14,
     Flower = 15,
@@ -24,4 +24,5 @@ enum EncBiome : ubyte {
     Olive = 20,
     Ruins = 21,
     CaveWater = 22,
+    DenkiIshi = 23,
 }

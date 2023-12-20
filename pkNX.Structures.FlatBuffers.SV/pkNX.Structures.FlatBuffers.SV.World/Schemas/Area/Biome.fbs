@@ -24,4 +24,5 @@ enum Biome : short {
     OLIVE = 20,
     RUINS = 21,
     CAVE_WATER = 22,
+    DENKI_ISHI = 23,
 }
