@@ -37,6 +37,6 @@ public partial class MultiMaterialTable
 {
     public static MultiMaterialTable Empty => new()
     {
-        Material = Array.Empty<MaterialTable>()
+        Material = Array.Empty<MaterialTable>(),
     };
 }

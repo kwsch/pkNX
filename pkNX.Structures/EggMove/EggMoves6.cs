@@ -4,7 +4,7 @@ namespace pkNX.Structures;
 
 public sealed class EggMoves6 : EggMoves
 {
-    private static readonly EggMoves6 None = new(Array.Empty<int>());
+    private static readonly EggMoves6 None = new([]);
 
     private EggMoves6(int[] moves) : base(moves) { }
 

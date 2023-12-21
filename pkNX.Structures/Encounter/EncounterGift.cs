@@ -19,7 +19,7 @@ public abstract class EncounterGift
     public virtual bool ShinyLock { get; set; }
 
     public virtual bool IV3 { get; set; }
-    public virtual int[] RelearnMoves { get; set; } = Array.Empty<int>();
+    public virtual int[] RelearnMoves { get; set; } = [];
     public abstract Shiny Shiny { get; set; }
 
     public abstract int IV_HP { get; set; }

@@ -11,11 +11,11 @@ public class LocationStorage
     public readonly AreaInfo AreaInfo;
     public readonly string AreaName;
 
-    public readonly HashSet<ulong> Added = new();
-    public readonly List<PaldeaEncounter> Slots = new();
-    public readonly Dictionary<int, LocationStorage> SlotsCrossover = new();
-    public readonly List<LocationPointDetail> Local = new();
-    public readonly List<LocationPointDetail> Nearby = new();
+    public readonly HashSet<ulong> Added = [];
+    public readonly List<PaldeaEncounter> Slots = [];
+    public readonly Dictionary<int, LocationStorage> SlotsCrossover = [];
+    public readonly List<LocationPointDetail> Local = [];
+    public readonly List<LocationPointDetail> Nearby = [];
 
     public LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaName, AreaInfo info)
     {

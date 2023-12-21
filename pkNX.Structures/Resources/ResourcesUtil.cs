@@ -62,11 +62,11 @@ public class ResourcesUtil
     public static byte[] GetBinaryResource(string name)
     {
         if (!resourceNameMap.TryGetValue(name, out var resName))
-            return Array.Empty<byte>();
+            return [];
 
         using var resource = thisAssembly.GetManifestResourceStream(resName);
         if (resource is null)
-            return Array.Empty<byte>();
+            return [];
 
         var buffer = new byte[resource.Length];
         _ = resource.Read(buffer, 0, (int)resource.Length);

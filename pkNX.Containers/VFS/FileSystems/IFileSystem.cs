@@ -10,7 +10,7 @@ public enum DeleteMode
     TopMostLayer,
     TopMostWriteableLayer,
     AllWritable,
-    All
+    All,
 }
 
 public interface IFileSystem : IDisposable

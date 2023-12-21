@@ -20,7 +20,7 @@ public class Learnset8 : Learnset
         Count = count;
         if (Count == 0)
         {
-            Levels = Moves = Array.Empty<int>();
+            Levels = Moves = [];
             return;
         }
 

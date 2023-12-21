@@ -68,7 +68,7 @@ public class LearnsetRandomizer : Randomizer
         Settings = settings;
 
         moverand = new MoveRandomizer(Game, Moves, Personal);
-        moverand.Initialize(moverandset, bannedMoves ?? Array.Empty<int>());
+        moverand.Initialize(moverandset, bannedMoves ?? []);
     }
 
     public override void Execute()

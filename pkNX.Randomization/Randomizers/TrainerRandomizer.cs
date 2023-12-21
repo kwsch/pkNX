@@ -369,9 +369,9 @@ public class TrainerRandomizer : Randomizer
             return Legal.ImportantTrainers_SWSH.ToDictionary(z => z, index => MultiBattle_SWSH.Contains(index) ? 3 : 6);
         if (GameVersion.SV.Contains(game))
             return Legal.ImportantTrainers_SV.ToDictionary(z => z, index => MultiBattle_SV.Contains(index) ? 3 : 6);
-        return new Dictionary<int, int>();
+        return [];
     }
-    
+
     private static readonly int[] CrashClasses_GG = Legal.BlacklistedClasses_GG;
     private static readonly int[] CrashClasses_SWSH = Legal.BlacklistedClasses_SWSH;
     private static readonly int[] CrashClasses_SV = Legal.BlacklistedClasses_SV;
@@ -392,7 +392,7 @@ public class TrainerRandomizer : Randomizer
             return Legal.SpecialClasses_ORAS;
         if (GameVersion.XY.Contains(game))
             return Legal.SpecialClasses_XY;
-        return Array.Empty<int>();
+        return [];
     }
 
     private static int[] GetCrashClasses(GameVersion game)
@@ -403,6 +403,6 @@ public class TrainerRandomizer : Randomizer
             return CrashClasses_SWSH;
         if (GameVersion.GG.Contains(game))
             return CrashClasses_GG;
-        return Array.Empty<int>();
+        return [];
     }
 }

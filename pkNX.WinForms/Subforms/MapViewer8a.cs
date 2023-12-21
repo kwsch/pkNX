@@ -84,7 +84,7 @@ public partial class MapViewer8a : Form
         UpdateMap(CB_Map.SelectedIndex, index);
     }
 
-    private List<AreaDef> Defs = new();
+    private List<AreaDef> Defs = [];
 
     private static string GetMapImagePath(AreaInstance area)
     {
@@ -239,8 +239,7 @@ public partial class MapViewer8a : Form
                 ConditionArg5 = string.Empty,
             },
             Oybn = new(),
-
-        }
+        },
     };
 
     private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)

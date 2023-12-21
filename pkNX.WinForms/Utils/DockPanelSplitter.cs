@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,7 +9,7 @@ namespace OpenSourceControls;
 /// <summary>
 /// Code Project article
 /// http://www.codeproject.com/KB/WPF/DockPanelSplitter.aspx
-/// 
+///
 /// CodePlex project
 /// http://wpfcontrols.codeplex.com
 ///
@@ -19,14 +20,14 @@ namespace OpenSourceControls;
 /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
 ///
 /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-/// Add this XmlNamespace attribute to the root element of the markup file where it is 
+/// Add this XmlNamespace attribute to the root element of the markup file where it is
 /// to be used:
 ///
 ///     xmlns:OsDps="clr-namespace:DockPanelSplitter"
 ///
 ///
 /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-/// Add this XmlNamespace attribute to the root element of the markup file where it is 
+/// Add this XmlNamespace attribute to the root element of the markup file where it is
 /// to be used:
 ///
 ///     xmlns:MyNamespace="clr-namespace:DockPanelSplitter;assembly=DockPanelSplitter"
@@ -34,7 +35,7 @@ namespace OpenSourceControls;
 /// You will also need to add a project reference from the project where the XAML file lives
 /// to this project and Rebuild to avoid compilation errors:
 ///
-///     Right click on the target project in the Solution Explorer and
+///     Right-click on the target project in the Solution Explorer and
 ///     "Add Reference"->"Projects"->[Select this project]
 ///
 ///
@@ -44,7 +45,6 @@ namespace OpenSourceControls;
 ///     <MyNamespace:DockPanelSplitter/>
 ///
 /// </summary>
-
 public class DockPanelSplitter : Grid
 {
     static DockPanelSplitter()
@@ -57,7 +57,7 @@ public class DockPanelSplitter : Grid
 
         // override the Dock property to get notifications when Dock is changed
         DockPanel.DockProperty.OverrideMetadata(typeof(DockPanelSplitter),
-            new FrameworkPropertyMetadata(Dock.Left, new PropertyChangedCallback(DockChanged)));
+            new FrameworkPropertyMetadata(Dock.Left, DockChanged));
     }
 
     /// <summary>
@@ -66,30 +66,29 @@ public class DockPanelSplitter : Grid
     /// </summary>
     public bool ProportionalResize
     {
-        get { return (bool)GetValue(ProportionalResizeProperty); }
-        set { SetValue(ProportionalResizeProperty, value); }
+        get => (bool)GetValue(ProportionalResizeProperty);
+        set => SetValue(ProportionalResizeProperty, value);
     }
 
     public static readonly DependencyProperty ProportionalResizeProperty =
-        DependencyProperty.Register("ProportionalResize", typeof(bool), typeof(DockPanelSplitter),
+        DependencyProperty.Register(nameof(ProportionalResize), typeof(bool), typeof(DockPanelSplitter),
         new UIPropertyMetadata(true));
 
     /// <summary>
-    /// Height or width of splitter, depends of orientation of the splitter
+    /// Height or width of splitter, depends on orientation of the splitter
     /// </summary>
     public double Thickness
     {
-        get { return (double)GetValue(ThicknessProperty); }
-        set { SetValue(ThicknessProperty, value); }
+        get => (double)GetValue(ThicknessProperty);
+        set => SetValue(ThicknessProperty, value);
     }
 
     public static readonly DependencyProperty ThicknessProperty =
-        DependencyProperty.Register("Thickness", typeof(double), typeof(DockPanelSplitter),
+        DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(DockPanelSplitter),
         new UIPropertyMetadata(4.0, ThicknessChanged));
 
-
     #region Private fields
-    private FrameworkElement element;     // element to resize (target element)
+    private FrameworkElement? element;     // element to resize (target element)
     private double width;                 // current desired width of the element, can be less than minwidth
     private double height;                // current desired height of the element, can be less than minheight
     private double previousParentWidth;   // current width of parent element, used for proportional resize
@@ -104,10 +103,10 @@ public class DockPanelSplitter : Grid
         UpdateHeightOrWidth();
     }
 
-    void DockPanelSplitterLoaded(object sender, RoutedEventArgs e)
+    private void DockPanelSplitterLoaded(object sender, RoutedEventArgs e)
     {
-        Panel dp = Parent as Panel;
-        if (dp == null) return;
+        if (Parent is not Panel dp)
+            return;
 
         // Subscribe to the parent's size changed event
         dp.SizeChanged += ParentSizeChanged;
@@ -118,13 +117,12 @@ public class DockPanelSplitter : Grid
 
         // Find the target element
         UpdateTargetElement();
-
     }
 
-    void DockPanelSplitterUnloaded(object sender, RoutedEventArgs e)
+    private void DockPanelSplitterUnloaded(object sender, RoutedEventArgs e)
     {
-        Panel dp = Parent as Panel;
-        if (dp == null) return;
+        if (Parent is not Panel dp)
+            return;
 
         // Unsubscribe
         dp.SizeChanged -= ParentSizeChanged;
@@ -168,8 +166,8 @@ public class DockPanelSplitter : Grid
     /// </summary>
     private void UpdateTargetElement()
     {
-        Panel dp = Parent as Panel;
-        if (dp == null) return;
+        if (Parent is not Panel dp)
+            return;
 
         int i = dp.Children.IndexOf(this);
 
@@ -177,21 +175,22 @@ public class DockPanelSplitter : Grid
         // The splitter works on the 'older' sibling 
         if (i > 0 && dp.Children.Count > 0)
         {
-            element = dp.Children[i - 1] as FrameworkElement;
+            element = dp.Children[i - 1] as FrameworkElement ?? throw new InvalidOperationException();
         }
     }
 
     private void SetTargetWidth(double newWidth)
     {
+        ArgumentNullException.ThrowIfNull(element, nameof(element));
         if (newWidth < element.MinWidth)
             newWidth = element.MinWidth;
         if (newWidth > element.MaxWidth)
             newWidth = element.MaxWidth;
 
         // todo - constrain the width of the element to the available client area
-        Panel dp = Parent as Panel;
+        var dp = (Panel)Parent;
         Dock dock = DockPanel.GetDock(this);
-        MatrixTransform t = element.TransformToAncestor(dp) as MatrixTransform;
+        var t = (MatrixTransform)element.TransformToAncestor(dp);
         if (dock == Dock.Left && newWidth > dp.ActualWidth - t.Matrix.OffsetX - Thickness)
             newWidth = dp.ActualWidth - t.Matrix.OffsetX - Thickness;
 
@@ -200,15 +199,16 @@ public class DockPanelSplitter : Grid
 
     private void SetTargetHeight(double newHeight)
     {
+        ArgumentNullException.ThrowIfNull(element, nameof(element));
         if (newHeight < element.MinHeight)
             newHeight = element.MinHeight;
         if (newHeight > element.MaxHeight)
             newHeight = element.MaxHeight;
 
         // todo - constrain the height of the element to the available client area
-        Panel dp = Parent as Panel;
+        var dp = (Panel)Parent;
         Dock dock = DockPanel.GetDock(this);
-        MatrixTransform t = element.TransformToAncestor(dp) as MatrixTransform;
+        var t = (MatrixTransform)element.TransformToAncestor(dp);
         if (dock == Dock.Top && newHeight > dp.ActualHeight - t.Matrix.OffsetY - Thickness)
             newHeight = dp.ActualHeight - t.Matrix.OffsetY - Thickness;
 
@@ -217,11 +217,13 @@ public class DockPanelSplitter : Grid
 
     private void ParentSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (!ProportionalResize) return;
+        if (!ProportionalResize)
+            return;
 
-        DockPanel dp = Parent as DockPanel;
-        if (dp == null) return;
+        if (Parent is not DockPanel dp)
+            return;
 
+        ArgumentNullException.ThrowIfNull(element, nameof(element));
         double sx = dp.ActualWidth / previousParentWidth;
         double sy = dp.ActualHeight / previousParentHeight;
 
@@ -232,10 +234,9 @@ public class DockPanelSplitter : Grid
 
         previousParentWidth = dp.ActualWidth;
         previousParentHeight = dp.ActualHeight;
-
     }
 
-    double AdjustWidth(double dx, Dock dock)
+    private double AdjustWidth(double dx, Dock dock)
     {
         if (dock == Dock.Right)
             dx = -dx;
@@ -246,7 +247,7 @@ public class DockPanelSplitter : Grid
         return dx;
     }
 
-    double AdjustHeight(double dy, Dock dock)
+    private double AdjustHeight(double dy, Dock dock)
     {
         if (dock == Dock.Bottom)
             dy = -dy;
@@ -257,7 +258,7 @@ public class DockPanelSplitter : Grid
         return dy;
     }
 
-    Point StartDragPoint;
+    private Point StartDragPoint;
 
     protected override void OnMouseEnter(MouseEventArgs e)
     {
@@ -298,13 +299,13 @@ public class DockPanelSplitter : Grid
             else
                 delta.X = AdjustWidth(delta.X, dock);
 
-            bool isBottomOrRight = (dock == Dock.Right || dock == Dock.Bottom);
+            bool isBottomOrRight = dock is Dock.Right or Dock.Bottom;
 
             // When docked to the bottom or right, the position has changed after adjusting the size
             if (isBottomOrRight)
                 StartDragPoint = e.GetPosition(Parent as IInputElement);
             else
-                StartDragPoint = new Point(StartDragPoint.X + delta.X, StartDragPoint.Y + delta.Y);
+                StartDragPoint.Offset(delta.X, delta.Y);
         }
         base.OnMouseMove(e);
     }
@@ -317,5 +318,4 @@ public class DockPanelSplitter : Grid
         }
         base.OnMouseUp(e);
     }
-
 }

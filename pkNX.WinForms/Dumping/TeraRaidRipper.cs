@@ -109,12 +109,12 @@ public static class TeraRaidRipper
     }
 
     private static readonly int[][] StageStars =
-    {
-        new [] { 1, 2 },
-        new [] { 1, 2, 3 },
-        new [] { 1, 2, 3, 4 },
-        new [] { 3, 4, 5, 6, 7 },
-    };
+    [
+        [1, 2],
+        [1, 2, 3],
+        [1, 2, 3, 4],
+        [3, 4, 5, 6, 7],
+    ];
 
     public static void DumpDistributionRaids(IFileInternal ROM, string path)
     {
@@ -162,7 +162,6 @@ public static class TeraRaidRipper
             lottery += v300;
             priority += v300;
         }
-
         else if (File.Exists(enemy + v200))
         {
             enemy += v200;
@@ -170,7 +169,6 @@ public static class TeraRaidRipper
             lottery += v200;
             priority += v200;
         }
-
         else if (File.Exists(enemy + v130))
         {
             enemy += v130;

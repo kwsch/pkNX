@@ -63,7 +63,6 @@ public class FileSystemPathTest
     [Fact]
     public void IsFileTest()
     {
-
         Assert.True(fileA.IsFile);
         Assert.False(directoryA.IsFile);
         Assert.False(root.IsFile);
@@ -223,7 +222,6 @@ public class FileSystemPathTest
             .All(d => d.GetDirectorySegments().Count() == d.ParentPath.GetDirectorySegments().Count() - 1);
         Files.All(f => f.GetDirectorySegments().Count() == f.ParentPath.GetDirectorySegments().Count());
     }
-
 
     /// <summary>
     ///A test for CompareTo

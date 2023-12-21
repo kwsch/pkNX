@@ -8,7 +8,7 @@ public sealed class AreaInstance
     // Area Info
     private readonly ResidentArea Area;
     public readonly AreaInstance? ParentArea;
-    private readonly List<AreaInstance> Children = new();
+    private readonly List<AreaInstance> Children = [];
 
     public bool IsSubArea => ParentArea != null;
     public IReadOnlyList<AreaInstance> SubAreas => Children;

@@ -23,7 +23,7 @@ public partial class EvolutionEntry : INotifyPropertyChanged
     public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(int), typeof(EvolutionEntry), new PropertyMetadata(0, OnSpeciesChanged));
     public static readonly DependencyProperty LevelProperty = DependencyProperty.Register(nameof(Level), typeof(ushort), typeof(EvolutionEntry), new PropertyMetadata((ushort)0));
 
-    public string[] MethodArgumentList { get; set; } = Array.Empty<string>();
+    public string[] MethodArgumentList { get; set; } = [];
     public int Method
     {
         get => (int)GetValue(MethodProperty);

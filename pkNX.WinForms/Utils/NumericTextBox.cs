@@ -11,7 +11,7 @@ namespace pkNX.WinForms;
 public enum NumericTextBoxMode
 {
     Integer,
-    Double
+    Double,
 }
 
 public class NumericTextBox : TextBox

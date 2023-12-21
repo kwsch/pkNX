@@ -6,7 +6,7 @@ namespace pkNX.Structures;
 
 public class ItemConverter : TypeConverter
 {
-    public static string[] ItemNames = Array.Empty<string>();
+    public static string[] ItemNames { get; set; } = [];
 
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
     {

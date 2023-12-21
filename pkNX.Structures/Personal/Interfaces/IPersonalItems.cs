@@ -52,7 +52,7 @@ public static class IPersonalItemExtensions
         0 => a.Item1 = value,
         1 => a.Item2 = value,
         2 => a.Item3 = value,
-        _ => throw new ArgumentOutOfRangeException(nameof(index))
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 
     /// <summary>

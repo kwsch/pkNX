@@ -15,7 +15,7 @@ namespace pkNX.Game;
 /// </summary>
 public class GameFileMapping
 {
-    private readonly Dictionary<GameFile, IFileContainer> Cache = new();
+    private readonly Dictionary<GameFile, IFileContainer> Cache = [];
     private readonly IReadOnlyCollection<GameFileReference> FileMap;
 
     public readonly ContainerHandler ProgressTracker = new();

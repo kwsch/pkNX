@@ -139,12 +139,9 @@ public sealed class SARC : LargeContainer
     public override void Dump(string? path, ContainerHandler handler)
     {
         path ??= FilePath;
-        if (path == null)
-            throw new ArgumentNullException(nameof(path));
         if (File.Exists(path))
             path = Path.GetDirectoryName(path);
-        if (path == null)
-            throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path, nameof(path));
 
         var folder = FileName ?? Identifier;
         string dir = Path.Combine(path, folder);

@@ -21,7 +21,6 @@ namespace pkNX.WinForms;
 
 public record CheckedMove(int Index, string Name, bool IsChecked);
 
-
 /// <summary>
 /// Interaction logic for PokemonEditor.xaml
 /// </summary>
@@ -39,7 +38,7 @@ public partial class PokemonEditor
         self.LoadSelectedSpecies();
     }
 
-    private readonly bool Loaded;
+    private new readonly bool Loaded;
     private readonly GameData8a Data;
 
     public readonly GameManager ROM;
@@ -51,14 +50,14 @@ public partial class PokemonEditor
 
     public byte SelectedForm
     {
-        get { return (byte)GetValue(SelectedFormProperty); }
-        set { SetValue(SelectedFormProperty, value); }
+        get => (byte)GetValue(SelectedFormProperty);
+        set => SetValue(SelectedFormProperty, value);
     }
 
     public ushort SelectedSpecies
     {
-        get { return (ushort)GetValue(SelectedSpeciesProperty); }
-        set { SetValue(SelectedSpeciesProperty, value); }
+        get => (ushort)GetValue(SelectedSpeciesProperty);
+        set => SetValue(SelectedSpeciesProperty, value);
     }
 
     public PokemonEditor(PokeEditor8a editor, GameManager rom, GameData8a data)
@@ -90,10 +89,10 @@ public partial class PokemonEditor
 
         LoadDexResearch(Editor.DexResearch.Root.GetEntries(SelectedSpecies));
 
-        var pkm = Editor.Learn.Root.Table.FirstOrDefault(x => x.Species == SelectedSpecies && x.Form == SelectedForm, default);
+        var pkm = Editor.Learn.Root.Table.FirstOrDefault(x => x is not null && x.Species == SelectedSpecies && x.Form == SelectedForm, default);
         DG_LevelUp.ItemsSource = pkm?.Arceus.ToList();
 
-        IC_EvolutionsItems.ItemsSource = Editor.Evolve.Root.Table.FirstOrDefault(x => x.Species == SelectedSpecies && x.Form == SelectedForm, default)?.Table;
+        IC_EvolutionsItems.ItemsSource = Editor.Evolve.Root.Table.FirstOrDefault(x => x is not null && x.Species == SelectedSpecies && x.Form == SelectedForm, default)?.Table;
 
         Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(SelectedSpecies, SelectedForm, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
         Bitmap bigImg = Utils.ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
@@ -165,18 +164,18 @@ public partial class PokemonEditor
 
         //pkm.DexIndexNational = Convert.ToUInt16(TB_NationalDex.Text);
         pkm.DexIndexRegional = Convert.ToUInt16(TB_HisuianDex.Text);
-        pkm.DexIndexLocal1 = CHK_InArea1.IsChecked.Value ? pkm.DexIndexRegional : (ushort)0;
-        pkm.DexIndexLocal2 = CHK_InArea2.IsChecked.Value ? pkm.DexIndexRegional : (ushort)0;
-        pkm.DexIndexLocal3 = CHK_InArea3.IsChecked.Value ? pkm.DexIndexRegional : (ushort)0;
-        pkm.DexIndexLocal4 = CHK_InArea4.IsChecked.Value ? pkm.DexIndexRegional : (ushort)0;
-        pkm.DexIndexLocal5 = CHK_InArea5.IsChecked.Value ? pkm.DexIndexRegional : (ushort)0;
+        pkm.DexIndexLocal1 = CHK_InArea1.IsChecked is true ? pkm.DexIndexRegional : (ushort)0;
+        pkm.DexIndexLocal2 = CHK_InArea2.IsChecked is true ? pkm.DexIndexRegional : (ushort)0;
+        pkm.DexIndexLocal3 = CHK_InArea3.IsChecked is true ? pkm.DexIndexRegional : (ushort)0;
+        pkm.DexIndexLocal4 = CHK_InArea4.IsChecked is true ? pkm.DexIndexRegional : (ushort)0;
+        pkm.DexIndexLocal5 = CHK_InArea5.IsChecked is true ? pkm.DexIndexRegional : (ushort)0;
 
         TB_LocalFormIndex.Text = pkm.LocalFormIndex.ToString("##0");
         TB_RegionalFormIndex.Text = pkm.RegionalFormIndex.ToString("##0");
         TB_HatchCycles.Text = pkm.HatchCycles.ToString("##0");
 
-        pkm.IsPresentInGame = CHK_IsPresentInGame.IsChecked.Value;
-        pkm.IsRegionalForm = CHK_IsRegionalForm.IsChecked.Value;
+        pkm.IsPresentInGame = CHK_IsPresentInGame.IsChecked is true;
+        pkm.IsRegionalForm = CHK_IsRegionalForm.IsChecked is true;
 
         foreach (var item in CLB_TM.Items)
         {
@@ -337,7 +336,7 @@ public partial class PokemonEditor
         var regionalDex = form0.Select(x => x.DexIndexRegional).Where(x => x != 0).ToImmutableHashSet();
 
         var dexIndex = Convert.ToUInt16(TB_HisuianDex.Text);
-        // Allow index 0 only if the pokemon is not in the game
+        // Allow index 0 only if the Pokémon is not in the game
         if ((dexIndex == 0 && cPersonal.IsPresentInGame) || dexIndex == cPersonal.DexIndexRegional)
             return true;
 
@@ -540,7 +539,7 @@ public partial class PokemonEditor
         /*var settings = (LearnSettings)PG_Learn.SelectedObject;
         if (!settings.Expand)
         {
-            WinFormsUtil.Error("Expand moves not selected. Please double check settings.",
+            WinFormsUtil.Error("Expand moves not selected. Please double-check settings.",
                 "Not expanding learnsets.");
             return;
         }
@@ -646,7 +645,8 @@ public partial class PokemonEditor
 
     private void CHK_IsPresentInGame_Changed(object sender, RoutedEventArgs e)
     {
-        cPersonal.IsPresentInGame = CHK_IsPresentInGame.IsChecked.Value;
+        if (CHK_IsPresentInGame.IsChecked != null)
+            cPersonal.IsPresentInGame = CHK_IsPresentInGame.IsChecked.Value;
         if (!cPersonal.IsPresentInGame)
             return;
 

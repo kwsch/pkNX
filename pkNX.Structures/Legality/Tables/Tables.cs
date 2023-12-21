@@ -9,8 +9,8 @@ public static partial class Legal
     /// <summary>
     /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
     /// </summary>
-    public static readonly HashSet<ushort> BattleFrontierBanlist = new()
-    {
+    public static readonly HashSet<ushort> BattleFrontierBanlist =
+    [
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,
         (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
@@ -19,13 +19,13 @@ public static partial class Legal
         (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
         (int)Meltan, (int)Melmetal,
-    };
+    ];
 
     /// <summary>
     /// Species that are from Mythical Distributions (disallowed species for competitive rulesets)
     /// </summary>
-    public static readonly HashSet<ushort> Mythicals = new()
-    {
+    public static readonly HashSet<ushort> Mythicals =
+    [
         (int)Mew,
         (int)Celebi,
         (int)Jirachi, (int)Deoxys,
@@ -35,13 +35,13 @@ public static partial class Legal
         (int)Magearna, (int)Marshadow,
         (int)Zeraora, (int)Meltan, (int)Melmetal,
         (int)Zarude,
-    };
+    ];
 
     /// <summary>
     /// Species classified as "Legend" by the game code.
     /// </summary>
-    public static readonly HashSet<ushort> Legends = new()
-    {
+    public static readonly HashSet<ushort> Legends =
+    [
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,
         (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
@@ -51,13 +51,13 @@ public static partial class Legal
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
         (int)Meltan, (int)Melmetal,
         (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Zarude, (int)Calyrex,
-    };
+    ];
 
     /// <summary>
     /// Species classified as "SubLegend" by the game code.
     /// </summary>
-    public static readonly HashSet<ushort> SubLegends = new()
-    {
+    public static readonly HashSet<ushort> SubLegends =
+    [
         (int)Articuno, (int)Zapdos, (int)Moltres,
         (int)Raikou, (int)Entei, (int)Suicune,
         (int)Regirock, (int)Regice, (int)Registeel, (int)Latias, (int)Latios,
@@ -67,13 +67,13 @@ public static partial class Legal
         (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord,
         (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon,
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
-    };
+    ];
 
     /// <summary>
     /// Species that evolve from a Bi-Gendered species into a Single-Gender.
     /// </summary>
-    public static readonly HashSet<ushort> FixedGenderFromBiGender = new()
-    {
+    public static readonly HashSet<ushort> FixedGenderFromBiGender =
+    [
         (int)Nincada,
         (int)Shedinja, // (G)
 
@@ -89,7 +89,7 @@ public static partial class Legal
 
         (int)Espurr,
         (int)Meowstic, // (M/F) form specific
-    };
+    ];
 
     /// <summary>
     /// Gets a permit list with the permitted indexes, then un-flags the indexes that are not permitted.

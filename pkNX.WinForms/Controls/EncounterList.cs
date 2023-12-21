@@ -93,7 +93,7 @@ public partial class EncounterList : UserControl
     }
 
     private IList<EncounterSlot>? Slots;
-    public static string[] SpeciesNames { private get; set; } = Array.Empty<string>();
+    public static string[] SpeciesNames { private get; set; } = [];
 
     public void LoadSlots(IList<EncounterSlot> slots)
     {

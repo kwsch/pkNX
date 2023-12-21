@@ -28,6 +28,6 @@ public partial class RaidFixedRewardItem
         12 => RewardItem12,
         13 => RewardItem13,
         14 => RewardItem14,
-        _ => throw new ArgumentOutOfRangeException(nameof(index))
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 }

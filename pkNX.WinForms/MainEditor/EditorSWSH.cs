@@ -763,8 +763,8 @@ internal class EditorSWSH : EditorBase
         var placement = new GFPack(arc[0]);
         var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
 
-        List<PlacementZoneArchive> areas = new();
-        List<string> names = new();
+        List<PlacementZoneArchive> areas = [];
+        List<string> names = [];
         foreach (var area in area_names)
         {
             var areaName = area.Value;

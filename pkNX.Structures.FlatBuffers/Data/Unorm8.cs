@@ -72,7 +72,6 @@ public struct Unorm8 : IEquatable<Unorm8>, IFormattable
         return lhs._value != rhs._value;
     }
 
-
     /// <summary>Returns true if the Unorm8 is equal to a given Unorm8, false otherwise.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(Unorm8 rhs)

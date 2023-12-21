@@ -8,7 +8,7 @@ namespace pkNX.WinForms;
 
 public partial class MegaEvoEntry : UserControl
 {
-    public static string[] items = Array.Empty<string>();
+    public static string[] items = [];
 
     private static readonly string[] EvoMethods = Enum.GetNames(typeof(MegaEvolutionMethod));
 

@@ -16,7 +16,7 @@ public sealed class TextVariableCode
     public static TextVariableCode[] GetVariables(GameVersion game)
     {
         if (game == GameVersion.Any)
-            return Array.Empty<TextVariableCode>();
+            return [];
 
         if (GameVersion.GG.Contains(game))
             return GG;
@@ -27,7 +27,7 @@ public sealed class TextVariableCode
         if (GameVersion.SM.Contains(game) || GameVersion.USUM.Contains(game))
             return SM;
 
-        return Array.Empty<TextVariableCode>();
+        return [];
     }
 
     private static readonly TextVariableCode[] XY =

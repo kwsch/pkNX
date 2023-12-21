@@ -21,7 +21,7 @@ public partial class EvolutionSet
     public byte[] Write()
     {
         if (Table is null || Table.Count == 0)
-            return Array.Empty<byte>();
+            return [];
 
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);

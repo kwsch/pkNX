@@ -30,7 +30,7 @@ public partial class ByteBuffer
 {
     public VertexAttributeLayout? Debug_InputLayout { get; set; }
     public object[][] Debug_VertexBuffer => Debug_InputLayout == null ? Array.Empty<object[]>() : FromInputLayout(Debug_InputLayout);
-    public ushort[] Debug_IndexBuffer => Debug_InputLayout == null ? ((ReadOnlySpan<byte>)Data.Span).GetArray(ReadUInt16LittleEndian, 2) : Array.Empty<ushort>();
+    public ushort[] Debug_IndexBuffer => Debug_InputLayout == null ? ((ReadOnlySpan<byte>)Data.Span).GetArray(ReadUInt16LittleEndian, 2) : [];
 
     public VertexWrapper[][] FromInputLayout(VertexAttributeLayout inputLayout)
     {
@@ -52,7 +52,7 @@ public partial class ByteBuffer
                     InputLayoutFormat.RGB_32_FLOAT => new Vec3f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..])),
                     InputLayoutFormat.RGBA_32_FLOAT => new Vec4f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..]), ReadSingleLittleEndian(data[(offset + 12)..])),
                     InputLayoutFormat.NONE => throw new IndexOutOfRangeException(),
-                    _ => throw new IndexOutOfRangeException()
+                    _ => throw new IndexOutOfRangeException(),
                 });
             }
 

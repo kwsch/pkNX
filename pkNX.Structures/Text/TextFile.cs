@@ -399,7 +399,7 @@ public class TextFile
             Convert.ToUInt16(3 + baseText1.Length + rubyText.Length),
             KEY_TEXTRUBY,
             Convert.ToUInt16(baseText1.Length),
-            Convert.ToUInt16(rubyText.Length)
+            Convert.ToUInt16(rubyText.Length),
         };
         vals.AddRange(baseText1.Select(val => Convert.ToUInt16(TryRemapChar(val))));
         vals.AddRange(rubyText.Select(val => Convert.ToUInt16(TryRemapChar(val))));

@@ -67,10 +67,10 @@ public partial class EvolutionRow : UserControl
         evo.Argument = (ushort)CB_Arg.SelectedIndex;
     }
 
-    public static string[] items = Array.Empty<string>();
-    public static string[] movelist = Array.Empty<string>();
-    public static string[] species = Array.Empty<string>();
-    public static string[] types = Array.Empty<string>();
+    public static string[] items = [];
+    public static string[] movelist = [];
+    public static string[] species = [];
+    public static string[] types = [];
 
     private static readonly string[] EvoMethods = Enum.GetNames(typeof(EvolutionType));
     private static readonly string[] Levels = Enumerable.Range(0, 100 + 1).Select(z => z.ToString()).ToArray();

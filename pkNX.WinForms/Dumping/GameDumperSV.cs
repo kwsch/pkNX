@@ -138,8 +138,8 @@ public class GameDumperSV
         var prefix = $"messagedat{lang}";
         const string suffix = ".trpak";
         var pattern = $"{prefix}*{suffix}";
-        List<(string File, string[] Lines)> text = new();
-        List<(string File, string[] Lines)> full = new();
+        List<(string File, string[] Lines)> text = [];
+        List<(string File, string[] Lines)> full = [];
         var folders = Directory.EnumerateDirectories(arcPath, pattern, SearchOption.TopDirectoryOnly);
         foreach (var folder in folders)
         {
@@ -253,7 +253,7 @@ public class GameDumperSV
         var evos = SerializeEvolutionPickle(pt);
         File.WriteAllBytes(GetPath("pkhex", "evos_sv.pkl"), MiniUtil.PackMini(evos, "sv"));
 
-        List<(ushort Internal, ushort National)> map = new();
+        List<(ushort Internal, ushort National)> map = [];
         for (ushort i = 0; i <= (ushort)DevID.DEV_MATCHA2; i++)
         {
             var pi = pt[i];
@@ -335,7 +335,7 @@ public class GameDumperSV
         {
             var p = t[i].FB;
             if (!p.IsPresentInGame)
-                result[i] = Array.Empty<byte>();
+                result[i] = [];
             else
                 result[i] = Write(sel(p));
         }
@@ -362,7 +362,7 @@ public class GameDumperSV
         static byte[] GetPickle(PersonalInfo9SV e)
         {
             if (!e.IsPresentInGame)
-                return Array.Empty<byte>();
+                return [];
             return Write(e.FB.Info.SpeciesNational, e.FB.Evolutions);
         }
 

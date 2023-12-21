@@ -10,10 +10,10 @@ namespace pkNX.WinForms.Subforms
 {
     public class PaldeaMap
     {
-        public readonly List<string>[] AreaNames = { new(), new(), new() };
-        private readonly Dictionary<string, AreaDef9>[] Areas = { new(), new(), new() };
-        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = { new(), new(), new() };
-        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = { new(), new(), new() };
+        public readonly List<string>[] AreaNames = { [], [], [] };
+        private readonly Dictionary<string, AreaDef9>[] Areas = { [], [], [] };
+        public readonly Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees = { [], [], [] };
+        public readonly Dictionary<string, BoxCollision9>[] AreaCollisionBoxes = { [], [], [] };
 
         private readonly IList<FieldMainArea>[] MainAreas = new IList<FieldMainArea>[3];
         private readonly IList<FieldSubArea>[] SubAreas = new IList<FieldSubArea>[3];

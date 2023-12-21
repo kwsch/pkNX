@@ -72,7 +72,6 @@ public struct Unorm16 : IEquatable<Unorm16>, IFormattable
         return lhs._value != rhs._value;
     }
 
-
     /// <summary>Returns true if the Unorm16 is equal to a given Unorm16, false otherwise.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(Unorm16 rhs)

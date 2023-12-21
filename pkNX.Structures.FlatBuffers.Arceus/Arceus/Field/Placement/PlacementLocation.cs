@@ -159,14 +159,9 @@ public partial class PlacementLocation
         }
     }
 
-    public string LocationTypeIdSummary
-    {
-        get
-        {
-            // todo lookup
-            return (LocationTypeID).ToString();
-        }
-    }
+    public string LocationTypeIdSummary =>
+        // todo lookup
+        (LocationTypeID).ToString();
 
     // lazy init
     private static IReadOnlyDictionary<ulong, string>? _locationArgMap;

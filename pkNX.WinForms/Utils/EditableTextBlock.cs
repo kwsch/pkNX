@@ -11,33 +11,26 @@ using System.Windows.Media;
 
 namespace pkNX.WinForms;
 
-
 public class EditableTextBlock : TextBlock
 {
-    public event EventHandler EnterEditMode;
-    public event TextChangedEventHandler TextChanged;
-    public event EventHandler ExitEditMode;
+    public event EventHandler? EnterEditMode;
+    public event TextChangedEventHandler? TextChanged;
+    public event EventHandler? ExitEditMode;
 
     public static readonly DependencyProperty IsInEditModeProperty =
-        DependencyProperty.Register("IsInEditMode", typeof(bool), typeof(EditableTextBlock), new UIPropertyMetadata(false, IsInEditModeUpdate));
+        DependencyProperty.Register(nameof(IsInEditMode), typeof(bool), typeof(EditableTextBlock), new UIPropertyMetadata(false, IsInEditModeUpdate));
 
     public static readonly DependencyProperty MaxLengthProperty =
-        DependencyProperty.Register("MaxLength", typeof(int), typeof(EditableTextBlock), new UIPropertyMetadata(0));
+        DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(EditableTextBlock), new UIPropertyMetadata(0));
 
-    private EditableTextBlockAdorner _adorner;
+    private EditableTextBlockAdorner? _adorner;
 
-    public Regex AllowedChars = new Regex("[^\\/:*?\"<>|]+", RegexOptions.Compiled);
+    public Regex AllowedChars = new("[^\\/:*?\"<>|]+", RegexOptions.Compiled);
 
     public bool IsInEditMode
     {
-        get
-        {
-            return (bool)GetValue(IsInEditModeProperty);
-        }
-        set
-        {
-            SetValue(IsInEditModeProperty, value);
-        }
+        get => (bool)GetValue(IsInEditModeProperty);
+        set => SetValue(IsInEditModeProperty, value);
     }
 
     /// <summary>
@@ -46,14 +39,8 @@ public class EditableTextBlock : TextBlock
     /// <value>The length of the max.</value>
     public int MaxLength
     {
-        get
-        {
-            return (int)GetValue(MaxLengthProperty);
-        }
-        set
-        {
-            SetValue(MaxLengthProperty, value);
-        }
+        get => (int)GetValue(MaxLengthProperty);
+        set => SetValue(MaxLengthProperty, value);
     }
 
     public EditableTextBlock()
@@ -68,84 +55,74 @@ public class EditableTextBlock : TextBlock
     /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
     private static void IsInEditModeUpdate(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is EditableTextBlock textBlock)
+        if (obj is not EditableTextBlock textBlock)
+            return;
+
+        // Get the adorner layer of the uielement (here TextBlock)
+        var layer = AdornerLayer.GetAdornerLayer(textBlock);
+
+        // If the IsInEditMode set to true means the user has enabled the edit mode then
+        // add the adorner to the adorner layer of the TextBlock.
+        if (textBlock.IsInEditMode)
         {
-            // Get the adorner layer of the uielement (here TextBlock)
-            AdornerLayer layer = AdornerLayer.GetAdornerLayer(textBlock);
-
-            // If the IsInEditMode set to true means the user has enabled the edit mode then
-            // add the adorner to the adorner layer of the TextBlock.
-            if (textBlock.IsInEditMode)
+            if (textBlock._adorner == null)
             {
-                if (textBlock._adorner == null)
+                textBlock._adorner = new EditableTextBlockAdorner(textBlock);
+
+                // Events wired to exit edit mode when the user presses Enter key or leaves the control.
+                textBlock._adorner.TextBoxKeyUp += (_, tE) =>
                 {
-                    textBlock._adorner = new EditableTextBlockAdorner(textBlock);
-
-                    // Events wired to exit edit mode when the user presses Enter key or leaves the control.
-                    textBlock._adorner.TextBoxKeyUp += (obj, e) =>
-                    {
-                        if (e.Key == Key.Enter)
-                        {
-                            textBlock.IsInEditMode = false;
-                            Keyboard.ClearFocus();
-                        }
-                    };
-
-                    textBlock._adorner.TextBoxTextChanged += (obj, e) =>
-                    {
-                        textBlock.TextChanged?.Invoke(obj, e);
-                    };
-
-                    textBlock._adorner.TextBoxLostFocus += (obj, e) =>
+                    if (tE.Key == Key.Enter)
                     {
                         textBlock.IsInEditMode = false;
-                    };
-                }
+                        Keyboard.ClearFocus();
+                    }
+                };
 
-                layer.Add(textBlock._adorner);
-                textBlock._adorner.StartEdit();
-                textBlock.OnEnterEditMode();
+                textBlock._adorner.TextBoxTextChanged += (xy, xe) => textBlock.TextChanged?.Invoke(xy, xe);
+                textBlock._adorner.TextBoxLostFocus += (_, _) => textBlock.IsInEditMode = false;
             }
-            else if (layer != null)
+
+            layer?.Add(textBlock._adorner);
+            textBlock._adorner.StartEdit();
+            textBlock.OnEnterEditMode();
+        }
+        else if (layer != null)
+        {
+            // Remove the adorner from the adorner layer.
+            var adorners = layer.GetAdorners(textBlock);
+            if (adorners != null)
             {
-                // Remove the adorner from the adorner layer.
-                Adorner[] adorners = layer.GetAdorners(textBlock);
-                if (adorners != null)
+                foreach (Adorner adorner in adorners)
                 {
-                    foreach (Adorner adorner in adorners)
+                    if (adorner is EditableTextBlockAdorner)
                     {
-                        if (adorner is EditableTextBlockAdorner)
-                        {
-                            layer.Remove(adorner);
-                        }
+                        layer.Remove(adorner);
                     }
                 }
-
-                //Update the textblock's text binding.
-                BindingExpression expression = textBlock.GetBindingExpression(TextProperty);
-                if (null != expression)
-                {
-                    expression.UpdateTarget();
-                }
-
-                textBlock.FocusParent();
-                textBlock.OnExitEditMode();
             }
+
+            //Update the textblock's text binding.
+            var expression = textBlock.GetBindingExpression(TextProperty);
+            expression?.UpdateTarget();
+
+            textBlock.FocusParent();
+            textBlock.OnExitEditMode();
         }
     }
 
     private void OnEnterEditMode()
     {
-        EnterEditMode?.Invoke(this, new EventArgs());
+        EnterEditMode?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnExitEditMode()
     {
-        ExitEditMode?.Invoke(this, new EventArgs());
+        ExitEditMode?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
-    /// Invoked when an unhandled <see cref="Mouse.MouseDown"/> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+    /// Invoked when an unhandled <see cref="Control.MouseDown"/> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
     /// </summary>
     /// <param name="e">The <see cref="MouseButtonEventArgs"/> that contains the event data. This event data reports details about the mouse button that was pressed and the handled state.</param>
     protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -184,12 +161,12 @@ public class EditableTextBlockAdorner : Adorner
         _collection = new VisualCollection(this);
         _textBox = new TextBox();
         _textBlock = adornedElement;
-        Binding binding = new Binding("Text") { Source = adornedElement };
+        var binding = new Binding("Text") { Source = adornedElement };
         _textBox.SetBinding(TextBox.TextProperty, binding);
         _textBox.AcceptsReturn = true;
         _textBox.MaxLength = adornedElement.MaxLength;
         _textBox.PreviewTextInput += (obj, e) => { e.Handled = !adornedElement.AllowedChars.IsMatch(e.Text); };
-        _textBox.PreviewKeyDown += _textBox_PreviewKeyDown;
+        _textBox.PreviewKeyDown += TextBox_PreviewKeyDown;
         _textBox.Width = adornedElement.Width;
         _textBox.Height = adornedElement.Height;
         _textBox.FontFamily = adornedElement.FontFamily;
@@ -198,13 +175,12 @@ public class EditableTextBlockAdorner : Adorner
         _collection.Add(_textBox);
     }
 
-    void _textBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
         {
-            BindingExpression expression = _textBox.GetBindingExpression(TextBox.TextProperty);
-            if (null != expression)
-                expression.UpdateSource();
+            var expression = _textBox.GetBindingExpression(TextBox.TextProperty);
+            expression?.UpdateSource();
 
             e.Handled = true;
         }
@@ -215,13 +191,7 @@ public class EditableTextBlockAdorner : Adorner
         return _collection[index];
     }
 
-    protected override int VisualChildrenCount
-    {
-        get
-        {
-            return _collection.Count;
-        }
-    }
+    protected override int VisualChildrenCount => _collection.Count;
 
     protected override Size ArrangeOverride(Size finalSize)
     {
@@ -248,37 +218,19 @@ public class EditableTextBlockAdorner : Adorner
 
     public event RoutedEventHandler TextBoxLostFocus
     {
-        add
-        {
-            _textBox.LostFocus += value;
-        }
-        remove
-        {
-            _textBox.LostFocus -= value;
-        }
+        add => _textBox.LostFocus += value;
+        remove => _textBox.LostFocus -= value;
     }
 
     public event KeyEventHandler TextBoxKeyUp
     {
-        add
-        {
-            _textBox.KeyUp += value;
-        }
-        remove
-        {
-            _textBox.KeyUp -= value;
-        }
+        add => _textBox.KeyUp += value;
+        remove => _textBox.KeyUp -= value;
     }
 
     public event TextChangedEventHandler TextBoxTextChanged
     {
-        add
-        {
-            _textBox.TextChanged += value;
-        }
-        remove
-        {
-            _textBox.TextChanged -= value;
-        }
+        add => _textBox.TextChanged += value;
+        remove => _textBox.TextChanged -= value;
     }
 }

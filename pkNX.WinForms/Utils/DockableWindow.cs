@@ -23,8 +23,8 @@ public class WindowItem : TabItem
 
     public string Title
     {
-        get { return (string)GetValue(TitleProperty); }
-        set { SetValue(TitleProperty, value); }
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
     }
 
     public WindowItem()
@@ -33,12 +33,10 @@ public class WindowItem : TabItem
     }
 }
 
-
 public partial class DockableWindow : UserControl
 {
     [System.ComponentModel.Bindable(true)]
-    public ObservableCollection<WindowItem> Windows { get; set; } = new ObservableCollection<WindowItem>();
-
+    public ObservableCollection<WindowItem> Windows { get; set; } = [];
 
     protected override void OnInitialized(EventArgs e)
     {
@@ -46,7 +44,7 @@ public partial class DockableWindow : UserControl
 
         TabControl tabControl = new TabControl
         {
-            ItemsSource = Windows
+            ItemsSource = Windows,
         };
 
         Content = tabControl;

@@ -13,7 +13,7 @@ public class GameInfo
     public int MaxSpeciesID { get; private set; }
     public int MaxItemID { get; private set; }
     public int MaxMoveID { get; private set; }
-    public ushort[] HeldItems { get; private set; } = Array.Empty<ushort>();
+    public ushort[] HeldItems { get; private set; } = [];
     public int MaxAbilityID { get; private set; }
 
     public bool XY { get; private set; }

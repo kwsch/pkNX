@@ -6,7 +6,7 @@ namespace pkNX.Structures;
 
 public class DropTableConverter : TypeConverter
 {
-    public static ulong[] DropTableHashes = Array.Empty<ulong>();
+    public static ulong[] DropTableHashes { get; set; } = [];
 
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
     {

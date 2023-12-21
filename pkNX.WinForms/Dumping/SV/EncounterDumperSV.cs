@@ -94,7 +94,7 @@ public class EncounterDumperSV
         }
 
         // Fixed symbols
-        List<byte[]> serialized = new();
+        List<byte[]> serialized = [];
         var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
         var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })

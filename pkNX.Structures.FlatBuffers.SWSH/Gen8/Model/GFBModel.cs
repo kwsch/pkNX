@@ -6,7 +6,6 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // *.gfbmdl
 
-
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class LayerData
 {

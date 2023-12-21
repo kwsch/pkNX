@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -71,8 +70,6 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
 
     public static FileSystemPath Parse(string s)
     {
-        if (s == null)
-            throw new ArgumentNullException(nameof(s));
         if (!IsRooted(s))
             throw new UriFormatException($"Could not parse input \"{s}\": Path is not rooted.");
         if (s.Contains(string.Concat(DirectorySeparator, DirectorySeparator)))

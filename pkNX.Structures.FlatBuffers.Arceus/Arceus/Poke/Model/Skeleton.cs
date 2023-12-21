@@ -8,7 +8,6 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Skeleton { }
 
-
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TransformNode { }
 

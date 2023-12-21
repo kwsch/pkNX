@@ -43,7 +43,7 @@ public partial class PokeDataUI : Form
         cPersonal = pt[0];
         cLearnset = Editor.Learn[0];
         cEvos = Editor.Evolve[0];
-        cMega = Editor.Mega != null ? Editor.Mega[0] : Array.Empty<MegaEvolutionSet>();
+        cMega = Editor.Mega != null ? Editor.Mega[0] : [];
 
         var altForms = pt.GetFormList(species);
         entryNames = pt.GetPersonalEntryList(altForms, species, out baseForms, out formVal);
@@ -53,7 +53,7 @@ public partial class PokeDataUI : Form
 
         InitEvo(Editor.Evolve[0].PossibleEvolutions.Length);
 
-        Megas = Editor.Mega != null ? InitMega(2) : Array.Empty<MegaEvoEntry>();
+        Megas = Editor.Mega != null ? InitMega(2) : [];
 
         CB_Species.SelectedIndex = 1;
         Loaded = true;
@@ -167,7 +167,7 @@ public partial class PokeDataUI : Form
         dgv.Columns.Add(dgvMove);
     }
 
-    private static EvolutionRow[] EvoRows = Array.Empty<EvolutionRow>();
+    private static EvolutionRow[] EvoRows = [];
 
     public void InitEvo(int rows)
     {
@@ -483,8 +483,8 @@ public partial class PokeDataUI : Form
     public void SaveLearnset()
     {
         var pkm = cLearnset;
-        List<int> moves = new();
-        List<int> levels = new();
+        List<int> moves = [];
+        List<int> levels = [];
         for (int i = 0; i < dgv.Rows.Count - 1; i++)
         {
             var cells = dgv.Rows[i].Cells;
@@ -577,7 +577,7 @@ public partial class PokeDataUI : Form
         if (ROM.Info.GG)
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
         var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
-        int[] ban = Array.Empty<int>();
+        int[] ban = [];
 
         if (ROM.Info.SWSH)
         {
@@ -613,7 +613,7 @@ public partial class PokeDataUI : Form
         if (ROM.Info.GG)
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
         var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
-        int[] ban = Array.Empty<int>();
+        int[] ban = [];
 
         if (ROM.Info.SWSH)
         {

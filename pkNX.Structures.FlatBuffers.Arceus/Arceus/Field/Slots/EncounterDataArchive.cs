@@ -17,7 +17,6 @@ public partial class EncounterEligiblityTraits : IHasCondition, ISlotModifierTim
 {
 }
 
-
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterOybnTraits
 {

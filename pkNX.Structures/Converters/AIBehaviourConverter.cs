@@ -8,7 +8,7 @@ namespace pkNX.Structures;
 
 public class AIBehaviourConverter : TypeConverter
 {
-    public static HashSet<string> BehaviourNames = new();
+    public static HashSet<string> BehaviourNames { get; set; } = [];
 
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
     {

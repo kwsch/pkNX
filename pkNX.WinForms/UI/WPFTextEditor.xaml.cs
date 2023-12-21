@@ -63,7 +63,7 @@ public partial class WPFTextEditor
         }
     }
 
-    public ObservableCollection<TextEditorEntry> Entries { get; } = new();
+    public ObservableCollection<TextEditorEntry> Entries { get; } = [];
 
     public enum TextEditorMode
     {
@@ -147,7 +147,7 @@ public partial class WPFTextEditor
 
         string[] fileText = File.ReadAllLines(fileName, Encoding.Unicode);
 
-        List<TextEditorEntry> entries = new();
+        List<TextEditorEntry> entries = [];
 
         for (int i = 0; i < fileText.Length; i++)
         {
@@ -408,7 +408,6 @@ public partial class WPFTextEditor
             if (replaceResult == MessageBoxResult.Cancel)
                 return;
         }
-
 
         var result = WinFormsUtil.Prompt(MessageBoxButton.YesNo, "Would you like to unescape newline characters?");
         bool newline = result == MessageBoxResult.Yes;

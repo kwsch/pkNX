@@ -582,7 +582,7 @@ public partial class BTTE : Form
         var rmove = new MoveRandomizer(Game.Info, moves, Personal);
         int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
         rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
-        int[] ban = Array.Empty<int>();
+        int[] ban = [];
 
         if (Game.Info.SWSH)
         {

@@ -102,7 +102,7 @@ public static class EncounterTable8Util
 
     private class DumpableLocation
     {
-        public static readonly DumpableLocation Empty = new(new List<Slot8>(), 0, 0);
+        public static readonly DumpableLocation Empty = new([], 0, 0);
 
         public readonly List<Slot8> Slots;
         public readonly byte Location;

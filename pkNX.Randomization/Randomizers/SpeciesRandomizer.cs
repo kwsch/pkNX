@@ -38,11 +38,11 @@ public class SpeciesRandomizer
     }
 
     #region Random Species Filtering Parameters
-    private GenericRandomizer<int> RandSpec = new(Array.Empty<int>());
-    private GenericRandomizer<int> RandLegend = new(Array.Empty<int>());
-    private GenericRandomizer<int> RandEvent = new(Array.Empty<int>());
-    private int[] legends = Array.Empty<int>();
-    private int[] events = Array.Empty<int>();
+    private GenericRandomizer<int> RandSpec = new([]);
+    private GenericRandomizer<int> RandLegend = new([]);
+    private GenericRandomizer<int> RandEvent = new([]);
+    private int[] legends = [];
+    private int[] events = [];
     private int loopctr;
     private const int l = 10; // tweakable scalars
     private const int h = 11;

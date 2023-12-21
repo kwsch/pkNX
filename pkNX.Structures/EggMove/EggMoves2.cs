@@ -18,7 +18,7 @@ public sealed class EggMoves2 : EggMoves
         }
 
         EggMoves[] entries = new EggMoves[count + 1];
-        entries[0] = new EggMoves2(Array.Empty<byte>());
+        entries[0] = new EggMoves2([]);
         for (int i = 1; i < entries.Length; i++)
             entries[i] = new EggMoves2(data.Skip(ptrs[i]).TakeWhile(b => b != 0xFF).ToArray());
 

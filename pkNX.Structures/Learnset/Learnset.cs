@@ -12,8 +12,8 @@ public abstract class Learnset
 
     protected Learnset()
     {
-        Moves = Array.Empty<int>();
-        Levels = Array.Empty<int>();
+        Moves = [];
+        Levels = [];
     }
 
     public abstract byte[] Write();
@@ -29,13 +29,13 @@ public abstract class Learnset
         if (minLevel <= 1 && maxLevel >= 100)
             return Moves;
         if (minLevel > maxLevel)
-            return Array.Empty<int>();
+            return [];
         int start = Array.FindIndex(Levels, z => z >= minLevel);
         if (start < 0)
-            return Array.Empty<int>();
+            return [];
         int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
         if (end < 0)
-            return Array.Empty<int>();
+            return [];
         int[] result = new int[end - start + 1];
         Array.Copy(Moves, start, result, 0, result.Length);
         return result;

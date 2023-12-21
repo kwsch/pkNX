@@ -11,8 +11,8 @@ namespace pkNX.Structures.FlatBuffers;
 /// </summary>
 public class FlatSchemaDump
 {
-    public readonly List<string> GeneratedSchemas = new();
-    private readonly List<string> GeneratedClasses = new();
+    public readonly List<string> GeneratedSchemas = [];
+    private readonly List<string> GeneratedClasses = [];
 
     public FlatSchemaDump(object obj) => Recurse(obj.GetType());
 

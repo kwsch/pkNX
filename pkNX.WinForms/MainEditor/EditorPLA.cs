@@ -526,7 +526,6 @@ internal class EditorPLA : EditorBase
         return;
     gfp[index] = FlatBufferConverter.SerializeFrom(obj);*/
 
-
     /*var pokemonModelDir = (FolderContainer)ROM[GameFile.PokemonArchiveFolder];
     pokemonModelDir.Initialize();
     var fileNames = pokemonModelDir.GetFileNames().Where(x => x != "pokeconfig.gfpak");

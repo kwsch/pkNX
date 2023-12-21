@@ -48,13 +48,13 @@ public static class FormChangeUtil
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static readonly HashSet<ushort> FormChangeMovesRetain = new()
-    {
+    private static readonly HashSet<ushort> FormChangeMovesRetain =
+    [
         (int)Species.Deoxys,
         (int)Species.Giratina,
         (int)Species.Shaymin,
         (int)Species.Hoopa,
-    };
+    ];
 
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.

@@ -42,7 +42,7 @@ public static class GamePath
             GameVersion.PLA => GetDirectoryPath_PLA(file),
             GameVersion.SV => GetDirectoryPath_SV(file),
 
-            _ => throw new NotSupportedException($"The selected game ({game}) is currently not mapped")
+            _ => throw new NotSupportedException($"The selected game ({game}) is currently not mapped"),
         };
     }
 
@@ -89,7 +89,7 @@ public static class GamePath
         GameFile.StoryText8 => "/romfs/bin/message/Simp_Chinese/script/",
         GameFile.StoryText9 => "/romfs/bin/message/Trad_Chinese/script/",
 
-        _ => throw new NotSupportedException($"The selected file ({file}) is currently not mapped")
+        _ => throw new NotSupportedException($"The selected file ({file}) is currently not mapped"),
     };
 
     private static FileSystemPath GetDirectoryPath_SV(GameFile file)

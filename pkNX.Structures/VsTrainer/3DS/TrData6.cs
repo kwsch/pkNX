@@ -9,7 +9,7 @@ public abstract class TrData6 : TrainerData
     public bool HasMoves { get => (Format & 2) == 2; set => Format = (ushort)((Format & ~2) | (value ? 2 : 0)); }
 
     protected TrData6(byte[] trData, byte[] trPoke) : base(trData) => Team = GetTeam(trPoke);
-    protected TrData6(byte[] trData) : base(trData) => Team = Array.Empty<TrPoke6>();
+    protected TrData6(byte[] trData) : base(trData) => Team = [];
 
     public TrPoke6[] Team { get; set; }
 
@@ -19,7 +19,7 @@ public abstract class TrData6 : TrainerData
     public static byte[] WriteTeam(TrPoke6[] team, bool HasItem, bool HasMoves)
     {
         if (team.Length == 0)
-            return Array.Empty<byte>();
+            return [];
         var first = team[0].Write(HasItem, HasMoves);
         byte[] result = new byte[first.Length * team.Length];
         first.CopyTo(result, 0);

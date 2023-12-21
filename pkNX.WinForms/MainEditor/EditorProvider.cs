@@ -76,7 +76,7 @@ public abstract class EditorBase
                         Console.WriteLine(exception);
                         WinFormsUtil.Error(exception.Message, exception.StackTrace ?? string.Empty);
                     }
-                }
+                },
             };
 
             yield return b;

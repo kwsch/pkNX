@@ -70,7 +70,7 @@ public static class IBaseStatExtensions
         3 => stats.SPE = value,
         4 => stats.SPA = value,
         5 => stats.SPD = value,
-        _ => throw new ArgumentOutOfRangeException(nameof(index))
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 
     /// <summary>

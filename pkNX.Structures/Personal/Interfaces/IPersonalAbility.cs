@@ -56,7 +56,7 @@ public static class IPersonalAbilityExtensions
         0 => a.Ability1 = value,
         1 => a.Ability2 = value,
         2 => a.AbilityH = value,
-        _ => throw new ArgumentOutOfRangeException(nameof(index))
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 
     /// <summary>

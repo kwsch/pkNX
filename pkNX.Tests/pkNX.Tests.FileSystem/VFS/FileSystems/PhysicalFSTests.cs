@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using pkNX.Containers.VFS;
 using Xunit;
 
@@ -9,14 +8,14 @@ namespace pkNX.Tests;
 
 public class PhysicalFSTests : IDisposable
 {
-    string Root { get; set; }
-    PhysicalFileSystem FileSystem { get; set; }
+    private string Root { get; set; }
+    private PhysicalFileSystem FileSystem { get; set; }
 
-    string AbsFilePath_W { get; set; }
-    string AbsFilePath_R { get; set; }
+    private string AbsFilePath_W { get; set; }
+    private string AbsFilePath_R { get; set; }
 
-    FileSystemPath FilePath_W { get; }
-    FileSystemPath FilePath_R { get; }
+    private FileSystemPath FilePath_W { get; }
+    private FileSystemPath FilePath_R { get; }
 
     public PhysicalFSTests()
     {
@@ -100,14 +99,14 @@ public class PhysicalFSTests : IDisposable
     [Fact]
     public void CreateFile_Empty()
     {
-        using (var stream = FileSystem.CreateFile(FilePath_W))
+        using (_ = FileSystem.CreateFile(FilePath_W))
         {
         }
 
-        Assert.Equal(Array.Empty<byte>(), File.ReadAllBytes(AbsFilePath_W));
+        Assert.Equal([], File.ReadAllBytes(AbsFilePath_W));
         using (var stream = FileSystem.OpenFile(FilePath_W))
         {
-            Assert.Equal(Array.Empty<byte>(), stream.ReadAllBytes());
+            Assert.Equal([], stream.ReadAllBytes());
         }
     }
 
@@ -233,7 +232,6 @@ Append("/path/to/d.file", "rw") -> error # d doesn't exist
     {
         Assert.Throws<ArgumentException>(() => { using var _ = FileSystem.OpenFile(FilePath_W, FileMode.CreateNew, FileAccess.Read); });
     }
-
 
     [Fact]
     public void OpenFile_Create()

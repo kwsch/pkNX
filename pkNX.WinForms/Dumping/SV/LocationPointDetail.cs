@@ -19,7 +19,7 @@ public class LocationPointDetail
         return Point.LevelRange.X <= areaMax && areaMin <= Point.LevelRange.Y;
     }
 
-    public readonly List<PaldeaEncounter> Slots = new();
+    public readonly List<PaldeaEncounter> Slots = [];
 
     public void Add(PaldeaEncounter slot) => Slots.Add(slot);
 

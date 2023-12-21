@@ -19,7 +19,7 @@ public static class FormsIconHelper
     {
         "Font Awesome 6 Free Regular", // fa-regular-400.ttf
         "Font Awesome 6 Free Solid", // fa-solid-900.ttf
-        "Font Awesome 6 Brands Regular" // fa-brands-400.ttf
+        "Font Awesome 6 Brands Regular", // fa-brands-400.ttf
     };
 
     private static readonly Typeface[] Typefaces = typeof(IconHelper).Assembly.LoadTypefaces("fonts", FontTitles);
@@ -44,6 +44,5 @@ public static class FormsIconHelper
         FontForStyle.Add(key, fontFamily);
         return fontFamily;
     }
-    private static readonly Dictionary<int, FontFamily> FontForStyle = new Dictionary<int, FontFamily>();
-
+    private static readonly Dictionary<int, FontFamily> FontForStyle = [];
 }

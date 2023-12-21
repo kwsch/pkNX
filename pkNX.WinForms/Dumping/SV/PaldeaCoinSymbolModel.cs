@@ -8,7 +8,7 @@ namespace pkNX.WinForms;
 
 public class PaldeaCoinSymbolModel
 {
-    public readonly List<PaldeaCoinSymbolPoint>[] Points = new List<PaldeaCoinSymbolPoint>[] { new(), new() };
+    public readonly List<PaldeaCoinSymbolPoint>[] Points = new List<PaldeaCoinSymbolPoint>[] { [], [] };
 
     public PaldeaCoinSymbolModel(IFileInternal ROM)
     {
@@ -66,7 +66,7 @@ public class PaldeaCoinSymbolModel
     {
         if (ps.Properties[0].Fields[0].Name != "firstNum")
             throw new ArgumentException("Invalid PropertySheet field layout");
-        
+
         if (ps.Properties[0].Fields[0].Data.Item1 is not { } sv)
             throw new ArgumentException("Could not get PropertySheet Table Key");
 

@@ -48,7 +48,7 @@ public class PersonalRandomizer : Randomizer
             RandomizeSpecies(species);
     }
 
-    private bool[] processed = Array.Empty<bool>();
+    private bool[] processed = [];
 
     private void RandomizeChains()
     {

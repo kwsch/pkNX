@@ -115,8 +115,8 @@ public static partial class Legal
     public static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
     #endregion
 
-    public static readonly HashSet<ushort> AlolanOriginForms = new()
-    {
+    public static readonly HashSet<ushort> AlolanOriginForms =
+    [
         (int)Rattata,
         (int)Raticate,
         (int)Sandshrew,
@@ -132,20 +132,19 @@ public static partial class Legal
         (int)Golem,
         (int)Grimer,
         (int)Muk,
-    };
+    ];
 
-    public static readonly HashSet<ushort> AlolanVariantEvolutions12 = new()
-    {
+    public static readonly HashSet<ushort> AlolanVariantEvolutions12 =
+    [
         (int)Raichu,
         (int)Exeggutor,
         (int)Marowak,
-    };
+    ];
 
     public static readonly HashSet<ushort> EvolveToAlolanForms = new(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
 
-
-    public static readonly HashSet<ushort> PastGenAlolanNatives = new()
-    {
+    public static readonly HashSet<ushort> PastGenAlolanNatives =
+    [
         010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
         051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074, 075,
         076, 079, 080, 081, 082, 088, 089, 090, 091, 092, 093, 094, 096, 097, 102, 103, 104, 105, 113, 115, 118, 119,
@@ -189,17 +188,17 @@ public static partial class Legal
         194, 195, // Quagsire
 
         100, 101, // Voltorb & Electrode
-    };
+    ];
 
-    public static readonly HashSet<ushort> ValidMet_SM = new()
-    {
+    public static readonly HashSet<ushort> ValidMet_SM =
+    [
         006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
         050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
         100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
         150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
 
         30016,
-    };
+    ];
 
     public static readonly HashSet<ushort> ValidMet_USUM = new(ValidMet_SM)
     {
@@ -275,22 +274,22 @@ public static partial class Legal
     });
     #endregion
 
-    public static readonly HashSet<ushort> Totem_Alolan = new()
-    {
+    public static readonly HashSet<ushort> Totem_Alolan =
+    [
         (int)Raticate, // (Normal, Alolan, Totem)
         (int)Marowak, // (Normal, Alolan, Totem)
         (int)Mimikyu, // (Normal, Busted, Totem, Totem_Busted)
-    };
+    ];
 
-    public static readonly HashSet<ushort> Totem_NoTransfer = new()
-    {
+    public static readonly HashSet<ushort> Totem_NoTransfer =
+    [
         (int)Marowak,
         (int)Araquanid,
         (int)Togedemaru,
         (int)Ribombee,
-    };
-    public static readonly HashSet<int> Totem_SM = new()
-    {
+    ];
+    public static readonly HashSet<int> Totem_SM =
+    [
         (int)Raticate,
         (int)Gumshoos,
         // (int)Wishiwashi,
@@ -299,10 +298,10 @@ public static partial class Legal
         (int)Vikavolt,
         (int)Mimikyu,
         (int)Kommoo,
-    };
+    ];
 
-    public static readonly HashSet<ushort> Totem_USUM = new()
-    {
+    public static readonly HashSet<ushort> Totem_USUM =
+    [
         (int)Raticate,
         (int)Gumshoos,
         //(int)Wishiwashi,
@@ -315,7 +314,7 @@ public static partial class Legal
         (int)Araquanid,
         (int)Togedemaru,
         (int)Ribombee,
-    };
+    ];
 
     public static readonly ushort[] HeldItemsBuy_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Medicine_SM);
 }

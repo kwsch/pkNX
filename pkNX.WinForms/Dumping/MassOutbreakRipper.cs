@@ -14,9 +14,9 @@ namespace pkNX.WinForms;
 
 public static class MassOutbreakRipper
 {
-    private static readonly List<PickledOutbreak> Encounters = new();
+    private static readonly List<PickledOutbreak> Encounters = [];
     private static int EncounterIndex;
-    private static Dictionary<string, (string Name, int Index)> NameDict = new();
+    private static Dictionary<string, (string Name, int Index)> NameDict = [];
 
     public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
     {
@@ -369,7 +369,7 @@ public static class MassOutbreakRipper
         public required DeliveryOutbreakPokeData Poke { get; init; }
 
         public byte MetBase { get; set; }
-        public readonly Dictionary<LevelRange, UInt128> MetInfo = new();
+        public readonly Dictionary<LevelRange, UInt128> MetInfo = [];
     }
 
     private static CachedOutbreak[] GetMetaEncounter(IEnumerable<DeliveryOutbreak> possibleTable, DeliveryOutbreakPokeDataArray pd)

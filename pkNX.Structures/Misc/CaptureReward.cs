@@ -9,7 +9,7 @@ namespace pkNX.Structures;
 /// <remarks>They do this because the Pickup Ability no longer exists, and to ease the grind of marts.</remarks>
 public class CaptureRewardTable
 {
-    public List<CaptureRewardGroup> Table = new();
+    public List<CaptureRewardGroup> Table = [];
 
     public CaptureRewardTable(byte[] data)
     {

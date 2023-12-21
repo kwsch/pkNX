@@ -11,8 +11,8 @@ public class InternalFileContainer : IFileContainer
     public bool Modified { get; set; }
     public int Count => 1;
 
-    public byte[] Data = Array.Empty<byte>();
-    private byte[] Backup = Array.Empty<byte>();
+    public byte[] Data = [];
+    private byte[] Backup = [];
     public InternalFileContainer(byte[] data) => LoadData(data);
 
     private void LoadData(byte[] data) => Backup = (byte[]) (Data = data).Clone();

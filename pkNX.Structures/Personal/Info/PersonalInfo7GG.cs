@@ -13,7 +13,7 @@ public sealed class PersonalInfo7GG : IPersonalInfoGG
     private readonly byte[] Data;
     public bool[] TMHM { get; set; }
     public bool[] TypeTutors { get; set; }
-    public bool[] SpecialTutors { get; set; } = Array.Empty<bool>();
+    public bool[] SpecialTutors { get; set; } = [];
 
     public PersonalInfo7GG(byte[] data)
     {

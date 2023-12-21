@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 
 namespace pkNX.WinForms;
 
-
 // Source: https://stackoverflow.com/questions/21750824/how-to-convert-a-string-to-a-mathematical-expression-programmatically
 public class StringToFormula
 {
@@ -24,8 +23,8 @@ public class StringToFormula
             (a1, a2) => a1 / a2,
             (a1, a2) => a1 % a2,
             (a1, a2) => a1 * a2,
-            Math.Pow
-        };
+            Math.Pow,
+    };
 
     public static bool TryEval(string expression, out double value)
     {
@@ -128,7 +127,7 @@ public class StringToFormula
     private static List<string> GetTokens(string expression)
     {
         string operators = "()^*/%+-";
-        List<string> tokens = new();
+        List<string> tokens = [];
         StringBuilder sb = new();
 
         foreach (char c in expression.Replace(" ", string.Empty))
@@ -584,7 +583,7 @@ public static class ColorUtils
 
         HSV hsv = new HSV
         {
-            V = max
+            V = max,
         };
 
         if (max == 0)

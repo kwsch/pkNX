@@ -159,7 +159,7 @@ public static partial class Legal
     public static int[] GetBannedMoves(GameVersion infoGame, int moveCount)
     {
         if (!GameVersion.GG.Contains(infoGame))
-            return Array.Empty<int>();
+            return [];
 
         return Enumerable.Range(0, moveCount).Except(AllowedMovesGG).ToArray();
     }
@@ -172,8 +172,8 @@ public static partial class Legal
         return Enumerable.Range(0, moveCount).ToArray();
     }
 
-    public static readonly HashSet<int> BattleForms = new()
-    {
+    public static readonly HashSet<int> BattleForms =
+    [
         (int)Species.Castform,
         (int)Species.Cherrim,
         (int)Species.Darmanitan,
@@ -189,10 +189,10 @@ public static partial class Legal
         (int)Species.Zamazenta,
         (int)Species.Eternatus,
         (int)Species.Palafin,
-    };
+    ];
 
-    public static readonly HashSet<int> BattleMegas = new()
-    {
+    public static readonly HashSet<int> BattleMegas =
+    [
         // XY
         (int)Species.Venusaur, (int)Species.Charizard, (int)Species.Blastoise, (int)Species.Alakazam, (int)Species.Gengar,
         (int)Species.Kangaskhan, (int)Species.Pinsir, (int)Species.Gyarados, (int)Species.Aerodactyl, (int)Species.Mewtwo,
@@ -207,9 +207,9 @@ public static partial class Legal
         (int)Species.Altaria, (int)Species.Glalie, (int)Species.Salamence, (int)Species.Metagross, (int)Species.Rayquaza,
         (int)Species.Lopunny, (int)Species.Gallade,
         (int)Species.Audino, (int)Species.Diancie,
-    };
+    ];
 
-    public static readonly HashSet<int> BattlePrimals = new() { 382, 383 }; // Kyogre and Groudon
-    public static readonly HashSet<int> BattleFusions = new() { 646, 800, 898 }; // Kyurem, Necrozma, Calyrex
+    public static readonly HashSet<int> BattlePrimals = [382, 383]; // Kyogre and Groudon
+    public static readonly HashSet<int> BattleFusions = [646, 800, 898]; // Kyurem, Necrozma, Calyrex
     public static readonly HashSet<int> BattleExclusiveForms = new(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
 }

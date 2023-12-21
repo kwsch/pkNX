@@ -23,7 +23,7 @@ public abstract class LargeContainer : IDisposable, IFileContainer
     public string? FilePath { get; set; }
     public bool Modified { get; set; }
 
-    protected byte[]?[] Files = Array.Empty<byte[]>();
+    protected byte[]?[] Files = [];
 
     /// <summary>
     /// Packs the <see cref="LargeContainer"/> to the specified writing stream.

@@ -53,7 +53,7 @@ public class GameManagerPLA : GameManager
         ItemConverter.ItemNames = GetStrings(TextName.ItemNames);
 
         // TODO: Get these from files
-        AIBehaviourConverter.BehaviourNames = new HashSet<string> {
+        AIBehaviourConverter.BehaviourNames = [
             "",
             "group_leader_wild_poke_coward_lv1",
             "group_leader_wild_poke_coward_lv1_fish_pm0550",
@@ -179,7 +179,7 @@ public class GameManagerPLA : GameManager
             "semi_legend_poke_pm0642",
             "semi_legend_poke_pm0645",
             "semi_legend_poke_pm0905",
-        };
+        ];
     }
 
     private void ResetData()

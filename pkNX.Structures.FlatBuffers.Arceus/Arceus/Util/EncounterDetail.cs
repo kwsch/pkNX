@@ -14,7 +14,7 @@ public record struct EncounterDetail(double Rate, double MultT, double MultW, in
         for (var t = 0; t < TimeCount; t++)
         {
             for (var w = 0; w < WeatherCount; w++)
-                result[t, w] = new List<EncounterDetail>();
+                result[t, w] = [];
         }
         return result;
     }

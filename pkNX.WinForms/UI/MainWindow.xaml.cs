@@ -53,18 +53,18 @@ public partial class MainWindow
         "Español",
         "한국",
         "汉字简化方案",
-        "漢字簡化方案"
+        "漢字簡化方案",
     };
 
     public EditorButtonData[] Categories
     {
-        get { return (EditorButtonData[])GetValue(CategoriesProperty); }
-        set { SetValue(CategoriesProperty, value); }
+        get => (EditorButtonData[])GetValue(CategoriesProperty);
+        set => SetValue(CategoriesProperty, value);
     }
 
     public ProgramSettings Settings { get; }
 
-    private int Language
+    private new int Language
     {
         get => CB_Lang.SelectedIndex;
         set => CB_Lang.SelectedIndex = value;
@@ -211,7 +211,7 @@ public partial class MainWindow
 
     private void LoadEditorButtons(EditorCategory category = EditorCategory.None)
     {
-        List<EditorButtonData> categories = new();
+        List<EditorButtonData> categories = [];
         if (category == EditorCategory.None)
         {
             foreach (var c in (EditorCategory[])Enum.GetValues(typeof(EditorCategory)))
@@ -226,7 +226,7 @@ public partial class MainWindow
                 {
                     Icon = c.GetIcon(),
                     Title = c.ToString(),
-                    OnClick = (_, _) => LoadEditorButtons(c)
+                    OnClick = (_, _) => LoadEditorButtons(c),
                 });
             }
         }
@@ -237,7 +237,7 @@ public partial class MainWindow
             {
                 Title = "Back",
                 Icon = IconChar.Reply,
-                OnClick = (_, _) => LoadEditorButtons()
+                OnClick = (_, _) => LoadEditorButtons(),
             });
         }
 

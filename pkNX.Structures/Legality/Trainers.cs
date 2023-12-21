@@ -6,12 +6,12 @@ public static partial class Legal
 {
     #region Gen 6
     public static readonly ushort[] Mega_XY =
-    {
+    [
         003, 006, 009, 065, 080, 115, 127, 130, 142, 150,
         181, 212, 214, 229, 248,
         257, 282, 303, 306, 308, 310, 354, 359, 380, 381,
         445, 448, 460,
-    };
+    ];
 
     public static readonly ushort[] Mega_ORAS = Mega_XY.Concat(new ushort[]
     {
@@ -24,7 +24,7 @@ public static partial class Legal
     }).ToArray();
 
     public static readonly int[] SpecialClasses_XY =
-    {
+    [
         #region Classes
         000, // Pokémon Trainer
         001, // Pokémon Trainer
@@ -78,10 +78,10 @@ public static partial class Legal
         176, // Successor
         177, // Leader
         #endregion
-    };
+    ];
 
     public static readonly int[] SpecialClasses_ORAS =
-    {
+    [
         #region Classes
         064, // Battle Chatelaine
         065, // Battle Chatelaine
@@ -129,12 +129,12 @@ public static partial class Legal
         278, // Pokémon Trainer
         279, // Pokémon Trainer
         #endregion
-    };
+    ];
     #endregion
 
     #region Gen 7
     public static readonly int[] SpecialClasses_SM =
-    {
+    [
         #region Classes
         000, // Pokémon Trainer
         001, // Pokémon Trainer
@@ -208,10 +208,10 @@ public static partial class Legal
         184, // Battle Legend
         185, // Aether Foundation
         #endregion
-    };
+    ];
 
     public static readonly int[] SpecialClasses_USUM =
-    {
+    [
         #region Classes
         000, // Pokémon Trainer
         001, // Pokémon Trainer
@@ -306,10 +306,10 @@ public static partial class Legal
         221, // Pokémon Trainer
         222, // Pokémon Trainer
         #endregion
-    };
+    ];
 
     public static readonly int[] SpecialClasses_GG =
-    {
+    [
         #region Classes
         000, // Pokémon Trainer [Trace, Standard]
         001, // Gym Leader [Brock]
@@ -337,7 +337,7 @@ public static partial class Legal
         061, // Champion [Trace]
         383, // Pokémon Trainer [Trace, Champion Title Defense]
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Unused Trainer Classes in Let's Go, Pikachu! &amp; Let's Go, Eevee!.
@@ -355,7 +355,7 @@ public static partial class Legal
 
     #region Gen 8
     public static readonly int[] SpecialClasses_SWSH =
-    {
+    [
         #region Classes
         004, // Champion [Leon]
         005, // Pokémon Trainer [Leon, Battle Tower]
@@ -413,10 +413,10 @@ public static partial class Legal
         252, // Gym Leader [Avery]
         253, // Gym Leader [Klara]
         #endregion
-    };
+    ];
 
     public static readonly int[] DoubleBattleClasses_SWSH =
-    {
+    [
         #region DoubleBattleClasses
         072, // Reporter
         073, // Cameraman
@@ -463,14 +463,14 @@ public static partial class Legal
         177, // Colleagues    (Displayed when Trainer Classes 175 and 176 partake in a Double Battle)
         182, // Medical Team  (Displayed when Trainer Classes 180 and 181 partake in a Double Battle)
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Unused Trainer Classes in Sword &amp; Shield.
     /// Consists of NPCs you can interact with but never battle.
     /// </summary>
     public static readonly int[] UnusedClasses_SWSH =
-    {
+    [
         #region UnusedClasses
         000, // Pokémon Trainer [Your Player]
         001, // Pokémon Trainer [Your Player]
@@ -517,14 +517,14 @@ public static partial class Legal
         224, // Master Dojo [Male] -- functionally identical to 223
         226, // Master Dojo [Female] -- functionally identical to 225
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Unused Trainer Classes in Sword &amp; Shield.
     /// Assigning these Trainer Classes to a Trainer crashes the game.
     /// </summary>
     public static readonly int[] CrashClasses_SWSH =
-    {
+    [
         #region CrashClasses
         019, // ベテラントレーナー
         047, // Waitress
@@ -556,14 +556,14 @@ public static partial class Legal
         154, // はいたついん
         222, // Dojo Master [Mustard] -- this is used, but crashes if assigned to any other trainers
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Dummy Trainer Classes in Sword and Shield.
     /// No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
     /// </summary>
     public static readonly int[] DummyClasses_SWSH =
-    {
+    [
         #region DummyClasses
         254, // [~ 254]
         255, // [~ 255]
@@ -583,59 +583,59 @@ public static partial class Legal
         269, // [~ 269]
         270, // [~ 270]
         #endregion
-    };
+    ];
 
     public static readonly int[] BlacklistedClasses_SWSH = DoubleBattleClasses_SWSH.Concat(UnusedClasses_SWSH).Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
     #endregion
 
     #region Gen 9
     public static readonly int[] SpecialClasses_SV =
-    {
+    [
         #region Classes
         #endregion
-    };
-    
+    ];
+
     public static readonly int[] DoubleBattleClasses_SV =
-    {
+    [
         #region DoubleBattleClasses
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Unused Trainer Classes in Scarlet &amp; Violet.
     /// Consists of NPCs you can interact with but never battle.
     /// </summary>
     public static readonly int[] UnusedClasses_SV =
-    {
+    [
         #region UnusedClasses
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Unused Trainer Classes in Scarlet &amp; Violet.
     /// Assigning these Trainer Classes to a Trainer crashes the game.
     /// </summary>
     public static readonly int[] CrashClasses_SV =
-    {
+    [
         #region CrashClasses
         #endregion
-    };
+    ];
 
     /// <summary>
     /// Dummy Trainer Classes in Scarlet &amp; Violet.
     /// No names are assigned to them. Could be preserved for future DLC, or could just be leftovers.
     /// </summary>
     public static readonly int[] DummyClasses_SV =
-    {
+    [
         #region DummyClasses
         #endregion
-    };
+    ];
     #endregion
 
-    public static readonly int[] BlacklistedClasses_SV = DoubleBattleClasses_SV.Concat(UnusedClasses_SV).Concat(CrashClasses_SV).Concat(DummyClasses_SV).ToArray();
+    public static readonly int[] BlacklistedClasses_SV = [.. DoubleBattleClasses_SV, .. UnusedClasses_SV, .. CrashClasses_SV, .. DummyClasses_SV];
 
     public static readonly int[] Model_XY =
-    {
+    [
         #region Models
         018, // Aliana
         019, // Bryony
@@ -652,10 +652,10 @@ public static partial class Legal
         105, // Sycamore
         175, // Lysandre (Mega Ring)
         #endregion
-    };
+    ];
 
     public static readonly int[] Model_AO =
-    {
+    [
         #region Models
         127, // Brendan
         128, // May
@@ -671,16 +671,16 @@ public static partial class Legal
         278, // Brendan (Mega Bracelet)
         279, // May (Mega Bracelet)
         #endregion
-    };
+    ];
 
     public static readonly int[] Z_Moves =
-    {
+    [
         622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
         695, 696, 697, 698, 699, 700, 701, 702, 703, 719, 723, 724, 725, 726, 727, 728,
-    };
+    ];
 
     public static readonly int[] Max_Moves =
-    {
+    [
         743, // Max Guard
         757, // Max Flare
         758, // Max Flutterby
@@ -700,62 +700,62 @@ public static partial class Legal
         772, // Max Darkness
         773, // Max Overgrowth
         774, // Max Steelspike
-    };
+    ];
 
     public static readonly int[] Taboo_Moves =
-    {
+    [
         165, // Struggle
         464, // Dark Void
         621, // Hyperspace Fury
         781, // Behemoth Blade
         782, // Behemoth Bash
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_XY =
-    {
+    [
         006, 021, 022, 023, 024, 025, 026, 076, 130, 131, 132, 175, 184, 185, 186, 187, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274,
         275, 276, 277, 279, 303, 321, 322, 323, 324, 325, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 237, 348, 349, 350, 351, 435, 436,
         437, 438, 439, 503, 504, 505, 507, 511, 512, 513, 514, 515, 519, 520, 521, 525, 526, 559, 560, 561, 562, 573, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589,
         590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 604, 605, 606, 613,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_ORAS =
-    {
+    [
         178, 231, 235, 236, 266, 271, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 518, 527, 528, 529, 530, 531, 532, 553, 554, 555, 556, 557, 561, 563, 567, 569, 570, 571, 572,
         583, 674, 675, 676, 677, 678, 679, 680, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 713, 856, 857, 898, 906, 907, 908, 909, 910, 911,
         912, 913, 942, 943, 944, 945, 946, 947,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_SM =
-    {
+    [
         012, 013, 014, 023, 052, 074, 075, 076, 077, 078, 079, 089, 090, 129, 131, 132, 138, 144, 146, 149, 152, 153, 154, 155, 156, 158, 159, 160, 164, 167, 215, 216, 217, 218, 219, 220, 221,
         222, 235, 236, 238, 239, 240, 241, 349, 350, 351, 352, 356, 357, 358, 359, 360, 392, 396, 398, 400, 401, 403, 405, 409, 410, 412, 413, 414, 415, 416, 417, 418, 419, 435, 438, 439, 440,
         441, 447, 448, 449, 450, 451, 452, 467, 477, 478, 479, 480, 481, 482, 483, 484,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_USUM =
-    {
+    [
         012, 013, 014, 023, 052, 074, 075, 076, 077, 078, 079, 089, 090, 131, 132, 138, 144, 146, 149, 153, 154, 156, 159, 160, 215, 216, 217, 218, 219, 220, 221, 222, 235, 236, 238, 239, 240,
         241, 350, 351, 352, 356, 358, 359, 396, 398, 401, 405, 409, 410, 412, 415, 416, 417, 418, 419, 438, 439, 440, 441, 447, 448, 449, 450, 451, 452, 477, 478, 479, 480, 489, 490, 494, 495,
         496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 541, 542, 543, 555, 556, 557, 558, 559, 560, 561, 562, 572, 573, 578, 580, 582, 583, 623, 630, 644, 645, 647, 648, 649,
         650, 651, 652,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_GG =
-    {
+    [
         005, 007, 008, 009, 010, 011, 013, 014, 015, 016, 017, 018, 020, 021, 022, 023, 024, 025, 027, 028, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046,
         048, 049, 050, 051, 052, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 437, 439, 597, 601,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_SWSH =
-    {
+    [
         032, 036, 037, 077, 078, 107, 108, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 143, 144, 145, 149, 153, 154, 155, 156, 157, 158, 175, 189, 190,
         191, 192, 193, 195, 196, 197, 198, 199, 202, 203, 204, 210, 211, 212, 213, 214, 215, 216, 221, 222, 225, 226, 227, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 248, 249, 250, 251,
         252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 269, 289, 315, 316, 317, 318, 319, 320, 321, 324, 325, 326, 327, 328, 329, 330, 374, 376, 414, 415, 416,
         417, 418, 419, 420, 431, 432, 433, 434,
-    };
+    ];
 
     public static readonly int[] ImportantTrainers_SV =
-    {
-    };
+    [
+    ];
 }

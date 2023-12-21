@@ -131,7 +131,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
     public byte[] GetDataFull(ulong hash)
     {
         var fileId = GetIndexFull(hash);
-        return fileId < 0 ? Array.Empty<byte>() : DecompressedFiles[fileId];
+        return fileId < 0 ? [] : DecompressedFiles[fileId];
     }
 
     public byte[] GetDataFullPath(string path) => GetDataFull(FnvHash.HashFnv1a_64(path));
@@ -392,7 +392,7 @@ public class FileHashAbsolute
 public class FileHashFolder
 {
     public FileHashFolderInfo Folder = new();
-    public FileHashIndex[] Files = Array.Empty<FileHashIndex>();
+    public FileHashIndex[] Files = [];
     public int GetIndexFileName(ulong hash) => Array.FindIndex(Files, z => z.HashFnv1aPathFileName == hash);
     public int GetIndexFileName(string name) => Array.FindIndex(Files, z => z.IsMatch(name));
 }

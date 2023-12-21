@@ -13,7 +13,7 @@ public static partial class Legal
     public const int MaxAbilityID_8a = MaxAbilityID_8_R2;
 
     #region Inventory Pouch
-    public static readonly ushort[] HeldItems_LA = Array.Empty<ushort>();
+    public static readonly ushort[] HeldItems_LA = [];
 
     public static readonly ushort[] Pouch_Items_LA =
     {

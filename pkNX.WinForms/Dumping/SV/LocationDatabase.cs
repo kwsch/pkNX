@@ -5,7 +5,7 @@ namespace pkNX.Structures.FlatBuffers;
 
 public class LocationDatabase
 {
-    public readonly Dictionary<int, LocationStorage> Locations = new();
+    public readonly Dictionary<int, LocationStorage> Locations = [];
 
     public LocationStorage Get(int location, PaldeaFieldIndex fieldIndex, string areaName, AreaInfo areaInfo)
     {

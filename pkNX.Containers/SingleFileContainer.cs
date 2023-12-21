@@ -12,8 +12,8 @@ public class SingleFileContainer : IFileContainer
     public bool Modified { get; set; }
     public int Count => 1;
 
-    public byte[] Data = Array.Empty<byte>();
-    private byte[] Backup = Array.Empty<byte>();
+    public byte[] Data = [];
+    private byte[] Backup = [];
     public SingleFileContainer(byte[] data) => LoadData(data);
     public SingleFileContainer(BinaryReader br) => LoadData(br.ReadBytes((int) br.BaseStream.Length));
     public SingleFileContainer(string path) => LoadData(FileMitm.ReadAllBytes(FilePath = path));

@@ -11,7 +11,7 @@ public class TextManager
     private readonly TextConfig Config;
     private readonly IReadOnlyCollection<TextReference> References;
 
-    private readonly Dictionary<TextName, string[]> Cache = new();
+    private readonly Dictionary<TextName, string[]> Cache = [];
 
     public void ClearCache() => Cache.Clear();
 

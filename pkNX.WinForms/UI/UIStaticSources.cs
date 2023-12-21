@@ -10,13 +10,13 @@ namespace pkNX.WinForms
         public static readonly string[] EggGroups = Enum.GetNames(typeof(EggGroup));
         public static readonly string[] PokeColors = Enum.GetNames(typeof(PokeColor));
         public static readonly string[] EXPGroups = Enum.GetNames(typeof(EXPGroup));
-        public static string[] SpeciesList = Array.Empty<string>();
-        public static string[] FormsList = Array.Empty<string>();
-        public static string[] SpeciesClassificationsList = Array.Empty<string>();
-        public static string[] ItemsList = Array.Empty<string>();
-        public static string[] AbilitiesList = Array.Empty<string>();
-        public static string[] MovesList = Array.Empty<string>();
-        public static string[] TypesList = Array.Empty<string>();
+        public static string[] SpeciesList = [];
+        public static string[] FormsList = [];
+        public static string[] SpeciesClassificationsList = [];
+        public static string[] ItemsList = [];
+        public static string[] AbilitiesList = [];
+        public static string[] MovesList = [];
+        public static string[] TypesList = [];
 
         public static void SetupForGame(GameManager ROM)
         {

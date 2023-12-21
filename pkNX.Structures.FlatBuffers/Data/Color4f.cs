@@ -37,6 +37,5 @@ public partial struct Color4f
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Color4f FromByteColor(Vec4i c) => new(c.X * RGBToFloat, c.Y * RGBToFloat, c.Z * RGBToFloat, c.W * RGBToFloat);
 
-
     public override string ToString() => $"{{ R: {R}, G: {G}, B: {B}, A: {A} }}";
 }

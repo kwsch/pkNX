@@ -6,7 +6,6 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 
 // *.trmdl
 
-
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class FileReference
 {
@@ -33,6 +32,6 @@ public partial class Model
         Meshes = Array.Empty<FileReference>(),
         LODs = Array.Empty<LOD>(),
         Skeleton = FileReference.Empty,
-        Materials = Array.Empty<string>()
+        Materials = Array.Empty<string>(),
     };
 }

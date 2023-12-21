@@ -85,8 +85,8 @@ public static partial class Legal
 
     public static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
-    public static readonly HashSet<ushort> ValidMet_SWSH = new()
-    {
+    public static readonly HashSet<ushort> ValidMet_SWSH =
+    [
                        006, 008,
              012, 014, 016, 018,
         020, 022, 024,      028,
@@ -114,7 +114,7 @@ public static partial class Legal
         222, 224, 226, 228, 230,
         232, 234, 236, 238, 240,
         242, 244, 246,
-    };
+    ];
 
     #endregion
 
@@ -298,7 +298,7 @@ public static partial class Legal
         521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
     };
-    
+
     public static readonly ushort[] TR_SWSH =
     {
         // TR
@@ -338,8 +338,8 @@ public static partial class Legal
 
     #endregion
 
-    public static readonly HashSet<ushort> GalarOriginForms = new()
-    {
+    public static readonly HashSet<ushort> GalarOriginForms =
+    [
         (int)Meowth,
         (int)Ponyta,
         (int)Rapidash,
@@ -353,23 +353,23 @@ public static partial class Legal
         (int)Darumaka,
         (int)Darmanitan,
         (int)Stunfisk,
-    };
+    ];
 
-    public static readonly HashSet<ushort> GalarVariantFormEvolutions = new()
-    {
+    public static readonly HashSet<ushort> GalarVariantFormEvolutions =
+    [
         (int)MrMime,
         (int)Weezing,
-    };
+    ];
 
-    public static readonly HashSet<int> GalarForm0Evolutions = new()
-    {
+    public static readonly HashSet<int> GalarForm0Evolutions =
+    [
         (int)Obstagoon,
         (int)Perrserker,
         (int)Cursola,
         (int)Sirfetchd,
         (int)MrRime,
         (int)Runerigus,
-    };
+    ];
 
     public static readonly HashSet<ushort> EvolveToGalarForms = new(GalarVariantFormEvolutions.Concat(GalarOriginForms));
 

@@ -43,7 +43,7 @@ public static class EditorCategoryExt
         EditorCategory.Graphics => IconChar.Display,
         EditorCategory.Audio => IconChar.VolumeUp,
         EditorCategory.Misc => IconChar.Toolbox,
-        _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
     };
 }
 

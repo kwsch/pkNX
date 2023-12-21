@@ -63,7 +63,7 @@ public partial class PokeCaptureCollisionArchive
                     Type = "Barrier",
                     Field07 = string.Empty,
                 },
-            }
+            },
         };
 
         Table = Table.Append(entry)

@@ -9,10 +9,10 @@ public static class ReflectionUtils
 {
     public static IEnumerable<FieldInfo> GetAllFields(object target, Func<FieldInfo, bool> predicate)
     {
-        List<Type> types = new List<Type>()
-            {
-                target.GetType()
-            };
+        List<Type> types =
+            [
+                target.GetType(),
+            ];
 
         while (types.Last().BaseType != null)
         {
@@ -34,10 +34,10 @@ public static class ReflectionUtils
 
     public static IEnumerable<PropertyInfo> GetAllProperties(object target, Func<PropertyInfo, bool> predicate)
     {
-        List<Type> types = new List<Type>()
-            {
-                target.GetType()
-            };
+        List<Type> types =
+            [
+                target.GetType(),
+            ];
 
         while (types.Last().BaseType != null)
         {

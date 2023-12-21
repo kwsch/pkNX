@@ -44,6 +44,6 @@ public partial class DeliveryRaidLotteryRewardItem
         27 => RewardItem27,
         28 => RewardItem28,
         29 => RewardItem29,
-        _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
     };
 }

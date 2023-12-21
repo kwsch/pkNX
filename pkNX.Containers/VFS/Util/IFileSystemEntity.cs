@@ -35,4 +35,3 @@ public interface IFileSystemEntity
         return VirtualDirectory.Create(fileSystem, path);
     }
 }
-

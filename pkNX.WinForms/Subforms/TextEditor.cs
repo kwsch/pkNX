@@ -130,7 +130,7 @@ public partial class TextEditor : Form
             // else pray that the filename index lines up
 
             i += 2; // Skip over the other header line
-            List<string> Lines = new();
+            List<string> Lines = [];
             while (i < fileText.Length && fileText[i] != "~~~~~~~~~~~~~~~")
             {
                 Lines.Add(fileText[i]);
@@ -306,7 +306,7 @@ public partial class TextEditor : Form
         int end = all ? TextData.Length - 1 : entry;
 
         // Gather strings
-        List<string> strings = new();
+        List<string> strings = [];
         for (int i = start; i <= end; i++)
         {
             string[] data = TextData[i];

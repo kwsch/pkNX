@@ -1,22 +1,21 @@
 using System;
 using Xunit;
 
-namespace SharpFileSystem.Tests
+namespace SharpFileSystem.Tests;
+
+public static class EAssert
 {
-    public static class EAssert
+    public static void Throws<T>(Action a)
+        where T : Exception
     {
-        public static void Throws<T>(Action a)
-            where T : Exception
+        try
         {
-            try
-            {
-                a();
-            }
-            catch (T)
-            {
-                return;
-            }
-            Assert.False(true, $"The exception '{typeof(T).FullName}' was not thrown.");
+            a();
         }
+        catch (T)
+        {
+            return;
+        }
+        Assert.Fail($"The exception '{typeof(T).FullName}' was not thrown.");
     }
 }

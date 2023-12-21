@@ -19,7 +19,7 @@ public class OutlinedTextBlock : FrameworkElement
             DashCap = PenLineCap.Round,
             EndLineCap = PenLineCap.Round,
             LineJoin = PenLineJoin.Round,
-            StartLineCap = PenLineCap.Round
+            StartLineCap = PenLineCap.Round,
         };
 
         InvalidateVisual();
@@ -184,7 +184,7 @@ public class OutlinedTextBlock : FrameworkElement
     public OutlinedTextBlock()
     {
         UpdatePen();
-        TextDecorations = new TextDecorationCollection();
+        TextDecorations = [];
     }
 
     protected override void OnRender(DrawingContext drawingContext)

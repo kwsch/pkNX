@@ -51,9 +51,9 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
         OnCollectionChanged(args);
     }
 
-    /// <summary> 
-    /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T). 
-    /// </summary> 
+    /// <summary>
+    /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T).
+    /// </summary>
     public void AddRange(IEnumerable<T> collection)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
@@ -62,9 +62,9 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
-    /// <summary> 
-    /// Removes the first occurrence of each item in the specified collection from ObservableCollection(Of T). 
-    /// </summary> 
+    /// <summary>
+    /// Removes the first occurrence of each item in the specified collection from ObservableCollection(Of T).
+    /// </summary>
     public void RemoveRange(IEnumerable<T> collection)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
@@ -73,17 +73,17 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
-    /// <summary> 
-    /// Clears the current collection and replaces it with the specified item. 
-    /// </summary> 
+    /// <summary>
+    /// Clears the current collection and replaces it with the specified item.
+    /// </summary>
     public void Replace(T item)
     {
         ReplaceRange(new[] { item });
     }
 
-    /// <summary> 
-    /// Clears the current collection and replaces it with the specified collection. 
-    /// </summary> 
+    /// <summary>
+    /// Clears the current collection and replaces it with the specified collection.
+    /// </summary>
     public void ReplaceRange(IEnumerable<T> collection)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));

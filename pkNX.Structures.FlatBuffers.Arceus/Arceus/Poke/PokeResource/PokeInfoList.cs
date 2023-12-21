@@ -56,10 +56,10 @@ public partial class PokeInfoList
                                     new() {
                                         AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_n",
                                         Gender = new PokeInfoGender(),
-                                    }
-                                }
-                            }
-                        }
+                                    },
+                                },
+                            },
+                        },
                     },
                     new() {
                         IsRare = true, // Shiny form
@@ -69,12 +69,12 @@ public partial class PokeInfoList
                                     new() {
                                         AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_r",
                                         Gender = new PokeInfoGender(),
-                                    }
-                                }
-                            }
-                        }
+                                    },
+                                },
+                            },
+                        },
                     },
-                }
+                },
             };
         }
 

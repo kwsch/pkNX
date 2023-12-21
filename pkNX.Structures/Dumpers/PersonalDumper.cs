@@ -51,7 +51,7 @@ public class PersonalDumper
         var lines = new List<string>();
         var ml = new List<string>[Moves.Count];
         for (int i = 0; i < ml.Length; i++)
-            ml[i] = new List<string>();
+            ml[i] = [];
         MoveSpeciesLearn = ml;
 
         for (ushort species = 0; species <= table.MaxSpeciesID; species++)

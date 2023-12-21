@@ -49,7 +49,6 @@ namespace pkNX.WinForms;
 // TODO: Material conversion
 // What do do with vertex color. Why are there two entries?
 
-
 // TODO's per file type
 // Config -> fill in missing fields
 // Model -> Auto generate LODs, Field_06
@@ -70,7 +69,6 @@ namespace pkNX.WinForms;
 // Mesh8 -> SortPriority (only used rarely)
 // Skeleton8 -> Effect and IsVisible 
 
-
 // Probably need some sort of intermediate class structure
 
 // PLA animation structure classes
@@ -89,14 +87,14 @@ public partial class ModelConverter : Form
 {
     private GameManager ROM;
     private int SpeciesId;
-    private string FileName;
-    private string BasePath;
+    private string FileName { get; set; } = "";
+    private string BasePath { get; set; } = "";
 
     private string ModelPath => BasePath + "mdl/";
     private string AnimationsPath => BasePath + "anm/";
 
-    private FolderContainer PokemonModelDir;
-    private FolderContainer SWSHPokemonModelDir;
+    private readonly FolderContainer PokemonModelDir;
+    private readonly FolderContainer SWSHPokemonModelDir;
 
     public ModelConverter(GameManager rom)
     {
@@ -118,7 +116,7 @@ public partial class ModelConverter : Form
     public class MeshMaterialWrapper
     {
         [FlatBufferItem(0)] public string Name { get; set; } = string.Empty;
-        [FlatBufferItem(1)] public Material[] Materials { get; set; } = Array.Empty<Material>();
+        [FlatBufferItem(1)] public Material[] Materials { get; set; } = [];
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
@@ -127,13 +125,13 @@ public partial class ModelConverter : Form
         [FlatBufferItem(0)] public PokeConfig Config { get; set; } = new();
         [FlatBufferItem(1)] public Model Model { get; set; } = Model.Empty;
         [FlatBufferItem(2)] public MultiMaterialTable MMT { get; set; } = MultiMaterialTable.Empty;
-        [FlatBufferItem(3)] public Mesh[] Meshes { get; set; } = Array.Empty<Mesh>();
-        [FlatBufferItem(4)] public MeshBufferTable[] MeshDataBuffers { get; set; } = Array.Empty<MeshBufferTable>();
-        [FlatBufferItem(5)] public Material[] DefaultMaterials { get; set; } = Array.Empty<Material>();
-        [FlatBufferItem(6)] public MeshMaterialWrapper[] MeshMaterials { get; set; } = Array.Empty<MeshMaterialWrapper>();
+        [FlatBufferItem(3)] public Mesh[] Meshes { get; set; } = [];
+        [FlatBufferItem(4)] public MeshBufferTable[] MeshDataBuffers { get; set; } = [];
+        [FlatBufferItem(5)] public Material[] DefaultMaterials { get; set; } = [];
+        [FlatBufferItem(6)] public MeshMaterialWrapper[] MeshMaterials { get; set; } = [];
         [FlatBufferItem(7)] public Skeleton Skeleton { get; set; } = new();
 
-        [FlatBufferItem(8)] public string[] UsedTextures { get; set; } = Array.Empty<string>();
+        [FlatBufferItem(8)] public string[] UsedTextures { get; set; } = [];
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -143,18 +141,26 @@ public partial class ModelConverter : Form
         public GFBModel GFBModel { get; set; } = new();
         public GFBModel GFBModelRare { get; set; } = new();
 
-        public string[] UsedTextures { get; set; } = Array.Empty<string>();
+        public string[] UsedTextures { get; set; } = [];
     }
 
-    private PokemonModelGfpak PLAModel = new();
-    private SWSHModelWrapper SWSHModel = new();
-    private PokemonModelGfpak Result = new();
+    private readonly PokemonModelGfpak PLAModel = new();
+    private readonly SWSHModelWrapper SWSHModel = new();
+    private readonly PokemonModelGfpak Result = new();
+
+    public ModelConverter(FolderContainer swshPokemonModelDir)
+    {
+        ROM = null!;
+        PokemonModelDir = null!;
+        SWSHPokemonModelDir = swshPokemonModelDir;
+    }
 
     private void UpdatePLAModel()
     {
-        // TODO: Paths are located in 'Pokemon Resource Table', should load through there
+        // TODO: Paths are located in 'Pokémon Resource Table', should load through there
 
-        string selectedFile = (string)CB_Species.SelectedItem;
+        if (CB_Species.SelectedItem is not string selectedFile)
+            return;
         FileName = Path.GetFileNameWithoutExtension(selectedFile);
         SpeciesId = int.Parse(FileName.Substring(2, 4));
 
@@ -164,7 +170,7 @@ public partial class ModelConverter : Form
 
         BasePath = $"bin/pokemon/pm{SpeciesId:0000}/{FileName}/";
 
-        var pack = new GFPack(PokemonModelDir.GetFileData(selectedFile) ?? Array.Empty<byte>());
+        var pack = new GFPack(PokemonModelDir.GetFileData(selectedFile) ?? []);
 
         PLAModel.Config = FlatBufferConverter.DeserializeFrom<PokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.trpokecfg"));
         Debug.Assert((int)PLAModel.Config.SizeIndex <= 3, "Here's one!");
@@ -174,13 +180,14 @@ public partial class ModelConverter : Form
 
     private void UpdateSWSHModel()
     {
-        string selectedFile = (string)CB_SWSHSpecies.SelectedItem;
+        if (CB_SWSHSpecies.SelectedItem is not string selectedFile)
+            return;
         FileName = Path.GetFileNameWithoutExtension(selectedFile);
         SpeciesId = int.Parse(FileName.Substring(2, 4));
 
         BasePath = $"bin/pokemon/{FileName}/";
 
-        var pack = new GFPack(SWSHPokemonModelDir.GetFileData($"{FileName}.gfpak") ?? Array.Empty<byte>());
+        var pack = new GFPack(SWSHPokemonModelDir.GetFileData($"{FileName}.gfpak") ?? []);
 
         SWSHModel.Config = FlatBufferConverter.DeserializeFrom<GFBPokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.gfbpokecfg"));
 
@@ -203,11 +210,11 @@ public partial class ModelConverter : Form
         }
 
         Debug.Assert(PLAModel.Skeleton.Reserved00 == 0, "Here's one!");
-        foreach (var node in PLAModel.Skeleton.Nodes)
+        foreach (var node in PLAModel.Skeleton.Nodes!)
         {
             Debug.Assert(node.Type is NodeType.Transform or NodeType.Joint or NodeType.Locator, "Here's one!");
         }
-        foreach (var boneParam in PLAModel.Skeleton.Bones)
+        foreach (var boneParam in PLAModel.Skeleton.Bones!)
         {
             Debug.Assert(boneParam.Field01 == 1, "Here's one!");
         }
@@ -238,16 +245,13 @@ public partial class ModelConverter : Form
                 )
             ).ToHashSet().ToArray();
 
-        for (var i = 0; i < PLAModel.DefaultMaterials.Length; i++)
+        foreach (var material in PLAModel.DefaultMaterials)
         {
-            var material = PLAModel.DefaultMaterials[i];
-
-            for (var j = 0; j < material.MaterialPasses.Count; j++)
+            foreach (var pass in material.MaterialPasses)
             {
-                var pass = material.MaterialPasses[j];
                 var values = pass.Shaders[0].ShaderValues;
 
-                var layerCount = int.Parse(values.First(x => x.PropertyBinding.Equals("NumMaterialLayer")).StringValue);
+                var layerCount = int.Parse(values.First(x => x.PropertyBinding.Equals("NumMaterialLayer")).StringValue!);
                 Debug.Assert(layerCount == 5, "Here's one!");
 
                 var vertexBaseColor = bool.Parse(values.FirstOrDefault(x => x.PropertyBinding.Equals("EnableVertexBaseColor"))?.StringValue ?? "False");
@@ -261,10 +265,10 @@ public partial class ModelConverter : Form
         PLAModel.MeshMaterials = PLAModel.MMT.Material.Select(
                 x => new MeshMaterialWrapper
                 {
-                    Name = x.Name,
+                    Name = x.Name!,
                     Materials = x.FileNames.Select(
                         fileName => FlatBufferConverter.DeserializeFrom<Material>(pack.GetDataFullPath(ModelPath + $"{fileName}"))
-                    ).ToArray()
+                    ).ToArray(),
                 }
             ).ToArray();
     }
@@ -390,7 +394,8 @@ public partial class ModelConverter : Form
 
     private void ConvertToSkeleton()
     {
-        IList<Bone8> skeleton = SWSHModel.GFBModel.SkeletonNodes;
+        if (SWSHModel.GFBModel.SkeletonNodes is not { } skeleton)
+            return;
 
         // TODO:
         // Result.Skeleton.SizeType;
@@ -430,7 +435,7 @@ public partial class ModelConverter : Form
                 {
                     Scale = bone8.Scale,
                     Rotate = bone8.Rotation,
-                    Translate = bone8.Translation / 100 // Scale down swsh models by 100
+                    Translate = bone8.Translation / 100, // Scale down swsh models by 100
                 },
                 ScalePivot = bone8.ScalePivot,
                 RotatePivot = bone8.RotatePivot,
@@ -466,7 +471,7 @@ public partial class ModelConverter : Form
             (DataType.FixedPoint, 4) => InputLayoutFormat.RGBA_8_UNORM,
             (DataType.Float, 2) => InputLayoutFormat.RG_32_FLOAT,
             (DataType.Float, 3) => InputLayoutFormat.RGB_32_FLOAT,
-            _ => InputLayoutFormat.NONE
+            _ => InputLayoutFormat.NONE,
         };
 
         Debug.Assert(result != InputLayoutFormat.NONE, "Error: Conversion resulted in VertexLayoutType.NONE!");
@@ -489,10 +494,10 @@ public partial class ModelConverter : Form
             VertexAttributeType.Color_2 => (InputLayoutSemanticName.COLOR, 2u),
             VertexAttributeType.Color_3 => (InputLayoutSemanticName.COLOR, 3u),
 
-            VertexAttributeType.Group_Idx => (BLEND_INDEX: InputLayoutSemanticName.BLEND_INDICES, 0u),
+            VertexAttributeType.Group_Idx => (InputLayoutSemanticName.BLEND_INDICES, 0u),
             VertexAttributeType.Group_Weight => (InputLayoutSemanticName.BLEND_WEIGHTS, 0u),
 
-            _ => (InputLayoutSemanticName.NONE, 0u)
+            _ => (InputLayoutSemanticName.NONE, 0u),
         };
 
         Debug.Assert(result.Item1 != InputLayoutSemanticName.NONE, "Error: Conversion resulted in InputLayoutSemanticName.NONE!");
@@ -511,7 +516,7 @@ public partial class ModelConverter : Form
             InputLayoutFormat.RG_32_FLOAT => 8u,
             InputLayoutFormat.RGB_32_FLOAT => 12u,
 
-            _ => 0u
+            _ => 0u,
         };
 
         Debug.Assert(result != 0u, $"Error: Size of {format} resulted in '0'!");
@@ -520,10 +525,10 @@ public partial class ModelConverter : Form
 
     private void ConvertToMesh(string sourceFileName, string resultFileName)
     {
-        IList<Mesh8> shapes = SWSHModel.GFBModel.Mesh;
-        IList<Shape> buffers = SWSHModel.GFBModel.Shapes;
-        IList<Bone8> bones = SWSHModel.GFBModel.SkeletonNodes;
-        IList<Material8> materials = SWSHModel.GFBModel.Materials;
+        IList<Mesh8> shapes = SWSHModel.GFBModel.Mesh!;
+        IList<Shape> buffers = SWSHModel.GFBModel.Shapes!;
+        IList<Bone8> bones = SWSHModel.GFBModel.SkeletonNodes!;
+        IList<Material8> materials = SWSHModel.GFBModel.Materials!;
 
         var meshShapes = new List<MeshShape>();
         var meshBuffers = new List<MeshBuffer>();
@@ -531,7 +536,7 @@ public partial class ModelConverter : Form
         {
             Shape buffer = buffers[(int)shape.ShapeId];
             Bone8 bone = bones[(int)shape.BoneId];
-            string subMeshName = bone.Name;
+            string subMeshName = bone.Name!;
 
             subMeshName = subMeshName.Replace(sourceFileName + "_", "", StringComparison.InvariantCultureIgnoreCase);
             subMeshName = subMeshName.Replace("skin", "", StringComparison.InvariantCultureIgnoreCase);
@@ -540,7 +545,7 @@ public partial class ModelConverter : Form
             // TODO:
             // shape.SortPriority;
 
-            var inputLayout = new InputLayoutElement[buffer.Attributes.Count];
+            var inputLayout = new InputLayoutElement[buffer.Attributes!.Count];
             uint inputLayoutSize;
             {
                 uint layoutOffset = 0;
@@ -564,7 +569,7 @@ public partial class ModelConverter : Form
                 inputLayoutSize = layoutOffset;
             }
 
-            var subMeshes = new SubMesh[buffer.Polygons.Count];
+            var subMeshes = new SubMesh[buffer.Polygons!.Count];
             uint indexCount;
             {
                 uint offset = 0;
@@ -574,7 +579,7 @@ public partial class ModelConverter : Form
                     var mat = materials[(int)subMesh.MaterialId];
                     subMeshes[i] = new SubMesh
                     {
-                        IndexCount = (uint)subMesh.Indices.Count,
+                        IndexCount = (uint)subMesh.Indices!.Count,
                         IndexOffset = offset,
                         AppliedMaterial = mat.Name, // TODO
                     };
@@ -591,14 +596,13 @@ public partial class ModelConverter : Form
                 Span<byte> dst = indexBuffer.AsSpan();
                 foreach (var subMesh in buffer.Polygons)
                 {
-                    foreach (var index in subMesh.Indices)
+                    foreach (var index in subMesh.Indices!)
                     {
                         WriteUInt16LittleEndian(dst[offset..], index);
                         offset += 2;
                     }
                 }
             }
-
 
             var uniqueColors0 = new List<Color4f>();
             var uniqueColors1 = new List<Color4f>();
@@ -622,7 +626,7 @@ public partial class ModelConverter : Form
                             InputLayoutFormat.RGB_32_FLOAT => new Vec3f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..])),
                             InputLayoutFormat.RGBA_32_FLOAT => new Vec4f(ReadSingleLittleEndian(data[offset..]), ReadSingleLittleEndian(data[(offset + 4)..]), ReadSingleLittleEndian(data[(offset + 8)..]), ReadSingleLittleEndian(data[(offset + 12)..])),
                             InputLayoutFormat.NONE => throw new IndexOutOfRangeException(),
-                            _ => throw new IndexOutOfRangeException()
+                            _ => throw new IndexOutOfRangeException(),
                         });
 
                         switch (layout.SemanticName)
@@ -759,7 +763,7 @@ public partial class ModelConverter : Form
                         {
                             Elements = inputLayout,
                             Size = new VertexSize[] { new() { Size = inputLayoutSize } },
-                        }
+                        },
                     },
                     BoundingSphere = new Sphere(bounds),
                     Bounds = bounds,
@@ -782,28 +786,26 @@ public partial class ModelConverter : Form
             }
         }
 
-
         Result.Meshes = new Mesh[]
         {
             new()
             {
                 BufferFileName = $"{resultFileName}.trmbf",
                 Shapes = meshShapes.ToArray(),
-            }
+            },
         };
 
         Result.MeshDataBuffers = new MeshBufferTable[]
         {
             new()
             {
-                Buffers = meshBuffers.ToArray()
-            }
+                Buffers = meshBuffers.ToArray(),
+            },
         };
     }
 
     private void ConvertToMeshShape()
     {
-
     }
 
     private StringParameter[] ConvertStringParams(Flag[] flags)
@@ -844,7 +846,6 @@ public partial class ModelConverter : Form
         // "EnableWeatherLayer"          -> Allowed values: "True", "False"
         // "EnableDisplacementMap"       -> Allowed values: "True", "False"
         // "EnableLerpBaseColorEmission" -> Allowed values: "True", "False"
-
 
         // EnableUVScaleOffsetNormal -> enables float4 { UVScaleOffsetNormal: { R: 1, G: 1, B: 0, A: 0 } }
 
@@ -888,7 +889,7 @@ public partial class ModelConverter : Form
                 "DepthTest" => "",
                 "IsErase" => "",
                 "MayaPreviewEnable" => "",
-                _ => string.Empty
+                _ => string.Empty,
             };
 
             //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert flag with name: {oldName}!");
@@ -903,7 +904,7 @@ public partial class ModelConverter : Form
 
             floats[i] = new StringParameter
             {
-                PropertyBinding = ConvertParamName(flag.FlagName),
+                PropertyBinding = ConvertParamName(flag.FlagName!),
                 StringValue = flag.FlagEnable.ToString(),
             };
         }
@@ -1002,7 +1003,7 @@ public partial class ModelConverter : Form
                 "LyCol0TexSS" => "",
                 "PolygonOffset" => "",
 
-                _ => string.Empty
+                _ => string.Empty,
             };
 
             // Discard null result, this means the value no longer applies
@@ -1018,7 +1019,7 @@ public partial class ModelConverter : Form
 
             floats[i] = new FloatParameter
             {
-                PropertyBinding = ConvertParamName(floatParam.ValueName),
+                PropertyBinding = ConvertParamName(floatParam.ValueName!),
                 FloatValue = floatParam.Value,
             };
         }
@@ -1052,7 +1053,7 @@ public partial class ModelConverter : Form
                 "OnGameColor" => "",
                 "OutLineCol" => "",
                 "EffectColor01" => "",
-                _ => string.Empty
+                _ => string.Empty,
             };
 
             // Discard null result, this means the value no longer applies
@@ -1068,14 +1069,13 @@ public partial class ModelConverter : Form
 
             colors[i] = new Float4Parameter
             {
-                PropertyBinding = ConvertParamName(colorParam.ColorName),
+                PropertyBinding = ConvertParamName(colorParam.ColorName!),
                 ColorValue = new() { R = colorParam.Color?.R ?? 0, G = colorParam.Color?.G ?? 0, B = colorParam.Color?.B ?? 0 },
             };
         }
 
         return colors;
     }
-
 
     private enum StandardShaderProperties
     {
@@ -1177,34 +1177,34 @@ public partial class ModelConverter : Form
                 new() { PropertyBinding = "EnableAlphaTest", StringValue = EnableAlphaTest.ToString() },
                 new() { PropertyBinding = "NumMaterialLayer", StringValue = NumMaterialLayer.ToString() },
                 new() { PropertyBinding = "EnableUVScaleOffsetNormal", StringValue = EnableUVScaleOffsetNormal.ToString() },
-                new() { PropertyBinding = "EnableVertexBaseColor", StringValue = EnableVertexBaseColor.ToString() }
+                new() { PropertyBinding = "EnableVertexBaseColor", StringValue = EnableVertexBaseColor.ToString() },
             };
 
-            if (false)
-            {
-                stringParams.Add(new() { PropertyBinding = "BillboardType", StringValue = BillboardType.ToString() });
-                stringParams.Add(new() { PropertyBinding = "WindReceiverType", StringValue = WindReceiverType.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableWindMaskMap", StringValue = EnableWindMaskMap.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableBaseColorMap1", StringValue = EnableBaseColorMap1.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableNormalMap1", StringValue = EnableNormalMap1.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableNormalMap2", StringValue = EnableNormalMap2.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableAOMap1", StringValue = EnableAOMap1.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableAOMap2", StringValue = EnableAOMap2.ToString() });
-                stringParams.Add(new() { PropertyBinding = "LayerMaskSource", StringValue = LayerMaskSource.ToString() });
-                stringParams.Add(new() { PropertyBinding = "LayerMaskSwizzle", StringValue = LayerMaskSwizzle.ToString() });
-                stringParams.Add(new() { PropertyBinding = "LayerBaseMaskSource", StringValue = LayerBaseMaskSource.ToString() });
-                stringParams.Add(new() { PropertyBinding = "WeatherLayerMaskSource", StringValue = WeatherLayerMaskSource.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableDepthFade", StringValue = EnableDepthFade.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnablePackedMap", StringValue = EnablePackedMap.ToString() });
-
-                stringParams.Add(new() { PropertyBinding = "EnableDeferredRendering", StringValue = EnableDeferredRendering.ToString() });
-                stringParams.Add(new() { PropertyBinding = "InstancingType", StringValue = InstancingType.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableGrassCollisionMap", StringValue = EnableGrassCollisionMap.ToString() });
-                stringParams.Add(new() { PropertyBinding = "NumRequiredUV", StringValue = NumRequiredUV.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableWeatherLayer", StringValue = EnableWeatherLayer.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableDisplacementMap", StringValue = EnableDisplacementMap.ToString() });
-                stringParams.Add(new() { PropertyBinding = "EnableLerpBaseColorEmission", StringValue = EnableLerpBaseColorEmission.ToString() });
-            }
+            //if (false)
+            //{
+            //    stringParams.Add(new() { PropertyBinding = "BillboardType", StringValue = BillboardType.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "WindReceiverType", StringValue = WindReceiverType.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableWindMaskMap", StringValue = EnableWindMaskMap.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableBaseColorMap1", StringValue = EnableBaseColorMap1.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableNormalMap1", StringValue = EnableNormalMap1.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableNormalMap2", StringValue = EnableNormalMap2.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableAOMap1", StringValue = EnableAOMap1.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableAOMap2", StringValue = EnableAOMap2.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "LayerMaskSource", StringValue = LayerMaskSource.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "LayerMaskSwizzle", StringValue = LayerMaskSwizzle.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "LayerBaseMaskSource", StringValue = LayerBaseMaskSource.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "WeatherLayerMaskSource", StringValue = WeatherLayerMaskSource.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableDepthFade", StringValue = EnableDepthFade.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnablePackedMap", StringValue = EnablePackedMap.ToString() });
+            //
+            //    stringParams.Add(new() { PropertyBinding = "EnableDeferredRendering", StringValue = EnableDeferredRendering.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "InstancingType", StringValue = InstancingType.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableGrassCollisionMap", StringValue = EnableGrassCollisionMap.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "NumRequiredUV", StringValue = NumRequiredUV.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableWeatherLayer", StringValue = EnableWeatherLayer.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableDisplacementMap", StringValue = EnableDisplacementMap.ToString() });
+            //    stringParams.Add(new() { PropertyBinding = "EnableLerpBaseColorEmission", StringValue = EnableLerpBaseColorEmission.ToString() });
+            //}
 
             return stringParams.ToArray();
         }
@@ -1215,8 +1215,8 @@ public partial class ModelConverter : Form
         public SWSHStandardShader(Material8 source)
         {
             // TODO
-            Dictionary<string, string> oldUberFlags = source.StaticParam.UberFlags.ToDictionary(flag => flag.FlagName, flag => flag.FlagEnable.ToString());
-            foreach (var flag in source.Flags)
+            var oldUberFlags = source.StaticParam!.UberFlags!.ToDictionary(flag => flag.FlagName!, flag => flag.FlagEnable.ToString());
+            foreach (var flag in source.Flags!)
             {
                 switch (flag.FlagName)
                 {
@@ -1261,7 +1261,7 @@ public partial class ModelConverter : Form
                 }
             }
 
-            Dictionary<string, float> valueLookup = source.Values.ToDictionary(flag => flag.ValueName, flag => flag.Value);
+            var valueLookup = source.Values!.ToDictionary(flag => flag.ValueName!, flag => flag.Value);
             UVScaleOffset = new Vec4f(valueLookup["ColorUVScaleU"], valueLookup["ColorUVScaleV"], valueLookup["ColorBaseU"], valueLookup["ColorBaseV"]);
             UVScaleOffsetNormal = new Vec4f(valueLookup["NormalMapUVScaleU"], valueLookup["NormalMapUVScaleV"]); // TODO: Set EnableUVScaleOffsetNormal if changed
         }
@@ -1318,7 +1318,7 @@ public partial class ModelConverter : Form
                 "LightTblTex" => false, // Don't need this anymore, so don't care
                 "SphereMapTex" => SphereMapEnable,
                 "EffectTex" => false, // TODO: EffectVal?
-                _ => false
+                _ => false,
             };
         }
     }
@@ -1341,7 +1341,7 @@ public partial class ModelConverter : Form
                 "LightTblTex" => ("", -1),
                 "SphereMapTex" => ("", -1),
                 "EffectTex" => ("", -1),
-                _ => (string.Empty, -1)
+                _ => (string.Empty, -1),
             };
 
             //Debug.Assert(!string.IsNullOrEmpty(result), $"Error: Couldn't convert sampler with name: {swshSamplerName}!");
@@ -1354,18 +1354,18 @@ public partial class ModelConverter : Form
             UVWrapMode8.BORDER => UVWrapMode.Border,
             UVWrapMode8.WRAP => UVWrapMode.CLAMP_TO_EDGE,
             UVWrapMode8.MIRROR => UVWrapMode.MIRROR,
-            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown uv mode")
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown uv mode"),
         };
 
-        IList<string> files = SWSHModel.GFBModel.TextureFiles;
+        IList<string> files = SWSHModel.GFBModel.TextureFiles!;
         var textureBindings = new List<(TextureParameter, SamplerState)>(oldTextures.Count);
 
         foreach (var oldTexture in oldTextures)
         {
-            if (!shader.IsTextureBound(oldTexture.SamplerName))
+            if (!shader.IsTextureBound(oldTexture.SamplerName!))
                 continue;
 
-            var (name, priority) = ConvertSamplerNameAndPriority(oldTexture.SamplerName);
+            var (name, priority) = ConvertSamplerNameAndPriority(oldTexture.SamplerName!);
 
             textureBindings.Add((new TextureParameter
             {
@@ -1375,7 +1375,7 @@ public partial class ModelConverter : Form
             },
             new SamplerState
             {
-                RepeatU = FromOldWrapMode(oldTexture.Settings.RepeatU),
+                RepeatU = FromOldWrapMode(oldTexture.Settings!.RepeatU),
                 RepeatV = FromOldWrapMode(oldTexture.Settings.RepeatV),
                 RepeatW = FromOldWrapMode(oldTexture.Settings.Repeat2),
                 BorderColor = oldTexture.Settings.BorderColor,
@@ -1406,18 +1406,18 @@ public partial class ModelConverter : Form
     {
         var oldShader = new SWSHStandardShader(oldMaterial);
         var newShader = StandardShader.FromSWSHStandardShader(oldShader);
-        var (textures, samplers) = ConvertTextureParams(oldMaterial.Textures, oldShader);
+        var (textures, samplers) = ConvertTextureParams(oldMaterial.Textures!, oldShader);
 
         return new MaterialPass
         {
-            Name = oldMaterial.Name,
+            Name = oldMaterial.Name!,
             Shaders = new ShaderBinding[]
             {
                 new ()
                 {
                     ShaderName = "Standard",
-                    ShaderValues = newShader.BuildStringParams()
-                }
+                    ShaderValues = newShader.BuildStringParams(),
+                },
             },
             FloatParameters = new FloatParameter[]
             {
@@ -1504,7 +1504,7 @@ public partial class ModelConverter : Form
 
         return new MaterialPass
         {
-            Name = oldMaterial.Name,
+            Name = oldMaterial.Name!,
             Shaders = new ShaderBinding[]
             {
                 new()
@@ -1519,8 +1519,8 @@ public partial class ModelConverter : Form
                         new() { PropertyBinding = "EnableEmissionColorMap", StringValue = "False" },
                         new() { PropertyBinding = "EnableAOMap", StringValue = "True" },
                         new() { PropertyBinding = "NumMaterialLayer", StringValue = "1"  },
-                    }
-                }
+                    },
+                },
             },
             FloatParameters = new FloatParameter[]
             {
@@ -1545,7 +1545,7 @@ public partial class ModelConverter : Form
     private void ConvertToMaterial()
     {
         var materialPasses = new List<MaterialPass>();
-        foreach (var material in SWSHModel.GFBModel.Materials)
+        foreach (var material in SWSHModel.GFBModel.Materials!)
         {
             // TODO:
             // material.Shader;
@@ -1576,7 +1576,7 @@ public partial class ModelConverter : Form
             new()
             {
                 MaterialPasses = materialPasses.ToArray(),
-            }
+            },
         };
 
         // TODO: Assign shiny colors
@@ -1591,9 +1591,9 @@ public partial class ModelConverter : Form
                     {
                         Reserved00 = 0,
                         MaterialPasses = materialPasses.ToArray(),
-                    }
-                }
-            }
+                    },
+                },
+            },
         };
     }
 
@@ -1609,7 +1609,7 @@ public partial class ModelConverter : Form
                 allShapes.Add(new MaterialSwitch
                 {
                     Name = shape.MeshShapeName,
-                    Flags = 1 // TODO
+                    Flags = 1, // TODO
                 });
             }
         }
@@ -1636,9 +1636,9 @@ public partial class ModelConverter : Form
             new() { Filename = $"{resultFileName}.trmsh" },
         };
         Result.Model.Skeleton = new FileReference { Filename = $"{resultFileName}.trskl" };
-        Result.Model.Materials = new[] { $"{resultFileName}.trmtr", };
+        Result.Model.Materials = new[] { $"{resultFileName}.trmtr" };
 
-        // SWSH models don't have LOD's so we only need one
+        // SWSH models don't have LOD's, so we only need one
         Result.Model.LODs = new LOD[]
         {
             new()
@@ -1646,13 +1646,13 @@ public partial class ModelConverter : Form
                 Type = "Custom",
                 Entries = new LODIndex[]
                 {
-                    new() { Index = 0 }
-                }
-            }
+                    new() { Index = 0 },
+                },
+            },
         };
 
         Result.Model.Bounds = SWSHModel.GFBModel.BoundingBox / 100;
-        Result.Model.SphereBounds = new Sphere(Result.Model.Bounds);
+        Result.Model.SphereBounds = new Sphere(Result.Model.Bounds!);
 
         ConvertToSkeleton();
         ConvertToMesh(sourceFileName, resultFileName);
@@ -1729,6 +1729,6 @@ public partial class ModelConverter : Form
             PokemonModelDir.AddFile(ModelPath + $"{meshBufferName}", FlatBufferConverter.SerializeFrom(Result.MeshDataBuffers[i]));
         }
 
-        PokemonModelDir.Dump(null, null);
+        PokemonModelDir.Dump();
     }
 }

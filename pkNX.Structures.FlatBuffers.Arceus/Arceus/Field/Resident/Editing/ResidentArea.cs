@@ -76,7 +76,7 @@ public sealed class ResidentArea
         Mikaruge   = TryRead<PlacementMkrgTable        >(Settings.Mkrg);
         SearchItem = TryRead<PlacementSearchItemTable  >(Settings.SearchItem);
     }
-    
+
     public void SaveInfo()
     {
         TryWrite(Settings.Encounters, Encounters);

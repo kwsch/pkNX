@@ -14,7 +14,7 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 public partial class MeshMaterialWrapper
 {
     [FlatBufferItem(0)] public string Name { get; set; } = string.Empty;
-    [FlatBufferItem(1)] public Material[] Materials { get; set; } = Array.Empty<Material>();
+    [FlatBufferItem(1)] public Material[] Materials { get; set; } = [];
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -65,7 +65,7 @@ public class PokemonModelArchive
                 Name = x.Name,
                 Materials = x.FileNames.Select(
                     fileName => FlatBufferConverter.DeserializeFrom<Material>(SourceArchive.GetDataFullPath(ModelPath + $"{fileName}"))
-                ).ToArray()
+                ).ToArray(),
             }
         ).ToArray();
 

@@ -10,5 +10,5 @@ public abstract class EvolutionSet
     public EvolutionMethod[] PossibleEvolutions;
     public abstract byte[] Write();
 
-    protected EvolutionSet() => PossibleEvolutions = Array.Empty<EvolutionMethod>();
+    protected EvolutionSet() => PossibleEvolutions = [];
 }

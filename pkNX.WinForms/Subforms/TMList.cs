@@ -23,7 +23,7 @@ public sealed partial class TMList : Form
     }
 
     public bool Modified { get; set; }
-    public ushort[] FinalMoves { get; private set; } = Array.Empty<ushort>();
+    public ushort[] FinalMoves { get; private set; } = [];
 
     private void SetupDGV(string[] list)
     {

@@ -244,8 +244,8 @@ public static class FormInfo
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<ushort> FormChange = new()
-    {
+    private static readonly HashSet<ushort> FormChange =
+    [
         // Sometimes considered for wild encounters
         (int)Burmy,
         (int)Rotom,
@@ -269,13 +269,13 @@ public static class FormInfo
         (int)Necrozma,
         (int)Calyrex,
         (int)Enamorus,
-    };
+    ];
 
     /// <summary>
     /// Species that have an alternate form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<ushort> BattleForms = new()
-    {
+    private static readonly HashSet<ushort> BattleForms =
+    [
         (int)Castform,
         (int)Cherrim,
         (int)Darmanitan,
@@ -297,14 +297,14 @@ public static class FormInfo
         (int)Eternatus,
 
         (int)Palafin,
-    };
+    ];
 
     /// <summary>
     /// Species that have a mega form that cannot exist outside of battle.
     /// </summary>
     /// <remarks>Using a held item to change form during battle, via an in-battle transformation feature.</remarks>
-    private static readonly HashSet<ushort> BattleMegas = new()
-    {
+    private static readonly HashSet<ushort> BattleMegas =
+    [
         // XY
         (int)Venusaur, (int)Charizard, (int)Blastoise,
         (int)Alakazam, (int)Gengar, (int)Kangaskhan, (int)Pinsir,
@@ -330,12 +330,12 @@ public static class FormInfo
 
         // USUM
         (int)Necrozma, // Ultra Necrozma
-    };
+    ];
 
     /// <summary>
     /// Species that have a primal form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<ushort> BattlePrimals = new() { (int)Kyogre, (int)Groudon };
+    private static readonly HashSet<ushort> BattlePrimals = [(int)Kyogre, (int)Groudon];
 
     private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
 
@@ -450,10 +450,10 @@ public static class FormInfo
     /// <summary>
     /// <seealso cref="IsValidOutOfBoundsForm"/>
     /// </summary>
-    private static readonly HashSet<ushort> HasFormValuesNotIndicatedByPersonal = new()
-    {
+    private static readonly HashSet<ushort> HasFormValuesNotIndicatedByPersonal =
+    [
         (int)Unown,
         (int)Mothim, // (Burmy form is not cleared on evolution)
         (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
-    };
+    ];
 }

@@ -8,7 +8,7 @@ public class Learnset6 : Learnset
     public Learnset6(byte[] data)
     {
         if (data.Length < 4 || data.Length % 4 != 0)
-        { Count = 0; Levels = Moves = Array.Empty<int>(); return; }
+        { Count = 0; Levels = Moves = []; return; }
         Count = (data.Length / 4) - 1;
         Moves = new int[Count];
         Levels = new int[Count];

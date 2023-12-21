@@ -61,7 +61,6 @@ public partial class PokeResourceTable
                 Species = species,
                 Form = form,
                 Gender = gender,
-
             },
             ModelPath = $"{basePath}/mdl/{pmStr}.trmdl",
             MaterialTablePath = $"{basePath}/mdl/{pmStr}.trmmt",
@@ -71,14 +70,14 @@ public partial class PokeResourceTable
                 new(){
                     Name = "base",
                     Path = $"{basePath}/anm/{pmStr}_base.tracn",
-                }
+                },
             },
 
             Effects = new FileNamePathPair[] {
                 new() {
                     Name = "eff",
                     Path = $"{basePath}/locators/{pmStr}_eff.trskl",
-                }
+                },
             },
         };
 

@@ -18,8 +18,8 @@ public class TrainerEditor : IDataEditor
     public Func<TrainerPoke[], TrainerData, byte[]> WriteTeam { get; init; } = null!;
     public Func<byte[], TrainerClass> ReadClass { get; init; } = null!;
 
-    private VsTrainer?[] Cache = Array.Empty<VsTrainer>();
-    private TrainerClass?[] CacheClass = Array.Empty<TrainerClass>();
+    private VsTrainer?[] Cache = [];
+    private TrainerClass?[] CacheClass = [];
 
     public int Length => Cache.Length;
 

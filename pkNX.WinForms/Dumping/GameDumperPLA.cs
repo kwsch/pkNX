@@ -115,7 +115,7 @@ public class GameDumperPLA
 
     private void DumpMoveUsers(IPersonalTable pt, Learnset lr)
     {
-        List<string> Users = new();
+        List<string> Users = [];
         var moves = ROM.GetStrings(TextName.MoveNames);
         var spec = ROM.GetStrings(TextName.SpeciesNames);
         var shop = Legal.MoveShop8_LA;
@@ -128,7 +128,7 @@ public class GameDumperPLA
             var filtered = learn.Where(z => ((IPersonalInfoPLA)pt.GetFormEntry(z.Species, (byte)z.Form)).IsPresentInGame);
             var result = filtered.Select(x => GetSpeciesMove(spec, x, move)).ToArray();
 
-            List<string> r = new() { $"{moves[move]}:" };
+            List<string> r = [$"{moves[move]}:"];
             if (isShop)
             {
                 var species = pt.Table.OfType<IPersonalInfoPLA>().Where(z => z.SpecialTutors[shopIndex] && z.IsPresentInGame);
@@ -304,7 +304,7 @@ public class GameDumperPLA
         var result = new byte[pt.Table.Length][];
         var mastery = new byte[pt.Table.Length][];
         for (int i = 0; i < result.Length; i++)
-            result[i] = mastery[i] = Array.Empty<byte>();
+            result[i] = mastery[i] = [];
 
         var Dupes = new List<(int Species, int Form)>();
         foreach (var e in obj.Table)
@@ -349,7 +349,7 @@ public class GameDumperPLA
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
         var result = new byte[pt.Table.Length][];
         for (int i = 0; i < result.Length; i++)
-            result[i] = Array.Empty<byte>();
+            result[i] = [];
 
         foreach (var e in obj.Table)
         {
@@ -773,7 +773,7 @@ public class GameDumperPLA
         File.WriteAllText(GetPath("massOutbreak.txt"), result);
 
         var arr = FlatBufferConverter.DeserializeFrom<MassOutbreakTable>(file!).Table;
-        var cache = new DataCache<MassOutbreak>(arr);
+        var cache = new DataCache<MassOutbreak>(arr!);
         var names = Enumerable.Range(0, cache.Length).Select(z => $"{z}").ToArray();
         var form = new GenericEditor<MassOutbreak>(cache, names, "Outbreak");
         form.ShowDialog();
@@ -799,7 +799,7 @@ public class GameDumperPLA
         var pt = new PersonalTable8LA(ROM.GetFile(GameFile.PersonalStats));
         var result = new byte[pt.Table.Max(p => p.DexIndexRegional)][];
         for (int i = 0; i < result.Length; i++)
-            result[i] = Array.Empty<byte>();
+            result[i] = [];
 
         ushort GetDexIndex(ushort species)
         {

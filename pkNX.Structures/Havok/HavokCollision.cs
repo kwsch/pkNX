@@ -332,7 +332,7 @@ public static class HavokCollision
             }
             else
             {
-                tna.Fields = new List<HavokField>();
+                tna.Fields = [];
             }
             if (tna.IsOptionInterfaces)
             {
@@ -356,7 +356,7 @@ public static class HavokCollision
             }
             else
             {
-                tna.Interfaces = new List<HavokInterface>();
+                tna.Interfaces = [];
             }
             if (tna.IsOptionAttribute)
             {

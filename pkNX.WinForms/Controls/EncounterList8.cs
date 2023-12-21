@@ -9,7 +9,7 @@ namespace pkNX.WinForms;
 public partial class EncounterList8 : UserControl
 {
     private IList<EncounterSlot>? Slots;
-    public static string[] SpeciesNames { private get; set; } = Array.Empty<string>();
+    public static string[] SpeciesNames { private get; set; } = [];
     private const string FormColumn = nameof(FormColumn);
 
     public EncounterList8() => InitializeComponent();

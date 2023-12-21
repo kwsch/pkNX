@@ -11,7 +11,7 @@ public class Maison6Trainer
 
     public Maison6Trainer()
     {
-        Choices = Array.Empty<ushort>();
+        Choices = [];
     }
 
     public Maison6Trainer(byte[] data)

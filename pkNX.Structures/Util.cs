@@ -30,7 +30,7 @@ public static class Util
     public static T[] GetArray<T>(this byte[] entries, Func<byte[], int, T> del, int size)
     {
         if (entries.Length < size)
-            return Array.Empty<T>();
+            return [];
 
         var data = new T[entries.Length / size];
         for (int i = 0; i < entries.Length; i += size)
@@ -41,7 +41,7 @@ public static class Util
     public static T[] GetArray<T>(this byte[] entries, Func<byte[], T> del, int size)
     {
         if (entries == null || entries.Length < size)
-            return Array.Empty<T>();
+            return [];
 
         var data = new T[entries.Length / size];
         for (int i = 0; i < entries.Length; i += size)
@@ -57,7 +57,7 @@ public static class Util
     public static T[] GetArray<T>(this ReadOnlySpan<byte> entries, FromBytesConstructor<T> constructor, int size)
     {
         if (entries.Length < size)
-            return Array.Empty<T>();
+            return [];
 
         Debug.Assert(entries.Length % size == 0, "This data can't be split into equally sized entries with the provided slice size");
 
@@ -80,7 +80,7 @@ public static class Util
     public static string[] GetHexLines(byte[] data, int count = 4)
     {
         if (data == null)
-            return Array.Empty<string>();
+            return [];
 
         // Generates an x-byte wide space separated string array; leftovers included at the end.
         string[] s = new string[(data.Length / count) + (data.Length % count > 0 ? 1 : 0)];

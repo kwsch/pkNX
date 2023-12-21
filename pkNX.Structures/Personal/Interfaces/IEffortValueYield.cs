@@ -65,7 +65,7 @@ public static class IIEffortValueYieldExtensions
         3 => stats.EV_SPE = value,
         4 => stats.EV_SPA = value,
         5 => stats.EV_SPD = value,
-        _ => throw new ArgumentOutOfRangeException(nameof(index))
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 
     /// <summary>

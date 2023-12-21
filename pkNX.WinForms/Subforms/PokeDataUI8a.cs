@@ -21,7 +21,7 @@ namespace pkNX.WinForms;
 
 public partial class PokeDataUI8a : Form
 {
-    private static EvolutionRow8a[] EvoRows = Array.Empty<EvolutionRow8a>();
+    private static EvolutionRow8a[] EvoRows = [];
 
     private readonly bool Loaded;
     private readonly GameData8a Data;
@@ -136,7 +136,7 @@ public partial class PokeDataUI8a : Form
             Width = 60,
             MinimumWidth = 44,
             Resizable = DataGridViewTriState.True,
-            ValueType = typeof(ushort)
+            ValueType = typeof(ushort),
         };
 
         DataGridViewColumn dgvLevelMastery = new DataGridViewTextBoxColumn
@@ -146,7 +146,7 @@ public partial class PokeDataUI8a : Form
             Width = 130,
             MinimumWidth = 44,
             Resizable = DataGridViewTriState.True,
-            ValueType = typeof(ushort)
+            ValueType = typeof(ushort),
         };
 
         DataGridViewComboBoxColumn dgvMove = new()
@@ -306,7 +306,6 @@ public partial class PokeDataUI8a : Form
             CLB_TypeTutor.SetItemChecked(i, pkm.TypeTutors[i]);*/
         for (int i = 0; i < CLB_SpecialTutor.Items.Count; i++)
             CLB_SpecialTutor.SetItemChecked(i, pkm.SpecialTutors[i]);
-
 
         // For some reason editing the combobox value causes these 4 to get selected ???
         CB_EXPGroup.SelectionLength = 0;
@@ -519,7 +518,7 @@ public partial class PokeDataUI8a : Form
             {
                 Move = (ushort)move,
                 Level = Math.Clamp(lvl, (ushort)0, (ushort)100),
-                LevelMaster = Math.Clamp(lvlMastry, (ushort)0, (ushort)100)
+                LevelMaster = Math.Clamp(lvlMastry, (ushort)0, (ushort)100),
             });
         }
 
