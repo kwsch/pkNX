@@ -4,10 +4,6 @@ include "Shared/ItemID.fbs";
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";
 
-table ReleasePokeTableArray (fs_serializer) {
-    Table:[ReleasePokeTable];
-}
-
 table ReleasePokeTable {
     EventId:int;
     StateWorkName:string;
@@ -17,6 +13,10 @@ table ReleasePokeTable {
     MissionB:bool;
     TeamMissionA:bool;
     TeamMissionB:bool;
+}
+
+table ReleasePokeTableArray (fs_serializer) {
+    Table:[ReleasePokeTable] (required);
 }
 
 root_type ReleasePokeTableArray;

@@ -188,7 +188,7 @@ public static class MassOutbreakRipper
 
         var areas = scene.AreaInfos[(int)fieldIndex];
         var areaNames = scene.AreaNames[(int)fieldIndex];
-        var atlantis = scene.IsAtlantis[(int)fieldIndex];
+        var atlantis = scene.PaldeaType[(int)fieldIndex];
         if (fieldIndex == PaldeaFieldIndex.Kitakami)
         {
             areas = areas.Where(z => z.Value.AdjustEncLv != 0)
@@ -311,7 +311,7 @@ public static class MassOutbreakRipper
     }
 
     private static (UInt128 Met, int Boost) GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
-        byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point, Dictionary<string, bool> atlantis)
+        byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point, Dictionary<string, PaldeaPointPivot> atlantis)
     {
         UInt128 result = 0;
         int boost = 0;
@@ -319,7 +319,7 @@ public static class MassOutbreakRipper
         {
             var areaName = areaNames[i];
             var areaInfo = areas[areaName];
-            if (atlantis[areaName])
+            if (atlantis[areaName] != PaldeaPointPivot.Overworld)
                 continue;
 
             if (areaInfo.Tag is AreaTag.NG_Encount)

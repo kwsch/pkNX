@@ -20,10 +20,14 @@ public class EncounterDumperSV
 
     public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
-    private static readonly string[] BannedFixedSpawnNames =
-    {
-        "ai_area01_30", // Lighthouse Wingull
-    };
+    private static readonly string[] BannedFixedSpawnNames = ["ai_area01_30"]; // Lighthouse Wingull
+
+    private static ReadOnlySpan<PaldeaFieldIndex> AllMaps =>
+    [
+        PaldeaFieldIndex.Paldea,
+        PaldeaFieldIndex.Kitakami,
+        PaldeaFieldIndex.Terarium,
+    ];
 
     public void DumpTo(string path, IReadOnlyList<string> specNamesInternal, IReadOnlyList<string> moveNames,
         Dictionary<string, (string Name, int Index)> placeNameMap,
@@ -40,9 +44,11 @@ public class EncounterDumperSV
         var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
         var su1EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin"));
         var su2EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su2.bin"));
+      //var lcEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_lc.bin"));
         var pokeDataMain = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata/pokedata_array.bin"));
         var pokeDataSu1 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bin"));
         var pokeDataSu2 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bin"));
+      //var pokeDataLc = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_lc/pokedata_lc_array.bfbs"));
 
         var db = new LocationDatabase();
 
@@ -51,6 +57,7 @@ public class EncounterDumperSV
         var pointAtlantis = ReformatPoints(alEncPoints);
         var pointSu1 = ReformatPoints(su1EncPoints);
         var pointSu2 = ReformatPoints(su2EncPoints);
+      //var lc = ReformatPoints(lcEncPoints);
 
         // Process all field indices
         ProcessAreas(PaldeaFieldIndex.Paldea);
@@ -93,11 +100,11 @@ public class EncounterDumperSV
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
-            foreach (var fieldIndex in new[] { PaldeaFieldIndex.Paldea, PaldeaFieldIndex.Kitakami, PaldeaFieldIndex.Terarium })
+            foreach (var fieldIndex in AllMaps)
             {
                 var areaNames = scene.AreaNames[(int)fieldIndex];
                 var areas = scene.AreaInfos[(int)fieldIndex];
-                var atlantis = scene.IsAtlantis[(int)fieldIndex];
+                var atlantis = scene.PaldeaType[(int)fieldIndex];
                 var allPoints = gamePoints[(int)fieldIndex];
 
                 if (fieldIndex is PaldeaFieldIndex.Kitakami)
@@ -111,6 +118,8 @@ public class EncounterDumperSV
                 {
                     var entry = fsymData.Table[i];
                     var tableKey = entry.TableKey;
+                    if (tableKey.StartsWith("su2_w23d10_"))
+                        continue; // handle later, manually
                     var points = allPoints.FindAll(p => p.TableKey == tableKey);
                     if (points.Count == 0)
                         continue;
@@ -125,7 +134,7 @@ public class EncounterDumperSV
                         for (var x = areaNames.Count - 1; x >= 0; x--)
                         {
                             var areaName = areaNames[x];
-                            if (atlantis[areaName])
+                            if (atlantis[areaName] != PaldeaPointPivot.Overworld)
                                 continue;
 
                             var areaInfo = areas[areaName];
@@ -156,61 +165,10 @@ public class EncounterDumperSV
                         return false;
                     }
 
-                    var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index).Distinct().ToList();
-
-                    gw.WriteLine("===");
-                    gw.WriteLine($"{tableKey} - {i}");
-                    gw.WriteLine("===");
-                    gw.WriteLine("  PokeData:");
-                    var pd = entry.Symbol;
-                    gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
-                    gw.WriteLine($"    Form:    {pd.FormId}");
-                    gw.Write($"    Level:   {pd.Level}");
-                    foreach (var adj in appearAreas.Select(a => a.Adjust).Where(lv => lv != 0).Distinct().Order())
-                    {
-                        gw.Write($", {pd.Level + adj}");
-                    }
-                    gw.WriteLine();
-                    gw.WriteLine($"    Sex:     {Humanize(pd.Sex)}");
-                    gw.WriteLine($"    Shiny:   {Humanize(pd.RareType)}");
-
-                    var talentStr = pd.TalentType switch
-                    {
-                        TalentType.RANDOM => "Random",
-                        TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
-                        TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
-                        _ => "Invalid",
-                    };
-                    gw.WriteLine($"    IVs:     {talentStr}");
-                    gw.WriteLine($"    Ability: {Humanize(pd.TokuseiIndex)}");
-                    switch (pd.WazaType)
-                    {
-                        case WazaType.DEFAULT:
-                            gw.WriteLine("    Moves:   Random");
-                            break;
-                        case WazaType.MANUAL:
-                            gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
-                            break;
-                    }
-
-                    gw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
-                    gw.WriteLine($"    GemType: {(int)pd.GemType}");
-
-                    gw.WriteLine("  Points:");
-                    foreach (var point in points)
-                    {
-                        gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
-                    }
-
-                    gw.WriteLine("  Areas:");
-                    foreach (var area in appearAreas)
-                    {
-                        var loc = area.PlaceName;
-                        (string name, int index) = placeNameMap[loc];
-                        gw.WriteLine($"    - {area.PlaceName} - {loc} - {name} ({index})");
-                    }
+                    WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, points);
 
                     // Serialize
+                    var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index).Distinct().ToList();
                     if (locs.Count == 0)
                         continue;
                     if (BannedFixedSpawnNames.Contains(entry.TableKey))
@@ -226,7 +184,7 @@ public class EncounterDumperSV
                         for (var a = 0; a < allNames.Count; a++)
                         {
                             var areaName = allNames[a];
-                            if (atlantis[areaName])
+                            if (atlantis[areaName] != PaldeaPointPivot.Overworld)
                                 continue;
 
                             var areaInfo = allInfos[areaName];
@@ -255,9 +213,20 @@ public class EncounterDumperSV
                         locationIDs.Sort();
 
                         WriteFixedSymbol(serialized, entry, locationIDs);
-                        WriteFixedSymbol(serialized, entry, locationIDs, adjust);
+                        if (adjust != 0)
+                            WriteFixedSymbol(serialized, entry, locationIDs, adjust);
                     }
                 }
+            }
+
+            var underDepths = Array.FindIndex(fsymData.Table.ToArray(), x => x.TableKey == "su2_w23d10_01");
+            for (int i = underDepths; i < underDepths + 23; i++)
+            {
+                var entry = fsymData.Table[i];
+                var tableKey = entry.TableKey;
+                var appearAreas = new List<AppearTuple> { new("PLACENAME_a_w23_d10_01", "a_w23_d10_subarea", 0, new()) };
+                WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, []);
+                WriteFixedSymbol(serialized, entry, new[] { 196 });
             }
         }
 
@@ -268,7 +237,7 @@ public class EncounterDumperSV
             var areas = new List<string>();
             foreach (var areaName in scene.AreaNames[(int)PaldeaFieldIndex.Paldea])
             {
-                if (scene.IsAtlantis[(int)PaldeaFieldIndex.Paldea][areaName])
+                if (scene.PaldeaType[(int)PaldeaFieldIndex.Paldea][areaName] != PaldeaPointPivot.Overworld)
                     continue;
 
                 var areaInfo = scene.AreaInfos[(int)PaldeaFieldIndex.Paldea][areaName];
@@ -346,9 +315,14 @@ public class EncounterDumperSV
         return;
 
         // HELPERS
-        LocationPointDetail[] GetPoints(PaldeaFieldIndex fieldIndex, bool isAtlantis) => fieldIndex switch
+        LocationPointDetail[] GetPoints(PaldeaFieldIndex fieldIndex, PaldeaPointPivot type) => fieldIndex switch
         {
-            PaldeaFieldIndex.Paldea => isAtlantis ? pointAtlantis : pointMain,
+            PaldeaFieldIndex.Paldea => type switch
+            {
+                PaldeaPointPivot.Overworld => pointMain,
+                PaldeaPointPivot.AreaZero => pointAtlantis,
+                _ => throw new ArgumentException($"Could not handle {type}"),
+            },
             PaldeaFieldIndex.Kitakami => pointSu1,
             PaldeaFieldIndex.Terarium => pointSu2,
             _ => throw new ArgumentException($"Could not handle {fieldIndex}"),
@@ -374,11 +348,10 @@ public class EncounterDumperSV
             // Fill the point lists for each area, then spawn everything into those points.
             var areaNames = scene.AreaNames[(int)fieldIndex];
             var areas = scene.AreaInfos[(int)fieldIndex];
-            var atlantis = scene.IsAtlantis[(int)fieldIndex];
+            var types = scene.PaldeaType[(int)fieldIndex];
             for (var i = areaNames.Count - 1; i >= 0; i--)
             {
                 var areaName = areaNames[i];
-                var areaInfo = areas[areaName];
 
                 // Determine potential spawners
                 if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
@@ -387,6 +360,7 @@ public class EncounterDumperSV
                     continue;
                 }
 
+                var areaInfo = areas[areaName];
                 // Areas without a location name can't be reversed into location ID.
                 if (!TryGetPlaceName(ref areaName, areaInfo, collider, placeNameMap, areas, scene, fieldIndex, out var placeName))
                     continue;
@@ -397,7 +371,8 @@ public class EncounterDumperSV
                 if (areaInfo.Tag is AreaTag.NG_Encount or AreaTag.NG_All)
                     continue;
 
-                var points = GetPoints(fieldIndex, atlantis[areaName]);
+                var type = types[areaName];
+                var points = GetPoints(fieldIndex, type);
                 storage.LoadPoints(points, collider, areaInfo.ActualMinLevel, areaInfo.ActualMaxLevel, areaInfo.AdjustEncLv);
                 storage.GetEncounters(GetPokeData(fieldIndex), scene);
             }
@@ -455,6 +430,62 @@ public class EncounterDumperSV
                     }
                 }
             }
+        }
+    }
+
+    private static void WriteFixedSpawn(IReadOnlyList<string> specNamesInternal, IReadOnlyList<string> moveNames, Dictionary<string, (string Name, int Index)> placeNameMap,
+        StreamWriter gw, string tableKey, int i, FixedSymbolTable entry, List<AppearTuple> appearAreas, List<PaldeaFixedSymbolPoint> points)
+    {
+        gw.WriteLine("===");
+        gw.WriteLine($"{tableKey} - {i}");
+        gw.WriteLine("===");
+        gw.WriteLine("  PokeData:");
+        var pd = entry.Symbol;
+        gw.WriteLine($"    Species: {specNamesInternal[(int)pd.DevId]}");
+        gw.WriteLine($"    Form:    {pd.FormId}");
+        gw.Write($"    Level:   {pd.Level}");
+        foreach (var adj in appearAreas.Select(a => a.Adjust).Where(lv => lv != 0).Distinct().Order())
+        {
+            gw.Write($", {pd.Level + adj}");
+        }
+        gw.WriteLine();
+        gw.WriteLine($"    Sex:     {Humanize(pd.Sex)}");
+        gw.WriteLine($"    Shiny:   {Humanize(pd.RareType)}");
+
+        var talentStr = pd.TalentType switch
+        {
+            TalentType.RANDOM => "Random",
+            TalentType.V_NUM => $"{pd.TalentVNum} Perfect",
+            TalentType.VALUE => $"{pd.TalentValue.HP}/{pd.TalentValue.ATK}/{pd.TalentValue.DEF}/{pd.TalentValue.SPA}/{pd.TalentValue.SPD}/{pd.TalentValue.SPE}",
+            _ => "Invalid",
+        };
+        gw.WriteLine($"    IVs:     {talentStr}");
+        gw.WriteLine($"    Ability: {Humanize(pd.TokuseiIndex)}");
+        switch (pd.WazaType)
+        {
+            case WazaType.DEFAULT:
+                gw.WriteLine("    Moves:   Random");
+                break;
+            case WazaType.MANUAL:
+                gw.WriteLine($"    Moves:   {moveNames[(int)pd.Waza1.WazaId]}/{moveNames[(int)pd.Waza2.WazaId]}/{moveNames[(int)pd.Waza3.WazaId]}/{moveNames[(int)pd.Waza4.WazaId]}");
+                break;
+        }
+
+        gw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
+        gw.WriteLine($"    GemType: {(int)pd.GemType}");
+
+        gw.WriteLine("  Points:");
+        foreach (var point in points)
+        {
+            gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
+        }
+
+        gw.WriteLine("  Areas:");
+        foreach (var area in appearAreas)
+        {
+            var loc = area.PlaceName;
+            (string name, int index) = placeNameMap[loc];
+            gw.WriteLine($"    - {area.PlaceName} - {loc} - {name} ({index})");
         }
     }
 
@@ -644,7 +675,7 @@ public class EncounterDumperSV
         bw.Write(form);
         bw.Write((byte)(enc.Level + adjustLevel));
 
-        bw.Write((byte)enc.TalentVNum);
+        bw.Write(enc.TalentType == TalentType.RANDOM ? (byte)0 : (byte)enc.TalentVNum);
         bw.Write((byte)enc.GemType);
         bw.Write((byte)(enc.Sex - 1));
         bw.Write((byte)0); // reserved

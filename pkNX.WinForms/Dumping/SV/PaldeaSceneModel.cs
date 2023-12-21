@@ -9,13 +9,19 @@ using pkNX.Structures.FlatBuffers.SV.Trinity;
 
 namespace pkNX.Structures.FlatBuffers;
 
+public enum PaldeaPointPivot
+{
+    Overworld,
+    AreaZero,
+}
+
 public class PaldeaSceneModel
 {
-    public List<string>[] AreaNames { get; } = { new(), new(), new() };
-    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = { new(), new(), new() };
-    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = { new(), new(), new() };
-    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = { new(), new(), new() };
-    public Dictionary<string, bool>[] IsAtlantis { get; } = { new(), new(), new() };
+    public List<string>[] AreaNames { get; } = [new(), new(), new()];
+    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = [new(), new(), new()];
+    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = [new(), new(), new()];
+    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = [new(), new(), new()];
+    public Dictionary<string, PaldeaPointPivot>[] PaldeaType { get; } = [new(), new(), new()];
 
     public PaldeaSceneModel(IFileInternal ROM, PaldeaFieldModel field)
     {
@@ -24,7 +30,8 @@ public class PaldeaSceneModel
         Debug.Assert(area_collision.ObjectTemplateName == "resident_area_collision");
 
         // NOTE: Safe to only use _0 because _1 is identical.
-        var a_w23_field_area_col = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/room/a_w23_field/a_w23_field_area_col_/a_w23_field_area_col_0.trscn"));
+        var a0 = ROM.GetPackedFile("world/scene/parts/field/room/a_w23_field/a_w23_field_area_col_/a_w23_field_area_col_0.trscn");
+        var a_w23_field_area_col = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(a0);
         Debug.Assert(a_w23_field_area_col.ObjectTemplateName == "a_w23_field_area_col");
 
         foreach (var obj in area_collision.Objects.Concat(a_w23_field_area_col.Objects))
@@ -35,17 +42,18 @@ public class PaldeaSceneModel
         Debug.Assert(area_collision_su1.ObjectTemplateName == "resident_area_collision");
 
         foreach (var obj in area_collision_su1.Objects)
-            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Kitakami, new List<TrinitySceneObjectTemplateEntry>(), obj);
+            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Kitakami, [], obj);
 
         // NOTE: Safe to only use _0 because _1 is identical.
         var area_collision_su2 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(ROM.GetPackedFile("world/scene/parts/field/main/field_2/field_main/resident_event/resident_area_collision_/resident_area_collision_0.trscn"));
         Debug.Assert(area_collision_su2.ObjectTemplateName == "resident_area_collision");
 
         foreach (var obj in area_collision_su2.Objects)
-            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Terarium, new List<TrinitySceneObjectTemplateEntry>(), obj);
+            AddIfAppropriate(ROM, field, PaldeaFieldIndex.Terarium, [], obj);
     }
 
-    private void AddIfAppropriate(IFileInternal ROM, PaldeaFieldModel field, PaldeaFieldIndex index, IList<TrinitySceneObjectTemplateEntry> atlantis, TrinitySceneObjectTemplateEntry obj)
+    private void AddIfAppropriate(IFileInternal ROM, PaldeaFieldModel field, PaldeaFieldIndex index,
+        IList<TrinitySceneObjectTemplateEntry> a0, TrinitySceneObjectTemplateEntry obj)
     {
         if (!(obj.SubObjects.Count > 0 && obj.SubObjects[0].Type == "trinity_CollisionComponent"))
             return;
@@ -54,7 +62,7 @@ public class PaldeaSceneModel
         var tcom = FlatBufferConverter.DeserializeFrom<TrinityComponent>(inner);
         var collision = tcom.Component.CollisionComponent.Shape;
 
-        var isAtlantisObj = atlantis.Contains(obj);
+        var isAtlantisObj = GetPaldeaType(a0, obj);
         switch (obj.Type)
         {
             case "trinity_ObjectTemplate":
@@ -66,14 +74,14 @@ public class PaldeaSceneModel
                 Debug.Assert(sceneObject.ObjectName == sObj.ObjectTemplateExtra);
 
                 AddSceneObject(index, sObj.ObjectTemplateName, sceneObject, collision, field, ROM);
-                IsAtlantis[(int)index][sObj.ObjectTemplateName] = isAtlantisObj;
+                PaldeaType[(int)index][sObj.ObjectTemplateName] = isAtlantisObj;
                 break;
             }
             case "trinity_SceneObject":
             {
                 var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(obj.Data);
                 AddSceneObject(index, sceneObject.ObjectName, sceneObject, collision, field, ROM);
-                IsAtlantis[(int)index][sceneObject.ObjectName] = isAtlantisObj;
+                PaldeaType[(int)index][sceneObject.ObjectName] = isAtlantisObj;
                 break;
             }
             // ReSharper disable once RedundantEmptySwitchSection
@@ -83,6 +91,13 @@ public class PaldeaSceneModel
                 break;
             }
         }
+    }
+
+    private PaldeaPointPivot GetPaldeaType(IList<TrinitySceneObjectTemplateEntry> a0, TrinitySceneObjectTemplateEntry obj)
+    {
+        if (a0.Contains(obj))
+            return PaldeaPointPivot.AreaZero;
+        return PaldeaPointPivot.Overworld;
     }
 
     private void AddSceneObject(PaldeaFieldIndex index, string name, TrinitySceneObject sceneObject, CollisionUnion shape, PaldeaFieldModel field, IFileInternal ROM)

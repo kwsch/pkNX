@@ -50,6 +50,15 @@ public class PaldeaFixedSymbolModel
 
         scarletPoints[(int)PaldeaFieldIndex.Terarium].AddRange(GetObjectTemplateSymbolPoints(b0));
         violetPoints[(int)PaldeaFieldIndex.Terarium].AddRange(GetObjectTemplateSymbolPoints(b1));
+
+        // Underdepths
+        //var u0Data = ROM.GetPackedFile("world/scene/parts/field/room/a_w23_d10/a_w23_d10_event/a_w23_d10_fixed_placement_symbol_/a_w23_d10_fixed_placement_symbol_0.trscn");
+        //var u1Data = ROM.GetPackedFile("world/scene/parts/field/room/a_w23_d10/a_w23_d10_event/a_w23_d10_fixed_placement_symbol_/a_w23_d10_fixed_placement_symbol_1.trscn");
+        //var u0 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(u0Data);
+        //var u1 = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(u1Data);
+        //
+        //scarletPoints[(int)PaldeaFieldIndex.Paldea].AddRange(GetObjectTemplateSymbolPoints(u0));
+        //violetPoints[(int)PaldeaFieldIndex.Paldea].AddRange(GetObjectTemplateSymbolPoints(u1));
     }
 
     private static string[] GetTableGetKeys(GemSymbolLotteryTable entry)
