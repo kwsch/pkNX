@@ -27,7 +27,7 @@ public partial class PokeDataBattle
         byte form = species switch
         {
             //(ushort)Species.Vivillon or (ushort)Species.Spewpa or (ushort)Species.Scatterbug => 30,
-            (ushort)Species.Minior when FormId == 0 => 31,
+            //(ushort)Species.Minior when FormId == 0 => 31, -- nope, actually form 0
             _ => (byte)FormId,
         };
 

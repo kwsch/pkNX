@@ -1,18 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using pkNX.Containers;
 using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SV;
 using pkNX.Structures.FlatBuffers.SV.Trinity;
 
 namespace pkNX.WinForms;
 
 public class PaldeaFixedSymbolModel
 {
-    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new(), new() };
-    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = new List<PaldeaFixedSymbolPoint>[] { new(), new(), new() };
+    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = [new(), new(), new()];
+    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = [new(), new(), new()];
+
+    public readonly Dictionary<string, string[]> MultiSpawner;
 
     public PaldeaFixedSymbolModel(IFileInternal ROM)
     {
+        var gemLottery = FlatBufferConverter.DeserializeFrom<GemSymbolLotteryTableArray>(
+            ROM.GetPackedFile("world/data/field/fixed_symbol/gem_symbol_lottery_table/gem_symbol_lottery_table_array.bin")).Table;
+        MultiSpawner = gemLottery.ToDictionary(z => z.LotteryKey, GetTableGetKeys);
+
         // Paldea
         var p0Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_fixed_placement_symbol_/world_fixed_placement_symbol_0.trscn");
         var p1Data = ROM.GetPackedFile("world/scene/parts/field/streaming_event/world_fixed_placement_symbol_/world_fixed_placement_symbol_1.trscn");
@@ -44,6 +52,22 @@ public class PaldeaFixedSymbolModel
         violetPoints[(int)PaldeaFieldIndex.Terarium].AddRange(GetObjectTemplateSymbolPoints(b1));
     }
 
+    private static string[] GetTableGetKeys(GemSymbolLotteryTable entry)
+    {
+        var list = new List<string>();
+        if (!string.IsNullOrWhiteSpace(entry.TableKey0)) list.Add(entry.TableKey0);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey1)) list.Add(entry.TableKey1);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey2)) list.Add(entry.TableKey2);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey3)) list.Add(entry.TableKey3);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey4)) list.Add(entry.TableKey4);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey5)) list.Add(entry.TableKey5);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey6)) list.Add(entry.TableKey6);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey7)) list.Add(entry.TableKey7);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey8)) list.Add(entry.TableKey8);
+        if (!string.IsNullOrWhiteSpace(entry.TableKey9)) list.Add(entry.TableKey9);
+        return [.. list];
+    }
+
     private IEnumerable<PaldeaFixedSymbolPoint> GetObjectTemplateSymbolPoints(TrinitySceneObjectTemplate template)
     {
         foreach (var obj in template.Objects)
@@ -73,7 +97,7 @@ public class PaldeaFixedSymbolModel
         }
     }
 
-    private static IEnumerable<PaldeaFixedSymbolPoint> GetScenePointSymbolPoints(TrinityScenePoint scenePoint, IList<TrinitySceneObjectTemplateEntry> subObjects)
+    private IEnumerable<PaldeaFixedSymbolPoint> GetScenePointSymbolPoints(TrinityScenePoint scenePoint, IList<TrinitySceneObjectTemplateEntry> subObjects)
     {
         // Handle SubObjects
         for (var i = 0; i < subObjects.Count; i++)
@@ -89,7 +113,16 @@ public class PaldeaFixedSymbolModel
                         var tableKey = GetTableKey(propSheet);
                         if (!string.IsNullOrEmpty(tableKey))
                         {
-                            yield return new PaldeaFixedSymbolPoint(tableKey, scenePoint.Position);
+                            if (MultiSpawner.TryGetValue(tableKey, out var others))
+                            {
+                                // Can spawn multiple fixed encounters.
+                                foreach (var other in others)
+                                    yield return new PaldeaFixedSymbolPoint(other, scenePoint.Position);
+                            }
+                            else
+                            {
+                                yield return new PaldeaFixedSymbolPoint(tableKey, scenePoint.Position);
+                            }
                         }
                     }
                     break;

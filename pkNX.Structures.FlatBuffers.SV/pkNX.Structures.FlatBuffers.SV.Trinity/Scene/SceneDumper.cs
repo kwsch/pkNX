@@ -55,6 +55,15 @@ public static class SceneDumper
         Write(tw, depth, $"{nameof(scene.Objects)}: {scene.Objects.Count}");
     }
 
+    private static void AddToBucket(Span<byte> data, string type)
+    {
+        var hash = FnvHash.HashFnv1a_64(data);
+        var dir = Path.Combine(Bucket, type);
+        var path = Path.Combine(dir, hash.ToString("X16"));
+        Directory.CreateDirectory(dir);
+        File.WriteAllBytes(path, data.ToArray());
+    }
+
     private static void Dump(Memory<byte> data, string type, TextWriter tw, int depth)
     {
         const string UnknownType = "Unknown Type";
@@ -120,6 +129,8 @@ public static class SceneDumper
     {
         var props = FlatBufferConverter.DeserializeFrom<PEFlatbuffersDataComponent>(data);
         Write(tw, depth, $"{nameof(props.Field00)}: {props.Field00}");
+        if (props.Field01 == null)
+            return;
         foreach (var obj in props.Field01)
         {
             Write(tw, depth+1, $"{nameof(obj.Field00)}: {obj.Field00}");
@@ -143,15 +154,6 @@ public static class SceneDumper
         var props = FlatBufferConverter.DeserializeFrom<PEAudioGeneratorComponent>(data);
         Write(tw, depth, $"{nameof(props.Field00)}: {props.Field00}");
         Write(tw, depth, $"{nameof(props.Field01)}: {props.Field01}");
-    }
-
-    private static void AddToBucket(Span<byte> data, string type)
-    {
-        var hash = FnvHash.HashFnv1a_64(data);
-        var dir = Path.Combine(Bucket, type);
-        var path = Path.Combine(dir, hash.ToString("X16"));
-        Directory.CreateDirectory(dir);
-        File.WriteAllBytes(path, data.ToArray());
     }
 
     private static void DumpTIDynamicExclusionComponent(Memory<byte> data, TextWriter tw, int depth)
@@ -240,44 +242,6 @@ public static class SceneDumper
         }
     }
 
-    private static void DumpCollision(Sphere shape, TextWriter tw, int depth)
-    {
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field00)}");
-    }
-
-    private static void DumpCollision(Box shape, TextWriter tw, int depth)
-    {
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field01)}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field02)}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
-    }
-
-    private static void DumpCollision(Capsule shape, TextWriter tw, int depth)
-    {
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field00)}");
-        Write(tw, depth, $"v3f: {shape.Field01}");
-        Write(tw, depth, $"v3f: {shape.Field02}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
-    }
-
-    private static void DumpCollision(Havok shape, TextWriter tw, int depth)
-    {
-        Write(tw, depth, $"{nameof(shape.TrcolFilePath)}: {shape.TrcolFilePath}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field01)}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field02)}");
-        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
-    }
-
-    private static string GetV3F(Vec3f props)
-    {
-        return $"({props.X}, {props.Y}, {props.Z})";
-    }
-
-    private static string GetV3F(PackedVec3f props)
-    {
-        return $"({props.X}, {props.Y}, {props.Z})";
-    }
-
     private static void DumpModelComponent(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinityModelComponent>(data);
@@ -318,35 +282,25 @@ public static class SceneDumper
 
     private static void DumpObjectTemplate(Memory<byte> data, TextWriter tw, int depth)
     {
-        var entry = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateData>(data);
-        Write(tw, depth, $"{nameof(entry.ObjectTemplateName)}: {entry.ObjectTemplateName}");
-        Write(tw, depth, $"{nameof(entry.ObjectTemplatePath)}: {entry.ObjectTemplatePath}");
-        Write(tw, depth, $"{nameof(entry.ObjectTemplateExtra)}: {entry.ObjectTemplateExtra}");
-        Write(tw, depth, $"{nameof(entry.Field03)}: {entry.Field03}");
-        Dump(entry.Data, entry.Type, tw, ++depth);
+        var props = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateData>(data);
+        Write(tw, depth, $"{nameof(props.ObjectTemplateName)}: {props.ObjectTemplateName}");
+        Write(tw, depth, $"{nameof(props.ObjectTemplatePath)}: {props.ObjectTemplatePath}");
+        Write(tw, depth, $"{nameof(props.ObjectTemplateExtra)}: {props.ObjectTemplateExtra}");
+        Write(tw, depth, $"{nameof(props.Field03)}: {props.Field03}");
+        Dump(props.Data, props.Type, tw, ++depth);
     }
 
     private static void DumpScenePoint(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinityScenePoint>(data);
-        Dump(props, tw, depth + 1);
-    }
-
-    private static void Dump(TrinityScenePoint pt, TextWriter tw, int depth)
-    {
-        Write(tw, depth, $"{nameof(pt.Name)}: {pt.Name}");
-        Write(tw, depth, $"{nameof(pt.Position)}: {pt.Position}");
-        Write(tw, depth, $"{nameof(pt.Field02)}: {pt.Field02}");
+        Write(tw, depth, $"{nameof(props.Name)}: {props.Name}");
+        Write(tw, depth, $"{nameof(props.Position)}: {props.Position}");
+        Write(tw, depth, $"{nameof(props.Field02)}: {props.Field02}");
     }
 
     private static void DumpSceneObject(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(data);
-        Dump(props, tw, depth);
-    }
-
-    private static void Dump(TrinitySceneObject props, TextWriter tw, int depth)
-    {
         Write(tw, depth, $"{nameof(props.ObjectName)}: {props.ObjectName}");
         Write(tw, depth, $"{nameof(props.ObjectPosition)}:");
         Dump(props.ObjectPosition, tw, depth + 1);
@@ -358,6 +312,37 @@ public static class SceneDumper
         Write(tw, depth, $"{nameof(props.Field07)}: {props.Field07}");
         Dump(props.Field08, tw, depth, nameof(props.Field08));
     }
+
+    private static void DumpCollision(Sphere shape, TextWriter tw, int depth)
+    {
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field00)}");
+    }
+
+    private static void DumpCollision(Box shape, TextWriter tw, int depth)
+    {
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field01)}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field02)}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
+    }
+
+    private static void DumpCollision(Capsule shape, TextWriter tw, int depth)
+    {
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field00)}");
+        Write(tw, depth, $"v3f: {shape.Field01}");
+        Write(tw, depth, $"v3f: {shape.Field02}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
+    }
+
+    private static void DumpCollision(Havok shape, TextWriter tw, int depth)
+    {
+        Write(tw, depth, $"{nameof(shape.TrcolFilePath)}: {shape.TrcolFilePath}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field01)}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field02)}");
+        Write(tw, depth, $"v3f: {GetV3F(shape.Field03)}");
+    }
+
+    private static string GetV3F(Vec3f props) => $"({props.X}, {props.Y}, {props.Z})";
+    private static string GetV3F(PackedVec3f props) => $"({props.X}, {props.Y}, {props.Z})";
 
     private static void Dump<T>(IList<T> arr, TextWriter tw, int depth, string name)
     {
@@ -376,6 +361,9 @@ public static class SceneDumper
     private static void DumpPropertySheet(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinityPropertySheet>(data);
+        Write(tw, depth, $"{nameof(props.Name)}: {props.Name}");
+        if (!string.IsNullOrWhiteSpace(props.Extra))
+            Write(tw, depth, $"{nameof(props.Extra)}: {props.Extra}");
         foreach (var p in props.Properties)
         {
             foreach (var f in p.Fields)
