@@ -939,6 +939,7 @@ public class GameDumperSV
         Dump<ClubRoomBoardInfoArray, ClubRoomBoardInfo>("world/data/club/ClubRoomBoardInfo/ClubRoomBoardInfo_array.bfbs", z => z.Table);
         Dump<ClubNpcRewardListArray, ClubNpcRewardList>("world/data/club/ClubNpcRewardList/ClubNpcRewardList_array.bfbs", z => z.Table);
         DumpJson<MetamonBlockInfo>("world/data/club/MetamonBlockInfo/metamonBlockInfoData.bfbs");
+        Dump<ClubRoomNpcPairTableArray, ClubRoomNpcPairTable>("world/data/club/ClubRoomNpcPairTable/ClubRoomNpcPairTable_array.bfbs", z => z.Table);
     }
 
     private void Dump<TTable, TEntry>(ulong hash, Func<TTable, IList<TEntry>> sel)
