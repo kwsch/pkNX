@@ -678,7 +678,15 @@ public class EncounterDumperSV
         bw.Write(enc.TalentType == TalentType.RANDOM ? (byte)0 : (byte)enc.TalentVNum);
         bw.Write((byte)enc.GemType);
         bw.Write((byte)(enc.Sex - 1));
-        bw.Write((byte)0); // reserved
+        bw.Write((byte)(enc.TokuseiIndex switch
+        {
+            TokuseiType.RANDOM_12 => PKHeX.Core.AbilityPermission.Any12,
+            TokuseiType.RANDOM_123 => PKHeX.Core.AbilityPermission.Any12H,
+            TokuseiType.SET_1 => PKHeX.Core.AbilityPermission.OnlyFirst,
+            TokuseiType.SET_2 => PKHeX.Core.AbilityPermission.OnlySecond,
+            TokuseiType.SET_3 => PKHeX.Core.AbilityPermission.OnlyHidden,
+            _ => throw new ArgumentOutOfRangeException(nameof(TokuseiType), enc.TokuseiIndex, null),
+        }));
 
         bw.Write((ushort)enc.Waza1.WazaId);
         bw.Write((ushort)enc.Waza2.WazaId);

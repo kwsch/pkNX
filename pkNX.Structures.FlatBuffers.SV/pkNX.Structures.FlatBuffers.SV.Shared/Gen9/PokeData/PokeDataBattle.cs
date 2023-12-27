@@ -40,11 +40,28 @@ public partial class PokeDataBattle
         bw.Write((byte)RareType);
         bw.Write((byte)captureLv);
 
-        // Write moves
-        bw.Write((ushort)Waza1.WazaId);
-        bw.Write((ushort)Waza2.WazaId);
-        bw.Write((ushort)Waza3.WazaId);
-        bw.Write((ushort)Waza4.WazaId);
+        // raid_enemy_03_array: Dreepy is "Default", but the Manual moves are correct.
+        // su2_raid_enemy_03: Beldum is "Default", fill in the moves manually.
+        if (WazaType == WazaType.MANUAL || (DevId == DevID.DEV_DORAMESIYA && Level == 35)) // Dreepy
+        {
+            // Write moves
+            bw.Write((ushort)Waza1.WazaId);
+            bw.Write((ushort)Waza2.WazaId);
+            bw.Write((ushort)Waza3.WazaId);
+            bw.Write((ushort)Waza4.WazaId);
+        }
+        else if (WazaType == WazaType.DEFAULT && DevId == DevID.DEV_DANBARU && Level == 35) // Beldum
+        {
+            // Level 35 moves
+            bw.Write((ushort)Move.Tackle);
+            bw.Write((ushort)0);
+            bw.Write((ushort)0);
+            bw.Write((ushort)0);
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(nameof(WazaType), WazaType, $"No {nameof(WazaType)} allowed!");
+        }
 
         // ROM raids with 5 stars have a few entries that are defined as DEFAULT
         // If the type is not {specified}, the game will assume it is RANDOM.

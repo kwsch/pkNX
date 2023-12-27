@@ -212,7 +212,12 @@ public class LocationStorage
             if (areaName[i] != ',')
                 continue;
             var name = areaName[start..i];
-            if (int.TryParse(name, out var tmp) && areaNo == tmp)
+
+            // In Paldea, only Surskit has: 1,4.5,7
+            // It shows up in 4, but not 5. No other encounters have `.` -- only `,`.
+            // We can just check as floats, and the last as int.
+            // Maybe they changed it since release, dunno. 3.0.0 gives us Surskit @ 4.
+            if (float.TryParse(name, out var tmp) && areaNo == (int)tmp)
                 return true;
             start = i + 1;
         }
