@@ -20,8 +20,6 @@ public class EncounterDumperSV
 
     public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
-    private static readonly string[] BannedFixedSpawnNames = ["ai_area01_30"]; // Lighthouse Wingull
-
     private static ReadOnlySpan<PaldeaFieldIndex> AllMaps =>
     [
         PaldeaFieldIndex.Paldea,
@@ -168,10 +166,10 @@ public class EncounterDumperSV
                     WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, points);
 
                     // Serialize
-                    var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index).Distinct().ToList();
-                    if (locs.Count == 0)
-                        continue;
-                    if (BannedFixedSpawnNames.Contains(entry.TableKey))
+                    if (entry.PokeGeneration.GenerationPattern == GenerationPattern.Watch)
+                        continue; // not actually encounter-able, they're just for spectacle (lighthouse wingull)
+                    // var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index);
+                    if (appearAreas.Count == 0)
                         continue;
 
                     // If not stationary, allow some tolerance.
