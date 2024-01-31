@@ -11,6 +11,8 @@ using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.Arceus;
 using static pkNX.Structures.Species;
 using Util = pkNX.Randomization.Util;
+using FlatSharp;
+using System.Buffers;
 
 namespace pkNX.WinForms.Subforms;
 
