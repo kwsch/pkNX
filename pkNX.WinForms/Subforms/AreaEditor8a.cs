@@ -163,9 +163,38 @@ public partial class AreaEditor8a : Form
 
     private void AreaEditor8a_FormClosing(object sender, FormClosingEventArgs e)
     {
-        if (Save)
+        if (Save){
             SaveArea();
-        else
+            SaveSettings();
+        }
+        else {
             Resident.CancelEdits();
+        }
+    }
+
+    private void SaveSettings()
+    {
+        TryWrite("bin/field/resident/AreaSettings.bin", Settings);
+    }
+
+    private static byte[] Write<T>(T obj) where T : class, IFlatBufferSerializable<T>
+    {
+        var pool = ArrayPool<byte>.Shared;
+        var serializer = obj.Serializer;
+        var data = pool.Rent(serializer.GetMaxSize(obj));
+        var len = serializer.Write(data, obj);
+        var result = data.AsSpan(0, len).ToArray();
+        pool.Return(data);
+        return result;
+    }
+
+    private void TryWrite<T>(string path, T obj) where T : class, IFlatBufferSerializable<T>
+    {
+        var index = Resident.GetIndexFull(path);
+        if (index == -1)
+            return;
+
+        byte[] result = Write(obj);
+        Resident[index] = result;
     }
 }
