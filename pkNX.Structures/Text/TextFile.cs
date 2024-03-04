@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
@@ -22,7 +24,7 @@ public class TextFile
     private const ushort KEY_TEXTWAIT = 0xBE02;
     private const ushort KEY_TEXTNULL = 0xBDFF;
     private const ushort KEY_TEXTRUBY = 0xFF01;
-    private static readonly byte[] emptyTextFile = { 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00 };
+    private static ReadOnlySpan<byte> emptyTextFile => [0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00];
 
     public TextFile(TextConfig? config = null, bool remapChars = false) : this(emptyTextFile, config, remapChars) { }
 
@@ -51,18 +53,18 @@ public class TextFile
     private readonly TextConfig Config;
     private readonly bool RemapChars;
 
-    private ushort TextSections { get => BitConverter.ToUInt16(Data, 0x0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x0); } // Always 0x0001
-    private ushort LineCount { get => BitConverter.ToUInt16(Data, 0x2); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2); }
-    private uint TotalLength { get => BitConverter.ToUInt32(Data, 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x4); }
-    private uint InitialKey => BitConverter.ToUInt32(Data, 0x8); // Always 0x00000000
-    private uint SectionDataOffset { get => BitConverter.ToUInt32(Data, 0xC); set => BitConverter.GetBytes(value).CopyTo(Data, 0xC); } // Always 0x0010
-    private uint SectionLength { get => BitConverter.ToUInt32(Data, (int)SectionDataOffset); set => BitConverter.GetBytes(value).CopyTo(Data, SectionDataOffset); }
+    private ushort TextSections { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); } // Always 0x0001
+    private ushort LineCount { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
+    private uint TotalLength { get => ReadUInt32LittleEndian(Data.AsSpan(0x04)); set => WriteUInt32LittleEndian(Data.AsSpan(0x04), value); }
+    private uint InitialKey { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); } // Always 0x00000000
+    private uint SectionDataOffset { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); } // Always 0x0010
+    private uint SectionLength { get => ReadUInt32LittleEndian(Data.AsSpan((int)SectionDataOffset)); set => WriteUInt32LittleEndian(Data.AsSpan((int)SectionDataOffset), value); }
 
     private TextLine[] LineOffsets
     {
         get
         {
-            TextLine[] result = new TextLine[LineCount];
+            var result = new TextLine[LineCount];
             int sdo = (int)SectionDataOffset;
             for (int i = 0; i < result.Length; i++)
             {
@@ -72,7 +74,6 @@ public class TextFile
                     Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8),
                 };
             }
-
             return result;
         }
         set
@@ -144,7 +145,18 @@ public class TextFile
 
     public string[] Lines
     {
-        get => LineData.Select(GetLineString).ToArray();
+        get
+        {
+            var sb = new StringBuilder();
+            var result = new string[LineCount];
+            for (int i = 0; i < result.Length; i++)
+            {
+                GetLineString(GetEncryptedLine(i), sb);
+                result[i] = sb.ToString();
+                sb.Clear();
+            }
+            return result;
+        }
         set => LineData = ConvertLinesToData(value);
     }
 
@@ -157,10 +169,13 @@ public class TextFile
             string text = value[i]?.Trim() ?? string.Empty;
             if (text.Length == 0 && SETEMPTYTEXT)
                 text = $"[~ {i}]";
-            byte[] DecryptedLineData = GetLineData(text);
-            lineData[i] = CryptLineData(DecryptedLineData, key);
-            if (lineData[i].Length % 4 == 2)
-                Array.Resize(ref lineData[i], lineData[i].Length + 2);
+
+            var data = GetLineData(Config, RemapChars, text);
+            CryptLineDataInPlace(data, key);
+            if (data.Length % 4 == 2)
+                Array.Resize(ref data, data.Length + 2);
+
+            lineData[i] = data;
             key += KEY_ADVANCE;
         }
 
@@ -170,16 +185,32 @@ public class TextFile
     private static byte[] CryptLineData(byte[] data, ushort key)
     {
         byte[] result = (byte[])data.Clone();
-        for (int i = 0; i < result.Length; i += 2)
-        {
-            result[i + 0] ^= (byte)key;
-            result[i + 1] ^= (byte)(key >> 8);
-            key = (ushort)(key << 3 | key >> 13);
-        }
+        CryptLineDataInPlace(result, key);
         return result;
     }
 
-    private byte[] GetLineData(ReadOnlySpan<char> line)
+    private static void CryptLineDataInPlace(Span<byte> result, ushort key)
+    {
+        if (!BitConverter.IsLittleEndian)
+        {
+            for (int i = 0; i < result.Length; i += 2)
+            {
+                result[i + 0] ^= (byte)key;
+                result[i + 1] ^= (byte)(key >> 8);
+                key = (ushort)(key << 3 | key >> 13);
+            }
+            return;
+        }
+
+        var data = MemoryMarshal.Cast<byte, ushort>(result);
+        foreach (ref var u16 in data)
+        {
+            u16 ^= key;
+            key = (ushort)(key << 3 | key >> 13);
+        }
+    }
+
+    private static byte[] GetLineData(TextConfig config, bool remap, ReadOnlySpan<char> line)
     {
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
@@ -187,7 +218,7 @@ public class TextFile
         while (i < line.Length)
         {
             ushort val = line[i++];
-            val = TryRemapChar(val);
+            val = TryRemapChar(val, remap);
 
             switch (val)
             {
@@ -197,8 +228,9 @@ public class TextFile
                     if (bracket < 0)
                         throw new ArgumentException("Variable text is not capped properly: " + line.ToString());
                     var varText = line[i..bracket];
-                    var varValues = GetVariableValues(varText);
-                    foreach (ushort v in varValues) bw.Write(v);
+                    var varValues = GetVariableValues(config, [], varText);
+                    foreach (ushort v in varValues)
+                        bw.Write(v);
                     i += 1 + varText.Length;
                     break;
                 case '{':
@@ -206,8 +238,9 @@ public class TextFile
                     if (brace < 0)
                         throw new ArgumentException("Ruby text is not capped properly: " + line.ToString());
                     var rubyText = line[i..brace];
-                    var rubyValues = GetRubyValues(rubyText.ToString());
-                    foreach (ushort v in rubyValues) bw.Write(v);
+                    var rubyValues = GetRubyValues(rubyText.ToString(), remap);
+                    foreach (ushort v in rubyValues)
+                        bw.Write(v);
                     i += 1 + rubyText.Length;
                     break;
                 case '\\':
@@ -224,20 +257,16 @@ public class TextFile
         return ms.ToArray();
     }
 
-    private ushort TryRemapChar(ushort val)
+    private static ushort TryRemapChar(ushort val, bool RemapChars)
     {
         if (!RemapChars)
             return val;
         return val switch
         {
-            0x202F => 0xE07F // nbsp
-            ,
-            0x2026 => 0xE08D // …
-            ,
-            0x2642 => 0xE08E // ♂
-            ,
-            0x2640 => 0xE08F // ♀
-            ,
+            0x202F => 0xE07F, // nbsp
+            0x2026 => 0xE08D, // …
+            0x2642 => 0xE08E, // ♂
+            0x2640 => 0xE08F, // ♀
             _ => val,
         };
     }
@@ -248,32 +277,27 @@ public class TextFile
             return val;
         return val switch
         {
-            0xE07F => 0x202F // nbsp
-            ,
-            0xE08D => 0x2026 // …
-            ,
-            0xE08E => 0x2642 // ♂
-            ,
-            0xE08F => 0x2640 // ♀
-            ,
+            0xE07F => 0x202F, // nbsp
+            0xE08D => 0x2026, // …
+            0xE08E => 0x2642, // ♂
+            0xE08F => 0x2640, // ♀
             _ => val,
         };
     }
 
-    private string GetLineString(byte[] data)
+    private void GetLineString(ReadOnlySpan<byte> data, StringBuilder s)
     {
-        var s = new StringBuilder();
         int i = 0;
         while (i < data.Length)
         {
-            ushort val = BitConverter.ToUInt16(data, i);
+            ushort val = ReadUInt16LittleEndian(data[i..]);
             if (val == KEY_TERMINATOR)
                 break;
             i += 2;
 
             switch (val)
             {
-                case KEY_VARIABLE: s.Append(GetVariableString(Config, data, ref i)); break;
+                case KEY_VARIABLE: AppendVariableString(Config, data, s, ref i); break;
                 case '\n': s.Append(@"\n"); break;
                 case '\\': s.Append(@"\\"); break;
                 case '[': s.Append(@"\["); break;
@@ -281,51 +305,62 @@ public class TextFile
                 default: s.Append((char)TryUnmapChar(val)); break;
             }
         }
-        return s.ToString(); // Shouldn't get hit if the string is properly terminated.
     }
 
-    private string GetVariableString(TextConfig config, byte[] data, ref int i)
+    private void AppendVariableString(TextConfig config, ReadOnlySpan<byte> data, StringBuilder s, ref int i)
     {
-        var s = new StringBuilder();
-        ushort count = BitConverter.ToUInt16(data, i); i += 2;
-        ushort variable = BitConverter.ToUInt16(data, i); i += 2;
+        ushort count = ReadUInt16LittleEndian(data[i..]); i += 2;
+        ushort variable = ReadUInt16LittleEndian(data[i..]); i += 2;
 
         switch (variable)
         {
             case KEY_TEXTRETURN: // "Waitbutton then scroll text \r"
-                return "\\r";
+                s.Append("\\r");
+                return;
             case KEY_TEXTCLEAR: // "Waitbutton then clear text \c"
-                return "\\c";
+                s.Append("\\c");
+                return;
             case KEY_TEXTWAIT: // Dramatic pause for a text line. New!
-                ushort time = BitConverter.ToUInt16(data, i); i += 2;
-                return $"[WAIT {time}]";
+                ushort time = ReadUInt16LittleEndian(data[i..]); i += 2;
+                s.Append($"[WAIT {time}]");
+                return;
             case KEY_TEXTNULL: // nullptr text, Includes linenum
-                ushort line = BitConverter.ToUInt16(data, i); i += 2;
-                return $"[~ {line}]";
+                ushort line = ReadUInt16LittleEndian(data[i..]); i += 2;
+                s.Append($"[~ {line}]");
+                return;
             case KEY_TEXTRUBY: // Ruby text/furigana for Japanese
-                ushort baseLength = BitConverter.ToUInt16(data, i); i += 2;
-                ushort rubyLength = BitConverter.ToUInt16(data, i); i += 2;
-                string baseText1 = GetLineString(data.AsSpan(i, baseLength * 2).ToArray()); i += baseLength * 2;
-                string rubyText = GetLineString(data.AsSpan(i, rubyLength * 2).ToArray()); i += rubyLength * 2;
-                string baseText2 = GetLineString(data.AsSpan(i, baseLength * 2).ToArray()); i += baseLength * 2;
-                s.Append('{').Append(baseText1).Append('|').Append(rubyText);
-                if (baseText1 != baseText2)
+                ushort baseLength = ReadUInt16LittleEndian(data[i..]); i += 2;
+                ushort rubyLength = ReadUInt16LittleEndian(data[i..]); i += 2;
+
+                var baseSpan1 = data.Slice(i, baseLength * 2);
+                i += baseLength * 2;
+                var rubySpan = data.Slice(i, rubyLength * 2);
+                i += rubyLength * 2;
+                var baseSpan2 = data.Slice(i, baseLength * 2);
+                i += baseLength * 2;
+
+                s.Append('{');
+                GetLineString(baseSpan1, s);
+                s.Append('|');
+                GetLineString(rubySpan, s);
+                if (!baseSpan1.SequenceEqual(baseSpan2))
                 {
-                    s.Append('|').Append(baseText2); // basetext1 should duplicate basetext2, so this shouldn't occur
+                    // basetext1 should duplicate basetext2, so this shouldn't occur
+                    s.Append('|');
+                    GetLineString(baseSpan2, s);
                 }
                 s.Append('}');
-                return s.ToString();
+                return;
         }
 
         string varName = config.GetVariableString(variable);
-
         s.Append("[VAR").Append(' ').Append(varName);
         if (count > 1)
         {
             s.Append('(');
             while (count > 1)
             {
-                ushort arg = BitConverter.ToUInt16(data, i); i += 2;
+                ushort arg = ReadUInt16LittleEndian(data[i..]); i += 2;
                 s.Append(arg.ToString("X4"));
                 if (--count == 1)
                     break;
@@ -334,7 +369,6 @@ public class TextFile
             s.Append(')');
         }
         s.Append(']');
-        return s.ToString();
     }
 
     private static IEnumerable<ushort> GetEscapeValues(char esc)
@@ -346,22 +380,22 @@ public class TextFile
             case '\\': vals.Add('\\'); return vals;
             case '[': vals.Add('['); return vals;
             case '{': vals.Add('{'); return vals;
-            case 'r': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTRETURN }); return vals;
-            case 'c': vals.AddRange(new ushort[] { KEY_VARIABLE, 1, KEY_TEXTCLEAR }); return vals;
-            default: throw new Exception("Invalid terminated line: \\" + esc);
+            case 'r': vals.AddRange([KEY_VARIABLE, 1, KEY_TEXTRETURN]); return vals;
+            case 'c': vals.AddRange([KEY_VARIABLE, 1, KEY_TEXTCLEAR]); return vals;
+            default: throw new Exception($"Invalid terminated line: \\{esc}");
         }
     }
 
-    private IEnumerable<ushort> GetVariableValues(ReadOnlySpan<char> variable)
+    private static IEnumerable<ushort> GetVariableValues(TextConfig config, List<ushort> vals, ReadOnlySpan<char> variable)
     {
         var spaceIndex = variable.IndexOf(' ');
         if (spaceIndex == -1)
-            throw new ArgumentException("Incorrectly formatted variable text: " + variable.ToString());
+            throw new ArgumentException($"Incorrectly formatted variable text: {variable}");
 
         var cmd = variable[..spaceIndex];
         var args = variable[(spaceIndex + 1)..];
 
-        var vals = new List<ushort> { KEY_VARIABLE };
+        vals.Add(KEY_VARIABLE);
         switch (cmd)
         {
             case "~": // Blank Text Line Variable (nullptr text)
@@ -375,24 +409,24 @@ public class TextFile
                 vals.Add(ushort.Parse(args));
                 break;
             case "VAR": // Text Variable
-                vals.AddRange(GetVariableParameters(args));
+                vals.AddRange(GetVariableParameters(config, args));
                 break;
-            default: throw new Exception("Unknown variable method type: " + variable.ToString());
+            default: throw new Exception($"Unknown variable method type: {variable}");
         }
         return vals;
     }
 
-    private IEnumerable<ushort> GetRubyValues(string ruby)
+    private static IEnumerable<ushort> GetRubyValues(string ruby, bool remap)
     {
         string[] split = ruby.Split('|');
         if (split.Length < 2)
-            throw new ArgumentException("Incorrectly formatted ruby text: " + ruby);
+            throw new ArgumentException($"Incorrectly formatted ruby text: {ruby}");
 
         string baseText1 = split[0];
         string rubyText = split[1];
         string baseText2 = split.Length < 3 ? baseText1 : split[2];
         if (baseText1.Length != baseText2.Length)
-            throw new ArgumentException("Incorrectly formatted ruby text: " + ruby);
+            throw new ArgumentException($"Incorrectly formatted ruby text: {ruby}");
 
         var vals = new List<ushort>
         {
@@ -402,19 +436,19 @@ public class TextFile
             Convert.ToUInt16(baseText1.Length),
             Convert.ToUInt16(rubyText.Length),
         };
-        vals.AddRange(baseText1.Select(val => Convert.ToUInt16(TryRemapChar(val))));
-        vals.AddRange(rubyText.Select(val => Convert.ToUInt16(TryRemapChar(val))));
-        vals.AddRange(baseText2.Select(val => Convert.ToUInt16(TryRemapChar(val))));
+        vals.AddRange(baseText1.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
+        vals.AddRange(rubyText.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
+        vals.AddRange(baseText2.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
         return vals;
     }
 
-    private IEnumerable<ushort> GetVariableParameters(ReadOnlySpan<char> text)
+    private static IEnumerable<ushort> GetVariableParameters(TextConfig config, ReadOnlySpan<char> text)
     {
         var vals = new List<ushort>();
         int bracket = text.IndexOf('(');
         bool noArgs = bracket < 0;
         var variable = noArgs ? text : text[..bracket];
-        ushort varVal = Config.GetVariableNumber(variable.ToString());
+        ushort varVal = config.GetVariableNumber(variable.ToString());
 
         if (!noArgs)
         {
