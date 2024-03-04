@@ -1,6 +1,7 @@
 using pkNX.Containers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -417,10 +418,28 @@ public class TextFile
 
         if (!noArgs)
         {
-            string[] args = text[(bracket + 1)..(text.Length - bracket - 2)].ToString().Split(',');
-            vals.Add((ushort)(1 + args.Length));
+            int index = vals.Count;
+            vals.Add(1); // change count later
             vals.Add(varVal);
-            vals.AddRange(args.Select(t => Convert.ToUInt16(t, 16)));
+            var args = text[(bracket + 1)..^1];
+            // Add the hex args to the list, with a `,` separator. When done, revise the index to the final count.
+            int count = 1;
+            while (args.Length > 0)
+            {
+                int comma = args.IndexOf(',');
+                if (comma == -1)
+                    comma = args.Length;
+                if (ushort.TryParse(args[..comma], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var result))
+                    vals.Insert(index, result);
+                else
+                    throw new ArgumentException($"Invalid hex value: {args[..comma]} in text: {text}");
+                count++;
+                var skip = comma + 1;
+                if (skip >= args.Length)
+                    break;
+                args = args[skip..];
+            }
+            vals[index] = (ushort)count;
         }
         else
         {
