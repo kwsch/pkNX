@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterNestArchive { }
+public partial class EncounterNestArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterNestTable

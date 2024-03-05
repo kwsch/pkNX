@@ -45,10 +45,7 @@ public partial class EncounterMultiplierArchive
 {
     public EncounterMultiplier GetEncounterMultiplier(EncounterSlot slot)
     {
-        var result = GetEntry((ushort)slot.Species, (ushort)slot.Form);
-        if (result == null)
-            throw new ArgumentException($"Invalid Encounter Slot {slot.Species} - {slot.Form}");
-        return result;
+        return GetEntry((ushort)slot.Species, (ushort)slot.Form) ?? throw new ArgumentException($"Invalid Encounter Slot {slot.Species} - {slot.Form}");
     }
 
     public EncounterMultiplier GetEntry(ushort species, ushort form)

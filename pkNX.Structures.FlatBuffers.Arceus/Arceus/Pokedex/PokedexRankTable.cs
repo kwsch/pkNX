@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokedexRankTable { }
+public partial class PokedexRankTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokedexRankLevel { }
+public partial class PokedexRankLevel;

@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterArchive { }
-public partial class EncounterTable { }
-public partial class EncounterSubTable { }
-public partial class EncounterSlot { }
+public partial class EncounterArchive;
+public partial class EncounterTable;
+public partial class EncounterSubTable;
+public partial class EncounterSlot;

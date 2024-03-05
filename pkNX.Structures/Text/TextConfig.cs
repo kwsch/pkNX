@@ -8,14 +8,13 @@ namespace pkNX.Structures;
 /// <summary>
 /// Version specific text parsing configuration object to interact with text variable codes.
 /// </summary>
-public class TextConfig
+public class TextConfig(GameVersion game)
 {
     internal static readonly TextConfig Default = new(GameVersion.Any);
-    private static readonly char[] _trim_hex = { '0', 'x' };
-    private readonly TextVariableCode[] Variables;
+    private static readonly char[] _trim_hex = ['0', 'x'];
+    private readonly TextVariableCode[] Variables = TextVariableCode.GetVariables(game);
 
     public IEnumerable<string> GetVariableList() => Variables.Select(z => $"{z.Code:X4}={z.Name}");
-    public TextConfig(GameVersion game) => Variables = TextVariableCode.GetVariables(game);
 
     private TextVariableCode? GetCode(string name) => Array.Find(Variables, v => v.Name == name);
     private TextVariableCode? GetName(int value) => Array.Find(Variables, v => v.Code == value);

@@ -15,7 +15,7 @@ public partial class PlacementZoneWarpHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneWarp8 { }
+public partial class PlacementZoneWarp8;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneWarpDetails8 { }
+public partial class PlacementZoneWarpDetails8;

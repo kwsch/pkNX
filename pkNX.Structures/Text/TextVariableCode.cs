@@ -31,7 +31,7 @@ public sealed class TextVariableCode
     }
 
     private static readonly TextVariableCode[] XY =
-    {
+    [
         new(0xFF00, "COLOR"),
         new(0x0100, "TRNAME"),
         new(0x0101, "PKNAME"),
@@ -80,10 +80,10 @@ public sealed class TextVariableCode
         new(0x0206, "NUM7"),
         new(0x0207, "NUM8"),
         new(0x0208, "NUM9"),
-    };
+    ];
 
     private static readonly TextVariableCode[] AO =
-    {
+    [
         new(0xFF00, "COLOR"),
         new(0x0100, "TRNAME"),
         new(0x0101, "PKNAME"),
@@ -132,10 +132,10 @@ public sealed class TextVariableCode
         new(0x0206, "NUM7"),
         new(0x0207, "NUM8"),
         new(0x0208, "NUM9"),
-    };
+    ];
 
     private static readonly TextVariableCode[] SM =
-    {
+    [
         new(0xFF00, "COLOR"),
         new(0x0100, "TRNAME"),
         new(0x0101, "PKNAME"),
@@ -184,10 +184,10 @@ public sealed class TextVariableCode
         new(0x0206, "NUM7"),
         new(0x0207, "NUM8"),
         new(0x0208, "NUM9"),
-    };
+    ];
 
     private static readonly TextVariableCode[] GG =
-    {
+    [
         new(0xFF00, "COLOR"),
         new(0x0100, "TRNAME"),
         new(0x0101, "PKNAME"),
@@ -236,5 +236,5 @@ public sealed class TextVariableCode
         new(0x0206, "NUM7"),
         new(0x0207, "NUM8"),
         new(0x0208, "NUM9"),
-    };
+    ];
 }

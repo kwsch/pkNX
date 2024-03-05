@@ -2,11 +2,9 @@ using System;
 
 namespace pkNX.Structures;
 
-public abstract class EncounterTrade
+public abstract class EncounterTrade(byte[] data)
 {
-    protected readonly byte[] Data;
-
-    protected EncounterTrade(byte[] data) => Data = data;
+    protected readonly byte[] Data = data;
 
     public virtual byte[] Write() => (byte[])Data.Clone();
 
@@ -33,7 +31,7 @@ public abstract class EncounterTrade
 
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value?.Length != 6) return;

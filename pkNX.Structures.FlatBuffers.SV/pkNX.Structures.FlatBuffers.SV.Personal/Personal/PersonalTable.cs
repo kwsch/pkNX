@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SV;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PersonalTable { }
+public partial class PersonalTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PersonalInfo { }
+public partial class PersonalInfo;

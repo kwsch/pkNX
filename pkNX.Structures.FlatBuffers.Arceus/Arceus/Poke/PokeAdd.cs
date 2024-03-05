@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeAddArchive { }
+public partial class PokeAddArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAdd

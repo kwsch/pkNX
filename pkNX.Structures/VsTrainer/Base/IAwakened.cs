@@ -114,5 +114,5 @@ public static partial class Extensions
         }
     }
 
-    public static int[] AVs(this IAwakened a) => new[] {a.AV_HP, a.AV_ATK, a.AV_DEF, a.AV_SPA, a.AV_SPD, a.AV_SPE};
+    public static int[] AVs(this IAwakened a) => [a.AV_HP, a.AV_ATK, a.AV_DEF, a.AV_SPA, a.AV_SPD, a.AV_SPE];
 }

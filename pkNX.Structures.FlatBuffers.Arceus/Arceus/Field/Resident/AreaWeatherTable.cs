@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class AreaWeatherTable { }
+public partial class AreaWeatherTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class AreaWeather

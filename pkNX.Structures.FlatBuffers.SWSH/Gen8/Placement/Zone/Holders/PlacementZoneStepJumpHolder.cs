@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStepJumpHolder { }
+public partial class PlacementZoneStepJumpHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStepJump { }
+public partial class PlacementZoneStepJump;

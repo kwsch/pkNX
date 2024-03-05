@@ -2,11 +2,10 @@ using System;
 
 namespace pkNX.Structures;
 
-public class EncounterGift7b : EncounterGift
+public class EncounterGift7b(byte[] data) : EncounterGift(data)
 {
     public const int SIZE = 0x20;
     public EncounterGift7b() : this(new byte[SIZE]) { }
-    public EncounterGift7b(byte[] data) : base(data) { }
 
     public ulong Hash => BitConverter.ToUInt64(Data, 0);
 
@@ -56,13 +55,13 @@ public class EncounterGift7b : EncounterGift
 
     public override int[] RelearnMoves
     {
-        get => new int[]
-        {
+        get =>
+        [
             BitConverter.ToUInt16(Data, 0x18),
             BitConverter.ToUInt16(Data, 0x1A),
             BitConverter.ToUInt16(Data, 0x1C),
             BitConverter.ToUInt16(Data, 0x1E),
-        };
+        ];
         set
         {
             if (value?.Length != 4)

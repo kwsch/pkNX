@@ -14,7 +14,7 @@ public class LearnsetRandomizer : Randomizer
     private readonly GameInfo Game;
     private readonly IPersonalTable Personal;
     private MoveRandomizer moverand;
-    public IReadOnlyList<IMove> Moves { private get; set; } = Array.Empty<IMove>();
+    public IReadOnlyList<IMove> Moves { private get; set; } = [];
 
     public LearnSettings Settings { get; private set; } = new();
     public IList<int> BannedMoves { set => moverand.Settings.BannedMoves = value; }
@@ -29,8 +29,8 @@ public class LearnsetRandomizer : Randomizer
         moverand = new MoveRandomizer(game, Moves, Personal);
     }
 
-    private static readonly int[] MetronomeMove = { 118 };
-    private static readonly int[] MetronomeLevel = { 1 };
+    private static readonly int[] MetronomeMove = [118];
+    private static readonly int[] MetronomeLevel = [1];
 
     public void ExecuteMetronome()
     {

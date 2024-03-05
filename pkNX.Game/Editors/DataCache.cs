@@ -7,16 +7,16 @@ using pkNX.Structures.FlatBuffers;
 
 namespace pkNX.Game;
 
-public class DataCache<T> : IDataEditor where T : class
+public class DataCache<T>(IList<T?> cache) : IDataEditor
+    where T : class
 {
     public IFileContainer Data { protected get; set; } = null!;
     public Func<byte[], T> Create { private get; set; } = null!;
     public Func<T, byte[]> Write { protected get; set; } = null!;
 
-    public DataCache(IList<T?> cache) => Cache = cache;
     public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
 
-    protected readonly IList<T?> Cache;
+    protected readonly IList<T?> Cache = cache;
     private bool Cached;
 
     public int Length => Cache.Count;
@@ -75,9 +75,9 @@ public class DataCache<T> : IDataEditor where T : class
 /// Data with already known contents.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class DirectCache<T> : DataCache<T> where T : class
+public class DirectCache<T>(IList<T?> cache) : DataCache<T>(cache)
+    where T : class
 {
-    public DirectCache(IList<T?> cache) : base(cache) { }
     public override void Save() { }
 }
 

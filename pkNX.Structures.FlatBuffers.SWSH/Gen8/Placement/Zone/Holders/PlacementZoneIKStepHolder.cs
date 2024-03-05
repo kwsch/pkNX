@@ -10,10 +10,10 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // IK_Step
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneIKStepHolder { }
+public partial class PlacementZoneIKStepHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F25 { }
+public partial class PlacementZone_F25;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F25_X { }
+public partial class PlacementZone_F25_X;

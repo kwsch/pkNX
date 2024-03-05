@@ -22,7 +22,7 @@ public class FolderContainer : IFileContainer
     public FolderContainer(string path, Func<string, bool> filter) : this(path) => Initialize(filter);
 
     public IReadOnlyList<string> GetPaths() => Paths;
-    public IReadOnlyList<string> GetFileNames() => Paths.Select(Path.GetFileName).ToList()!;
+    public IReadOnlyList<string> GetFileNames() => Paths.ConvertAll(Path.GetFileName)!;
 
     public void Initialize(Func<string, bool>? filter = null)
     {

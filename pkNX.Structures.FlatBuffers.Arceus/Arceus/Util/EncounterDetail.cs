@@ -25,7 +25,7 @@ public record struct EncounterDetail(double Rate, double MultT, double MultW, in
         {
             for (var weather = 0; weather < WeatherCount; weather++)
             {
-                table[time, weather] = table[time, weather].OrderByDescending(xt => xt.Rate).ToList();
+                table[time, weather] = [.. table[time, weather].OrderByDescending(xt => xt.Rate)];
 
                 var totalRate = 0.0;
                 foreach (var tup in table[time, weather])

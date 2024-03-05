@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowableResourceDictionary { }
+public partial class ThrowableResourceDictionary;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowableResourceEntry { }
+public partial class ThrowableResourceEntry;

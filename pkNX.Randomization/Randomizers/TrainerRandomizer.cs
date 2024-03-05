@@ -39,7 +39,7 @@ public class TrainerRandomizer : Randomizer
         Evos = evos;
 
         PossibleHeldItems = Legal.GetRandomItemList(Info.Game);
-        GigantamaxForms = Legal.GigantamaxForms.ToArray();
+        GigantamaxForms = [.. Legal.GigantamaxForms];
         MegaDictionary = Legal.GetMegaDictionary(Info.Game);
         IndexFixedCount = GetFixedCountIndexes(Info.Game);
         SpecialClasses = GetSpecialClasses(Info.Game);
@@ -236,7 +236,7 @@ public class TrainerRandomizer : Randomizer
         if (Settings.RandomAbilities)
             pk.Ability = Util.Random.Next(1, 4); // 1, 2, or H
         if (Settings.MaxIVs)
-            pk.IVs = new[] { 31, 31, 31, 31, 31, 31 };
+            pk.IVs = [31, 31, 31, 31, 31, 31];
 
         TryForceEvolve(pk);
 
@@ -304,7 +304,7 @@ public class TrainerRandomizer : Randomizer
                 pk.Moves = Learn.GetHighPoweredMoves((ushort)pk.Species, (byte)pk.Form);
                 break;
             case MoveRandType.MetronomeOnly: // Metronome
-                pk.Moves = new[] { 118, 0, 0, 0 };
+                pk.Moves = [118, 0, 0, 0];
                 break;
             default:
                 return;
@@ -332,26 +332,26 @@ public class TrainerRandomizer : Randomizer
     }
 
     // 1 poke max
-    private static readonly int[] royal = { 081, 082, 083, 084, 185 };
+    private static ReadOnlySpan<int> royal => [081, 082, 083, 084, 185];
 
     // 3 poke max
-    private static readonly int[] MultiBattle_GG =
-    {
+    private static ReadOnlySpan<int> MultiBattle_GG =>
+    [
         007, 008, 020, 021, 024, 025, 032, 033, 050, 051, // Jessie & James
         028, 029, 030, 031, // Rival vs Archer & Grunt
-    };
+    ];
 
     // 3 poke max
-    private static readonly int[] MultiBattle_SWSH =
-    {
+    private static ReadOnlySpan<int> MultiBattle_SWSH =>
+    [
         156, 157, 158, 197, 198, 199, 225, 226, 227, 312, 313, 314, // Hop
         223, 224, // Sordward and Shielbert
-    };
+    ];
 
     // 3 poke max
-    private static readonly int[] MultiBattle_SV =
-    {
-    };
+    private static ReadOnlySpan<int> MultiBattle_SV =>
+    [
+    ];
 
     private static Dictionary<int, int> GetFixedCountIndexes(GameVersion game)
     {

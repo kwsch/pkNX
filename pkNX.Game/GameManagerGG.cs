@@ -5,9 +5,8 @@ using pkNX.Structures;
 
 namespace pkNX.Game;
 
-public class GameManagerGG : GameManager
+public class GameManagerGG(GameLocation rom, int language) : GameManager(rom, language)
 {
-    public GameManagerGG(GameLocation rom, int language) : base(rom, language) { }
     private GameVersion ActualGame;
     private string TitleID => ActualGame == GameVersion.GP ? Pikachu : Eevee;
     private const string Pikachu = "010003F003A34000";

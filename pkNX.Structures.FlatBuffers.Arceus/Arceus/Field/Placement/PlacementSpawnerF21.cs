@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Linq;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global

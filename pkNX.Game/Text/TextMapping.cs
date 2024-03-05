@@ -22,7 +22,7 @@ public static class TextMapping
     };
 
     private static readonly TextReference[] MapXY =
-    {
+    [
         new(005, Forms),
         new(013, MoveNames),
         new(015, MoveFlavor),
@@ -39,10 +39,10 @@ public static class TextMapping
         new(130, MaisonTrainerNames),
         new(131, SuperTrainerNames),
         new(141, OPowerFlavor),
-    };
+    ];
 
     private static readonly TextReference[] MapAO =
-    {
+    [
         new(005, Forms),
         new(014, MoveNames),
         new(016, MoveFlavor),
@@ -59,10 +59,10 @@ public static class TextMapping
         new(153, MaisonTrainerNames),
         new(154, SuperTrainerNames),
         new(165, OPowerFlavor),
-    };
+    ];
 
     private static readonly TextReference[] MapSMDemo =
-    {
+    [
         new(020, ItemFlavor),
         new(021, ItemNames),
         new(026, SpeciesNames),
@@ -76,10 +76,10 @@ public static class TextMapping
         new(052, TypeNames),
         new(054, MoveFlavor),
         new(055, MoveNames),
-    };
+    ];
 
     private static readonly TextReference[] MapSM =
-    {
+    [
         new(035, ItemFlavor),
         new(036, ItemNames),
         new(055, SpeciesNames),
@@ -98,10 +98,10 @@ public static class TextMapping
         new(116, SpeciesClassifications),
         new(119, PokedexEntry1),
         new(120, PokedexEntry2),
-    };
+    ];
 
     private static readonly TextReference[] MapUSUM =
-    {
+    [
         new(039, ItemFlavor),
         new(040, ItemNames),
         new(060, SpeciesNames),
@@ -120,10 +120,10 @@ public static class TextMapping
         new(121, SpeciesClassifications),
         new(124, PokedexEntry1),
         new(125, PokedexEntry2),
-    };
+    ];
 
     private static readonly TextReference[] MapGG =
-    {
+    [
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
         new("monsname.dat", SpeciesNames),
@@ -140,10 +140,10 @@ public static class TextMapping
         new("zkn_form.dat", Forms),
         new("zkn_type.dat", SpeciesClassifications),
         new("zukan_comment_A.dat", PokedexEntry1),
-    };
+    ];
 
     private static readonly TextReference[] MapSWSH =
-    {
+    [
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
         new("monsname.dat", SpeciesNames),
@@ -166,10 +166,10 @@ public static class TextMapping
         new("zukan_comment_B.dat", PokedexEntry2),
         new("ribbon.dat", RibbonMark),
         new("poke_memory_feeling.dat", MemoryFeelings),
-    };
+    ];
 
     private static readonly TextReference[] MapPLA =
-    {
+    [
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
         new("monsname.dat", SpeciesNames),
@@ -192,10 +192,10 @@ public static class TextMapping
         new("zukan_comment_B.dat", PokedexEntry2),
         new("ribbon.dat", RibbonMark),
         new("poke_memory_feeling.dat", MemoryFeelings),
-    };
+    ];
 
     private static readonly TextReference[] MapSV =
-    {
+    [
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),
         new("monsname.dat", SpeciesNames),
@@ -218,5 +218,5 @@ public static class TextMapping
         new("zukan_comment_B.dat", PokedexEntry2),
         new("ribbon.dat", RibbonMark),
         new("poke_memory_feeling.dat", MemoryFeelings),
-    };
+    ];
 }

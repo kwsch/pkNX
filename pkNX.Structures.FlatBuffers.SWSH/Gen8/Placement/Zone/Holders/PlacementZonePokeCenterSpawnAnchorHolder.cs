@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZonePokeCenterSpawnAnchorHolder { }
+public partial class PlacementZonePokeCenterSpawnAnchorHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F12 { }
+public partial class PlacementZone_F12;

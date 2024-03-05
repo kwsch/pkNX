@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterStaticArchive { }
+public partial class EncounterStaticArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterStatic
@@ -17,7 +17,7 @@ public partial class EncounterStatic
 
     public int[] IVs
     {
-        get => new int[] { IVHP, IVATK, IVDEF, IVSPE, IVSPA, IVSPD };
+        get => [IVHP, IVATK, IVDEF, IVSPE, IVSPA, IVSPD];
         set
         {
             if (value?.Length != 6) return;
@@ -32,7 +32,7 @@ public partial class EncounterStatic
 
     public int[] Moves
     {
-        get => new[] { Move0, Move1, Move2, Move3 };
+        get => [Move0, Move1, Move2, Move3];
         set
         {
             if (value?.Length != 4) return;

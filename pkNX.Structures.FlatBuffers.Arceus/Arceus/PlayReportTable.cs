@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlayReportTable { }
+public partial class PlayReportTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlayReportItem { }
+public partial class PlayReportItem;

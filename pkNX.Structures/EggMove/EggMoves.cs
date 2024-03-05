@@ -2,9 +2,8 @@ using System.Linq;
 
 namespace pkNX.Structures;
 
-public abstract class EggMoves
+public abstract class EggMoves(int[] moves)
 {
-    public readonly int[] Moves;
-    protected EggMoves(int[] moves) => Moves = moves;
+    public readonly int[] Moves = moves;
     public bool GetHasEggMove(int move) => Moves.Contains(move);
 }

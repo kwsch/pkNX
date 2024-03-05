@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LbPointsTable { }
+public partial class LbPointsTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LbPointsInfo { }
+public partial class LbPointsInfo;

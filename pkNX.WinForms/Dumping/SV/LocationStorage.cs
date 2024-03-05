@@ -4,26 +4,17 @@ using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
-public class LocationStorage
+public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaName, AreaInfo info)
 {
-    public readonly int Location;
-    private readonly PaldeaFieldIndex FieldIndex;
-    public readonly AreaInfo AreaInfo;
-    public readonly string AreaName;
+    public readonly int Location = loc;
+    public readonly AreaInfo AreaInfo = info;
+    public readonly string AreaName = areaName;
 
     public readonly HashSet<ulong> Added = [];
     public readonly List<PaldeaEncounter> Slots = [];
     public readonly Dictionary<int, LocationStorage> SlotsCrossover = [];
     public readonly List<LocationPointDetail> Local = [];
     public readonly List<LocationPointDetail> Nearby = [];
-
-    public LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaName, AreaInfo info)
-    {
-        Location = loc;
-        FieldIndex = fieldIndex;
-        AreaName = areaName;
-        AreaInfo = info;
-    }
 
     private void Add(PaldeaEncounter slot)
     {
@@ -36,7 +27,7 @@ public class LocationStorage
     {
         // If slots cross over, they are necessarily in the same field
         if (!SlotsCrossover.TryGetValue(loc, out var s))
-            SlotsCrossover[loc] = s = new LocationStorage(loc, FieldIndex, AreaName, AreaInfo);
+            SlotsCrossover[loc] = s = new LocationStorage(loc, fieldIndex, AreaName, AreaInfo);
         s.Add(slot with { CrossFromLocation = (ushort)Location });
     }
 
@@ -143,7 +134,7 @@ public class LocationStorage
         {
             foreach (var pd in pokeData.Table)
             {
-                if (!IsAbleToSpawnAt(pd, spawner, AreaName, scene, FieldIndex))
+                if (!IsAbleToSpawnAt(pd, spawner, AreaName, scene, fieldIndex))
                     continue;
 
                 // Add encount

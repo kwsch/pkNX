@@ -7,14 +7,8 @@ namespace pkNX.Structures;
 public abstract class Learnset
 {
     public int Count { get; protected set; }
-    public int[] Moves { get; protected set; }
-    public int[] Levels { get; protected set; }
-
-    protected Learnset()
-    {
-        Moves = [];
-        Levels = [];
-    }
+    public int[] Moves { get; protected set; } = [];
+    public int[] Levels { get; protected set; } = [];
 
     public abstract byte[] Write();
 
@@ -48,7 +42,7 @@ public abstract class Learnset
     public int[] GetEncounterMoves(int level)
     {
         const int count = 4;
-        IList<int> moves = new int[count];
+        var moves = new int[count];
         int ctr = 0;
         for (int i = 0; i < Moves.Length; i++)
         {
@@ -61,7 +55,7 @@ public abstract class Learnset
             moves[ctr++] = move;
             ctr &= 3;
         }
-        return (int[])moves;
+        return moves;
     }
 
     /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>

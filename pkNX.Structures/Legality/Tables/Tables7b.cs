@@ -15,7 +15,7 @@ public static partial class Legal
     #region Met Locations
 
     public static readonly int[] Met_GG_0 =
-    {
+    [
         002, // Invalid
         003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 012, 013, 014, 015, 016, 017, 018, 019,
@@ -23,15 +23,15 @@ public static partial class Legal
         030, 031, 032, 032, 033, 034, 035, 036, 037, 038, 039,
         040, 041, 042, 042, 043, 044, 045, 046, 047, 048, 049,
         050, 051, 052, 053,
-    };
+    ];
 
     public static readonly int[] Met_GG_3 =
-    {
+    [
         30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
-    };
+    ];
 
     public static readonly int[] Met_GG_4 =
-    {
+    [
         40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
         40010, 40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019,
         40020, 40021, 40022, 40023, 40024, 40025, 40026, 40027, 40028, 40029,
@@ -40,24 +40,24 @@ public static partial class Legal
         40050, 40051, 40052, 40053, 40054, 40055, 40056, 40057, 40058, 40059,
         40060, 40061, 40062, 40063, 40064, 40065, 40066, 40067, 40068, 40069,
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077,
-    };
+    ];
 
-    public static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+    public static readonly int[] Met_GG_6 = [/* XY */ 60001, 60003, /* ORAS */ 60004];
 
     #endregion
 
     #region Items
 
     public static readonly ushort[] Pouch_Candy_GG_Regular =
-    {
+    [
         050, // Rare Candy
         960, 961, 962, 963, 964, 965, // S
         966, 967, 968, 969, 970, 971, // L
         972, 973, 974, 975, 976, 977, // XL
-    };
+    ];
 
     public static readonly ushort[] Pouch_Candy_GG_Species =
-    {
+    [
         978, 979,
         980, 981, 982, 983, 984, 985, 986, 987, 988, 989,
         990, 991, 992, 993, 994, 995, 996, 997, 998, 999,
@@ -68,46 +68,46 @@ public static partial class Legal
         1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049,
         1050, 1051, 1052, 1053, 1054, 1055, 1056,
         1057,
-    };
+    ];
 
-    public static readonly ushort[] Pouch_Candy_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG_Regular, Pouch_Candy_GG_Species);
+    public static readonly ushort[] Pouch_Candy_GG = [.. Pouch_Candy_GG_Regular, .. Pouch_Candy_GG_Species];
 
     public static readonly ushort[] Pouch_Medicine_GG =
-    {
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 038, 039, 040, 041, 709, 903,
-    };
+    ];
 
     public static readonly ushort[] Pouch_TM_GG =
-    {
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
         358, 359, 360, 361, 362, 363, 364, 365, 366, 367,
         368, 369, 370, 371, 372, 373, 374, 375, 376, 377,
         378, 379, 380, 381, 382, 383, 384, 385, 386, 387,
-    };
+    ];
 
     public static readonly ushort[] Pouch_PowerUp_GG =
-    {
+    [
         051, 053, 081, 082, 083, 084, 085,
         849,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Catching_GG =
-    {
+    [
         001, 002, 003, 004, 012, 164, 166, 168,
         861, 862, 863, 864, 865, 866,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Battle_GG =
-    {
+    [
         055, 056, 057, 058, 059, 060, 061, 062,
         656, 659, 660, 661, 662, 663, 671, 672, 675, 676, 678, 679,
         760, 762, 770, 773,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Regular_GG =
-    {
+    [
         076, 077, 078, 079, 086, 087, 088, 089,
         090, 091, 092, 093, 101, 102, 103, 113, 115,
         121, 122, 123, 124, 125, 126, 127, 128,
@@ -116,10 +116,10 @@ public static partial class Legal
         632, 651,
         795, 796,
         872, 873, 874, 875, 876, 877, 878, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 900, 901, 902,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Regular_GG_Item =
-    {
+    [
         076, // Super Repel
         077, // Max Repel
         078, // Escape Rope
@@ -140,10 +140,10 @@ public static partial class Legal
         900, // Lure
         901, // Super Lure
         902, // Max Lure
-    };
+    ];
 
     public static readonly ushort[] Pouch_Regular_GG_Key =
-    {
+    [
         113, // Tea
         115, // Autograph
         121, // Pokémon Box
@@ -177,9 +177,9 @@ public static partial class Legal
         894, // Leaf Letter (P)
         895, // Leaf Letter (E)
         896, // Small Bouquet
-    };
+    ];
 
-    public static readonly ushort[] HeldItems_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG, Pouch_Medicine_GG, Pouch_PowerUp_GG, Pouch_Catching_GG, Pouch_Battle_GG, Pouch_Regular_GG_Item);
+    public static readonly ushort[] HeldItems_GG = [.. Pouch_Candy_GG, .. Pouch_Medicine_GG, .. Pouch_PowerUp_GG, .. Pouch_Catching_GG, .. Pouch_Battle_GG, .. Pouch_Regular_GG_Item];
 
     #endregion
 
@@ -188,7 +188,7 @@ public static partial class Legal
     public static bool IsAllowedMoveGG(ushort move) => Array.BinarySearch(AllowedMovesGG, move) >= 0;
 
     private static readonly int[] AllowedMovesGG =
-    {
+    [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
@@ -214,10 +214,10 @@ public static partial class Legal
         503, 504, 525, 529, 583, 585, 603, 605, 606, 607,
         729, 730, 731, 733, 734, 735, 736, 737, 738, 739,
         740, 742,
-    };
+    ];
 
     public static readonly int[] MovePP_GG =
-    {
+    [
         // Absorb: 25 -> 15 (damage buffed from 20->40)
         // Mega Drain: 15 -> 10 (damage buffed from 40->75)
 
@@ -237,10 +237,10 @@ public static partial class Legal
         10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
         01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
         01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 15, 15, 15, 20, 15, 15, 15, 15, 15, 15, 15, 15, 20, 05,
-    };
+    ];
 
     public static readonly ushort[] TMHM_GG =
-    {
+    [
         029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
         261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
         492, 157, 009, 404, 127, 398, 092, 161, 503, 339,
@@ -250,18 +250,18 @@ public static partial class Legal
         // rest are same as SM, unused
 
         // No HMs
-    };
+    ];
 
     public static readonly int[] Tutor_StarterPikachu =
-    {
+    [
         729, // Zippy Zap
         730, // Splishy Splash
         731, // Floaty Fall
         732, // Pika Papow
-    };
+    ];
 
     public static readonly int[] Tutor_StarterEevee =
-    {
+    [
         733, // Bouncy Bubble
         734, // Buzzy Buzz
         735, // Sizzly Slide
@@ -271,7 +271,7 @@ public static partial class Legal
         739, // Freezy Frost
         740, // Sparkly Swirl
         741, // Veevee Volley
-    };
+    ];
 
     #endregion
 }

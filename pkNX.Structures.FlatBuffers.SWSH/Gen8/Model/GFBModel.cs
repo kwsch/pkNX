@@ -7,64 +7,40 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 // *.gfbmdl
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LayerData
-{
-}
+public partial class LayerData;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class RenderLayer
-{
-}
+public partial class RenderLayer;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class VersionInfo
-{
-}
+public partial class VersionInfo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class GFBModel
-{
-}
+public partial class GFBModel;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class VertexAttribute
-{
-}
+public partial class VertexAttribute;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Polygon
-{
-}
+public partial class Polygon;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Shape
-{
-}
+public partial class Shape;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Mesh
-{
-}
+public partial class Mesh;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TransparencyGroupNode
-{
-}
+public partial class TransparencyGroupNode;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Bone
-{
-}
+public partial class Bone;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class UberShaderSettings
-{
-}
+public partial class UberShaderSettings;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SamplerState
-{
-}
+public partial class SamplerState;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Texture
@@ -91,6 +67,4 @@ public partial class Color3Param
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Material
-{
-}
+public partial class Material;

@@ -137,9 +137,9 @@ internal class EditorGG : EditorBase
                 t.Nature = Nature.Random25;
                 t.Gender = FixedGender.Random;
                 t.Shiny = Shiny.Random;
-                t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                t.RelearnMoves = [0, 0, 0, 0];
                 if (t.IV_HP != -4)
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
             }
         }
 
@@ -175,9 +175,9 @@ internal class EditorGG : EditorBase
                 t.Nature = Nature.Random - 1;
                 t.Gender = FixedGender.Random;
                 t.Shiny = Shiny.Random;
-                t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                t.RelearnMoves = [0, 0, 0, 0];
                 if (t.IV_HP != -4)
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
             }
         }
 
@@ -212,9 +212,9 @@ internal class EditorGG : EditorBase
                 t.Nature = Nature.Random25;
                 t.Gender = FixedGender.Random;
                 t.Shiny = Shiny.Random;
-                t.RelearnMoves = new[] { 0, 0, 0, 0 };
+                t.RelearnMoves = [0, 0, 0, 0];
                 if (t.IV_HP != -4)
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
             }
         }
 
@@ -295,11 +295,11 @@ internal class EditorGG : EditorBase
         var nso = new NSO(data);
 
         byte[] pattern = // N2nn3pia9transport18UnreliableProtocolE
-        {
+        [
             0x4E, 0x32, 0x6E, 0x6E, 0x33, 0x70, 0x69, 0x61, 0x39, 0x74, 0x72, 0x61, 0x6E, 0x73, 0x70, 0x6F, 0x72,
             0x74, 0x31, 0x38, 0x55, 0x6E, 0x72, 0x65, 0x6C, 0x69, 0x61, 0x62, 0x6C, 0x65, 0x50, 0x72, 0x6F, 0x74,
             0x6F, 0x63, 0x6F, 0x6C, 0x45, 0x00,
-        };
+        ];
         int ofs = CodePattern.IndexOfBytes(nso.DecompressedRO, pattern);
         if (ofs < 0)
         {

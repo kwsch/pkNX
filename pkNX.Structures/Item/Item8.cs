@@ -2,17 +2,11 @@ using System;
 
 namespace pkNX.Structures;
 
-public class Item8
+public class Item8(int id, byte[] data)
 {
     private const int SIZE = 0x30;
-    public readonly int ItemID;
-    public readonly byte[] Data;
-
-    public Item8(int id, byte[] data)
-    {
-        ItemID = id;
-        Data = data;
-    }
+    public readonly int ItemID = id;
+    public readonly byte[] Data = data;
 
     public uint Price
     {

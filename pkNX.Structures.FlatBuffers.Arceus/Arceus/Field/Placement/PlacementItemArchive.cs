@@ -11,13 +11,13 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementItemArchive { }
+public partial class PlacementItemArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementItem { }
+public partial class PlacementItem;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementItem_F03 { }
+public partial class PlacementItem_F03;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementItem_F08 { }
+public partial class PlacementItem_F08;

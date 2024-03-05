@@ -11,10 +11,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeBodyParticleArchive { }
+public partial class PokeBodyParticleArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeBodyParticle { }
+public partial class PokeBodyParticle;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeBodyParticle_F03 { }
+public partial class PokeBodyParticle_F03;

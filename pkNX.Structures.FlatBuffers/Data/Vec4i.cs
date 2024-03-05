@@ -1,5 +1,3 @@
-using FlatSharp.Attributes;
-using System;
 using System.ComponentModel;
 
 namespace pkNX.Structures.FlatBuffers;

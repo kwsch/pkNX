@@ -1,12 +1,10 @@
-using System;
 using System.Linq;
 
 namespace pkNX.Structures;
 
-public abstract class EncounterStatic
+public abstract class EncounterStatic(byte[] data)
 {
-    protected readonly byte[] Data;
-    protected EncounterStatic(byte[] data) => Data = data;
+    protected readonly byte[] Data = data;
     public virtual byte[] Write() => (byte[])Data.Clone();
 
     public abstract Species Species { get; set; }
@@ -38,7 +36,7 @@ public abstract class EncounterStatic
 
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value?.Length != 6) return;
@@ -49,7 +47,7 @@ public abstract class EncounterStatic
 
     public int[] EVs
     {
-        get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        get => [EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD];
         set
         {
             if (value?.Length != 6) return;

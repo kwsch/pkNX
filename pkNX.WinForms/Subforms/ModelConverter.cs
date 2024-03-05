@@ -757,18 +757,18 @@ public partial class ModelConverter : Form
                 {
                     MeshShapeName = $"{resultFileName}_{subMeshName}_mesh_shape",
                     MeshName = $"{resultFileName}_{subMeshName}_mesh",
-                    VertexLayout = new VertexAttributeLayout[]
-                    {
+                    VertexLayout =
+                    [
                         new()
                         {
                             Elements = inputLayout,
-                            Size = new VertexSize[] { new() { Size = inputLayoutSize } },
+                            Size = [new() { Size = inputLayoutSize }],
                         },
-                    },
+                    ],
                     BoundingSphere = new Sphere(bounds),
                     Bounds = bounds,
                     IndexLayoutFormat = IndexLayoutFormat.UINT16, // Always Uint16 on all PLA pokemon models
-                    BoneWeights = new BoneWeight[] { }, // TODO: All bones affected by the sub-mesh + some weight
+                    BoneWeights = [], // TODO: All bones affected by the sub-mesh + some weight
                     SubMeshes = subMeshes,
                 });
             }
@@ -776,32 +776,32 @@ public partial class ModelConverter : Form
             {
                 meshBuffers.Add(new MeshBuffer
                 {
-                    IndexBuffer = new ByteBuffer[] { new() { Data = indexBuffer } },
-                    VertexBuffer = new ByteBuffer[] { new() { Data = vertexBuffer, Debug_InputLayout = new VertexAttributeLayout
+                    IndexBuffer = [new() { Data = indexBuffer }],
+                    VertexBuffer = [ new() { Data = vertexBuffer, Debug_InputLayout = new VertexAttributeLayout
                     {
                         Elements = inputLayout,
-                        Size = new VertexSize[] { new() { Size = inputLayoutSize } },
-                    } } },
+                        Size = [new() { Size = inputLayoutSize }],
+                    } } ],
                 });
             }
         }
 
-        Result.Meshes = new Mesh[]
-        {
+        Result.Meshes =
+        [
             new()
             {
                 BufferFileName = $"{resultFileName}.trmbf",
                 Shapes = meshShapes.ToArray(),
             },
-        };
+        ];
 
-        Result.MeshDataBuffers = new MeshBufferTable[]
-        {
+        Result.MeshDataBuffers =
+        [
             new()
             {
                 Buffers = meshBuffers.ToArray(),
             },
-        };
+        ];
     }
 
     private void ConvertToMeshShape()
@@ -1206,7 +1206,7 @@ public partial class ModelConverter : Form
             //    stringParams.Add(new() { PropertyBinding = "EnableLerpBaseColorEmission", StringValue = EnableLerpBaseColorEmission.ToString() });
             //}
 
-            return stringParams.ToArray();
+            return [.. stringParams];
         }
     }
 
@@ -1411,16 +1411,16 @@ public partial class ModelConverter : Form
         return new MaterialPass
         {
             Name = oldMaterial.Name!,
-            Shaders = new ShaderBinding[]
-            {
+            Shaders =
+            [
                 new ()
                 {
                     ShaderName = "Standard",
                     ShaderValues = newShader.BuildStringParams(),
                 },
-            },
-            FloatParameters = new FloatParameter[]
-            {
+            ],
+            FloatParameters =
+            [
                 new() { PropertyBinding = "DiscardValue", FloatValue = 0 },
                 new() { PropertyBinding = "NormalHeight", FloatValue = 1 },
                 new() { PropertyBinding = "EmissionIntensity", FloatValue = 0 },
@@ -1446,12 +1446,12 @@ public partial class ModelConverter : Form
                 new() { PropertyBinding = "LayerMaskScale2", FloatValue = 1 },
                 new() { PropertyBinding = "LayerMaskScale3", FloatValue = 1 },
                 new() { PropertyBinding = "LayerMaskScale4", FloatValue = 1  },
-            },
+            ],
             TextureParameters = textures,
             Samplers = samplers,
-            Float4LightParameters = Array.Empty<Float4Parameter>(), // TODO
-            Float4Parameters = new Float4Parameter[]
-            {
+            Float4LightParameters = [], // TODO
+            Float4Parameters =
+            [
                 new() { PropertyBinding = "UVScaleOffset"      , ColorValue = new Color4f(oldShader.UVScaleOffset) },
                 new() { PropertyBinding = "UVScaleOffsetNormal", ColorValue = new Color4f(oldShader.UVScaleOffsetNormal) },
                 new() { PropertyBinding = "BaseColorLayer1"    , ColorValue = new() },
@@ -1465,23 +1465,23 @@ public partial class ModelConverter : Form
                 new() { PropertyBinding = "EmissionColorLayer4", ColorValue = new() },
 
                 new() { PropertyBinding = "EmissionColor"      , ColorValue = new() },
-            },
-            IntParameters = new IntParameter[]
-            {
+            ],
+            IntParameters =
+            [
                 new() { PropertyBinding = "CastShadow", IntValue = oldMaterial.CastShadow },
                 new() { PropertyBinding = "ReceiveShadow", IntValue =1 }, // TODO: might want to force this to 1
                 new() { PropertyBinding = "CategoryLabel", IntValue = 2 }, // TODO
                 new() { PropertyBinding = "UVIndexLayerMask", IntValue = -1 }, // TODO
-            },
+            ],
             WriteMask = new WriteMaskData(), // TODO
             IntExtra = new IntExtraData(), // TODO
             AlphaType = "Opaque", // TODO
 
-            Field05 = Array.Empty<string>(),
-            Field08 = Array.Empty<string>(),
-            Field10 = Array.Empty<string>(),
-            Field11 = Array.Empty<string>(),
-            Field12 = Array.Empty<string>(),
+            Field05 = [],
+            Field08 = [],
+            Field10 = [],
+            Field11 = [],
+            Field12 = [],
         };
     }
 
@@ -1505,13 +1505,13 @@ public partial class ModelConverter : Form
         return new MaterialPass
         {
             Name = oldMaterial.Name!,
-            Shaders = new ShaderBinding[]
-            {
+            Shaders =
+            [
                 new()
                 {
                     ShaderName = "Eye",
-                    ShaderValues = new StringParameter[]
-                    {
+                    ShaderValues =
+                    [
                         new() { PropertyBinding = "EnableNormalMap", StringValue = "True" },
                         new() { PropertyBinding = "EnableParallaxMap", StringValue = "False" },
                         new() { PropertyBinding = "EnableMetallicMap", StringValue = "False" },
@@ -1519,26 +1519,24 @@ public partial class ModelConverter : Form
                         new() { PropertyBinding = "EnableEmissionColorMap", StringValue = "False" },
                         new() { PropertyBinding = "EnableAOMap", StringValue = "True" },
                         new() { PropertyBinding = "NumMaterialLayer", StringValue = "1"  },
-                    },
+                    ],
                 },
-            },
-            FloatParameters = new FloatParameter[]
-            {
-            },
-            TextureParameters = Array.Empty<TextureParameter>(), // TODO
-            Samplers = Array.Empty<SamplerState>(), // TODO
-            Float4LightParameters = Array.Empty<Float4Parameter>(), // TODO
-            Float4Parameters = Array.Empty<Float4Parameter>(), // TODO
-            IntParameters = Array.Empty<IntParameter>(), // TODO
+            ],
+            FloatParameters = [],
+            TextureParameters = [], // TODO
+            Samplers = [], // TODO
+            Float4LightParameters = [], // TODO
+            Float4Parameters = [], // TODO
+            IntParameters = [], // TODO
             WriteMask = new WriteMaskData(), // TODO
             IntExtra = new IntExtraData(), // TODO
             AlphaType = "", // TODO
 
-            Field05 = Array.Empty<string>(),
-            Field08 = Array.Empty<string>(),
-            Field10 = Array.Empty<string>(),
-            Field11 = Array.Empty<string>(),
-            Field12 = Array.Empty<string>(),
+            Field05 = [],
+            Field08 = [],
+            Field10 = [],
+            Field11 = [],
+            Field12 = [],
         };
     }
 
@@ -1571,30 +1569,30 @@ public partial class ModelConverter : Form
             //materialPasses.Add(FromEyeShaderParams(material));
         }
 
-        Result.DefaultMaterials = new Material[]
-        {
+        Result.DefaultMaterials =
+        [
             new()
             {
                 MaterialPasses = materialPasses.ToArray(),
             },
-        };
+        ];
 
         // TODO: Assign shiny colors
-        Result.MeshMaterials = new MeshMaterialWrapper[]
-        {
+        Result.MeshMaterials =
+        [
             new()
             {
                 Name = "rare",
-                Materials = new Material[]
-                {
+                Materials =
+                [
                     new()
                     {
                         Reserved00 = 0,
                         MaterialPasses = materialPasses.ToArray(),
                     },
-                },
+                ],
             },
-        };
+        ];
     }
 
     private void ConvertToMultiMaterialTable(string resultFileName)
@@ -1614,16 +1612,16 @@ public partial class ModelConverter : Form
             }
         }
 
-        Result.MMT.Material = new MaterialTable[]
-        {
+        Result.MMT.Material =
+        [
             new ()
             {
                 Name = "rare",
-                FileNames = new []{ $"{resultFileName}_rare.trmtr" },
+                FileNames = [$"{resultFileName}_rare.trmtr"],
                 MaterialSwitches = allShapes.ToArray(),
-                MaterialProperties = Array.Empty<MaterialProperty>(), // TODO
+                MaterialProperties = [], // TODO
             },
-        };
+        ];
     }
 
     private void ConvertToModel()
@@ -1631,25 +1629,25 @@ public partial class ModelConverter : Form
         string resultFileName = $"pm{(ushort)SWSHModel.Config.SpeciesId:0000}_00_00";
         string sourceFileName = $"pm{(ushort)SWSHModel.Config.SpeciesId:0000}_00";
 
-        Result.Model.Meshes = new FileReference[]
-        {
+        Result.Model.Meshes =
+        [
             new() { Filename = $"{resultFileName}.trmsh" },
-        };
+        ];
         Result.Model.Skeleton = new FileReference { Filename = $"{resultFileName}.trskl" };
-        Result.Model.Materials = new[] { $"{resultFileName}.trmtr" };
+        Result.Model.Materials = [$"{resultFileName}.trmtr"];
 
         // SWSH models don't have LOD's, so we only need one
-        Result.Model.LODs = new LOD[]
-        {
+        Result.Model.LODs =
+        [
             new()
             {
                 Type = "Custom",
-                Entries = new LODIndex[]
-                {
+                Entries =
+                [
                     new() { Index = 0 },
-                },
+                ],
             },
-        };
+        ];
 
         Result.Model.Bounds = SWSHModel.GFBModel.BoundingBox / 100;
         Result.Model.SphereBounds = new Sphere(Result.Model.Bounds!);
@@ -1691,17 +1689,17 @@ public partial class ModelConverter : Form
         FileName = resultFileName;
         BasePath = Path.Combine(PokemonModelDir.FilePath!, $"bin/pokemon/pm{SpeciesId:0000}/{FileName}/");
 
-        PokemonModelDir.AddFile(BasePath + $"{FileName}.trpokecfg", FlatBufferConverter.SerializeFrom(Result.Config));
-        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmmt", FlatBufferConverter.SerializeFrom(Result.MMT));
-        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmdl", FlatBufferConverter.SerializeFrom(Result.Model));
-        PokemonModelDir.AddFile(ModelPath + $"{Result.Model.Skeleton.Filename}", FlatBufferConverter.SerializeFrom(Result.Skeleton));
+        PokemonModelDir.AddFile(BasePath + $"{FileName}.trpokecfg", Result.Config.SerializeFrom());
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmmt", Result.MMT.SerializeFrom());
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trmdl", Result.Model.SerializeFrom());
+        PokemonModelDir.AddFile(ModelPath + $"{Result.Model.Skeleton.Filename}", Result.Skeleton.SerializeFrom());
 
-        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trpokecfg", FlatBufferConverter.SerializeFrom(Result.Config));
+        PokemonModelDir.AddFile(ModelPath + $"{FileName}.trpokecfg", Result.Config.SerializeFrom());
 
         for (var i = 0; i < Result.Model.Materials.Count; i++)
         {
             var materialName = Result.Model.Materials[i];
-            PokemonModelDir.AddFile(ModelPath + $"{materialName}", FlatBufferConverter.SerializeFrom(Result.DefaultMaterials[i]));
+            PokemonModelDir.AddFile(ModelPath + $"{materialName}", Result.DefaultMaterials[i].SerializeFrom());
         }
 
         for (var i = 0; i < Result.MeshMaterials.Length; i++)
@@ -1713,20 +1711,20 @@ public partial class ModelConverter : Form
 
                 var materialName = Result.MMT.Material[i].FileNames[j];
                 var material = Result.MeshMaterials[i].Materials[j];
-                PokemonModelDir.AddFile(ModelPath + $"{materialName}", FlatBufferConverter.SerializeFrom(material));
+                PokemonModelDir.AddFile(ModelPath + $"{materialName}", material.SerializeFrom());
             }
         }
 
         for (var i = 0; i < Result.Model.Meshes.Count; i++)
         {
             var meshName = Result.Model.Meshes[i].Filename;
-            PokemonModelDir.AddFile(ModelPath + $"{meshName}", FlatBufferConverter.SerializeFrom(Result.Meshes[i]));
+            PokemonModelDir.AddFile(ModelPath + $"{meshName}", Result.Meshes[i].SerializeFrom());
         }
 
         for (var i = 0; i < Result.Meshes.Length; i++)
         {
             var meshBufferName = Result.Meshes[i].BufferFileName;
-            PokemonModelDir.AddFile(ModelPath + $"{meshBufferName}", FlatBufferConverter.SerializeFrom(Result.MeshDataBuffers[i]));
+            PokemonModelDir.AddFile(ModelPath + $"{meshBufferName}", Result.MeshDataBuffers[i].SerializeFrom());
         }
 
         PokemonModelDir.Dump();

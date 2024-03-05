@@ -16,11 +16,11 @@ public static class FormsIconHelper
     }
 
     private static readonly string[] FontTitles =
-    {
+    [
         "Font Awesome 6 Free Regular", // fa-regular-400.ttf
         "Font Awesome 6 Free Solid", // fa-solid-900.ttf
         "Font Awesome 6 Brands Regular", // fa-brands-400.ttf
-    };
+    ];
 
     private static readonly Typeface[] Typefaces = typeof(IconHelper).Assembly.LoadTypefaces("fonts", FontTitles);
 

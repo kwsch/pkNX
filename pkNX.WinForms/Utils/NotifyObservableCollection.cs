@@ -78,7 +78,7 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
     /// </summary>
     public void Replace(T item)
     {
-        ReplaceRange(new[] { item });
+        ReplaceRange([item]);
     }
 
     /// <summary>

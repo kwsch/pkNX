@@ -12,17 +12,15 @@ using pkNX.Structures.FlatBuffers.SWSH;
 
 namespace pkNX.WinForms;
 
-public class GameDumperSWSH
+public class GameDumperSWSH(GameManagerSWSH rom)
 {
-    private readonly GameManagerSWSH ROM;
-    public GameDumperSWSH(GameManagerSWSH rom) => ROM = rom;
     public string DumpFolder
     {
         get
         {
-            var parent = Directory.GetParent(ROM.PathRomFS);
+            var parent = Directory.GetParent(rom.PathRomFS);
             if (parent is null)
-                throw new DirectoryNotFoundException($"Unable to find parent directory of {ROM.PathRomFS}");
+                throw new DirectoryNotFoundException($"Unable to find parent directory of {rom.PathRomFS}");
             return Path.Combine(parent.FullName, "Dump");
         }
     }
@@ -52,8 +50,8 @@ public class GameDumperSWSH
     public void DumpDummiedMoves()
     {
         // get dummied moves
-        var moveNames = ROM.GetStrings(TextName.MoveNames);
-        var moveDesc = ROM.GetStrings(TextName.MoveFlavor);
+        var moveNames = rom.GetStrings(TextName.MoveNames);
+        var moveDesc = rom.GetStrings(TextName.MoveFlavor);
 
         var dummy = moveDesc[237]; // hidden power is kill
         var tuple = moveNames
@@ -67,33 +65,33 @@ public class GameDumperSWSH
 
     public void DumpPokeInfo()
     {
-        var s = ROM.GetStrings(TextName.SpeciesNames);
+        var s = rom.GetStrings(TextName.SpeciesNames);
 
-        var eggdata = ROM.GetFilteredFolder(GameFile.EggMoves);
+        var eggdata = rom.GetFilteredFolder(GameFile.EggMoves);
         var egg = EggMoves7.GetArray(eggdata.GetFiles().Result);
 
-        var pt = ROM.Data.PersonalData;
+        var pt = rom.Data.PersonalData;
         var altForms = pt.GetFormList(s);
         var entryNames = pt.GetPersonalEntryList(altForms, s, out _, out _);
-        var moveNames = ROM.GetStrings(TextName.MoveNames);
+        var moveNames = rom.GetStrings(TextName.MoveNames);
 
         var pd = new PersonalDumper
         {
             Colors = Enum.GetNames(typeof(PokeColor)),
             EggGroups = Enum.GetNames(typeof(EggGroup)),
             EntryEggMoves = egg,
-            EntryLearnsets = ROM.Data.LevelUpData.LoadAll(),
+            EntryLearnsets = rom.Data.LevelUpData.LoadAll(),
             EntryNames = entryNames,
             ExpGroups = Enum.GetNames(typeof(EXPGroup)),
-            Evos = ROM.Data.EvolutionData.LoadAll(),
+            Evos = rom.Data.EvolutionData.LoadAll(),
 
-            Abilities = ROM.GetStrings(TextName.AbilityNames),
-            Items = ROM.GetStrings(TextName.ItemNames),
+            Abilities = rom.GetStrings(TextName.AbilityNames),
+            Items = rom.GetStrings(TextName.ItemNames),
             Moves = moveNames,
-            Types = ROM.GetStrings(TextName.TypeNames),
-            Species = ROM.GetStrings(TextName.SpeciesNames),
-            ZukanA = ROM.GetStrings(TextName.PokedexEntry1),
-            ZukanB = ROM.GetStrings(TextName.PokedexEntry2),
+            Types = rom.GetStrings(TextName.TypeNames),
+            Species = rom.GetStrings(TextName.SpeciesNames),
+            ZukanA = rom.GetStrings(TextName.PokedexEntry1),
+            ZukanB = rom.GetStrings(TextName.PokedexEntry2),
             TMIndexes = Legal.TMHM_SWSH,
             TRIndexes = Legal.TR_SWSH,
         };
@@ -109,11 +107,11 @@ public class GameDumperSWSH
         File.WriteAllLines(outLearn, moveLines);
     }
 
-    private static readonly string[] ahtbext = { ".tbl", ".hsh" };
+    private static readonly string[] ahtbext = [".tbl", ".hsh"];
 
     public void DumpAHTB()
     {
-        var files = Directory.EnumerateFiles(ROM.PathRomFS, "*", SearchOption.AllDirectories)
+        var files = Directory.EnumerateFiles(rom.PathRomFS, "*", SearchOption.AllDirectories)
             .Where(z => ahtbext.Contains(Path.GetExtension(z)));
 
         var result = new HashSet<string>();
@@ -142,7 +140,7 @@ public class GameDumperSWSH
             }
         }
 
-        var paks = Directory.EnumerateFiles(ROM.PathRomFS, "*", SearchOption.AllDirectories)
+        var paks = Directory.EnumerateFiles(rom.PathRomFS, "*", SearchOption.AllDirectories)
             .Where(z => Path.GetExtension(z) == ".gfpak");
         foreach (var f in paks)
         {
@@ -205,9 +203,9 @@ public class GameDumperSWSH
             ReadTrainer = data => new TrainerData8(data),
             ReadTeam = TrainerPoke8.ReadTeam,
             WriteTeam = TrainerPoke8.WriteTeam,
-            TrainerData = ROM.GetFilteredFolder(GameFile.TrainerSpecData),
-            TrainerPoke = ROM.GetFilteredFolder(GameFile.TrainerSpecPoke),
-            TrainerClass = ROM.GetFilteredFolder(GameFile.TrainerSpecClass),
+            TrainerData = rom.GetFilteredFolder(GameFile.TrainerSpecData),
+            TrainerPoke = rom.GetFilteredFolder(GameFile.TrainerSpecPoke),
+            TrainerClass = rom.GetFilteredFolder(GameFile.TrainerSpecClass),
         };
         editor.Initialize();
         return editor;
@@ -215,10 +213,10 @@ public class GameDumperSWSH
 
     public void DumpTrainers()
     {
-        var trc = ROM.GetStrings(TextName.TrainerClasses);
-        var trn = ROM.GetStrings(TextName.TrainerNames);
-        var m = ROM.GetStrings(TextName.MoveNames);
-        var s = ROM.GetStrings(TextName.SpeciesNames);
+        var trc = rom.GetStrings(TextName.TrainerClasses);
+        var trn = rom.GetStrings(TextName.TrainerNames);
+        var m = rom.GetStrings(TextName.MoveNames);
+        var s = rom.GetStrings(TextName.SpeciesNames);
 
         var tr = GetTrainerEditor();
         var result = new List<string>();
@@ -239,7 +237,7 @@ public class GameDumperSWSH
             for (int j = 0; j < t.Team.Count; j++)
             {
                 IEnumerable<string> moves = t.Team[j].Moves.Where(z => z != 0).Select(z => m[z]).ToArray();
-                if (!moves.Any()) moves = new[] { "Default Level Up" };
+                if (!moves.Any()) moves = ["Default Level Up"];
                 int form = t.Team[j].Form;
                 var formstr = form != 0 ? $"-{form}" : "";
                 var str = $"{j + 1}: Lv{t.Team[j].Level:00} {s[t.Team[j].Species]}{formstr} : {string.Join(" / ", moves)}";
@@ -257,8 +255,8 @@ public class GameDumperSWSH
 
     public void DumpBattleTower()
     {
-        var pk_table_path = ROM.GetFile(GameFile.FacilityPokeNormal)[0];
-        var tr_table_path = ROM.GetFile(GameFile.FacilityTrainerNormal)[0];
+        var pk_table_path = rom.GetFile(GameFile.FacilityPokeNormal)[0];
+        var tr_table_path = rom.GetFile(GameFile.FacilityTrainerNormal)[0];
         var pokes = FlatBufferConverter.DeserializeFrom<BattleTowerPokeArchive>(pk_table_path);
         var trainers = FlatBufferConverter.DeserializeFrom<BattleTowerTrainerArchive>(tr_table_path);
 
@@ -271,7 +269,7 @@ public class GameDumperSWSH
 
     public void DumpItems()
     {
-        var items = ROM.GetFile(GameFile.ItemStats);
+        var items = rom.GetFile(GameFile.ItemStats);
         var file = items[0];
         var array = Item8.GetArray(file);
         var groups = array.GroupBy(z => z.Pouch);
@@ -283,7 +281,7 @@ public class GameDumperSWSH
             File.WriteAllText(path, string.Join(", ", IDs.Select(z => $"{z:000}")));
         }
 
-        var names = ROM.GetStrings(TextName.ItemNames);
+        var names = rom.GetStrings(TextName.ItemNames);
         var lines = TableUtil.GetNamedTypeTable(array, names, "Items");
         var table = GetPath("ItemData.txt");
         var bin = GetPath("ItemData.bin");
@@ -293,10 +291,10 @@ public class GameDumperSWSH
 
     public void DumpMoves()
     {
-        var dir = Path.Combine(ROM.PathRomFS, "bin", "pml", "waza");
+        var dir = Path.Combine(rom.PathRomFS, "bin", "pml", "waza");
         var files = Directory.GetFiles(dir);
         var moves = FlatBufferConverter.DeserializeFrom<Waza>(files);
-        var names = ROM.GetStrings(TextName.MoveNames);
+        var names = rom.GetStrings(TextName.MoveNames);
         var lines = TableUtil.GetNamedTypeTable(moves, names, "Moves");
         var table = GetPath("MoveData.txt");
         File.WriteAllText(table, lines);
@@ -304,7 +302,7 @@ public class GameDumperSWSH
 
     public void DumpLearnsetBinary()
     {
-        var data = ROM.Data.LevelUpData.LoadAll()
+        var data = rom.Data.LevelUpData.LoadAll()
             .Cast<Learnset8>().Select(z => z.WriteAsLearn6()).ToArray();
         var mini = MiniUtil.PackMini(data, "ss");
         var bin = GetPath(Path.Combine("bin", "lvlmove_swsh.pkl"));
@@ -314,7 +312,7 @@ public class GameDumperSWSH
     public void DumpEggBinary()
     {
         // format matches past gen and PKHeX's expected format
-        var data = ROM.GetFilteredFolder(GameFile.EggMoves).GetFiles().Result;
+        var data = rom.GetFilteredFolder(GameFile.EggMoves).GetFiles().Result;
         var mini = MiniUtil.PackMini(data, "ss");
         var bin = GetPath(Path.Combine("bin", "eggmove_swsh.pkl"));
         File.WriteAllBytes(bin, mini);
@@ -323,7 +321,7 @@ public class GameDumperSWSH
     public void DumpEvolutionBinary()
     {
         // format matches past gen and PKHeX's expected format
-        var data = ROM.GetFilteredFolder(GameFile.Evolutions).GetFiles().Result;
+        var data = rom.GetFilteredFolder(GameFile.Evolutions).GetFiles().Result;
         var mini = MiniUtil.PackMini(data, "ss");
         var bin = GetPath(Path.Combine("bin", "evos_ss.pkl"));
         File.WriteAllBytes(bin, mini);
@@ -331,8 +329,8 @@ public class GameDumperSWSH
 
     public void DumpGifts()
     {
-        var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterTableGift)[0];
+        var speciesNames = rom.GetStrings(TextName.SpeciesNames);
+        var data = rom.GetFile(GameFile.EncounterTableGift)[0];
         var gifts = FlatBufferConverter.DeserializeFrom<EncounterGiftArchive>(data);
         var table = TableUtil.GetTable(gifts.Table);
         var fn = GetPath("Gifts.txt");
@@ -344,8 +342,8 @@ public class GameDumperSWSH
 
     public void DumpStatic()
     {
-        var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterTableStatic)[0];
+        var speciesNames = rom.GetStrings(TextName.SpeciesNames);
+        var data = rom.GetFile(GameFile.EncounterTableStatic)[0];
         var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(data);
         var table = TableUtil.GetTable(statics.Table);
         var fn = GetPath("StaticEncounters.txt");
@@ -357,14 +355,14 @@ public class GameDumperSWSH
 
     public void DumpWilds()
     {
-        var wildpak = ROM.GetFile(GameFile.NestData)[0];
+        var wildpak = rom.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
         var encount_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_k.bin"));
         var encount_symbol_sw = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_symbol_k.bin"));
         var encount_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_t.bin"));
         var encount_symbol_sh = FlatBufferConverter.DeserializeFrom<EncounterArchive>(data_table.GetDataFileName("encount_symbol_t.bin"));
 
-        var species = ROM.GetStrings(TextName.SpeciesNames);
+        var species = rom.GetStrings(TextName.SpeciesNames);
         var zones = SWSHInfo.Zones;
         var subtables = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
 
@@ -381,9 +379,9 @@ public class GameDumperSWSH
 
     public void DumpPlacement()
     {
-        var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(ROM.GetFile(GameFile.EncounterTableStatic)[0]);
-        var placement = new GFPack(ROM.GetFile(GameFile.Placement)[0]);
-        var species_names = ROM.GetStrings(TextName.SpeciesNames);
+        var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(rom.GetFile(GameFile.EncounterTableStatic)[0]);
+        var placement = new GFPack(rom.GetFile(GameFile.Placement)[0]);
+        var species_names = rom.GetStrings(TextName.SpeciesNames);
         var weathers = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
         var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
         var zone_names = new AHTB(placement.GetDataFileName("ZoneNameHashTable.tbl")).ToDictionary();
@@ -425,10 +423,10 @@ public class GameDumperSWSH
 
     public void DumpNestEntries()
     {
-        var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var itemNames = ROM.GetStrings(TextName.ItemNames);
-        var moveNames = ROM.GetStrings(TextName.MoveNames);
-        var wildpak = ROM.GetFile(GameFile.NestData)[0];
+        var speciesNames = rom.GetStrings(TextName.SpeciesNames);
+        var itemNames = rom.GetStrings(TextName.ItemNames);
+        var moveNames = rom.GetStrings(TextName.MoveNames);
+        var wildpak = rom.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
         var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNestArchive>(data_table.GetDataFileName("nest_hole_encount.bin"));
         //  var nest_levels = FlatBufferConverter.DeserializeFrom<NestHoleLevel8Archive>(data_table.GetDataFileName("nest_hole_level.bin"));
@@ -451,7 +449,7 @@ public class GameDumperSWSH
             File.WriteAllLines(path2, result);
         }
 
-        var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
+        var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(' ')).Distinct();
         var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
         var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
 
@@ -469,15 +467,15 @@ public class GameDumperSWSH
 
     public void DumpGalarDex()
     {
-        var pt = ROM.Data.PersonalData;
-        var s = ROM.GetStrings(TextName.SpeciesNames);
+        var pt = rom.Data.PersonalData;
+        var s = rom.GetStrings(TextName.SpeciesNames);
 
         var galar = new List<string>();
         var armor = new List<string>();
         var crown = new List<string>();
         var dexit = new List<string>();
         var foreign = new List<string>();
-        for (int i = 1; i <= ROM.Info.MaxSpeciesID; i++)
+        for (int i = 1; i <= rom.Info.MaxSpeciesID; i++)
         {
             var p = (IPersonalInfoSWSH)pt[i];
             bool any = false;
@@ -523,8 +521,8 @@ public class GameDumperSWSH
     {
         IEnumerable<string> Zip(TextName name, TextName flavor)
         {
-            var n = ROM.GetStrings(name);
-            var f = ROM.GetStrings(flavor);
+            var n = rom.GetStrings(name);
+            var f = rom.GetStrings(flavor);
             return n.Select((z, i) => $"{z}\t{f[i].Replace("\\n", " ")}");
         }
 
@@ -543,9 +541,9 @@ public class GameDumperSWSH
 
     public void DumpEggEntries()
     {
-        var eggdata = ROM.GetFilteredFolder(GameFile.EggMoves).GetFiles().Result;
+        var eggdata = rom.GetFilteredFolder(GameFile.EggMoves).GetFiles().Result;
         var egg = EggMoves7.GetArray(eggdata);
-        var moves = ROM.GetStrings(TextName.MoveNames);
+        var moves = rom.GetStrings(TextName.MoveNames);
         var lines = egg.Select((z, i) => $"{i:000}\t{z.FormTableIndex:0000}\t{string.Join(", ", z.Moves.Select(m => moves[m]))}");
         var bin = GetPath(Path.Combine("eggEntries.txt"));
         File.WriteAllLines(bin, lines);
@@ -553,13 +551,13 @@ public class GameDumperSWSH
 
     public void DumpMaxDens()
     {
-        var file = ROM.GetFile(GameFile.DynamaxDens)[0];
+        var file = rom.GetFile(GameFile.DynamaxDens)[0];
         var encounters = FlatBufferConverter.DeserializeFrom<EncounterUndergroundArchive>(file);
         var lines = TableUtil.GetTable(encounters.Table);
         var table = GetPath("MaxDens.txt");
         File.WriteAllText(table, lines);
 
-        var names = ROM.GetStrings(TextName.SpeciesNames);
+        var names = rom.GetStrings(TextName.SpeciesNames);
         var pkhex = encounters.Table.Select(z => z.GetSummary(names));
         File.WriteAllText(GetPath("MaxDens_hex.txt"), string.Join(Environment.NewLine, pkhex));
     }
@@ -583,10 +581,10 @@ public class GameDumperSWSH
 
     public void DumpDistributionNestEntries(string path)
     {
-        var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var itemNames = ROM.GetStrings(TextName.ItemNames);
-        var moveNames = ROM.GetStrings(TextName.MoveNames);
-        var wildpak = ROM.GetFile(GameFile.NestData)[0];
+        var speciesNames = rom.GetStrings(TextName.SpeciesNames);
+        var itemNames = rom.GetStrings(TextName.ItemNames);
+        var moveNames = rom.GetStrings(TextName.MoveNames);
+        var wildpak = rom.GetFile(GameFile.NestData)[0];
         var data_table = new GFPack(wildpak);
         var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_drop_rewards.bin"));
         var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName("nest_hole_bonus_rewards.bin"));
@@ -643,7 +641,7 @@ public class GameDumperSWSH
                 File.WriteAllLines(path2, result);
             }
 
-            var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
+            var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(' ')).Distinct();
             var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
             var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
 
@@ -684,7 +682,7 @@ public class GameDumperSWSH
             File.WriteAllLines(path2, result);
         }
 
-        var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(" ")).Distinct();
+        var common = nestHex[0].Intersect(nestHex[1]).Where(z => z.StartsWith(' ')).Distinct();
         var sword = nestHex[0].Where(z => !nestHex[1].Contains(z)).Distinct();
         var shield = nestHex[1].Where(z => !nestHex[0].Contains(z)).Distinct();
 
@@ -693,11 +691,11 @@ public class GameDumperSWSH
         File.WriteAllLines(GetPath("hex_nestCrystalShield.txt"), shield);
     }
 
-    private static readonly int[] LanguageIndexes = { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
-    private static readonly string[] LanguageCodes = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2" };
+    private static ReadOnlySpan<int> LanguageIndexes => [0, 2, 3, 4, 5, 6, 7, 8, 9];
+    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2"];
 
     private static readonly string[] LanguageNames =
-    {
+    [
         "カタカナ",
         "漢字",
         "English",
@@ -708,11 +706,11 @@ public class GameDumperSWSH
         "한국",
         "汉字简化方案",
         "漢字簡化方案",
-    };
+    ];
 
     private string[] GetStoryLines(string str)
     {
-        var strpath = ((FolderContainer)ROM[GameFile.StoryText]).FilePath;
+        var strpath = ((FolderContainer)rom[GameFile.StoryText]).FilePath;
         if (strpath is null)
             throw new ArgumentException("StoryText not found in ROM");
         var file = Path.Combine(strpath, str);
@@ -722,13 +720,13 @@ public class GameDumperSWSH
 
     private void ChangeLanguage(int index)
     {
-        ROM.Language = index;
-        ROM.ResetText();
+        rom.Language = index;
+        rom.ResetText();
     }
 
     public void DumpStrings()
     {
-        int lang = ROM.Language;
+        int lang = rom.Language;
         var indexes = new[] { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
         for (int i = 0; i < indexes.Length; i++)
         {
@@ -758,7 +756,7 @@ public class GameDumperSWSH
 
         void DumpStringSet(TextName t, string file)
         {
-            var strings = ROM.GetStrings(t);
+            var strings = rom.GetStrings(t);
             var fn = $"text_{file}_{code}.txt";
 
             var folder = Path.Combine(code, fn);
@@ -770,7 +768,7 @@ public class GameDumperSWSH
 
     public void DumpFormNames()
     {
-        int lang = ROM.Language;
+        int lang = rom.Language;
         for (int i = 0; i < LanguageIndexes.Length; i++)
         {
             var code = LanguageCodes[i];
@@ -787,7 +785,7 @@ public class GameDumperSWSH
         Console.WriteLine($"Dumping strings for {name}.");
         ChangeLanguage(index);
 
-        var strings = ROM.GetStrings(TextName.Forms);
+        var strings = rom.GetStrings(TextName.Forms);
 
         var indexes = new[]
         {
@@ -834,7 +832,7 @@ public class GameDumperSWSH
 
     public void DumpRibbonNames()
     {
-        int lang = ROM.Language;
+        int lang = rom.Language;
         var indexes = new[] { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
         for (int i = 0; i < indexes.Length; i++)
         {
@@ -852,7 +850,7 @@ public class GameDumperSWSH
         Console.WriteLine($"Dumping strings for {name}.");
         ChangeLanguage(index);
 
-        var strings = ROM.GetStrings(TextName.RibbonMark);
+        var strings = rom.GetStrings(TextName.RibbonMark);
         var lines = strings.Skip(148).Take(48).ToArray();
 
         var fn = $"NewRibbonMarks_{code}.txt";
@@ -864,8 +862,8 @@ public class GameDumperSWSH
 
     public void DumpTrades()
     {
-        var speciesNames = ROM.GetStrings(TextName.SpeciesNames);
-        var data = ROM.GetFile(GameFile.EncounterTableTrade)[0];
+        var speciesNames = rom.GetStrings(TextName.SpeciesNames);
+        var data = rom.GetFile(GameFile.EncounterTableTrade)[0];
         var trades = FlatBufferConverter.DeserializeFrom<EncounterTradeArchive>(data);
         var table = TableUtil.GetTable(trades.Table);
         var fn = GetPath("Trades.txt");
@@ -874,7 +872,7 @@ public class GameDumperSWSH
         var f2 = GetPath("TradesPKHeX.txt");
         File.WriteAllLines(f2, trades.Table.Select(z => z.GetSummary(speciesNames)));
 
-        int lang = ROM.Language;
+        int lang = rom.Language;
         var indexes = new[] { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
         for (int i = 0; i < indexes.Length; i++)
         {
@@ -914,7 +912,7 @@ public class GameDumperSWSH
 
     public void DumpMemoryStrings()
     {
-        int lang = ROM.Language;
+        int lang = rom.Language;
         var indexes = new[] { 0, 2, 3, 4, 5, 6, 7, 8, 9 };
         for (int i = 0; i < indexes.Length; i++)
         {

@@ -9,13 +9,13 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // Trigger tiles?
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneTriggerHolder { }
+public partial class PlacementZoneTriggerHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneTrigger { }
+public partial class PlacementZoneTrigger;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneDeepX { }
+public partial class PlacementZoneDeepX;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneDeepY { }
+public partial class PlacementZoneDeepY;

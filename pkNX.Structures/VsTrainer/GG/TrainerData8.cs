@@ -2,12 +2,11 @@ using System;
 
 namespace pkNX.Structures;
 
-public sealed class TrainerData8 : TrainerData
+public sealed class TrainerData8(byte[] data) : TrainerData(data)
 {
     private const int Size = 0x14;
     public override int SIZE => Size;
     public TrainerData8() : this(new byte[Size]) { }
-    public TrainerData8(byte[] data) : base(data) { }
 
     public override int Class { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
     public override BattleMode Mode { get => (BattleMode)Data[2]; set => Data[2] = (byte)value; } // Not sure

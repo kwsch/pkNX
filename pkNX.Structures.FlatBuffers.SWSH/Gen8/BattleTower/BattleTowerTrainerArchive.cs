@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class BattleTowerTrainerArchive { }
+public partial class BattleTowerTrainerArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class BattleTowerTrainer8 { }
+public partial class BattleTowerTrainer8;

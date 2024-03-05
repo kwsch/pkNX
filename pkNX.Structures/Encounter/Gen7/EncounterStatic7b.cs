@@ -2,11 +2,10 @@ using System;
 
 namespace pkNX.Structures;
 
-public sealed class EncounterStatic7b : EncounterStatic
+public sealed class EncounterStatic7b(byte[] data) : EncounterStatic(data)
 {
     public const int SIZE = 0x40;
     public EncounterStatic7b() : this(new byte[SIZE]) { }
-    public EncounterStatic7b(byte[] data) : base(data) { }
 
     public ulong Hash => BitConverter.ToUInt64(Data, 0);
 
@@ -36,25 +35,25 @@ public sealed class EncounterStatic7b : EncounterStatic
 
     public uint[] Ptrs // 0x10-0x1F -- are these text line references?
     {
-        get => new[]
-        {
+        get =>
+        [
             BitConverter.ToUInt32(Data, 0x10),
             BitConverter.ToUInt32(Data, 0x14),
             BitConverter.ToUInt32(Data, 0x18),
             BitConverter.ToUInt32(Data, 0x1C),
-        };
+        ];
         set { }
     }
 
     public override int[] RelearnMoves // 0x20-0x27 -- these are actually just moves
     {
-        get => new int[]
-        {
+        get =>
+        [
             BitConverter.ToUInt16(Data, 0x20),
             BitConverter.ToUInt16(Data, 0x22),
             BitConverter.ToUInt16(Data, 0x24),
             BitConverter.ToUInt16(Data, 0x26),
-        };
+        ];
         set
         {
             if (value.Length != 4)

@@ -68,7 +68,7 @@ public partial class TextEditor : Form
     public static void ExportTextFile(string fileName, bool newline, TextContainer lineData)
     {
         using var ms = new MemoryStream();
-        ms.Write(new byte[] { 0xFF, 0xFE }, 0, 2); // Write Unicode BOM
+        ms.Write([0xFF, 0xFE], 0, 2); // Write Unicode BOM
         using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
         {
             for (int i = 0; i < lineData.Length; i++)
@@ -138,7 +138,7 @@ public partial class TextEditor : Form
                 i++;
             }
             i--;
-            textLines[ctr++] = Lines.ToArray();
+            textLines[ctr++] = [.. Lines];
         }
 
         // Error Check
@@ -316,7 +316,7 @@ public partial class TextEditor : Form
         }
 
         // Shuffle up
-        string[] pool = strings.ToArray();
+        string[] pool = [.. strings];
         Util.Shuffle(pool);
 
         // Apply Text

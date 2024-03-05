@@ -1,11 +1,8 @@
-using System;
-
 namespace pkNX.Structures;
 
-public abstract class EncounterGift
+public abstract class EncounterGift(byte[] data)
 {
-    protected readonly byte[] Data;
-    protected EncounterGift(byte[] data) => Data = data;
+    protected readonly byte[] Data = data;
     public virtual byte[] Write() => (byte[])Data.Clone();
 
     public abstract Species Species { get; set; }
@@ -31,7 +28,7 @@ public abstract class EncounterGift
 
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value?.Length != 6) return;

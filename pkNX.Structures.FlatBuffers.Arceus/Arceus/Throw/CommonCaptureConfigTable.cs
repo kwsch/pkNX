@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class CommonCaptureConfigTable { }
+public partial class CommonCaptureConfigTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class CommonCaptureConfig { }
+public partial class CommonCaptureConfig;

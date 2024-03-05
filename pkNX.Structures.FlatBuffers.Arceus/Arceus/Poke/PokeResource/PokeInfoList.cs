@@ -20,7 +20,7 @@ public partial class PokeInfoList
         return Table.FirstOrDefault(z => z.Species == species) ?? new()
         {
             Species = species,
-            Children = Array.Empty<PokeInfoDetail>(),
+            Children = [],
         };
     }
 
@@ -46,35 +46,35 @@ public partial class PokeInfoList
             entry.Children[form] = new PokeInfoDetail
             {
                 Form = form,
-                Detail = new PokeInfoDetail_2[]
-                {
+                Detail =
+                [
                     new() {
                         IsRare = false,
-                        Detail = new PokeInfoDetail_3[] {
+                        Detail = [
                             new() {
-                                Detail = new PokeInfoDetail_5[] {
+                                Detail = [
                                     new() {
                                         AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_n",
                                         Gender = new PokeInfoGender(),
                                     },
-                                },
+                                ],
                             },
-                        },
+                        ],
                     },
                     new() {
                         IsRare = true, // Shiny form
-                        Detail = new PokeInfoDetail_3[] {
+                        Detail = [
                             new() {
-                                Detail = new PokeInfoDetail_5[] {
+                                Detail = [
                                     new() {
                                         AssetName = $"{species:0000}_{genderId:000}_{form:000}_n_00000000_fn_r",
                                         Gender = new PokeInfoGender(),
                                     },
-                                },
+                                ],
                             },
-                        },
+                        ],
                     },
-                },
+                ],
             };
         }
 
@@ -133,19 +133,19 @@ public partial class PokeInfoList
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfo { }
+public partial class PokeInfo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail { }
+public partial class PokeInfoDetail;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_2 { }
+public partial class PokeInfoDetail_2;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_3 { }
+public partial class PokeInfoDetail_3;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_5 { }
+public partial class PokeInfoDetail_5;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoGender { }
+public partial class PokeInfoGender;

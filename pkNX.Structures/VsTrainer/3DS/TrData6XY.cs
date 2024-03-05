@@ -2,12 +2,11 @@ using System;
 
 namespace pkNX.Structures;
 
-public sealed class TrData6XY : TrData6
+public sealed class TrData6XY(byte[] data) : TrData6(data)
 {
     private const int Size = 0x14;
     public override int SIZE => Size;
-    public TrData6XY() : base(new byte[Size]) { }
-    public TrData6XY(byte[] data) : base(data) { }
+    public TrData6XY() : this(new byte[Size]) { }
 
     protected override int Format { get => Data[0x00]; set => Data[0x00] = (byte) value; }
     public override int Class { get => Data[0x01]; set => Data[0x01] = (byte)value; }

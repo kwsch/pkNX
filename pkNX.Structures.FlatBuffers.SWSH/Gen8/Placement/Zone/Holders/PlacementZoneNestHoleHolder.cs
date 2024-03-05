@@ -9,19 +9,19 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneNestHoleHolder { }
+public partial class PlacementZoneNestHoleHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F21_A { }
+public partial class PlacementZone_F21_A;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F21_B { }
+public partial class PlacementZone_F21_B;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F21_IntFloat { }
+public partial class PlacementZone_F21_IntFloat;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F21_BoolObject14 { }
+public partial class PlacementZone_F21_BoolObject14;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F21_Inner { }
+public partial class PlacementZone_F21_Inner;

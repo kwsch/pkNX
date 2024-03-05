@@ -3,7 +3,7 @@ using pkNX.Structures;
 
 namespace pkNX.Game;
 
-public sealed class ShinyRateGG : ShinyRateInfo
+public sealed class ShinyRateGG(byte[] data) : ShinyRateInfo(data)
 {
     /*
         Shiny Rate Patch -- fix the loop counter regardless of input param value.
@@ -32,13 +32,11 @@ public sealed class ShinyRateGG : ShinyRateInfo
         write AB FE FF 54 after the above 12 byte sequence
     */
 
-    private readonly int CodeOffset;
-    private static readonly byte[] Pattern = { 0x68, 0x96, 0x40, 0x39, 0x94, 0x06, 0x00, 0x11 };
-    private static readonly byte[] Default = { 0x9F, 0x02, 0x08, 0x6B }; // cmp W20, W8
-    private static readonly byte[] Always12 = { 0x1F, 0x20, 0x03, 0xD5 }; // nop
-    private static readonly byte[] Revert12 = { 0xAB, 0xFE, 0xFF, 0x54 }; // bl
-
-    public ShinyRateGG(byte[] data) : base(data) => CodeOffset = CodePattern.IndexOfBytes(data, Pattern, 0x500_000);
+    private readonly int CodeOffset = CodePattern.IndexOfBytes(data, Pattern, 0x500_000);
+    private static readonly byte[] Pattern = [0x68, 0x96, 0x40, 0x39, 0x94, 0x06, 0x00, 0x11];
+    private static readonly byte[] Default = [0x9F, 0x02, 0x08, 0x6B]; // cmp W20, W8
+    private static readonly byte[] Always12 = [0x1F, 0x20, 0x03, 0xD5]; // nop
+    private static readonly byte[] Revert12 = [0xAB, 0xFE, 0xFF, 0x54]; // bl
 
     public override bool IsEditable => CodeOffset > 0;
 

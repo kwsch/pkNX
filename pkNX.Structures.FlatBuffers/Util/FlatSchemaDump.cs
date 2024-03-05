@@ -24,7 +24,7 @@ root_type {GetName(type)};";
     private void Recurse(Type t)
     {
         var type = GetType(t);
-        if ((type.IsValueType && !type.IsEnum) || type == typeof(string))
+        if (type is { IsValueType: true, IsEnum: false } || type == typeof(string))
             return;
         var name = GetName(type);
         if (GeneratedClasses.Contains(name))

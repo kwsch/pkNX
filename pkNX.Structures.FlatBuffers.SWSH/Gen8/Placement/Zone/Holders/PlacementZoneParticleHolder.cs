@@ -14,4 +14,4 @@ public partial class PlacementZoneParticleHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneParticle { }
+public partial class PlacementZoneParticle;

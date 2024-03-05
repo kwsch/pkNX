@@ -112,7 +112,7 @@ public class SpeciesSettings : RandSettings
         if (generation == 7 && Gen1 && Events && maxSpecies <= Legal.MaxSpeciesID_7_GG)
             AddGGEvents(list);
 
-        return list.Count == 0 ? GetSpeciesAll(maxSpecies) : list.ToArray();
+        return list.Count == 0 ? GetSpeciesAll(maxSpecies) : [.. list];
     }
 
     private static int[] GetSpeciesAll(int maxSpecies) => Enumerable.Range(1, maxSpecies).ToArray();

@@ -8,7 +8,7 @@ namespace pkNX.WinForms;
 public class WindowItem : TabItem
 {
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-        "Title", typeof(string), typeof(WindowItem),
+        nameof(Title), typeof(string), typeof(WindowItem),
         new PropertyMetadata("Test", OnTitlePropertyChanged));
 
     private static void OnTitlePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -42,11 +42,9 @@ public partial class DockableWindow : UserControl
     {
         base.OnInitialized(e);
 
-        TabControl tabControl = new TabControl
+        Content = new TabControl
         {
             ItemsSource = Windows,
         };
-
-        Content = tabControl;
     }
 }

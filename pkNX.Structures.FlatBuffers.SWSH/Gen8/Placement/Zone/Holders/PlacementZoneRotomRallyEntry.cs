@@ -9,4 +9,4 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // No maps have data for this.
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneRotomRallyEntry { }
+public partial class PlacementZoneRotomRallyEntry;

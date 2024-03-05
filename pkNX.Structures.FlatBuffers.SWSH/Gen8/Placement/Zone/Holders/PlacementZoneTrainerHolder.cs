@@ -20,16 +20,16 @@ public partial class PlacementZoneTrainerHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F08_ArrayEntry { }
+public partial class PlacementZone_F08_ArrayEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F08_Nine { }
+public partial class PlacementZone_F08_Nine;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F08 { }
+public partial class PlacementZone_F08;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F08_A { }
+public partial class PlacementZone_F08_A;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F08_IntFloat { }
+public partial class PlacementZone_F08_IntFloat;

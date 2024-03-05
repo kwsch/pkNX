@@ -35,7 +35,7 @@ public static partial class Legal
 
     #region Met Locations
     public static readonly int[] Met_SWSH_0 =
-    {
+    [
              002, 004, 006, 008,
              012, 014, 016, 018,
         020, 022, 024,      028,
@@ -63,15 +63,15 @@ public static partial class Legal
         220, 222, 224, 226, 228,
         230, 232, 234, 236, 238,
         240, 242, 244, 246,
-    };
+    ];
 
     public static readonly int[] Met_SWSH_3 =
-    {
+    [
         30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
-    };
+    ];
 
     public static readonly int[] Met_SWSH_4 =
-    {
+    [
         40001, 40002, 40003,        40005, 40006, 40007, 40008, 40009, 40010,
         40011, 40012, 40013, 40014,        40016, 40017, 40018, 40019, 40020,
         40021, 40022,        40024, 40025, 40026, 40027, 40028, 40029, 40030,
@@ -81,9 +81,9 @@ public static partial class Legal
         40061,        40063, 40064, 40065, 40066, 40067, 40068, 40069, 40070,
         40071, 40072,        40074, 40075, 40076, 40077, 40078, 40079, 40080,
         40081, 40082, 40083, 40084, 40085, 40086,
-    };
+    ];
 
-    public static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+    public static readonly int[] Met_SWSH_6 = [/* XY */ 60001, 60003, /* ORAS */ 60004];
 
     public static readonly HashSet<ushort> ValidMet_SWSH =
     [
@@ -120,7 +120,7 @@ public static partial class Legal
 
     #region Inventory Pouch
     public static readonly ushort[] Dynamax_Crystals_SWSH =
-    {
+    [
         1279,
         1280, 1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297,
         1298, 1299, 1300, 1301, 1302, 1303, 1304, 1305, 1306, 1307, 1308, 1309, 1310, 1311, 1312, 1313, 1314, 1315,
@@ -139,10 +139,10 @@ public static partial class Legal
         1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549,
         1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567,
         1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578,
-    };
+    ];
 
     public static readonly ushort[] Regular_Items_SWSH =
-    {
+    [
         045, 046, 047, 048, 049, 050, 051, 052, 053, 076, 077, 079, 080, 081, 082, 083, 084, 085, 107, 108, 109,
         110, 112, 116, 117, 118, 119, 135, 136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 228,
         229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
@@ -162,27 +162,27 @@ public static partial class Legal
 
         // DLC 2
         1592, 1604, 1606,
-    };
+    ];
 
-    public static readonly ushort[] Pouch_Regular_SWSH = ArrayUtil.ConcatAll(Regular_Items_SWSH, Dynamax_Crystals_SWSH);
+    public static readonly ushort[] Pouch_Regular_SWSH = [.. Regular_Items_SWSH, .. Dynamax_Crystals_SWSH];
 
     public static readonly ushort[] Pouch_Ball_SWSH =
-    {
+    [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
         492, 493, 494, 495, 496, 497, 498, 499, 500,
         576,
         851,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Battle_SWSH =
-    {
+    [
         055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
-    };
+    ];
 
-    public static readonly ushort[] Pouch_Items_SWSH = ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH);
+    public static readonly ushort[] Pouch_Items_SWSH = [.. Pouch_Regular_SWSH, .. Pouch_Ball_SWSH, .. Pouch_Battle_SWSH];
 
     public static readonly ushort[] Pouch_Key_SWSH =
-    {
+    [
         078,
         628, 629, 631, 632, 638,
         703,
@@ -193,10 +193,10 @@ public static partial class Legal
 
         // DLC 2
         1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
-    };
+    ];
 
     public static readonly ushort[] Pouch_TM_SWSH =
-    {
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
@@ -208,10 +208,10 @@ public static partial class Legal
         408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
         418, 419, 618, 619, 620, 690, 691, 692, 693, // TM99
         1230, // TM00
-    };
+    ];
 
     public static readonly ushort[] Pouch_TR_SWSH =
-    {
+    [
         1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139,
         1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149,
         1150, 1151, 1152, 1153, 1154, 1155, 1156, 1157, 1158, 1159,
@@ -222,12 +222,12 @@ public static partial class Legal
         1200, 1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209,
         1210, 1211, 1212, 1213, 1214, 1215, 1216, 1217, 1218, 1219,
         1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
-    };
+    ];
 
-    public static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(Pouch_TM_SWSH, Pouch_TR_SWSH);
+    public static readonly ushort[] Pouch_TMHM_SWSH = [.. Pouch_TM_SWSH, .. Pouch_TR_SWSH];
 
     public static readonly ushort[] Pouch_Medicine_SWSH =
-    {
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026,
         027, 028, 029, 030, 031, 032, 033, 034, 035, 036,
         037, 038, 039, 040, 041, 042, 043, 054,
@@ -236,56 +236,56 @@ public static partial class Legal
         708, 709,
         852, 903,
         1579,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Berries_SWSH =
-    {
+    [
         149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
         159, 160, 161, 162, 163, 169, 170, 171, 172, 173,
         174, 184, 185, 186, 187, 188, 189, 190, 191, 192,
         193, 194, 195, 196, 197, 198, 199, 200, 201, 202,
         203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
         686, 687, 688,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Ingredients_SWSH =
-    {
+    [
         1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093,
         1094, 1095, 1096, 1097, 1098, 1099, 1256, 1257, 1258, 1259,
         1260, 1261, 1262, 1263, 1264,
-    };
+    ];
 
     public static readonly ushort[] Pouch_Treasure_SWSH =
-    {
+    [
         086, 087, 088, 089, 090, 091, 092, 094, 106,
         571, 580, 581, 582, 583,
         795, 796,
         1105, 1106, 1107, 1108,
-    };
+    ];
 
-    public static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, Pouch_TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
+    public static readonly ushort[] HeldItems_SWSH = [.. Pouch_Items_SWSH, .. Pouch_Berries_SWSH, .. Pouch_Medicine_SWSH, .. Pouch_TR_SWSH, .. Pouch_Treasure_SWSH, .. Pouch_Ingredients_SWSH];
     #endregion
 
     #region Moves
     public static readonly int[] TypeTutor8 =
-    {
+    [
         520, 519, 518, // Pledge
         338, 307, 308, // Elemental Beam
         434, // Draco Meteor
         796, // Steel Beam
-    };
+    ];
 
     public static readonly int[] Tutors_SWSH_1 =
-    {
+    [
         805, 807, 812, 804,
         803, 813, 811, 810,
         815, 814, 797, 806,
         800, 809, 799, 808,
         798, 802,
-    };
+    ];
 
     public static readonly ushort[] TMHM_SWSH =
-    {
+    [
         // TM
         005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
         345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
@@ -297,10 +297,10 @@ public static partial class Legal
         433, 472, 478, 440, 474, 490, 496, 506, 512, 514,
         521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
-    };
+    ];
 
     public static readonly ushort[] TR_SWSH =
-    {
+    [
         // TR
         014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
         089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
@@ -312,10 +312,10 @@ public static partial class Legal
         430, 437, 438, 441, 442, 444, 446, 447, 482, 484,
         486, 492, 500, 502, 503, 526, 528, 529, 535, 542,
         583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
-    };
+    ];
 
     public static readonly byte[] MovePP_SWSH =
-    {
+    [
         00,
         35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,
         30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 20, 20, 05, 35, 20, 20, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20,
@@ -334,7 +334,7 @@ public static partial class Legal
         01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
         10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
         10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
-    };
+    ];
 
     #endregion
 
@@ -371,10 +371,10 @@ public static partial class Legal
         (int)Runerigus,
     ];
 
-    public static readonly HashSet<ushort> EvolveToGalarForms = new(GalarVariantFormEvolutions.Concat(GalarOriginForms));
+    public static readonly HashSet<ushort> EvolveToGalarForms = [..GalarVariantFormEvolutions.Concat(GalarOriginForms)];
 
     public static readonly int[] GigantamaxForms =
-    {
+    [
         (int)Charizard,
         (int)Butterfree,
         (int)Pikachu,
@@ -409,7 +409,7 @@ public static partial class Legal
         (int)Cinderace,
         (int)Inteleon,
         (int)Urshifu,
-    };
+    ];
 
     #region Unreleased Items
 

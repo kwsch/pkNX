@@ -77,7 +77,7 @@ public sealed partial class TypeChart : Form
     }
 
     private readonly string[] effects =
-    {
+    [
         "has no effect!",
         "",
         "is not very effective.",
@@ -87,7 +87,7 @@ public sealed partial class TypeChart : Form
         "",
         "",
         "is super effective!",
-    };
+    ];
 
     public static void GetCoordinate(Control sender, MouseEventArgs e, out int X, out int Y)
     {
@@ -101,7 +101,7 @@ public sealed partial class TypeChart : Form
 
     public static byte ToggleEffectiveness(byte currentValue, bool increase)
     {
-        byte[] vals = { 0, 2, 4, 8 };
+        byte[] vals = [0, 2, 4, 8];
         int curIndex = Array.IndexOf(vals, currentValue);
         if (curIndex < 0)
             return currentValue;

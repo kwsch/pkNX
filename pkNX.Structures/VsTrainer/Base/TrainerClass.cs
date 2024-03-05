@@ -1,11 +1,9 @@
 namespace pkNX.Structures;
 
-public abstract class TrainerClass
+public abstract class TrainerClass(byte[] data)
 {
-    protected TrainerClass(byte[] data) => Data = data;
-
     public abstract int SIZE { get; }
-    protected readonly byte[] Data;
+    protected readonly byte[] Data = data;
 
     public virtual int Gender { get; set; }
     public virtual int Multi { get; set; }

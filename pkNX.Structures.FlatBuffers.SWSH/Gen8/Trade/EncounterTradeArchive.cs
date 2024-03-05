@@ -8,15 +8,15 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterTradeArchive { }
+public partial class EncounterTradeArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterTrade
 {
     public Species SpeciesID => (Species)Species;
 
-    public static readonly int[] BallToItem =
-    {
+    public static ReadOnlySpan<int> BallToItem =>
+    [
         000, // None
         001, // Master
         002, // Ultra
@@ -44,17 +44,17 @@ public partial class EncounterTrade
         499, // Sport
         576, // Dream
         851, // Beast
-    };
+    ];
 
     public Ball Ball
     {
-        get => (Ball)Array.IndexOf(BallToItem, BallItemID);
+        get => (Ball)BallToItem.IndexOf(BallItemID);
         set => BallItemID = BallToItem[(int)value];
     }
 
     public int[] IVs
     {
-        get => new int[] { IVHP, IVATK, IVDEF, IVSPE, IVSPA, IVSPD };
+        get => [IVHP, IVATK, IVDEF, IVSPE, IVSPA, IVSPD];
         set
         {
             if (value?.Length != 6) return;

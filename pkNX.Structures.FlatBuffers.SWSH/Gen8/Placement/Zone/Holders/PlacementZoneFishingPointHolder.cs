@@ -14,4 +14,4 @@ public partial class PlacementZoneFishingPointHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFishingPoint { }
+public partial class PlacementZoneFishingPoint;

@@ -1,9 +1,9 @@
 namespace pkNX.Structures;
 
-public abstract class TrainerData
+public abstract class TrainerData(byte[] trData)
 {
     public abstract int SIZE { get; }
-    protected byte[] Data;
+    protected byte[] Data = trData;
 
     public abstract int Class { get; set; }
     public abstract BattleMode Mode { get; set; }
@@ -22,5 +22,4 @@ public abstract class TrainerData
     public bool HasAllyTrainer => (AI & 8) != 0;
 
     public byte[] Write() => Data;
-    protected TrainerData(byte[] trData) => Data = trData;
 }

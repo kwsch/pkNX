@@ -14,7 +14,7 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleDistributionEncounterArchive { }
+public partial class NestHoleDistributionEncounterArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleDistributionEncounterTable

@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -25,11 +24,11 @@ public partial class Vec3f : IEquatable<Vec3f>
     public float MagnitudeSqr => Dot(this);
     public Vec3f Normalized() => this * (1 / Magnitude);
 
-    public float Dot(Vec3f other) => X * other.X + Y * other.Y + Z * other.Z;
-    public Vec3f Cross(Vec3f other) => new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+    public float Dot(Vec3f other) => (X * other.X) + (Y * other.Y) + (Z * other.Z);
+    public Vec3f Cross(Vec3f other) => new((Y * other.Z) - (Z * other.Y), (Z * other.X) - (X * other.Z), (X * other.Y) - (Y * other.X));
     public float DistanceTo(Vec3f other) => (this - other).Magnitude;
     public float DistanceToSqr(Vec3f other) => (this - other).MagnitudeSqr;
-    public Vec3f Lerp(Vec3f other, float t) => this + (other - this) * t;
+    public Vec3f Lerp(Vec3f other, float t) => this + ((other - this) * t);
 
     public Vec3f Clone() => new()
     {

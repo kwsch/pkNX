@@ -32,9 +32,7 @@ public interface IPersonalEgg_SWSH : IPersonalEgg_v1
     ushort HatchedSpecies { get; set; }
 }
 
-public interface IPersonalEgg_PLA : IPersonalEgg_SWSH
-{
-}
+public interface IPersonalEgg_PLA : IPersonalEgg_SWSH;
 
 public static class PersonalEggExtensions
 {

@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeDefaultLocatorArchive { }
+public partial class PokeDefaultLocatorArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeDefaultLocator { }
+public partial class PokeDefaultLocator;

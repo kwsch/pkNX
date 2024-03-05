@@ -20,15 +20,13 @@ using Species = pkNX.Structures.Species;
 
 namespace pkNX.WinForms;
 
-public class GameDumperSV
+public class GameDumperSV(GameManagerSV rom)
 {
-    private readonly GameManagerSV ROM;
-    public GameDumperSV(GameManagerSV rom) => ROM = rom;
     public string DumpFolder
     {
         get
         {
-            var parent = Directory.GetParent(ROM.PathRomFS) ?? throw new DirectoryNotFoundException($"Unable to find parent directory of {ROM.PathRomFS}");
+            var parent = Directory.GetParent(rom.PathRomFS) ?? throw new DirectoryNotFoundException($"Unable to find parent directory of {rom.PathRomFS}");
             return Path.Combine(parent.FullName, "Dump");
         }
     }
@@ -40,7 +38,7 @@ public class GameDumperSV
     /// Message string language names/folders which contain the text localizations.
     /// </summary>
     private static readonly string[] LanguageEnglishNames =
-    {
+    [
         "JPN",
         "JPN_KANJI",
         "English",
@@ -51,17 +49,17 @@ public class GameDumperSV
         "Korean",
         "Simp_Chinese",
         "Trad_Chinese",
-    };
+    ];
 
     private string[] GetCommonText(string name, string lang, TextConfig cfg)
     {
-        var data = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.dat");
+        var data = rom.GetPackedFile($"message/dat/{lang}/common/{name}.dat");
         return new TextFile(data, cfg).Lines;
     }
 
     private AHTB GetCommonAHTB(string name, string lang)
     {
-        var data = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.tbl");
+        var data = rom.GetPackedFile($"message/dat/{lang}/common/{name}.tbl");
         return new AHTB(data);
     }
 
@@ -237,8 +235,8 @@ public class GameDumperSV
         const string personalPath = "avalon/data/personal_array.bin";
         Dump<PersonalTable, PersonalInfo>(personalPath, z => z.Table);
 
-        var perbin = ROM.GetPackedFile(personalPath);
-        var pt = new PersonalTable9SV(new FakeContainer(new[] { perbin }));
+        var perbin = rom.GetPackedFile(personalPath);
+        var pt = new PersonalTable9SV(new FakeContainer([perbin]));
 
         var bin = pt.Write();
         var path2 = GetPath("pkhex", "personal_sv");
@@ -268,7 +266,7 @@ public class GameDumperSV
 
     private void RipPersonal(PersonalTable9SV pt, string lang)
     {
-        var cfg = new TextConfig(ROM.Game);
+        var cfg = new TextConfig(rom.Game);
         string[] GetText(string name) => GetCommonText(name, lang, cfg);
         var specNames = GetText("monsname");
         var moveNames = GetText("wazaname");
@@ -422,7 +420,7 @@ public class GameDumperSV
         {
             var list = learn.ToList();
             list.Add(new PersonalInfoMove { Level = level, Move = (ushort)move });
-            return list.OrderBy(z => z.Level).ToList();
+            return [.. list.OrderBy(z => z.Level)];
         }
 
         static byte[] Write(IList<PersonalInfoMove> fbLearnset)
@@ -470,7 +468,7 @@ public class GameDumperSV
     {
         // FlatBuffer with a single field: uint[101][8]
         // (8 inlined fields, with each having 101 fields). Same exp growth curve as prior games.
-        var growTable = ROM.GetPackedFile("avalon/data/growTable.bin").AsSpan();
+        var growTable = rom.GetPackedFile("avalon/data/growTable.bin").AsSpan();
         for (int i = 0; i < 8; i++)
         {
             // Just read the inline structs as bytes out to individual files.
@@ -644,7 +642,7 @@ public class GameDumperSV
 
     public void DumpEncounters()
     {
-        var dumper = new EncounterDumperSV(ROM);
+        var dumper = new EncounterDumperSV(rom);
         var path = GetPath("encounters");
         var cfg = new TextConfig(GameVersion.SV);
         var specNamesInternal = GetCommonText("monsname", "English", cfg);
@@ -709,9 +707,9 @@ public class GameDumperSV
         }
 
         var outPath = GetPath("pkhex");
-        TeraRaidRipper.DumpRaids(ROM, mainRaids, outPath, "raidTotal.txt", "encounter_gem_paldea.pkl");
-        TeraRaidRipper.DumpRaids(ROM, su1Raids, outPath, "raidTotalKitakami.txt", "encounter_gem_kitakami.pkl");
-        TeraRaidRipper.DumpRaids(ROM, su2Raids, outPath, "raidTotalBlueberry.txt", "encounter_gem_blueberry.pkl");
+        TeraRaidRipper.DumpRaids(rom, mainRaids, outPath, "raidTotal.txt", "encounter_gem_paldea.pkl");
+        TeraRaidRipper.DumpRaids(rom, su1Raids, outPath, "raidTotalKitakami.txt", "encounter_gem_kitakami.pkl");
+        TeraRaidRipper.DumpRaids(rom, su2Raids, outPath, "raidTotalBlueberry.txt", "encounter_gem_blueberry.pkl");
     }
 
     public void DumpMoves()
@@ -841,7 +839,7 @@ public class GameDumperSV
         Dump<TrDataMainArray, TrDataMain>("world/data/trainer/trdata/trdata_array.bfbs", z => z.Table);
         Dump<TrainerEnvArray, TrainerEnv>("world/data/trainer/trenv/trenv_array.bfbs", z => z.Table);
         Dump<TrainerTypeArray, TrainerType>("world/data/trainer/trtype/trtype_array.bfbs", z => z.Table);
-        DumpX<TrDataMainArray, TrDataMain, PokeDataBattle>("world/data/trainer/trdata/trdata_array.bfbs", z => z.Table, z => new[] { z.Poke1, z.Poke2, z.Poke3, z.Poke4, z.Poke5, z.Poke6 });
+        DumpX<TrDataMainArray, TrDataMain, PokeDataBattle>("world/data/trainer/trdata/trdata_array.bfbs", z => z.Table, z => [z.Poke1, z.Poke2, z.Poke3, z.Poke4, z.Poke5, z.Poke6]);
     }
 
     public void DumpCooking()
@@ -875,7 +873,7 @@ public class GameDumperSV
         foreach (var lang in LanguageEnglishNames)
         {
             var types = GetCommonText("typename", lang, config);
-            var data = ROM.GetPackedFile("world/data/cooking/FoodPowerCombo/FoodPowerCombo_array.bin");
+            var data = rom.GetPackedFile("world/data/cooking/FoodPowerCombo/FoodPowerCombo_array.bin");
             var fb = FlatBufferConverter.DeserializeFrom<FoodPowerComboArray>(data);
             var table = fb.Table;
             var path = GetPath(lang, "foodCombo.txt");
@@ -974,14 +972,14 @@ public class GameDumperSV
     private TTable Get<TTable>(ulong hash)
         where TTable : class, IFlatBufferSerializable<TTable>
     {
-        var bin = ROM.GetPackedFile(hash);
+        var bin = rom.GetPackedFile(hash);
         return Get<TTable>(bin);
     }
 
     private TTable Get<TTable>(string f)
         where TTable : class, IFlatBufferSerializable<TTable>
     {
-        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        var bin = rom.GetPackedFile(f.Replace("bfbs", "bin"));
         return Get<TTable>(bin);
     }
 
@@ -991,7 +989,7 @@ public class GameDumperSV
         where TTable : class, IFlatBufferSerializable<TTable>
         where TEntry : notnull
     {
-        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        var bin = rom.GetPackedFile(f.Replace("bfbs", "bin"));
         var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
         DumpSel(sel, prefix, bin, path);
     }
@@ -1012,7 +1010,7 @@ public class GameDumperSV
         where TEntry : class
         where TSub : notnull
     {
-        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        var bin = rom.GetPackedFile(f.Replace("bfbs", "bin"));
         var flat = FlatBufferConverter.DeserializeFrom<TTable>(bin);
 
         var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
@@ -1032,7 +1030,7 @@ public class GameDumperSV
 
     private void DumpJson<T>(string f) where T : class, IFlatBufferSerializable<T>
     {
-        var bin = ROM.GetPackedFile(f.Replace("bfbs", "bin"));
+        var bin = rom.GetPackedFile(f.Replace("bfbs", "bin"));
         var flat = FlatBufferConverter.DeserializeFrom<T>(bin);
 
         var path = GetPath("raw", f.Replace('/', Path.DirectorySeparatorChar));
@@ -1373,7 +1371,7 @@ public class GameDumperSV
         if (!Directory.Exists(dir))
             Directory.CreateDirectory(dir);
 
-        var data = ROM.GetPackedFile(f);
+        var data = rom.GetPackedFile(f);
         File.WriteAllBytes(path, data);
 
         var ext = Path.GetExtension(f);
@@ -1388,7 +1386,7 @@ public class GameDumperSV
     public void DumpHashReflectionBFBS()
     {
         ulong[] files =
-        {
+        [
             0x6B3C7A393C4806BB,
             0xABA6B518253AEEEB,
             0xCC942F5FDA362FF3,
@@ -1398,10 +1396,10 @@ public class GameDumperSV
             0xDB862D9BC4E09F63,
             0xDB0A4CEB9BE77E1E,
             0x2C432AF938EDCF99,
-        };
+        ];
         foreach (var f in files)
         {
-            if (!ROM.HasFile(f))
+            if (!rom.HasFile(f))
                 continue;
 
             var path = GetPath("hashFile", f.ToString("X16"));
@@ -1409,7 +1407,7 @@ public class GameDumperSV
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            var data = ROM.GetPackedFile(f);
+            var data = rom.GetPackedFile(f);
             File.WriteAllBytes(path, data);
             try
             {
@@ -1425,18 +1423,18 @@ public class GameDumperSV
 
     public void DumpArchives()
     {
-        TrinityPakExtractor.DumpArchives(ROM.PathRomFS, GetPath(DumpArchive));
+        TrinityPakExtractor.DumpArchives(rom.PathRomFS, GetPath(DumpArchive));
         Debug.WriteLine("Loaded");
     }
 
     public void DumpDistributionRaids(string path)
     {
-        TeraRaidRipper.DumpDistributionRaids(ROM, path);
+        TeraRaidRipper.DumpDistributionRaids(rom, path);
     }
 
     public void DumpDeliveryOutbreaks(string path)
     {
         var dump = GetPath("encounters");
-        MassOutbreakRipper.DumpDeliveryOutbreaks(ROM, path, dump);
+        MassOutbreakRipper.DumpDeliveryOutbreaks(rom, path, dump);
     }
 }

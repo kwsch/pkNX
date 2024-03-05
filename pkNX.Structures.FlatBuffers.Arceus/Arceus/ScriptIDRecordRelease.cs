@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ScriptIDRecordRelease { }
+public partial class ScriptIDRecordRelease;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ScriptIDRecord { }
+public partial class ScriptIDRecord;

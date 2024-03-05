@@ -6,9 +6,9 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 /// <summary>
 /// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class PersonalInfo8LA : IPersonalInfoPLA
+public sealed class PersonalInfo8LA(PersonalInfo fb) : IPersonalInfoPLA
 {
-    public PersonalInfo FB { get; }
+    public PersonalInfo FB { get; } = fb;
 
     public bool[] SpecialTutors
     {
@@ -126,11 +126,6 @@ public sealed class PersonalInfo8LA : IPersonalInfoPLA
             TR_C = BitConverter.ToUInt32(bytes, 8);
             TR_D = BitConverter.ToUInt32(bytes, 12);
         }
-    }
-
-    public PersonalInfo8LA(PersonalInfo fb)
-    {
-        FB = fb;
     }
 
     public int HP { get => FB.StatHP; set => FB.StatHP = (byte)value; }

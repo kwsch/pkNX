@@ -9,10 +9,10 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // wild encounter spawner?
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneSymbolSpawnHolder { }
+public partial class PlacementZoneSymbolSpawnHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneSymbolSpawn { }
+public partial class PlacementZoneSymbolSpawn;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F20_Sub { }
+public partial class PlacementZone_F20_Sub;

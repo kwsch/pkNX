@@ -21,28 +21,28 @@ public class PersonalDumper
     public bool HasAbilities { get; set; } = true;
     public bool HasItems { get; set; } = true;
 
-    public IReadOnlyList<string> Abilities { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> Types { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> Items { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> Colors { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> EggGroups { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> ExpGroups { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> EntryNames { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> Moves { protected get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> Species { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> ZukanA { private get; set; } = Array.Empty<string>();
-    public IReadOnlyList<string> ZukanB { private get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> Abilities { private get; set; } = [];
+    public IReadOnlyList<string> Types { private get; set; } = [];
+    public IReadOnlyList<string> Items { private get; set; } = [];
+    public IReadOnlyList<string> Colors { private get; set; } = [];
+    public IReadOnlyList<string> EggGroups { private get; set; } = [];
+    public IReadOnlyList<string> ExpGroups { private get; set; } = [];
+    public IReadOnlyList<string> EntryNames { private get; set; } = [];
+    public IReadOnlyList<string> Moves { protected get; set; } = [];
+    public IReadOnlyList<string> Species { private get; set; } = [];
+    public IReadOnlyList<string> ZukanA { private get; set; } = [];
+    public IReadOnlyList<string> ZukanB { private get; set; } = [];
 
-    public IReadOnlyList<Learnset> EntryLearnsets { private get; set; } = Array.Empty<Learnset>();
-    public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; } = Array.Empty<EggMoves>();
-    public IReadOnlyList<EvolutionSet> Evos { private get; set; } = Array.Empty<EvolutionSet>();
-    public IReadOnlyList<ushort> TMIndexes { protected get; set; } = Array.Empty<ushort>();
-    public IReadOnlyList<ushort> TRIndexes { protected get; set; } = Array.Empty<ushort>();
+    public IReadOnlyList<Learnset> EntryLearnsets { private get; set; } = [];
+    public IReadOnlyList<EggMoves> EntryEggMoves { private get; set; } = [];
+    public IReadOnlyList<EvolutionSet> Evos { private get; set; } = [];
+    public IReadOnlyList<ushort> TMIndexes { protected get; set; } = [];
+    public IReadOnlyList<ushort> TRIndexes { protected get; set; } = [];
 
-    private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
-    private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
+    private static readonly string[] AbilitySuffix = [" (1)", " (2)", " (H)"];
+    private static readonly string[] ItemPrefix = ["Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)"];
 
-    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; } = Array.Empty<List<string>>();
+    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; } = [];
 
     public PersonalDumperSettings Settings = new();
 
@@ -225,7 +225,7 @@ public class PersonalDumper
                 lines.Add($"Armor Dex: #{s.ArmorDexIndex:000}");
             if (s.CrownDexIndex != 0)
                 lines.Add($"Crown Dex: #{s.CrownDexIndex:000}");
-            if (s.DexIndexRegional == 0 && s.ArmorDexIndex == 0 && s.CrownDexIndex == 0)
+            if (s is { DexIndexRegional: 0, ArmorDexIndex: 0, CrownDexIndex: 0 })
                 lines.Add("Galar Dex: Foreign");
 
             if (s.CanNotDynamax)

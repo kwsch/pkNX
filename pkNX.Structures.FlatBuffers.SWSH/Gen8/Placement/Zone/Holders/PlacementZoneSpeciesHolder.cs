@@ -15,16 +15,16 @@ public partial class PlacementZoneSpeciesHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F02_Nine { }
+public partial class PlacementZone_F02_Nine;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F02 { }
+public partial class PlacementZone_F02;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F02_Field1 { }
+public partial class PlacementZone_F02_Field1;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F02_Inner { }
+public partial class PlacementZone_F02_Inner;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F02_IntFloat { }
+public partial class PlacementZone_F02_IntFloat;

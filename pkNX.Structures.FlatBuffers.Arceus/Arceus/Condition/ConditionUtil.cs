@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public static class ConditionUtil

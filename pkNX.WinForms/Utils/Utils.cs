@@ -14,17 +14,17 @@ using System.Windows.Media.Imaging;
 namespace pkNX.WinForms;
 
 // Source: https://stackoverflow.com/questions/21750824/how-to-convert-a-string-to-a-mathematical-expression-programmatically
-public class StringToFormula
+public static class StringToFormula
 {
-    private static readonly string[] operators = { "-", "+", "/", "%", "*", "^" };
-    private static readonly Func<double, double, double>[] operations = {
+    private static readonly string[] operators = ["-", "+", "/", "%", "*", "^"];
+    private static readonly Func<double, double, double>[] operations = [
             (a1, a2) => a1 - a2,
             (a1, a2) => a1 + a2,
             (a1, a2) => a1 / a2,
             (a1, a2) => a1 % a2,
             (a1, a2) => a1 * a2,
             Math.Pow,
-    };
+    ];
 
     public static bool TryEval(string expression, out double value)
     {
@@ -43,8 +43,8 @@ public class StringToFormula
     public static double Eval(string expression)
     {
         List<string> tokens = GetTokens(expression);
-        Stack<double> operandStack = new Stack<double>();
-        Stack<string> operatorStack = new Stack<string>();
+        var operandStack = new Stack<double>();
+        var operatorStack = new Stack<string>();
         int tokenIndex = 0;
 
         while (tokenIndex < tokens.Count)
@@ -78,7 +78,7 @@ public class StringToFormula
             {
                 operandStack.Push(double.Parse(token, CultureInfo.InvariantCulture));
             }
-            tokenIndex += 1;
+            tokenIndex++;
         }
 
         while (operatorStack.Count > 0)
@@ -93,48 +93,39 @@ public class StringToFormula
 
     private static string GetSubExpression(IReadOnlyList<string> tokens, ref int index)
     {
-        StringBuilder subExpr = new StringBuilder();
+        var subExpr = new StringBuilder();
         int parenlevels = 1;
-        index += 1;
+        index++;
         while (index < tokens.Count && parenlevels > 0)
         {
             string token = tokens[index];
             if (tokens[index] == "(")
-            {
-                parenlevels += 1;
-            }
-
-            if (tokens[index] == ")")
-            {
-                parenlevels -= 1;
-            }
+                parenlevels++;
+            else if (tokens[index] == ")")
+                parenlevels--;
 
             if (parenlevels > 0)
-            {
                 subExpr.Append(token);
-            }
 
-            index += 1;
+            index++;
         }
 
-        if ((parenlevels > 0))
-        {
+        if (parenlevels > 0)
             throw new ArgumentException("Mis-matched parentheses in expression");
-        }
         return subExpr.ToString();
     }
 
     private static List<string> GetTokens(string expression)
     {
-        string operators = "()^*/%+-";
+        const string operators = "()^*/%+-";
         List<string> tokens = [];
         StringBuilder sb = new();
 
         foreach (char c in expression.Replace(" ", string.Empty))
         {
-            if (operators.IndexOf(c) >= 0)
+            if (operators.Contains(c))
             {
-                if ((sb.Length > 0))
+                if (sb.Length > 0)
                 {
                     tokens.Add(sb.ToString());
                     sb.Length = 0;
@@ -189,46 +180,18 @@ public static class Utils
     {
         fileExtension = fileExtension.Replace(".", "").ToLowerInvariant(); // Make sure it doesn't contain a dot
 
-        switch (fileExtension) // Only add icons for supported extensions
+        return fileExtension switch // Only add icons for supported extensions
         {
-            case "obj":
-            case "fbx":
-                return IconChar.Shapes;
-            case "vox":
-                return IconChar.Th;
-            case "txt":
-            case "json":
-                return IconChar.FileAlt;
-            case "zip":
-                return IconChar.FileArchive;
-            case "wav":
-                return IconChar.FileAudio;
-            case "jpg":
-            case "jpeg":
-            case "png":
-            case "tga":
-            case "bmp":
-            case "psd":
-            case "gif":
-            case "hdr":
-            case "pic":
-                return IconChar.FileImage;
-            case "cs":
-            case "cpp":
-            case "hpp":
-            case "h":
-                return IconChar.FileCode;
-            case "fx":
-            case "ps":
-            case "vs":
-            case "hs":
-            case "ds":
-            case "gs":
-            case "comp":
-                return IconChar.FileCode; // Shaders
-            default:
-                return IconChar.File;
-        }
+            "obj" or "fbx" => IconChar.Shapes,
+            "vox" => IconChar.Th,
+            "txt" or "json" => IconChar.FileAlt,
+            "zip" => IconChar.FileArchive,
+            "wav" => IconChar.FileAudio,
+            "jpg" or "jpeg" or "png" or "tga" or "bmp" or "psd" or "gif" or "hdr" or "pic" => IconChar.FileImage,
+            "cs" or "cpp" or "hpp" or "h" => IconChar.FileCode,
+            "fx" or "ps" or "vs" or "hs" or "ds" or "gs" or "comp" => IconChar.FileCode,// Shaders
+            _ => IconChar.File,
+        };
     }
 
     public static bool HasChildren(this DependencyObject? depObj)
@@ -372,7 +335,7 @@ public static class Utils
     }
 
     private static readonly string[] SizeSuffixes =
-               { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+               ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     public static string FormatByteString(long value, int decimalPlaces = 1)
     {
         if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException(nameof(decimalPlaces)); }
@@ -396,7 +359,7 @@ public static class Utils
         if (Math.Round(adjustedSize, decimalPlaces) < 1000)
             return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
 
-        mag += 1;
+        mag++;
         adjustedSize /= 1024;
 
         return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
@@ -436,18 +399,17 @@ public static class FileUtils
 
             if (!overwrite)
             {
-                FileInfo source = new FileInfo(sourceFilePath);
+                var source = new FileInfo(sourceFilePath);
 
-                var caption = "Overwrite file";
-                var msg = string.Format("A file with the name \"{0}\" already exists in the folder: \"{1}\"\nWould you like to overwrite the file?",
-                    source.Name, source.DirectoryName);
+                const string caption = "Overwrite file";
+                var msg = $"A file with the name \"{source.Name}\" already exists in the folder: \"{source.DirectoryName}\"\nWould you like to overwrite the file?";
 
                 overwrite = MessageBox.Show(msg, caption, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
             }
 
             if (overwrite)
             {
-                FileUtils.RemoveReadOnly(destinationFilePath);
+                RemoveReadOnly(destinationFilePath);
                 File.Copy(sourceFilePath, destinationFilePath, true);
             }
         }
@@ -458,12 +420,12 @@ public static class FileUtils
         if (sourceFilePath == destinationDirPath)
             return;
 
-        FileInfo source = new FileInfo(sourceFilePath);
+        var source = new FileInfo(sourceFilePath);
         if (!source.Exists)
-            throw new DirectoryNotFoundException(string.Format("Source file does not exist: {0}", sourceFilePath));
+            throw new DirectoryNotFoundException($"Source file does not exist: {sourceFilePath}");
 
         if (!Directory.Exists(destinationDirPath))
-            throw new DirectoryNotFoundException(string.Format("Destination directory does not exist: {0}", destinationDirPath));
+            throw new DirectoryNotFoundException($"Destination directory does not exist: {destinationDirPath}");
 
         CopyFile(sourceFilePath, destinationDirPath + "/" + source.Name);
     }
@@ -472,10 +434,10 @@ public static class FileUtils
     {
         DirectoryInfo source = new DirectoryInfo(sourceDirPath);
         if (!source.Exists)
-            throw new DirectoryNotFoundException(string.Format("Source directory does not exist: {0}", sourceDirPath));
+            throw new DirectoryNotFoundException($"Source directory does not exist: {sourceDirPath}");
 
         if (!Directory.Exists(destinationDirPath))
-            throw new DirectoryNotFoundException(string.Format("Destination directory does not exist: {0}", destinationDirPath));
+            throw new DirectoryNotFoundException($"Destination directory does not exist: {destinationDirPath}");
 
         string newDirPath = destinationDirPath + "/" + source.Name;
 
@@ -499,18 +461,11 @@ public static class ColorUtils
 {
     public static readonly double RGBToDouble = 0.0039215686274509803921568627451;
 
-    public struct RGB
+    public struct RGB(double r, double g, double b)
     {
-        public double R { get; set; }
-        public double G { get; set; }
-        public double B { get; set; }
-
-        public RGB(double r, double g, double b)
-        {
-            R = r;
-            G = g;
-            B = b;
-        }
+        public double R { get; set; } = r;
+        public double G { get; set; } = g;
+        public double B { get; set; } = b;
 
         public static RGB FromColor(Color color)
         {
@@ -528,18 +483,11 @@ public static class ColorUtils
         }
     };
 
-    public struct HSV
+    public struct HSV(double h, double s, double v)
     {
-        public double H { get; set; }
-        public double S { get; set; }
-        public double V { get; set; }
-
-        public HSV(double h, double s, double v)
-        {
-            H = h;
-            S = s;
-            V = v;
-        }
+        public double H { get; set; } = h;
+        public double S { get; set; } = s;
+        public double V { get; set; } = v;
     };
 
     public static RGB HSVtoRGB(HSV hsv)
@@ -581,7 +529,7 @@ public static class ColorUtils
 
         double delta = max - min;
 
-        HSV hsv = new HSV
+        var hsv = new HSV
         {
             V = max,
         };
@@ -598,9 +546,9 @@ public static class ColorUtils
         if (rgb.R == max)
             hsv.H = (rgb.G - rgb.B) / delta;       // between yellow & magenta
         else if (rgb.G == max)
-            hsv.H = 2 + (rgb.B - rgb.R) / delta;   // between cyan & yellow
+            hsv.H = 2 + ((rgb.B - rgb.R) / delta);   // between cyan & yellow
         else
-            hsv.H = 4 + (rgb.R - rgb.G) / delta;   // between magenta & cyan
+            hsv.H = 4 + ((rgb.R - rgb.G) / delta);   // between magenta & cyan
 
         hsv.H *= 60;               // degrees
         if (hsv.H < 0)

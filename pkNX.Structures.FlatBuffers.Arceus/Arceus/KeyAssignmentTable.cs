@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class KeyAssignmentTable { }
+public partial class KeyAssignmentTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class KeyAssignment { }
+public partial class KeyAssignment;

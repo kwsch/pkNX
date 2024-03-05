@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleDistributionRewardArchive { }
+public partial class NestHoleDistributionRewardArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleDistributionRewardTable : INestHoleRewardTable
@@ -23,7 +23,7 @@ public partial class NestHoleDistributionReward : INestHoleReward
 
     public IList<uint> Values
     {
-        get => new uint[] { Value0, Value1, Value2, Value3, Value4 };
+        get => [Value0, Value1, Value2, Value3, Value4];
         set
         {
             Value0 = (byte)value[0];

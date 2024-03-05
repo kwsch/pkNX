@@ -9,10 +9,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFieldItemHolder { }
+public partial class PlacementZoneFieldItemHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFieldItem { }
+public partial class PlacementZoneFieldItem;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFieldItem_A { }
+public partial class PlacementZoneFieldItem_A;

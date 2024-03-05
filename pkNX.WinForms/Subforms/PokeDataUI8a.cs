@@ -58,10 +58,10 @@ public partial class PokeDataUI8a : Form
 
         B_NextPokemon.Focus();
 
-        helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
-        ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
-        typing_boxes = new[] { CB_Type1, CB_Type2 };
-        eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
+        helditem_boxes = [CB_HeldItem1, CB_HeldItem2, CB_HeldItem3];
+        ability_boxes = [CB_Ability1, CB_Ability2, CB_Ability3];
+        typing_boxes = [CB_Type1, CB_Type2];
+        eggGroup_boxes = [CB_EggGroup1, CB_EggGroup2];
 
         items = ROM.GetStrings(TextName.ItemNames);
         movelist = ROM.GetStrings(TextName.MoveNames);

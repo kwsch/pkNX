@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LandmarkItemTable { }
+public partial class LandmarkItemTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class LandmarkItem : ISlotTableConsumer

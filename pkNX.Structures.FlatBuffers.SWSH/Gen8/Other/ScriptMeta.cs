@@ -9,7 +9,7 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // script_id_record.bin
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ScriptMeta { }
+public partial class ScriptMeta;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ScriptMetaEntry { }
+public partial class ScriptMetaEntry;

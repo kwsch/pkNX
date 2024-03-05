@@ -11,7 +11,7 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 // field\param\weather\weather_data.bin
 // field\param\weather\weather_data_alt.bin
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class WeatherTable { }
-public partial class WeatherEntry { }
-public partial class PentaFloat { }
-public partial class QuadFloatSet { }
+public partial class WeatherTable;
+public partial class WeatherEntry;
+public partial class PentaFloat;
+public partial class QuadFloatSet;

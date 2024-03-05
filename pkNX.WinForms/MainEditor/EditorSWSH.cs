@@ -188,11 +188,11 @@ internal class EditorSWSH : EditorBase
         var nso = new NSO(data);
 
         byte[] pattern = // N2nn3pia9transport18UnreliableProtocolE
-        {
+        [
             0x4E, 0x32, 0x6E, 0x6E, 0x33, 0x70, 0x69, 0x61, 0x39, 0x74, 0x72, 0x61, 0x6E, 0x73, 0x70, 0x6F, 0x72,
             0x74, 0x31, 0x38, 0x55, 0x6E, 0x72, 0x65, 0x6C, 0x69, 0x61, 0x62, 0x6C, 0x65, 0x50, 0x72, 0x6F, 0x74,
             0x6F, 0x63, 0x6F, 0x6C, 0x45, 0x00,
-        };
+        ];
         int ofs = CodePattern.IndexOfBytes(nso.DecompressedRO, pattern);
         if (ofs < 0)
         {
@@ -249,8 +249,8 @@ internal class EditorSWSH : EditorBase
         if (!form.Modified)
             return;
 
-        var sd = FlatBufferConverter.SerializeFrom(s);
-        var hd = FlatBufferConverter.SerializeFrom(h);
+        var sd = s.SerializeFrom();
+        var hd = h.SerializeFrom();
         data_table.SetDataFileName($"encount_symbol_{file}.bin", sd);
         data_table.SetDataFileName($"encount_{file}.bin", hd);
 
@@ -396,9 +396,9 @@ internal class EditorSWSH : EditorBase
                 t.Nature = (int)Nature.Random25;
                 t.Gender = (int)FixedGender.Random;
                 t.ShinyLock = (int)Shiny.Random;
-                t.Moves = new[] { 0, 0, 0, 0 };
+                t.Moves = [0, 0, 0, 0];
                 if (t.IVHP != -4 && t.IVs.Any(z => z != 31))
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
             }
         }
 
@@ -587,7 +587,7 @@ internal class EditorSWSH : EditorBase
                 t.Gender = (byte)FixedGender.Random;
                 t.ShinyLock = (int)Shiny.Random;
                 if (t.IVHP != -4 && t.IVs.Any(z => z != 31))
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
             }
         }
 
@@ -618,7 +618,7 @@ internal class EditorSWSH : EditorBase
             critters[2].Species = (uint)gifts[4].Species;
             critters[2].Form = gifts[4].Form;
 
-            var bin = FlatBufferConverter.SerializeFrom(obj);
+            var bin = obj.SerializeFrom();
             placement.SetDataFileName(file, bin);
             container[0] = placement.Write();
         }
@@ -671,7 +671,7 @@ internal class EditorSWSH : EditorBase
                 t.ShinyLock = (int)Shiny.Random;
                 t.Relearn1 = 0;
                 if (t.IVHP != -4 && t.IVs.Any(z => z != 31))
-                    t.IVs = new[] { -1, -1, -1, -1, -1, -1 };
+                    t.IVs = [-1, -1, -1, -1, -1, -1];
 
                 // what you trade
                 t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);

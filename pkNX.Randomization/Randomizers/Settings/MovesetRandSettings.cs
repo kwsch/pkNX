@@ -28,7 +28,7 @@ public class MovesetRandSettings
     public float STABPercent { get; set; } = 25;
 
     [Category(Misc), Description("Banned move IDs.")]
-    internal IList<int> BannedMoves { get; set; } = Array.Empty<int>();
+    internal IList<int> BannedMoves { get; set; } = [];
 
     [Category(Misc), Description("Prevents Pokémon movesets from containing fixed damage moves.")]
     public bool BanFixedDamageMoves { get; set; } = true;

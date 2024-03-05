@@ -8,17 +8,17 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneTrainerTipHolder { }
+public partial class PlacementZoneTrainerTipHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneTrainerTip { }
+public partial class PlacementZoneTrainerTip;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F09 { }
+public partial class PlacementZone_F09;
 
 // union?
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F09_Union { }
+public partial class PlacementZone_F09_Union;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F09_Sub { }
+public partial class PlacementZone_F09_Sub;

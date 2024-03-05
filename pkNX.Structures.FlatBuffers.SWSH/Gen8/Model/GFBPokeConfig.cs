@@ -6,24 +6,16 @@ using FlatSharp;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshProperty
-{
-}
+public partial class MeshProperty;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshEntries
-{
-}
+public partial class MeshEntries;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SpeciesModelProperties
-{
-}
+public partial class SpeciesModelProperties;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MaterialEntry
-{
-}
+public partial class MaterialEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class GFBPokeConfig

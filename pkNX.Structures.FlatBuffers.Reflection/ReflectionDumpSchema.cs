@@ -108,7 +108,7 @@ public static class SchemaDump
 
             cs.WriteLine();
             cs.WriteLine("[TypeConverter(typeof(ExpandableObjectConverter))]");
-            cs.WriteLine($"public partial {(obj.IsStruct ? "struct" : "class")} {GetName(obj.Name, stripNamespace)} {{ }}");
+            cs.WriteLine($"public partial {(obj.IsStruct ? "struct" : "class")} {GetName(obj.Name, stripNamespace)};");
 
             DumpObjectFBS(schema, fbs, stripNamespace, obj);
         }

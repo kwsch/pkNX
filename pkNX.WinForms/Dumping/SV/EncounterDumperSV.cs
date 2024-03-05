@@ -11,14 +11,11 @@ using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.WinForms;
 
-public class EncounterDumperSV
+public class EncounterDumperSV(IFileInternal rom)
 {
-    private readonly IFileInternal ROM;
     private const float tolX = 30f;
     private const float tolY = 30f;
     private const float tolZ = 30f;
-
-    public EncounterDumperSV(IFileInternal rom) => ROM = rom;
 
     private static ReadOnlySpan<PaldeaFieldIndex> AllMaps =>
     [
@@ -34,18 +31,18 @@ public class EncounterDumperSV
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
 
-        var field = new PaldeaFieldModel(ROM);
-        var scene = new PaldeaSceneModel(ROM, field);
-        var fsym = new PaldeaFixedSymbolModel(ROM);
-        var csym = new PaldeaCoinSymbolModel(ROM);
-        var mlEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_100000.bin"));
-        var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
-        var su1EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin"));
-        var su2EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su2.bin"));
+        var field = new PaldeaFieldModel(rom);
+        var scene = new PaldeaSceneModel(rom, field);
+        var fsym = new PaldeaFixedSymbolModel(rom);
+        var csym = new PaldeaCoinSymbolModel(rom);
+        var mlEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_100000.bin"));
+        var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
+        var su1EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin"));
+        var su2EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su2.bin"));
       //var lcEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(ROM.GetPackedFile("world/data/encount/point_data/point_data/encount_data_lc.bin"));
-        var pokeDataMain = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata/pokedata_array.bin"));
-        var pokeDataSu1 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bin"));
-        var pokeDataSu2 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bin"));
+        var pokeDataMain = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(rom.GetPackedFile("world/data/encount/pokedata/pokedata/pokedata_array.bin"));
+        var pokeDataSu1 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(rom.GetPackedFile("world/data/encount/pokedata/pokedata_su1/pokedata_su1_array.bin"));
+        var pokeDataSu2 = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(rom.GetPackedFile("world/data/encount/pokedata/pokedata_su2/pokedata_su2_array.bin"));
       //var pokeDataLc = FlatBufferConverter.DeserializeFrom<EncountPokeDataArray>(ROM.GetPackedFile("world/data/encount/pokedata/pokedata_lc/pokedata_lc_array.bfbs"));
 
         var db = new LocationDatabase();
@@ -93,8 +90,8 @@ public class EncounterDumperSV
 
         // Fixed symbols
         List<byte[]> serialized = [];
-        var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(ROM.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
-        var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(ROM.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
+        var fsymData = FlatBufferConverter.DeserializeFrom<FixedSymbolTableArray>(rom.GetPackedFile("world/data/field/fixed_symbol/fixed_symbol_table/fixed_symbol_table_array.bin"));
+        var eventBattle = FlatBufferConverter.DeserializeFrom<EventBattlePokemonArray>(rom.GetPackedFile("world/data/battle/eventBattlePokemon/eventBattlePokemon_array.bin"));
         foreach (var (game, gamePoints) in new[] { ("sl", fsym.scarletPoints), ("vl", fsym.violetPoints) })
         {
             using var gw = File.CreateText(Path.Combine(path, $"titan_fixed_{game}.txt"));
@@ -224,7 +221,7 @@ public class EncounterDumperSV
                 var tableKey = entry.TableKey;
                 var appearAreas = new List<AppearTuple> { new("PLACENAME_a_w23_d10_01", "a_w23_d10_subarea", 0, new()) };
                 WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, []);
-                WriteFixedSymbol(serialized, entry, new[] { 196 });
+                WriteFixedSymbol(serialized, entry, [196]);
             }
         }
 

@@ -115,10 +115,8 @@ public static class FileRipper
     }
 }
 
-public class FileRipperResult
+public class FileRipperResult(RipResultCode code)
 {
-    public readonly RipResultCode Code;
+    public readonly RipResultCode Code = code;
     public string? ResultPath;
-
-    public FileRipperResult(RipResultCode code) => Code = code;
 }

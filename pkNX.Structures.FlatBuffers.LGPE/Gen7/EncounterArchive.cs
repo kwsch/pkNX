@@ -9,10 +9,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.LGPE;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterArchive { }
+public partial class EncounterArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterTable { }
+public partial class EncounterTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterSlot { }
+public partial class EncounterSlot;

@@ -15,23 +15,19 @@ public partial class FileReference
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LODIndex
-{
-}
+public partial class LODIndex;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LOD
-{
-}
+public partial class LOD;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Model
 {
     public static Model Empty => new()
     {
-        Meshes = Array.Empty<FileReference>(),
-        LODs = Array.Empty<LOD>(),
+        Meshes = [],
+        LODs = [],
         Skeleton = FileReference.Empty,
-        Materials = Array.Empty<string>(),
+        Materials = [],
     };
 }

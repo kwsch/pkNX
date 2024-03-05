@@ -89,19 +89,12 @@ public class CaptureRewardTable
     }
 }
 
-public class CaptureRewardGroup
+public class CaptureRewardGroup(int count, int entries)
 {
-    public int CaptureCount;
-    public int EntryCount;
+    public int CaptureCount = count;
+    public int EntryCount = entries;
 
-    public List<CaptureRewardEntry> Entries;
-
-    public CaptureRewardGroup(int count, int entries)
-    {
-        CaptureCount = count;
-        EntryCount = entries;
-        Entries = new List<CaptureRewardEntry>(entries);
-    }
+    public List<CaptureRewardEntry> Entries = new(entries);
 }
 
 public class CaptureRewardEntry

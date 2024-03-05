@@ -2,12 +2,11 @@ using System;
 
 namespace pkNX.Structures;
 
-public class Move6 : Move3DS
+public class Move6(byte[] data) : Move3DS(data)
 {
     private const int Size = 0x22;
     protected override int SIZE => Size;
     public Move6() : this(new byte[Size]) { }
-    public Move6(byte[] data) : base(data) { }
 
     public override int Type { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int Quality { get => Data[0x01]; set => Data[0x01] = (byte)value; }

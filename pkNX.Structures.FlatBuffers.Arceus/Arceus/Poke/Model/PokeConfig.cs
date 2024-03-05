@@ -9,4 +9,4 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 // *.trpokecfg
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeConfig {}
+public partial class PokeConfig;

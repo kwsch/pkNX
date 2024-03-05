@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DressUpTable { }
+public partial class DressUpTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DressUpEntry { }
+public partial class DressUpEntry;

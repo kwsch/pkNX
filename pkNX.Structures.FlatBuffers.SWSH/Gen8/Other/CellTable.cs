@@ -58,7 +58,7 @@ public partial struct CellUnion
 [TypeConverter(typeof(ExpandableObjectConverter))] public partial class CellHash   { public override string ToString() => Hash.ToString("X16"); }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class CellMetaHashes { }
+public partial class CellMetaHashes;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class CellHashTuple

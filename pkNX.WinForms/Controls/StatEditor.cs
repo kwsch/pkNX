@@ -12,10 +12,10 @@ public partial class StatEditor : UserControl
     public StatEditor()
     {
         InitializeComponent();
-        tb_iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
-        tb_ev = new[] { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPAEV, TB_SPDEV };
-        tb_av = new[] { TB_HPAV, TB_ATKAV, TB_DEFAV, TB_SPEAV, TB_SPAAV, TB_SPDAV };
-        labarray = new[] { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
+        tb_iv = [TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV];
+        tb_ev = [TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPAEV, TB_SPDEV];
+        tb_av = [TB_HPAV, TB_ATKAV, TB_DEFAV, TB_SPEAV, TB_SPAAV, TB_SPDAV];
+        labarray = [Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD];
     }
 
     public void Initialize(string[] types)
@@ -66,8 +66,8 @@ public partial class StatEditor : UserControl
         Stat_SPD.Text = stats[5].ToString();
         Stat_SPE.Text = stats[3].ToString();
 
-        TB_IVTotal.Text = tb_iv.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
-        TB_EVTotal.Text = tb_ev.Select(z => Util.ToInt32(z.Text)).Sum().ToString();
+        TB_IVTotal.Text = tb_iv.Sum(z => Util.ToInt32(z.Text)).ToString();
+        TB_EVTotal.Text = tb_ev.Sum(z => Util.ToInt32(z.Text)).ToString();
         if (PKM is IAwakened s)
             TB_AVTotal.Text = s.AwakeningSum().ToString();
 

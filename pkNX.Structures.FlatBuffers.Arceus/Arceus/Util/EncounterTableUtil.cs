@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public static class EncounterTableUtil
@@ -136,7 +131,7 @@ public static class EncounterTableUtil
     // 095 Snowpoint Temple
     private static bool IsDungeonZone(int a) => a is 64 or 86 or 95;
 
-    private static readonly int[] OybnSettings = { 15, 15, 15, 20, 20 };
+    private static ReadOnlySpan<byte> OybnSettings => [15, 15, 15, 20, 20];
 
     private static byte[] GetArea(IReadOnlyList<int> locations, IReadOnlyCollection<EncounterSlot> slots,
         int tableMinLevel, int tableMaxLevel, SpawnerType type,
@@ -320,7 +315,7 @@ public static class EncounterTableUtil
         EncounterDetail.Divide(dividedTables);
 
         var sym = EncounterDetail.AnalyzeSymmetry(dividedTables);
-        if (sym.Time && sym.Weather)
+        if (sym is { Time: true, Weather: true })
         {
             yield return "Any Time/All Weather:";
             foreach (var line in GetEffectiveTableSummary(dividedTables[0, 0], speciesNames, lvMin, lvMax, misc))

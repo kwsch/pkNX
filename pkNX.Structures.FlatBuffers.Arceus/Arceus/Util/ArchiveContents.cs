@@ -16,7 +16,7 @@ public partial class ArchiveContents
     {
         var entry = new ArchiveContent
         {
-            ArchiveContentPathHashes = new List<ulong>(),
+            ArchiveContentPathHashes = [],
         };
 
         Table = Table.Append(entry).ToList();
@@ -37,4 +37,4 @@ public partial class ArchiveContents
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ArchiveContent { }
+public partial class ArchiveContent;

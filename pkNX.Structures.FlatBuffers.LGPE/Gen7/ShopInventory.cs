@@ -9,7 +9,7 @@ using System.Linq;
 namespace pkNX.Structures.FlatBuffers.LGPE;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ShopInventory { }
+public partial class ShopInventory;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class SingleShop

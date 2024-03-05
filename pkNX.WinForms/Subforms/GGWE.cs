@@ -415,10 +415,10 @@ public sealed partial class GGWE : Form
 
     public static readonly Dictionary<int, int[]> RandomScaledRates = new()
     {
-        [01] = new[] { 100 },
-        [04] = new[] { 60, 30, 7, 3 },
-        [05] = new[] { 40, 30, 18, 10, 2 },
-        [10] = new[] { 20, 15, 15, 10, 10, 10, 10, 5, 4, 1 },
+        [01] = [100],
+        [04] = [60, 30, 7, 3],
+        [05] = [40, 30, 18, 10, 2],
+        [10] = [20, 15, 15, 10, 10, 10, 10, 5, 4, 1],
     };
 
     private void B_Dump_Click(object sender, EventArgs e)

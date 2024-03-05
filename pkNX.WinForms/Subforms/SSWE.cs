@@ -32,7 +32,7 @@ public sealed partial class SSWE : Form
         species[0] = "";
         EncounterList8.SpeciesNames = species;
 
-        SL = new[] { SL_0, SL_1, SL_2, SL_3, SL_4, SL_5, SL_6, SL_7, SL_8, SL_9, SL_10 };
+        SL = [SL_0, SL_1, SL_2, SL_3, SL_4, SL_5, SL_6, SL_7, SL_8, SL_9, SL_10];
         foreach (var z in SL)
             z.Initialize();
 
@@ -41,16 +41,10 @@ public sealed partial class SSWE : Form
         LoadLocations();
     }
 
-    private class LocationHash
+    private class LocationHash(ulong hash, string loc)
     {
-        public ulong Hash { get; }
-        public string LocationName { get; }
-
-        public LocationHash(ulong hash, string loc)
-        {
-            Hash = hash;
-            LocationName = loc;
-        }
+        public ulong Hash { get; } = hash;
+        public string LocationName { get; } = loc;
     }
 
     public bool Modified { get; private set; }
@@ -203,10 +197,10 @@ public sealed partial class SSWE : Form
 
     public static readonly Dictionary<int, byte[]> RandomScaledRates = new()
     {
-        [01] = new byte[] { 100 },
-        [04] = new byte[] { 60, 30, 7, 3 },
-        [05] = new byte[] { 40, 30, 18, 10, 2 },
-        [10] = new byte[] { 20, 15, 15, 10, 10, 10, 10, 5, 4, 1 },
+        [01] = [100],
+        [04] = [60, 30, 7, 3],
+        [05] = [40, 30, 18, 10, 2],
+        [10] = [20, 15, 15, 10, 10, 10, 10, 5, 4, 1],
     };
 
     private void TC_Tables_DrawItem(object sender, DrawItemEventArgs e)

@@ -32,7 +32,7 @@ public class PaldeaFieldModel
         SubAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldSubAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_sub_area_su2/field_sub_area_su2_array.bin")).Table;
         InsideAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldInsideAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_inside_area_su2/field_inside_area_su2_array.bin")).Table;
         DungeonAreas[(int)PaldeaFieldIndex.Terarium] = FlatBufferConverter.DeserializeFrom<FieldDungeonAreaArray>(ROM.GetPackedFile("world/data/field/area_su2/field_dungeon_area_su2/field_dungeon_area_su2_array.bin")).Table;
-        FieldLocations[(int)PaldeaFieldIndex.Terarium] = new List<FieldLocation>(); //FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su2/field_location_su2/field_location_su2_array.bin")).Table;
+        FieldLocations[(int)PaldeaFieldIndex.Terarium] = []; //FlatBufferConverter.DeserializeFrom<FieldLocationArray>(ROM.GetPackedFile("world/data/field/area_su2/field_location_su2/field_location_su2_array.bin")).Table;
     }
 
     public AreaInfo FindAreaInfo(PaldeaFieldIndex index, string name)

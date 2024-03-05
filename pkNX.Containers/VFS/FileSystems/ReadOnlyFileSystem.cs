@@ -5,16 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace pkNX.Containers.VFS;
 
-public class ReadOnlyFileSystem : IFileSystem
+public class ReadOnlyFileSystem(IFileSystem fileSystem) : IFileSystem
 {
     public bool IsReadOnly => true;
 
-    public IFileSystem FileSystem { get; }
-
-    public ReadOnlyFileSystem(IFileSystem fileSystem)
-    {
-        FileSystem = fileSystem;
-    }
+    public IFileSystem FileSystem { get; } = fileSystem;
 
     public void Dispose()
     {

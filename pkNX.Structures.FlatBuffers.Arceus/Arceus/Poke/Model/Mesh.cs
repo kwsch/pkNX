@@ -27,21 +27,13 @@ public partial class VertexSize
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class VertexAttributeLayout
-{
-}
+public partial class VertexAttributeLayout;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SubMesh
-{
-}
+public partial class SubMesh;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshShape
-{
-}
+public partial class MeshShape;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Mesh
-{
-}
+public partial class Mesh;

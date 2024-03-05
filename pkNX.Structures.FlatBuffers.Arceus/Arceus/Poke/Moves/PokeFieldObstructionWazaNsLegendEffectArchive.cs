@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeFieldObstructionWazaNsLegendEffectArchive { }
+public partial class PokeFieldObstructionWazaNsLegendEffectArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeFieldObstructionWazaNsLegendEffect { }
+public partial class PokeFieldObstructionWazaNsLegendEffect;

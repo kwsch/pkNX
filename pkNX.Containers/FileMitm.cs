@@ -49,9 +49,7 @@ public static class FileMitm
         if (PathOriginal is null)
             throw new ArgumentException("No original path specified.");
         var newDest = path.Replace(PathOriginal, PathRedirect);
-        var parent = Path.GetDirectoryName(newDest);
-        if (parent is null)
-            throw new ArgumentException("Invalid path specified.");
+        var parent = Path.GetDirectoryName(newDest) ?? throw new ArgumentException("Invalid path specified.");
         Directory.CreateDirectory(parent);
         return newDest;
     }

@@ -10,13 +10,13 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TriggerTable { }
+public partial class TriggerTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Trigger { }
+public partial class Trigger;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TriggerMeta { }
+public partial class TriggerMeta;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TriggerCondition : IHasCondition
@@ -27,4 +27,4 @@ public partial class TriggerCondition : IHasCondition
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TriggerCommand { }
+public partial class TriggerCommand;

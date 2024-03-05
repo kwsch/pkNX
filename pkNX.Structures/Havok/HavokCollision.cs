@@ -56,11 +56,11 @@ public static class HavokCollision
                     foreach ((uint tag1, int start1, int end1) in ReadSections(subSec))
                     {
                         var subSec1 = subSec[start1..end1];
-                        switch (tag1) {
-                            case 0x4954454D: // ITEM
-                                item = ReadItems(subSec1, tna1);
-                                break;
-                        }
+                        item = tag1 switch
+                        {
+                            0x4954454D => ReadItems(subSec1, tna1), // ITEM
+                            _ => item,
+                        };
                     }
                     break;
             }
@@ -173,21 +173,21 @@ public static class HavokCollision
         return new(nodes);
     }
 
-    private static float[] ReadVector4(ReadOnlySpan<byte> buf) => new[]
-    {
+    private static float[] ReadVector4(ReadOnlySpan<byte> buf) =>
+    [
         ReadSingleLittleEndian(buf),
         ReadSingleLittleEndian(buf[4..]),
         ReadSingleLittleEndian(buf[8..]),
         ReadSingleLittleEndian(buf[12..]),
-    };
+    ];
 
-    private static uint[] ReadNodeData(ReadOnlySpan<byte> buf) => new[]
-    {
+    private static uint[] ReadNodeData(ReadOnlySpan<byte> buf) =>
+    [
         ReadUInt32LittleEndian(buf),
         ReadUInt32LittleEndian(buf[4..]),
         ReadUInt32LittleEndian(buf[8..]),
         ReadUInt32LittleEndian(buf[12..]),
-    };
+    ];
 
     private static List<string> ReadStrings(ReadOnlySpan<byte> buffer)
     {
@@ -504,40 +504,28 @@ public static class HavokCollision
         public bool ContainedBy(IContainsV3f other) => other.ContainsPoint(BoundingBoxRectangles[0].X, BoundingBoxRectangles[0].Y, BoundingBoxRectangles[0].Z);
     }
 
-    public struct Rectangle3D
+    public struct Rectangle3D(float x, float y, float z, float width, float height, float depth)
     {
         /// <summary> X-coordinate of one corner </summary>
-        public float X { get; set; }
+        public float X { get; set; } = x;
+
         /// <summary> Y-coordinate of one corner </summary>
-        public float Y { get; set; }
+        public float Y { get; set; } = y;
+
         /// <summary> Z-coordinate of one corner </summary>
-        public float Z { get; set; }
+        public float Z { get; set; } = z;
 
         /// <summary> Width of the rectangle (X) </summary>
-        public float Width { get; set; }
+        public float Width { get; set; } = width;
+
         /// <summary> Height of the rectangle (Y) </summary>
-        public float Height { get; set; }
+        public float Height { get; set; } = height;
+
         /// <summary> Depth of the rectangle (Z) </summary>
-        public float Depth { get; set; }
+        public float Depth { get; set; } = depth;
 
-        public Rectangle3D(float x, float y, float z, float width, float height, float depth)
+        public Rectangle3D(Vector3 lo, Vector3 hi) : this(lo.X, lo.Y, lo.Z, hi.X - lo.X, hi.Y - lo.Y, hi.Z - lo.Z)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            Width = width;
-            Height = height;
-            Depth = depth;
-        }
-
-        public Rectangle3D(Vector3 lo, Vector3 hi)
-        {
-            X = lo.X;
-            Y = lo.Y;
-            Z = lo.Z;
-            Width = hi.X - lo.X;
-            Height = hi.Y - lo.Y;
-            Depth = hi.Z - lo.Z;
         }
     }
 

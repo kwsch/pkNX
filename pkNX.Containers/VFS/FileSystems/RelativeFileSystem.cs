@@ -8,21 +8,18 @@ namespace pkNX.Containers.VFS;
 
 public delegate FileSystemPath PathTransformation(FileSystemPath arg);
 
-public class RelativeFileSystem : IFileSystem
+[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+public class RelativeFileSystem(
+    IFileSystem fileSystem,
+    PathTransformation toAbsolutePath,
+    PathTransformation toRelativePath)
+    : IFileSystem
 {
-    public IFileSystem FileSystem { get; }
+    public IFileSystem FileSystem { get; } = fileSystem;
     public bool IsReadOnly => FileSystem.IsReadOnly;
 
-    public PathTransformation ToAbsolutePath { get; }
-    public PathTransformation ToRelativePath { get; }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public RelativeFileSystem(IFileSystem fileSystem, PathTransformation toAbsolutePath, PathTransformation toRelativePath)
-    {
-        FileSystem = fileSystem;
-        ToAbsolutePath = toAbsolutePath;
-        ToRelativePath = toRelativePath;
-    }
+    public PathTransformation ToAbsolutePath { get; } = toAbsolutePath;
+    public PathTransformation ToRelativePath { get; } = toRelativePath;
 
     public void Dispose()
     {

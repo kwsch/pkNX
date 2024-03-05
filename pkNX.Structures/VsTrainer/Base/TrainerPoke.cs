@@ -1,9 +1,8 @@
 namespace pkNX.Structures;
 
-public abstract class TrainerPoke : StatPKM, IMoveset
+public abstract class TrainerPoke(byte[] data) : StatPKM, IMoveset
 {
-    protected byte[] Data;
-    protected TrainerPoke(byte[] data) => Data = data;
+    protected byte[] Data = data;
 
     public abstract int Friendship { get; set; }
 
@@ -27,13 +26,13 @@ public abstract class TrainerPoke : StatPKM, IMoveset
 
     public int[] Moves
     {
-        get => new[] { Move1, Move2, Move3, Move4 };
+        get => [Move1, Move2, Move3, Move4];
         set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
     }
 
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value?.Length != 6) return;
@@ -44,7 +43,7 @@ public abstract class TrainerPoke : StatPKM, IMoveset
 
     public int[] EVs
     {
-        get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        get => [EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD];
         set
         {
             if (value?.Length != 6) return;

@@ -66,25 +66,25 @@ public partial class PokeAI
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeAI_F24 { }
+public partial class PokeAI_F24;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeAI_F18 { }
+public partial class PokeAI_F18;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAI_F09
 {
     public static readonly PokeAI_F09 DefaultBehaviour02 = new()
     {
-        Field00 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field01 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field02 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field03 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field04 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field05 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field06 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field07 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
-        Field08 = new() { BehaviourHash = 9252365659083253459, Parameters = new[] { "0.5", "35" } },
+        Field00 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field01 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field02 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field03 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field04 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field05 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field06 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field07 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
+        Field08 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] },
     };
 
     public static readonly PokeAI_F09 DefaultBehaviour_F09 = new()
@@ -130,10 +130,10 @@ public partial class PokeAI_F09
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAIBehaviour
 {
-    public static readonly PokeAIBehaviour DefaultBehaviour02 = new() { BehaviourHash = 9252365659083253459, Parameters = new [] { "0.2", "35" } };
-    public static readonly PokeAIBehaviour DefaultBehaviour02_20 = new() { BehaviourHash = 9252365659083253459, Parameters = new [] { "0.2", "20" } };
-    public static readonly PokeAIBehaviour DefaultBehaviour05 = new() { BehaviourHash = 9252365659083253459, Parameters = new [] { "0.5", "35" } };
-    public static readonly PokeAIBehaviour Behaviour_X_Params = new() { BehaviourHash = 17205188591700921149, Parameters = new [] { "10", "3", "run", "Normal" } };
-    public static readonly PokeAIBehaviour Behaviour_X2_Params = new() { BehaviourHash = 17205188591700921149, Parameters = new [] { "10", "0.5", "run", "Normal" } };
-    public static readonly PokeAIBehaviour Behaviour_04_Params = new() { BehaviourHash = 1234775724179408742, Parameters = new [] { "3", "5", "60", "90", "4", "run", "Normal" } };
+    public static readonly PokeAIBehaviour DefaultBehaviour02 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.2", "35"] };
+    public static readonly PokeAIBehaviour DefaultBehaviour02_20 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.2", "20"] };
+    public static readonly PokeAIBehaviour DefaultBehaviour05 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.5", "35"] };
+    public static readonly PokeAIBehaviour Behaviour_X_Params = new() { BehaviourHash = 17205188591700921149, Parameters = ["10", "3", "run", "Normal"] };
+    public static readonly PokeAIBehaviour Behaviour_X2_Params = new() { BehaviourHash = 17205188591700921149, Parameters = ["10", "0.5", "run", "Normal"] };
+    public static readonly PokeAIBehaviour Behaviour_04_Params = new() { BehaviourHash = 1234775724179408742, Parameters = ["3", "5", "60", "90", "4", "run", "Normal"] };
 }

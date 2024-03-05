@@ -6,4 +6,4 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SV;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeDataFull { }
+public partial class PokeDataFull;

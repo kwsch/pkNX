@@ -46,8 +46,8 @@ public class PersonalDumperPLA
     public IList<EvolutionSet> Evos { private get; set; }
     public IReadOnlyList<ushort> TMIndexes { protected get; set; }
 
-    private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
-    private static readonly string[] ItemPrefix = { "Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)" };
+    private static readonly string[] AbilitySuffix = [" (1)", " (2)", " (H)"];
+    private static readonly string[] ItemPrefix = ["Item 1 (50%)", "Item 2 (5%)", "Item 3 (1%)"];
 
     public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
 

@@ -2,11 +2,10 @@ using System;
 
 namespace pkNX.Structures;
 
-public sealed class EncounterStatic7 : EncounterStatic
+public sealed class EncounterStatic7(byte[] data) : EncounterStatic(data)
 {
     public const int SIZE = 0x38;
     public EncounterStatic7() : this(new byte[SIZE]) { }
-    public EncounterStatic7(byte[] data) : base(data) { }
 
     public override Species Species
     {
@@ -70,13 +69,13 @@ public sealed class EncounterStatic7 : EncounterStatic
 
     public override int[] RelearnMoves
     {
-        get => new int[]
-        {
+        get =>
+        [
             BitConverter.ToUInt16(Data, 0xC),
             BitConverter.ToUInt16(Data, 0xE),
             BitConverter.ToUInt16(Data, 0x10),
             BitConverter.ToUInt16(Data, 0x12),
-        };
+        ];
         set
         {
             if (value.Length != 4)

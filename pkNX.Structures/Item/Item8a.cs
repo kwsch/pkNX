@@ -3,18 +3,16 @@ using System.ComponentModel;
 
 namespace pkNX.Structures;
 
-public class Item8a
+public class Item8a(int id, byte[] data)
 {
     private const int SIZE = 0x3C;
-    public readonly int ItemID;
-    public readonly byte[] Data;
+    public readonly int ItemID = id;
+    public readonly byte[] Data = data;
 
     private const string Battle = "Battle";
     private const string Field = "Field";
     private const string Mart = "Mart";
     private const string Heal = "Heal";
-
-    public Item8a(int id, byte[] data) => (ItemID, Data) = (id, data);
 
     public uint Price { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
     public uint PriceWatts { get => BitConverter.ToUInt32(Data, 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, 0x04); }

@@ -13,7 +13,7 @@ using pkNX.Containers;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LandmarkItemSpawnTable { }
+public partial class LandmarkItemSpawnTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class LandmarkItemSpawn
@@ -92,4 +92,4 @@ public partial class LandmarkItemSpawn
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LandmarkItemSpawn_F03 { }
+public partial class LandmarkItemSpawn_F03;

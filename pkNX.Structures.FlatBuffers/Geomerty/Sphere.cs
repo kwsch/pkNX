@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace pkNX.Structures.FlatBuffers;
 
-public partial struct Sphere
+public partial struct Sphere(AABB bounds)
 {
-    public Sphere(AABB bounds)
-    {
-        Center = (PackedVec3f)bounds.Center;
-        Radius = bounds.Extents.Magnitude;
-    }
-
     public override string ToString() => $"{{ Radius: {Radius}, Center: {Center} }}";
 }

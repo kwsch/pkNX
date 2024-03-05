@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class RentalArchive { }
+public partial class RentalArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Rental

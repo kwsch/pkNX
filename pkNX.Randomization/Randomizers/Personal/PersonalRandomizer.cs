@@ -463,7 +463,7 @@ public class PersonalRandomizer : Randomizer
     private int GetRandomType() => Rand.Next(0, TypeCount);
     private int GetRandomEggGroup() => Rand.Next(1, eggGroupCount);
     private int GetRandomHeldItem() => Game.HeldItems.Length > 1 ? Game.HeldItems[Rand.Next(1, Game.HeldItems.Length)] : 0;
-    private readonly IList<int> BannedAbilities = Array.Empty<int>();
+    private readonly IList<int> BannedAbilities = [];
 
     private int GetRandomAbility()
     {

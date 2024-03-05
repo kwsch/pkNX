@@ -4,18 +4,11 @@ using static pkNX.Structures.Species;
 
 namespace pkNX.Randomization;
 
-public class FormRandomizer
+public class FormRandomizer(IPersonalTable t)
 {
-    private readonly IPersonalTable Personal;
-
-    public FormRandomizer(IPersonalTable t)
-    {
-        Personal = t;
-    }
-
     public int GetRandomForm(int species, bool mega, bool fuse, int generation, IPersonalInfo[]? stats = null)
     {
-        stats ??= Personal.Table;
+        stats ??= t.Table;
         if (stats[species].FormCount <= 1)
             return 0;
 
@@ -33,7 +26,7 @@ public class FormRandomizer
 
         return (Species)species switch
         {
-            Pikachu or Slowbro when generation >= 8 => GetValidForm(species, generation, Personal),
+            Pikachu or Slowbro when generation >= 8 => GetValidForm(species, generation, t),
             Unown or Deerling or Sawsbuck => 31, // pure random -- todo sv see if this behavior changed
             Greninja when !mega => 0, // treat Ash-Greninja as a Mega
             Scatterbug or Spewpa or Vivillon => 30, // save file specific -- todo sv see if this behavior changed

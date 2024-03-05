@@ -131,7 +131,7 @@ public class PersonalRandSettings : RandSettings
     /// <summary>
     /// Flags to edit the stats when randomizing.
     /// </summary>
-    public IReadOnlyList<bool> StatsToRandomize => new[] {HP, ATK, DEF, SPE, SPA, SPD};
+    public IReadOnlyList<bool> StatsToRandomize => [HP, ATK, DEF, SPE, SPA, SPD];
     #endregion
 
     #region Misc

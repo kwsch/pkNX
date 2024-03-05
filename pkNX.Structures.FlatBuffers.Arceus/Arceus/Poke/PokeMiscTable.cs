@@ -26,7 +26,7 @@ public partial class PokeMiscTable
         return Table.FirstOrDefault(z => z.Species == species && z.Form == form) ?? new()
         {
             Value = $"{species}-{form} is not in {nameof(PokeMiscTable)}.",
-            Field10 = Array.Empty<uint>(),
+            Field10 = [],
         };
     }
 
@@ -44,7 +44,7 @@ public partial class PokeMiscTable
             Value = $"{species}-{form} is not in {nameof(PokeMiscTable)}.",
             Species = species,
             Form = form,
-            Field10 = Array.Empty<uint>(),
+            Field10 = [],
         };
         Table = Table.Append(entry)
             .OrderBy(x => x.Species)

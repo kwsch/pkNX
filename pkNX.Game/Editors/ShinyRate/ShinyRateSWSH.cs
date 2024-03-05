@@ -3,7 +3,7 @@ using pkNX.Structures;
 
 namespace pkNX.Game;
 
-public sealed class ShinyRateSWSH : ShinyRateInfo
+public sealed class ShinyRateSWSH(byte[] data, int offset = 0x700_000) : ShinyRateInfo(data)
 {
     /*
         Shiny Rate Patch -- fix the overworld loop counter regardless of shiny rate factors.
@@ -32,20 +32,15 @@ public sealed class ShinyRateSWSH : ShinyRateInfo
         write 62 00 00 54 after the above 12 byte sequence.
     */
 
-    private readonly int FunctionOffset; // loop counter and break
-    private static readonly byte[] FunctionPrelude = { 0xff, 0x03, 0x06, 0xd1, 0xfc, 0x6f, 0x12, 0xa9, 0xfa, 0x67, 0x13, 0xa9, 0xf8, 0x5f, 0x14, 0xa9, 0xf6, 0x57, 0x15, 0xa9, 0xf4, 0x4f, 0x16, 0xa9, 0xfd, 0x7b, 0x17, 0xa9, 0xfd, 0xc3, 0x05, 0x91, 0xfa, 0xc6, 0x00, 0xf0 };
+    private readonly int FunctionOffset = CodePattern.IndexOfBytes(data, FunctionPrelude, offset); // loop counter and break
+    private static readonly byte[] FunctionPrelude = [0xff, 0x03, 0x06, 0xd1, 0xfc, 0x6f, 0x12, 0xa9, 0xfa, 0x67, 0x13, 0xa9, 0xf8, 0x5f, 0x14, 0xa9, 0xf6, 0x57, 0x15, 0xa9, 0xf4, 0x4f, 0x16, 0xa9, 0xfd, 0x7b, 0x17, 0xa9, 0xfd, 0xc3, 0x05, 0x91, 0xfa, 0xc6, 0x00, 0xf0];
 
     private const int RerollCountCheckOffset = 0x2C8;
-    private static readonly byte[] RerollCountCheckDefault = { 0x3f, 0x03, 0x17, 0x6b};
+    private static readonly byte[] RerollCountCheckDefault = [0x3f, 0x03, 0x17, 0x6b];
 
     private const int RerollCountBreakOffset = 0x2CC;
-    private static readonly byte[] RerollCountBreakDefault = { 0x62, 0x00, 0x00, 0x54 }; // b.cs $pc + 12
-    private static readonly byte[] RerollCountBreakNop = { 0x1F, 0x20, 0x03, 0xD5 }; // nop
-
-    public ShinyRateSWSH(byte[] data, int offset = 0x700_000) : base(data)
-    {
-        FunctionOffset = CodePattern.IndexOfBytes(data, FunctionPrelude, offset);
-    }
+    private static readonly byte[] RerollCountBreakDefault = [0x62, 0x00, 0x00, 0x54]; // b.cs $pc + 12
+    private static readonly byte[] RerollCountBreakNop = [0x1F, 0x20, 0x03, 0xD5]; // nop
 
     public override bool IsEditable => FunctionOffset > 0;
 

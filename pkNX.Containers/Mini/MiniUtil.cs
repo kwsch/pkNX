@@ -97,10 +97,7 @@ public static class MiniUtil
         path = FileMitm.GetRedirectedReadPath(path);
         using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
         using var br = new BinaryReader(fs);
-        var result = GetMini(br);
-        if (result is null)
-            throw new FormatException($"The file at {path} is not a {nameof(Mini)} file.");
-        return result;
+        return GetMini(br) ?? throw new FormatException($"The file at {path} is not a {nameof(Mini)} file.");
     }
 
     public static Mini? GetMini(BinaryReader br)

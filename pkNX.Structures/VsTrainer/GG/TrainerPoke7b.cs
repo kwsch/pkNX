@@ -4,12 +4,11 @@ using System.Linq;
 
 namespace pkNX.Structures;
 
-public class TrainerPoke7b : TrainerPoke, IAwakened
+public class TrainerPoke7b(byte[] data) : TrainerPoke(data), IAwakened
 {
     public const int SIZE = 0x28;
     public override TrainerPoke Clone() => new TrainerPoke7b((byte[])Write().Clone());
     public TrainerPoke7b() : this(new byte[SIZE]) { }
-    public TrainerPoke7b(byte[] data) : base(data) { }
 
     public static TrainerPoke7b[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((_, offset) => new TrainerPoke7b(data.Slice(offset, SIZE)), SIZE);
     public static byte[] WriteTeam(IList<TrainerPoke> team, TrainerData _) => team.SelectMany(z => z.Write()).ToArray();
@@ -86,14 +85,14 @@ public class TrainerPoke7b : TrainerPoke, IAwakened
         int friend = Friendship; // stats +10% depending on friendship!
         int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
         ushort[] Stats =
-        {
+        [
             (ushort)(AV_HP  + GetStat(p.HP, IV_HP,  level) + 10 + level),
             (ushort)(AV_ATK + (scalar * GetStat(p.ATK, IV_ATK, level, nature, 0) / 100)),
             (ushort)(AV_DEF + (scalar * GetStat(p.DEF, IV_DEF, level, nature, 1) / 100)),
             (ushort)(AV_SPE + (scalar * GetStat(p.SPE, IV_SPE, level, nature, 4) / 100)),
             (ushort)(AV_SPA + (scalar * GetStat(p.SPA, IV_SPA, level, nature, 2) / 100)),
             (ushort)(AV_SPD + (scalar * GetStat(p.SPD, IV_SPD, level, nature, 3) / 100)),
-        };
+        ];
         if (Species == 292)
             Stats[0] = 1;
         return Stats;
@@ -136,7 +135,7 @@ public class TrainerPoke7b : TrainerPoke, IAwakened
     }
 
     private static readonly sbyte[] AbilityAmpTable =
-    {
+    [
         0, 0, 0, 0, 0, // Hardy
         1,-1, 0, 0, 0, // Lonely
         1, 0, 0, 0,-1, // Brave
@@ -162,5 +161,5 @@ public class TrainerPoke7b : TrainerPoke, IAwakened
         0, 0, 0, 1,-1, // Sassy
         0, 0,-1, 1, 0, // Careful
         0, 0, 0, 0, 0, // Quirky
-    };
+    ];
 }

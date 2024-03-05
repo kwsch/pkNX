@@ -47,16 +47,10 @@ public partial class TrinityFileDescriptors
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorSubFileInfo
-{
-}
+public partial class TrinityFileDescriptorSubFileInfo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorInfo
-{
-}
+public partial class TrinityFileDescriptorInfo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorSubFileUnknown
-{
-}
+public partial class TrinityFileDescriptorSubFileUnknown;

@@ -11,16 +11,10 @@ using System.Windows.Shapes;
 
 namespace pkNX.WinForms;
 
-public class SelectedItemsChangedEventArgs : EventArgs
+public class SelectedItemsChangedEventArgs(IList oldSelection, IList newSelection) : EventArgs
 {
-    public IList OldSelection { get; private set; }
-    public IList NewSelection { get; private set; }
-
-    public SelectedItemsChangedEventArgs(IList oldSelection, IList newSelection)
-    {
-        OldSelection = oldSelection;
-        NewSelection = newSelection;
-    }
+    public IList OldSelection { get; private set; } = oldSelection;
+    public IList NewSelection { get; private set; } = newSelection;
 }
 
 public delegate void SelectedItemsChangedEventHandler(object sender, SelectedItemsChangedEventArgs e);
@@ -100,7 +94,7 @@ public sealed class MultiSelectTreeView : TreeView
         base.OnPreviewMouseDown(e);
 
         // If clicking on a tree branch expander...
-        if (e.OriginalSource is Shape || e.OriginalSource is Grid || e.OriginalSource is Border)
+        if (e.OriginalSource is Shape or Grid or Border)
             return;
 
         var item = GetTreeViewItemClicked((FrameworkElement)e.OriginalSource);

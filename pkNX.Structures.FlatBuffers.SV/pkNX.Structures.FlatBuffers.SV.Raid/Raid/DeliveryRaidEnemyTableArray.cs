@@ -4,7 +4,6 @@ using System.IO;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedType.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers.SV;
 

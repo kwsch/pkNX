@@ -14,7 +14,7 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 /// Seems to be a file left over from development. Only has test entries
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeBattleSpawnArchive { }
+public partial class PokeBattleSpawnArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeBattleSpawn { }
+public partial class PokeBattleSpawn;

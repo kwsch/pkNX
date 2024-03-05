@@ -24,10 +24,10 @@ public partial class PokeDataUI : Form
         Data = data;
         InitializeComponent();
 
-        helditem_boxes = new[] { CB_HeldItem1, CB_HeldItem2, CB_HeldItem3 };
-        ability_boxes = new[] { CB_Ability1, CB_Ability2, CB_Ability3 };
-        typing_boxes = new[] { CB_Type1, CB_Type2 };
-        eggGroup_boxes = new[] { CB_EggGroup1, CB_EggGroup2 };
+        helditem_boxes = [CB_HeldItem1, CB_HeldItem2, CB_HeldItem3];
+        ability_boxes = [CB_Ability1, CB_Ability2, CB_Ability3];
+        typing_boxes = [CB_Type1, CB_Type2];
+        eggGroup_boxes = [CB_EggGroup1, CB_EggGroup2];
 
         items = ROM.GetStrings(TextName.ItemNames);
         movelist = ROM.GetStrings(TextName.MoveNames);
@@ -338,7 +338,7 @@ public partial class PokeDataUI : Form
             if (pkm is IMovesInfo_SWSH mitr) // if SWSH, the second half is just TRs
             {
                 for (int i = 0; i < halfList; i++)
-                    CLB_TM.SetItemChecked((i + halfList), mitr.TR[i]); // Bitflags for TR
+                    CLB_TM.SetItemChecked(i + halfList, mitr.TR[i]); // Bitflags for TR
             }
             else
             {
@@ -497,7 +497,7 @@ public partial class PokeDataUI : Form
             _ = int.TryParse(level, out var lv);
             levels.Add(Math.Min(100, lv));
         }
-        pkm.Update(moves.ToArray(), levels.ToArray());
+        pkm.Update([.. moves], [.. levels]);
     }
 
     public void LoadEvolutions(EvolutionSet s)

@@ -5,16 +5,9 @@ using pkNX.Containers;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 // Not a FlatBuffer; wraps the fields into a single object.
-public sealed class ResidentArea
+public sealed class ResidentArea(GFPack resident, AreaSettings settings)
 {
-    public readonly AreaSettings Settings;
-    private readonly GFPack Resident;
-
-    public ResidentArea(GFPack resident, AreaSettings settings)
-    {
-        Resident = resident;
-        Settings = settings;
-    }
+    public readonly AreaSettings Settings = settings;
 
     public string AreaName => Settings.Name;
     public string FriendlyAreaName => Settings.FriendlyAreaName;
@@ -34,11 +27,11 @@ public sealed class ResidentArea
 
     private T TryRead<T>(string path) where T : class, IFlatBufferSerializable<T>
     {
-        var index = Resident.GetIndexFull(path);
+        var index = resident.GetIndexFull(path);
         if (index == -1)
             throw new ArgumentOutOfRangeException(nameof(path));
 
-        var data = Resident[index];
+        var data = resident[index];
         return T.GreedyMutableSerializer.Parse(data);
     }
 
@@ -55,12 +48,12 @@ public sealed class ResidentArea
 
     private void TryWrite<T>(string path, T obj) where T : class, IFlatBufferSerializable<T>
     {
-        var index = Resident.GetIndexFull(path);
+        var index = resident.GetIndexFull(path);
         if (index == -1)
             return;
 
         byte[] result = Write(obj);
-        Resident[index] = result;
+        resident[index] = result;
     }
 
     public void LoadInfo()

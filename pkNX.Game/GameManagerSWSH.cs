@@ -8,9 +8,8 @@ using pkNX.Structures.FlatBuffers.SWSH;
 
 namespace pkNX.Game;
 
-public class GameManagerSWSH : GameManager
+public class GameManagerSWSH(GameLocation rom, int language) : GameManager(rom, language)
 {
-    public GameManagerSWSH(GameLocation rom, int language) : base(rom, language) { }
     private string npdmPath => Path.Combine(PathExeFS, "main.npdm");
     private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(npdmPath), 0x290).ToString("X16");
 

@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NewHugeOutbreakLotteryArchive { }
+public partial class NewHugeOutbreakLotteryArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NewHugeOutbreakLottery { }
+public partial class NewHugeOutbreakLottery;

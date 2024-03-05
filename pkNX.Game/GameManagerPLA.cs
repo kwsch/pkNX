@@ -10,9 +10,8 @@ using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.Game;
 
-public class GameManagerPLA : GameManager
+public class GameManagerPLA(GameLocation rom, int language) : GameManager(rom, language)
 {
-    public GameManagerPLA(GameLocation rom, int language) : base(rom, language) { }
     private string PathNPDM => Path.Combine(PathExeFS, "main.npdm");
     private string TitleID => BitConverter.ToUInt64(File.ReadAllBytes(PathNPDM), 0x470).ToString("X16");
 

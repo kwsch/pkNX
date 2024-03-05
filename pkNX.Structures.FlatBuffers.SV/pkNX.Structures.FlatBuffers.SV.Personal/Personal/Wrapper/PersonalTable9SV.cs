@@ -42,7 +42,7 @@ public sealed class PersonalTable9SV : IPersonalTable, IPersonalTable<PersonalIn
                 formTable.Add(GetObj(forms[f], forms, MaxSpecies, formTable, f));
         }
 
-        Table = baseForms.Concat(formTable).ToArray();
+        Table = [.. baseForms, .. formTable];
     }
 
     private static PersonalInfo9SV GetObj(PersonalInfo e, ICollection forms, ushort max, ICollection formTable, int f = 0)

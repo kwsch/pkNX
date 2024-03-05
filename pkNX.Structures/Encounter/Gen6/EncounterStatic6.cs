@@ -2,11 +2,10 @@ using System;
 
 namespace pkNX.Structures.Encounter;
 
-public sealed class EncounterStatic6 : EncounterStatic
+public sealed class EncounterStatic6(byte[] data) : EncounterStatic(data)
 {
     private const int SIZE = 0xC;
     public EncounterStatic6() : this(new byte[SIZE]) { }
-    public EncounterStatic6(byte[] data) : base(data) { }
 
     public override Species Species { get => (Species)BitConverter.ToUInt16(Data, 0x0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0); }
     public override int Form { get => Data[0x2]; set => Data[0x2] = (byte)value; }

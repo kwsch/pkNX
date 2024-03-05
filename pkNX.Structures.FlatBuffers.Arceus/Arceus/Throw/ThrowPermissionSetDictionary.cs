@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowPermissionSetDictionary { }
+public partial class ThrowPermissionSetDictionary;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowPermissionSetEntry { }
+public partial class ThrowPermissionSetEntry;

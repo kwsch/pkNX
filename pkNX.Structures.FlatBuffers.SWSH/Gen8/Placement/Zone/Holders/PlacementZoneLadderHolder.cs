@@ -8,10 +8,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneLadderHolder { }
+public partial class PlacementZoneLadderHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneLadder { }
+public partial class PlacementZoneLadder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F23_Sub { }
+public partial class PlacementZone_F23_Sub;

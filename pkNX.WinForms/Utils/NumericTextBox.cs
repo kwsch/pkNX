@@ -14,7 +14,7 @@ public enum NumericTextBoxMode
     Double,
 }
 
-public class NumericTextBox : TextBox
+public partial class NumericTextBox : TextBox
 {
     public static readonly DependencyProperty MinValueProperty =
         DependencyProperty.Register(nameof(MinValue), typeof(double), typeof(NumericTextBox), new PropertyMetadata(double.NegativeInfinity));
@@ -35,8 +35,11 @@ public class NumericTextBox : TextBox
     // Use this to check for value changes
     public event EventHandler EvaluatedValueChanged;
 
-    private readonly Regex doubleChars = new(@"[^\d.\-*^%\+/()]+", RegexOptions.Compiled);
-    private readonly Regex intChars = new(@"[^\d-*^%\+/()]+", RegexOptions.Compiled);
+    private readonly Regex doubleChars = RexexChar();
+
+    private readonly Regex intChars = RegexInt();
+    [GeneratedRegex(@"[^\d.\-*^%\+/()]+", RegexOptions.Compiled)] private static partial Regex RexexChar();
+    [GeneratedRegex(@"[^\d-*^%\+/()]+", RegexOptions.Compiled)] private static partial Regex RegexInt();
 
     private static readonly string textFormat = "0.##";
 
@@ -45,7 +48,7 @@ public class NumericTextBox : TextBox
         SetResourceReference(StyleProperty, typeof(TextBox));
         Text = EvaluatedValue.ToString(textFormat, CultureInfo.InvariantCulture);
 
-        PreviewTextInput += (obj, e) => { e.Handled = !IsTextAllowed(e.Text); };
+        PreviewTextInput += (obj, e) => e.Handled = !IsTextAllowed(e.Text);
         PreviewKeyDown += OnPreviewKeyDown;
         LostFocus += OnLostFocus;
         TextChanged += OnTextChanged;

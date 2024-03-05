@@ -10,10 +10,10 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // highplace?
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneQuadrantHolder { }
+public partial class PlacementZoneQuadrantHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F17 { }
+public partial class PlacementZone_F17;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F17_Sub { }
+public partial class PlacementZone_F17_Sub;

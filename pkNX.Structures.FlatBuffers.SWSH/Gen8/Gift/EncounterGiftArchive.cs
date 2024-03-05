@@ -9,4 +9,4 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterGiftArchive { }
+public partial class EncounterGiftArchive;

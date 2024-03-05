@@ -111,7 +111,7 @@ public partial class EvolutionEntry : INotifyPropertyChanged
     {
         return type switch
         {
-            EvolutionTypeArgumentType.NoArg => new[] { "None" },
+            EvolutionTypeArgumentType.NoArg => ["None"],
             EvolutionTypeArgumentType.Items => UIStaticSources.ItemsList,
             EvolutionTypeArgumentType.Moves => UIStaticSources.MovesList,
             EvolutionTypeArgumentType.Species => UIStaticSources.SpeciesList,

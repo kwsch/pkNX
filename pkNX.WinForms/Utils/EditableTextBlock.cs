@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace pkNX.WinForms;
 
-public class EditableTextBlock : TextBlock
+public partial class EditableTextBlock : TextBlock
 {
     public event EventHandler? EnterEditMode;
     public event TextChangedEventHandler? TextChanged;
@@ -25,7 +25,10 @@ public class EditableTextBlock : TextBlock
 
     private EditableTextBlockAdorner? _adorner;
 
-    public Regex AllowedChars = new("[^\\/:*?\"<>|]+", RegexOptions.Compiled);
+    public Regex AllowedChars = MyRegex();
+
+    [GeneratedRegex("[^\\/:*?\"<>|]+", RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
 
     public bool IsInEditMode
     {
@@ -165,7 +168,7 @@ public class EditableTextBlockAdorner : Adorner
         _textBox.SetBinding(TextBox.TextProperty, binding);
         _textBox.AcceptsReturn = true;
         _textBox.MaxLength = adornedElement.MaxLength;
-        _textBox.PreviewTextInput += (obj, e) => { e.Handled = !adornedElement.AllowedChars.IsMatch(e.Text); };
+        _textBox.PreviewTextInput += (obj, e) => e.Handled = !adornedElement.AllowedChars.IsMatch(e.Text);
         _textBox.PreviewKeyDown += TextBox_PreviewKeyDown;
         _textBox.Width = adornedElement.Width;
         _textBox.Height = adornedElement.Height;

@@ -14,10 +14,10 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 /// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PersonalTable { }
+public partial class PersonalTable;
 
 /// <summary>
 /// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PersonalInfo { }
+public partial class PersonalInfo;

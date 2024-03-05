@@ -6,11 +6,9 @@ namespace pkNX.Structures.FlatBuffers.SV;
 /// <summary>
 /// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class PersonalInfo9SV : IPersonalInfo
+public sealed class PersonalInfo9SV(PersonalInfo fb) : IPersonalInfo
 {
-    public PersonalInfo FB { get; }
-
-    public PersonalInfo9SV(PersonalInfo fb) => FB = fb;
+    public PersonalInfo FB { get; } = fb;
 
     public int HP { get => FB.Base.HP; set => FB.Base.HP = (byte)value; }
     public int ATK { get => FB.Base.ATK; set => FB.Base.ATK = (byte)value; }
@@ -143,7 +141,7 @@ public sealed class PersonalInfo9SV : IPersonalInfo
     }
 
     public static readonly ushort[] TMIndexes =
-    {
+    [
         005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
         423, 352, 067, 491, 512, 522, 060, 109, 168, 574,
         885, 884, 886, 451, 083, 263, 342, 332, 523, 506,
@@ -167,5 +165,5 @@ public sealed class PersonalInfo9SV : IPersonalInfo
         799, 802, 220, 244, 038, 283, 572, 915, 250, 330,
         916, 527, 813, 811, 482, 815, 297, 248, 797, 806,
         800, 675, 784, 319, 174, 912, 913, 914, 917, 918,
-    };
+    ];
 }

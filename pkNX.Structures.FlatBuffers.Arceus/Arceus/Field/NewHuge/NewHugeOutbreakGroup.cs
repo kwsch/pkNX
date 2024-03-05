@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NewHugeOutbreakGroupArchive { }
+public partial class NewHugeOutbreakGroupArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NewHugeOutbreakGroup

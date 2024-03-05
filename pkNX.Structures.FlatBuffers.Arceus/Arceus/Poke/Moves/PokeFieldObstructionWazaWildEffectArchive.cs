@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeFieldObstructionWazaWildEffectArchive { }
+public partial class PokeFieldObstructionWazaWildEffectArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeFieldObstructionWazaWildEffect { }
+public partial class PokeFieldObstructionWazaWildEffect;

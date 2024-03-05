@@ -22,7 +22,7 @@ public class PersonalDumperSV
 
     public static ushort[] TMIndexes => PersonalInfo9SV.TMIndexes;
 
-    private static readonly string[] AbilitySuffix = { " (1)", " (2)", " (H)" };
+    private static readonly string[] AbilitySuffix = [" (1)", " (2)", " (H)"];
 
     public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
 

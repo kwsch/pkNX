@@ -17,11 +17,12 @@ public enum PaldeaPointPivot
 
 public class PaldeaSceneModel
 {
-    public List<string>[] AreaNames { get; } = [new(), new(), new()];
-    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = [new(), new(), new()];
-    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = [new(), new(), new()];
-    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = [new(), new(), new()];
-    public Dictionary<string, PaldeaPointPivot>[] PaldeaType { get; } = [new(), new(), new()];
+    // 3 maps = Paldea, Kitakami, Blueberry
+    public List<string>[] AreaNames { get; } = [[], [], []];
+    public Dictionary<string, AreaInfo>[] AreaInfos { get; } = [[], [], []];
+    public Dictionary<string, HavokCollision.AABBTree>[] AreaCollisionTrees { get; } = [[], [], []];
+    public Dictionary<string, BoxCollision9>[] AreaCollisionBoxes { get; } = [[], [], []];
+    public Dictionary<string, PaldeaPointPivot>[] PaldeaType { get; } = [[], [], []];
 
     public PaldeaSceneModel(IFileInternal ROM, PaldeaFieldModel field)
     {

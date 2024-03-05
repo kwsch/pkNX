@@ -8,4 +8,4 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementArea_F04 { }
+public partial class PlacementArea_F04;

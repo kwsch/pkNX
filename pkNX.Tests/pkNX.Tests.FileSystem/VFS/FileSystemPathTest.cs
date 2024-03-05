@@ -13,7 +13,7 @@ namespace pkNX.Tests;
 ///</summary>
 public class FileSystemPathTest
 {
-    private FileSystemPath[] _paths = { root, directoryA, fileA, directoryB, fileB };
+    private FileSystemPath[] _paths = [root, directoryA, fileA, directoryB, fileB];
     private IEnumerable<FileSystemPath> Directories { get { return _paths.Where(p => p.IsDirectory); } }
     private IEnumerable<FileSystemPath> Files { get { return _paths.Where(p => p.IsFile); } }
 
@@ -232,7 +232,7 @@ public class FileSystemPathTest
         foreach (var pa in _paths)
         {
             foreach (var pb in _paths)
-                Assert.Equal(Math.Sign(pa.CompareTo(pb)), Math.Sign(string.Compare(pa.ToString(), pb.ToString(), StringComparison.Ordinal)));
+                Assert.Equal(Math.Sign(pa.CompareTo(pb)), Math.Sign(string.CompareOrdinal(pa, pb)));
         }
     }
 

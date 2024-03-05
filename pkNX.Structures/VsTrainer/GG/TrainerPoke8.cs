@@ -4,12 +4,11 @@ using System.Linq;
 
 namespace pkNX.Structures;
 
-public class TrainerPoke8 : TrainerPoke
+public class TrainerPoke8(byte[] data) : TrainerPoke(data)
 {
     //sub_7101452DB0
     public const int SIZE = 0x20;
     public TrainerPoke8() : this(new byte[SIZE]) { }
-    public TrainerPoke8(byte[] data) : base(data) { }
     public override TrainerPoke Clone() => new TrainerPoke8((byte[])Data.Clone());
 
     public static TrainerPoke8[] ReadTeam(byte[] data, TrainerData _) => data.GetArray((_, offset) => new TrainerPoke8(data.Slice(offset, SIZE)), SIZE);

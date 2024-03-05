@@ -17,7 +17,7 @@ public partial class EvolutionRow8a : UserControl
     private static readonly string[] EvoMethods = Enum.GetNames(typeof(EvolutionType));
     private static readonly string[] Levels = Enumerable.Range(0, 100 + 1).Select(z => z.ToString()).ToArray();
     private static readonly string[] Stats = Enumerable.Range(0, 255 + 1).Select(z => z.ToString()).ToArray();
-    private static readonly string[] None = { "" };
+    private static readonly string[] None = [""];
 
     private Structures.FlatBuffers.Arceus.EvolutionEntry? current;
     private EvolutionTypeArgumentType oldMethod;

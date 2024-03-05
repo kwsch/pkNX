@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowParamTable { }
+public partial class ThrowParamTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class ThrowParam

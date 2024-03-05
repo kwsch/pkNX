@@ -2,11 +2,10 @@ using System;
 
 namespace pkNX.Structures;
 
-public class EncounterGift6XY : EncounterGift
+public class EncounterGift6XY(byte[] data) : EncounterGift(data)
 {
     public const int SIZE = 0x18;
     public EncounterGift6XY() : this(new byte[SIZE]) { }
-    public EncounterGift6XY(byte[] data) : base(data) { }
 
     public override Species Species { get => (Species)BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
     public int Unk_02 { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }

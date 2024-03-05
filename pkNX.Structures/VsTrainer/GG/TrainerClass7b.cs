@@ -1,10 +1,9 @@
 namespace pkNX.Structures;
 
-public class TrainerClass7b : TrainerClass
+public class TrainerClass7b(byte[] data) : TrainerClass(data)
 {
     private const int Size = 0x24;
     public sealed override int SIZE => Size;
-    public TrainerClass7b(byte[] data) : base(data) { }
     public TrainerClass7b() : this(new byte[Size]) { }
 
     public byte Unk_0x00 { get => Data[0]; set => Data[0] = value; }

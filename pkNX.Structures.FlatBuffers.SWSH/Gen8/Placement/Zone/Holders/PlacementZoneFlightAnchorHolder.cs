@@ -9,7 +9,7 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // player flying to location
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFlightAnchorHolder { }
+public partial class PlacementZoneFlightAnchorHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneFlightAnchor { }
+public partial class PlacementZoneFlightAnchor;

@@ -10,10 +10,10 @@ using FlatSharp;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStaticObjectsHolder { }
+public partial class PlacementZoneStaticObjectsHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStaticObject { }
+public partial class PlacementZoneStaticObject;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneStaticObjectSpawn

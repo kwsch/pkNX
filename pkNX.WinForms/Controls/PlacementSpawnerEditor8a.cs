@@ -8,7 +8,7 @@ namespace pkNX.WinForms.Controls;
 
 public partial class PlacementSpawnerEditor8a : UserControl
 {
-    public IList<PlacementSpawner> Spawners = Array.Empty<PlacementSpawner>();
+    public IList<PlacementSpawner> Spawners = [];
 
     public PlacementSpawnerEditor8a() => InitializeComponent();
 
@@ -32,16 +32,10 @@ public partial class PlacementSpawnerEditor8a : UserControl
         CB_Encounters.SelectedIndex = 0;
     }
 
-    private class ComboItem<T>
+    private class ComboItem<T>(string text, T value)
     {
-        public ComboItem(string text, T value)
-        {
-            Text = text;
-            Value = value;
-        }
-
-        public string Text { get; }
-        public T Value { get; }
+        public string Text { get; } = text;
+        public T Value { get; } = value;
     }
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)

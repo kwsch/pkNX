@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SV;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DeliveryRaidFixedRewardItemArray { }
+public partial class DeliveryRaidFixedRewardItemArray;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class DeliveryRaidFixedRewardItem

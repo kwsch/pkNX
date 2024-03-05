@@ -10,13 +10,13 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZonePopupHolder { }
+public partial class PlacementZonePopupHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F24 { }
+public partial class PlacementZone_F24;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F24_Table { }
+public partial class PlacementZone_F24_Table;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F24_IntFloat { }
+public partial class PlacementZone_F24_IntFloat;

@@ -3,11 +3,10 @@ using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
-public class LocationPointDetail
+public class LocationPointDetail(PointData point)
 {
-    public readonly PointData Point;
+    public readonly PointData Point = point;
 
-    public LocationPointDetail(PointData point) => Point = point;
     public float X => Point.Position.X;
     public float Y => Point.Position.Y;
     public float Z => Point.Position.Z;

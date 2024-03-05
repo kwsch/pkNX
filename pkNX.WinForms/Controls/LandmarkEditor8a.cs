@@ -8,7 +8,7 @@ namespace pkNX.WinForms.Controls;
 
 public partial class LandmarkEditor8a : UserControl
 {
-    public IList<LandmarkItemSpawn> Spawners = Array.Empty<LandmarkItemSpawn>();
+    public IList<LandmarkItemSpawn> Spawners = [];
 
     public LandmarkEditor8a() => InitializeComponent();
 
@@ -32,16 +32,10 @@ public partial class LandmarkEditor8a : UserControl
         CB_Encounters.SelectedIndex = 0;
     }
 
-    private class ComboItem
+    private class ComboItem(string text, LandmarkItemSpawn value)
     {
-        public ComboItem(string text, LandmarkItemSpawn value)
-        {
-            Text = text;
-            Value = value;
-        }
-
-        public string Text { get; }
-        public LandmarkItemSpawn Value { get; }
+        public string Text { get; } = text;
+        public LandmarkItemSpawn Value { get; } = value;
     }
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)

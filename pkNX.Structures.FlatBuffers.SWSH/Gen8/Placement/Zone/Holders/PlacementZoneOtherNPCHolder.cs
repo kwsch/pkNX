@@ -172,13 +172,13 @@ public partial class PlacementZoneOtherNPCHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_ArrayEntry { }
+public partial class PlacementZone_F16_ArrayEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16 { }
+public partial class PlacementZone_F16;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_A { }
+public partial class PlacementZone_F16_A;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_IntFloat { }
+public partial class PlacementZone_F16_IntFloat;

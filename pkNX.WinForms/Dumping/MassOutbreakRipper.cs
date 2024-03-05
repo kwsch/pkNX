@@ -94,6 +94,9 @@ public static class MassOutbreakRipper
         EncounterIndex = Encounters.Count;
     }
 
+    private const ulong LastDistribution2 = 2023120801;
+    private const ulong FirstDistribution = 20230929001; // oddball which didn't use XX for day (instead ###)
+
     private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
     {
         var dest = Path.Combine(dump, "encounter_outbreak_paldea.pkl");
@@ -108,7 +111,7 @@ public static class MassOutbreakRipper
             foreach (var (range, permit) in ordered)
             {
                 // pre-3.0.0 BCAT
-                if ((enc.Parent.Poke.ID < 2023120801 || enc.Parent.Poke.ID == 20230929001) && enc.MetBase == 170)
+                if (enc.Parent.Poke.ID is (< LastDistribution2) or FirstDistribution && enc.MetBase == 170)
                     continue;
                 WriteEncounter(enc, bw, range, permit);
             }
@@ -166,7 +169,7 @@ public static class MassOutbreakRipper
         {
             foreach (var o in ob.Table)
             {
-                if (o.EnableRarePercentage && o.RarePercentage == 100.0f) // Likely will never be 100%, so if we ever see this, change the check to assert that instead.
+                if (o is { EnableRarePercentage: true, RarePercentage: 100.0f }) // Likely will never be 100%, so if we ever see this, change the check to assert that instead.
                     throw new Exception($"Elevated shiny rate {o.RarePercentage}%!");
                 if (o.EnableScaleRange)
                     throw new Exception($"Enforced scale range {o.MinScale}-{o.MaxScale}!");
@@ -193,7 +196,7 @@ public static class MassOutbreakRipper
         {
             areas = areas.Where(z => z.Value.AdjustEncLv != 0)
                 .ToDictionary(z => z.Key, z => z.Value);
-            areaNames = areas.Keys.ToList();
+            areaNames = [.. areas.Keys];
         }
         foreach (var point in points)
         {
@@ -234,7 +237,7 @@ public static class MassOutbreakRipper
                 throw new Exception("No met flags found for encounter!");
 
             // pre-3.0.0 BCAT
-            if ((e.Poke.ID < 2023120801 || e.Poke.ID == 20230929001) && e.MetBase == 170)
+            if (e.Poke.ID is (< LastDistribution2) or FirstDistribution && e.MetBase == 170)
                 continue;
         }
 
@@ -392,7 +395,7 @@ public static class MassOutbreakRipper
                 ret.Add(new CachedOutbreak { ZoneID = outbreak.ZoneID, Poke = poke });
             }
         }
-        return ret.ToArray();
+        return [.. ret];
     }
 
     private static byte[] GetDistributionContents(string path) => File.ReadAllBytes(path);
@@ -476,7 +479,7 @@ public static class MassOutbreakRipper
             var parent = enc.Parent;
 
             // pre-3.0.0 BCAT
-            if ((parent.Poke.ID < 2023120801 || parent.Poke.ID == 20230929001) && parent.MetBase == 170)
+            if (parent.Poke.ID is (< LastDistribution2) or FirstDistribution && parent.MetBase == 170)
                 continue;
 
             WriteParent(ROM, sw, parent);

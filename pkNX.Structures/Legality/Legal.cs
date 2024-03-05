@@ -211,5 +211,5 @@ public static partial class Legal
 
     public static readonly HashSet<int> BattlePrimals = [382, 383]; // Kyogre and Groudon
     public static readonly HashSet<int> BattleFusions = [646, 800, 898]; // Kyurem, Necrozma, Calyrex
-    public static readonly HashSet<int> BattleExclusiveForms = new(BattleForms.Concat(BattleMegas.Concat(BattlePrimals).Concat(BattleFusions)));
+    public static readonly HashSet<int> BattleExclusiveForms = [..BattleForms, .. BattleMegas, .. BattlePrimals, ..BattleFusions];
 }

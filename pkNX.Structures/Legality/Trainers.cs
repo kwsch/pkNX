@@ -13,15 +13,16 @@ public static partial class Legal
         445, 448, 460,
     ];
 
-    public static readonly ushort[] Mega_ORAS = Mega_XY.Concat(new ushort[]
-    {
+    public static readonly ushort[] Mega_ORAS =
+    [
+        .. Mega_XY,
         015, 018, 094,
         208,
         254, 260, 302, 319, 323, 334, 362, 373, 376, 384,
         428, 475,
         531,
         719,
-    }).ToArray();
+    ];
 
     public static readonly int[] SpecialClasses_XY =
     [
@@ -344,13 +345,14 @@ public static partial class Legal
     /// Assigning these Trainer Classes to a Trainer crashes the game.
     /// A majority of these are Master Trainer related, and only used for multiplayer. They are not to be assigned to NPCs.
     /// </summary>
-    public static readonly int[] BlacklistedClasses_GG = Enumerable.Range(072, 311).Concat(new[]
-    {
+    public static readonly int[] BlacklistedClasses_GG =
+    [
+        .. Enumerable.Range(072, 311),
         #region CrashClasses
         032, // Pokémon Trainer
         033, // Pokémon Trainer
         #endregion
-    }).ToArray();
+    ];
     #endregion
 
     #region Gen 8
@@ -585,7 +587,7 @@ public static partial class Legal
         #endregion
     ];
 
-    public static readonly int[] BlacklistedClasses_SWSH = DoubleBattleClasses_SWSH.Concat(UnusedClasses_SWSH).Concat(CrashClasses_SWSH).Concat(DummyClasses_SWSH).ToArray();
+    public static readonly int[] BlacklistedClasses_SWSH = [.. DoubleBattleClasses_SWSH, .. UnusedClasses_SWSH, .. CrashClasses_SWSH, .. DummyClasses_SWSH];
     #endregion
 
     #region Gen 9

@@ -1,9 +1,8 @@
 ﻿namespace pkNX.Game;
 
-public abstract class ShinyRateInfo
+public abstract class ShinyRateInfo(byte[] data)
 {
-    public byte[] Data { get; }
-    protected ShinyRateInfo(byte[] data) => Data = data;
+    public byte[] Data { get; } = data;
 
     public abstract bool IsEditable { get; }
 

@@ -12,10 +12,10 @@ using System.IO;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Learnset { }
+public partial class Learnset;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LearnsetEntry { }
+public partial class LearnsetEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class LearnsetMeta

@@ -11,4 +11,4 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementLocationArchive { }
+public partial class PlacementLocationArchive;

@@ -3,19 +3,12 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial struct PackedVec3f : IEquatable<PackedVec3f>
+public partial struct PackedVec3f(float x = 0, float y = 0, float z = 0) : IEquatable<PackedVec3f>
 {
     public static readonly PackedVec3f Zero = new();
     public static readonly PackedVec3f One = new() { X = 1, Y = 1, Z = 1 };
 
     public static explicit operator PackedVec3f(Vec3f v) => new() { X = v.X, Y = v.Y, Z = v.Z };
-
-    public PackedVec3f(float x = 0, float y = 0, float z = 0)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
 
     public readonly bool IsOne() => X is 1 && Y is 1 && Z is 1;
     public readonly bool IsZero() => X is 0 && Y is 0 && Z is 0;

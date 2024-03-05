@@ -11,12 +11,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MassOutbreakTable { }
+public partial class MassOutbreakTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MassOutbreak { }
+public partial class MassOutbreak;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MassOutbreakCondition : IHasCondition
-{
-}
+public partial class MassOutbreakCondition : IHasCondition;

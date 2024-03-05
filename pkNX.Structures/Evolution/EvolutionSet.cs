@@ -7,8 +7,6 @@ namespace pkNX.Structures;
 /// </summary>
 public abstract class EvolutionSet
 {
-    public EvolutionMethod[] PossibleEvolutions;
+    public EvolutionMethod[] PossibleEvolutions = [];
     public abstract byte[] Write();
-
-    protected EvolutionSet() => PossibleEvolutions = [];
 }

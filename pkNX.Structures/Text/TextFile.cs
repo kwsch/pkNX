@@ -57,7 +57,7 @@ public class TextFile
     private ushort LineCount { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
     private uint TotalLength { get => ReadUInt32LittleEndian(Data.AsSpan(0x04)); set => WriteUInt32LittleEndian(Data.AsSpan(0x04), value); }
     private uint InitialKey { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); } // Always 0x00000000
-    private uint SectionDataOffset { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); } // Always 0x0010
+    private uint SectionDataOffset { get => ReadUInt32LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value); } // Always 0x0010
     private uint SectionLength { get => ReadUInt32LittleEndian(Data.AsSpan((int)SectionDataOffset)); set => WriteUInt32LittleEndian(Data.AsSpan((int)SectionDataOffset), value); }
 
     private TextLine[] LineOffsets
@@ -238,7 +238,8 @@ public class TextFile
                     if (brace < 0)
                         throw new ArgumentException("Ruby text is not capped properly: " + line.ToString());
                     var rubyText = line[i..brace];
-                    var rubyValues = GetRubyValues(rubyText.ToString(), remap);
+                    List<ushort> rubyValues = [];
+                    GetRubyValues(rubyText.ToString(), remap, rubyValues);
                     foreach (ushort v in rubyValues)
                         bw.Write(v);
                     i += 1 + rubyText.Length;
@@ -409,42 +410,54 @@ public class TextFile
                 vals.Add(ushort.Parse(args));
                 break;
             case "VAR": // Text Variable
-                vals.AddRange(GetVariableParameters(config, args));
+                GetVariableParameters(config, args, vals);
                 break;
             default: throw new Exception($"Unknown variable method type: {variable}");
         }
         return vals;
     }
 
-    private static IEnumerable<ushort> GetRubyValues(string ruby, bool remap)
+    private static void GetRubyValues(ReadOnlySpan<char> ruby, bool remap, List<ushort> vals)
     {
-        string[] split = ruby.Split('|');
-        if (split.Length < 2)
+        var split1 = ruby.IndexOf('|');
+        if (split1 < 0)
             throw new ArgumentException($"Incorrectly formatted ruby text: {ruby}");
 
-        string baseText1 = split[0];
-        string rubyText = split[1];
-        string baseText2 = split.Length < 3 ? baseText1 : split[2];
+        ReadOnlySpan<char> baseText1 = ruby[..split1];
+        ruby = ruby[(split1 + 1)..];
+        var split2 = ruby.IndexOf('|');
+        ReadOnlySpan<char> rubyText, baseText2;
+        if (split2 < 0)
+        {
+            rubyText = ruby;
+            baseText2 = baseText1;
+        }
+        else
+        {
+            rubyText = ruby[..split2];
+            baseText2 = ruby[(split2 + 1)..];
+        }
         if (baseText1.Length != baseText2.Length)
             throw new ArgumentException($"Incorrectly formatted ruby text: {ruby}");
 
-        var vals = new List<ushort>
+        vals.Add(KEY_VARIABLE);
+        vals.Add(Convert.ToUInt16(3 + baseText1.Length + rubyText.Length));
+        vals.Add(KEY_TEXTRUBY);
+        vals.Add(Convert.ToUInt16(baseText1.Length));
+        vals.Add(Convert.ToUInt16(rubyText.Length));
+
+        ToU16(baseText1, remap, vals);
+        ToU16(rubyText, remap, vals);
+        ToU16(baseText2, remap, vals);
+        static void ToU16(ReadOnlySpan<char> text, bool remap, List<ushort> vals)
         {
-            KEY_VARIABLE,
-            Convert.ToUInt16(3 + baseText1.Length + rubyText.Length),
-            KEY_TEXTRUBY,
-            Convert.ToUInt16(baseText1.Length),
-            Convert.ToUInt16(rubyText.Length),
-        };
-        vals.AddRange(baseText1.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
-        vals.AddRange(rubyText.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
-        vals.AddRange(baseText2.Select(val => Convert.ToUInt16(TryRemapChar(val, remap))));
-        return vals;
+            foreach (var c in text)
+                vals.Add(TryRemapChar(c, remap));
+        }
     }
 
-    private static IEnumerable<ushort> GetVariableParameters(TextConfig config, ReadOnlySpan<char> text)
+    private static void GetVariableParameters(TextConfig config, ReadOnlySpan<char> text, List<ushort> vals)
     {
-        var vals = new List<ushort>();
         int bracket = text.IndexOf('(');
         bool noArgs = bracket < 0;
         var variable = noArgs ? text : text[..bracket];
@@ -480,7 +493,6 @@ public class TextFile
             vals.Add(1);
             vals.Add(varVal);
         }
-        return vals;
     }
 
     // Exposed Methods

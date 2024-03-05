@@ -6,12 +6,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using pkNX.Containers;
 using pkNX.Containers.VFS;
@@ -123,7 +121,7 @@ public partial class WPFTextEditor
 
     private bool ImportTextFiles(string fileName)
     {
-        bool ValidateSeparatorIndex(int nextSeparator, int lineNumber, ReadOnlySpan<char> line)
+        static bool ValidateSeparatorIndex(int nextSeparator, int lineNumber, ReadOnlySpan<char> line)
         {
             if (nextSeparator != -1)
                 return true;
@@ -207,7 +205,7 @@ public partial class WPFTextEditor
     public void ExportTextFile(string fileName, bool replaceNewline)
     {
         using var ms = new MemoryStream();
-        ms.Write(new byte[] { 0xFF, 0xFE }, 0, 2); // Write Unicode BOM
+        ms.Write([0xFF, 0xFE], 0, 2); // Write Unicode BOM
         using (TextWriter tw = new StreamWriter(ms, new UnicodeEncoding()))
         {
             foreach (var entry in Entries)
@@ -368,7 +366,7 @@ public partial class WPFTextEditor
 
     private void B_Export_Click(object sender, RoutedEventArgs e)
     {
-        if (Entries.Count <= 0)
+        if (Entries.Count == 0)
             return;
 
         if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))

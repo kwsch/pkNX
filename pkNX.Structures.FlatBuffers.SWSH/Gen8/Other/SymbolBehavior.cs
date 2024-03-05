@@ -9,7 +9,7 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // symbol_encount_mons_param.bin
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SymbolBehaveRoot { }
+public partial class SymbolBehaveRoot;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class SymbolBehave

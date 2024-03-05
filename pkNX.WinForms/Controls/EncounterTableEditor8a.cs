@@ -8,7 +8,7 @@ namespace pkNX.WinForms.Controls;
 
 public partial class EncounterTableEditor8a : UserControl
 {
-    public IList<EncounterTable> Tables = Array.Empty<EncounterTable>();
+    public IList<EncounterTable> Tables = [];
 
     public EncounterTableEditor8a() => InitializeComponent();
 
@@ -32,16 +32,10 @@ public partial class EncounterTableEditor8a : UserControl
         CB_Encounters.SelectedIndex = 0;
     }
 
-    private class ComboItem
+    private class ComboItem(string text, EncounterTable value)
     {
-        public ComboItem(string text, EncounterTable value)
-        {
-            Text = text;
-            Value = value;
-        }
-
-        public string Text { get; }
-        public EncounterTable Value { get; }
+        public string Text { get; } = text;
+        public EncounterTable Value { get; } = value;
     }
 
     private void CB_Encounters_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,7 +80,7 @@ public partial class EncounterTableEditor8a : UserControl
         if (obj is not EncounterSlot slotToClone)
             return;
         var encounterTable = (EncounterTable)PG_Encounters.SelectedObject;
-        encounterTable.Table = encounterTable.Table.Concat(new[] { new EncounterSlot(slotToClone) }).ToArray();
+        encounterTable.Table = encounterTable.Table.Concat([new EncounterSlot(slotToClone)]).ToArray();
         PG_Encounters.Refresh();
     }
 

@@ -5,7 +5,7 @@ namespace pkNX.Structures;
 /// <summary>
 /// Base interface that can be used for any version. This should not contain variables that are not present in every game
 /// </summary>
-public interface IPersonalInfo : IBaseStat, IEffortValueYield, IPersonalType, IPersonalEgg, IPersonalTraits, IPersonalAbility, IPersonalMisc, IPersonalItems, IPersonalFormInfo { }
+public interface IPersonalInfo : IBaseStat, IEffortValueYield, IPersonalType, IPersonalEgg, IPersonalTraits, IPersonalAbility, IPersonalMisc, IPersonalItems, IPersonalFormInfo;
 
 public interface IPersonalInfoBin
 {
@@ -32,19 +32,19 @@ public static class IPersonalInfoBinExt
 /// <summary>
 /// Version one
 /// </summary>
-public interface IPersonalInfo_v1 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_v1 { }
+public interface IPersonalInfo_v1 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_v1;
 
 /// <summary>
 /// Version 2 adds `SpecialTutors` to moves
 /// </summary>
-public interface IPersonalInfo_v2 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_B2W2 { }
+public interface IPersonalInfo_v2 : IPersonalInfoBin, IPersonalInfo, IPersonalEgg_v1, IMovesInfo_B2W2;
 
 // Game specific PersonalInfo interfaces
 
-public interface IPersonalInfoBW : IPersonalInfo_v1 { }
-public interface IPersonalInfoXY : IPersonalInfo_v1 { }
-public interface IPersonalInfoB2W2 : IPersonalInfo_v2 { }
-public interface IPersonalInfoORAS : IPersonalInfo_v2 { }
+public interface IPersonalInfoBW : IPersonalInfo_v1;
+public interface IPersonalInfoXY : IPersonalInfo_v1;
+public interface IPersonalInfoB2W2 : IPersonalInfo_v2;
+public interface IPersonalInfoORAS : IPersonalInfo_v2;
 public interface IPersonalInfoSM : IPersonalInfo_v2
 {
     int SpecialZ_Item { get; set; }
@@ -71,9 +71,7 @@ public interface IPersonalInfoPLA : IPersonalInfo, IPersonalEgg_PLA, IMovesInfo_
     bool IsRegionalForm { get; set; } // byte
     ushort RegionalFormIndex { get; set; } // ushort
 }
-public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_SWSH
-{
-}
+public interface IPersonalInfoSV : IPersonalInfo, IPersonalEgg_SWSH;
 
 public static class IPersonalInfoExt
 {

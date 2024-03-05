@@ -45,7 +45,7 @@ public partial class BTTE : Form
         Data = data;
         Trainers = editor;
         InitializeComponent();
-        pba = new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6 };
+        pba = [PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6];
 
         Stats.Personal = Personal = data.PersonalData;
         learn = new LearnsetRandomizer(game.Info, data.LevelUpData.LoadAll(), Personal);
@@ -67,7 +67,7 @@ public partial class BTTE : Form
         movelist = EditorUtil.SanitizeMoveList(movelist);
 
         AIBits = Game.Info.SWSH ? new[] { CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Raid, CHK_AI_Allowance, CHK_AI_PokeChange, CHK_AI_FireGym1, CHK_AI_FireGym2, CHK_AI_Unused1, CHK_AI_Item, CHK_AI_FireGym3, CHK_AI_Unused2 }
-            : new[] { CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Allowance, CHK_AI_Item, CHK_AI_PokeChange, CHK_AI_Unused1 };
+            : [CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Allowance, CHK_AI_Item, CHK_AI_PokeChange, CHK_AI_Unused1];
 
         Setup();
         foreach (var pb in pba)

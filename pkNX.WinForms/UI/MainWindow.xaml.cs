@@ -43,7 +43,7 @@ public partial class MainWindow
     public static readonly DependencyProperty CategoriesProperty = DependencyProperty.Register(
         nameof(Categories), typeof(EditorButtonData[]), typeof(MainWindow), new PropertyMetadata(Array.Empty<EditorButtonData>()));
 
-    private static readonly string[] SupportedLanguages = {
+    private static readonly string[] SupportedLanguages = [
         "カタカナ",
         "漢字",
         "English",
@@ -54,7 +54,7 @@ public partial class MainWindow
         "한국",
         "汉字简化方案",
         "漢字簡化方案",
-    };
+    ];
 
     public EditorButtonData[] Categories
     {
@@ -140,12 +140,8 @@ public partial class MainWindow
             else
                 OpenFile(path);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (!Debugger.IsAttached)
         {
-            // Rethrow to have a better debugging experience
-            if (Debugger.IsAttached)
-                throw;
-
             WinFormsUtil.Error($"Failed to open -- {path}", ex.Message);
         }
     }
@@ -196,12 +192,8 @@ public partial class MainWindow
             editor.Initialize();
             LoadROM(editor);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (!Debugger.IsAttached)
         {
-            // Rethrow to have a better debugging experience
-            if (Debugger.IsAttached)
-                throw;
-
             var msg = "Failed to initialize ROM data." + Environment.NewLine +
                       "Please ensure your dump is correctly set up, with updated patches merged in (if applicable).";
             var stack = ex.StackTrace ?? string.Empty;
@@ -243,7 +235,7 @@ public partial class MainWindow
 
         categories.AddRange(Editor!.GetControls(category, Settings.DisplayAdvanced).OrderBy(x => x.Title));
 
-        Categories = categories.ToArray();
+        Categories = [.. categories];
 
         AdjustWindowSize();
 
@@ -259,8 +251,8 @@ public partial class MainWindow
         var source = PresentationSource.FromVisual(this);
         var dpi = source?.CompositionTarget?.TransformFromDevice.M11 ?? 1.0;
 
-        Left = dpi * area.Left + (dpi * area.Width - Width) / 2;
-        Top = dpi * area.Top + (dpi * area.Height - Height) / 2;
+        Left = (dpi * area.Left) + (((dpi * area.Width) - Width) / 2);
+        Top = (dpi * area.Top) + (((dpi * area.Height) - Height) / 2);
     }
 
     private void AdjustWindowSize()
@@ -281,8 +273,8 @@ public partial class MainWindow
         double titleHeight = (SystemParameters.WindowCaptionHeight + SystemParameters.ResizeFrameHorizontalBorderHeight) * 1.5;
         double verticalBorderWidth = Math.Ceiling((SystemParameters.ResizeFrameVerticalBorderWidth + SystemParameters.FixedFrameVerticalBorderWidth) * 2) + 4;
 
-        Width = containerHorizontalMargin + columns * wp + verticalBorderWidth;
-        Height = SP_Header.Height + containerVerticalMargin + rows * hp + titleHeight;
+        Width = containerHorizontalMargin + (columns * wp) + verticalBorderWidth;
+        Height = SP_Header.Height + containerVerticalMargin + (rows * hp) + titleHeight;
 
         UpdateLayout();
 

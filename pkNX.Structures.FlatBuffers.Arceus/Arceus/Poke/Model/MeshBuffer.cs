@@ -11,16 +11,10 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 
 // *.trmbf
 
-public class VertexWrapper
+public class VertexWrapper(InputLayoutElement layoutElement, object data)
 {
-    public InputLayoutElement LayoutElement { get; set; }
-    public object Data { get; set; }
-
-    public VertexWrapper(InputLayoutElement layoutElement, object data)
-    {
-        LayoutElement = layoutElement;
-        Data = data;
-    }
+    public InputLayoutElement LayoutElement { get; set; } = layoutElement;
+    public object Data { get; set; } = data;
 
     public override string ToString() => $"{{ {LayoutElement.SemanticName}{LayoutElement.SemanticIndex:#}, {Data} }}";
 }
@@ -62,11 +56,7 @@ public partial class ByteBuffer
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshBuffer
-{
-}
+public partial class MeshBuffer;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshBufferTable
-{
-}
+public partial class MeshBufferTable;

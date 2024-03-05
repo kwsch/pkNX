@@ -6,7 +6,7 @@ using System.IO.Compression;
 
 namespace pkNX.Containers.VFS;
 
-public class ZipArchiveFileSystem : IFileSystem
+public sealed class ZipArchiveFileSystem : IFileSystem
 {
     public ZipArchive ZipArchive { get; }
     public bool IsReadOnly => false;

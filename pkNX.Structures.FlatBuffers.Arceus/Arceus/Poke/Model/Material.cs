@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 // *.trmtr
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class SamplerState { }
+public partial class SamplerState;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Float4Parameter
@@ -76,13 +76,13 @@ public partial class TextureParameter
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class WriteMaskData { }
+public partial class WriteMaskData;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class IntExtraData { }
+public partial class IntExtraData;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MaterialPass { }
+public partial class MaterialPass;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class Material { }
+public partial class Material;

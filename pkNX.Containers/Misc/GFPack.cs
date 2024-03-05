@@ -164,9 +164,7 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         for (int f = 0; f < groups.Length; f++)
         {
             var folderFiles = groups[f];
-            var folderName = Path.GetDirectoryName(directories[f]);
-            if (folderName is null)
-                throw new Exception("Invalid folder name");
+            var folderName = Path.GetDirectoryName(directories[f]) ?? throw new Exception("Invalid folder name");
             var table = HashInFolder[f] = new FileHashFolder();
             table.Folder = new FileHashFolderInfo
             {

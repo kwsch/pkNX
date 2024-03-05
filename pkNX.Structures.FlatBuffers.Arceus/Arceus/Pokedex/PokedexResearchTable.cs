@@ -32,4 +32,4 @@ public partial class PokedexResearchTable
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokedexResearchTask { }
+public partial class PokedexResearchTask;

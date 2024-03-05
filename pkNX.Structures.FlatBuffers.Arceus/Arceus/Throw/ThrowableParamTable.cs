@@ -23,4 +23,4 @@ public partial class ThrowableParamTable
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ThrowableParam { }
+public partial class ThrowableParam;

@@ -10,10 +10,10 @@ using FlatSharp.Attributes;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleLevelArchive { }
+public partial class NestHoleLevelArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleLevelTable { }
+public partial class NestHoleLevelTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleLevel { }
+public partial class NestHoleLevel;

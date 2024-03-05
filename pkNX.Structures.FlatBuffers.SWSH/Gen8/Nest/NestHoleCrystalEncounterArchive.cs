@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleCrystalEncounterArchive { }
+public partial class NestHoleCrystalEncounterArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleCrystalEncounterTable
@@ -155,4 +155,4 @@ public partial class NestHoleCrystalEncounterTable
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleCrystalEncounter { }
+public partial class NestHoleCrystalEncounter;

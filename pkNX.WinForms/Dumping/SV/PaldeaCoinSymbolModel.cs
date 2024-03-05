@@ -8,7 +8,7 @@ namespace pkNX.WinForms;
 
 public class PaldeaCoinSymbolModel
 {
-    public readonly List<PaldeaCoinSymbolPoint>[] Points = new List<PaldeaCoinSymbolPoint>[] { [], [] };
+    public readonly List<PaldeaCoinSymbolPoint>[] Points = [[], []];
 
     public PaldeaCoinSymbolModel(IFileInternal ROM)
     {
@@ -51,15 +51,12 @@ public class PaldeaCoinSymbolModel
 
     private static PaldeaCoinSymbolPoint ParseCoinSymbolPoint(TrinityScenePoint sp, TrinityPropertySheet ps)
     {
-        switch (ps.Name)
+        return ps.Name switch
         {
-            case "coin_walk_symbol_point":
-                return new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), string.Empty, sp.Position);
-            case "coin_box_symbol_point":
-                return new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), GetBoxLabel(ps), sp.Position);
-            default:
-                throw new ArgumentException($"Unknown CoinSymbol PropertySheet {ps.Name}");
-        }
+            "coin_walk_symbol_point" => new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), string.Empty, sp.Position),
+            "coin_box_symbol_point" => new PaldeaCoinSymbolPoint(sp.Name, GetFirstNum(ps), GetBoxLabel(ps), sp.Position),
+            _ => throw new ArgumentException($"Unknown CoinSymbol PropertySheet {ps.Name}"),
+        };
     }
 
     private static ulong GetFirstNum(TrinityPropertySheet ps)

@@ -10,12 +10,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterDataArchive { }
+public partial class EncounterDataArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterEligiblityTraits : IHasCondition, ISlotModifierTime, ISlotModifierWeather
-{
-}
+public partial class EncounterEligiblityTraits : IHasCondition, ISlotModifierTime, ISlotModifierWeather;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterOybnTraits

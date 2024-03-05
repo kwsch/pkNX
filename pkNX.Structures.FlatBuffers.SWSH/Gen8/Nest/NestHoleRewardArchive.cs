@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleRewardArchive { }
+public partial class NestHoleRewardArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleRewardTable : INestHoleRewardTable

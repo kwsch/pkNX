@@ -53,8 +53,8 @@ public static class SpeciesConverterSV
     /// <summary>
     /// Difference of National Dex IDs (index) and the associated Gen9 Species IDs (value)
     /// </summary>
-    private static ReadOnlySpan<sbyte> Table9NationalToInternal => new sbyte[]
-    {
+    private static ReadOnlySpan<sbyte> Table9NationalToInternal =>
+    [
                                            001, 001, 001,
         001, 033, 033, 033, 021, 021, 044, 044, 007, 007,
         007, 029, 031, 031, 031, 068, 068, 068, 002, 002,
@@ -67,13 +67,13 @@ public static class SpeciesConverterSV
         -23, -05, -07, -09, -07, -20, -13, -09, -09, -29,
         -23, 001, 012, 012, 000, 000, 000, -06, 005, -06,
         -03, -03, -02, -04, -03, -03,
-    };
+    ];
 
     /// <summary>
     /// Difference of Gen9 Species IDs (index) and the associated National Dex IDs (value)
     /// </summary>
-    private static ReadOnlySpan<sbyte> Table9InternalToNational => new sbyte[]
-    {
+    private static ReadOnlySpan<sbyte> Table9InternalToNational =>
+    [
                                            065, -01, -01,
         -01, -01, 031, 031, 047, 047, 029, 029, 053, 031,
         031, 046, 044, 030, 030, -07, -07, -07, 013, 013,
@@ -86,5 +86,5 @@ public static class SpeciesConverterSV
         -43, -43, -43, -68, -68, -68, -58, -58, -25, -29,
         -31, 006, -01, 006, 000, 000, 000, 003, 003, 004,
         002, 003, 003, -05, -12, -12,
-    };
+    ];
 }

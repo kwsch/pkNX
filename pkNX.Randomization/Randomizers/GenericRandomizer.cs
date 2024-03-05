@@ -5,30 +5,24 @@ namespace pkNX.Randomization;
 /// The shuffled list is iterated over, and reshuffled when exhausted.
 /// The list does not repeat values until the list is exhausted.
 /// </remarks>
-public class GenericRandomizer<T>
+public class GenericRandomizer<T>(T[] randomValues)
 {
-    public GenericRandomizer(T[] randomValues)
-    {
-        RandomValues = randomValues;
-    }
-
-    private readonly T[] RandomValues;
     private int ctr;
-    public int Count => RandomValues.Length;
+    public int Count => randomValues.Length;
 
     public void Reset()
     {
         ctr = 0;
-        Util.Shuffle(RandomValues);
+        Util.Shuffle(randomValues);
     }
 
     public T Next()
     {
         if (ctr == 0)
-            Util.Shuffle(RandomValues);
+            Util.Shuffle(randomValues);
 
-        T value = RandomValues[ctr++];
-        ctr %= RandomValues.Length;
+        T value = randomValues[ctr++];
+        ctr %= randomValues.Length;
         return value;
     }
 

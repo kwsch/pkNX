@@ -7,16 +7,16 @@ namespace pkNX.Structures.FlatBuffers.Arceus;
 // *.trbsm
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class UnkEntry { }
+public partial class UnkEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class BoneEntry { }
+public partial class BoneEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ScalerEntry { }
+public partial class ScalerEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshEntry { }
+public partial class MeshEntry;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class BoneMeshScalar { }
+public partial class BoneMeshScalar;

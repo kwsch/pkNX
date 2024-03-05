@@ -10,8 +10,8 @@ namespace pkNX.WinForms;
 
 public class PaldeaFixedSymbolModel
 {
-    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = [new(), new(), new()];
-    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = [new(), new(), new()];
+    public readonly List<PaldeaFixedSymbolPoint>[] scarletPoints = [[], [], []];
+    public readonly List<PaldeaFixedSymbolPoint>[] violetPoints = [[], [], []];
 
     public readonly Dictionary<string, string[]> MultiSpawner;
 

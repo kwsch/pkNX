@@ -15,16 +15,16 @@ using System.Linq;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeResourceMeta { }
+public partial class PokeResourceMeta;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelConfig { }
+public partial class PokeModelConfig;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelSpeciesInfo { }
+public partial class PokeModelSpeciesInfo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class FileNamePathPair { }
+public partial class FileNamePathPair;
 
 /// <summary> <see cref="PokeResourceTable"/> for Legends: Arceus, adding <see cref="PokeModelConfig.ArceusType"/></summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -34,12 +34,12 @@ public partial class PokeResourceTable
     {
         return Table.FirstOrDefault(x => x.SpeciesInfo.Species == species && x.SpeciesInfo.Form == form && x.SpeciesInfo.Gender == gender) ?? new()
         {
-            Animations = Array.Empty<FileNamePathPair>(),
+            Animations = [],
             SpeciesInfo = new PokeModelSpeciesInfo(),
             ModelPath = string.Empty,
             MaterialTablePath = string.Empty,
             ConfigPath = string.Empty,
-            Effects = Array.Empty<FileNamePathPair>(),
+            Effects = [],
         };
     }
 
@@ -66,19 +66,19 @@ public partial class PokeResourceTable
             MaterialTablePath = $"{basePath}/mdl/{pmStr}.trmmt",
             ConfigPath = $"{basePath}/{pmStr}.trpokecfg",
 
-            Animations = new FileNamePathPair[] {
+            Animations = [
                 new(){
                     Name = "base",
                     Path = $"{basePath}/anm/{pmStr}_base.tracn",
                 },
-            },
+            ],
 
-            Effects = new FileNamePathPair[] {
+            Effects = [
                 new() {
                     Name = "eff",
                     Path = $"{basePath}/locators/{pmStr}_eff.trskl",
                 },
-            },
+            ],
         };
 
         Table = Table.Append(entry)

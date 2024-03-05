@@ -104,10 +104,8 @@ public class PhysicalFSTests : IDisposable
         }
 
         Assert.Equal([], File.ReadAllBytes(AbsFilePath_W));
-        using (var stream = FileSystem.OpenFile(FilePath_W))
-        {
-            Assert.Equal([], stream.ReadAllBytes());
-        }
+        using var stream = FileSystem.OpenFile(FilePath_W);
+        Assert.Equal([], stream.ReadAllBytes());
     }
 
     /*
@@ -163,10 +161,8 @@ Append("/path/to/d.file", "rw") -> error # d doesn't exist
     [Fact]
     public void OpenFile_ReadOnly()
     {
-        using (var stream = FileSystem.OpenFile(FilePath_R, FileMode.Open, FileAccess.Read))
-        {
-            Assert.Equal("asdf"u8.ToArray(), stream.ReadAllBytes());
-        }
+        using var stream = FileSystem.OpenFile(FilePath_R, FileMode.Open, FileAccess.Read);
+        Assert.Equal("asdf"u8.ToArray(), stream.ReadAllBytes());
     }
 
     [Fact]

@@ -9,22 +9,22 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneBerryTreeHolder { }
+public partial class PlacementZoneBerryTreeHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F22_0 { }
+public partial class PlacementZone_F22_0;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F22_0_0 { }
+public partial class PlacementZone_F22_0_0;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F22_Sub { }
+public partial class PlacementZone_F22_Sub;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F22_BoolObject14 { }
+public partial class PlacementZone_F22_BoolObject14;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F22_Inner { }
+public partial class PlacementZone_F22_Inner;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneBerryTreeRandom { }
+public partial class PlacementZoneBerryTreeRandom;

@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SV;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DeliveryOutbreakPokeDataArray { }
+public partial class DeliveryOutbreakPokeDataArray;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class DeliveryOutbreakPokeData
@@ -69,7 +69,7 @@ public partial class DeliveryOutbreakPokeData
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class AreaNo { }
+public partial class AreaNo;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class OutbreakEnableTable

@@ -13,7 +13,7 @@ using System.Linq;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementSearchItemTable { }
+public partial class PlacementSearchItemTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementSearchItem

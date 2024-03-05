@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 namespace pkNX.Containers.VFS;
 
@@ -185,13 +184,13 @@ public readonly record struct FileSystemPath : IComparable<FileSystemPath>
             segments.AddFirst(path.EntityName);
             path = path.ParentPath;
         }
-        return segments.ToArray();
+        return [.. segments];
     }
 
     [Pure]
     public int CompareTo(FileSystemPath other)
     {
-        return string.Compare(Path, other.Path, StringComparison.Ordinal);
+        return string.CompareOrdinal(Path, other.Path);
     }
 
     [Pure]

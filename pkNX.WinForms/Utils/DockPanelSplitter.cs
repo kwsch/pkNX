@@ -157,7 +157,7 @@ public class DockPanelSplitter : Grid
         get
         {
             Dock dock = DockPanel.GetDock(this);
-            return dock == Dock.Top || dock == Dock.Bottom;
+            return dock is Dock.Top or Dock.Bottom;
         }
     }
 
@@ -291,7 +291,7 @@ public class DockPanelSplitter : Grid
         if (IsMouseCaptured)
         {
             Point ptCurrent = e.GetPosition(Parent as IInputElement);
-            Point delta = new Point(ptCurrent.X - StartDragPoint.X, ptCurrent.Y - StartDragPoint.Y);
+            Point delta = new(ptCurrent.X - StartDragPoint.X, ptCurrent.Y - StartDragPoint.Y);
             Dock dock = DockPanel.GetDock(this);
 
             if (IsHorizontal)

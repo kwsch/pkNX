@@ -60,16 +60,10 @@ public partial class MapViewer8a : Form
         CB_Map.SelectedIndex = 1;
     }
 
-    private class ComboItem
+    private class ComboItem(string text, int value)
     {
-        public ComboItem(string text, int value)
-        {
-            Text = text;
-            Value = value;
-        }
-
-        public string Text { get; }
-        public int Value { get; }
+        public string Text { get; } = text;
+        public int Value { get; } = value;
     }
 
     private void CB_Map_SelectedIndexChanged(object sender, EventArgs e)
@@ -224,7 +218,7 @@ public partial class MapViewer8a : Form
         return result;
     }
 
-    private static readonly EncounterSlot[] Unown = { new()
+    private static readonly EncounterSlot[] Unown = [ new()
         {
             Species = 201,
             Behavior1 = string.Empty,
@@ -240,7 +234,7 @@ public partial class MapViewer8a : Form
             },
             Oybn = new(),
         },
-    };
+    ];
 
     private void MapViewer8a_MouseMove(object sender, MouseEventArgs e)
     {
@@ -269,26 +263,22 @@ public partial class MapViewer8a : Form
     }
 }
 
-public class AreaDef
+public class AreaDef(
+    string NameSummary,
+    int min,
+    int max,
+    pkNX.Structures.FlatBuffers.Vec3f position,
+    SpawnerType type,
+    IList<EncounterSlot> slots,
+    float radius)
 {
-    public readonly string NameSummary;
-    public readonly int Min;
-    public readonly int Max;
-    public readonly pkNX.Structures.FlatBuffers.Vec3f Position;
-    public readonly SpawnerType Type;
-    public readonly IList<EncounterSlot> Slots;
-    public readonly float Radius;
-
-    public AreaDef(string NameSummary, int min, int max, pkNX.Structures.FlatBuffers.Vec3f position, SpawnerType type, IList<EncounterSlot> slots, float radius)
-    {
-        this.NameSummary = NameSummary;
-        Min = min;
-        Max = max;
-        Position = position;
-        Type = type;
-        Slots = slots;
-        Radius = radius;
-    }
+    public readonly string NameSummary = NameSummary;
+    public readonly int Min = min;
+    public readonly int Max = max;
+    public readonly pkNX.Structures.FlatBuffers.Vec3f Position = position;
+    public readonly SpawnerType Type = type;
+    public readonly IList<EncounterSlot> Slots = slots;
+    public readonly float Radius = radius;
 
     public string GetLine()
     {

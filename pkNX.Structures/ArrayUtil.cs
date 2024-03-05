@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace pkNX.Structures;
 
@@ -22,63 +21,11 @@ public static class ArrayUtil
         return data;
     }
 
-    public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
-
     public static T[][] Split<T>(this T[] data, int size)
     {
         var result = new T[data.Length / size][];
         for (int i = 0; i < data.Length; i += size)
             result[i / size] = data.Slice(i, size);
-        return result;
-    }
-
-    public static int FindNextValidIndex<T>(IList<T> dest, Func<T, bool> skip, int ctr)
-    {
-        while (true)
-        {
-            if ((uint)ctr >= dest.Count)
-                return -1;
-            var exist = dest[ctr];
-            if (exist == null || !skip(exist))
-                return ctr;
-            ctr++;
-        }
-    }
-
-    internal static T[] ConcatAll<T>(params T[][] arr)
-    {
-        int len = 0;
-        foreach (var a in arr)
-            len += a.Length;
-
-        var result = new T[len];
-
-        int ctr = 0;
-        foreach (var a in arr)
-        {
-            a.CopyTo(result, ctr);
-            ctr += a.Length;
-        }
-
-        return result;
-    }
-
-    internal static T[] ConcatAll<T>(T[] arr1, T[] arr2)
-    {
-        int len = arr1.Length + arr2.Length;
-        var result = new T[len];
-        arr1.CopyTo(result, 0);
-        arr2.CopyTo(result, arr1.Length);
-        return result;
-    }
-
-    internal static T[] ConcatAll<T>(T[] arr1, T[] arr2, T[] arr3)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length;
-        var result = new T[len];
-        arr1.CopyTo(result, 0);
-        arr2.CopyTo(result, arr1.Length);
-        arr3.CopyTo(result, arr1.Length + arr2.Length);
         return result;
     }
 }

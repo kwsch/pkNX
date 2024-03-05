@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace pkNX.Containers.VFS;
 
@@ -82,12 +80,12 @@ public class LayeredFileSystem : IFileSystem
 
     public IFileSystem? GetFirstWhereExists(FileSystemPath path)
     {
-        return _fileSystems.FirstOrDefault(fs => fs.Exists(path));
+        return Array.Find(_fileSystems, fs => fs.Exists(path));
     }
 
     public IFileSystem? GetFirstWritableWhereExists(FileSystemPath path)
     {
-        return _fileSystems.FirstOrDefault(fs => !fs.IsReadOnly && fs.Exists(path));
+        return Array.Find(_fileSystems, fs => !fs.IsReadOnly && fs.Exists(path));
     }
 
     private bool ValidateOpenMode(FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
@@ -115,10 +113,7 @@ public class LayeredFileSystem : IFileSystem
             case FileMode.Open:
             {
                 // just read from top layer
-                IFileSystem? fs = GetFirstWhereExists(path);
-                if (fs == null)
-                    throw new FileNotFoundException($"Could not find the file at the specified path: {path}", nameof(path));
-
+                var fs = GetFirstWhereExists(path) ?? throw new FileNotFoundException($"Could not find the file at the specified path: {path}", nameof(path));
                 return fs.OpenFile(path, FileMode.Open, access);
             }
             case FileMode.OpenOrCreate:

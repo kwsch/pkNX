@@ -41,4 +41,4 @@ public partial class PokeModelSet
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelSetEntry { }
+public partial class PokeModelSetEntry;

@@ -11,10 +11,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EventEncount { }
+public partial class EventEncount;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EventEncountArchive { }
+public partial class EventEncountArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EventEncountPoke

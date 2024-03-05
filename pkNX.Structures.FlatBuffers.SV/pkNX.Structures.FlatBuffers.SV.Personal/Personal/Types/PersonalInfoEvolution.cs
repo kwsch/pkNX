@@ -4,4 +4,4 @@
 
 namespace pkNX.Structures.FlatBuffers.SV;
 
-public partial class PersonalInfoEvolution { }
+public partial class PersonalInfoEvolution;

@@ -41,4 +41,4 @@ public partial class AreaSettings
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class AreaSettings_F50 { }
+public partial class AreaSettings_F50;

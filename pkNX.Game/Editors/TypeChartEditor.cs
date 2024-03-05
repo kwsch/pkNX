@@ -4,13 +4,11 @@ using Util = pkNX.Randomization.Util;
 
 namespace pkNX.Game;
 
-public class TypeChartEditor
+public class TypeChartEditor(byte[] data)
 {
-    public byte[] Data;
+    public byte[] Data = data;
     public int Width => (int)Math.Sqrt(Data.Length);
     public int Height => (int)Math.Sqrt(Data.Length);
-
-    public TypeChartEditor(byte[] data) => Data = data;
 
     public void Randomize()
     {
@@ -34,7 +32,7 @@ public class TypeChartEditor
     }
 
     private static readonly uint[] Colors =
-    {
+    [
         0xFF000000,
         0, // unused
         0xFFFF0000,
@@ -42,7 +40,7 @@ public class TypeChartEditor
         0xFFFFFFFF,
         0, 0, 0, // unused
         0xFF008000,
-    };
+    ];
 
     public static byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, byte[] vals, out int width, out int height)
     {

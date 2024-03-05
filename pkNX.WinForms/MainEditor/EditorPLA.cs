@@ -98,7 +98,7 @@ internal class EditorPLA : EditorBase
                 banned.Add(pi.DexIndexNational);
             }
         }
-        return banned.ToArray();
+        return [.. banned];
     }
 
     public int GetRandomForm(int spec)
@@ -217,7 +217,7 @@ internal class EditorPLA : EditorBase
     public void EditGift()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<PokeAddArchive, PokeAdd>(GameFile.EncounterTableGift, "Gift Encounter Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", entries => Randomize(entries));
+        PopFlat<PokeAddArchive, PokeAdd>(GameFile.EncounterTableGift, "Gift Encounter Editor", z => z.Table, (z, _) => $"{names[z.Species]}{(z.Form == 0 ? "" : $"-{z.Form}")} @ Lv. {z.Level}", Randomize);
 
         void Randomize(IEnumerable<PokeAdd> arr)
         {
@@ -289,7 +289,7 @@ internal class EditorPLA : EditorBase
     public void EditStaticEncounter()
     {
         var names = ROM.GetStrings(TextName.SpeciesNames);
-        PopFlat<EventEncountArchive, EventEncount>(GameFile.EncounterTableStatic, "Static Encounter Editor", z => z.Table, (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", entries => Randomize(entries));
+        PopFlat<EventEncountArchive, EventEncount>(GameFile.EncounterTableStatic, "Static Encounter Editor", z => z.Table, (z, _) => $"{z.EncounterName} ({GetDetail(z, names)})", Randomize);
 
         static string GetDetail(EventEncount z, string[] names)
         {
@@ -632,7 +632,7 @@ internal class EditorPLA : EditorBase
     public void EditThrowableParam()
     {
         var itemNames = ROM.GetStrings(TextName.ItemNames);
-        PopFlat<ThrowableParamTable, ThrowableParam>(GameFile.ThrowableParam, "Throwable Param Editor", z => z.Table, (z, _) => $"{itemNames[z.ItemID]} ({z.ItemID})", null, t => { t.AddEntry(0); });
+        PopFlat<ThrowableParamTable, ThrowableParam>(GameFile.ThrowableParam, "Throwable Param Editor", z => z.Table, (z, _) => $"{itemNames[z.ItemID]} ({z.ItemID})", null, t => t.AddEntry(0));
     }
 
     [EditorCallable(EditorCategory.Items)]

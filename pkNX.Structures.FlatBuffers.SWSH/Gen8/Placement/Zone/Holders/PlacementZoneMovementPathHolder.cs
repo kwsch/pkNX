@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneMovementPathHolder { }
+public partial class PlacementZoneMovementPathHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZone_V3f

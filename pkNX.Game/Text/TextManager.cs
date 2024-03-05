@@ -6,20 +6,14 @@ using pkNX.Structures;
 
 namespace pkNX.Game;
 
-public class TextManager
+public class TextManager(GameVersion game, TextConfig? config = null)
 {
-    private readonly TextConfig Config;
-    private readonly IReadOnlyCollection<TextReference> References;
+    private readonly TextConfig Config = config ?? new TextConfig(game);
+    private readonly IReadOnlyCollection<TextReference> References = TextMapping.GetMapping(game);
 
     private readonly Dictionary<TextName, string[]> Cache = [];
 
     public void ClearCache() => Cache.Clear();
-
-    public TextManager(GameVersion game, TextConfig? config = null)
-    {
-        References = TextMapping.GetMapping(game);
-        Config = config ?? new TextConfig(game);
-    }
 
     internal string[] GetStrings(byte[] data, bool remap = false)
     {

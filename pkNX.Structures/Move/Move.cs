@@ -1,10 +1,9 @@
 namespace pkNX.Structures;
 
-public abstract class Move3DS : IMove
+public abstract class Move3DS(byte[] data) : IMove
 {
-    protected readonly byte[] Data;
+    protected readonly byte[] Data = data;
     protected abstract int SIZE { get; }
-    protected Move3DS(byte[] data) => Data = data;
 
     public byte[] Write() => Data;
 

@@ -4,4 +4,4 @@
 
 namespace pkNX.Structures.FlatBuffers.SV;
 
-public partial class PersonalInfoDex { }
+public partial class PersonalInfoDex;

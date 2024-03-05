@@ -11,10 +11,10 @@ using System.Diagnostics;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeCaptureCollision { }
+public partial class PokeCaptureCollision;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeCaptureCollider { }
+public partial class PokeCaptureCollider;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeCaptureCollisionArchive
@@ -23,7 +23,7 @@ public partial class PokeCaptureCollisionArchive
     {
         return Table.FirstOrDefault(x => x.Species == species && x.Form == form) ?? new()
         {
-            Colliders = new List<PokeCaptureCollider>(),
+            Colliders = [],
         };
     }
 
@@ -40,30 +40,30 @@ public partial class PokeCaptureCollisionArchive
         {
             Species = species,
             Form = form,
-            Colliders = new PokeCaptureCollider[]
-            {
+            Colliders =
+            [
                 new() {
                     Shape = "Capsule",
-                    ShapeParameters = new[]{ 0.5f, 0.2f, 0, 0, 0, 0, 0, 0 },
+                    ShapeParameters = [0.5f, 0.2f, 0, 0, 0, 0, 0, 0],
                     SocketName = "waist",
                     Type = "Normal",
                     Field07 = string.Empty,
                 },
                 new() {
                     Shape = "Capsule",
-                    ShapeParameters = new[]{ 0.5f, 0.2f, 0, 0, 0, 0, 0, 0 },
+                    ShapeParameters = [0.5f, 0.2f, 0, 0, 0, 0, 0, 0],
                     SocketName = string.Empty,
                     Type = "Pysics",
                     Field07 = string.Empty,
                 },
                 new() {
                     Shape = "Capsule",
-                    ShapeParameters = new[]{ 0.5f, 0.2f, 0, 0, 0, 0, 0, 0 },
+                    ShapeParameters = [0.5f, 0.2f, 0, 0, 0, 0, 0, 0],
                     SocketName = "origin",
                     Type = "Barrier",
                     Field07 = string.Empty,
                 },
-            },
+            ],
         };
 
         Table = Table.Append(entry)

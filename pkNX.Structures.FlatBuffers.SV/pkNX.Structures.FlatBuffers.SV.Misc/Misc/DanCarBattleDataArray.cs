@@ -6,10 +6,10 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SV;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DanCarBattleDataArray { }
+public partial class DanCarBattleDataArray;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DanBossCarBattleTable { }
+public partial class DanBossCarBattleTable;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DanCarBattleData { }
+public partial class DanCarBattleData;

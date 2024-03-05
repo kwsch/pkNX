@@ -29,7 +29,7 @@ public static class TriggerUtil
         if (meta.Unused01 != 0)
             throw new ArgumentException("TriggerMeta has unused field set?");
 
-        var argsSummary = GetTriggerArgsSummary(new string[] {meta.TriggerMetaArg1, meta.TriggerMetaArg2, meta.TriggerMetaArg3});
+        var argsSummary = GetTriggerArgsSummary([meta.TriggerMetaArg1, meta.TriggerMetaArg2, meta.TriggerMetaArg3]);
 
         return $"0x{(ulong)meta.TriggerTypeID:X16}({argsSummary})";
     }

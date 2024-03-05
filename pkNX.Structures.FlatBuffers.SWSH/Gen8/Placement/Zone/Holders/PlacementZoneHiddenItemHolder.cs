@@ -9,13 +9,13 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneHiddenItemHolder { }
+public partial class PlacementZoneHiddenItemHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneHiddenItem { }
+public partial class PlacementZoneHiddenItem;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneHiddenItemValue { }
+public partial class PlacementZoneHiddenItemValue;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneHiddenItemChance { }
+public partial class PlacementZoneHiddenItemChance;

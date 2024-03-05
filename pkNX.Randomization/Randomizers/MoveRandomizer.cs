@@ -25,7 +25,7 @@ public class MoveRandomizer : Randomizer
 
     public override void Execute() => throw new Exception("Shouldn't be called.");
 
-    public static readonly int[] FixedDamageMoves = { 49, 82 };
+    public static readonly int[] FixedDamageMoves = [49, 82];
 
     public void Initialize(MovesetRandSettings settings, int[] bannedMoves)
     {
@@ -127,7 +127,7 @@ public class MoveRandomizer : Randomizer
     }
 
     private static readonly int[] firstMoves =
-    {
+    [
         1,   // Pound
         40,  // Poison Sting
         52,  // Ember
@@ -138,7 +138,7 @@ public class MoveRandomizer : Randomizer
         98,  // Quick Attack
         122, // Lick
         141, // Leech Life
-    };
+    ];
 
     private static readonly GenericRandomizer<int> first = new(firstMoves);
 

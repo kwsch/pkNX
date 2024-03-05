@@ -1,8 +1,6 @@
 namespace pkNX.Structures;
 
-public interface IMovesInfo
-{
-}
+public interface IMovesInfo;
 
 public interface IMovesInfo_v1 : IMovesInfo
 {

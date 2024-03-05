@@ -10,7 +10,7 @@ public class SceneTests
     [Fact]
     public void TestSceneDump()
     {
-        const string file = @"";
+        const string file = "";
         if (!File.Exists(file))
             return;
 
@@ -20,8 +20,8 @@ public class SceneTests
     [Fact]
     public void TestFolderDump()
     {
-        const string dir = @""; // input
-        SceneDumper.Bucket = @""; // output
+        const string dir = ""; // input
+        SceneDumper.Bucket = ""; // output
         SceneDumper.ThrowOnUnknownType = false;
         var files = Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories);
         foreach (var file in files)

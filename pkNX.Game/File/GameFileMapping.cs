@@ -32,10 +32,7 @@ public class GameFileMapping
         if (Cache.TryGetValue(file, out var container))
             return container;
 
-        var info = FileMap.FirstOrDefault(f => f.File == file);
-        if (info == null)
-            throw new ArgumentException($"Unknown {nameof(GameFile)} provided.", file.ToString());
-
+        var info = FileMap.FirstOrDefault(f => f.File == file) ?? throw new ArgumentException($"Unknown {nameof(GameFile)} provided.", file.ToString());
         if (info.Type is SingleFileInternal && gameManager is IFileInternal irom)
         {
             var data = irom.GetPackedFile(info.RelativePath);
@@ -43,9 +40,7 @@ public class GameFileMapping
         }
         else
         {
-            var basePath = info.Parent == ContainerParent.ExeFS ? ROM.ExeFS : ROM.RomFS;
-            if (basePath == null)
-                throw new ArgumentException($"No {info.Parent} found for {file}.");
+            var basePath = (info.Parent == ContainerParent.ExeFS ? ROM.ExeFS : ROM.RomFS) ?? throw new ArgumentException($"No {info.Parent} found for {file}.");
             container = info.Get(basePath);
         }
         Cache.Add(file, container);
@@ -80,7 +75,7 @@ public class GameFileMapping
     /// Let's Go Pikachu &amp; Let's Go Eevee
     /// </summary>
     private static readonly GameFileReference[] FilesGG =
-    {
+    [
         new(TrainerSpecData, "bin", "trainer", "trainer_data"),
         new(TrainerSpecPoke, "bin", "trainer", "trainer_poke"),
         new(TrainerSpecClass, "bin", "trainer", "trainer_type"),
@@ -126,7 +121,7 @@ public class GameFileMapping
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon
         // pretty much everything is obviously named :)
-    };
+    ];
 
     #endregion
 
@@ -135,7 +130,7 @@ public class GameFileMapping
     /// Sword &amp; Shield
     /// </summary>
     private static readonly GameFileReference[] FilesSWSH =
-    {
+    [
         new(TrainerSpecData, "bin", "trainer", "trainer_data"),
         new(TrainerSpecPoke, "bin", "trainer", "trainer_poke"),
         new(TrainerSpecClass, "bin", "trainer", "trainer_type"),
@@ -190,13 +185,13 @@ public class GameFileMapping
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon
         // pretty much everything is obviously named :)
-    };
+    ];
 
     /// <summary>
     /// Legends: Arceus
     /// </summary>
     private static readonly GameFileReference[] FilesPLA =
-    {
+    [
         new(TrainerSpecData, "bin", "trainer"),
 
         new(GameText0,  0, "bin", "message", "JPN", "common"),
@@ -391,7 +386,7 @@ public class GameFileMapping
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon
         // pretty much everything is obviously named :)
-    };
+    ];
     #endregion
 
     #region Gen9
@@ -399,7 +394,7 @@ public class GameFileMapping
     /// Scarlet &amp; Violet
     /// </summary>
     private static readonly GameFileReference[] FilesSV =
-    {
+    [
         new(DataTrpfd, SingleFile, "arc", "data.trpfd"),
         new(DataTrpfs, SingleFile, "arc", "data.trpfs"),
         // new(TrainerSpecData, "bin", "trainer"),
@@ -436,6 +431,6 @@ public class GameFileMapping
         // 
         // new(EncounterTableGift                  , SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
         // new(EncounterTableTrade                 , SingleFile, "bin", "script_event_data", "field_trade.bin"), // Incorrect?
-    };
+    ];
     #endregion
 }

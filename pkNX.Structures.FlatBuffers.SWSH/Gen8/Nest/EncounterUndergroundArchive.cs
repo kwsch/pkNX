@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterUndergroundArchive { }
+public partial class EncounterUndergroundArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterUnderground

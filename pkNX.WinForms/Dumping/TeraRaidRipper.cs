@@ -535,7 +535,7 @@ public static class TeraRaidRipper
             if (entry.Info.CaptureRate != 1)
                 lines.Add($"\tCatchable: {capture}");
 
-            lines.Add($"\t\tMoves:");
+            lines.Add("\t\tMoves:");
             lines.Add($"\t\t\t- {moves[(int)boss.Waza1.WazaId]}");
             if ((int)boss.Waza2.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza2.WazaId]}");
             if ((int)boss.Waza3.WazaId != 0) lines.Add($"\t\t\t- {moves[(int)boss.Waza3.WazaId]}");
@@ -543,7 +543,7 @@ public static class TeraRaidRipper
 
             if (extra.PowerChargeTrigerHp != 0 && extra.PowerChargeTrigerTime != 0)
             {
-                lines.Add($"\t\tShield Activation:");
+                lines.Add("\t\tShield Activation:");
                 lines.Add($"\t\t\t- {extra.PowerChargeTrigerHp}% HP Remaining");
                 lines.Add($"\t\t\t- {extra.PowerChargeTrigerTime}% Time Remaining");
             }
@@ -724,7 +724,7 @@ public static class TeraRaidRipper
             return false;
         if (action.Value == 0) // no percentage set
             return false;
-        if (action.Action == RaidBossExtraActType.WAZA && action.Wazano == WazaID.WAZA_NULL) // no move set
+        if (action is { Action: RaidBossExtraActType.WAZA, Wazano: WazaID.WAZA_NULL }) // no move set
             return false;
         return true;
     }

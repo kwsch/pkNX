@@ -30,7 +30,7 @@ public static class EncounterTable8Util
             stony.Slots.AddRange(slots.Where(z => z.EncounterType == SWSHEncounterType.Shaking_Trees));
         }
 
-        return result.ConvertAll(z => z.Serialize()).ToArray();
+        return [.. result.ConvertAll(z => z.Serialize())];
     }
 
     private static DumpableLocation GetDumpable(EncounterTable zone, IReadOnlyDictionary<ulong, byte> zoneLoc, IReadOnlyDictionary<ulong, byte> zoneType)
@@ -100,20 +100,13 @@ public static class EncounterTable8Util
         _ => false,
     };
 
-    private class DumpableLocation
+    private class DumpableLocation(List<Slot8> slots, byte location, byte slotType)
     {
         public static readonly DumpableLocation Empty = new([], 0, 0);
 
-        public readonly List<Slot8> Slots;
-        public readonly byte Location;
-        public readonly byte SlotType;
-
-        public DumpableLocation(List<Slot8> slots, byte location, byte slotType)
-        {
-            Slots = slots;
-            Location = location;
-            SlotType = slotType;
-        }
+        public readonly List<Slot8> Slots = slots;
+        public readonly byte Location = location;
+        public readonly byte SlotType = slotType;
 
         public byte[] Serialize() => SerializeSlot8(Location, Slots, SlotType);
     }
@@ -196,21 +189,14 @@ public static class EncounterTable8Util
         Inaccessible,
     }
 
-    private class Slot8 : IEquatable<Slot8>
+    private class Slot8(int s, int f, int n, int x)
+        : IEquatable<Slot8>
     {
-        public readonly int Species;
-        public readonly int Form;
-        public readonly int Min;
-        public readonly int Max;
+        public readonly int Species = s;
+        public readonly int Form = f;
+        public readonly int Min = n;
+        public readonly int Max = x;
         public SWSHEncounterType EncounterType;
-
-        public Slot8(int s, int f, int n, int x)
-        {
-            Species = s;
-            Form = f;
-            Min = n;
-            Max = x;
-        }
 
         public bool Equals(Slot8? other)
         {

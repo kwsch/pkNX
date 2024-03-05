@@ -16,14 +16,14 @@ public partial class PlacementZoneUnitObjectHolder
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneUnitObject { }
+public partial class PlacementZoneUnitObject;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneUnitObjectDetails { }
+public partial class PlacementZoneUnitObjectDetails;
 
 // probably a union, with only 1 object type used
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneUnitObjectToggle { }
+public partial class PlacementZoneUnitObjectToggle;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneUnitObjectInner { }
+public partial class PlacementZoneUnitObjectInner;

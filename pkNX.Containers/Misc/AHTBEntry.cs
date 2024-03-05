@@ -2,24 +2,14 @@ using System.IO;
 
 namespace pkNX.Containers;
 
-public class AHTBEntry
+public class AHTBEntry(ulong hash, ushort namelen, string name)
 {
-    public ulong Hash;
-    public ushort NameLength;
-    public string Name;
+    public ulong Hash = hash;
+    public ushort NameLength = namelen;
+    public string Name = name;
 
-    public AHTBEntry(ulong hash, ushort namelen, string name)
+    public AHTBEntry(BinaryReader br) : this(br.ReadUInt64(), br.ReadUInt16(), br.ReadStringBytesUntil(0))
     {
-        Hash = hash;
-        NameLength = namelen;
-        Name = name;
-    }
-
-    public AHTBEntry(BinaryReader br)
-    {
-        Hash = br.ReadUInt64();
-        NameLength = br.ReadUInt16();
-        Name = br.ReadStringBytesUntil(0); // could use Length field, but they're always \0 terminated
         //Debug.Assert(FnvHash.HashFnv1a_64(Name) == Hash);
         //Debug.Assert(Name.Length + 1 == NameLength); // Always null terminated
     }

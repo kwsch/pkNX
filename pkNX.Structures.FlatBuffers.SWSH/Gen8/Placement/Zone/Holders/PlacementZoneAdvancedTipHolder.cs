@@ -8,19 +8,19 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneAdvancedTipHolder { }
+public partial class PlacementZoneAdvancedTipHolder;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneAdvancedTip { }
+public partial class PlacementZoneAdvancedTip;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F14 { }
+public partial class PlacementZone_F14;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F14_B { }
+public partial class PlacementZone_F14_B;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F14_Union { }
+public partial class PlacementZone_F14_Union;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F14_Sub { }
+public partial class PlacementZone_F14_Sub;

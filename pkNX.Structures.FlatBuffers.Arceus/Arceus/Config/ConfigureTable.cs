@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ConfigArchive { }
+public partial class ConfigArchive;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class ConfigEntry
