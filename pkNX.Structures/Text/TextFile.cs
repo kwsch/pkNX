@@ -477,7 +477,7 @@ public class TextFile
                 if (comma == -1)
                     comma = args.Length;
                 if (ushort.TryParse(args[..comma], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var result))
-                    vals.Insert(index, result);
+                    vals.Add(result);
                 else
                     throw new ArgumentException($"Invalid hex value: {args[..comma]} in text: {text}");
                 count++;
