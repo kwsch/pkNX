@@ -1085,4 +1085,51 @@ public class GameDumperPLA(GameManagerPLA rom)
         var result = FlatDumper.GetTable<MoveShopTable, MoveShopIndex>(file!, z => z.Table);
         File.WriteAllText(GetPath("MoveShop.csv"), result);
     }
+
+    public void DumpGinkgoRareShop()
+    {
+        DumpGinkgoRareItems();
+        DumpGinkgoRareItemTables();
+    }
+
+    public void DumpGinkgoRareItems()
+    {
+        const string outFolder = "ginkgo_item";
+        var file = Path.Combine(rom.PathRomFS, "bin", "event", "event_progress", "ginkgo", "ginkgo_item.bin");
+        var itemBin = File.ReadAllBytes(file);
+        var itemData = FlatBufferConverter.DeserializeFrom<GinkgoRareItemList>(itemBin);
+
+        var curLines = new List<string> { "ItemID\tQuantity\tCost\tFlag\tInventoryHash\tField1" };
+        foreach (var item in itemData.Table)
+            curLines.Add($"{item.Details[0].ItemID}\t{item.Details[0].Quantity}\t{item.Cost}\t{item.Flag}\t{item.InventoryHash:x16}\t{item.Field1:x16}");
+        File.WriteAllLines(GetPath(outFolder, "ginkgo_item.txt"), curLines);
+    }
+
+    public void DumpGinkgoRareItemTables()
+    {
+        const string outFolder = "ginkgo_item";
+        var file = Path.Combine(rom.PathRomFS, "bin", "event", "event_progress", "ginkgo", "ginkgo_item_table.bin");
+        var itemBin = File.ReadAllBytes(file);
+        var itemData = FlatBufferConverter.DeserializeFrom<GinkgoTableList>(itemBin);
+
+        var curLines = new List<string>();
+        var count = 0;
+
+        // The game has 8 tables for different story progress points.
+        foreach (var table in itemData.Table)
+        {
+            curLines.Add($"Table {++count}: {table.Field0}");
+            curLines.Add("Progress Requirement:");
+            var prog = table.ProgressTable[0]; // Only the first one is used for anything.
+            curLines.Add($"\t{prog.InventoryHash:x16}\t{prog.Field1:x16}\t{prog.BlockName}\t{prog.MinReq}\t{prog.MaxReq}");
+
+            curLines.Add("Weight Table:");
+            curLines.Add("InventoryHash\tWeight\tField2\tField3\tFlag\tField5\tField6");
+            foreach (var weight in table.WeightTable)
+                curLines.Add($"\t{weight.InventoryHash:x16}\t{weight.Weight}\t{weight.Field2:x16}\t{weight.Field3:x16}\t{weight.Flag}\t{weight.Field5}\t{weight.Field6}");
+            curLines.Add("");
+        }
+
+        File.WriteAllLines(GetPath(outFolder, "ginkgo_item_table.txt"), curLines);
+    }
 }

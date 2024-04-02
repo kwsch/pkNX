@@ -129,6 +129,12 @@ public partial class DumperPLA : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
+    private void B_GingkoRareShop_Click(object sender, EventArgs e)
+    {
+        Dumper.DumpGinkgoRareShop();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
     private void B_DumpHash_Click(object sender, EventArgs e)
     {
         Dumper.DumpAHTB();
