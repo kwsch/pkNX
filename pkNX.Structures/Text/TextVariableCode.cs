@@ -1,18 +1,7 @@
-using System;
-
 namespace pkNX.Structures;
 
-public sealed class TextVariableCode
+public sealed record TextVariableCode(ushort Code, string Name)
 {
-    public readonly string Name;
-    public readonly int Code;
-
-    private TextVariableCode(int code, string name)
-    {
-        Code = code;
-        Name = name;
-    }
-
     public static TextVariableCode[] GetVariables(GameVersion game)
     {
         if (game == GameVersion.Any)

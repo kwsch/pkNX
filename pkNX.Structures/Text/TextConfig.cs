@@ -17,7 +17,7 @@ public class TextConfig(GameVersion game)
     public IEnumerable<string> GetVariableList() => Variables.Select(z => $"{z.Code:X4}={z.Name}");
 
     private TextVariableCode? GetCode(string name) => Array.Find(Variables, v => v.Name == name);
-    private TextVariableCode? GetName(int value) => Array.Find(Variables, v => v.Code == value);
+    private TextVariableCode? GetName(ushort value) => Array.Find(Variables, v => v.Code == value);
 
     /// <summary>
     /// Gets the machine-friendly variable instruction code to be written to the data.
@@ -27,7 +27,7 @@ public class TextConfig(GameVersion game)
     {
         var v = GetCode(variable);
         if (v != null)
-            return (ushort)v.Code;
+            return v.Code;
         if (ushort.TryParse(variable.TrimStart(_trim_hex), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var result))
             return result;
         throw new ArgumentException($"Variable parse error: {variable}. Expected a hexadecimal value or standard variable code.");
