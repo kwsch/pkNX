@@ -46,7 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
-    <PackageReference Include="PKHeX.Core" Version="23.12.19" />
+    <PackageReference Include="PKHeX.Core" Version="24.3.26" />
   </ItemGroup>
 
   <ItemGroup>
