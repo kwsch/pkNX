@@ -194,10 +194,10 @@ public static class SceneDumper
     private static void DumpTIPokemonModelComponent(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TIPokemonModelComponent>(data);
-        Write(tw, depth, $"{nameof(props.Field00)}: {props.Field00}");
-        Write(tw, depth, $"{nameof(props.Field01)}: {props.Field01}");
-        Write(tw, depth, $"{nameof(props.Field02)}: {props.Field02}");
-        Write(tw, depth, $"{nameof(props.Field03)}: {props.Field03}");
+        Write(tw, depth, $"{nameof(props.DevId)}:   {props.DevId}");
+        Write(tw, depth, $"{nameof(props.FormId)}:  {props.FormId}");
+        Write(tw, depth, $"{nameof(props.Sex)}:     {props.Sex}");
+        Write(tw, depth, $"{nameof(props.Rare)}:    {props.Rare}");
         Write(tw, depth, $"{nameof(props.Field04)}: {props.Field04}");
         Write(tw, depth, $"{nameof(props.Field05)}: {props.Field05}");
         Write(tw, depth, $"{nameof(props.Field06)}: {props.Field06}");

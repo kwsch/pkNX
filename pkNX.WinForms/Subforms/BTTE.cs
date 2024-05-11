@@ -176,7 +176,7 @@ public partial class BTTE : Form
     private static void GetQuickFiller(PictureBox pb, TrainerPoke pk)
     {
         var shiny = pk.Shiny ? PKHeX.Core.Shiny.Always : PKHeX.Core.Shiny.Never;
-        pb.Image = SpriteUtil.GetSprite((ushort)pk.Species, (byte)pk.Form, pk.Gender - 1, 0, pk.HeldItem, false, shiny);
+        pb.Image = SpriteUtil.GetSprite((ushort)pk.Species, (byte)pk.Form, (byte)(pk.Gender - 1), 0, pk.HeldItem, false, shiny);
     }
 
     // Top Level Functions

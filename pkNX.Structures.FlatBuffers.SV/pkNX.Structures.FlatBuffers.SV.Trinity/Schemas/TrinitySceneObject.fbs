@@ -17,15 +17,15 @@ table TIFieldComponent (fs_serializer) {
 }
 
 table TIPokemonModelComponent (fs_serializer) {
-    Field_00:ushort;
-    Field_01:ushort;
-    Field_02:byte; // unknown
-    Field_03:byte; // unknown
+    DevId:ushort;
+    FormId:ushort;
+    Sex:byte;
+    Rare:byte;
     Field_04:byte; // unknown
     Field_05:byte; // unknown
     Field_06:byte; // unknown
     Field_07:byte; // unknown
-    Field_08:bool;
+    Field_08:bool; // unknown
 }
 
 table TIFieldAttributePickerComponent (fs_serializer) {
