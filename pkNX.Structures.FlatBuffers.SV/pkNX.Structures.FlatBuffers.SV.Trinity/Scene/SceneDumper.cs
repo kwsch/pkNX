@@ -89,6 +89,7 @@ public static class SceneDumper
                 case "ti_FieldComponent": DumpTIFieldComponent(data, tw, depth); break;
                 case "ti_FieldAttributePickerComponent": DumpTIFieldAttributePickerComponent(data, tw, depth); break;
                 case "ti_PokemonModelComponent": DumpTIPokemonModelComponent(data, tw, depth); break;
+                case "ti_FieldPokemonComponent": DumpTIFieldPokemonComponent(data, tw, depth); break;
                 case "pe_AudioGeneratorComponent": DumpPEAudioGeneratorComponent(data, tw, depth); break;
                 case "trinity_CollisionEventTriggerComponent": DumpCollisionEventTriggerComponent(data, tw, depth); break;
                 case "trinity_EnvironmentParameter": DumpTrinityEnvironmentParameter(data, tw, depth); break;
@@ -194,6 +195,20 @@ public static class SceneDumper
     private static void DumpTIPokemonModelComponent(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TIPokemonModelComponent>(data);
+        Write(tw, depth, $"{nameof(props.DevId)}:   {props.DevId}");
+        Write(tw, depth, $"{nameof(props.FormId)}:  {props.FormId}");
+        Write(tw, depth, $"{nameof(props.Sex)}:     {props.Sex}");
+        Write(tw, depth, $"{nameof(props.Rare)}:    {props.Rare}");
+        Write(tw, depth, $"{nameof(props.Field04)}: {props.Field04}");
+        Write(tw, depth, $"{nameof(props.Field05)}: {props.Field05}");
+        Write(tw, depth, $"{nameof(props.Field06)}: {props.Field06}");
+        Write(tw, depth, $"{nameof(props.Field07)}: {props.Field07}");
+        Write(tw, depth, $"{nameof(props.Field08)}: {props.Field08}");
+    }
+
+    private static void DumpTIFieldPokemonComponent(Memory<byte> data, TextWriter tw, int depth)
+    {
+        var props = FlatBufferConverter.DeserializeFrom<TIFieldPokemonComponent>(data);
         Write(tw, depth, $"{nameof(props.DevId)}:   {props.DevId}");
         Write(tw, depth, $"{nameof(props.FormId)}:  {props.FormId}");
         Write(tw, depth, $"{nameof(props.Sex)}:     {props.Sex}");
