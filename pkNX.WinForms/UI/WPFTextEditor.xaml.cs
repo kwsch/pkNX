@@ -40,15 +40,17 @@ public partial class WPFTextEditor
             }
         }
         public ulong Hash { get; private set; }
+        public ushort Flags { get; set; }
         public string Text { get; set; }
 
         public bool IsReadOnly { get; }
 
-        public TextEditorEntry(int line, string variable, ulong hash, string text, bool isLastRow = false)
+        public TextEditorEntry(int line, string variable, ulong hash, ushort flags, string text, bool isLastRow = false)
         {
             Line = line;
             _variable = variable;
             Hash = hash;
+            Flags = flags;
             Text = text;
             IsReadOnly = isLastRow;
         }
@@ -177,12 +179,20 @@ public partial class WPFTextEditor
             {
                 hash = FnvHash.HashFnv1a_64(variable);
             }
-
             line = line[(nextSeparator + 1)..]; // Skip over the hash and the third '|'
+
+            nextSeparator = line.IndexOf('|');
+            if (!ValidateSeparatorIndex(nextSeparator, i, line))
+                return false;
+
+            // Skip the first two characters '0x'
+            ushort.TryParse(line[2..nextSeparator], NumberStyles.HexNumber, null, out var flags);
+
+            line = line[(nextSeparator + 1)..]; // Skip over the flags and the fourth '|'
 
             string text = line.ToString(); // The rest of the line is the text
 
-            entries.Add(new TextEditorEntry(entries.Count, variable, hash, text));
+            entries.Add(new TextEditorEntry(entries.Count, variable, hash, flags, text));
         }
 
         if (!forceImport && Entries.Count != entries.Count)
@@ -199,6 +209,7 @@ public partial class WPFTextEditor
         foreach (var entry in entries)
             Entries.Add(entry);
 
+        Modified = true;
         return true;
     }
 
@@ -217,7 +228,7 @@ public partial class WPFTextEditor
                     textString = textString.Replace("\\n", "\n");
                 }
 
-                tw.WriteLine($"|{entry.Variable}|0x{entry.Hash:X16}|{textString}");
+                tw.WriteLine($"|{entry.Variable}|0x{entry.Hash:X16}|0x{entry.Flags:X4}|{textString}");
             }
         }
         File.WriteAllBytes(fileName, ms.ToArray());
@@ -227,7 +238,7 @@ public partial class WPFTextEditor
     {
         if (Entries.Count == 0 || index < 0 || index >= Entries.Count - 1)
         {
-            Entries.Add(new TextEditorEntry(Entries.Count, "", 0, ""));
+            Entries.Add(new TextEditorEntry(Entries.Count, "", 0, 0, ""));
             DG_Text.SelectedIndex = Entries.Count - 1;
             return;
         }
@@ -241,7 +252,7 @@ public partial class WPFTextEditor
         }
         // Insert new Row after current row.
         int nextLine = index + 1;
-        Entries.Insert(nextLine, new TextEditorEntry(nextLine, "", 0, ""));
+        Entries.Insert(nextLine, new TextEditorEntry(nextLine, "", 0, 0, ""));
         DG_Text.SelectedIndex = nextLine;
 
         for (int i = nextLine + 1; i < Entries.Count; i++)
@@ -277,7 +288,9 @@ public partial class WPFTextEditor
         var textFile = TextFiles[LoadedFileIndex];
         var tblFile = TableFiles[LoadedFileIndex];
 
-        var lines = new TextFile(textFile.ReadAllBytes(), Config).Lines;
+        var file = new TextFile(textFile.ReadAllBytes(), Config);
+        var lines = file.Lines;
+        var flags = file.Flags;
         var tbl = new AHTB(tblFile.Open());
 
         // The table has 1 more entry than the dat to show when the table ends
@@ -290,7 +303,9 @@ public partial class WPFTextEditor
             textFile.Delete(DeleteMode.TopMostWriteableLayer);
             tblFile.Delete(DeleteMode.TopMostWriteableLayer);
 
-            lines = new TextFile(textFile.ReadAllBytes(), Config).Lines; // Reopen the original file
+            file = new TextFile(textFile.ReadAllBytes(), Config); // Reopen the original file
+            lines = file.Lines;
+            flags = file.Flags;
             tbl = new AHTB(tblFile.Open()); // Reopen the original file
 
             Debug.Assert(tbl.Entries.Length == lines.Length + 1);
@@ -300,8 +315,9 @@ public partial class WPFTextEditor
         {
             var label = tbl.Entries[i];
             bool isLast = i == tbl.Count - 1;
+            ushort flag = isLast ? (ushort)0 : flags[i];
             var text = isLast ? "" : lines[i];
-            Entries.Add(new TextEditorEntry(i, label.Name, label.Hash, text, isLast));
+            Entries.Add(new TextEditorEntry(i, label.Name, label.Hash, flag, text, isLast));
         }
     }
 
@@ -310,7 +326,7 @@ public partial class WPFTextEditor
         if (!Modified)
             return;
 
-        var textBytes = TextFile.GetBytes(Entries.SkipLast(1).Select(x => x.Text), Config);
+        var textBytes = TextFile.GetBytes(Entries.SkipLast(1).Select(x => x.Text), Entries.SkipLast(1).Select(x => x.Flags), Config);
         TextFiles[LoadedFileIndex].WriteAllBytes(textBytes);
 
         AHTB tbl = new(Entries.ToDictionary(x => x.Hash, y => y.Variable));
@@ -448,6 +464,9 @@ public partial class WPFTextEditor
                 Modified |= entry.Variable != text;
                 break;
             case 3:
+                Modified |= entry.Flags.ToString() != text;
+                break;
+            case 4:
                 Modified |= entry.Text != text;
                 break;
         }

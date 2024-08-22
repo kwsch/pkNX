@@ -43,7 +43,8 @@ public class TextContainer
         {
             if (Cache[i] is not { } x)
                 continue;
-            Container[i] = TextFile.GetBytes(x, Config, Remap);
+            var flags = new ushort[x.Length]; // TODO: handle properly, for now just zero-out flags
+            Container[i] = TextFile.GetBytes(x, flags, Config, Remap);
         }
     }
 }

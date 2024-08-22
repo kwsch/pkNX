@@ -43,10 +43,11 @@ public class TextFile
         RemapChars = remapChars;
     }
 
-    public TextFile(IEnumerable<string> lines, TextConfig? config = null, bool remapChars = false)
+    public TextFile(IEnumerable<string> lines, IEnumerable<ushort> flags, TextConfig? config = null, bool remapChars = false)
         : this(config, remapChars)
     {
         Lines = lines.ToArray();
+        Flags = flags.ToArray();
     }
 
     public byte[] Data;
@@ -65,24 +66,26 @@ public class TextFile
         get
         {
             var result = new TextLine[LineCount];
-            int sdo = (int)SectionDataOffset;
+            int lineOffsetsBase = (int)SectionDataOffset + sizeof(uint);
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = new TextLine
                 {
-                    Offset = BitConverter.ToInt32(Data, (i * 8) + sdo + 4) + sdo,
-                    Length = BitConverter.ToInt16(Data, (i * 8) + sdo + 8),
+                    Offset = BitConverter.ToInt32(Data, lineOffsetsBase + (i * 8)),
+                    Length = BitConverter.ToUInt16(Data, lineOffsetsBase + (i * 8) + 4),
+                    Flags = BitConverter.ToUInt16(Data, lineOffsetsBase + (i * 8) + 6),
                 };
             }
             return result;
         }
         set
         {
-            int sdo = (int)SectionDataOffset;
+            int lineOffsetsBase = (int)SectionDataOffset + sizeof(uint);
             for (int i = 0; i < value.Length; i++)
             {
-                BitConverter.GetBytes(value[i].Offset).CopyTo(Data, (i * 8) + sdo + 4);
-                BitConverter.GetBytes(value[i].Length).CopyTo(Data, (i * 8) + sdo + 8);
+                BitConverter.GetBytes(value[i].Offset).CopyTo(Data, lineOffsetsBase + (i * 8));
+                BitConverter.GetBytes(value[i].Length).CopyTo(Data, lineOffsetsBase + (i * 8) + 4);
+                BitConverter.GetBytes(value[i].Flags).CopyTo(Data, lineOffsetsBase + (i * 8) + 6);
             }
         }
     }
@@ -92,7 +95,8 @@ public class TextFile
         ushort key = GetLineKey(index);
         var line = LineOffsets[index];
         byte[] EncryptedLineData = new byte[line.Length * 2];
-        Array.Copy(Data, line.Offset, EncryptedLineData, 0, EncryptedLineData.Length);
+        int sdo = (int)SectionDataOffset;
+        Array.Copy(Data, sdo + line.Offset, EncryptedLineData, 0, EncryptedLineData.Length);
 
         return CryptLineData(EncryptedLineData, key);
     }
@@ -112,10 +116,11 @@ public class TextFile
             ushort key = KEY_BASE;
             var result = new byte[LineCount][];
             var lines = LineOffsets;
+            int sdo = (int)SectionDataOffset;
             for (int i = 0; i < lines.Length; i++)
             {
                 byte[] EncryptedLineData = new byte[lines[i].Length * 2];
-                Array.Copy(Data, lines[i].Offset, EncryptedLineData, 0, EncryptedLineData.Length);
+                Array.Copy(Data, sdo + lines[i].Offset, EncryptedLineData, 0, EncryptedLineData.Length);
 
                 result[i] = CryptLineData(EncryptedLineData, key);
                 key += KEY_ADVANCE;
@@ -126,18 +131,21 @@ public class TextFile
         {
             // rebuild LineInfo
             var lines = new TextLine[value.Length];
-            int bytesUsed = 0;
+            int bytesUsed = sizeof(uint) + value.Length * 8; // SectionLength + LineOffsets
             for (int i = 0; i < lines.Length; i++)
             {
-                lines[i] = new TextLine { Offset = 4 + (8 * value.Length) + bytesUsed, Length = value[i].Length / 2 };
+                lines[i] = new TextLine { Offset = bytesUsed, Length = (ushort)(value[i].Length / 2) };
                 bytesUsed += value[i].Length;
+                if (bytesUsed % 4 == 2)
+                    bytesUsed += 2;
             }
 
             // Apply Line Data
             int sdo = (int)SectionDataOffset;
-            Array.Resize(ref Data, sdo + 4 + (8 * value.Length) + bytesUsed);
+            Array.Resize(ref Data, sdo + bytesUsed);
             LineOffsets = lines;
-            value.SelectMany(i => i).ToArray().CopyTo(Data, Data.Length - bytesUsed);
+            for (int i = 0; i < value.Length; i++)
+                value[i].CopyTo(Data, sdo + lines[i].Offset);
             TotalLength = SectionLength = (uint)(Data.Length - sdo);
             LineCount = (ushort)value.Length;
         }
@@ -160,6 +168,18 @@ public class TextFile
         set => LineData = ConvertLinesToData(value);
     }
 
+    public ushort[] Flags
+    {
+        get => LineOffsets.Select(x => x.Flags).ToArray();
+        set
+        {
+            var offsets = LineOffsets;
+            for (int i = 0; i < value.Length; i++)
+                offsets[i].Flags = value[i];
+            LineOffsets = offsets;
+        }
+    }
+
     private byte[][] ConvertLinesToData(string?[] value)
     {
         ushort key = KEY_BASE;
@@ -172,8 +192,6 @@ public class TextFile
 
             var data = GetLineData(Config, RemapChars, text);
             CryptLineDataInPlace(data, key);
-            if (data.Length % 4 == 2)
-                Array.Resize(ref data, data.Length + 2);
 
             lineData[i] = data;
             key += KEY_ADVANCE;
@@ -506,8 +524,8 @@ public class TextFile
         catch { return null; }
     }
 
-    public static byte[] GetBytes(IEnumerable<string> lines, TextConfig? config = null, bool remapChars = false)
+    public static byte[] GetBytes(IEnumerable<string> lines, IEnumerable<ushort> flags, TextConfig? config = null, bool remapChars = false)
     {
-        return new TextFile(lines, config, remapChars).Data;
+        return new TextFile(lines, flags, config, remapChars).Data;
     }
 }
