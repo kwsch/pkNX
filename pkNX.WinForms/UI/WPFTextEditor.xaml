@@ -62,6 +62,7 @@
                 <DataGridTextColumn Header="Line" IsReadOnly="True" Binding="{Binding Line}"/>
                 <DataGridTextColumn Header="Variable" Binding="{Binding Variable}"/>
                 <DataGridTextColumn Header="Hash" IsReadOnly="True" Binding="{Binding Hash, StringFormat=0x\{0:X16\}}" Visibility="{Binding Source={x:Reference CHK_ShowHashes}, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <DataGridTextColumn Header="Flags" Binding="{Binding Flags}"/>
                 <DataGridTextColumn Header="Text" Binding="{Binding Text}"/>
             </DataGrid.Columns>
         </DataGrid>
