@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using pkNX.Structures;
 
@@ -84,6 +85,7 @@ public sealed class GameLocation
     private const int FILECOUNT_SWSH_110 = 41951; // Ver. 1.1.0 (Galarian Slowpoke)
     private const int FILECOUNT_SWSH_120 = 46867; // Ver. 1.2.0 (Isle of Armor)
     private const int FILECOUNT_SWSH_130 = 50494; // Ver. 1.3.0 (Crown Tundra)
+    private const int FILECOUNT_SWSH_132 = 50517; // Ver. 1.3.0 (Crown Tundra)
     private const int FILECOUNT_LA = 18_370;
     private const int FILECOUNT_LA_101 = 18_371; // Ver. 1.0.1 (Day 1 Patch)
     private const int FILECOUNT_LA_110 = 19_095; // Ver. 1.1.0 (Daybreak)
@@ -97,7 +99,7 @@ public sealed class GameLocation
     private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
     {
         string GetTitleID() => BitConverter.ToUInt64(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")), 0x290).ToString("X16");
-
+        
         switch (fileCount)
         {
             case FILECOUNT_XY: return GameVersion.XY;
@@ -132,6 +134,7 @@ public sealed class GameLocation
             case FILECOUNT_SWSH_110:
             case FILECOUNT_SWSH_120:
             case FILECOUNT_SWSH_130:
+            case FILECOUNT_SWSH_132:
             {
                 if (exefs == null)
                     return GameVersion.SWSH;

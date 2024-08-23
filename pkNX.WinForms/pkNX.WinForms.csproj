@@ -45,6 +45,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FlatSharp.Compiler" Version="7.6.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FlatSharp.Runtime" Version="7.6.0" />
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
     <PackageReference Include="PKHeX.Core" Version="24.5.5" />
   </ItemGroup>
