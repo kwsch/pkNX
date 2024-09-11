@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -646,6 +647,19 @@ internal class EditorSWSH : EditorBase
         var names = Enumerable.Range(0, trades.Count).Select(z => $"{z:000}").ToArray();
         var cache = new DirectCache<Structures.FlatBuffers.SWSH.EncounterTrade>(trades);
 
+        // Get dialogues
+        var text = ROM.GetFilteredFolder(GameFile.StoryText, z => Path.GetExtension(z) == ".dat");
+        var text_config = new TextConfig(ROM.Game);
+        var tc = new TextContainer(text, text_config);
+
+        string[] field_trade = ["null"];
+        for (int i = 0; i < tc.Length; i++){
+            if(tc.GetFileName(i) == "field_trade"){
+                field_trade = tc[i];
+                break;
+            }
+        }
+
         void Randomize()
         {
             int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
@@ -660,6 +674,10 @@ internal class EditorSWSH : EditorBase
             srand.Initialize(spec, ban);
             foreach (var t in trades)
             {
+                // Get original names
+                var originalReceiveName = Enum.GetName(typeof(Species),t.Species);
+                var originalGiveName = Enum.GetName(typeof(Species),t.RequiredSpecies);
+
                 // what you receive
                 t.Species = srand.GetRandomSpecies(t.Species);
                 t.Form = (byte)frand.GetRandomForm(t.Species, false, spec.AllowRandomFusions, ROM.Info.Generation, Data.PersonalData.Table);
@@ -677,7 +695,22 @@ internal class EditorSWSH : EditorBase
                 t.RequiredSpecies = srand.GetRandomSpecies(t.RequiredSpecies);
                 t.RequiredForm = (byte)frand.GetRandomForm(t.RequiredSpecies, false, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.RequiredNature = (int)Nature.Random25; // any
+
+                // Update trade dialog
+                var newReceiveName = Enum.GetName(typeof(Species),t.Species);
+                var newGiveName = Enum.GetName(typeof(Species),t.RequiredSpecies);
+
+                for (int i = 0; i < field_trade.Length; i++){
+                    if(field_trade[i].Contains(originalReceiveName) && field_trade[i].Contains(originalGiveName)){
+                        // Update in two steps to avoid mistakes when randomized received matches original given etc
+                        field_trade[i].Replace(originalReceiveName,"!RECEIVE!");
+                        field_trade[i].Replace(originalGiveName,"!GIVE!");
+                        field_trade[i].Replace("!RECEIVE!",newReceiveName);
+                        field_trade[i].Replace("!GIVE!",newGiveName);
+                    }
+                }
             }
+            tc.Save(); 
         }
 
         using var form = new GenericEditor<Structures.FlatBuffers.SWSH.EncounterTrade>(cache, names, "In-Game Trades Editor", Randomize);
