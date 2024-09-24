@@ -114,4 +114,30 @@ table TrinitySceneObject (fs_serializer) {
     Field_08:[string] (required);
 }
 
+table TrinityCharacterCreationMasterComponent (fs_serializer) {
+    Field_00:string (required);
+    Field_01:byte;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+    Field_05:byte;
+    Field_06:float;
+    Field_07:uint;
+    Field_08:float;
+    Field_09:uint;
+    Field_10:float;
+    Field_11:uint;
+    Field_12:float;
+    Field_13:byte;
+    Field_14:uint;
+    Field_15:[TrinityCharacterCreationMasterComponentInner] (required);
+    Field_16:string;
+}
+
+table TrinityCharacterCreationMasterComponentInner (fs_serializer) {
+    ModelType:string;
+    ModelPath:string;
+    Variant:string;
+}
+
 root_type TrinitySceneObject;

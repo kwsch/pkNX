@@ -95,6 +95,7 @@ public static class SceneDumper
                 case "trinity_EnvironmentParameter": DumpTrinityEnvironmentParameter(data, tw, depth); break;
                 case "trinity_OverrideSensorData": DumpTrinityOverrideSensorData(data, tw, depth); break;
                 case "pe_FlatbuffersDataComponent": DumpPEFlatbuffersDataComponent(data, tw, depth); break;
+                case "trinity_CharacterCreationMasterComponent": DumpTrinityCharacterCreationMasterComponent(data, tw, depth); break;
                 default:
                     if (ThrowOnUnknownType)
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -108,6 +109,35 @@ public static class SceneDumper
         }
         if (Bucket.Length != 0)
             AddToBucket(data.Span, type);
+    }
+
+    private static void DumpTrinityCharacterCreationMasterComponent(Memory<byte> data, TextWriter tw, int depth)
+    {
+        var props = FlatBufferConverter.DeserializeFrom<TrinityCharacterCreationMasterComponent>(data);
+        Write(tw, depth, $"{nameof(props.Field00)}: {props.Field00}");
+        Write(tw, depth, $"{nameof(props.Field01)}: {props.Field01}");
+        Write(tw, depth, $"{nameof(props.Field02)}: {props.Field02}");
+        Write(tw, depth, $"{nameof(props.Field03)}: {props.Field03}");
+        Write(tw, depth, $"{nameof(props.Field04)}: {props.Field04}");
+        Write(tw, depth, $"{nameof(props.Field05)}: {props.Field05}");
+        Write(tw, depth, $"{nameof(props.Field06)}: {props.Field06}");
+        Write(tw, depth, $"{nameof(props.Field07)}: {props.Field07}");
+        Write(tw, depth, $"{nameof(props.Field08)}: {props.Field08}");
+        Write(tw, depth, $"{nameof(props.Field09)}: {props.Field09}");
+        Write(tw, depth, $"{nameof(props.Field10)}: {props.Field10}");
+        Write(tw, depth, $"{nameof(props.Field11)}: {props.Field11}");
+        Write(tw, depth, $"{nameof(props.Field12)}: {props.Field12}");
+        Write(tw, depth, $"{nameof(props.Field13)}: {props.Field13}");
+        Write(tw, depth, $"{nameof(props.Field14)}: {props.Field14}");
+
+        foreach (var obj in props.Field15)
+        {
+            Write(tw, depth + 1, $"{nameof(obj.ModelType)}: {obj.ModelType}");
+            Write(tw, depth + 1, $"{nameof(obj.ModelPath)}: {obj.ModelPath}");
+            Write(tw, depth + 1, $"{nameof(obj.Variant)}:   {obj.Variant}");
+        }
+
+        Write(tw, depth, $"{nameof(props.Field16)}: {props.Field16}");
     }
 
     private static void DumpTrinityOverrideSensorData(Memory<byte> data, TextWriter tw, int depth)
