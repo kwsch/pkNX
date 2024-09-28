@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using PKHeX.Core;
 using pkNX.Containers;
 using pkNX.Game;
@@ -530,6 +531,7 @@ internal class EditorSWSH : EditorBase
 
         void Randomize()
         {
+
             var tradeEvos = new[] { 221, 226, 227, 233, 235, 252, 321, 322, 323, 324, 325, 573, 646, 647 };
             foreach (var item in items)
             {
@@ -660,6 +662,8 @@ internal class EditorSWSH : EditorBase
             }
         }
 
+        int[] tradingLines = [127,128,129,130,131,132,133,134,135,135,136,137,0,8,16,24,32,40,48,56,64,72,80];
+
         void Randomize()
         {
             int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
@@ -672,6 +676,7 @@ internal class EditorSWSH : EditorBase
             var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
             var frand = new FormRandomizer(Data.PersonalData);
             srand.Initialize(spec, ban);
+            int tradeCounter = 0;
             foreach (var t in trades)
             {
                 // Get original names
@@ -700,15 +705,11 @@ internal class EditorSWSH : EditorBase
                 var newReceiveName = Enum.GetName(typeof(Species),t.Species);
                 var newGiveName = Enum.GetName(typeof(Species),t.RequiredSpecies);
 
-                for (int i = 0; i < field_trade.Length; i++){
-                    if(field_trade[i].Contains(originalReceiveName) && field_trade[i].Contains(originalGiveName)){
-                        // Update in two steps to avoid mistakes when randomized received matches original given etc
-                        field_trade[i].Replace(originalReceiveName,"!RECEIVE!");
-                        field_trade[i].Replace(originalGiveName,"!GIVE!");
-                        field_trade[i].Replace("!RECEIVE!",newReceiveName);
-                        field_trade[i].Replace("!GIVE!",newGiveName);
-                    }
-                }
+                int ind = tradingLines[tradeCounter];            
+                field_trade[ind] = "Do you happen to have a " + Structures.FormInfo.GetOutOfBattleFormNames((ushort)t.RequiredSpecies)[t.RequiredForm] + newGiveName + 
+                                        "?\nDo you want to trade it for my " + Structures.FormInfo.GetOutOfBattleFormNames((ushort)t.Species)[t.Form]+ newReceiveName+ "?";
+                
+                tradeCounter++;        
             }
             tc.Save(); 
         }
@@ -722,7 +723,7 @@ internal class EditorSWSH : EditorBase
     }
 
     public void EditDynamaxAdv()
-    {
+    {   
         var arc = ROM.GetFile(GameFile.DynamaxDens);
         var data = arc[0];
         var objs = FlatBufferConverter.DeserializeFrom<EncounterUndergroundArchive>(data);
@@ -798,6 +799,12 @@ internal class EditorSWSH : EditorBase
 
         List<PlacementZoneArchive> areas = [];
         List<string> names = [];
+
+        int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+        ushort[] PossibleTMHM = Legal.Pouch_TMHM_SWSH;
+
+        Dictionary<int,ulong> hashes = ItemHash8.IDtoHash;
+
         foreach (var area in area_names)
         {
             var areaName = area.Value;
@@ -815,7 +822,7 @@ internal class EditorSWSH : EditorBase
         var arr = areas.ToArray();
         var nameArr = names.ToArray();
         var cache = new DataCache<PlacementZoneArchive>(arr);
-        var form = new GenericEditor<PlacementZoneArchive>(cache, nameArr, "Placement", canSave: true);
+        var form = new GenericEditor<PlacementZoneArchive>(cache, nameArr, "Placement", Randomize, canSave: true);
         form.ShowDialog();
         if (!form.Modified)
             return;
@@ -828,5 +835,44 @@ internal class EditorSWSH : EditorBase
             placement.SetDataFileName(nameArr[i], bin);
         }
         arc[0] = placement.Write();
+        
+        void Randomize()
+        {
+            foreach (var area in areas){
+                foreach (var placement in area.Table){
+                    // Randomize FieldItems
+                    foreach (var item in placement.FieldItems){
+                        // Change red items to random items
+                        if(item.Field00.Field02 == "bin/field/model/unit_obj/unit_obj_itemred01/unit_obj_itemred01"){
+                            item.Field00.Flags[0] = hashes[PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)]];
+                            // Set Amount to 1
+                            item.Field00.Items[0] = 1;
+                        }
+                        // Change yellow items to random TMs
+                        else if(item.Field00.Field02 =="bin/field/model/unit_obj/unit_obj_itemyel01/unit_obj_itemyel01"){
+                            item.Field00.Flags[0] = hashes[PossibleTMHM[Randomization.Util.Random.Next(PossibleTMHM.Length)]];
+                        }
+                    }
+                    // Randomize HiddenItems
+                    foreach (var item in placement.HiddenItems){
+                        item.Field00.Field02[0].Hash = hashes[PossibleHeldItems[Randomization.Util.Random.Next(PossibleHeldItems.Length)]];
+                        // Set Amount to 1
+                        item.Field00.Field02[0].Quantity = 1;
+                        // Set Chance to 100
+                        item.Field00.Field02[0].Chance = 100;
+                    }
+                }
+            }
+
+            // Save changes
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var obj = arr[i];
+                var bin = obj.SerializeFrom();
+                placement.SetDataFileName(nameArr[i], bin);
+            }
+            arc[0] = placement.Write();
+        
+        }
     }
 }
