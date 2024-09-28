@@ -3,5 +3,6 @@ namespace pkNX.Structures;
 internal class TextLine
 {
     public int Offset;
-    public int Length;
+    public ushort Length;
+    public ushort Flags;
 }
