@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace pkNX.Structures;
@@ -60,7 +59,7 @@ public static class Util
         if (entries.Length < size)
             return [];
 
-        Debug.Assert(entries.Length % size == 0, "This data of size "+entries.Length+" can't be split into equally sized entries with the provided slice size " + size);
+        Debug.Assert(entries.Length % size == 0, $"This data of size {entries.Length} can't be split into equally sized entries with the provided slice size {size}");
 
         var array = new T[entries.Length / size];
         for (int i = 0; i < entries.Length; i += size)

@@ -182,6 +182,8 @@ public enum GameFile
     ArchiveFolder,
     PokemonArchiveFolder,
 
+    ItemHash,
+
     /// <summary> Area Resident Archive </summary>
     Resident,
     archive_contents,

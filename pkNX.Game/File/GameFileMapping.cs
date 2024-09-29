@@ -182,6 +182,7 @@ public class GameFileMapping
         new(Rentals, SingleFile, "bin", "script_event_data", "rental.bin"),
         new(SymbolBehave, SingleFile, "bin", "field", "param", "symbol_encount_mons_param", "symbol_encount_mons_param.bin"),
 
+        new(ItemHash, SingleFile, "bin", "pml", "item", "item_hash_to_index.dat"),
         // Cutscenes    bin\demo
         // Models       bin\archive\pokemon
         // pretty much everything is obviously named :)

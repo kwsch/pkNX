@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using pkNX.Structures;
 
@@ -99,7 +98,7 @@ public sealed class GameLocation
     private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
     {
         string GetTitleID() => BitConverter.ToUInt64(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")), 0x290).ToString("X16");
-        
+
         switch (fileCount)
         {
             case FILECOUNT_XY: return GameVersion.XY;
