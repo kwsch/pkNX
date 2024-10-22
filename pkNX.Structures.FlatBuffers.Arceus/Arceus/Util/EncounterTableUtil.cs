@@ -89,7 +89,7 @@ public static class EncounterTableUtil
             var items = area.LandItems;
             var lis = items.Where(z => z.UsesTable(table.TableID)).ToList();
 
-            var marks = area.LandMarks;
+            var marks = area.LandMarks.Where(z => !z.IsTreeWithoutSpawns);
             var li = marks.Where(z => lis.Any(sz => z.UsesTable(sz.LandmarkItemSpawnTableID)));
             var sl = li.SelectMany(z => z.GetIntersectingLocations(area.Locations, LandmarkBias));
             foreach (var a in GetAll(sl, SpawnerType.Landmark))
@@ -267,7 +267,8 @@ public static class EncounterTableUtil
             var name = valueTuples[contained].Name;
             var spawn = usedByLandmarkSpawns.First(sz => s.UsesTable(sz.LandmarkItemSpawnTableID));
             var p = s.Parameters;
-            yield return $"Landmark: {s.NameSummary}_{s.Field01:X16}_{spawn.NameSummary} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
+            var accessible = s.IsTreeWithoutSpawns ? "NO SPAWN" : "Landmark";
+            yield return $"{accessible}: {s.NameSummary}_{s.Field01:X16}_{spawn.NameSummary} ({p.GetConditionSummary()}) @ {p.Coordinates.ToTriple()}, {area.AreaName} = {name}";
         }
     }
 

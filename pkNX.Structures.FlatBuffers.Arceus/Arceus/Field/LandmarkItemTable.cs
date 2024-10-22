@@ -60,6 +60,15 @@ public partial class LandmarkItem : ISlotTableConsumer
         return result;
     }
 
+    public bool IsTreeWithoutSpawns
+    {
+        get
+        {
+            var map = GetNameMap();
+            return map.TryGetValue(LandmarkItemNameID, out var name) && name.StartsWith("gimmick_tree10");
+        }
+    }
+
     public string NameSummary
     {
         get
