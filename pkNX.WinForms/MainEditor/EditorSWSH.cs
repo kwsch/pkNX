@@ -636,6 +636,12 @@ internal class EditorSWSH : EditorBase
         }
     }
 
+    private static ReadOnlySpan<int> tradingLines =>
+    [
+        127, 128, 129, 130, 131, 132, 133, 134, 135, 135, 136, 137,
+        000, 008, 016, 024, 032, 040, 048, 056, 064, 072, 080,
+    ];
+
     public void EditTrade()
     {
         var arc = ROM.GetFile(GameFile.EncounterTableTrade);
@@ -645,6 +651,20 @@ internal class EditorSWSH : EditorBase
         var trades = objs.Table;
         var names = Enumerable.Range(0, trades.Count).Select(z => $"{z:000}").ToArray();
         var cache = new DirectCache<Structures.FlatBuffers.SWSH.EncounterTrade>(trades);
+
+        // Get dialogues
+        var text = ROM.GetFilteredFolder(GameFile.StoryText, z => Path.GetExtension(z) == ".dat");
+        var text_config = new TextConfig(ROM.Game);
+        var tc = new TextContainer(text, text_config);
+
+        string[] field_trade = ["null"];
+        for (int i = 0; i < tc.Length; i++)
+        {
+            if (tc.GetFileName(i) != "field_trade")
+                continue;
+            field_trade = tc[i];
+            break;
+        }
 
         void Randomize()
         {
@@ -658,6 +678,7 @@ internal class EditorSWSH : EditorBase
             var srand = new SpeciesRandomizer(ROM.Info, Data.PersonalData);
             var frand = new FormRandomizer(Data.PersonalData);
             srand.Initialize(spec, ban);
+
             foreach (var t in trades)
             {
                 // what you receive
@@ -678,6 +699,34 @@ internal class EditorSWSH : EditorBase
                 t.RequiredForm = (byte)frand.GetRandomForm(t.RequiredSpecies, false, false, ROM.Info.Generation, Data.PersonalData.Table);
                 t.RequiredNature = (int)Nature.Random25; // any
             }
+
+            // Update Trade Dialogues
+            var strings = PKHeX.Core.GameInfo.Strings;
+            for (int i = 0; i < trades.Count; i++)
+            {
+                var t = trades[i];
+                // Update trade dialog
+                static string GetFormPrefix(int species, int form, GameStrings strings)
+                {
+                    if (form == 0)
+                        return "";
+                    var list = FormConverter.GetFormList((ushort)species, strings.types, strings.forms, ["♂", "♀", "-"], EntityContext.Gen8);
+                    if (form >= list.Length)
+                        return "";
+                    return $"{list[form]} ";
+                }
+
+                var reqSpecies = t.RequiredSpecies;
+                var reqForm = GetFormPrefix(reqSpecies, t.RequiredForm, strings);
+                var resSpecies = t.Species;
+                var resForm = GetFormPrefix(resSpecies, t.Form, strings);
+
+                int ind = tradingLines[i];
+                var line1 = $"Do you happen to have a {reqForm}{strings.Species[reqSpecies]}?";
+                var line2 = $"I'd like to trade my {resForm}{strings.Species[resSpecies]} for it.";
+                field_trade[ind] = $"{line1}\n{line2}";
+            }
+            tc.Save();
         }
 
         using var form = new GenericEditor<Structures.FlatBuffers.SWSH.EncounterTrade>(cache, names, "In-Game Trades Editor", Randomize);
@@ -765,6 +814,10 @@ internal class EditorSWSH : EditorBase
 
         List<PlacementZoneArchive> areas = [];
         List<string> names = [];
+
+        int[] PossibleHeldItems = Legal.GetRandomItemList(ROM.Game);
+        ushort[] PossibleTMHM = Legal.Pouch_TMHM_SWSH;
+
         foreach (var area in area_names)
         {
             var areaName = area.Value;
@@ -782,7 +835,7 @@ internal class EditorSWSH : EditorBase
         var arr = areas.ToArray();
         var nameArr = names.ToArray();
         var cache = new DataCache<PlacementZoneArchive>(arr);
-        var form = new GenericEditor<PlacementZoneArchive>(cache, nameArr, "Placement", canSave: true);
+        var form = new GenericEditor<PlacementZoneArchive>(cache, nameArr, "Placement", Randomize, canSave: true);
         form.ShowDialog();
         if (!form.Modified)
             return;
@@ -795,5 +848,57 @@ internal class EditorSWSH : EditorBase
             placement.SetDataFileName(nameArr[i], bin);
         }
         arc[0] = placement.Write();
+
+        void Randomize()
+        {
+            var rnd = Randomization.Util.Random;
+            var itemHashTableData = ROM.GetFile(GameFile.ItemHash)[0];
+            var hashes = ItemHash8.GetItemHashTable(itemHashTableData);
+            foreach (var area in areas)
+            {
+                foreach (var p in area.Table)
+                {
+                    // Randomize FieldItems
+                    foreach (var item in p.FieldItems)
+                    {
+                        switch (item.Field00.Field02)
+                        {
+                            // Change red items to random items
+                            case "bin/field/model/unit_obj/unit_obj_itemred01/unit_obj_itemred01":
+                            {
+                                var id = PossibleHeldItems[rnd.Next(PossibleHeldItems.Length)];
+                                item.Field00.Flags[0] = hashes[id];
+                                item.Field00.Items[0] = 1; // Set Amount to 1
+                                break;
+                            }
+                            // Change yellow items to random TMs
+                            case "bin/field/model/unit_obj/unit_obj_itemyel01/unit_obj_itemyel01":
+                            {
+                                var id = PossibleTMHM[rnd.Next(PossibleTMHM.Length)];
+                                item.Field00.Flags[0] = hashes[id];
+                                break;
+                            }
+                        }
+                    }
+                    // Randomize HiddenItems
+                    foreach (var item in p.HiddenItems)
+                    {
+                        var id = PossibleHeldItems[rnd.Next(PossibleHeldItems.Length)];
+                        item.Field00.Field02[0].Hash = hashes[id];
+                        item.Field00.Field02[0].Quantity = 1; // Set Amount to 1
+                        item.Field00.Field02[0].Chance = 100; // Set Chance to 100
+                    }
+                }
+            }
+
+            // Save changes
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var obj = arr[i];
+                var bin = obj.SerializeFrom();
+                placement.SetDataFileName(nameArr[i], bin);
+            }
+            arc[0] = placement.Write();
+        }
     }
 }
