@@ -5,7 +5,7 @@ namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";
 attribute "fs_valueStruct";
 
-struct AjitoCommonLevelStruct (fs_valueStruct) {
+struct AjitoCommonLevelStruct {
     Type:AjitoTypeEnum;
     Difficulty:AjitoDifficultEnum;
     ClearPokemonNum:int;
