@@ -20,24 +20,20 @@ table TIPokemonModelComponent (fs_serializer) {
     DevId:ushort;
     FormId:ushort;
     Sex:byte;
-    Rare:byte;
-    Field_04:byte; // unknown
-    Field_05:byte; // unknown
-    Field_06:byte; // always 0
+    IsRare:bool;
+    IsEgg:bool;
+    Scale:byte;
     Field_07:byte; // always 0
-    Field_08:bool; // unknown
+    Field_08:byte; // always 0
+    Visible:bool;
 }
 
 table TIFieldPokemonComponent (fs_serializer) {
     DevId:ushort;
     FormId:ushort;
     Sex:byte;
-    Rare:byte;
+    Field_03:byte; // always 0
     Field_04:byte; // unknown
-    Field_05:byte; // unknown
-    Field_06:byte; // always 0
-    Field_07:byte; // always 0
-    Field_08:bool; // unknown
 }
 
 table TIFieldAttributePickerComponent (fs_serializer) {

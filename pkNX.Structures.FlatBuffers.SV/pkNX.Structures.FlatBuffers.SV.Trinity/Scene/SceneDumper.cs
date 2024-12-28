@@ -228,12 +228,12 @@ public static class SceneDumper
         Write(tw, depth, $"{nameof(props.DevId)}:   {props.DevId}");
         Write(tw, depth, $"{nameof(props.FormId)}:  {props.FormId}");
         Write(tw, depth, $"{nameof(props.Sex)}:     {props.Sex}");
-        Write(tw, depth, $"{nameof(props.Rare)}:    {props.Rare}");
-        Write(tw, depth, $"{nameof(props.Field04)}: {props.Field04}");
-        Write(tw, depth, $"{nameof(props.Field05)}: {props.Field05}");
-        Write(tw, depth, $"{nameof(props.Field06)}: {props.Field06}");
+        Write(tw, depth, $"{nameof(props.IsRare)}:  {props.IsRare}");
+        Write(tw, depth, $"{nameof(props.IsEgg)}:   {props.IsEgg}");
+        Write(tw, depth, $"{nameof(props.Scale)}:   {props.Scale}");
         Write(tw, depth, $"{nameof(props.Field07)}: {props.Field07}");
         Write(tw, depth, $"{nameof(props.Field08)}: {props.Field08}");
+        Write(tw, depth, $"{nameof(props.Visible)}: {props.Visible}");
     }
 
     private static void DumpTIFieldPokemonComponent(Memory<byte> data, TextWriter tw, int depth)
@@ -242,12 +242,8 @@ public static class SceneDumper
         Write(tw, depth, $"{nameof(props.DevId)}:   {props.DevId}");
         Write(tw, depth, $"{nameof(props.FormId)}:  {props.FormId}");
         Write(tw, depth, $"{nameof(props.Sex)}:     {props.Sex}");
-        Write(tw, depth, $"{nameof(props.Rare)}:    {props.Rare}");
+        Write(tw, depth, $"{nameof(props.Field03)}: {props.Field03}");
         Write(tw, depth, $"{nameof(props.Field04)}: {props.Field04}");
-        Write(tw, depth, $"{nameof(props.Field05)}: {props.Field05}");
-        Write(tw, depth, $"{nameof(props.Field06)}: {props.Field06}");
-        Write(tw, depth, $"{nameof(props.Field07)}: {props.Field07}");
-        Write(tw, depth, $"{nameof(props.Field08)}: {props.Field08}");
     }
 
     private static void DumpTIAIPerceptualComponent(Memory<byte> data, TextWriter tw, int depth)
