@@ -469,6 +469,12 @@ public class EncounterDumperSV(IFileInternal rom)
         gw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
         gw.WriteLine($"    GemType: {(int)pd.GemType}");
 
+        gw.WriteLine($"    Probability: {entry.PokeGeneration.RepopProbability}");
+        gw.WriteLine($"    Pattern:     {entry.PokeGeneration.GenerationPattern}");
+        gw.WriteLine($"    Scenario:    {entry.PokeGeneration.RequireScenarioId}");
+        gw.WriteLine($"    Action:      {entry.PokeAI.ActionId}");
+        gw.WriteLine($"    Trigger:     {entry.PokeAI.TriggerActionId}");
+
         gw.WriteLine("  Areas:");
         foreach (var area in appearAreas)
         {
