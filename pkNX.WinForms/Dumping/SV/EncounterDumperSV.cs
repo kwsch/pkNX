@@ -160,7 +160,7 @@ public class EncounterDumperSV(IFileInternal rom)
                         return false;
                     }
 
-                    WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, points);
+                    WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas);
 
                     // Serialize
                     if (entry.PokeGeneration.GenerationPattern == GenerationPattern.Watch)
@@ -220,7 +220,7 @@ public class EncounterDumperSV(IFileInternal rom)
                 var entry = fsymData.Table[i];
                 var tableKey = entry.TableKey;
                 var appearAreas = new List<AppearTuple> { new("PLACENAME_a_w23_d10_01", "a_w23_d10_subarea", 0, new()) };
-                WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas, []);
+                WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas);
                 WriteFixedSymbol(serialized, entry, [196]);
             }
         }
@@ -429,7 +429,7 @@ public class EncounterDumperSV(IFileInternal rom)
     }
 
     private static void WriteFixedSpawn(IReadOnlyList<string> specNamesInternal, IReadOnlyList<string> moveNames, Dictionary<string, (string Name, int Index)> placeNameMap,
-        StreamWriter gw, string tableKey, int i, FixedSymbolTable entry, List<AppearTuple> appearAreas, List<PaldeaFixedSymbolPoint> points)
+        StreamWriter gw, string tableKey, int i, FixedSymbolTable entry, List<AppearTuple> appearAreas)
     {
         gw.WriteLine("===");
         gw.WriteLine($"{tableKey} - {i}");
@@ -469,18 +469,14 @@ public class EncounterDumperSV(IFileInternal rom)
         gw.WriteLine($"    Scale:   {Humanize(pd.ScaleType, pd.ScaleValue)}");
         gw.WriteLine($"    GemType: {(int)pd.GemType}");
 
-        gw.WriteLine("  Points:");
-        foreach (var point in points)
-        {
-            gw.WriteLine($"    - ({point.Position.X}, {point.Position.Y}, {point.Position.Z})");
-        }
-
         gw.WriteLine("  Areas:");
         foreach (var area in appearAreas)
         {
             var loc = area.PlaceName;
             (string name, int index) = placeNameMap[loc];
             gw.WriteLine($"    - {area.PlaceName} - {loc} - {name} ({index})");
+            var point = area.Point;
+            gw.WriteLine($"    @ ({point.X}, {point.Y}, {point.Z})");
         }
     }
 
