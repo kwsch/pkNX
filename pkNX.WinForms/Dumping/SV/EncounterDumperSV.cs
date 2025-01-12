@@ -664,7 +664,11 @@ public class EncounterDumperSV(IFileInternal rom)
         ushort species = SpeciesConverterSV.GetNational9((ushort)enc.DevId);
         byte form = (byte)enc.FormId;
         if (species == (int)Species.Minior)
-            form = 31; // Form Random
+        {
+            // Not form random -- keep original form ID.
+            // Encounter Slots themselves are form random, but the fixed symbols aren't.
+            form += 7; // Out of battle form ID (without the rocky shields up)
+        }
 
         bw.Write(species);
         bw.Write(form);
