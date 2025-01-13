@@ -163,8 +163,8 @@ public class EncounterDumperSV(IFileInternal rom)
                     WriteFixedSpawn(specNamesInternal, moveNames, placeNameMap, gw, tableKey, i, entry, appearAreas);
 
                     // Serialize
-                    if (entry.PokeGeneration.GenerationPattern == GenerationPattern.Watch)
-                        continue; // not actually encounter-able, they're just for spectacle (lighthouse wingull)
+                    if (IsAvoidantAction(entry.PokeAI.ActionId))
+                        continue; // not actually encounter-able, they're just for spectacle
                     // var locs = appearAreas.Select(a => placeNameMap[a.PlaceName].Index);
                     if (appearAreas.Count == 0)
                         continue;
@@ -839,4 +839,12 @@ public class EncounterDumperSV(IFileInternal rom)
             result[ahtb.Entries[i].Name] = (text[i], i);
         return result;
     }
+
+    static bool IsAvoidantAction(PokemonActionID action) => action switch
+    {
+        PokemonActionID.FS_POP_PATH_RUN_SPEED_UP_1_NOT_COL_DELAY => true, // lighthouse Wingull (South) and Wattrel (East, West)
+        PokemonActionID.FS_POP_PATH_RUN_SPEED_UP_1_NOT_COL_DESTROY => true, // fence Wingull (Cabo Poco)
+        PokemonActionID.FS_POP_COMMON_FLIGHT_NOT_COL_DESTROY => true, // starting Fletchling (level 2)
+        _ => false,
+    };
 }
