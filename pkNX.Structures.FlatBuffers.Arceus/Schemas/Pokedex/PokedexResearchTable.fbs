@@ -27,21 +27,21 @@ enum ResearchTaskType : int
 
 table PokedexResearchTask {
     Species:int;
-    TaskType:ResearchTaskType = Unknown_0;
+    TaskType:ResearchTaskType;
     Threshold:int;
     Move:int;
     MoveType:int;
     TimeOfDay:int;
-    Hash_06:ulong = 14695981039346656837;
-    Hash_07:ulong = 14695981039346656837;
-    Hash_08:ulong = 14695981039346656837;
-    Threshold1:int = 1;
-    Threshold2:int = 2;
-    Threshold3:int = 4;
-    Threshold4:int = 6;
-    Threshold5:int = 10;
-    PointsSingle:int = 10;
-    PointsBonus:int = 0;
+    Hash_06:ulong; // 14695981039346656837
+    Hash_07:ulong; // 14695981039346656837
+    Hash_08:ulong; // 14695981039346656837
+    Threshold1:int; // 1
+    Threshold2:int; // 2
+    Threshold3:int; // 4
+    Threshold4:int; // 6
+    Threshold5:int; // 10
+    PointsSingle:int; // 10
+    PointsBonus:int; // 0
     RequiredForCompletion:bool; // Unused but referenced by code (bool is set to != 0)
 }
 

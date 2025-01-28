@@ -11,16 +11,16 @@ table PokeAI {
     Behavior2:string (required);
     Behavior3:string (required);
     Field_06:bool;
-    Field_07:ulong = 2458747221614355867;
-    Field_08:bool = true; // always true
+    Field_07:ulong; // 2458747221614355867
+    Field_08:bool; // always true
     Field_09:PokeAI_F09 (required);
-    Field_10:bool = true; // always true
+    Field_10:bool; // always true
     Field_11:PokeAI_F09;
-    Field_12:bool = true; // always true except for Darkrai
+    Field_12:bool; // always true except for Darkrai
     Field_13:PokeAI_F09;
-    Field_14:bool = true; // always true
+    Field_14:bool; // always true
     Field_15:PokeAI_F09;
-    Field_16:bool = true; // always true
+    Field_16:bool; // always true
     Field_17:PokeAI_F09 (required);
     Field_18:PokeAI_F18 (required); // only used by Kleavor-1
     Field_19:PokeAI_F18 (required); // assumed same as above, none use
@@ -29,20 +29,20 @@ table PokeAI {
     MoveEffect1:string (required);
     MoveEffect2:string (required);
     Field_24:PokeAI_F24 (required);
-    Field_25:float = 20;
-    Field_26:float = 30;
+    Field_25:float; // 20
+    Field_26:float; // 30
     Field_27:Vec3f (required); // new(20, 50, 100);
     Field_28:Vec3f (required); // new(20, 50, 100);
     Field_29:Vec3f (required); // new(20, 50, 100);
     Field_30:Vec3f (required); // new(15, 10, 15);
     Field_31:int;
-    Field_32:int = -1;
+    Field_32:int;
     Field_33:int;
     Field_34:float; // cascoon/silcoon
 }
 
 table PokeAI_F24 {
-    Field_00:float = 7;
+    Field_00:float; // 7
 }
 
 table PokeAI_F18 {
@@ -66,7 +66,7 @@ table PokeAI_F09 {
 }
 
 table PokeAIBehaviour {
-    BehaviourHash:ulong = 9252365659083253459 (key);
+    BehaviourHash:ulong (key); // 9252365659083253459
     Parameters:[string] (required); // { "0.5", "35" };
 }
 

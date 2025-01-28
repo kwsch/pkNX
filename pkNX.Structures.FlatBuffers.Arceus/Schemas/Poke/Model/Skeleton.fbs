@@ -16,8 +16,8 @@ table TransformNode {
     TransformData: Transform;
     ScalePivot: PackedVec3f;
     RotatePivot: PackedVec3f;
-    ParentIdx: int = -1;
-    RigIdx: int = -1;
+    ParentIdx: int; // -1
+    RigIdx: int; // -1
     LocatorBone: string;
     Type: NodeType;
 }

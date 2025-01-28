@@ -4,18 +4,18 @@ attribute "fs_serializer";
 table EncounterMultiplier {
     Species:int;
     Form:int;
-    TimeOfDayMultiplier_0:float = -1;
-    TimeOfDayMultiplier_1:float = -1;
-    TimeOfDayMultiplier_2:float = -1;
-    TimeOfDayMultiplier_3:float = -1;
-    WeatherMultiplier_1:float = -1;
-    WeatherMultiplier_2:float = -1;
-    WeatherMultiplier_3:float = -1;
-    WeatherMultiplier_4:float = -1;
-    WeatherMultiplier_5:float = -1;
-    WeatherMultiplier_6:float = -1;
-    WeatherMultiplier_7:float = -1;
-    WeatherMultiplier_8:float = -1;
+    TimeOfDayMultiplier_0:float;
+    TimeOfDayMultiplier_1:float;
+    TimeOfDayMultiplier_2:float;
+    TimeOfDayMultiplier_3:float;
+    WeatherMultiplier_1:float;
+    WeatherMultiplier_2:float;
+    WeatherMultiplier_3:float;
+    WeatherMultiplier_4:float;
+    WeatherMultiplier_5:float;
+    WeatherMultiplier_6:float;
+    WeatherMultiplier_7:float;
+    WeatherMultiplier_8:float;
 }
 
 table EncounterMultiplierArchive (fs_serializer) {

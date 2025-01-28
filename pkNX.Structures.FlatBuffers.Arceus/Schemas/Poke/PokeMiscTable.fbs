@@ -5,10 +5,10 @@ table PokeMisc {
     Species:int;
     Form:int;
     Gender:int; // 0 male/both, 1 female, 2 genderless
-    ScaleFactor:float = 1; // scale factor when not alpha
-    AlphaScaleFactor:float = 2; // scale factor when alpha (forced 255)
-    Field_05:int = 1; // similar scale amplification like Field 6, but not used for levels
-    OybnLevelIndex:int = 2;
+    ScaleFactor:float; // scale factor when not alpha
+    AlphaScaleFactor:float; // scale factor when alpha (forced 255)
+    Field_05:int; // similar scale amplification like Field 6, but not used for levels
+    OybnLevelIndex:int;
 
     DropTableRef:ulong;
     AlphaDropTableRef:ulong;
@@ -16,18 +16,18 @@ table PokeMisc {
     /// "pm0000_00_00"
     Value:string (required);
 
-    /// = { 0, 1, 2, 3 };
+    /// { 0, 1, 2, 3 };
     Field_10:[uint] (required);
-    Field_11:int = 0;
-    Field_12:int = 4;
-    Field_13:int = 10;
-    Field_14:bool = false;
-    Field_15:int = 0;
-    Field_16:float = 0;
-    Field_17:float = 1.0;
-    Field_18:bool = true; // false for zubat, psyduck
-    Field_19:float = 0;
-    Field_20:float = 1.0;
+    Field_11:int;
+    Field_12:int; // 4
+    Field_13:int; // 10
+    Field_14:bool; // false
+    Field_15:int;
+    Field_16:float; // 0
+    Field_17:float; // 1
+    Field_18:bool; // false for zubat, psyduck
+    Field_19:float; // 0
+    Field_20:float; // 1
     Field_21:uint; // None have this
     Field_22:float;
 }

@@ -5,8 +5,8 @@ attribute "fs_valueStruct";
 /// poke_resource_table.trpmcatalog
 
 table PokeResourceVersionInfo {
-    Major: int = 5; // 4 in prior game format
-    Minor: int = 4; // 2 in prior game format
+    Major: int; // Latest is 5, 4 in prior game format
+    Minor: int; // Latest is 4, 2 in prior game format
 }
 
 struct NullableInt32 (fs_valueStruct) {

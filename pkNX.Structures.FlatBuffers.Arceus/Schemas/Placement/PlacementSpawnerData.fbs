@@ -22,9 +22,9 @@ table PlacementSpawner {
     Field_14:float;
     Field_15:float;
     ParentLink:int; // 1 for Alpha parents, 2 for Children -- a [2] uses Behavior2 to alter [1]'s actions (run over to the player) to defend.
-    Field_17:float = -1; // always -1
-    Field_18:float = -1; // always -1
-    Field_19:float = -1; // always -1
+    Field_17:float; // always -1
+    Field_18:float; // always -1
+    Field_19:float; // always -1
     Field_20:[PlacementSpawnerF20] (required);
     Field_21:[PlacementSpawnerF21] (required);
     PathToFollowIDs:[string] (required);

@@ -9,9 +9,9 @@ table EventEncountPoke {
     Species:int;
     Form:int;
     Gender:int;
-    ShinyLock:ShinyType = Random;
+    ShinyLock:ShinyType;
     Level:int;
-    Ability:AbilityType = Any12;
+    Ability:AbilityType;
     Nature:NatureType;
     Height:int;
     Weight:int;

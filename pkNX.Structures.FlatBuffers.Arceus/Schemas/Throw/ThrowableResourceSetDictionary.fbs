@@ -3,7 +3,7 @@ attribute "fs_serializer";
 
 table ThrowableResourceSetEntry {
     ItemType: ulong (key);
-    Flag: bool ;
+    Flag: bool;
     Hash_02: ulong;
     ItemCategory: ulong;
     Hash_04: ulong;

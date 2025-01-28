@@ -38,7 +38,7 @@ enum PokeInfoGenderType : byte {
 }
 
 table PokeInfoGender {
-    GenderValue:PokeInfoGenderType = DualGenderNoDifference;
+    GenderValue:PokeInfoGenderType;
 }
 
 table PokeInfoList (fs_serializer) {

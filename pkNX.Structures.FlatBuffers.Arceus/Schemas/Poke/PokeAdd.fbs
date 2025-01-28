@@ -10,9 +10,9 @@ table PokeAdd {
     Species:int;
     Form:int;
     Gender:int;
-    ShinyLock:ShinyType = Never;
+    ShinyLock:ShinyType;
     Level:int;
-    Ability:AbilityType = Any12;
+    Ability:AbilityType;
     Nature:NatureType;
     Height:int;
     Weight:int;

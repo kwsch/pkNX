@@ -22,8 +22,8 @@ table Shader {
     ShaderBindings: [BindingMap] (required);
     GlobalBindings: [BindingMap] (required);
     BindingsBuffer: [uint] (required); // Contains some offset and Index pairs of uint32 each. Is repeated at least twice, but occasionally more
-    HasShaderBindings: bool = false;
-    HasGlobalBindings: bool = false;
+    HasShaderBindings: bool;
+    HasGlobalBindings: bool;
 }
 
 root_type Shader;

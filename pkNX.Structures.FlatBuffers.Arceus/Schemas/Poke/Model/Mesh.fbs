@@ -42,7 +42,7 @@ table BoneWeight {
 }
 
 table InputLayoutElement {
-    Slot: int = -1; // Possibly input slot? Always zero on PLA all models, but zero is not the default!
+    Slot: int; // -1 Possibly input slot? Always zero on PLA all models, but zero is not the default!
     SemanticName: InputLayoutSemanticName;
     SemanticIndex: uint;
     Format: InputLayoutFormat;
@@ -63,7 +63,7 @@ table SubMesh {
     IndexOffset: uint;
     Field_02: uint; // Always zero on PLA all models
     AppliedMaterial: string;
-    Field_04: int = -1; // 0 or default value
+    Field_04: int; // -1 or 0
 }
 
 table MeshShape {
