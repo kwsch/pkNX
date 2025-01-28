@@ -45,7 +45,7 @@ table PlacementZone_F14_B {
 }
 
 table PlacementZone_F14_Union {
-    Field_00:bool = true;
+    Field_00:bool;
     Field_01:PlacementZone_F14_Sub (required);
 }
 
