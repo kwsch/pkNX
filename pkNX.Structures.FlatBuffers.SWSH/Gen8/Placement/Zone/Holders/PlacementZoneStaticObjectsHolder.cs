@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using FlatSharp;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -20,7 +19,7 @@ public partial class PlacementZoneStaticObjectSpawn
 {
     public IEnumerable<string> GetSummary(IList<EncounterStatic> statics, IReadOnlyList<string> species)
     {
-        var enc = statics.BinarySearchByFlatBufferKey(SpawnID)!;
+        var enc = statics.First(z => z.EncounterID == SpawnID);
         var index = statics.IndexOf(enc);
         yield return $"{species[enc.Species]}{(enc.Form == 0 ? string.Empty : "-" + enc.Form)} Lv. {enc.Level}";
         yield return $"Index: {index}";

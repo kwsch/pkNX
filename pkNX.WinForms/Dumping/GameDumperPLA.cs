@@ -440,6 +440,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         var allUnown = new List<PlacementUnnnEntry>();
         var allMkrg = new List<PlacementMkrgEntry>();
         var allSearchItem = new List<PlacementSearchItem>();
+        var allEncounters = new List<EncounterTable>();
         foreach (var areaNameList in ResidentAreaSet.AreaNames)
         {
             var instance = AreaInstance.Create(resident, areaNameList, settings);
@@ -472,6 +473,7 @@ public class GameDumperPLA(GameManagerPLA rom)
             allUnown.AddRange(instance.Unown);
             allMkrg.AddRange(instance.Mikaruge);
             allSearchItem.AddRange(instance.SearchItem);
+            allEncounters.AddRange(instance.Encounters);
 
             foreach (var subArea in instance.SubAreas)
             {
@@ -484,6 +486,7 @@ public class GameDumperPLA(GameManagerPLA rom)
                 allUnown.AddRange(subArea.Unown);
                 allMkrg.AddRange(subArea.Mikaruge);
                 allSearchItem.AddRange(subArea.SearchItem);
+                allEncounters.AddRange(subArea.Encounters);
             }
         }
 
@@ -493,6 +496,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         File.WriteAllLines(GetPath(wild, "Unown_All.txt"), allUnownLines);
         File.WriteAllLines(GetPath(wild, $"Unown_All_Bias_{bias}.txt"), allUnownLinesBias);
 
+        File.WriteAllText(GetPath(wild, "allEncounters.csv"), TableUtil.GetTable(allEncounters));
         File.WriteAllText(GetPath(wild, "allMultipliers.csv"), TableUtil.GetTable(multipliers.Table));
         File.WriteAllText(GetPath(wild, "PokeMisc.csv"), TableUtil.GetTable(misc.Table));
         File.WriteAllText(GetPath(wild, "allSlotTable.csv"), TableUtil.GetTable(allSlots));
