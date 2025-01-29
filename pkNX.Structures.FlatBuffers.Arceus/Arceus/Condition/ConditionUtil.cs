@@ -4,8 +4,7 @@ public static class ConditionUtil
 {
     public static string GetConditionTypeSummary(this IHasCondition cond)
     {
-        // todo lookup
-        return $"{cond.ConditionTypeID}";
+        return ConditionType.ReverseHash(cond.ConditionTypeID);
     }
 
     public static string GetConditionArgsSummary(this IHasCondition cond)
@@ -25,7 +24,7 @@ public static class ConditionUtil
 
     public static string GetConditionSummary(this IHasCondition cond)
     {
-        // todo lookup
-        return $"{cond.ConditionID}({GetConditionArgsSummary(cond)})";
+        var condition = Condition.ReverseHash(cond.ConditionID);
+        return $"{condition}({GetConditionArgsSummary(cond)})";
     }
 }

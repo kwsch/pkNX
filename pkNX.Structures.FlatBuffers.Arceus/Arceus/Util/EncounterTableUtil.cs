@@ -482,6 +482,19 @@ public static class Condition
     public const ulong Equal = 0xB763CBE88B6F844F;
     public const ulong None = 0xCBF29CE484222645;
     public const ulong Between = 0xE5E34D77DC75E2EF;
+
+    public static string ReverseHash(ulong hash) => hash switch
+    {
+        GreaterThanEqual => nameof(GreaterThanEqual),
+        LessThanEqual => nameof(LessThanEqual),
+        NotEqual => nameof(NotEqual),
+        Equal => nameof(Equal),
+        None => nameof(None),
+        Between => nameof(Between),
+        Empty => nameof(Empty),
+
+        _ => $"0x{hash:X16}",
+    };
 }
 
 public static class ConditionType
@@ -531,4 +544,55 @@ public static class ConditionType
     public const ulong WorkCondition = 0x2557279B949C81D6; // "work_condition"
     public const ulong ZukanResearchCondition = 0x854B2B1FDB9AC9B4; // "zukan_research_condition"
     public const ulong ZukanStageCondition = 0x9A193E701C7F9A61; // "zukan_stage_condition"
+
+    public static string ReverseHash(ulong hash) => hash switch
+    {
+        Empty => nameof(Empty),
+        None => nameof(None),
+        BattleWin => nameof(BattleWin),
+        EventEndFlagComparison => nameof(EventEndFlagComparison),
+        FlagComparison => nameof(FlagComparison),
+        FlagComparisonMultiAnd => nameof(FlagComparisonMultiAnd),
+        FlagComparisonMultiOr => nameof(FlagComparisonMultiOr),
+        Force => nameof(Force),
+        IsRide => nameof(IsRide),
+        ItemNum => nameof(ItemNum),
+        MkrgCondition => nameof(MkrgCondition),
+        MoonType => nameof(MoonType),
+        MydressupParts => nameof(MydressupParts),
+        NpcPassPokeForm => nameof(NpcPassPokeForm),
+        NpcPassPokeIndividualNum => nameof(NpcPassPokeIndividualNum),
+        NpcPassPokeMonsNum => nameof(NpcPassPokeMonsNum),
+        NpcPassPokeOybn => nameof(NpcPassPokeOybn),
+        NpcPassPokeSeikaku => nameof(NpcPassPokeSeikaku),
+        NpcPassPokeSex => nameof(NpcPassPokeSex),
+        NpcPassPokeSizeAbsolute => nameof(NpcPassPokeSizeAbsolute),
+        NpcPassPokeSizeIndividual => nameof(NpcPassPokeSizeIndividual),
+        NpcPassPokeType => nameof(NpcPassPokeType),
+        NpcPassPokeWaza => nameof(NpcPassPokeWaza),
+        PartyMonsNoNum => nameof(PartyMonsNoNum),
+        PartyPokeNum => nameof(PartyPokeNum),
+        PhaseCondition => nameof(PhaseCondition),
+        PlayerSex => nameof(PlayerSex),
+        PokeGetNum => nameof(PokeGetNum),
+        PokeGetSelf => nameof(PokeGetSelf),
+        PokeResearchComplete => nameof(PokeResearchComplete),
+        PokeTotalNum => nameof(PokeTotalNum),
+        Probability => nameof(Probability),
+        ProgressWorkCondition => nameof(ProgressWorkCondition),
+        ProgressWorkConditionHash => nameof(ProgressWorkConditionHash),
+        ProgressResidentWorkCondition => nameof(ProgressResidentWorkCondition),
+        ProgressResidentWorkConditionHash => nameof(ProgressResidentWorkConditionHash),
+        QuestProgressCondition => nameof(QuestProgressCondition),
+        QuestTaskClearCheck => nameof(QuestTaskClearCheck),
+        ThrowItemCondition => nameof(ThrowItemCondition),
+        TimeZone => nameof(TimeZone),
+        TimeZoneAfternoon => nameof(TimeZoneAfternoon),
+        TimeZoneNight => nameof(TimeZoneNight),
+        WorkCondition => nameof(WorkCondition),
+        ZukanResearchCondition => nameof(ZukanResearchCondition),
+        ZukanStageCondition => nameof(ZukanStageCondition),
+
+        _ => $"0x{hash:X16}",
+    };
 }

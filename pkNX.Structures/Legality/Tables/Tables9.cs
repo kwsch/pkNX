@@ -2,7 +2,6 @@ namespace pkNX.Structures;
 
 public static partial class Legal
 {
-    // todo sv
     public const int MaxSpeciesID_9 = 1025;
     public const int MaxMoveID_9 = (int)Move.MalignantChain;
     public const int MaxItemID_9 = 2557; // Briar's Book
