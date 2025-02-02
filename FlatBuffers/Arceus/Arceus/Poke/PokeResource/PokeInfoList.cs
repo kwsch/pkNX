@@ -1,18 +1,9 @@
-using System.ComponentModel;
 using System.Diagnostics;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 // bin/appli/res_pokemon/list/pokemon_info_list.bin
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeInfoList
 {
     public PokeInfo GetEntry(ushort species)
@@ -131,21 +122,3 @@ public partial class PokeInfoList
         }
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfo;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_2;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_3;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoDetail_5;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeInfoGender;

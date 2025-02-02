@@ -1,14 +1,6 @@
-using System.ComponentModel;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
 // more NPCs? Trainers?
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneOtherNPCHolder
 {
     public static readonly Dictionary<ulong, string> Models = new()
@@ -170,15 +162,3 @@ public partial class PlacementZoneOtherNPCHolder
         return $"{name}: {ident.HashObjectName:X16} v{ModelVariant} @ {ident.Location3f}";
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_ArrayEntry;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_A;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZone_F16_IntFloat;

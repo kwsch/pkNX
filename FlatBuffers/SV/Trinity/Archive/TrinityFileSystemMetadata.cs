@@ -1,16 +1,5 @@
-using System;
-using System.ComponentModel;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TrinityFileSystemMetadata
 {
     public ulong GetFileOffset(ulong hashFnv)

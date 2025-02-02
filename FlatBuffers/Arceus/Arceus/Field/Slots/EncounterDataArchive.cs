@@ -1,27 +1,12 @@
-using System.ComponentModel;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterDataArchive;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterEligiblityTraits : IHasCondition, ISlotModifierTime, ISlotModifierWeather;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterOybnTraits
 {
     public bool IsOybnAny => Oybn1 || Oybn2 || Field02 || Field03;
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterTable
 {
     // lazy init
@@ -95,7 +80,6 @@ public partial class EncounterTable
     public override string ToString() => $"{TableName} (Lv. {MinLevel}-{MaxLevel})";
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterSlot
 {
     public override string ToString() => $"{(Species)Species}{(Form == 0 ? "" : $"-{Form}")}{(Oybn.IsOybnAny ? "*" : "")} - {BaseProbability}={ShinyLock}";

@@ -1,14 +1,5 @@
-using System.ComponentModel;
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedType.Global
-
 namespace pkNX.Structures.FlatBuffers.SV;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class DeliveryOutbreakPokeDataArray;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class DeliveryOutbreakPokeData
 {
     public bool IsAreaLimited(out uint areaBits)
@@ -68,10 +59,6 @@ public partial class DeliveryOutbreakPokeData
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class AreaNo;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class OutbreakEnableTable
 {
     public bool IsUnrestricted => !Air1 && !Air2 && !Land && !UpWater && !UnderWater;

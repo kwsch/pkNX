@@ -1,16 +1,7 @@
-using System.ComponentModel;
 using System.Diagnostics;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterMultiplier : ISlotModifierTime, ISlotModifierWeather
 {
     public float GetTimeMultiplier(int index) => index switch
@@ -40,7 +31,6 @@ public partial class EncounterMultiplier : ISlotModifierTime, ISlotModifierWeath
     public bool HasWeatherModifier(int index) => index != 0 && GetWeatherMultiplier(index) != -1.0f;
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterMultiplierArchive
 {
     public EncounterMultiplier GetEncounterMultiplier(EncounterSlot slot)

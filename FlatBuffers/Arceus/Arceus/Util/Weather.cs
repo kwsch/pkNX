@@ -1,7 +1,5 @@
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-// ReSharper disable UnusedMember.Global
-
 public enum Weather
 {
     None = 0,

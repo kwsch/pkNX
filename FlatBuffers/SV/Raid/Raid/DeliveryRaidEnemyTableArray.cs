@@ -1,13 +1,5 @@
-using System.ComponentModel;
-using System.IO;
-
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedType.Global
-
 namespace pkNX.Structures.FlatBuffers.SV;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class RaidEnemyInfo
 {
     public void SerializePKHeX(BinaryWriter bw, byte star, sbyte rate, RaidSerializationFormat format)
@@ -58,7 +50,6 @@ public partial class RaidEnemyInfo
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class RaidBossSizeData
 {
     public void SerializePKHeX()

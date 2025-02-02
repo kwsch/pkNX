@@ -1,20 +1,5 @@
-using System.ComponentModel;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStaticObjectsHolder;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PlacementZoneStaticObject;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneStaticObjectSpawn
 {
     public IEnumerable<string> GetSummary(IList<EncounterStatic> statics, IReadOnlyList<string> species)
@@ -31,7 +16,6 @@ public partial class PlacementZoneStaticObjectSpawn
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneStaticObjectUnknown
 {
     public override string ToString() => $"{Field00} {Field01} {Field02} {Field03} {Field04}";

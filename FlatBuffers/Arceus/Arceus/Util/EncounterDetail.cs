@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public record struct EncounterDetail(double Rate, double MultT, double MultW, int Unk, EncounterSlot Slot)

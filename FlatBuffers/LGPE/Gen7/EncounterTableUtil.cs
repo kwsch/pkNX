@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace pkNX.Structures.FlatBuffers.LGPE;
 
 public static class EncounterTableUtil

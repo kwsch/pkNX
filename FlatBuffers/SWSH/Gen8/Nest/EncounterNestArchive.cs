@@ -1,17 +1,7 @@
-using System.ComponentModel;
 using System.Diagnostics;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
 
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class EncounterNestArchive;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterNestTable
 {
     public string GetSummarySimple()
@@ -141,7 +131,6 @@ public partial class EncounterNestTable
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterNest
 {
     public Species SpeciesID => (Species)Species;

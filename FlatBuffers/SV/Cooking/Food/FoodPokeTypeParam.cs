@@ -1,5 +1,3 @@
-using System;
-
 namespace pkNX.Structures.FlatBuffers.SV;
 
 public partial struct FoodPokeTypeParam

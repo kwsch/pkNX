@@ -1,23 +1,18 @@
 using pkNX.Containers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FlatSharp.Attributes;
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
+// ReSharper disable once PartialTypeWithSinglePart
+#pragma warning disable RCS1043
+[FlatBufferTable]
 public partial class MeshMaterialWrapper
+#pragma warning restore RCS1043
 {
     [FlatBufferItem(0)] public string Name { get; set; } = string.Empty;
     [FlatBufferItem(1)] public Material[] Materials { get; set; } = [];
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokemonModelArchive
 {
     public GFPack SourceArchive { get; set; }
@@ -37,12 +32,12 @@ public class PokemonModelArchive
     {
         SourceArchive = sourceArchive;
 
-        string FileName = Path.GetFileNameWithoutExtension(sourceArchive.FilePath);
+        string FileName = Path.GetFileNameWithoutExtension(sourceArchive.FilePath)!;
         int SpeciesId = int.Parse(FileName.Substring(2, 4));
 
         string BasePath = $"bin/pokemon/pm{SpeciesId:0000}/{FileName}/";
         string ModelPath = BasePath + "mdl/";
-        string AnimationsPath = BasePath + "anm/";
+      //string AnimationsPath = BasePath + "anm/";
 
         Config = FlatBufferConverter.DeserializeFrom<PokeConfig>(SourceArchive.GetDataFullPath(BasePath + $"{FileName}.trpokecfg"));
         TRMMT = FlatBufferConverter.DeserializeFrom<MultiMaterialTable>(SourceArchive.GetDataFullPath(ModelPath + $"{FileName}.trmmt"));
@@ -62,7 +57,7 @@ public class PokemonModelArchive
         MeshMaterials = TRMMT.Material.Select(
             x => new MeshMaterialWrapper
             {
-                Name = x.Name,
+                Name = x.Name!,
                 Materials = x.FileNames.Select(
                     fileName => FlatBufferConverter.DeserializeFrom<Material>(SourceArchive.GetDataFullPath(ModelPath + $"{fileName}"))
                 ).ToArray(),

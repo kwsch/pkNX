@@ -1,10 +1,3 @@
-using pkNX.Containers;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
@@ -19,7 +12,6 @@ public class VertexWrapper(InputLayoutElement layoutElement, object data)
     public override string ToString() => $"{{ {LayoutElement.SemanticName}{LayoutElement.SemanticIndex:#}, {Data} }}";
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class ByteBuffer
 {
     public VertexAttributeLayout? Debug_InputLayout { get; set; }
@@ -55,8 +47,3 @@ public partial class ByteBuffer
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshBuffer;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class MeshBufferTable;

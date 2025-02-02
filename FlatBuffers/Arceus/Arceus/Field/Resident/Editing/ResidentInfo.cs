@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 /// <summary>

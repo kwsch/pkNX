@@ -8,11 +8,6 @@
     <ProjectReference Include="..\..\pkNX.Structures\pkNX.Structures.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SourceGen\pkNX.Structures.FlatBuffers.SourceGen.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
-
   <PropertyGroup>
     <FlatSharpClassDefinitionsOnly>true</FlatSharpClassDefinitionsOnly>
   </PropertyGroup>

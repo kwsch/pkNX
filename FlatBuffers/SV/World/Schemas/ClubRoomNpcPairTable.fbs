@@ -106,7 +106,7 @@ enum ClubRoomPairStory : byte
     CoachPair097 = 97,
 }
 
-table ClubRoomNpcPairTable (fs_serializer) {
+table ClubRoomNpcPairTable {
     NpcType1:ClubRoomCoach;
     NpcType2:ClubRoomCoach;
     PairType:ClubRoomPairStory;
@@ -114,7 +114,7 @@ table ClubRoomNpcPairTable (fs_serializer) {
 }
 
 table ClubRoomNpcPairTableArray (fs_serializer) {
-    Table:[ClubRoomNpcPairTable];
+    Table:[ClubRoomNpcPairTable] (required);
 }
 
 root_type ClubRoomNpcPairTableArray;

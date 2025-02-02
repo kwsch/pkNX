@@ -1,21 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using pkNX.Containers;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LandmarkItemSpawnTable;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class LandmarkItemSpawn
 {
     public bool UsesTable(ulong table) => EncounterTableID == table;
@@ -90,6 +74,3 @@ public partial class LandmarkItemSpawn
         return result;
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class LandmarkItemSpawn_F03;

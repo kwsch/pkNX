@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using FlatSharp;
 using pkNX.Containers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -47,7 +44,7 @@ public static class TrinityPakExtractor
 
         var outexpakdir = Path.Combine(outexdir, packFilePath);
         Directory.CreateDirectory(outexpakdir);
-        var trpak = FlatBufferConverter.DeserializeFrom<TrinityPak>(data, FlatBufferDeserializationOption.GreedyMutable);
+        var trpak = FlatBufferConverter.DeserializeFrom<TrinityPak>(data);
         ExtractPack(trpak, outexpakdir);
     }
 

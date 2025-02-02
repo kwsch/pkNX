@@ -1,17 +1,15 @@
-using System;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public interface ISlotModifierWeather
 {
-    float WeatherMultiplier1 {get; set;}
-    float WeatherMultiplier2 {get; set;}
-    float WeatherMultiplier3 {get; set;}
-    float WeatherMultiplier4 {get; set;}
-    float WeatherMultiplier5 {get; set;}
-    float WeatherMultiplier6 {get; set;}
-    float WeatherMultiplier7 {get; set;}
-    float WeatherMultiplier8 {get; set;}
+    float WeatherMultiplier1 { get; set; }
+    float WeatherMultiplier2 { get; set; }
+    float WeatherMultiplier3 { get; set; }
+    float WeatherMultiplier4 { get; set; }
+    float WeatherMultiplier5 { get; set; }
+    float WeatherMultiplier6 { get; set; }
+    float WeatherMultiplier7 { get; set; }
+    float WeatherMultiplier8 { get; set; }
 }
 
 public static class SlotModifierWeatherExtensions

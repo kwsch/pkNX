@@ -1,18 +1,9 @@
-using System.ComponentModel;
 using System.Diagnostics;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleCrystalEncounterArchive;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleCrystalEncounterTable
 {
     public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<ushort> tmtrs,
@@ -153,6 +144,3 @@ public partial class NestHoleCrystalEncounterTable
         return tableID + Environment.NewLine + tableData + Environment.NewLine;
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleCrystalEncounter;

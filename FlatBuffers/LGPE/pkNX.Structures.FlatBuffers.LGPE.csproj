@@ -1,11 +1,2 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <FlatSharpSchema Include="Schemas\**\*.fbs">
-      <IncludePath>..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
-    </FlatSharpSchema>
-  </ItemGroup>
 </Project>

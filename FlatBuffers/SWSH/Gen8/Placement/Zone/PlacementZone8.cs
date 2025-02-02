@@ -1,13 +1,5 @@
-using System.ComponentModel;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZone
 {
     public override string ToString() => Meta.ZoneID.ToString("X16");
@@ -79,13 +71,11 @@ public partial class PlacementZone
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneMeta
 {
     public override string ToString() => $"{Field00.HashObjectName:X16}";
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PlacementZoneMetaTripleXYZ
 {
     public string Location3f => $"({LocationX}, {LocationY}, {LocationZ})";

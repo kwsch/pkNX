@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
 using pkNX.Containers;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using FlatSharp;
 
 namespace pkNX.Structures.FlatBuffers.SV;

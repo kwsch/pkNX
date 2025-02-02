@@ -1,16 +1,7 @@
-using System.ComponentModel;
 using System.Diagnostics;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAIArchive
 {
     public PokeAI GetEntry(ushort species, ushort form)
@@ -37,7 +28,6 @@ public partial class PokeAIArchive
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAI
 {
     public static PokeAI GetNew(ushort species = 0, ushort form = 0, bool isAlpha = false) => new()
@@ -65,13 +55,6 @@ public partial class PokeAI
     };
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeAI_F24;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeAI_F18;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAI_F09
 {
     public static readonly PokeAI_F09 DefaultBehaviour02 = new()
@@ -127,7 +110,6 @@ public partial class PokeAI_F09
     };
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeAIBehaviour
 {
     public static readonly PokeAIBehaviour DefaultBehaviour02 = new() { BehaviourHash = 9252365659083253459, Parameters = ["0.2", "35"] };

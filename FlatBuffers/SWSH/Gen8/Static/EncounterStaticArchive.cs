@@ -1,16 +1,7 @@
-using System.ComponentModel;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-#nullable disable
-
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterStaticArchive;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class EncounterStatic
 {
     public Species SpeciesID => (Species)Species;

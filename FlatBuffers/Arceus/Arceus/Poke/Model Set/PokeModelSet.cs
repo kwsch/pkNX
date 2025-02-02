@@ -1,10 +1,8 @@
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 // resident_release.bin -> bin/field/param/placement/common/pokemon_model_set.bin
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeModelSet
 {
     public PokeModelSetEntry GetEntry(ushort species)
@@ -39,6 +37,3 @@ public partial class PokeModelSet
         return entry;
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelSetEntry;

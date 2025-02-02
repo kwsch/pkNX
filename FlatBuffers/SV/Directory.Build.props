@@ -1,0 +1,26 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\pkNX.Structures\pkNX.Structures.csproj" />
+    <ProjectReference Include="..\..\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj" />
+    <FlatSharpSchema Include="Schemas\**\*.fbs">
+      <IncludePath>..\..\pkNX.Structures.FlatBuffers\Schemas\</IncludePath>
+    </FlatSharpSchema>
+  </ItemGroup>
+  
+  <Choose>
+    <When Condition="'$(MSBuildProjectName)' != 'pkNX.Structures.FlatBuffers.SV.Shared'">
+      <ItemGroup>
+        <ProjectReference Include="$(MSBuildThisFileDirectory)Shared\pkNX.Structures.FlatBuffers.SV.Shared.csproj" />
+        <FlatSharpSchema Include="Schemas\**\*.fbs">
+          <IncludePath>..\Shared\Schemas\</IncludePath>
+        </FlatSharpSchema>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+</Project>

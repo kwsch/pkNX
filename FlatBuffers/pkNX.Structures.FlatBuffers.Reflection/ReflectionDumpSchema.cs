@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
 using FlatSharp;
 
 namespace pkNX.Structures.FlatBuffers.Reflection;
@@ -74,12 +71,10 @@ public static class SchemaDump
     private static void WriteHeaderCS(Schema schema, TextWriter cs, ReadOnlySpan<char> fileNameSpace)
     {
         cs.WriteLine("using System.Collections.Generic;");
-        cs.WriteLine("using System.ComponentModel;");
         cs.WriteLine("using FlatSharp.Attributes;");
         cs.WriteLine("// ReSharper disable UnusedMember.Global");
         cs.WriteLine("// ReSharper disable ClassNeverInstantiated.Global");
         cs.WriteLine("// ReSharper disable UnusedType.Global");
-        cs.WriteLine("#nullable disable");
         cs.WriteLine();
         cs.WriteLine($"namespace {fileNameSpace};");
         cs.WriteLine();

@@ -1,17 +1,5 @@
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-#nullable disable
-
 namespace pkNX.Structures.FlatBuffers.LGPE;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class ShopInventory;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class SingleShop
 {
     public override string ToString() => $"{Hash:X16} - {Inventories}";
@@ -23,7 +11,6 @@ public partial class SingleShop
     };
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class MultiShop
 {
     public override string ToString() => $"{Hash:X16} - {string.Join(", ", Inventories.Select(z => z.ToString()))}";
@@ -34,7 +21,6 @@ public partial class MultiShop
     };
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class Inventory
 {
     public override string ToString() => $"{string.Join(",", Items.Select(z => z.ToString()))}";

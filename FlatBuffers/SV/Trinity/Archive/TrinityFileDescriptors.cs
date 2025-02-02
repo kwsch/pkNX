@@ -1,16 +1,7 @@
-using System.ComponentModel;
 using System.Diagnostics;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TrinityFileDescriptors
 {
     public ulong GetSubFileIndex(ulong hash)
@@ -45,12 +36,3 @@ public partial class TrinityFileDescriptors
         return -1;
     }
 }
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorSubFileInfo;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorInfo;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class TrinityFileDescriptorSubFileUnknown;

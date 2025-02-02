@@ -1,33 +1,10 @@
-using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 // poke_resource_table.trpmcatalog
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeResourceMeta;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelConfig;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class PokeModelSpeciesInfo;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class FileNamePathPair;
-
 /// <summary> <see cref="PokeResourceTable"/> for Legends: Arceus, adding <see cref="PokeModelConfig.ArceusType"/></summary>
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeResourceTable
 {
     public PokeModelConfig GetEntry(ushort species, ushort form, byte gender)

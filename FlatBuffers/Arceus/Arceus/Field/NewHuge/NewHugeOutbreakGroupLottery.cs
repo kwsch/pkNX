@@ -1,17 +1,5 @@
-using System;
-using System.ComponentModel;
-using System.Linq;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NewHugeOutbreakGroupLotteryArchive
 {
     public bool IsAreaGroup(PlacementSpawner spawner, NewHugeOutbreakGroupArchive groups, ulong tableID)
@@ -25,7 +13,6 @@ public partial class NewHugeOutbreakGroupLotteryArchive
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NewHugeOutbreakGroupLottery
 {
     public int SumTableCommon => TableCommon.Sum(z => z.Rate);
@@ -53,7 +40,6 @@ public partial class NewHugeOutbreakGroupLottery
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NewHugeOutbreakGroupLotteryDetail
 {
     public override string ToString() => $"{Group:X16}|{Rate}";

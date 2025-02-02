@@ -1,18 +1,8 @@
-using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using pkNX.Containers;
 
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TrinityPak
 {
     public TrinityPakFileData GetFileData(ulong hash)
@@ -42,7 +32,6 @@ public partial class TrinityPak
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class TrinityPakFileData
 {
     public byte[] GetUncompressedData() => CompressionType switch

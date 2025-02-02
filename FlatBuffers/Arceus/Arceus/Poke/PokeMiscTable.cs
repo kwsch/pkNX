@@ -1,16 +1,7 @@
-using System.ComponentModel;
 using System.Diagnostics;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeMisc
 {
     // lazy set reference for remembering the fetched object
@@ -18,7 +9,6 @@ public partial class PokeMisc
     public PokeDropItem? AlphaDropTable { get; set; }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class PokeMiscTable
 {
     public PokeMisc GetEntry(ushort species, ushort form)

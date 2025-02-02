@@ -1,13 +1,11 @@
-using System;
-
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
 public interface ISlotModifierTime
 {
-    float TimeOfDayMultiplier0 {get;set;}
-    float TimeOfDayMultiplier1 {get;set;}
-    float TimeOfDayMultiplier2 {get;set;}
-    float TimeOfDayMultiplier3 {get;set;}
+    float TimeOfDayMultiplier0 { get; set; }
+    float TimeOfDayMultiplier1 { get; set; }
+    float TimeOfDayMultiplier2 { get; set; }
+    float TimeOfDayMultiplier3 { get; set; }
 }
 
 public static class SlotModifierTimeExtensions

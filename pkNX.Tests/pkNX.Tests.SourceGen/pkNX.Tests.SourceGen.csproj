@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FlatBuffers\Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj" />
     <ProjectReference Include="..\..\FlatBuffers\pkNX.Structures.FlatBuffers\pkNX.Structures.FlatBuffers.csproj" />
   </ItemGroup>
 

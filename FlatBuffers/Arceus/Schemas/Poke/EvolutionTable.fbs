@@ -4,7 +4,7 @@ attribute "fs_serializer";
 table EvolutionSet {
     Species:ushort;
     Form:ushort;
-    Table:[EvolutionEntry];
+    Table:[EvolutionEntry]; // not required!
 }
 
 table EvolutionEntry {

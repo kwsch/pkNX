@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+  <PropertyGroup>
+    <IsSourceGenerator>true</IsSourceGenerator>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>

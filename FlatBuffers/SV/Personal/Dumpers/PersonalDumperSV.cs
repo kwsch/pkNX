@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace pkNX.Structures.FlatBuffers.SV;
 
@@ -9,22 +6,22 @@ public class PersonalDumperSV
 {
     public const bool HasAbilities = true;
 
-    public IReadOnlyList<string> Abilities { private get; init; }
-    public IReadOnlyList<string> Types { private get; init; }
-    public IReadOnlyList<string> Items { private get; init; }
-    public IReadOnlyList<string> Colors { private get; init; }
-    public IReadOnlyList<string> EggGroups { private get; init; }
-    public IReadOnlyList<string> ExpGroups { private get; init; }
-    public IReadOnlyList<string> Moves { protected get; init; }
-    public IReadOnlyList<string> Species { private get; init; }
-    public IReadOnlyList<string> ZukanA { private get; init; }
-    public IReadOnlyList<string> ZukanB { private get; init; }
+    public required IReadOnlyList<string> Abilities { private get; init; }
+    public required IReadOnlyList<string> Types { private get; init; }
+    public required IReadOnlyList<string> Items { private get; init; }
+    public required IReadOnlyList<string> Colors { private get; init; }
+    public required IReadOnlyList<string> EggGroups { private get; init; }
+    public required IReadOnlyList<string> ExpGroups { private get; init; }
+    public required IReadOnlyList<string> Moves { protected get; init; }
+    public required IReadOnlyList<string> Species { private get; init; }
+    public required IReadOnlyList<string> ZukanA { private get; init; }
+    public required IReadOnlyList<string> ZukanB { private get; init; }
 
     public static ushort[] TMIndexes => PersonalInfo9SV.TMIndexes;
 
     private static readonly string[] AbilitySuffix = [" (1)", " (2)", " (H)"];
 
-    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; }
+    public IReadOnlyList<List<string>> MoveSpeciesLearn { get; private set; } = [];
 
     public readonly PersonalDumperSettings Settings = new();
 

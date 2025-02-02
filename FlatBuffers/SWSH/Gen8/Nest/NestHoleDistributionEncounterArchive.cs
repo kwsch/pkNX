@@ -1,22 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using FlatSharp.Attributes;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable UnusedMember.Global
-#nullable disable
 
 namespace pkNX.Structures.FlatBuffers.SWSH;
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public partial class NestHoleDistributionEncounterArchive;
-
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleDistributionEncounterTable
 {
     public IEnumerable<string> GetPrettySummary(IReadOnlyList<string> species, IReadOnlyList<string> items, IReadOnlyList<string> moves, IReadOnlyList<ushort> tmtrs,
@@ -168,7 +153,6 @@ public partial class NestHoleDistributionEncounterTable
     }
 }
 
-[TypeConverter(typeof(ExpandableObjectConverter))]
 public partial class NestHoleDistributionEncounter
 {
     public int MinRank => Array.FindIndex(Probabilities.ToArray(), z => z != 0);
