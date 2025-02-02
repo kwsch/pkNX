@@ -1,6 +1,4 @@
-using System;
 using System.Buffers;
-using System.IO;
 using FlatSharp;
 using static FlatSharp.FlatBufferDeserializationOption;
 
