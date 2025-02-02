@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers;
+
+table Vec4i {
+    X: int;
+    Y: int;
+    Z: int;
+    W: int;
+}
