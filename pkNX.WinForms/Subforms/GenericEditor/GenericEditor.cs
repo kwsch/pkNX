@@ -21,6 +21,8 @@ public sealed partial class GenericEditor<T> : Form where T : class
     public GenericEditor(Func<GenericEditor<T>, DataCache<T>> loadCache, Func<T, int, string> nameSelector, string title, Action<IEnumerable<T>>? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
     {
         InitializeComponent();
+
+        TypeRegistrationHelper.RegisterIListConvertersRecursively(typeof(T));
         Text = title;
 
         Cache = loadCache(this);
