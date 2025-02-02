@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table AppConfigEntry {
+    Hash:uint;
+    OriginalPath:string (required);
+    Folder:string (required);
+    FileNameWithoutExtension:string (required);
+    Unused:byte;
+    UnusedEntries:[string] (required);
+}
+
+table AppConfigList (fs_serializer) {
+    Table:[AppConfigEntry] (required);
+}
+
+root_type AppConfigList;

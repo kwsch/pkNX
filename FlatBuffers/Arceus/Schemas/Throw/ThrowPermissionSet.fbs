@@ -1,0 +1,20 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ThrowPermissionSetEntry {
+    ThrowPermissionSet:ulong;
+    Field_01:int;
+    Field_02:int;
+    Field_03:int;
+    Field_04:int; // unused
+    Field_05:int;
+    Field_06:int;
+    Field_07:int;
+    Field_08:int;
+}
+
+table ThrowPermissionSetDictionary (fs_serializer) {
+    Table:[ThrowPermissionSetEntry] (required);
+}
+
+root_type ThrowPermissionSetDictionary;

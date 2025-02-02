@@ -1,0 +1,69 @@
+include "Math/Vec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FieldCameraTrackingData {
+    TrackingOffset:Vec3f (required);
+}
+
+table FieldCameraOrbitRotationData {
+    TargetMoveTolerance:float;
+    AutoRotationTimeTolerance:float;
+    AutoRotationYawSpeed:float;
+    AutoRotationPitchSpeed:float;
+    RotationYawSpeed:float;
+    RotationPitchSpeed:float;
+    DefaultResetRotationTime:float;
+    DefaultEasingPosTime:float;
+}
+
+table FieldCameraLockOnData {
+    RotationYawSpeed:float;
+    RotationPitchSpeed:float;
+    PitchMax:float;
+    PitchMin:float;
+}
+
+table FieldCameraHidData {
+    StickTolerance:float;
+}
+
+table FieldCameraCollisionData {
+    ResolveSpeed:float;
+    ResolveStartMargin:float;
+    DistanceLimitMax:float;
+    DistanceLimitMin:float;
+    DistanceToWater:float;
+    CastLengthToWater:float;
+}
+
+table FieldCamera (fs_serializer) {
+    CenterDistance:float;
+    TopDistance:float;
+    BottomDistance:float;
+    GazeOffset:Vec3f (required);
+    RotationTurn:float;
+    RotationPitch:float;
+    PitchCenter:float;
+    PitchUpperMax:float;
+    PitchLowerMax:float;
+    FollowFactor:float;
+    WallOffset:float;
+    FloorOffset:float;
+    DistanceMin:float;
+    DistanceMax:float;
+    RevertFactor:float;
+    DepthFollowFactor:float;
+    DepthFollowLerpExponential:float;
+    ZoomHoldTime:float;
+    ZoomDistance:float;
+    StickTolerance:float;
+    Hid:FieldCameraHidData (required);
+    Tracking:FieldCameraTrackingData (required);
+    Orbit:FieldCameraOrbitRotationData (required);
+    LockOn:FieldCameraLockOnData (required);
+    Collision:FieldCameraCollisionData (required);
+}
+
+root_type FieldCamera;

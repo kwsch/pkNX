@@ -1,0 +1,16 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table RibbonData {
+    Id:int;
+    DispOrder:int;
+    NameLabel:string (required);
+    DescLabel:string (required);
+    TitleLabel:string (required);
+}
+
+table RibbonDataArray (fs_serializer) {
+    Table:[RibbonData] (required);
+}
+
+root_type RibbonDataArray;

@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum TrainerBodySize : int {
-    S = 0,
-    M = 1,
-    L = 2,
-    LL = 3,
-}

@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV.Trinity;
-attribute "fs_serializer";
-
-table TrinityGroundPlaceComponent (fs_serializer) {
-    Index:uint;
-}
-
-root_type TrinityGroundPlaceComponent;

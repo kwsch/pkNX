@@ -1,0 +1,80 @@
+include "Math/Transform.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table PicnicTablePlayerItemInfo {
+    ChairPos:Transform (required);
+    WaterBottlePos:Transform (required);
+    TumblerPos:Transform (required);
+}
+
+table NormalPicnicTableInfo {
+    BucketPos:Transform (required);
+    LanternPos:Transform (required);
+    Player0:PicnicTablePlayerItemInfo (required);
+    Player1:PicnicTablePlayerItemInfo (required);
+    Player2:PicnicTablePlayerItemInfo (required);
+    Player3:PicnicTablePlayerItemInfo (required);
+}
+
+table IngredientPicnicTableInfo {
+    Pos0:Transform (required);
+    Pos1:Transform (required);
+    Pos2:Transform (required);
+    Pos3:Transform (required);
+    Pos4:Transform (required);
+    Pos5:Transform (required);
+    Pos6:Transform (required);
+    Pos7:Transform (required);
+    Pos8:Transform (required);
+    Pos9:Transform (required);
+}
+
+table CookingPicnicTableInfo {
+    DishPos:Transform (required);
+    BucketPos:Transform (required);
+    LanternPos:Transform (required);
+    Ingredient:IngredientPicnicTableInfo (required);
+    Seasoning:SeasoningPicnicTableInfo (required);
+}
+
+table CookedPicnicTableInfo {
+    Berryjam01Pos:Transform (required);
+    Berryjam02Pos:Transform; // not required
+    BottleRedPos:Transform (required);
+    BottleYellowPos:Transform (required);
+    BucketPos:Transform (required);
+    Butter01Pos:Transform (required);
+    Butter02Pos:Transform (required);
+    Creamcheese01Pos:Transform; // not required
+    DishPos:Transform (required);
+    LanternPos:Transform (required);
+    Marmalade04Pos:Transform (required);
+    Oliveoil03Pos:Transform (required);
+    Smallbowl01OliveoilPos:Transform (required);
+    Smallbowl01VinegarPos:Transform (required);
+    Watercress01Pos:Transform (required);
+    Watercress02Pos:Transform (required);
+    Watercress03Pos:Transform (required);
+    Watercress01Shadow01Pos:Transform (required);
+    Watercress01Shadow02Pos:Transform (required);
+    Cocotteplate06WhippedcreamPos:Transform (required);
+    Marmalade01Pos:Transform (required);
+    Chilisauce01Pos:Transform (required);
+}
+
+table SeasoningPicnicTableInfo {
+    Pos0:Transform (required);
+    Pos1:Transform (required);
+    Pos2:Transform (required);
+    Pos3:Transform (required);
+}
+
+table PicnicTablesetData (fs_serializer) {
+    Normal:NormalPicnicTableInfo (required);
+    Cooking:CookingPicnicTableInfo (required);
+    Cooked:CookedPicnicTableInfo (required);
+}
+
+root_type PicnicTablesetData;

@@ -1,0 +1,29 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table KeyValuePair {
+    Key: string (required);
+    Value: uint;
+}
+
+table BindingMap {
+    BindingName: string (required);
+    ValueLookup: [KeyValuePair] (required);
+    IsRequired: ubyte; // Maybe is required?
+    GlobalBool_1: ubyte; // Always 1 on global params, 0 on shader params
+    GlobalBool_2: ubyte; // Always 1 on global params, 0 on shader params
+    BindingIndex: ubyte;
+    WriteMask: uint;
+}
+
+table Shader {
+    Name: string (required);
+    FileName: string (required);
+    ShaderBindings: [BindingMap] (required);
+    GlobalBindings: [BindingMap] (required);
+    BindingsBuffer: [uint] (required); // Contains some offset and Index pairs of uint32 each. Is repeated at least twice, but occasionally more
+    HasShaderBindings: bool;
+    HasGlobalBindings: bool;
+}
+
+root_type Shader;

@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum RaidRomType : short {
+    BOTH = 0,
+    TYPE_A = 1,
+    TYPE_B = 2,
+}

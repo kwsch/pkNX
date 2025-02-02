@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum CollisionShape : int {
+    NONE = 0,
+    SPHERE = 1,
+    BOX = 2,
+    CAPSULE = 3,
+}

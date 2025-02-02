@@ -1,0 +1,24 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum DanQuestClearNo :int {
+    NONE = 0,
+    HONOO = 1,
+    AKU = 2,
+    DOKU = 3,
+    KAKUTOU = 4,
+    FAIRY = 5,
+}
+
+table DanQuestClear {
+    ID:DanQuestClearNo;
+    EventNpcSceneName:string (required);
+    EventNpcObjName:string (required);
+    DanClearQuestType:string (required);
+}
+
+table DanQuestClearArray (fs_serializer) {
+    Table:[DanQuestClear] (required);
+}
+
+root_type DanQuestClearArray;

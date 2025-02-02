@@ -1,0 +1,5 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+
+table FlatDummyObject {
+    Field_00:byte (deprecated);
+}

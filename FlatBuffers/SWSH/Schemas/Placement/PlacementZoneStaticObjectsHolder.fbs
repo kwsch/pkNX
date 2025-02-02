@@ -1,0 +1,33 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneStaticObjectsHolder {
+    Object:PlacementZoneStaticObject (required);
+}
+
+table PlacementZoneStaticObject {
+    Identifier:PlacementZoneMetaTripleXYZ (required);
+    Field_01:uint;
+    Rate:uint; // usually 100, but 
+    Field_03:uint;
+    Field_04:ubyte;
+    Spawns:[PlacementZoneStaticObjectSpawn] (required);
+    Field_06:PlacementZoneStaticObjectUnknown (required);
+    Field_07:PlacementZoneStaticObjectUnknown (required);
+}
+
+table PlacementZoneStaticObjectSpawn {
+    SpawnID:ulong;
+    Behavior:string (required); // passed to Lua script for animating
+    Field_02:ulong; // default hash for all, likely empty string
+    Field_03:uint;
+    Field_04:PlacementZoneStaticObjectUnknown (required);
+}
+
+table PlacementZoneStaticObjectUnknown {
+    Field_00:uint;
+    Field_01:float; // unused, assumed same shape as other i4f
+    Field_02:float; // unused, assumed same shape as other i4f
+    Field_03:float; // unused, assumed same shape as other i4f
+    Field_04:float;
+}

@@ -1,0 +1,9 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_valueStruct";
+
+struct ExerciseRewardData (fs_valueStruct) {
+    ItemId:ItemID = ITEMID_NONE;
+    ItemCount:int;
+}

@@ -1,9 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-attribute "fs_serializer";
-
-table GemSymbolSetting (fs_serializer) {
-    MinScale:short;
-    RepopPercent:byte;
-    AddItemNum:byte;
-    AddItemPercent:byte;
-}

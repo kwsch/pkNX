@@ -1,0 +1,33 @@
+include "Geometry/Sphere.fbs";
+include "Geometry/AABB.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+attribute "fs_defaultCtor";
+
+// *.trmdl
+
+table FileReference {
+    Filename: string (required);
+}
+
+table LODIndex {
+    Index: uint;
+}
+
+table LOD {
+    Entries: [LODIndex] (required);
+    Type: string (required);
+}
+
+table Model (fs_serializer) {
+    Reserved_00: uint; // Always default
+    Meshes: [FileReference] (required);
+    Skeleton: FileReference (required);
+    Materials: [string] (required);
+    LODs: [LOD] (required);
+    Bounds: AABB;
+    SphereBounds: Sphere;
+}
+
+root_type Model;

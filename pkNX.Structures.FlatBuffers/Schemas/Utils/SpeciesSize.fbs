@@ -1,9 +1,0 @@
-namespace pkNX.Structures.FlatBuffers;
-
-enum SpeciesSize : ubyte
-{
-    Size_S = 0,
-    Size_M = 1,
-    Size_L = 2,
-    Size_XL = 3,
-}

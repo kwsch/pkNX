@@ -1,0 +1,29 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table MassOutbreak {
+    AlphaLevelBoostEntryHash:ulong (key); // oybn_settings; all entries are identical so this is useless
+    OutbreakChangeChance:int; // rand(100) < value -> spawn/de-spawn
+    Table:[MassOutbreakCondition] (required); // parameters to check if able to activate
+    WorkValueName:string (required); // savefile block to set the result of new outbreak indexes
+    RandEntryCount:int; // rand value to write to the save file, and pick out which outbreak to spawn
+    SpawnMinCount:int;
+    SpawnMaxCount:int;
+    ShinyRollBonus:int;
+}
+
+table MassOutbreakCondition {
+    ConditionTypeID:ulong;
+    ConditionID:ulong;
+    ConditionArg1:string (required);
+    ConditionArg2:string (required);
+    ConditionArg3:string (required);
+    ConditionArg4:string (required);
+    ConditionArg5:string (required);
+}
+
+table MassOutbreakTable (fs_serializer) {
+    Table:[MassOutbreak] (required);
+}
+
+root_type MassOutbreakTable;

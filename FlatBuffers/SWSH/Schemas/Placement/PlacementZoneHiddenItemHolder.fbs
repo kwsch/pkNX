@@ -1,0 +1,31 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+table PlacementZoneHiddenItemHolder
+{
+    Field_00:PlacementZoneHiddenItem (required);
+}
+
+table PlacementZoneHiddenItem
+{
+    Field_00:PlacementZoneMetaTripleXYZ (required);
+    Field_01:PlacementZoneHiddenItemValue (required);
+    Field_02:[PlacementZoneHiddenItemChance] (required);
+    Field_03:int;
+    Field_04:uint;
+    Field_05:float;
+}
+
+table PlacementZoneHiddenItemValue {
+    Field_00:int;
+    Field_01:float; // unused
+    Field_02:float; // unused
+    Field_03:float; // unused
+    Field_04:float;
+}
+
+table PlacementZoneHiddenItemChance {
+    Hash:ulong;
+    Chance:int;
+    Quantity:int;
+}

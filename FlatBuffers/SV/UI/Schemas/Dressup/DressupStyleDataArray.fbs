@@ -1,0 +1,30 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum DressupStyleType : int {
+    Eye = 0,
+    EyeColor = 1,
+    Eyelashes = 2,
+    EyelashesColor = 3,
+    Eyebrows = 4,
+    EyeBrowsColor = 5,
+    Mouth = 6,
+    Lip = 7,
+    Mole = 8,
+    Freckles = 9,
+}
+
+table DressupStyleData {
+    DressupStyleId:int;
+    DressupStyleType:DressupStyleType;
+    Sortnum:int;
+    Name:string (required);
+    PatternNum:int;
+    MultiplePatternNum:int;
+}
+
+table DressupStyleDataArray (fs_serializer) {
+    Table:[DressupStyleData] (required);
+}
+
+root_type DressupStyleDataArray;

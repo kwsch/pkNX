@@ -1,0 +1,29 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>13</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net9.0</TargetFramework>
+    <NeutralLanguage>en</NeutralLanguage>
+	<ImplicitUsings>true</ImplicitUsings>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="FlatSharp.Runtime" Version="7.8.0" />
+    <PackageReference Include="FlatSharp.Compiler" Version="7.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+    <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
+  </PropertyGroup>
+  <ItemGroup>
+    <FlatSharpSchema Include="Schemas\**\*.fbs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Schemas\**\*.fbs" />
+  </ItemGroup>
+</Project>

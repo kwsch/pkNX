@@ -1,0 +1,38 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table Rental {
+    EV_SPE:ubyte;
+    EV_ATK:ubyte;
+    EV_DEF:ubyte;
+    EV_HP:ubyte;
+    EV_SPA:ubyte;
+    EV_SPD:ubyte;
+    Form:ubyte;
+    Ball:int;
+    Hash1:ulong;
+    Item:int;
+    Level:ubyte;
+    Species:int;
+    Hash2:ulong;
+    TrainerID:uint; // maybe?? no entries have this
+    Nature:int;
+    Gender:int;
+    IV_SPE:byte;
+    IV_ATK:byte;
+    IV_DEF:byte;
+    IV_HP:byte;
+    IV_SPA:byte;
+    IV_SPD:byte;
+    Ability:int; // 0,1,2(Hidden)
+    Move1:int;
+    Move2:int;
+    Move3:int;
+    Move4:int;
+}
+
+table RentalArchive (fs_serializer) {
+    Table:[Rental] (required);
+}
+
+root_type RentalArchive;

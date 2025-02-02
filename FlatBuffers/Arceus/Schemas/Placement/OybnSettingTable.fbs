@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table OybnSetting {
+    Hash:ulong;
+    Field_01:int;
+    Field_02:int;
+    Field_03:int;
+    Field_04:int;
+    Field_05:int;
+}
+
+table OybnSettingTable (fs_serializer) {
+    Table:[OybnSetting] (required);
+}
+
+root_type OybnSettingTable;

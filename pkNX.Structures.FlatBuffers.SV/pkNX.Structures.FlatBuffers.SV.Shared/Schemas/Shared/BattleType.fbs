@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum BattleType : int {
-    SINGLE = 0,
-    DOUBLE = 1,
-    MULTI = 2,
-}

@@ -1,0 +1,70 @@
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table GemSettingRootTable {
+    Name:string (required);
+    DefaultModelData:GemParam;
+    DefaultModelLocaterData:string (required);
+    IndividualModelData:GemArrayParam;
+    IndividualModelLocaterData:GemTypeLocaterTable (required);
+    DefaultEffectData:GemParam;
+    DefaultEffectLocaterData:string (required);
+}
+
+struct GemParam (fs_valueStruct) {
+    Pos:PackedVec3f;
+    Rot:PackedVec3f;
+    Scale:float;
+}
+
+struct GemArrayParam (fs_valueStruct) {
+    // GemParam[18]
+    Group00:GemParam;
+    Group01:GemParam;
+    Group02:GemParam;
+    Group03:GemParam;
+    Group04:GemParam;
+    Group05:GemParam;
+    Group06:GemParam;
+    Group07:GemParam;
+    Group08:GemParam;
+    Group09:GemParam;
+    Group10:GemParam;
+    Group11:GemParam;
+    Group12:GemParam;
+    Group13:GemParam;
+    Group14:GemParam;
+    Group15:GemParam;
+    Group16:GemParam;
+    Group17:GemParam;
+}
+
+table GemTypeLocaterTable {
+    Normal:string (required);
+    Kakutou:string (required);
+    Hikou:string (required);
+    Doku:string (required);
+    Jimen:string (required);
+    Iwa:string (required);
+    Mushi:string (required);
+    Ghost:string (required);
+    Hagane:string (required);
+    Honoo:string (required);
+    Mizu:string (required);
+    Kusa:string (required);
+    Denki:string (required);
+    Esper:string (required);
+    Koori:string (required);
+    Dragon:string (required);
+    Aku:string (required);
+    Fairy:string (required);
+}
+
+table GemSettingRootTableArray (fs_serializer) {
+    Table:[GemSettingRootTable] (required);
+}
+
+root_type GemSettingRootTableArray;

@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-attribute "fs_valueStruct";
-
-struct PersonalInfoMove { // give me a class, not struct.
-    Move:ushort;
-    Level:byte;
-}

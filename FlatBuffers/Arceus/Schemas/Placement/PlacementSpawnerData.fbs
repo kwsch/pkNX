@@ -1,0 +1,65 @@
+include "Math/Vec3f.fbs";
+include "PlacementParameters.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PlacementSpawner {
+    SpawnerID:ulong;
+    Field_01:ulong;
+    Field_02:[PlacementParameters] (required);
+    Shape:string (required); // only set by Wormhole spawners
+    Scalar:float; // how big of a radius they can spawn in?
+    Field_05:Vec3f (required); // always default values
+    Field_06:Vec3f (required); // always default values
+    MinSpawnCount:int;
+    MaxSpawnCount:int;
+    Field_09:int; // 2 for a single tangela spawner, and 8 for a single lickitung spawner
+    IsMassOutbreak:bool;
+    IsWater:bool;
+    IsSky:bool;
+    GroupID:ulong;
+    Field_14:float;
+    Field_15:float;
+    ParentLink:int; // 1 for Alpha parents, 2 for Children -- a [2] uses Behavior2 to alter [1]'s actions (run over to the player) to defend.
+    Field_17:float; // always -1
+    Field_18:float; // always -1
+    Field_19:float; // always -1
+    Field_20:[PlacementSpawnerF20] (required);
+    Field_21:[PlacementSpawnerF21] (required);
+    PathToFollowIDs:[string] (required);
+}
+
+table PlacementSpawnerF20 {
+    EncounterTableID:ulong (key); // TableID in EncounterTable
+    ConditionTypeID:ulong;
+    ConditionID:ulong;
+    ConditionArg1:string (required);
+    ConditionArg2:string (required);
+    ConditionArg3:string (required);
+    ConditionArg4:string (required);
+    ConditionArg5:string (required);
+    BonusLevelMin:int;
+    BonusLevelMax:int;
+}
+
+table PlacementSpawnerF21 {
+    VarHash0:ulong;
+    VarHash1:ulong; // Sometimes contains Slot ID from specific encounter table specified by the F20 in the same Spawner?
+    VarHash2:ulong; // Sometimes contains Slot ID from specific encounter table specified by the F20 in the same Spawner?
+    VarHash3:ulong; // ??? Is this as 01/02?
+    VarHash4:ulong; // ??? Is this as 01/02?
+    VarHash5:ulong; // ??? Is this as 01/02?
+    Field_06:Vec3f (required);
+    Field_07:string (required);
+    Scalar:float;
+    Field_09:Vec3f (required);
+    Field_10:Vec3f (required);
+    NumVarHashes:int;
+}
+
+table PlacementSpawnerArchive (fs_serializer) {
+    Table:[PlacementSpawner] (required);
+}
+
+root_type PlacementSpawnerArchive;

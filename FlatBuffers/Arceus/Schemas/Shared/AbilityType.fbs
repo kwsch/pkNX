@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+
+enum AbilityType : int {
+    Any12 = 0,
+    Any12H = 1,
+    Only1 = 2,
+    Only2 = 3,
+    OnlyH = 4,
+}

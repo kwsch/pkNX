@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeBattleSpawn {
+    Field_00:string (required);
+    Field_01:[string] (required);
+    Field_02:[string] (required);
+    Field_03:float;
+    Field_04:float;
+    Field_05:float;
+}
+
+/// Seems to be a file left over from development. Only has test entries
+table PokeBattleSpawnArchive (fs_serializer) {
+    Table:[PokeBattleSpawn] (required);
+}
+
+root_type PokeBattleSpawnArchive;

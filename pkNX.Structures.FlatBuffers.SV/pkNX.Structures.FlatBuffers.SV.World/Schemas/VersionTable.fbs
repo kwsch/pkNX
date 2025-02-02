@@ -1,6 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-table VersionTable {
-    A:bool;
-    B:bool;
-}

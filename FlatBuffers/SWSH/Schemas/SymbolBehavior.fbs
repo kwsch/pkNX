@@ -1,0 +1,58 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table SymbolBehave {
+    Field_00:float;
+    Field_01:float;
+    ModelPart:string (required);
+    Field_03:float;
+    Hash1:ulong;
+    Hash2:ulong;
+    HitboxRadius:float;
+    Field_07:float;
+    Field_08:float; // unused default, assumed float
+    Field_09:float;
+    Form:int;
+    Field_11:ubyte;
+    Field_12:ubyte; // unused default, assumed byte
+    SpeciesID:int;
+    Field_14:ubyte; // unused default, assumed byte
+    Field_15:ubyte; // unused default, assumed byte
+    Field_16:float;
+    Field_17:float;
+    Field_18:int;
+    Field_19:float;
+    Field_20:float;
+    Field_21:float;
+    SpeciesNameJPN:string (required); // internal name
+    Field_23:float;
+    Field_24:float;
+    Field_25:float;
+    Field_26:float;
+    GrassShakeRadius:float;
+    Field_28:float; // unused default, assumed float
+    Field_29:int;
+    Field_30:int; // unused default, assumed int
+    Behavior:string (required);
+    Field_32:int;
+    Field_33:int; // unused default, assumed int
+    Field_34:int; // unused default, assumed int
+    Field_35:int; // unused default, assumed int
+    Field_36:int; // unused default, assumed int
+    Field_37:float;
+    Field_38:float;
+    Field_39:float;
+    Field_40:float;
+    Field_41:float;
+    Field_42:float; // unused default, assumed float
+    Field_43:float; // unused default, assumed float
+    Field_44:float;
+    Field_45:float;
+}
+
+// symbol_encount_mons_param.bin
+table SymbolBehaveRoot (fs_serializer) {
+    Table:[SymbolBehave] (required);
+}
+
+root_type SymbolBehaveRoot;

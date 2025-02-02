@@ -1,9 +1,0 @@
-namespace pkNX.Structures.FlatBuffers;
-attribute "fs_valueStruct";
-
-struct Quat4f (fs_valueStruct) {
-    W: float;
-    X: float;
-    Y: float;
-    Z: float;
-}

@@ -1,0 +1,49 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+// bin/appli/res_pokemon/list/pokemon_info_list.bin
+
+table PokeInfo {
+    Species:int;
+    Children:[PokeInfoDetail] (required);
+}
+
+table PokeInfoDetail {
+    Form:int;
+    Detail:[PokeInfoDetail_2] (required);
+}
+
+table PokeInfoDetail_2 {
+    IsRare:bool;
+    Detail:[PokeInfoDetail_3] (required);
+}
+
+table PokeInfoDetail_3 {
+    Unknown:bool;
+    Detail:[PokeInfoDetail_5] (required);
+}
+
+table PokeInfoDetail_5 {
+    Gender:PokeInfoGender (required);
+    AssetName:string (required);
+}
+
+enum PokeInfoGenderType : byte {
+    GenderDiffMale = 0,
+    GenderDiffFemale = 1,
+    Genderless = 2,
+    DualGenderNoDifference = 3,
+    MaleOnly = 4,
+    FemaleOnly = 5,
+}
+
+table PokeInfoGender {
+    GenderValue:PokeInfoGenderType;
+}
+
+table PokeInfoList (fs_serializer) {
+    DefaultIcon:string (required);
+    Table:[PokeInfo] (required);
+}
+
+root_type PokeInfoList;

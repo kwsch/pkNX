@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum SellType : int {
+    SELL_BUY = 0,
+    BUY_ONLY = 1,
+}

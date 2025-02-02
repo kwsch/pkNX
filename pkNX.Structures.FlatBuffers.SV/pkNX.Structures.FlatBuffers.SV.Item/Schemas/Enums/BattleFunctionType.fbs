@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum BattleFunctionType : int {
-    BTLFUNC_NONE = 0,
-    BTLFUNC_BALL = 1,
-    BTLFUNC_RECOVER = 2,
-    BTLFUNC_ESCAPE = 3,
-}

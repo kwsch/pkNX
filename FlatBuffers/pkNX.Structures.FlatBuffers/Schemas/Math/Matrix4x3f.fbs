@@ -1,0 +1,10 @@
+include "PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers;
+
+table Matrix4x3f {
+    X: PackedVec3f;
+    Y: PackedVec3f;
+    Z: PackedVec3f;
+    W: PackedVec3f;
+}

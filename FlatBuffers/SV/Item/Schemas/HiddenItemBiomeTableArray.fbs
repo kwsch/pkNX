@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table HiddenItemBiomeTable {
+    Key:HiddenItemBiomeKey (required);
+    TableId:string (required);
+}
+
+table HiddenItemBiomeKey {
+    Area:int (key);
+    Biome:string (required);
+}
+
+table HiddenItemBiomeTableArray (fs_serializer) {
+    Table:[HiddenItemBiomeTable] (required);
+}
+
+root_type HiddenItemBiomeTableArray;

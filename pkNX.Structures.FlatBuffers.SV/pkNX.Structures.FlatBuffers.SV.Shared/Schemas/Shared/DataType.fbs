@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum DataType : int {
-    NORMAL = 0,
-    ITEM = 1,
-    WAZA = 2,
-    MULTI = 3,
-}

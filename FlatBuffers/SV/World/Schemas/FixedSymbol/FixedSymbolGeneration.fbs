@@ -1,0 +1,13 @@
+include "GenerationPattern.fbs";
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table FixedSymbolGeneration {
+    MinCreateDistance:float;
+    MaxCreateDistance:float;
+    MinDestroyDistance:float;
+    MaxDestroyDistance:float;
+    GenerationPattern:GenerationPattern = Encount;
+    FirstGenerate:bool;
+    RepopProbability:int;
+    RequireScenarioId:string;
+}

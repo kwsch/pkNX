@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\pkNX.Structures.FlatBuffers.SV.Shared.csproj" />
+  </ItemGroup>
+</Project>

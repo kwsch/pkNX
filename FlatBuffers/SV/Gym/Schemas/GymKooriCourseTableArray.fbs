@@ -1,0 +1,32 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table GymKooriCourseTable {
+    CourseId:int;
+    SceneName:string (required);
+    ClearTimeMinutes:int;
+    ClearTimeSeconds:int;
+    ClearTimeMillisecond:int;
+    PenaltyTimeMinutes:int;
+    PenaltyTimeSeconds:int;
+    PenaltyTimeMillisecond:int;
+    TimeupTimeMinutes:int;
+    TimeupTimeSeconds:int;
+    TimeupTimeMillisecond:int;
+    BestRecordTimeName:string (required);
+    ShowNewRecord:bool;
+    ShowClearTime:bool;
+    PrizeItemId:ItemID = ITEMID_NONE;
+    PrizeItemNum:int;
+    IsClearName:string (required);
+    FirstPrizeItemId:ItemID = ITEMID_NONE;
+    FirstPrizeItemNum:int;
+}
+
+table GymKooriCourseTableArray (fs_serializer) {
+    Table:[GymKooriCourseTable] (required);
+}
+
+root_type GymKooriCourseTableArray;

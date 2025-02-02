@@ -1,0 +1,69 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PersonalInfo {
+    DexIndexNational:ushort; // not Key, but used for sorting. Can have multiple forms.
+    Form:ushort;
+    IsPresentInGame:bool;
+    Type1:ubyte;
+    Type2:ubyte;
+    Ability1:ushort;
+    Ability2:ushort;
+    AbilityH:ushort;
+    Stat_HP:ubyte;
+    Stat_ATK:ubyte;
+    Stat_DEF:ubyte;
+    Stat_SPA:ubyte;
+    Stat_SPD:ubyte;
+    Stat_SPE:ubyte;
+    Gender:ubyte;
+    EXPGrowth:ubyte;
+    EvoStage:ubyte;
+    CatchRate:ubyte;
+    Field_18:ubyte; // Always Default (0)
+    Color:ubyte;
+    Height:ushort;
+    Weight:ushort;
+    TM_A:uint; // not used by game
+    TM_B:uint; // not used by game
+    TM_C:uint; // not used by game
+    TM_D:uint; // not used by game
+    TR_A:uint; // not used by game
+    TR_B:uint; // not used by game
+    TR_C:uint; // not used by game
+    TR_D:uint; // not used by game
+    TypeTutor:uint; // not used by game
+    BaseEXP:ushort;
+    EV_HP :ubyte;
+    EV_ATK:ubyte;
+    EV_DEF:ubyte;
+    EV_SPA:ubyte;
+    EV_SPD:ubyte;
+    EV_SPE:ubyte;
+    Item1:ushort;
+    Item2:ushort;
+    Item3:ushort; // Always Default (0)
+    EggGroup1:ubyte;
+    EggGroup2:ubyte;
+    HatchedSpecies:ushort;
+    LocalFormIndex:ushort;
+    IsRegionalForm:bool;
+    RegionalFormIndex:ushort; // Form hatched if holding Everstone
+    HatchCycles:ubyte;
+    BaseFriendship:ubyte;
+    DexIndexHisui:ushort;
+    ModelID:ushort;
+    DexIndexLocal1:uint;
+    DexIndexLocal2:uint;
+    DexIndexLocal3:uint;
+    DexIndexLocal4:uint;
+    DexIndexLocal5:uint;
+    MoveShop1:uint;
+    MoveShop2:uint;
+}
+
+table PersonalTable (fs_serializer) {
+    Table:[PersonalInfo] (required);
+}
+
+root_type PersonalTable;

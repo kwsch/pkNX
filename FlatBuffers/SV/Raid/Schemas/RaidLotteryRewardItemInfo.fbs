@@ -1,0 +1,12 @@
+include "Shared/ItemID.fbs";
+include "Enums/RaidRewardItemCategoryType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table RaidLotteryRewardItemInfo {
+    Category:RaidRewardItemCategoryType;
+    ItemID:ItemID = ITEMID_NONE;
+    Num:byte;
+    Rate:int;
+    RareItemFlag:bool;
+}

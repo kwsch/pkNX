@@ -1,0 +1,41 @@
+include "Math/Vec3f.fbs";
+include "PlacementParameters.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PlacementSearchItem {
+    Identifier:string (required);
+    Hash_01:ulong;
+    Field_02:[PlacementParameters] (required);
+    Field_03:string (required);
+    Field_04:string (required);
+    Rate:int;
+    Field_06:bool;
+    Field_07:bool;
+    Field_08:Vec3f (required);
+    Field_09:byte;
+    Field_10:Vec3f (required);
+    Field_11:bool;
+    Field_12:Vec3f (required);
+    Field_13:bool;
+    Field_14:Vec3f (required);
+    Field_15:bool;
+    Field_16:Vec3f (required);
+    Field_17:bool;
+    Field_18:Vec3f (required);
+    Field_19:bool;
+    Field_20:Vec3f (required);
+    Field_21:bool;
+    Field_22:Vec3f (required);
+    Field_23:bool;
+    Field_24:Vec3f (required);
+    Field_25:bool;
+    Field_26:Vec3f (required);
+}
+
+table PlacementSearchItemTable (fs_serializer) {
+    Table:[PlacementSearchItem] (required);
+}
+
+root_type PlacementSearchItemTable;

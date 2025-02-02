@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum RaidRewardItemSubjectType : int {
-    ALL = 0,
-    HOST = 1,
-    CLIENT = 2,
-    ONCE = 3,
-}

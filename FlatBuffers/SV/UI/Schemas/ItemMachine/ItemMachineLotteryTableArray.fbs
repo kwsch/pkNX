@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+struct ItemMachineLotteryRateData {
+    DefaultRate:uint;
+    BonusRate:uint;
+    SpecialRate:uint;
+}
+
+struct ItemMachineLotteryRateArray {
+    Table:[ItemMachineLotteryRateData:3];
+}
+
+table ItemMachineLotteryTable {
+    Param:ItemMachineLotteryRateArray;
+}
+
+table ItemMachineLotteryTableArray (fs_serializer) {
+    Table:[ItemMachineLotteryTable] (required);
+}
+
+root_type ItemMachineLotteryTableArray;

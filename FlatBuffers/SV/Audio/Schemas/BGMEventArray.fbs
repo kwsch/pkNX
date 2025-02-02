@@ -1,0 +1,18 @@
+include "BGMEventType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+// Root Type: gfl.audio.fb.BGMEventArray
+table BGMEvent {
+    EventName:string (required);
+    Type:BGMEventType;
+    LayerName:string (required);
+    WwiseEventName:string (required);
+}
+
+table BGMEventArray (fs_serializer) {
+    Table:[BGMEvent] (required);
+}
+
+root_type BGMEventArray;

@@ -1,0 +1,21 @@
+include "PlacementParameters.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PlacementLocation {
+    Field_00:string (required);
+    Field_01:ulong;
+    ParameterSet:[PlacementParameters] (required);
+    ShapeID:ulong;
+    SizeX:float;
+    SizeY:float;
+    SizeZ:float;
+    LocationTypeID:ulong;
+    LocationTypeArg1:string (required);
+    LocationTypeArg2:ulong;
+}
+
+table PlacementLocationArchive (fs_serializer) {
+    Table:[PlacementLocation] (required);
+}

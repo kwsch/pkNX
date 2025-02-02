@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table TimeTable {
+    Morning:bool;
+    Noon:bool;
+    Evening:bool;
+    Night:bool;
+}

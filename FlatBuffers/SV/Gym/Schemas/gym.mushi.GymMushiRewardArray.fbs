@@ -1,0 +1,20 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table GymMushiReward {
+    ItemID:ItemID = ITEMID_NONE;
+    ItemNum:int;
+    ClearTimeMinutes:int;
+    ClearTimeSeconds:int;
+    ClearTimeMillisecond:int;
+    ItemReceivedWorkName:string (required);
+    IsClear:bool;
+}
+
+table GymMushiRewardArray (fs_serializer) {
+    Table:[GymMushiReward] (required);
+}
+
+root_type GymMushiRewardArray;

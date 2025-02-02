@@ -1,0 +1,10 @@
+include "PokeFieldObstructionWaza.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeFieldObstructionWazaWildWaterArchive (fs_serializer) {
+    Table:[PokeFieldObstructionWaza] (required);
+}
+
+root_type PokeFieldObstructionWazaWildWaterArchive;

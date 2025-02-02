@@ -1,8 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-attribute "fs_serializer";
-
-table PicnicSystemData (fs_serializer) {
-    PicnicRangeRadius:float;
-}
-
-root_type PicnicSystemData;

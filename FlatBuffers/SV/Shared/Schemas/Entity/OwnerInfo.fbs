@@ -1,0 +1,12 @@
+include "../Shared/SexType.fbs";
+include "../Shared/LangType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table OwnerInfo {
+    TrainerId:int;
+    Sex:SexType;
+    LangId:LangType;
+    Name:string (required);
+}

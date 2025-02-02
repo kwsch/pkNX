@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum BandType : short {
-    NONE = 0,
-    SAME = 1,
-    BOSS = 2,
-}

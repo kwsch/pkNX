@@ -1,0 +1,14 @@
+include "PokemonTriggerID.fbs";
+include "ComparisonOperatorType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table ConditionSimpleAutoBattleHecklerAreaArray (fs_serializer) {
+    Table:[ConditionSimpleAutoBattleHecklerArea] (required);
+}
+
+table ConditionSimpleAutoBattleHecklerArea {
+    TriggerID:PokemonTriggerID;
+    ComparisonOperatorType:ComparisonOperatorType;
+}

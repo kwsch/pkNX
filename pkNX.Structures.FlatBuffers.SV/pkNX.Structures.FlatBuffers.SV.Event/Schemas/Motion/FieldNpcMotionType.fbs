@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum FieldNpcMotionType : uint {
-    Wait = 0,
-    OneShot = 1,
-    Loop = 2,
-}

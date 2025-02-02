@@ -1,0 +1,50 @@
+include "Shared/DevID.fbs";
+include "Shared/SexType.fbs";
+include "TimeTable.fbs";
+include "VersionTable.fbs";
+include "Area/BandType.fbs";
+include "Area/BringItem.fbs";
+include "Area/EnableTable.fbs";
+include "Area/Biome.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table EncountPokeData {
+    DevId:DevID = DEV_NULL;
+    Sex:SexType = DEFAULT;
+    Form:byte;
+    MinLevel:short;
+    MaxLevel:short;
+    LotValue:short;
+    Biome1:Biome;
+    LotValue1:short;
+    Biome2:Biome;
+    LotValue2:short;
+    Biome3:Biome;
+    LotValue3:short;
+    Biome4:Biome;
+    LotValue4:short;
+    Area:string (required);
+    LocationName:string (required);
+    MinHeight:int;
+    MaxHeight:int;
+    Enable:EnableTable (required);
+    Time:TimeTable (required);
+    FlagName:string (required);
+    BandRate:short;
+    Band:BandType = NONE;
+    BandPoke:DevID = DEV_NULL;
+    BandSex:SexType;
+    BandForm:byte;
+    OutbreakLotValue:byte;
+    PokeVoiceClassification:string (required);
+    Version:VersionTable;
+    Item:BringItem;
+}
+
+table EncountPokeDataArray (fs_serializer) {
+    Table:[EncountPokeData] (required);
+}
+
+root_type EncountPokeDataArray;

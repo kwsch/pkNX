@@ -1,6 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum ClerkType : int {
-    CLERK = 0,
-    NO_CLERK = 1,
-}

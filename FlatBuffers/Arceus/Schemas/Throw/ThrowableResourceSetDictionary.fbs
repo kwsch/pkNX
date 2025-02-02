@@ -1,0 +1,20 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ThrowableResourceSetEntry {
+    ItemType: ulong (key);
+    Flag: bool;
+    Hash_02: ulong;
+    ItemCategory: ulong;
+    Hash_04: ulong;
+    HitTrajectoryType: ulong;
+    HitEffectType: ulong;
+    SoundDrop: string (required);
+    SoundFly: string (required);
+}
+
+table ThrowableResourceSetDictionary (fs_serializer) {
+    Table:[ThrowableResourceSetEntry] (required);
+}
+
+root_type ThrowableResourceSetDictionary;

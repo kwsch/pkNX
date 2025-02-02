@@ -1,8 +1,0 @@
-include "PlacementShared.fbs";
-namespace pkNX.Structures.FlatBuffers.SWSH;
-
-// No maps have data for this.
-table PlacementZoneRotomRallyEntry {
-    Field_00:PlacementZoneMetaTripleXYZ (required);
-    Field_01:uint;
-}

@@ -1,0 +1,21 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeDropItemBattle {
+    RateItem1:int;
+    IndexItem1:int;
+    RateItem2:int;
+    IndexItem2:int;
+    RateItem3:int;
+    IndexItem3:int;
+    RateItem4:int;
+    IndexItem4:int;
+    RateItem5:int;
+    IndexItem5:int;
+}
+
+table PokeDropItemBattleArchive (fs_serializer) {
+    Table:[PokeDropItemBattle] (required);
+}
+
+root_type PokeDropItemBattleArchive;

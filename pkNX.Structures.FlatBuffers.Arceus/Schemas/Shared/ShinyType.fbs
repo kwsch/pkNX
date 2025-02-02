@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.Arceus;
-
-enum ShinyType : int {
-    Random = 0,
-    Always = 1,
-    Never = 2,
-}

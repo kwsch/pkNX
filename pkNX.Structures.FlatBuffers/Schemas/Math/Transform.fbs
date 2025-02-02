@@ -1,9 +1,0 @@
-include "PackedVec3f.fbs";
-
-namespace pkNX.Structures.FlatBuffers;
-
-table Transform {
-    Scale: PackedVec3f;
-    Rotate: PackedVec3f;
-    Translate: PackedVec3f;
-}

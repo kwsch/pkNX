@@ -1,6 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum RareType : int {   DEFAULT = 0,
-    NO_RARE = 1,
-    RARE = 2,
-}

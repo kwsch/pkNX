@@ -1,0 +1,23 @@
+include "AjitoDifficultEnum.fbs";
+include "AjitoTypeEnum.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+struct AjitoCommonLevelStruct {
+    Type:AjitoTypeEnum;
+    Difficulty:AjitoDifficultEnum;
+    ClearPokemonNum:int;
+    MinPokemonLv:int;
+    MaxPokemonLv:int;
+    LpCoefficient:int;
+}
+
+table AjitoCommonLevel {
+    Inner:AjitoCommonLevelStruct;
+}
+
+table AjitoCommonLevelArray (fs_serializer) {
+    Table:[AjitoCommonLevel] (required);
+}

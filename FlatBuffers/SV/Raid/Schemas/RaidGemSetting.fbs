@@ -1,0 +1,38 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table MeteorSetting {
+    ShowerInterval:int;
+    QuantityMin:int;
+    QuantityMax:int;
+    DelayMin:float;
+    DelayMax:float;
+}
+
+table GemSetting {
+    MaxNumUnexplored:int;
+    MaxNumExplored:int;
+    MaxNumAnAreaUnexplored:int;
+    MaxNumAnAreaExplored:int;
+    AreaMax:int;
+    GroupMax:int;
+    GemMax:int;
+    LotteryGroupMax:int;
+    LotteryKwmMax:int;
+    GemFetchLength:float;
+    GemReleaseLength:float;
+    LeaguePayDifficulty01:int;
+    LeaguePayDifficulty02:int;
+    LeaguePayDifficulty03:int;
+    LeaguePayDifficulty04:int;
+    LeaguePayDifficulty05:int;
+    LeaguePayDifficulty06:int;
+    LeaguePayDifficulty07:int;
+}
+
+table RaidGemSetting (fs_serializer) {
+    Meteor:MeteorSetting (required);
+    Gem:GemSetting (required);
+}
+
+root_type RaidGemSetting;

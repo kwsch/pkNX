@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table CommonCaptureConfig {
+    Name:string (required);
+    Hash:ulong (key);
+    Type:int;
+    String_03:string (required);
+    String_04:string (required);
+    String_05:[string] (required);
+    String_06:[string] (required);
+}
+
+table CommonCaptureConfigTable (fs_serializer) {
+    Table:[CommonCaptureConfig] (required);
+}
+
+root_type CommonCaptureConfigTable;

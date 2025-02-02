@@ -1,0 +1,49 @@
+include "Math/math.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+// *.trskl
+
+enum NodeType: uint {
+    Transform = 0,
+    Joint = 1,
+    Locator = 2,
+}
+
+table TransformNode {
+    Name: string;
+    TransformData: Transform;
+    ScalePivot: PackedVec3f;
+    RotatePivot: PackedVec3f;
+    ParentIdx: int; // -1
+    RigIdx: int; // -1
+    LocatorBone: string;
+    Type: NodeType;
+}
+
+table IKControl {
+    Name: string;
+    Target: string;
+    Pole: string;
+    Type: string;
+    Field_04: uint;
+    Position: PackedVec3f;
+    Rotation: Quat4f;
+}
+
+table Bone {
+    LockTranslation: bool;
+    Field_01: byte; // Always set to 1, but 1 is not default. Maybe lock scale?
+    Matrix: Matrix4x3f;
+}
+
+table Skeleton (fs_serializer) {
+    Reserved_00: uint; // Always default
+    Nodes: [TransformNode];
+    Bones: [Bone];
+    Iks: [IKControl];
+    RigOffset: int;
+}
+
+root_type Skeleton;

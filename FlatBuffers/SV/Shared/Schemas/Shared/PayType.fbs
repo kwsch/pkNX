@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PayType : int {
+    OKOZUKAI = 0,
+    LP = 1,
+    BP = 2,
+}

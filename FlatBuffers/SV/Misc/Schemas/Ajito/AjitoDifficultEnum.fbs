@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum AjitoDifficultEnum : int {
+    Easy = 0,
+    Normal = 1,
+    Hard = 2,
+}

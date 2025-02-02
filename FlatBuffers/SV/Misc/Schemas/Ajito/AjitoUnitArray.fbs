@@ -1,0 +1,28 @@
+include "AjitoDifficultEnum.fbs";
+include "AjitoTypeEnum.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table AjitoUnitTable {
+    Type:AjitoTypeEnum;
+    Difficulty:AjitoDifficultEnum;
+    PokemonId1:int;
+    PokemonId2:int;
+    PokemonId3:int;
+    PokemonId4:int;
+    PokemonId5:int;
+    PokemonId6:int;
+    PokemonId7:int;
+    PokemonId8:int;
+    PokemonId9:int;
+    PokemonId10:int;
+}
+
+table AjitoUnit {
+    Inner:AjitoUnitTable (required);
+}
+
+table AjitoUnitArray (fs_serializer) {
+    Table:[AjitoUnit] (required);
+}

@@ -1,0 +1,49 @@
+include "../Shared/AbilityType.fbs";
+include "../Shared/NatureType.fbs";
+include "../Shared/ShinyType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table PokeAdd {
+    Field_00:string (required);
+    Species:int;
+    Form:int;
+    Gender:int;
+    ShinyLock:ShinyType;
+    Level:int;
+    Ability:AbilityType;
+    Nature:NatureType;
+    Height:int;
+    Weight:int;
+    IsOybn:bool;
+    Move1:int;
+    Mastered1:bool;
+    Move2:int;
+    Mastered2:bool;
+    Move3:int;
+    Mastered3:bool;
+    Move4:int;
+    Mastered4:bool;
+    IV_HP:int;
+    IV_ATK:int;
+    IV_DEF:int;
+    IV_SPA:int;
+    IV_SPD:int;
+    IV_SPE:int;
+    NumPerfectIvs:int;
+    GV_HP:int;
+    GV_ATK:int;
+    GV_DEF:int;
+    GV_SPA:int;
+    GV_SPD:int;
+    GV_SPE:int;
+    TryInsertParty:int; // 1 if party attempted, 0 -> straight to box
+    Ball:int; // 0 is use default game ball (LAPoke); is set to 37 (Origin) for box legends.
+}
+
+table PokeAddArchive (fs_serializer) {
+    Table:[PokeAdd] (required);
+}
+
+root_type PokeAddArchive;

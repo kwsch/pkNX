@@ -1,0 +1,14 @@
+include "RaidEnemyInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table DeliveryRaidEnemyTable {
+    Info:RaidEnemyInfo (required);
+}
+
+table DeliveryRaidEnemyTableArray (fs_serializer) {
+    Table:[DeliveryRaidEnemyTable] (required);
+}
+
+root_type DeliveryRaidEnemyTableArray;

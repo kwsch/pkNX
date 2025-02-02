@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table FieldAutomaticReturnTable {
+    AutoReturnFallTime:float;
+    AutoReturnSlideTime:float;
+    AutoReturnMoveAmount:float;
+    AutoReturnTiltAngle:float;
+    CliffReturnHeavyLandingHeight:float;
+    CliffReturnInvalidDistance:float;
+}
+
+table FieldAutomaticReturnTableArray (fs_serializer) {
+    Table:[FieldAutomaticReturnTable] (required);
+}
+
+root_type FieldAutomaticReturnTableArray;

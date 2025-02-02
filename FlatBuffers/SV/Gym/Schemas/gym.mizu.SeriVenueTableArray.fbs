@@ -1,0 +1,44 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+enum VenueType : int {
+    A = 0,
+    B = 1,
+    C = 2,
+    D = 3,
+}
+
+table SeriVenueTable {
+    SeriVenueTableId:int;
+    IsEventOnly:bool;
+    IsLegend:bool;
+    IsNpcSelectAll:bool;
+    VenueType:VenueType;
+    McName:string (required);
+    BarkerMessageLabelName:string (required);
+    BarkersMessageLabelName:string (required);
+    EntryMessageLabelName:string (required);
+    EntrysMessageLabelName:string (required);
+    FirstBidMessageLabelName:string (required);
+    NextBidMessageLabelName:string (required);
+    PlayerBidMessageLabelName:string (required);
+    PlayerSuccessBidMessageLabelName:string (required);
+    OtherSuccessBidMessageLabelName:string (required);
+    ReceiveItemMessageLabelName:string (required);
+    InvalidMessageLabelName:string (required);
+    EndMessageLabelName:string (required);
+    UnopenedMessageLabelName:string (required);
+    ProgressFlagName:string (required);
+    ItemIdFlagName:string (required);
+    ItemNumFlagName:string (required);
+    NpcId0FlagName:string (required);
+    NpcId1FlagName:string (required);
+    ItemPositionObjectName:string (required);
+    WindowOffset:float;
+}
+
+table SeriVenueTableArray (fs_serializer) {
+    Table:[SeriVenueTable] (required);
+}
+
+root_type SeriVenueTableArray;

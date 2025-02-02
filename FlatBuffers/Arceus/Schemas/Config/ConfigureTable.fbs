@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ConfigEntry {
+    Name:string (required);
+    Hash:ulong;
+    Field_02:int;
+    DebugMin:string (required);
+    DebugMax:string (required);
+    Parameters:[string] (required);
+    Description:string (required);
+}
+
+table ConfigArchive (fs_serializer) {
+    Table:[ConfigEntry] (required);
+}
+
+root_type ConfigArchive;

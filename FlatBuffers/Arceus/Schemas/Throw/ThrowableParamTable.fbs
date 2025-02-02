@@ -1,0 +1,24 @@
+include "ThrowPermissionSet.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ThrowableParam {
+    ItemID:int (key);
+    ItemType:ulong;
+    ThrowPermissionSet:ulong;
+    ThrowParam:ulong;
+    Hash_04:ulong;
+    Field_05:int;
+    Field_06:float;
+    Label_01:string (required);
+    Label_02:string (required);
+    Field_09:float;
+    Field_10:int;
+}
+
+table ThrowableParamTable (fs_serializer) {
+    Table:[ThrowableParam] (required);
+}
+
+root_type ThrowableParamTable;

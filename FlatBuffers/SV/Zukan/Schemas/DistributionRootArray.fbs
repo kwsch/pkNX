@@ -1,0 +1,25 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table GridParam {
+    X:int;
+    Y:int;
+}
+
+table DistributionData {
+    DevNo:int;
+    FormNo:int;
+    VersionA:bool;
+    VersionB:bool;
+    Grid:GridParam (required);
+}
+
+table DistributionRoot {
+    Table:[DistributionData] (required);
+}
+
+table DistributionRootArray (fs_serializer) {
+    Table:[DistributionRoot] (required);
+}
+
+root_type DistributionRootArray;

@@ -1,0 +1,53 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table BoxRevival {
+    RevivalRate:int;
+    QuantityData:CoinQuantityData (required);
+    NumData:CoinNumData (required);
+}
+
+table WalkRevival {
+    RevivalRate:int;
+    QuantityData:CoinQuantityData (required);
+    NumData:CoinNumData (required);
+}
+
+table CoinQuantityData {
+    Lottery00:CoinRevivalLotteryData (required);
+    Lottery01:CoinRevivalLotteryData (required);
+    Lottery02:CoinRevivalLotteryData (required);
+    Lottery03:CoinRevivalLotteryData (required);
+    Lottery04:CoinRevivalLotteryData (required);
+}
+
+table CoinNumData {
+    Lottery00:CoinRevivalLotteryData (required);
+    Lottery01:CoinRevivalLotteryData (required);
+    Lottery02:CoinRevivalLotteryData (required);
+    Lottery03:CoinRevivalLotteryData (required);
+    Lottery04:CoinRevivalLotteryData (required);
+    Lottery05:CoinRevivalLotteryData (required);
+    Lottery06:CoinRevivalLotteryData (required);
+    Lottery07:CoinRevivalLotteryData (required);
+    Lottery08:CoinRevivalLotteryData (required);
+}
+
+table CoinRevivalLotteryData {
+    Rate:int;
+    Num:int;
+}
+
+table CoinSymbolManager (fs_serializer) {
+    WalkFetchRange:float;
+    WalkReleaseRange:float;
+    BoxFetchRange:float;
+    BoxReleaseRange:float;
+    Box:BoxRevival (required);
+    Walk:WalkRevival (required);
+    WalkVoiceLength:float;
+    WalkVoiceIntervalMin:int;
+    WalkVoiceIntervalMax:int;
+}
+
+root_type CoinSymbolManager;

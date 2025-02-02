@@ -1,0 +1,16 @@
+include "Math/Vec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.Arceus;
+
+table PlacementParameters {
+    ConditionTypeID:ulong;
+    ConditionID:ulong;
+    ConditionArg1:string (required);
+    ConditionArg2:string (required);
+    ConditionArg3:string (required);
+    ConditionArg4:string (required);
+    ConditionArg5:string (required);
+    Coordinates:Vec3f (required);
+    Rotation:Vec3f (required);
+    Scale:Vec3f (required);
+}

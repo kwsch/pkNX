@@ -1,0 +1,53 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table NestHoleCrystalEncounterTable {
+    TableID:ulong;
+    GameVersion:uint;
+    Entries:[NestHoleCrystalEncounter] (required);
+}
+
+table NestHoleCrystalEncounter {
+    EntryIndex:int;
+    Species:int;
+    Form:int;
+    Level:int;
+    DynamaxLevel:ubyte;
+    Ability:ubyte;
+    IsGigantamax:bool;
+    DropTableID:ulong;
+    BonusTableID:ulong;
+    Field_09:ubyte;
+    Field_0A:ubyte;
+    Field_0B:ubyte;
+    Field_0C:ubyte;
+    Field_0D:ubyte;
+    Nature:byte;
+    IV_HP:short;
+    IV_ATK:short;
+    IV_DEF:short;
+    IV_SPA:short;
+    IV_SPD:short;
+    IV_SPE:short;
+    Field_15:uint;
+    Move0:uint;
+    Move1:uint;
+    Move2:uint;
+    Move3:uint;
+    DynamaxBoost:float;
+    Field_1B:uint;
+    Field_1C:uint;
+    Field_1D:uint; // Shield
+    Field_1E:uint; // % only if move
+    Field_1F:uint; // Move ID
+    Field_20:uint; // Shield only if move
+    Field_21:uint; // % only if move
+    Field_22:uint; // Move ID
+    Field_23:uint; // shield? only if move
+}
+
+table NestHoleCrystalEncounterArchive (fs_serializer) {
+    Table:[NestHoleCrystalEncounterTable] (required);
+}
+
+root_type NestHoleCrystalEncounterArchive;

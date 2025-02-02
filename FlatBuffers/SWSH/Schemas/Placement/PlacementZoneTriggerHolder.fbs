@@ -1,0 +1,15 @@
+include "PlacementShared.fbs";
+namespace pkNX.Structures.FlatBuffers.SWSH;
+
+// Trigger tiles?
+table PlacementZoneTriggerHolder {
+    Object:PlacementZoneTrigger (required);
+}
+
+table PlacementZoneTrigger {
+    Field_00:PlacementZoneDeepX (required);
+    TriggerName:ulong;
+    Field_02:uint;
+    Field_03:PlacementZoneDeepY (required);
+    Field_04:uint;
+}

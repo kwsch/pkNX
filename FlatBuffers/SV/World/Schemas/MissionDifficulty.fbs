@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum MissionDifficulty : byte
+{
+    Beginner = 0,
+    Intermediate = 1,
+    Advanced = 2,
+}

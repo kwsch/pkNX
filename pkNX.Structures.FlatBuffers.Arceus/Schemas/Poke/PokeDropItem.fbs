@@ -1,9 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.Arceus;
-
-table PokeDropItem {
-    Hash:ulong (key);
-    RegularItem:int;
-    RegularItemProbability:int;
-    RareItem:int;
-    RareItemProbability:int;
-}

@@ -1,7 +1,0 @@
-namespace pkNX.Structures.FlatBuffers.SV;
-
-enum RaidBossExtraTimingType : short {
-    NONE = 0,
-    TIME = 1,
-    HP = 2,
-}

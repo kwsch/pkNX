@@ -1,0 +1,21 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table LearnsetMeta {
+    Species:ushort;
+    Form:ushort;
+    Mainline:[LearnsetEntry] (required);
+    Arceus:[LearnsetEntry] (required);
+}
+
+table LearnsetEntry {
+    Level:ushort;
+    LevelMaster:ushort;
+    Move:ushort;
+}
+
+table Learnset (fs_serializer) {
+    Table:[LearnsetMeta] (required);
+}
+
+root_type Learnset;

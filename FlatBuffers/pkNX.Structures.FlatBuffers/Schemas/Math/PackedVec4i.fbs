@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers;
+attribute "fs_valueStruct";
+
+struct PackedVec4i (fs_valueStruct){
+    X: int;
+    Y: int;
+    Z: int;
+    W: int;
+}

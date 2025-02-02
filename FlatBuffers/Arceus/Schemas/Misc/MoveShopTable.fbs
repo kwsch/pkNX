@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table MoveShopIndex {
+    Index:int;
+    Move:int;
+    Price:int;
+    Hash:ulong;
+}
+
+table MoveShopTable (fs_serializer) {
+    Table:[MoveShopIndex] (required);
+}
+
+root_type MoveShopTable;

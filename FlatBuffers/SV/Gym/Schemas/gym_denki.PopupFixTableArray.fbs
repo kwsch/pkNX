@@ -1,0 +1,24 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+attribute "fs_serializer";
+
+table PopupFixTable {
+    EventShowTime:float;
+    EventAppearFirstTime:float;
+    EventAppearMinTime:float;
+    EventAppearMaxTime:float;
+    EventPopup1AreaId:int;
+    EventPopup2AreaId:int;
+    EventPopup3AreaId:int;
+    EventPopup4AreaId:int;
+    BossShowTime:float;
+    BossPopup1AreaId:int;
+    BossPopup2AreaId:int;
+    BossPopup3AreaId:int;
+    BossPopup4AreaId:int;
+}
+
+table PopupFixTableArray (fs_serializer) {
+    Table:[PopupFixTable] (required);
+}
+
+root_type PopupFixTableArray;

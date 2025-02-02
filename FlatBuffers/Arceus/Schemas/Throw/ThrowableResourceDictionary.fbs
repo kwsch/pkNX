@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table ThrowableResourceEntry {
+    Hash_00:ulong (key);
+    File:string (required);
+}
+
+table ThrowableResourceDictionary (fs_serializer) {
+    Table:[ThrowableResourceEntry] (required);
+}
+
+root_type ThrowableResourceDictionary;
