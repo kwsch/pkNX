@@ -7,10 +7,10 @@ public static class SchemaDump
     /// <summary>
     /// Exports fbs, cs
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="filePath"></param>
-    /// <param name="dir"></param>
-    /// <param name="settings"></param>
+    /// <param name="data">Reflection schema to dump from</param>
+    /// <param name="filePath">File path of the schema</param>
+    /// <param name="dir">Output directory</param>
+    /// <param name="settings">Settings for the dump</param>
     public static Schema HandleReflection(Memory<byte> data, ReadOnlySpan<char> filePath, string dir, SchemaDumpSettings settings)
     {
         var schema = Schema.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
@@ -70,10 +70,8 @@ public static class SchemaDump
 
     private static void WriteHeaderCS(Schema schema, TextWriter cs, ReadOnlySpan<char> fileNameSpace)
     {
-        cs.WriteLine("using System.Collections.Generic;");
-        cs.WriteLine("using FlatSharp.Attributes;");
-        cs.WriteLine("// ReSharper disable UnusedMember.Global");
         cs.WriteLine("// ReSharper disable ClassNeverInstantiated.Global");
+        cs.WriteLine("// ReSharper disable UnusedMember.Global");
         cs.WriteLine("// ReSharper disable UnusedType.Global");
         cs.WriteLine();
         cs.WriteLine($"namespace {fileNameSpace};");
@@ -102,7 +100,6 @@ public static class SchemaDump
             var obj = list[i];
 
             cs.WriteLine();
-            cs.WriteLine("[TypeConverter(typeof(ExpandableObjectConverter))]");
             cs.WriteLine($"public partial {(obj.IsStruct ? "struct" : "class")} {GetName(obj.Name, stripNamespace)};");
 
             DumpObjectFBS(schema, fbs, stripNamespace, obj);

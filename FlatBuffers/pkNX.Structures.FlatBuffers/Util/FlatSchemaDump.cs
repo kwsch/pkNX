@@ -14,9 +14,11 @@ public class FlatSchemaDump
     public FlatSchemaDump(object obj) => Recurse(obj.GetType());
 
     public string GetSingleFileSchema(Type type) =>
-        $@"namespace {type.Namespace};
-{string.Join(Environment.NewLine + Environment.NewLine, GeneratedSchemas)}
-root_type {GetName(type)};";
+        $"""
+         namespace {type.Namespace};
+         {string.Join(Environment.NewLine + Environment.NewLine, GeneratedSchemas)}
+         root_type {GetName(type)};
+         """;
 
     private void Recurse(Type t)
     {
@@ -42,9 +44,11 @@ root_type {GetName(type)};";
 
         var defType = type.GetTypeInfo().GetCustomAttribute<FlatBufferStructAttribute>() != null ? "struct" : "table";
         var schema =
-            @$"{defType} {name} {{
-  {string.Join(Environment.NewLine + "  ", lines)}
-}}";
+            $$"""
+              {{defType}} {{name}} {
+                {{string.Join(Environment.NewLine + "  ", lines)}}
+              }
+              """;
 
         GeneratedClasses.Add(name);
         GeneratedSchemas.Add(schema);
@@ -71,9 +75,11 @@ root_type {GetName(type)};";
         var underlying = type.GetEnumUnderlyingType();
         var underlyingName = Aliases[underlying];
         var kvps = GetEnumMembers(type);
-        var schema = $@"enum {GetName(type)} : {underlyingName} {{
-  {string.Join(Environment.NewLine + "  ", kvps)}
-}}";
+        var schema = $$"""
+                       enum {{GetName(type)}} : {{underlyingName}} {
+                         {{string.Join(Environment.NewLine + "  ", kvps)}}
+                       }
+                       """;
         GeneratedClasses.Add(name);
         GeneratedSchemas.Add(schema);
     }

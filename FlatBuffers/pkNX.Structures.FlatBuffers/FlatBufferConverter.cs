@@ -54,8 +54,9 @@ public static class FlatBufferConverter
         var pool = ArrayPool<byte>.Shared;
         var serializer = obj.Serializer;
         var data = pool.Rent(serializer.GetMaxSize(obj));
+        data.AsSpan().Clear();
         var len = serializer.Write(data, obj);
-        var result = data.AsSpan(0, len).ToArray();
+        var result = data[..len];
         pool.Return(data);
         return result;
     }

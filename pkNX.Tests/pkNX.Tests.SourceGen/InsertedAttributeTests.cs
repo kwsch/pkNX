@@ -5,7 +5,7 @@ using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.Tests.SourceGen;
 
-public class SayHelloGeneratorTest
+public class InsertedAttributeTests
 {
     [Fact]
     public void IsAttributeInserted()
