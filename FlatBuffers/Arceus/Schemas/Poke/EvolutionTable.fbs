@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table EvolutionSet {
+    Species:ushort;
+    Form:ushort;
+    Table:[EvolutionEntry]; // not required!
+}
+
+table EvolutionEntry {
+    Method:ushort;
+    Argument:ushort;
+    Species:ushort;
+    Form:ushort;
+    Level:ushort;
+}
+
+table EvolutionTable (fs_serializer) {
+    Table:[EvolutionSet] (required);
+}
+
+root_type EvolutionTable;

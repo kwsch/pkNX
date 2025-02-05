@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <RootNamespace>pkNX.WinForms</RootNamespace>
     <NeutralLanguage>en</NeutralLanguage>
     <Company>Project Pokémon</Company>
@@ -19,34 +19,34 @@
     <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj" />
     <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj" />
     <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.LGPE\pkNX.Structures.FlatBuffers.LGPE.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.Reflection\pkNX.Structures.FlatBuffers.Reflection.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Audio\pkNX.Structures.FlatBuffers.SV.Audio.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Balloon\pkNX.Structures.FlatBuffers.SV.Balloon.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Battle\pkNX.Structures.FlatBuffers.SV.Battle.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Cooking\pkNX.Structures.FlatBuffers.SV.Cooking.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Event\pkNX.Structures.FlatBuffers.SV.Event.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Gym\pkNX.Structures.FlatBuffers.SV.Gym.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Item\pkNX.Structures.FlatBuffers.SV.Item.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Misc\pkNX.Structures.FlatBuffers.SV.Misc.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Personal\pkNX.Structures.FlatBuffers.SV.Personal.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Picnic\pkNX.Structures.FlatBuffers.SV.Picnic.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Raid\pkNX.Structures.FlatBuffers.SV.Raid.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Shared\pkNX.Structures.FlatBuffers.SV.Shared.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Trainers\pkNX.Structures.FlatBuffers.SV.Trainers.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Trinity\pkNX.Structures.FlatBuffers.SV.Trinity.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.UI\pkNX.Structures.FlatBuffers.SV.UI.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Waza\pkNX.Structures.FlatBuffers.SV.Waza.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.World\pkNX.Structures.FlatBuffers.SV.World.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SV\pkNX.Structures.FlatBuffers.SV.Zukan\pkNX.Structures.FlatBuffers.SV.Zukan.csproj" />
-    <ProjectReference Include="..\pkNX.Structures.FlatBuffers.SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj" />
     <ProjectReference Include="..\pkNX.Structures\pkNX.Structures.csproj" />
+    <ProjectReference Include="..\FlatBuffers\pkNX.Structures.FlatBuffers.Reflection\pkNX.Structures.FlatBuffers.Reflection.csproj" />
+    <ProjectReference Include="..\FlatBuffers\LGPE\pkNX.Structures.FlatBuffers.LGPE.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SWSH\pkNX.Structures.FlatBuffers.SWSH.csproj" />
+    <ProjectReference Include="..\FlatBuffers\Arceus\pkNX.Structures.FlatBuffers.Arceus.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Audio\pkNX.Structures.FlatBuffers.SV.Audio.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Balloon\pkNX.Structures.FlatBuffers.SV.Balloon.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Battle\pkNX.Structures.FlatBuffers.SV.Battle.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Cooking\pkNX.Structures.FlatBuffers.SV.Cooking.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Event\pkNX.Structures.FlatBuffers.SV.Event.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Gym\pkNX.Structures.FlatBuffers.SV.Gym.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Item\pkNX.Structures.FlatBuffers.SV.Item.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Misc\pkNX.Structures.FlatBuffers.SV.Misc.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Personal\pkNX.Structures.FlatBuffers.SV.Personal.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Picnic\pkNX.Structures.FlatBuffers.SV.Picnic.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Raid\pkNX.Structures.FlatBuffers.SV.Raid.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Shared\pkNX.Structures.FlatBuffers.SV.Shared.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Trainers\pkNX.Structures.FlatBuffers.SV.Trainers.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Trinity\pkNX.Structures.FlatBuffers.SV.Trinity.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\UI\pkNX.Structures.FlatBuffers.SV.UI.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Waza\pkNX.Structures.FlatBuffers.SV.Waza.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\World\pkNX.Structures.FlatBuffers.SV.World.csproj" />
+    <ProjectReference Include="..\FlatBuffers\SV\Zukan\pkNX.Structures.FlatBuffers.SV.Zukan.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
-    <PackageReference Include="PKHeX.Core" Version="24.5.5" />
+    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+    <PackageReference Include="PKHeX.Core" Version="24.11.12" />
   </ItemGroup>
 
   <ItemGroup>

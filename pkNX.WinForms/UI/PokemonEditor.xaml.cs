@@ -94,7 +94,7 @@ public partial class PokemonEditor
 
         IC_EvolutionsItems.ItemsSource = Editor.Evolve.Root.Table.FirstOrDefault(x => x is not null && x.Species == SelectedSpecies && x.Form == SelectedForm, default)?.Table;
 
-        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite(SelectedSpecies, SelectedForm, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
+        Bitmap rawImg = SpriteUtil.GetSprite(SelectedSpecies, SelectedForm, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
         Bitmap bigImg = Utils.ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
 
         IMG_MonSprite.Source = Utils.ImageSourceFromBitmap(bigImg);
@@ -106,9 +106,7 @@ public partial class PokemonEditor
         allValid |= ValidateRegionalDexIndex();
 
         if (!allValid)
-        {
             return false;
-        }
 
         var pkm = cPersonal;
         pkm.HP = Util.ToInt32(TB_BaseHP.Text);
@@ -391,23 +389,18 @@ public partial class PokemonEditor
         for (int i = 0; i < la.Length; i++)
         {
             var evoSet = la[i];
-            if (evoSet.Table != null && evoSet.Table.Count != 0)
+            if (evoSet.Table is not { Count: > 0 })
                 continue;
 
             var species = evoSet.Species;
             var form = evoSet.Form;
 
             if (species > Legal.MaxSpeciesID_8)
-            {
                 continue;
-            }
 
             int index = swshPersonal.GetFormIndex(species, (byte)form);
             if (index == 0)
-            {
-                // Assume the form doesn't exsist in the game
-                continue;
-            }
+                continue; // Assume the form doesn't exist in the game
 
             var swshEvos = swsh[index];
             var entries = new List<Structures.FlatBuffers.Arceus.EvolutionEntry>();

@@ -86,7 +86,7 @@ public partial class PokeDataUI8a : Form
         InitLearn();
         InitEvo();
 
-        CB_HatchSpecies.Items.AddRange(speciesNames.ToArray());
+        CB_HatchSpecies.Items.AddRange([.. speciesNames]);
 
         CB_Species.SelectedIndex = 1;
         Loaded = true;
@@ -158,7 +158,7 @@ public partial class PokeDataUI8a : Form
             FlatStyle = FlatStyle.Flat,
         };
         dgvMove.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dgvMove.Items.AddRange(movelist.ToImmutableSortedSet().ToArray()); // add only the Names
+        dgvMove.Items.AddRange([.. movelist]); // add only the Names
 
         dgv.Columns.Add(dgvLevel);
         dgv.Columns.Add(dgvLevelMastery);
@@ -198,7 +198,7 @@ public partial class PokeDataUI8a : Form
         var evoTable = Editor.Evolve.Root.Table;
         LoadEvolutions(evoTable.First(x => x.Species == spec && x.Form == form));
 
-        Bitmap rawImg = (Bitmap)SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
+        Bitmap rawImg = SpriteUtil.GetSprite((ushort)spec, (byte)form, 0, 0, 0, false, PKHeX.Core.Shiny.Never);
         Bitmap bigImg = ResizeBitmap(rawImg, rawImg.Width * 2, rawImg.Height * 2);
         PB_MonSprite.Image = bigImg;
     }
@@ -388,9 +388,7 @@ public partial class PokeDataUI8a : Form
         allValid |= ValidateRegionalDexIndex();
 
         if (!allValid)
-        {
             return false;
-        }
 
         var pkm = cPersonal;
         pkm.HP = Util.ToInt32(TB_BaseHP.Text);
@@ -522,7 +520,7 @@ public partial class PokeDataUI8a : Form
             });
         }
 
-        pkm.Arceus = entries.ToArray();
+        pkm.Arceus = [.. entries];
 
         return true;
     }
@@ -634,7 +632,7 @@ public partial class PokeDataUI8a : Form
                     Level = evo.Level,
                 });
             }
-            evoSet.Table = entries.ToArray();
+            evoSet.Table = [.. entries];
         }
     }
 
@@ -819,7 +817,7 @@ public partial class PokeDataUI8a : Form
 
     private void B_CloneTask_Click(object sender, EventArgs e)
     {
-        Debug.Assert(PG_DexResearchTasks.SelectedGridItem.Value is PokedexResearchTask);
+        Debug.Assert(PG_DexResearchTasks.SelectedGridItem?.Value is PokedexResearchTask);
         var task = (PokedexResearchTask)PG_DexResearchTasks.SelectedGridItem.Value;
         Data.DexResearch.Root.AddTask(task);
 
@@ -828,7 +826,7 @@ public partial class PokeDataUI8a : Form
 
     private void B_DeleteTask_Click(object sender, EventArgs e)
     {
-        Debug.Assert(PG_DexResearchTasks.SelectedGridItem.Value is PokedexResearchTask);
+        Debug.Assert(PG_DexResearchTasks.SelectedGridItem?.Value is PokedexResearchTask);
         var task = (PokedexResearchTask)PG_DexResearchTasks.SelectedGridItem.Value;
         Data.DexResearch.Root.RemoveTask(task);
 

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Data Structures - With FlatBuffers!</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\pkNX.Structures\pkNX.Structures.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <FlatSharpClassDefinitionsOnly>true</FlatSharpClassDefinitionsOnly>
+  </PropertyGroup>
+
+</Project>

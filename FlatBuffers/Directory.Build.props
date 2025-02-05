@@ -1,0 +1,33 @@
+<Project>
+  <!-- Exact copy of main dir's PropertyGroup -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+  
+  <!-- Ease of use, not shared with main dir -->
+  <PropertyGroup>
+	<ImplicitUsings>true</ImplicitUsings>
+  </PropertyGroup>
+  
+  <Choose>
+    <When Condition="'$(MSBuildProjectName)' != 'pkNX.Structures.FlatBuffers.SourceGen'">
+      <ItemGroup>
+        <ProjectReference Include="$(MSBuildThisFileDirectory)pkNX.Structures.FlatBuffers.SourceGen\pkNX.Structures.FlatBuffers.SourceGen.csproj"
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+      </ItemGroup>
+
+      <!-- Common config for FlatSharp -->
+      <ItemGroup>
+        <PackageReference Include="FlatSharp.Runtime" Version="7.8.0" />
+        <PackageReference Include="FlatSharp.Compiler" Version="7.8.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <Content Include="Schemas\**\*.fbs" />
+        <FlatSharpSchema Include="Schemas\**\*.fbs" />
+      </ItemGroup>
+      <PropertyGroup>
+        <FlatSharpDeserializers>GreedyMutable</FlatSharpDeserializers>
+        <FlatSharpInputFilesOnly>true</FlatSharpInputFilesOnly>
+      </PropertyGroup>
+    </When>
+  </Choose>
+</Project>
