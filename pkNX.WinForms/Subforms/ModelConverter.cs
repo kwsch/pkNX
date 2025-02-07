@@ -113,13 +113,6 @@ public partial class ModelConverter : Form
     }
 
     [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
-    public class MeshMaterialWrapper
-    {
-        [FlatBufferItem(0)] public string Name { get; set; } = string.Empty;
-        [FlatBufferItem(1)] public Material[] Materials { get; set; } = [];
-    }
-
-    [FlatBufferTable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class PokemonModelGfpak
     {
         [FlatBufferItem(0)] public PokeConfig Config { get; set; } = new();
@@ -130,7 +123,6 @@ public partial class ModelConverter : Form
         [FlatBufferItem(5)] public Material[] DefaultMaterials { get; set; } = [];
         [FlatBufferItem(6)] public MeshMaterialWrapper[] MeshMaterials { get; set; } = [];
         [FlatBufferItem(7)] public Skeleton Skeleton { get; set; } = new();
-
         [FlatBufferItem(8)] public string[] UsedTextures { get; set; } = [];
     }
 
