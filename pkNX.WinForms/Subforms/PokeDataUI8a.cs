@@ -121,10 +121,10 @@ public partial class PokeDataUI8a : Form
             cb.Items.AddRange(types);
 
         foreach (ComboBox cb in eggGroup_boxes)
-            cb.Items.AddRange(Enum.GetNames(typeof(EggGroup)));
+            cb.Items.AddRange(Enum.GetNames<EggGroup>());
 
-        CB_Color.Items.AddRange(Enum.GetNames(typeof(PokeColor)));
-        CB_EXPGroup.Items.AddRange(Enum.GetNames(typeof(EXPGroup)));
+        CB_Color.Items.AddRange(Enum.GetNames<PokeColor>());
+        CB_EXPGroup.Items.AddRange(Enum.GetNames<EXPGroup>());
     }
 
     private void InitLearn()
@@ -158,7 +158,7 @@ public partial class PokeDataUI8a : Form
             FlatStyle = FlatStyle.Flat,
         };
         dgvMove.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dgvMove.Items.AddRange([.. movelist]); // add only the Names
+        dgvMove.Items.AddRange(movelist.ToImmutableSortedSet().ToArray<object>()); // add only the Names
 
         dgv.Columns.Add(dgvLevel);
         dgv.Columns.Add(dgvLevelMastery);
@@ -529,7 +529,10 @@ public partial class PokeDataUI8a : Form
     {
         cEvos = s;
 
-        var numPossibleEvos = cEvos.Table.Count;
+        var evos = cEvos.Table;
+        if (evos is null)
+            return;
+        var numPossibleEvos = evos.Count;
 
         flowLayoutPanel1.SuspendLayout();
         flowLayoutPanel1.Controls.Clear();
@@ -542,7 +545,7 @@ public partial class PokeDataUI8a : Form
             flowLayoutPanel1.SetFlowBreak(row, true);
             EvoRows[i] = row;
 
-            row.LoadEvolution(cEvos.Table[i]);
+            row.LoadEvolution(evos[i]);
         }
         flowLayoutPanel1.ResumeLayout();
     }
@@ -550,7 +553,7 @@ public partial class PokeDataUI8a : Form
     private bool SaveEvolutions()
     {
         var s = cEvos;
-        Debug.Assert(EvoRows.Length == s.Table.Count);
+        Debug.Assert(s.Table?.Count == EvoRows.Length);
         foreach (var row in EvoRows)
             row.SaveEvolution();
 
@@ -605,9 +608,7 @@ public partial class PokeDataUI8a : Form
             var form = evoSet.Form;
 
             if (species > Legal.MaxSpeciesID_8)
-            {
                 continue;
-            }
 
             int index = swshPersonal.GetFormIndex(species, (byte)form);
             if (index == 0)

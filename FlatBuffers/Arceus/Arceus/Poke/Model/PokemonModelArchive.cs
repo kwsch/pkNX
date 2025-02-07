@@ -1,5 +1,6 @@
 using pkNX.Containers;
 using FlatSharp.Attributes;
+using System.ComponentModel;
 
 namespace pkNX.Structures.FlatBuffers.Arceus;
 
@@ -13,6 +14,7 @@ public partial class MeshMaterialWrapper
     [FlatBufferItem(1)] public Material[] Materials { get; set; } = [];
 }
 
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public class PokemonModelArchive
 {
     public GFPack SourceArchive { get; set; }
