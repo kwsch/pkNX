@@ -118,7 +118,7 @@ public static class TeraRaidRipper
 
     public static void DumpDistributionRaids(IFileInternal ROM, string path)
     {
-        var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).OrderBy(z => z);
+        var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Order();
         var type2 = new List<byte[]>();
         var type3 = new List<byte[]>();
 

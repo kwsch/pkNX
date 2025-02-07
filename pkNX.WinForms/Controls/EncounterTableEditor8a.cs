@@ -27,7 +27,7 @@ public partial class EncounterTableEditor8a : UserControl
         var items = table.Select(z => new ComboItem(z.TableName.Replace("\"", ""), z)).ToArray();
         CB_Encounters.DisplayMember = nameof(ComboItem.Text);
         CB_Encounters.ValueMember = nameof(ComboItem.Value);
-        CB_Encounters.DataSource = new BindingSource(items, null);
+        CB_Encounters.DataSource = new BindingSource(items, string.Empty);
 
         CB_Encounters.SelectedIndex = 0;
     }
@@ -76,17 +76,17 @@ public partial class EncounterTableEditor8a : UserControl
 
     private void B_CloneTableEntry_Click(object sender, EventArgs e)
     {
-        var obj = PG_Encounters.SelectedGridItem.Value;
+        var obj = PG_Encounters.SelectedGridItem!.Value;
         if (obj is not EncounterSlot slotToClone)
             return;
-        var encounterTable = (EncounterTable)PG_Encounters.SelectedObject;
-        encounterTable.Table = encounterTable.Table.Concat([new EncounterSlot(slotToClone)]).ToArray();
+        var encounterTable = (EncounterTable)PG_Encounters.SelectedObject!;
+        encounterTable.Table = [.. encounterTable.Table, new EncounterSlot(slotToClone)];
         PG_Encounters.Refresh();
     }
 
     private void B_ConfigureAsAlpha_Click(object sender, EventArgs e)
     {
-        var obj = PG_Encounters.SelectedGridItem.Value;
+        var obj = PG_Encounters.SelectedGridItem!.Value;
         if (obj is EncounterSlot slotToEdit)
         {
             slotToEdit.BaseProbability = 1;
@@ -103,7 +103,7 @@ public partial class EncounterTableEditor8a : UserControl
 
     private void B_RemoveCondition_Click(object sender, EventArgs e)
     {
-        var obj = PG_Encounters.SelectedGridItem.Value;
+        var obj = PG_Encounters.SelectedGridItem!.Value;
         if (obj is EncounterSlot slotToEdit)
         {
             slotToEdit.Eligibility.ConditionID = Condition.None;

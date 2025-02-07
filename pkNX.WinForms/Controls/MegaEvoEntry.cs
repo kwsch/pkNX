@@ -10,7 +10,7 @@ public partial class MegaEvoEntry : UserControl
 {
     public static string[] items = [];
 
-    private static readonly string[] EvoMethods = Enum.GetNames(typeof(MegaEvolutionMethod));
+    private static readonly string[] EvoMethods = Enum.GetNames<MegaEvolutionMethod>();
 
     public MegaEvoEntry()
     {

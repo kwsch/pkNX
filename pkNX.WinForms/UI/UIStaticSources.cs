@@ -6,10 +6,10 @@ namespace pkNX.WinForms;
 
 public static class UIStaticSources
 {
-    public static readonly string[] EvolutionMethods = Enum.GetNames(typeof(EvolutionType));
-    public static readonly string[] EggGroups = Enum.GetNames(typeof(EggGroup));
-    public static readonly string[] PokeColors = Enum.GetNames(typeof(PokeColor));
-    public static readonly string[] EXPGroups = Enum.GetNames(typeof(EXPGroup));
+    public static readonly string[] EvolutionMethods = Enum.GetNames<EvolutionType>();
+    public static readonly string[] EggGroups = Enum.GetNames<EggGroup>();
+    public static readonly string[] PokeColors = Enum.GetNames<PokeColor>();
+    public static readonly string[] EXPGroups = Enum.GetNames<EXPGroup>();
     public static string[] SpeciesList = [];
     public static string[] FormsList = [];
     public static string[] SpeciesClassificationsList = [];

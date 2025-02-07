@@ -209,7 +209,7 @@ public partial class Main : Form
 
         if (category == EditorCategory.None)
         {
-            foreach (var c in (EditorCategory[])Enum.GetValues(typeof(EditorCategory)))
+            foreach (var c in Enum.GetValues<EditorCategory>())
             {
                 if (c == EditorCategory.None)
                     continue;

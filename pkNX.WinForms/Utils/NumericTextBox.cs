@@ -33,7 +33,7 @@ public partial class NumericTextBox : TextBox
         DependencyProperty.Register(nameof(Value), typeof(double), typeof(NumericTextBox), new PropertyMetadata(0.0, OnValueChanged));
 
     // Use this to check for value changes
-    public event EventHandler EvaluatedValueChanged;
+    public event EventHandler? EvaluatedValueChanged;
 
     private readonly Regex doubleChars = RexexChar();
 
@@ -41,7 +41,7 @@ public partial class NumericTextBox : TextBox
     [GeneratedRegex(@"[^\d.\-*^%\+/()]+", RegexOptions.Compiled)] private static partial Regex RexexChar();
     [GeneratedRegex(@"[^\d-*^%\+/()]+", RegexOptions.Compiled)] private static partial Regex RegexInt();
 
-    private static readonly string textFormat = "0.##";
+    private const string textFormat = "0.##";
 
     public NumericTextBox()
     {
@@ -133,9 +133,7 @@ public partial class NumericTextBox : TextBox
     private void OnPasting(object sender, DataObjectPastingEventArgs e)
     {
         if (!e.DataObject.GetDataPresent(typeof(string)))
-        {
             e.CancelCommand();
-        }
 
         string text = (string)e.DataObject.GetData(typeof(string));
         if (!IsTextAllowed(text))

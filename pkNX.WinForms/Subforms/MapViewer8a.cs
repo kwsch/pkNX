@@ -52,7 +52,7 @@ public partial class MapViewer8a : Form
 
         CB_Species.DisplayMember = nameof(ComboItem.Text);
         CB_Species.ValueMember = nameof(ComboItem.Value);
-        CB_Species.DataSource = new BindingSource(nameList, null);
+        CB_Species.DataSource = new BindingSource(nameList, string.Empty);
 
         CB_Species.SelectedValue = -1;
         Loading = false;

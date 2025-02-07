@@ -24,14 +24,14 @@ public static class FormsIconHelper
 
     private static readonly Typeface[] Typefaces = typeof(IconHelper).Assembly.LoadTypefaces("fonts", FontTitles);
 
-    internal static FontFamily FontFor(IconChar iconChar)
+    internal static FontFamily? FontFor(IconChar iconChar)
     {
         if (IconHelper.Orphans.Contains(iconChar)) return null;
         var typeFace = Typefaces.Find(iconChar.UniCode(), out _, out _);
         return typeFace?.FontFamily;
     }
 
-    internal static FontFamily FontFamilyFor(this IconChar iconChar, IconFont iconFont)
+    internal static FontFamily? FontFamilyFor(this IconChar iconChar, IconFont iconFont)
     {
         if (iconFont == IconFont.Auto) return FontFor(iconChar);
         var key = (int)iconFont;

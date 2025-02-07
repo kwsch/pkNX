@@ -135,10 +135,10 @@ public partial class PokeDataUI : Form
             cb.Items.AddRange(types);
 
         foreach (ComboBox cb in eggGroup_boxes)
-            cb.Items.AddRange(Enum.GetNames(typeof(EggGroup)));
+            cb.Items.AddRange(Enum.GetNames<EggGroup>());
 
-        CB_Color.Items.AddRange(Enum.GetNames(typeof(PokeColor)));
-        CB_EXPGroup.Items.AddRange(Enum.GetNames(typeof(EXPGroup)));
+        CB_Color.Items.AddRange(Enum.GetNames<PokeColor>());
+        CB_EXPGroup.Items.AddRange(Enum.GetNames<EXPGroup>());
     }
 
     public void InitLearn()
@@ -553,7 +553,7 @@ public partial class PokeDataUI : Form
     private void B_RandPersonal_Click(object sender, EventArgs e)
     {
         SaveCurrent();
-        var settings = (PersonalRandSettings)PG_Personal.SelectedObject;
+        var settings = (PersonalRandSettings)PG_Personal.SelectedObject!;
         var rand = new PersonalRandomizer(Editor.Personal, ROM.Info, Editor.Evolve.LoadAll()) { Settings = settings };
         rand.Execute();
         LoadIndex(CB_Species.SelectedIndex);
@@ -573,7 +573,7 @@ public partial class PokeDataUI : Form
     private void B_RandEvo_Click(object sender, EventArgs e)
     {
         SaveCurrent();
-        var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+        var settings = (SpeciesSettings)PG_Evolution.SelectedObject!;
         if (ROM.Info.GG)
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
         var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
@@ -596,7 +596,7 @@ public partial class PokeDataUI : Form
     private void B_TradeEvo_Click(object sender, EventArgs e)
     {
         SaveCurrent();
-        var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+        var settings = (SpeciesSettings)PG_Evolution.SelectedObject!;
         if (ROM.Info.GG)
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
         var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
@@ -609,7 +609,7 @@ public partial class PokeDataUI : Form
     private void B_EvolveEveryLevel_Click(object sender, EventArgs e)
     {
         SaveCurrent();
-        var settings = (SpeciesSettings)PG_Evolution.SelectedObject;
+        var settings = (SpeciesSettings)PG_Evolution.SelectedObject!;
         if (ROM.Info.GG)
             settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = settings.Gen8 = false;
         var rand = new EvolutionRandomizer(ROM.Info, Editor.Evolve.LoadAll(), Editor.Personal);
@@ -633,8 +633,8 @@ public partial class PokeDataUI : Form
     private void B_RandLearn_Click(object sender, EventArgs e)
     {
         SaveCurrent();
-        var settings = (LearnSettings)PG_Learn.SelectedObject;
-        var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
+        var settings = (LearnSettings)PG_Learn.SelectedObject!;
+        var moveset = (MovesetRandSettings)PG_Move.SelectedObject!;
         var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
         var moves = Data.MoveData.LoadAll();
         int[] banned = Legal.GetBannedMoves(ROM.Info.Game, moves.Length);
@@ -646,14 +646,14 @@ public partial class PokeDataUI : Form
 
     private void B_LearnExpand_Click(object sender, EventArgs e)
     {
-        var settings = (LearnSettings)PG_Learn.SelectedObject;
+        var settings = (LearnSettings)PG_Learn.SelectedObject!;
         if (!settings.Expand)
         {
             WinFormsUtil.Error("Expand moves not selected. Please double check settings.",
                 "Not expanding learnsets.");
             return;
         }
-        var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
+        var moveset = (MovesetRandSettings)PG_Move.SelectedObject!;
         var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
         rand.Initialize(Data.MoveData.LoadAll(), settings, moveset);
         rand.ExecuteExpandOnly();
@@ -663,8 +663,8 @@ public partial class PokeDataUI : Form
 
     private void B_LearnMetronome_Click(object sender, EventArgs e)
     {
-        var settings = (LearnSettings)PG_Learn.SelectedObject;
-        var moveset = (MovesetRandSettings)PG_Move.SelectedObject;
+        var settings = (LearnSettings)PG_Learn.SelectedObject!;
+        var moveset = (MovesetRandSettings)PG_Move.SelectedObject!;
         var rand = new LearnsetRandomizer(ROM.Info, Editor.Learn.LoadAll(), Editor.Personal);
         rand.Initialize(Data.MoveData.LoadAll(), settings, moveset);
         rand.ExecuteMetronome();

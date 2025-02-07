@@ -1,7 +1,6 @@
 using FontAwesome.Sharp;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace pkNX.WinForms;
@@ -31,25 +30,6 @@ public class IconImage : FontAwesome.Sharp.IconImage
         set => SetValue(ForegroundProperty, value);
     }
 
-    public static void SetForeground(DependencyObject element, Brush value)
-    {
-        if (element == null)
-        {
-            throw new ArgumentNullException(nameof(element));
-        }
-
-        element.SetValue(ForegroundProperty, value);
-    }
-    public static Brush GetForeground(DependencyObject element)
-    {
-        if (element == null)
-        {
-            throw new ArgumentNullException(nameof(element));
-        }
-
-        return (Brush)element.GetValue(ForegroundProperty);
-    }
-
     private static void OnUpdateIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not IconImage iconImage)
@@ -63,7 +43,7 @@ public class IconImage : FontAwesome.Sharp.IconImage
         iconImage.SetValue(SourceProperty, imageSource);
     }
 
-    protected FontFamily FontFor(IconChar icon)
+    protected FontFamily? FontFor(IconChar icon)
     {
         return icon.FontFamilyFor(IconFont);
     }

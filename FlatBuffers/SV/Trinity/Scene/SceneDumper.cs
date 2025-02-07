@@ -276,7 +276,7 @@ public static class SceneDumper
             case CollisionUnion.ItemKind.Box:     DumpCollision(shape.Box, tw, depth); break;
             case CollisionUnion.ItemKind.Capsule: DumpCollision(shape.Capsule, tw, depth); break;
             case CollisionUnion.ItemKind.Havok:   DumpCollision(shape.Havok, tw, depth); break;
-            default: throw new ArgumentOutOfRangeException();
+            default: throw new ArgumentException(nameof(shape));
         }
     }
 

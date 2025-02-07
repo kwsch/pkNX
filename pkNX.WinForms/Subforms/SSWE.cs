@@ -62,7 +62,7 @@ public sealed partial class SSWE : Form
 
         CB_Location.ValueMember = nameof(LocationHash.Hash);
         CB_Location.DisplayMember = nameof(LocationHash.LocationName);
-        CB_Location.DataSource = new BindingSource(locs, null);
+        CB_Location.DataSource = new BindingSource(locs, string.Empty);
 
         CB_Location.SelectedIndex = 0;
     }
@@ -70,7 +70,7 @@ public sealed partial class SSWE : Form
     private void CB_Location_SelectedIndexChanged(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        var item = (LocationHash)CB_Location.SelectedItem;
+        var item = (LocationHash)CB_Location.SelectedItem!;
         entry = item.Hash;
         Debug.WriteLine($"Loading area data for [0x{entry:X16}] {item.LocationName}");
         L_Hash.Text = entry.ToString("X16");
@@ -139,7 +139,7 @@ public sealed partial class SSWE : Form
     private void B_RandAll_Click(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        var settings = (SpeciesSettings)PG_Species.SelectedObject;
+        var settings = (SpeciesSettings)PG_Species.SelectedObject!;
         var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
 
         var pt = ROM.Data.PersonalData;
@@ -157,7 +157,7 @@ public sealed partial class SSWE : Form
     {
         var pt = ROM.Data.PersonalData;
         var fr = new FormRandomizer(pt);
-        var settings = (SpeciesSettings)PG_Species.SelectedObject;
+        var settings = (SpeciesSettings)PG_Species.SelectedObject!;
         foreach (var area in Symbols.EncounterTables.Concat(Hidden.EncounterTables))
         {
             foreach (var sub in area.SubTables)

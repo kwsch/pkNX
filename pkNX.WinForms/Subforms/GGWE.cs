@@ -346,7 +346,7 @@ public sealed partial class GGWE : Form
     private void B_RandAll_Click(object sender, EventArgs e)
     {
         SaveEntry(entry);
-        var settings = (SpeciesSettings)PG_Species.SelectedObject;
+        var settings = (SpeciesSettings)PG_Species.SelectedObject!;
         settings.Gen2 = settings.Gen3 = settings.Gen4 = settings.Gen5 = settings.Gen6 = settings.Gen7 = false;
         var rand = new SpeciesRandomizer(ROM.Info, ROM.Data.PersonalData);
         rand.Initialize(settings, 808, 809);

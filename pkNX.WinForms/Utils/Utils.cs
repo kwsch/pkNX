@@ -245,19 +245,22 @@ public static class Utils
         return GetDescendants<T>(obj).First();
     }
 
-    public static T FindParentOfType<T>(this DependencyObject element)
+    public static T? FindParentOfType<T>(this DependencyObject element)
         where T : DependencyObject
     {
-        return Enumerable.FirstOrDefault(Enumerable.OfType<T>(element.GetParents()));
+        return element.GetParents().OfType<T>().FirstOrDefault();
     }
 
     public static IEnumerable<DependencyObject> GetParents(this DependencyObject element)
     {
-        while ((element = element.GetParent()) != null)
-            yield return element;
+        while (element.GetParent() is { } parent)
+        {
+            yield return parent;
+            element = parent;
+        }
     }
 
-    private static DependencyObject GetParent(this DependencyObject element)
+    private static DependencyObject? GetParent(this DependencyObject element)
     {
         DependencyObject? parent = VisualTreeHelper.GetParent(element);
         if (parent != null)
@@ -316,7 +319,7 @@ public static class Utils
             flags |= FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender;
 
         var prop = ReflectionUtils.GetProperty(metaData, "IsInherited");
-        if ((bool)prop.GetValue(metaData))
+        if (prop?.GetValue(metaData) is true)
             flags |= FrameworkPropertyMetadataOptions.Inherits;
 
         return flags;
@@ -332,37 +335,6 @@ public static class Utils
 
         DependencyObject scope = FocusManager.GetFocusScope(element);
         FocusManager.SetFocusedElement(scope, parent);
-    }
-
-    private static readonly string[] SizeSuffixes =
-               ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    public static string FormatByteString(long value, int decimalPlaces = 1)
-    {
-        if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException(nameof(decimalPlaces)); }
-        switch (value)
-        {
-            case < 0:
-                return "-" + FormatByteString(-value, decimalPlaces);
-            case 0:
-                return string.Format("{0:n" + decimalPlaces + "} bytes", 0);
-        }
-
-        // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
-        int mag = (int)Math.Log(value, 1024);
-
-        // 1L << (mag * 10) == 2 ^ (10 * mag) 
-        // [i.e. the number of bytes in the unit corresponding to mag]
-        decimal adjustedSize = (decimal)value / (1L << (mag * 10));
-
-        // make adjustment when the value is large enough that
-        // it would round up to 1000 or more
-        if (Math.Round(adjustedSize, decimalPlaces) < 1000)
-            return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
-
-        mag++;
-        adjustedSize /= 1024;
-
-        return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
     }
 }
 
@@ -432,7 +404,7 @@ public static class FileUtils
 
     public static void CopyDirectory(string sourceDirPath, string destinationDirPath)
     {
-        DirectoryInfo source = new DirectoryInfo(sourceDirPath);
+        var source = new DirectoryInfo(sourceDirPath);
         if (!source.Exists)
             throw new DirectoryNotFoundException($"Source directory does not exist: {sourceDirPath}");
 
@@ -450,7 +422,7 @@ public static class FileUtils
         foreach (FileInfo file in files)
             CopyFileToDirectory(file.FullName, newDirPath); // TODO: Overwrite? Yes for all files option
 
-        // Copy contents of sub-directories
+        // Copy contents of subdirectories
         DirectoryInfo[] dirs = source.GetDirectories();
         foreach (DirectoryInfo subdir in dirs)
             CopyDirectory(subdir.FullName, newDirPath);
@@ -472,12 +444,12 @@ public static class ColorUtils
             return new RGB { R = color.R * RGBToDouble, G = color.G * RGBToDouble, B = color.B * RGBToDouble };
         }
 
-        public Color ToColor()
+        public readonly Color ToColor()
         {
             return Color.FromRgb((byte)(R * 255), (byte)(G * 255), (byte)(B * 255));
         }
 
-        public Color ToColor(byte alpha)
+        public readonly Color ToColor(byte alpha)
         {
             return Color.FromArgb(alpha, (byte)(R * 255), (byte)(G * 255), (byte)(B * 255));
         }

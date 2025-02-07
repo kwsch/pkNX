@@ -114,7 +114,7 @@ public partial class TextEditor : Form
             string line = fileText[i];
             if (line != "~~~~~~~~~~~~~~~")
                 continue;
-            string[] brokenLine = fileText[i++ + 1].Split(new[] { " : " }, StringSplitOptions.None);
+            string[] brokenLine = fileText[i++ + 1].Split(" : ");
             if (brokenLine.Length != 2)
             { WinFormsUtil.Error($"Invalid Line @ {i}, expected Text File : {ctr}"); return false; }
 
@@ -226,7 +226,7 @@ public partial class TextEditor : Form
         // Get Line Count
         string[] lines = new string[dgv.RowCount];
         for (int i = 0; i < dgv.RowCount; i++)
-            lines[i] = (string)dgv.Rows[i].Cells[1].Value;
+            lines[i] = (string)dgv.Rows[i].Cells[1].Value!;
         return lines;
     }
     // Meta Usage

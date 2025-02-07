@@ -54,7 +54,9 @@ public sealed class MultiSelectTreeView : TreeView
 
     private static void UpdateSelectedItems(UIElement element)
     {
-        MultiSelectTreeView treeView = element.FindParentOfType<MultiSelectTreeView>();
+        var treeView = element.FindParentOfType<MultiSelectTreeView>();
+        if (treeView == null)
+            return;
 
         var updatedSelection = treeView.Internal_GetSelectedItems();
 

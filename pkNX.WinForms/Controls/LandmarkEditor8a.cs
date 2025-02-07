@@ -27,7 +27,7 @@ public partial class LandmarkEditor8a : UserControl
         var items = table.Select(z => new ComboItem(z.NameSummary.Replace("\"", ""), z)).ToArray();
         CB_Encounters.DisplayMember = nameof(ComboItem.Text);
         CB_Encounters.ValueMember = nameof(ComboItem.Value);
-        CB_Encounters.DataSource = new BindingSource(items, null);
+        CB_Encounters.DataSource = new BindingSource(items, string.Empty);
 
         CB_Encounters.SelectedIndex = 0;
     }

@@ -284,9 +284,9 @@ public class GameDumperSV(GameManagerSV rom)
             ZukanB = zukanB,
 
             Types = GetText("typename"),
-            Colors = Enum.GetNames(typeof(PokeColor)),
-            EggGroups = Enum.GetNames(typeof(EggGroup)),
-            ExpGroups = Enum.GetNames(typeof(EXPGroup)),
+            Colors = Enum.GetNames<PokeColor>(),
+            EggGroups = Enum.GetNames<EggGroup>(),
+            ExpGroups = Enum.GetNames<EXPGroup>(),
         };
 
         var lines = pd.Dump(pt);
@@ -343,7 +343,7 @@ public class GameDumperSV(GameManagerSV rom)
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
-            foreach (var m in moves.OrderBy(z => z)) // just in case
+            foreach (var m in moves.Order()) // just in case
                 bw.Write(m);
             return ms.ToArray();
         }

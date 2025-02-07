@@ -25,8 +25,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         get
         {
             var parent = Directory.GetParent(rom.PathRomFS);
-            if (parent is null)
-                throw new DirectoryNotFoundException($"Unable to find parent directory of {rom.PathRomFS}");
+            ArgumentNullException.ThrowIfNull(parent, nameof(parent));
             return Path.Combine(parent.FullName, "Dump");
         }
     }
@@ -36,8 +35,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         Directory.CreateDirectory(DumpFolder);
         var result = Path.Combine(DumpFolder, path);
         var parent = Directory.GetParent(result);
-        if (parent is null)
-            throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
+        ArgumentNullException.ThrowIfNull(parent);
         Directory.CreateDirectory(parent.FullName); // double check :(
         return result;
     }
@@ -47,8 +45,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         Directory.CreateDirectory(DumpFolder);
         var result = Path.Combine(DumpFolder, parent, path);
         var parent2 = Directory.GetParent(result);
-        if (parent2 is null)
-            throw new DirectoryNotFoundException($"Unable to get parent directory of {result}");
+        ArgumentNullException.ThrowIfNull(parent2);
         Directory.CreateDirectory(parent2.FullName); // double check :(
         return result;
     }
@@ -81,11 +78,11 @@ public class GameDumperPLA(GameManagerPLA rom)
 
         var pd = new PersonalDumperPLA
         {
-            Colors = Enum.GetNames(typeof(PokeColor)),
-            EggGroups = Enum.GetNames(typeof(EggGroup)),
+            Colors = Enum.GetNames<PokeColor>(),
+            EggGroups = Enum.GetNames<EggGroup>(),
             EntryLearnsets = lr.Table,
             EntryNames = entryNames,
-            ExpGroups = Enum.GetNames(typeof(EXPGroup)),
+            ExpGroups = Enum.GetNames<EXPGroup>(),
             Evos = ev.Table,
 
             Abilities = rom.GetStrings(TextName.AbilityNames),
@@ -392,7 +389,7 @@ public class GameDumperPLA(GameManagerPLA rom)
 
             var table = TableUtil.GetTable(set.Table);
 
-            foreach (var line in table.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+            foreach (var line in table.Split(Environment.NewLine))
                 lines.Add($"\t{line}");
         }
 
@@ -400,7 +397,9 @@ public class GameDumperPLA(GameManagerPLA rom)
         File.WriteAllLines(fn, lines);
 
         var f2 = GetPath("StaticEncountersPKHeX.txt");
-        File.WriteAllLines(f2, statics.Table.SelectMany(z => z.Table.Select(x => x.Dump(speciesNames, z.EncounterName))).OrderBy(z => z));
+        var result = statics.Table.SelectMany(z => z.Table.Select(x => x.Dump(speciesNames, z.EncounterName)))
+            .Order();
+        File.WriteAllLines(f2, result);
     }
 
     public void DumpWilds()
@@ -538,8 +537,7 @@ public class GameDumperPLA(GameManagerPLA rom)
                     var file = s.Replace('/', '\\');
                     var dest = Path.Combine(dir, file);
                     var folder = Path.GetDirectoryName(dest);
-                    if (folder is null)
-                        throw new Exception($"Unable to get directory name of {dest}");
+                    ArgumentNullException.ThrowIfNull(folder);
 
                     Directory.CreateDirectory(folder);
                     File.WriteAllBytes(dest, data);
@@ -615,7 +613,7 @@ public class GameDumperPLA(GameManagerPLA rom)
                 }
 
                 // Debug for Visualization
-                if (new[] { "ha_area01", "ha_area02", "ha_area03", "ha_area04", "ha_area05" }.Contains(areaName))
+                if (areaName is "ha_area01" or "ha_area02" or "ha_area03" or "ha_area04" or "ha_area05")
                     DumpVisualizationData(area);
             }
         }
@@ -941,7 +939,7 @@ public class GameDumperPLA(GameManagerPLA rom)
         }
 
         var path = GetPath("Dex.txt");
-        File.WriteAllLines(path, dex.OrderBy(z => z));
+        File.WriteAllLines(path, dex.Order());
 
         var path4 = GetPath("Dexit.txt");
         File.WriteAllLines(path4, dexit);
@@ -1078,9 +1076,9 @@ public class GameDumperPLA(GameManagerPLA rom)
 
         File.WriteAllLines(GetPath(outFolder, "triggerAll.txt"), allLines);
 
-        File.WriteAllLines(GetPath(outFolder, "triggerUnknownTypes.txt"), unknownTriggers.OrderBy(x => x).Select(x => $"0x{x:X16},"));
-        File.WriteAllLines(GetPath(outFolder, "triggerUnknownConditions.txt"), unknownConditions.OrderBy(x => x).Select(x => $"0x{x:X16},"));
-        File.WriteAllLines(GetPath(outFolder, "triggerUnknownCommands.txt"), unknownCommands.OrderBy(x => x).Select(x => $"0x{x:X16},"));
+        File.WriteAllLines(GetPath(outFolder, "triggerUnknownTypes.txt"), unknownTriggers.Order().Select(x => $"0x{x:X16},"));
+        File.WriteAllLines(GetPath(outFolder, "triggerUnknownConditions.txt"), unknownConditions.Order().Select(x => $"0x{x:X16},"));
+        File.WriteAllLines(GetPath(outFolder, "triggerUnknownCommands.txt"), unknownCommands.Order().Select(x => $"0x{x:X16},"));
     }
 
     public void DumpMoveShop()

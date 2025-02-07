@@ -8,7 +8,7 @@ public class PokeEditor : IDataEditor
     public IPersonalTable Personal { get; init; } = null!;
     public DataCache<Learnset> Learn { get; init; } = null!;
     public DataCache<EvolutionSet> Evolve { get; init; } = null!;
-    public DataCache<MegaEvolutionSet[]> Mega { get; init; } = null!;
+    public DataCache<MegaEvolutionSet[]>? Mega { get; init; }
     public IReadOnlyList<ushort> TMHM { get; init; } = null!;
     public IReadOnlyList<ushort> TR { get; init; } = null!;
 

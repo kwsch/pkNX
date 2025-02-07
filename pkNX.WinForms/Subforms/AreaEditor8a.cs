@@ -70,7 +70,7 @@ public partial class AreaEditor8a : Form
     private void B_Randomize_Click(object sender, EventArgs e)
     {
         SaveArea();
-        RandomizeArea(Area, (SpeciesSettings)PG_RandSettings.SelectedObject);
+        RandomizeArea(Area, (SpeciesSettings)PG_RandSettings.SelectedObject!);
         LoadArea();
         System.Media.SystemSounds.Asterisk.Play();
     }

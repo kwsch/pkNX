@@ -77,12 +77,12 @@ public class GameDumperSWSH(GameManagerSWSH rom)
 
         var pd = new PersonalDumper
         {
-            Colors = Enum.GetNames(typeof(PokeColor)),
-            EggGroups = Enum.GetNames(typeof(EggGroup)),
+            Colors = Enum.GetNames<PokeColor>(),
+            EggGroups = Enum.GetNames<EggGroup>(),
             EntryEggMoves = egg,
             EntryLearnsets = rom.Data.LevelUpData.LoadAll(),
             EntryNames = entryNames,
-            ExpGroups = Enum.GetNames(typeof(EXPGroup)),
+            ExpGroups = Enum.GetNames<EXPGroup>(),
             Evos = rom.Data.EvolutionData.LoadAll(),
 
             Abilities = rom.GetStrings(TextName.AbilityNames),
@@ -364,7 +364,7 @@ public class GameDumperSWSH(GameManagerSWSH rom)
 
         var species = rom.GetStrings(TextName.SpeciesNames);
         var zones = SWSHInfo.Zones;
-        var subtables = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
+        var subtables = Enum.GetNames<SWSHEncounterType>().Select(z => z.Replace("_", " ")).ToArray();
 
         File.WriteAllLines(GetPath("Encounters_Sword.txt"), EncounterTable8Util.GetLines(encount_sw, zones, subtables, species));
         File.WriteAllLines(GetPath("Encounters_Symbol_Sword.txt"), EncounterTable8Util.GetLines(encount_symbol_sw, zones, subtables, species));
@@ -382,7 +382,7 @@ public class GameDumperSWSH(GameManagerSWSH rom)
         var statics = FlatBufferConverter.DeserializeFrom<EncounterStaticArchive>(rom.GetFile(GameFile.EncounterTableStatic)[0]);
         var placement = new GFPack(rom.GetFile(GameFile.Placement)[0]);
         var species_names = rom.GetStrings(TextName.SpeciesNames);
-        var weathers = Enum.GetNames(typeof(SWSHEncounterType)).Select(z => z.Replace("_", " ")).ToArray();
+        var weathers = Enum.GetNames<SWSHEncounterType>().Select(z => z.Replace("_", " ")).ToArray();
         var area_names = new AHTB(placement.GetDataFileName("AreaNameHashTable.tbl")).ToDictionary();
         var zone_names = new AHTB(placement.GetDataFileName("ZoneNameHashTable.tbl")).ToDictionary();
         var zone_descs = SWSHInfo.Zones;
@@ -502,13 +502,13 @@ public class GameDumperSWSH(GameManagerSWSH rom)
         }
 
         var path = GetPath("GalarDex.txt");
-        File.WriteAllLines(path, galar.OrderBy(z => z));
+        File.WriteAllLines(path, galar.Order());
 
         var path2 = GetPath("ArmorDex.txt");
-        File.WriteAllLines(path2, armor.OrderBy(z => z));
+        File.WriteAllLines(path2, armor.Order());
 
         var path3 = GetPath("CrownDex.txt");
-        File.WriteAllLines(path3, crown.OrderBy(z => z));
+        File.WriteAllLines(path3, crown.Order());
 
         var path4 = GetPath("Dexit.txt");
         File.WriteAllLines(path4, dexit);

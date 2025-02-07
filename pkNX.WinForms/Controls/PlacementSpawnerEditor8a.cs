@@ -27,7 +27,7 @@ public partial class PlacementSpawnerEditor8a : UserControl
         var items = table.Select(z => new ComboItem<PlacementSpawner>(z.NameSummary.Replace("\"", ""), z)).ToArray();
         CB_Encounters.DisplayMember = nameof(ComboItem<PlacementSpawner>.Text);
         CB_Encounters.ValueMember = nameof(ComboItem<PlacementSpawner>.Value);
-        CB_Encounters.DataSource = new BindingSource(items, null);
+        CB_Encounters.DataSource = new BindingSource(items, string.Empty);
 
         CB_Encounters.SelectedIndex = 0;
     }

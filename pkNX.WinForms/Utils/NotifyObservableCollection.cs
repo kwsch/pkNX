@@ -45,7 +45,7 @@ public sealed class NotifyObservableCollection<T> : ObservableCollection<T>
         OnPropertyChanged(new PropertyChangedEventArgs("Items"));
     }
 
-    private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void ItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         NotifyCollectionChangedEventArgs args = new(NotifyCollectionChangedAction.Replace, sender, sender, IndexOf((T)sender));
         OnCollectionChanged(args);

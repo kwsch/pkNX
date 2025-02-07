@@ -66,8 +66,9 @@ public partial class BTTE : Form
         trClass = Game.GetStrings(TextName.TrainerClasses);
         movelist = EditorUtil.SanitizeMoveList(movelist);
 
-        AIBits = Game.Info.SWSH ? new[] { CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Raid, CHK_AI_Allowance, CHK_AI_PokeChange, CHK_AI_FireGym1, CHK_AI_FireGym2, CHK_AI_Unused1, CHK_AI_Item, CHK_AI_FireGym3, CHK_AI_Unused2 }
-            : [CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Allowance, CHK_AI_Item, CHK_AI_PokeChange, CHK_AI_Unused1];
+        AIBits = Game.Info.SWSH
+            ? [CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Raid, CHK_AI_Allowance, CHK_AI_PokeChange, CHK_AI_FireGym1, CHK_AI_FireGym2, CHK_AI_Unused1, CHK_AI_Item, CHK_AI_FireGym3, CHK_AI_Unused2]
+            : [CHK_AI_Basic, CHK_AI_Strong, CHK_AI_Expert, CHK_AI_Double, CHK_AI_Allowance, CHK_AI_Item, CHK_AI_PokeChange,                                   CHK_AI_Unused1];
 
         Setup();
         foreach (var pb in pba)
@@ -581,7 +582,7 @@ public partial class BTTE : Form
         var moves = Data.MoveData.LoadAll();
         var rmove = new MoveRandomizer(Game.Info, moves, Personal);
         int[] banned = Legal.GetBannedMoves(Game.Info.Game, moves.Length);
-        rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject, banned);
+        rmove.Initialize((MovesetRandSettings)PG_Moves.SelectedObject!, banned);
         int[] ban = [];
 
         if (Game.Info.SWSH)
@@ -594,7 +595,7 @@ public partial class BTTE : Form
 
         var rspec = new SpeciesRandomizer(Game.Info, Personal);
         var rform = new FormRandomizer(Personal);
-        rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject, ban);
+        rspec.Initialize((SpeciesSettings)PG_Species.SelectedObject!, ban);
         learn.Moves = moves;
         var evos = Data.EvolutionData;
         var trand = new TrainerRandomizer(Game.Info, Personal, Trainers.LoadAll(), evos.LoadAll())
@@ -606,7 +607,7 @@ public partial class BTTE : Form
             RandForm = rform,
             GetBlank = () => Game.Info.SWSH ? new TrainerPoke8() : new TrainerPoke7b(), // this should probably be less specific
         };
-        trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject, (SpeciesSettings)PG_Species.SelectedObject);
+        trand.Initialize((TrainerRandSettings)PG_RTrainer.SelectedObject!, (SpeciesSettings)PG_Species.SelectedObject!);
         return trand;
     }
 
@@ -614,7 +615,7 @@ public partial class BTTE : Form
     {
         SaveEntry();
         var trand = GetRandomizer();
-        var settings = (TrainerRandSettings)PG_RTrainer.SelectedObject;
+        var settings = (TrainerRandSettings)PG_RTrainer.SelectedObject!;
         trand.ModifyAllPokemon(pk => TrainerRandomizer.BoostLevel(pk, settings.LevelBoostRatio));
         LoadEntry();
         System.Media.SystemSounds.Asterisk.Play();
@@ -643,8 +644,7 @@ public static class FormUtil
         }
         else
         {
-            foreach (string s in forms)
-                cb.Items.Add(s);
+            cb.Items.AddRange(forms);
             cb.Enabled = true;
         }
         cb.SelectedIndex = 0;

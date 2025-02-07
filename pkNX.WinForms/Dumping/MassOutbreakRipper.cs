@@ -28,7 +28,7 @@ public static class MassOutbreakRipper
         var ahtb = new AHTB(data);
         NameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
 
-        var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).OrderBy(z => z);
+        var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Order();
         foreach (var dir in dirs)
             DumpDeliveryOutbreakData(ROM, dir);
         ExportPickle(dump, Encounters);
