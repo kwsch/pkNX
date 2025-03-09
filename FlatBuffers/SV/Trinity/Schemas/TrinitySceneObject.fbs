@@ -22,7 +22,7 @@ table TIPokemonModelComponent (fs_serializer) {
     Sex:byte;
     IsRare:bool;
     IsEgg:bool;
-    Scale:byte;
+    Scale:ubyte;
     Field_07:byte; // always 0
     Field_08:byte; // always 0
     Visible:bool;
