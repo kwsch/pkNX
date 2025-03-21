@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table RecognitionParam {
+    ViewingDistance:float;
+    ViewingAngle:float;
+    HearingDistance:float;
+}

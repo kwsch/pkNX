@@ -1,4 +1,4 @@
-include "MissionType.fbs";
+include "Enum/MissionType.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";

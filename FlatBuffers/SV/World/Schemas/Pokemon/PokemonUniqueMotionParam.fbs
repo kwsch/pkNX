@@ -1,0 +1,11 @@
+include "../Enum/PokemonUniqueMotionType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table PokemonUniqueMotionParam {
+    Trigger_2:PokemonUniqueMotionType;
+    Loop_1:PokemonUniqueMotionType;
+    Loop_2:PokemonUniqueMotionType;
+}
+
+root_type PokemonUniqueMotionParam;

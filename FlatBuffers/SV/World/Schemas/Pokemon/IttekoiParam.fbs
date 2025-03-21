@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table IttekoiParam {
+    MoveSpeedRate:float;
+}
+
+root_type IttekoiParam;

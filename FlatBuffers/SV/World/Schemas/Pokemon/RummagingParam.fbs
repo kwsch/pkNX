@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table RummagingParam {
+    IsGrass:bool;
+    IsUnderWater:bool;
+    IsInTheGround:bool;
+    IsOnTheTree:bool;
+}
+
+root_type RummagingParam;

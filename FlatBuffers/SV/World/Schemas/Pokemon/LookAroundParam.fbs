@@ -1,0 +1,11 @@
+include "../Enum/PokemonLookAroundType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table LookAroundParam {
+    Ground:PokemonLookAroundType;
+    Water:PokemonLookAroundType;
+    Sky:PokemonLookAroundType;
+}
+
+root_type LookAroundParam;

@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonTimeZoneMode : int
+{
+    NONE = 0,
+    LEISURELY = 1,
+    ENERGY = 2,
+    ACTIVE = 3,
+}

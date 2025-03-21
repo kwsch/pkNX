@@ -1,0 +1,21 @@
+include "Enum/PokemonLookAroundType.fbs";
+include "Pokemon/LookAroundParam.fbs";
+include "Pokemon/PokemonMotionParam.fbs";
+include "Pokemon/PokemonUniqueMotionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table PokemonCommonData (fs_serializer) {
+    UniqueMotionData:PokemonUniqueMotionParam;
+    LookAroundData:LookAroundParam;
+    MotionCategoryData:PokemonMotionParam;
+    FootIkLimit:float;
+    WaterDraft:float;
+    Altitude:float;
+    LookAroundType:PokemonLookAroundType;
+}
+
+root_type PokemonCommonData;

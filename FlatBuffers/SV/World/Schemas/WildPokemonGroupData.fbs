@@ -1,0 +1,32 @@
+include "FixedSymbol/PokemonActionID.fbs";
+include "Pokemon/BasicActionData.fbs";
+include "Pokemon/GroupBattleActionData.fbs";
+include "Pokemon/InstinctActionData.fbs";
+include "Pokemon/MovementTypeData.fbs";
+include "Pokemon/ObjectRecognitionData.fbs";
+include "Pokemon/PopProbabilityParam.fbs";
+include "Pokemon/SoundRecognitionData.fbs";
+include "Pokemon/WeatherReactionData.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table WildPokemonGroupData (fs_serializer) {
+    Movement:MovementTypeData;
+    BasicAction:BasicActionData;
+    InstinctAction:InstinctActionData;
+    PopProbability:PopProbabilityParam;
+    WeatherReaction:WeatherReactionData;
+    ObjectRecognition:ObjectRecognitionData;
+    BattleReaction:GroupBattleActionData;
+    PlayerEscapedReactionID:PokemonActionID;
+    TreeShakingReactionID:PokemonActionID;
+    HomeRange:float;
+    AllowSuspend:bool;
+    EvolutionActionID:PokemonActionID;
+    SoundRecognition:SoundRecognitionData;
+}
+
+root_type WildPokemonGroupData;

@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonUniqueMotionType : int
+{
+    NONE = 0,
+    DIVE_TO_GROUND_TRIGGER = 1,
+    DIVE_TO_GROUND_LOOP1 = 2,
+    DIVE_TO_GROUND_LOOP2 = 3,
+    SLEEP_IN_GROUND_LOOP = 4,
+    RETRACT_TO_BASE_LOOP = 5,
+    CLIMBING_TREE_LOOP = 6,
+    RUN_DIET = 7,
+    UNIQUE_WAIT_LOOP2 = 8,
+    REST_LOOP = 9,
+}

@@ -1,0 +1,11 @@
+include "InstinctPopParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table PopProbabilityParam {
+    MorningProbability:InstinctPopParam;
+    NoonProbability:InstinctPopParam;
+    EveningProbability:InstinctPopParam;
+    NightProbability:InstinctPopParam;
+    MidNightProbability:InstinctPopParam;
+}

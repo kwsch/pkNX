@@ -1,0 +1,27 @@
+include "Enum/PokemonInterestObjectType.fbs";
+include "Enum/PokemonInterestPlaceType.fbs";
+include "Enum/PokemonTimeZoneMode.fbs";
+include "Shared/DevID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table PokemonSpeciesTable (fs_serializer) {
+    MorningMode:PokemonTimeZoneMode;
+    NoonMode:PokemonTimeZoneMode;
+    EveningMode:PokemonTimeZoneMode;
+    NightMode:PokemonTimeZoneMode;
+    MidnightMode:PokemonTimeZoneMode;
+    FavoritePokemon:FavoritePokemonList;
+    FavoriteObjectType:PokemonInterestObjectType;
+    FavoritePlace:PokemonInterestPlaceType;
+    HatePlace:PokemonInterestPlaceType;
+}
+
+struct FavoritePokemonList {
+    Pokemons:[DevID:5];
+}
+
+root_type PokemonSpeciesTable;

@@ -767,11 +767,17 @@ public class GameDumperSV(GameManagerSV rom)
     private void DumpUniquePath()
     {
         Dump<ConditionSimpleAutoBattleHecklerAreaArray, ConditionSimpleAutoBattleHecklerArea>("world/data/pokemon/ai_action/trigger/condition_simple_auto_battle_heckler_area/condition_simple_auto_battle_heckler_area_array.bfbs", z => z.Table);
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/partner_movement_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/partner_pokemon_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_collision_unique_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_common_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_contact_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_species_behavior_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_species_table.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_stain_unique_data.bfbs");
+        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/wild_pokemon_group_data.bfbs");
         DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/wild_pokemon_single_data.bfbs");
         DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/wild_pokemon_special_data.bfbs");
-        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_stain_unique_data.bfbs");
-        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_common_data.bfbs");
-        DumpJson<PokemonUniquePathData>("world/data/pokemon/pokemon_unique_path_data/pokemon_species_table.bfbs");
         Dump<PokeObjArray, PokeObj>("world/data/pokeobj/pokeobj_param/pokeobj_param_array.bfbs", z => z.Table);
     }
 
@@ -1050,6 +1056,18 @@ public class GameDumperSV(GameManagerSV rom)
     {
         var files = new[]
         {
+            "world/data/pokemon/ai/pokemon_species_behavior_data/0025_00_00.bfbs",
+            "world/data/pokemon/ai/pokemon_species_table/0025_00_00.bfbs",
+            "world/data/pokemon/collision/pokemon_collision_unique_data/0025_00_00.bfbs",
+            "world/data/pokemon/partner/partner_movement_data/0025_00_00.bfbs",
+            "world/data/pokemon/partner/partner_pokemon_data/0025_00_00.bfbs",
+            "world/data/pokemon/pokemon_common_data/0025_00_00.bfbs",
+            "world/data/pokemon/pokemon_contact_data/0025_00_00.bfbs",
+            "world/data/pokemon/stain/pokemon_stain_unique_data/0025_00_00.bfbs",
+            "world/data/pokemon/wild/wild_pokemon_group_data/0025_00_00.bfbs",
+            "world/data/pokemon/wild/wild_pokemon_single_data/0025_00_00.bfbs",
+            "world/data/pokemon/wild/wild_pokemon_special_data/0025_00_00.bfbs",
+
             "world/data/ui/item_machine/item_table/item_table_array.bfbs",
             "world/data/ui/item_machine/lottery_rate/lottery_rate_array.bfbs",
             "world/data/ui/item_machine/special_item_table/special_item_table_array.bfbs",
@@ -1094,11 +1112,17 @@ public class GameDumperSV(GameManagerSV rom)
             "world/data/battle/plib_item_conversion/plib_item_conversion_array.bfbs",
             "world/data/battle/pokeExceptionTable/pokeExceptionTable_array.bfbs",
             "world/data/pokemon/ai_action/trigger/condition_simple_auto_battle_heckler_area/condition_simple_auto_battle_heckler_area_array.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/partner_movement_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/partner_pokemon_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_collision_unique_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_common_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_contact_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_species_behavior_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_species_table.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/pokemon_stain_unique_data.bfbs",
+            "world/data/pokemon/pokemon_unique_path_data/wild_pokemon_group_data.bfbs",
             "world/data/pokemon/pokemon_unique_path_data/wild_pokemon_single_data.bfbs",
             "world/data/pokemon/pokemon_unique_path_data/wild_pokemon_special_data.bfbs",
-            "world/data/pokemon/pokemon_unique_path_data/pokemon_stain_unique_data.bfbs",
-            "world/data/pokemon/pokemon_unique_path_data/pokemon_common_data.bfbs",
-            "world/data/pokemon/pokemon_unique_path_data/pokemon_species_table.bfbs",
             "world/data/pokeobj/pokeobj_param/pokeobj_param_array.bfbs",
             // Trainers
             "world/data/trainer/trdata/trdata_array.bfbs",

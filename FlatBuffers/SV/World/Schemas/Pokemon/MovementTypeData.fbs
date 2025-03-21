@@ -1,0 +1,9 @@
+include "../Enum/PokemonMovementType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table MovementTypeData {
+    Ground:PokemonMovementType;
+    Water:PokemonMovementType;
+    Sky:PokemonMovementType;
+}

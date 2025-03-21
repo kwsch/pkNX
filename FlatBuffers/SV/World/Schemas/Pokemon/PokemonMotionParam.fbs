@@ -1,0 +1,11 @@
+include "../Enum/PokemonMotionCategory.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table PokemonMotionParam {
+    Ground:PokemonMotionCategory;
+    Water:PokemonMotionCategory;
+    Sky:PokemonMotionCategory;
+}
+
+root_type PokemonMotionParam;

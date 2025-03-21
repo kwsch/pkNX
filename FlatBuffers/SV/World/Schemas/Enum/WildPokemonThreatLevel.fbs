@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum WildPokemonThreatLevel : int
+{
+    NONE = 0,
+    FRIENDLY = 1,
+    HOSTILE = 2,
+    FEAR = 3,
+}

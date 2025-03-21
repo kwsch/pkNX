@@ -1,0 +1,11 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonSpeciesBehaviorType : int
+{
+    NONE = 0,
+    MAIN = 1,
+    SUB_ZERO = 2,
+    SUB_ONE = 3,
+    SUB_TWO = 4,
+    SUB_THREE = 5,
+}

@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table ObonFloaterParam {
+    Scale:float;
+}
+
+root_type ObonFloaterParam;

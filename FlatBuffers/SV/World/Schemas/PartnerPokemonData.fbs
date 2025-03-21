@@ -1,0 +1,20 @@
+include "Pokemon/FollowupParam.fbs";
+include "Pokemon/IttekoiParam.fbs";
+include "Pokemon/ObonFloaterParam.fbs";
+include "Pokemon/PartnerBasicParam.fbs";
+include "Pokemon/RummagingParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table PartnerPokemonData (fs_serializer) {
+    PartnerBasicData:PartnerBasicParam;
+    ObonFloaterData:ObonFloaterParam;
+    IttekoiData:IttekoiParam;
+    FollowupData:FollowupParam;
+    RummagingData:RummagingParam;
+}
+
+root_type PartnerPokemonData;

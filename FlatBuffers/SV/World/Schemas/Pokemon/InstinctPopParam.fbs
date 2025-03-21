@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table InstinctPopParam {
+    EatingProbability:int;
+    RestingProbability:int;
+    SleepingProbability:int;
+}

@@ -1,0 +1,11 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table BasicActionData {
+    MorningActionID:PokemonActionID;
+    NoonActionID:PokemonActionID;
+    EveningActionID:PokemonActionID;
+    NightActionID:PokemonActionID;
+    MidNightActionID:PokemonActionID;
+}

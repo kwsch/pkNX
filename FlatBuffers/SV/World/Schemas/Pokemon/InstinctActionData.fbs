@@ -1,0 +1,9 @@
+include "InstinctActionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table InstinctActionData {
+    EatingAction:InstinctActionParam;
+    RestingAction:InstinctActionParam;
+    SleepingAction:InstinctActionParam;
+}

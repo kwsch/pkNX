@@ -1,0 +1,15 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+include "../Enum/WildPokemonThreatLevel.fbs";
+include "Shared/DevID.fbs";
+include "Shared/SexType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table RecognitionToPokemonParam {
+    DevNo:DevID;
+    FormNo:int;
+    Sex:SexType;
+    ThreatLevel:WildPokemonThreatLevel;
+    ConsciousActionID:PokemonActionID;
+    CongnitiveActionID:PokemonActionID;
+}

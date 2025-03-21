@@ -1,0 +1,10 @@
+include "../Enum/WildPokemonThreatLevel.fbs";
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table RecognitionToPlayerParam {
+    ThreatLevel:WildPokemonThreatLevel;
+    ConsciousActionID:PokemonActionID;
+    CongnitiveActionID:PokemonActionID;
+}

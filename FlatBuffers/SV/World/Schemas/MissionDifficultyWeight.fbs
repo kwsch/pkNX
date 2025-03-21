@@ -1,4 +1,4 @@
-include "MissionDifficulty.fbs";
+include "Enum/MissionDifficulty.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";

@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonMotionCategory : int
+{
+    NONE = 0,
+    MAIN_0 = 1,
+    MAIN_1 = 2,
+    MAIN_2 = 3,
+    MAIN_3 = 4,
+    SUB_0 = 5,
+    SUB_1 = 6,
+    SUB_2 = 7,
+    SUB_3 = 8,
+}

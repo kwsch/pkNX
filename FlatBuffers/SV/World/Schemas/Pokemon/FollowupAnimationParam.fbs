@@ -1,0 +1,11 @@
+include "../Enum/FollowupAnimationState.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table FollowupAnimationParam {
+    WaitType:FollowupAnimationState;
+    WalkType:FollowupAnimationState;
+    RunType:FollowupAnimationState;
+}
+
+root_type FollowupAnimationParam;

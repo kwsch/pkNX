@@ -1,0 +1,8 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table SoundRecognitionParam {
+    HearingDistance:float;
+    ActionID:PokemonActionID;
+}

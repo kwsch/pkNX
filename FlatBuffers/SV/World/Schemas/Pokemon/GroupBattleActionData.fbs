@@ -1,0 +1,13 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table GroupBattleActionData {
+    BattleReactionID:PokemonActionID;
+    GroupBattleReactionID:PokemonActionID;
+    GroupSimpleBattleReactionID:PokemonActionID;
+    BattleHecklerReactionID:PokemonActionID;
+    SimpleBattleHecklerReactionID:PokemonActionID;
+    PreBattleActionID:PokemonActionID;
+    SimpleBattleReactionID:PokemonActionID;
+}

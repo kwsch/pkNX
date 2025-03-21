@@ -1,4 +1,4 @@
-include "ClubRoomCoach.fbs";
+include "Enum/ClubRoomCoach.fbs";
 
 namespace pkNX.Structures.FlatBuffers.SV;
 attribute "fs_serializer";

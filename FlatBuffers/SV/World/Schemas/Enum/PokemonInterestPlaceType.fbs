@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonInterestPlaceType : int
+{
+    NONE = 0,
+    TREE_TOP = 1,
+    BUSH = 2,
+    WATERSIDE = 3,
+    UNDER_WATER = 4,
+    SUNNY = 5,
+    SHADE = 6,
+    SANDY_BEACH = 7,
+    UNDER_TREE = 8,
+    WATER_SURFACE = 9,
+}

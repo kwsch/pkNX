@@ -1,0 +1,12 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonLookAroundType : int
+{
+    NONE = 0,
+    MOTION = 1,
+    FAST = 2,
+    MIDDLE = 3,
+    SLOW = 4,
+}

@@ -1,0 +1,14 @@
+include "Enum/PokemonSpeciesBehaviorType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table PokemonSpeciesBehaviorData (fs_serializer) {
+    Grounding:PokemonSpeciesBehaviorType;
+    Swimming:PokemonSpeciesBehaviorType;
+    Floating:PokemonSpeciesBehaviorType;
+}
+
+root_type PokemonSpeciesBehaviorData;

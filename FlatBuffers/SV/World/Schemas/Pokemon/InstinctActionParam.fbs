@@ -1,0 +1,9 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table InstinctActionParam {
+    AddSpeed:float;
+    SubSpeed:float;
+    ActionID:PokemonActionID;
+}

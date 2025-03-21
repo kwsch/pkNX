@@ -1,0 +1,12 @@
+include "Pokemon/MovementTypeData.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+
+table PartnerPokemonMovementData (fs_serializer) {
+    Movement:MovementTypeData;
+}
+
+root_type PartnerPokemonMovementData;

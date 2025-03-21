@@ -1,0 +1,10 @@
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table PartnerBasicParam {
+    LeftOffset:PackedVec3f;
+    RightOffset:PackedVec3f;
+}
+
+root_type PartnerBasicParam;

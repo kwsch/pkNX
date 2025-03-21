@@ -1,0 +1,15 @@
+include "RecognitionParam.fbs";
+include "RecognitionToPlayerParam.fbs";
+include "RecognitionToPokemonParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table ObjectRecognitionData {
+    Conscious:RecognitionParam;
+    Congnitive:RecognitionParam;
+    PlayerReaction:RecognitionToPlayerParam;
+    PokemonReaction_1:RecognitionToPokemonParam;
+    PokemonReaction_2:RecognitionToPokemonParam;
+    PokemonReaction_3:RecognitionToPokemonParam;
+    PokemonReaction_4:RecognitionToPokemonParam;
+}

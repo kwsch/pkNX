@@ -1,0 +1,10 @@
+include "FollowupAnimationParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table FollowupParam {
+    GroundFollowupData:FollowupAnimationParam;
+    WaterFollowupData:FollowupAnimationParam;
+}
+
+root_type FollowupParam;

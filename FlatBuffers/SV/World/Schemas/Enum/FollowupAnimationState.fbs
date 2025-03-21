@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum FollowupAnimationState : int
+{
+    NONE = 0,
+    Setti = 1,
+    Yuuei = 2,
+    Huyuu = 3,
+    Obonnboto = 4,
+}

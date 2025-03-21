@@ -1,0 +1,8 @@
+include "SoundRecognitionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table SoundRecognitionData {
+    WhistlingReaction:SoundRecognitionParam;
+    RoarReaction:SoundRecognitionParam;
+}

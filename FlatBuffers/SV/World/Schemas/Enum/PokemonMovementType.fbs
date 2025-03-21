@@ -1,0 +1,31 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonMovementType : int
+{
+    NONE = 0,
+    GROUND = 1,
+    FLYING = 2,
+    SWIMMING = 3,
+    SEA_BIRD = 4,
+    HORIZONTAL = 5,
+    MEANDERING_REVERSE = 6,
+    MEANDERING_FLUTTERING = 7,
+    WALL = 8,
+    REVERSE = 9,
+    SWIM_FLUTTERING = 10,
+    FLY_FLUTTERING = 11,
+    SUBMARINE = 12,
+    SAND_SWIMMING = 13,
+    FLOATING = 14,
+    GHOST = 15,
+    WATER_SURFACE = 16,
+    GLIDING = 17,
+    LOW_ALTITUDE = 18,
+    GASTLY = 19,
+    CLAUNCHER = 20,
+    GROUND_VERTICAL = 21,
+    GROUND_FOUR_LEGS = 22,
+    GROUND_NORMAL = 23,
+    BIRD_FLYING = 24,
+    MEANDERING_FLUTTERING_REVERSE = 25,
+}

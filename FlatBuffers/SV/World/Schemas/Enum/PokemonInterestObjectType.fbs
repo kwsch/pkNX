@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.SV;
+
+enum PokemonInterestObjectType : int
+{
+    NONE = 0,
+    POKEMON = 1,
+    PLAYER = 2,
+    FAVORITE_PLACE = 3,
+    HATE_PLACE = 4,
+    MEALS = 5,
+    SLEEP = 6,
+    BALL = 7,
+    PLAYER_CHASE = 8,
+    RUMMAGING = 9,
+    STAIN = 10,
+    WHISTLE = 11,
+    PHOTO_BGM = 12,
+}

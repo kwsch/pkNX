@@ -1,0 +1,15 @@
+include "../FixedSymbol/PokemonActionID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.SV;
+
+table WeatherReactionData {
+    SunnyActionID:PokemonActionID;
+    CloudyActionID:PokemonActionID;
+    RainActionID:PokemonActionID;
+    StormActionID:PokemonActionID;
+    SnowActionID:PokemonActionID;
+    SnowStormActionID:PokemonActionID;
+    DiamondDustActionID:PokemonActionID;
+    SandStormActionID:PokemonActionID;
+    MistActionID:PokemonActionID;
+}
