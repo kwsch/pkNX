@@ -1,4 +1,4 @@
-﻿namespace pkNX.WinForms
+namespace pkNX.WinForms
 {
     partial class GenericEditor<T>
     {
@@ -28,130 +28,120 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Grid = new System.Windows.Forms.PropertyGrid();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.CB_EntryName = new System.Windows.Forms.ComboBox();
-            this.B_Dump = new System.Windows.Forms.Button();
-            this.B_Rand = new System.Windows.Forms.Button();
-            this.B_AddEntry = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // Grid
-            // 
-            this.Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Grid.Location = new System.Drawing.Point(0, 15);
-            this.Grid.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(1043, 1229);
-            this.Grid.TabIndex = 0;
+            B_Save = new System.Windows.Forms.Button();
+            CB_EntryName = new System.Windows.Forms.ComboBox();
+            B_Dump = new System.Windows.Forms.Button();
+            B_Rand = new System.Windows.Forms.Button();
+            B_AddEntry = new System.Windows.Forms.Button();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            Grid = new System.Windows.Forms.PropertyGrid();
+            flowLayoutPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(343, 0);
-            this.B_Save.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(100, 44);
-            this.B_Save.TabIndex = 1;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(482, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(117, 44);
+            B_Save.TabIndex = 1;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // CB_EntryName
             // 
-            this.CB_EntryName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_EntryName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_EntryName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_EntryName.FormattingEnabled = true;
-            this.CB_EntryName.Location = new System.Drawing.Point(123, 15);
-            this.CB_EntryName.Margin = new System.Windows.Forms.Padding(5, 6, 12, 6);
-            this.CB_EntryName.Name = "CB_EntryName";
-            this.CB_EntryName.Size = new System.Drawing.Size(459, 33);
-            this.CB_EntryName.TabIndex = 2;
-            this.CB_EntryName.SelectedIndexChanged += new System.EventHandler(this.CB_EntryName_SelectedIndexChanged);
+            CB_EntryName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CB_EntryName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_EntryName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_EntryName.FormattingEnabled = true;
+            CB_EntryName.Location = new System.Drawing.Point(8, 8);
+            CB_EntryName.Margin = new System.Windows.Forms.Padding(8);
+            CB_EntryName.Name = "CB_EntryName";
+            CB_EntryName.Size = new System.Drawing.Size(463, 33);
+            CB_EntryName.TabIndex = 2;
+            CB_EntryName.SelectedIndexChanged += CB_EntryName_SelectedIndexChanged;
             // 
             // B_Dump
             // 
-            this.B_Dump.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Dump.Location = new System.Drawing.Point(249, 0);
-            this.B_Dump.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.B_Dump.Name = "B_Dump";
-            this.B_Dump.Size = new System.Drawing.Size(88, 44);
-            this.B_Dump.TabIndex = 3;
-            this.B_Dump.Text = "Dump";
-            this.B_Dump.UseVisualStyleBackColor = true;
-            this.B_Dump.Click += new System.EventHandler(this.B_Dump_Click);
+            B_Dump.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Dump.Location = new System.Drawing.Point(605, 3);
+            B_Dump.Name = "B_Dump";
+            B_Dump.Size = new System.Drawing.Size(117, 44);
+            B_Dump.TabIndex = 3;
+            B_Dump.Text = "Dump";
+            B_Dump.UseVisualStyleBackColor = true;
+            B_Dump.Click += B_Dump_Click;
             // 
             // B_Rand
             // 
-            this.B_Rand.Location = new System.Drawing.Point(126, 0);
-            this.B_Rand.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.B_Rand.Name = "B_Rand";
-            this.B_Rand.Size = new System.Drawing.Size(117, 44);
-            this.B_Rand.TabIndex = 4;
-            this.B_Rand.Text = "Randomize";
-            this.B_Rand.UseVisualStyleBackColor = true;
-            this.B_Rand.Visible = false;
+            B_Rand.Location = new System.Drawing.Point(728, 3);
+            B_Rand.Name = "B_Rand";
+            B_Rand.Size = new System.Drawing.Size(117, 44);
+            B_Rand.TabIndex = 4;
+            B_Rand.Text = "Randomize";
+            B_Rand.UseVisualStyleBackColor = true;
+            B_Rand.Visible = false;
             // 
             // B_AddEntry
             // 
-            this.B_AddEntry.Location = new System.Drawing.Point(3, 0);
-            this.B_AddEntry.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.B_AddEntry.Name = "B_AddEntry";
-            this.B_AddEntry.Size = new System.Drawing.Size(117, 44);
-            this.B_AddEntry.TabIndex = 5;
-            this.B_AddEntry.Text = "Add Entry";
-            this.B_AddEntry.UseVisualStyleBackColor = true;
-            this.B_AddEntry.Visible = false;
+            B_AddEntry.Location = new System.Drawing.Point(851, 3);
+            B_AddEntry.Name = "B_AddEntry";
+            B_AddEntry.Size = new System.Drawing.Size(117, 44);
+            B_AddEntry.TabIndex = 5;
+            B_AddEntry.Text = "Add Entry";
+            B_AddEntry.UseVisualStyleBackColor = true;
+            B_AddEntry.Visible = false;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.Controls.Add(this.B_Save);
-            this.flowLayoutPanel1.Controls.Add(this.B_Dump);
-            this.flowLayoutPanel1.Controls.Add(this.B_Rand);
-            this.flowLayoutPanel1.Controls.Add(this.B_AddEntry);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(597, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(446, 44);
-            this.flowLayoutPanel1.TabIndex = 6;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel1.Controls.Add(CB_EntryName);
+            flowLayoutPanel1.Controls.Add(B_Save);
+            flowLayoutPanel1.Controls.Add(B_Dump);
+            flowLayoutPanel1.Controls.Add(B_Rand);
+            flowLayoutPanel1.Controls.Add(B_AddEntry);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(983, 50);
+            flowLayoutPanel1.TabIndex = 6;
+            // 
+            // Grid
+            // 
+            Grid.BackColor = System.Drawing.SystemColors.Control;
+            Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            Grid.Location = new System.Drawing.Point(0, 50);
+            Grid.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            Grid.Name = "Grid";
+            Grid.Size = new System.Drawing.Size(983, 419);
+            Grid.TabIndex = 7;
             // 
             // GenericEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1043, 1244);
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.CB_EntryName);
-            this.Controls.Add(this.Grid);
-            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.MinimumSize = new System.Drawing.Size(735, 525);
-            this.Name = "GenericEditor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "GenericEditor";
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            ClientSize = new System.Drawing.Size(983, 469);
+            Controls.Add(Grid);
+            Controls.Add(flowLayoutPanel1);
+            Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            MinimumSize = new System.Drawing.Size(735, 525);
+            Name = "GenericEditor";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "GenericEditor";
+            flowLayoutPanel1.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PropertyGrid Grid;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.ComboBox CB_EntryName;
         private System.Windows.Forms.Button B_Dump;
         private System.Windows.Forms.Button B_Rand;
         private System.Windows.Forms.Button B_AddEntry;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.PropertyGrid Grid;
     }
 }

@@ -12,6 +12,8 @@
     <StartupObject>pkNX.WinForms.App</StartupObject>
     <AssemblyName>pkNX</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
 
