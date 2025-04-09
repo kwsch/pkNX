@@ -107,22 +107,6 @@ internal class EditorSWSH : EditorBase
             cache.Save();
     }
 
-    public void NotWorking_EditMoves()
-    {
-        var obj = ROM[GameFile.MoveStats]; // mini
-        var cache = new DataCache<Move7>(obj)
-        {
-            Create = data => new Move7(data),
-            Write = move => move.Write(),
-        };
-        using var form = new GenericEditor<Move7>(cache, ROM.GetStrings(TextName.MoveNames), "Move Editor");
-        form.ShowDialog();
-        if (!form.Modified)
-            cache.CancelEdits();
-        else
-            cache.Save();
-    }
-
     public void EditShinyRate()
     {
         if (ROM.PathExeFS == null)
