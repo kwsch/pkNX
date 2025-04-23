@@ -225,6 +225,7 @@ public class GameFileMapping
         new(PokemonResourceList    , SingleFile, "bin", "appli", "res_pokemon", "list", "pokemon_info_list.bin"),
         new(MoveShop               , SingleFile, "bin", "appli", "wazaremember", "bin", "wazashop_table.bin"),
         new(HaShop                 , SingleFile, "bin", "appli", "shop", "bin", "ha_shop_data.bin"),
+        new(MakeList               , SingleFile, "bin", "appli", "table", "making", "makelist.bin"),
 
         new(ArchiveFolder                         , "bin", "archive"),
         new(PokemonArchiveFolder                  , "bin", "archive", "pokemon"),

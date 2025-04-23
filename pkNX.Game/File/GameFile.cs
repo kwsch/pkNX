@@ -218,6 +218,7 @@ public enum GameFile
     BallThrowConfig,
 
     HaShop,
+    MakeList,
     NewHugeGroup,
     NewHugeGroupLottery,
     NewHugeLottery,

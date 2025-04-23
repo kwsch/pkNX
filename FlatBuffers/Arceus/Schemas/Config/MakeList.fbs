@@ -1,0 +1,23 @@
+namespace pkNX.Structures.FlatBuffers.Arceus;
+attribute "fs_serializer";
+
+table MakeListEntry {
+    RecipeID:ubyte;
+    RecipeItemID:uint;
+    ResultItemID:uint;
+    ResultItemQuantity:uint;
+    Material1ItemID:uint;
+    Material1ItemQuantity:uint;
+    Material2ItemID:uint;
+    Material2ItemQuantity:uint;
+    Material3ItemID:uint;
+    Material3ItemQuantity:uint;
+    Material4ItemID:uint;
+    Material4ItemQuantity:uint;
+}
+
+table MakeList (fs_serializer) {
+    Table:[MakeListEntry] (required);
+}
+
+root_type MakeList;

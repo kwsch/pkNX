@@ -753,6 +753,12 @@ internal class EditorPLA : EditorBase
     }
 
     [EditorCallable()]
+    public void EditCraftingRecipes()
+    {
+        PopFlat<MakeList, MakeListEntry>(GameFile.MakeList, "Crafting Recipes", z => z.Table, (z, _) => z.RecipeID.ToString());
+    }
+
+    [EditorCallable()]
     public void EditPokeEatingHabits()
     {
         PopFlat<PokeEatingHabitsArchive, PokeEatingHabits>(GameFile.PokeEatingHabits, "Pokemon Eating Habits Editor", z => z.Table, (z, _) => z.ID.ToString());
