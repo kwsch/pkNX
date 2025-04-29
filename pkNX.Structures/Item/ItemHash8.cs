@@ -15,7 +15,8 @@ public static class ItemHash8
         {
             var hash = ReadUInt64LittleEndian(data);
             var key = ReadInt32LittleEndian(data[8..]);
-            hashes.Add(key, hash);
+            if (!hashes.ContainsKey(key) && !hashes.ContainsValue(hash) && key is not 0)
+                hashes.Add(key, hash);
             data = data[0x10..];
         }
         return hashes;
