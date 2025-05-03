@@ -7,7 +7,7 @@ table TrinityPropertySheetFieldStringValue { Value:string (required); }
 table TrinityPropertySheetField4 { }
 table TrinityPropertySheetField5 { }
 table TrinityPropertySheetField6 { }
-table TrinityPropertySheetFieldEnumName { Value:string (required); }
+table TrinityPropertySheetFieldEnumName { Enum:string (required); Value:uint; }
 
  /// Recursive!
 table TrinityPropertySheetObject { Fields:[TrinityPropertySheetField] (required); }

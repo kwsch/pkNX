@@ -461,6 +461,7 @@ public static class SceneDumper
 
     private static void Dump(TrinityPropertySheetFieldEnumName item, TextWriter tw, int depth)
     {
+        Write(tw, depth, $"{nameof(item.Enum)}:  {item.Enum}");
         Write(tw, depth, $"{nameof(item.Value)}: {item.Value}");
     }
 
