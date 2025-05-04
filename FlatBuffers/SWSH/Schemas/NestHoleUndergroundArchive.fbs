@@ -2,8 +2,8 @@ namespace pkNX.Structures.FlatBuffers.SWSH;
 attribute "fs_serializer";
 
 table EncounterUnderground {
-    HasFlagRequirement:bool;
-    FlagRequirementID:ulong;
+    IsSingleCapture:bool; // Legendaries can only be caught once
+    SingleCaptureFlagBlock:ulong; // Each capture flag has its own block
     Field_02:ubyte; // all zero, Gender?
     Form:ubyte;
     GigantamaxState:uint;
@@ -22,7 +22,7 @@ table EncounterUnderground {
     IV_SPA:byte;
     IV_SPD:byte;
     Ability:uint; // 1,2,4
-    Field_14:ubyte; // ultra beasts only, selectability
+    IsStoryProgressGated:bool; // Necrozma and Ultra Beasts available after completing all main quests
     Move0:uint;
     Move1:uint;
     Move2:uint;
