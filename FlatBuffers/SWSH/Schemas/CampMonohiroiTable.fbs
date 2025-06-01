@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.SWSH;
+attribute "fs_serializer";
+
+table CampMonohiroiEntry {
+    Item:uint;
+    Weight:uint;
+}
+
+table CampMonohiroiTable (fs_serializer) {
+    Table:[CampMonohiroiEntry] (required);
+}
+
+root_type CampMonohiroiTable;

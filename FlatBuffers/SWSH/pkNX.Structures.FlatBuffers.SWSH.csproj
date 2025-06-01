@@ -1,2 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Content Remove="schemas\CampMonohiroiTable.fbs" />
+  </ItemGroup>
 </Project>
