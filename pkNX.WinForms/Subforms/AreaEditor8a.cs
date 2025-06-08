@@ -28,6 +28,8 @@ public partial class AreaEditor8a : Form
 
     public AreaEditor8a(GameManagerPLA rom)
     {
+        TypeRegistrationHelper.RegisterIListConvertersRecursively(typeof(EncounterTable));
+
         ROM = rom;
 
         Resident = (GFPack)ROM.GetFile(GameFile.Resident);
