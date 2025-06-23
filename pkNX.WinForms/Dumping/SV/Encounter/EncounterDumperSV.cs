@@ -34,8 +34,8 @@ public static class EncounterDumperSV
         var field = new PaldeaFieldModel(rom);
         var scene = new PaldeaSceneModel(rom, field);
         EncounterSlotDumper9.DumpSlots(rom, config, scene);
-        FixedSymbolDumper9.DumpFixedSymbols(rom, config, scene);
-        GimmighoulDump.DumpGimmighoul(rom, config, scene);
+        FixedSymbolDumper9.Dump(rom, config, scene);
+        GimmighoulDumper.Dump(rom, config, scene);
 
         // Raw dumps for inspection
         DumpScene(scene, config.Path);
