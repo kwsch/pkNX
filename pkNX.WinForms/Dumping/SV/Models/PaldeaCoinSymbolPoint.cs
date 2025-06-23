@@ -1,6 +1,4 @@
-using pkNX.Structures.FlatBuffers;
-
-namespace pkNX.WinForms;
+namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaCoinSymbolPoint(string name, ulong num, string boxLabel, PackedVec3f pos)
 {

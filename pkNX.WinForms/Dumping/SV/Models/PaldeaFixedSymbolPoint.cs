@@ -1,6 +1,4 @@
-using pkNX.Structures.FlatBuffers;
-
-namespace pkNX.WinForms;
+namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaFixedSymbolPoint(string key, PackedVec3f pos)
 {

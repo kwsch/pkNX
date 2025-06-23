@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -39,7 +38,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         return new(SpeciesConverterSV.GetNational9((ushort)pd.BandPoke), (byte)pd.BandForm, (byte)pd.BandSex, min, max, time);
     }
 
-    public string GetEncountString(IReadOnlyList<string> specNamesInternal)
+    public string GetEncountString(ReadOnlySpan<string> specNamesInternal)
     {
         var species = specNamesInternal[SpeciesConverterSV.GetInternal9(Species)];
         return GetString(species);

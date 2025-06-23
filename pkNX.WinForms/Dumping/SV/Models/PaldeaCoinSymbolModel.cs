@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using pkNX.Containers;
-using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.SV.Trinity;
 
-namespace pkNX.WinForms;
+namespace pkNX.Structures.FlatBuffers;
 
 public class PaldeaCoinSymbolModel
 {

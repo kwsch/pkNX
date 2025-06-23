@@ -26,7 +26,7 @@ public static class MassOutbreakRipper
         var place_names = GetCommonText(ROM, "place_name", "English", cfg);
         var data = ROM.GetPackedFile("message/dat/English/common/place_name.tbl");
         var ahtb = new AHTB(data);
-        NameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
+        NameDict = EncounterDumperSV.GetInternalStringLookup(place_names, ahtb);
 
         var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Order();
         foreach (var dir in dirs)

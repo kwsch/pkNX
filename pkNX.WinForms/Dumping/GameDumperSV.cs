@@ -642,15 +642,21 @@ public class GameDumperSV(GameManagerSV rom)
 
     public void DumpEncounters()
     {
-        var dumper = new EncounterDumperSV(rom);
-        var path = GetPath("encounters");
+        const string language = "English";
+
         var cfg = new TextConfig(GameVersion.SV);
-        var specNamesInternal = GetCommonText("monsname", "English", cfg);
-        var moveNames = GetCommonText("wazaname", "English", cfg);
-        var place_names = GetCommonText("place_name", "English", cfg);
-        var ahtb = GetCommonAHTB("place_name", "English");
-        var nameDict = EncounterDumperSV.GetPlaceNameMap(place_names, ahtb);
-        dumper.DumpTo(path, specNamesInternal, moveNames, nameDict);
+        var ahtb = GetCommonAHTB("place_name", language);
+        var place_names = GetCommonText("place_name", language, cfg);
+        var nameDict = EncounterDumperSV.GetInternalStringLookup(place_names, ahtb);
+
+        var config = new EncounterDumpConfigSV
+        {
+            PlaceNameMap = nameDict,
+            SpecNamesInternal = GetCommonText("monsname", language, cfg),
+            MoveNames = GetCommonText("wazaname", language, cfg),
+            Path = GetPath("encounters"),
+        };
+        EncounterDumperSV.Dump(rom, config);
     }
 
     public void DumpRaid()
