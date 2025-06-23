@@ -1,14 +1,11 @@
 using PKHeX.Drawing.PokeSprite;
-using pkNX.Game;
 using pkNX.Structures;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pkNX.WinForms;
 

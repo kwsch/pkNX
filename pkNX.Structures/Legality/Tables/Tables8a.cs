@@ -1,4 +1,3 @@
-using System;
 using static pkNX.Structures.Species;
 
 namespace pkNX.Structures;

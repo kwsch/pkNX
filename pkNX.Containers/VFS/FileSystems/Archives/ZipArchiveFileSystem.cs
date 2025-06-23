@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.IO.Compression;
@@ -17,14 +18,14 @@ public sealed class ZipArchiveFileSystem : IFileSystem
 
     public void Dispose() => ZipArchive.Dispose();
 
-    protected IEnumerable<ZipArchiveEntry> GetZipEntries() => ZipArchive.Entries;
+    private ReadOnlyCollection<ZipArchiveEntry> GetZipEntries() => ZipArchive.Entries;
 
-    protected FileSystemPath ToPath(ZipArchiveEntry entry) => FileSystemPath.Parse(FileSystemPath.DirectorySeparator + entry.FullName);
+    private FileSystemPath ToPath(ZipArchiveEntry entry) => FileSystemPath.Parse(FileSystemPath.DirectorySeparator + entry.FullName);
 
     // Remove heading '/' from path.
-    protected string ToEntryPath(FileSystemPath path) => path.Path.TrimStart(FileSystemPath.DirectorySeparator);
+    private string ToEntryPath(FileSystemPath path) => path.Path.TrimStart(FileSystemPath.DirectorySeparator);
 
-    protected ZipArchiveEntry? ToEntry(FileSystemPath path) => ZipArchive.GetEntry(ToEntryPath(path));
+    private ZipArchiveEntry? ToEntry(FileSystemPath path) => ZipArchive.GetEntry(ToEntryPath(path));
 
     public IEnumerable<FileSystemPath> GetEntitiesInDirectory(FileSystemPath directory, Func<FileSystemPath, bool>? filter = null)
     {

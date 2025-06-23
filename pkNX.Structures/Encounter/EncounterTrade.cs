@@ -1,5 +1,3 @@
-using System;
-
 namespace pkNX.Structures;
 
 public abstract class EncounterTrade(byte[] data)

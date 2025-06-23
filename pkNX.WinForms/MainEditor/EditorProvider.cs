@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Intrinsics.Arm;
-using System.Windows.Controls;
 using pkNX.Game;
 using pkNX.Structures;
 

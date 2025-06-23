@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Forms;
 using pkNX.Structures;
 using PKHeX.Drawing.PokeSprite;
-using pkNX.Structures.FlatBuffers.Arceus;
 
 namespace pkNX.WinForms;
 

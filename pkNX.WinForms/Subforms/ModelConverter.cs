@@ -16,14 +16,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 using Material = pkNX.Structures.FlatBuffers.Arceus.Material;
 using Mesh = pkNX.Structures.FlatBuffers.Arceus.Mesh;
-using Bone = pkNX.Structures.FlatBuffers.Arceus.Bone;
 using SamplerState = pkNX.Structures.FlatBuffers.Arceus.SamplerState;
 using UVWrapMode = pkNX.Structures.FlatBuffers.Arceus.UVWrapMode;
 
 using Material8 = pkNX.Structures.FlatBuffers.SWSH.Material;
 using Mesh8 = pkNX.Structures.FlatBuffers.SWSH.Mesh;
 using Bone8 = pkNX.Structures.FlatBuffers.SWSH.Bone;
-using SamplerState8 = pkNX.Structures.FlatBuffers.SWSH.SamplerState;
 using UVWrapMode8 = pkNX.Structures.FlatBuffers.SWSH.UVWrapMode;
 
 namespace pkNX.WinForms;
