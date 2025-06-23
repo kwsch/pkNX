@@ -3,7 +3,7 @@ using pkNX.Structures.FlatBuffers.SV;
 
 namespace pkNX.Structures.FlatBuffers;
 
-internal static class EncounterExtensions9
+public static class EncounterExtensions9
 {
     public static string Humanize(this SizeType type, short value) => type switch
     {
@@ -61,5 +61,4 @@ internal static class EncounterExtensions9
         PokemonActionID.FS_POP_AREA22_DRAGONITE => true, // Handle separately.
         _ => false,
     };
-
 }

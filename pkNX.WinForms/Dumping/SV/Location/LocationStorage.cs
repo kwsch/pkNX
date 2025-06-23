@@ -35,16 +35,21 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
     {
         foreach (var point in Local)
         {
+            point.AssignWeatherPermissions(fieldIndex);
             foreach (var slot in point.Slots)
                 Add(slot);
         }
         foreach (var point in Nearby)
         {
+            point.AssignWeatherPermissions(fieldIndex);
             foreach (var slot in point.Slots)
                 AddCrossover(slot, point.Location);
         }
     }
 
+    /// <summary>
+    /// Merges all encounters that overlap level ranges, and de-duplicates for all within the same location ID.
+    /// </summary>
     public void Consolidate()
     {
         var len = -1;
@@ -105,6 +110,9 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
         return false;
     }
 
+    /// <summary>
+    /// Loads all points that are within the collider and within the specified level range.
+    /// </summary>
     public void LoadPoints(IEnumerable<LocationPointDetail> points, IContainsV3f collider, int areaMin, int areaMax, int areaAdjust)
     {
         foreach (var w in points)
@@ -128,6 +136,9 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
         return new LocationPointDetail(newPoint) { Location = location, LevelAdjust = adjust };
     }
 
+    /// <summary>
+    /// For every spawn point in the area, add all encounters that can spawn there.
+    /// </summary>
     public void GetEncounters(EncountPokeDataArray pokeData, PaldeaSceneModel scene)
     {
         foreach (var spawner in Local)

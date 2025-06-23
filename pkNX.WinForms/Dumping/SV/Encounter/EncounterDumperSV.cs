@@ -19,6 +19,9 @@ public static class EncounterDumperSV
     public static bool IsContainedBy<T>(T collider, PackedVec3f point) where T : IContainsV3f
         => collider.ContainsPoint(point.X, point.Y, point.Z, tolX, tolY, tolZ);
 
+    public static bool IsCloseEnoughDistance<T>(T collider, LocationPointDetail point) where T : IContainsV3f
+        => collider.ContainsPoint(point.X, point.Y, point.Z, tolX, tolY, tolZ);
+
     public static ReadOnlySpan<PaldeaFieldIndex> AllMaps =>
     [
         PaldeaFieldIndex.Paldea,

@@ -88,6 +88,53 @@ public static class EncounterSlotDumper9
             storage.GetEncounters(map.GetPokeData(fieldIndex), scene);
         }
 
+        // Add in the locations that each point can be activated, that are not the current area.
+        // Player crossing into the target area; can spawn encounters with weather foreign to the target area.
+        foreach (var areaName in areaNames)
+        {
+            var areaInfo = areas[areaName];
+
+            // Determine potential spawners
+            if (!scene.TryGetContainsCheck(fieldIndex, areaName, out _))
+                continue;
+
+            var name = areaInfo.LocationNameMain;
+            if (string.IsNullOrEmpty(name))
+                continue;
+
+            var storage = db.Get(placeNameMap[name].Index, fieldIndex, areaName, areaInfo);
+            if (!IsCrossoverAllowed(storage))
+                continue;
+
+            // From our spawning area, iterate through all adjacent areas.
+            foreach (var otherName in areaNames)
+            {
+                // Skip self
+                if (otherName == areaName)
+                    continue;
+                // Skip areas that don't have a location name -- subzones were the initial spawn spot if so.
+                var otherAreaInfo = areas[otherName];
+                var otherNameMain = otherAreaInfo.LocationNameMain;
+                if (string.IsNullOrEmpty(otherNameMain))
+                    continue;
+
+                // Skip areas that don't have a collider
+                if (!scene.TryGetContainsCheck(fieldIndex, otherName, out var otherCollider))
+                    continue;
+
+                var cross = db.Get(placeNameMap[otherNameMain].Index, fieldIndex, otherName, otherAreaInfo);
+                if (!IsCrossoverAllowed(cross))
+                    continue;
+
+                foreach (var point in storage.Local)
+                {
+                    // If the crossover point is close enough to the current area's collider, add it to the current area's list of crossover points.
+                    if (EncounterDumperSV.IsCloseEnoughDistance(otherCollider, point))
+                        point.Activate(cross.Location);
+                }
+            }
+        }
+
         // For each area, we need to peek at the other areas to see if they have any crossover points.
         // For each of those crossover points, we need to see if they are in the current area's collider.
         // If they are, we need to add them to the current area's list of crossover points.
@@ -191,7 +238,7 @@ public static class EncounterSlotDumper9
             bw.Write((byte)slot.MinLevel);
             bw.Write((byte)slot.MaxLevel);
             bw.Write((byte)slot.Time);
-            bw.Write((byte)0);
+            bw.Write((byte)slot.Weather);
             // ReSharper restore RedundantCast
         }
         return ms.ToArray();

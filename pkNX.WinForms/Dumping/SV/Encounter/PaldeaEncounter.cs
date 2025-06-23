@@ -7,6 +7,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
 {
     public byte MinLevel { get; private set; } = MinLevel;
     public byte MaxLevel { get; private set; } = MaxLevel;
+    public AreaWeather9 Weather { get; set; }
 
     public int Gender => Sex switch
     {
@@ -62,6 +63,8 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
             return false;
         if (CrossFromLocation != other.CrossFromLocation)
             return false;
+        if (Weather != other.Weather)
+            return false;
         if (other.MinLevel == MinLevel && other.MaxLevel == MaxLevel)
             return true;
 
@@ -102,6 +105,8 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         if (minLevelComparison != 0) return minLevelComparison;
         int maxLevelComparison = MaxLevel.CompareTo(other.MaxLevel);
         if (maxLevelComparison != 0) return maxLevelComparison;
+        int weatherComparison = Weather.CompareTo(other.Weather);
+        if (weatherComparison != 0) return weatherComparison;
         int timeComparison = Time.CompareTo(other.Time);
         if (timeComparison != 0) return timeComparison;
         return CrossFromLocation.CompareTo(other.CrossFromLocation);
@@ -116,6 +121,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         result = (result << 8) | (byte)((byte)(Time << 4) | Sex);
         result = (result << 8) | MinLevel;
         result = (result << 8) | MaxLevel;
+        result = (result << 8) | (byte)Weather;
         return result;
     }
 }
