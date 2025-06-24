@@ -115,7 +115,7 @@ public static class AreaWeather9Extensions
 
     private static HashSet<(float X, float Y)> GetMistyPoints()
     {
-        const string file = "misty.txt"; // Path to the file containing misty points
+        const string file = "all_fog.txt"; // Path to the file containing misty points
         var points = new HashSet<(float X, float Y)>();
         if (!File.Exists(file))
         {
