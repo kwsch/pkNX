@@ -145,4 +145,10 @@ public partial class DumperSV : Form
         Dumper.DumpEncounters();
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    private void B_KitakamiPoints_Click(object sender, EventArgs e)
+    {
+        Dumper.DumpKitakamiSpawnPoints();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }

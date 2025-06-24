@@ -1467,4 +1467,25 @@ public class GameDumperSV(GameManagerSV rom)
         var dump = GetPath("encounters");
         MassOutbreakRipper.DumpDeliveryOutbreaks(rom, path, dump);
     }
+
+    public void DumpKitakamiSpawnPoints()
+    {
+        var dump = GetPath("kitakami");
+        if (!Directory.Exists(dump))
+            Directory.CreateDirectory(dump);
+
+        // Main
+        var dataRegular = rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin");
+        var pointsRegular = FlatBufferConverter.DeserializeFrom<PointDataArray>(dataRegular).Table;
+        using var file = new StreamWriter(Path.Combine(dump, "original_encount.txt"));
+        foreach (var point in pointsRegular)
+            file.WriteLine($"{point.Position.X:R},{point.Position.Z:R}");
+
+        // Outbreak
+        var dataOutbreak = rom.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bin");
+        var pointsOutbreak = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dataOutbreak).Table;
+        using var fileOutbreak = new StreamWriter(Path.Combine(dump, "original_outbreak.txt"));
+        foreach (var point in pointsOutbreak)
+            fileOutbreak.WriteLine($"{point.Position.X:R},{point.Position.Z:R}");
+    }
 }
