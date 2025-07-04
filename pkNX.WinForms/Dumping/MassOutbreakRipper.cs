@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,16 @@ using pkNX.Structures;
 using pkNX.Structures.FlatBuffers;
 using pkNX.Structures.FlatBuffers.SV;
 using static pkNX.Structures.Species;
+using AreaWeather9 = pkNX.Structures.FlatBuffers.AreaWeather9;
+using AreaWeather9Extensions = pkNX.Structures.FlatBuffers.AreaWeather9Extensions;
 
 namespace pkNX.WinForms;
 
 public static class MassOutbreakRipper
 {
+    private const float Tolerance = 30f;
+    private const float TolX = Tolerance, TolY = Tolerance, TolZ = Tolerance;
+
     private static readonly List<PickledOutbreak> Encounters = [];
     private static int EncounterIndex;
     private static Dictionary<string, (string Name, int Index)> NameDict = [];
@@ -106,7 +112,8 @@ public static class MassOutbreakRipper
         {
             var ordered = enc.MetPermit
                 .OrderBy(z => z.Key.Min)
-                .ThenBy(z => z.Key.Max);
+                .ThenBy(z => z.Key.Max)
+                .ThenByDescending(z => z.Key.Weather);
 
             foreach (var (range, permit) in ordered)
             {
@@ -127,17 +134,18 @@ public static class MassOutbreakRipper
         bw.Write(range.Min);
         bw.Write(range.Max);
         bw.Write((byte)enc.Ribbon);
-        bw.Write(enc.MetBase);
+        bw.Write((byte)range.Weather);
 
         bw.Write(enc.ForceScaleRange ? (byte)1 : (byte)0);
         bw.Write(enc.ScaleMin);
         bw.Write(enc.ScaleMax);
         bw.Write(enc.IsShiny ? (byte)1 : (byte)0);
 
+        Debug.Assert(permit >> 120 == 0);
+        permit <<= 8; // Shift to make room for the met base.
+        permit |= enc.MetBase;
         bw.Write((ulong)permit);
         bw.Write((ulong)(permit >> 64));
-
-        return;
     }
 
     private static byte ClampAddBoost(byte val, int b) => (byte)Math.Clamp(val + b, 1, 100);
@@ -177,9 +185,6 @@ public static class MassOutbreakRipper
         }
     }
 
-    private const float Tolerance = 30f;
-    private const float TolX = Tolerance, TolY = Tolerance, TolZ = Tolerance;
-
     private static void AddForMap(IEnumerable<OutbreakPointData> points,
         DeliveryOutbreakArray possible, DeliveryOutbreakPokeDataArray pd,
         PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
@@ -217,14 +222,19 @@ public static class MassOutbreakRipper
                 // Cool, can spawn at this point.
                 // Find all met location IDs we can wander to, then bitflag them into the enc field.
                 var metData = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point, atlantis);
-                var tuple = new LevelRange(min, max);
-                enc.MetInfo.TryGetValue(tuple, out var val);
-                enc.MetInfo[tuple] = val | metData.Met;
+                var isMist = fieldIndex == PaldeaFieldIndex.Kitakami && AreaWeather9Extensions.IsMistyPoint(point.Position);
+                var weather = GetWeather(metData, isMist, baseMet);
+                var tuple = new LevelRange(min, max, weather);
+                var set = enc.MetInfo;
+                set.TryGetValue(tuple, out var val);
+                set[tuple] = val | metData.Met;
                 if (metData.Boost != 0)
                 {
-                    tuple = new LevelRange(ClampAddBoost(tuple.Min, metData.Boost), ClampAddBoost(tuple.Max, metData.Boost));
-                    enc.MetInfo.TryGetValue(tuple, out val);
-                    enc.MetInfo[tuple] = val | metData.Met;
+                    min = ClampAddBoost(tuple.Min, metData.Boost);
+                    max = ClampAddBoost(tuple.Max, metData.Boost);
+                    tuple = new LevelRange(min, max, weather);
+                    set.TryGetValue(tuple, out val);
+                    set[tuple] = val | metData.Met;
                 }
             }
         }
@@ -244,6 +254,22 @@ public static class MassOutbreakRipper
         AddToJar(encs);
     }
 
+    private static AreaWeather9 GetWeather((UInt128 Met, int Boost) metData, bool isMist, byte baseMet)
+    {
+        var value = AreaWeather9.None;
+        for (int i = 0; i < 128; i++)
+        {
+            if (((metData.Met >> i) & 1) != 1)
+                continue;
+
+            var met = baseMet + i;
+            value |= AreaWeather9Extensions.GetWeather((byte)met);
+        }
+        if (isMist)
+            value |= AreaWeather9.Mist;
+        return value;
+    }
+
     private static void ConsolidateMetInfo(IEnumerable<CachedOutbreak> encs)
     {
         foreach (var e in encs)
@@ -253,10 +279,12 @@ public static class MassOutbreakRipper
             // For each entry, if a later entry has the same flags, and the level ranges overlap, delete the later entry after merging the level ranges into the first entry.
             for (int i = 0; i < ranges.Count; i++)
             {
-                var ((min, max), met) = ranges[i];
+                var ((min, max, weather), met) = ranges[i];
                 for (int j = i + 1; j < ranges.Count; j++)
                 {
-                    var (min2, max2) = ranges[j].Key;
+                    var (min2, max2, weather2) = ranges[j].Key;
+                    if (weather != weather2)
+                        continue; // Different weather, cannot merge.
                     var met2 = ranges[j].Value;
                     if (met != met2)
                         continue;
@@ -268,7 +296,7 @@ public static class MassOutbreakRipper
                     ranges.RemoveAt(j);
                     j--;
                 }
-                ranges[i] = new(new(min, max), met);
+                ranges[i] = new(new(min, max, weather), met);
             }
             e.MetInfo.Clear();
             foreach (var r in ranges)
@@ -276,7 +304,7 @@ public static class MassOutbreakRipper
         }
     }
 
-    private record struct LevelRange(byte Min, byte Max);
+    private record struct LevelRange(byte Min, byte Max, AreaWeather9 Weather);
 
     private static void AddToJar(IEnumerable<CachedOutbreak> encs)
     {

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using pkNX.Structures.FlatBuffers.SV;
 using static pkNX.Structures.FlatBuffers.AreaWeather9;
 
 namespace pkNX.Structures.FlatBuffers;
@@ -104,32 +102,30 @@ public static class AreaWeather9Extensions
     /// <summary>
     /// Checks if the point is a Misty Point, which is a special case in Kitakami.
     /// </summary>
-    public static bool IsMistyPoint(PointData point)
+    public static bool IsMistyPoint(PackedVec3f point)
     {
-        var coordinate = (point.Position.X, point.Position.Z);
+        var coordinate = (point.X, point.Z);
         // Check if the point is within the predefined misty points
         return MistyPoints.Contains(coordinate);
     }
 
-    private static readonly HashSet<(float X, float Y)> MistyPoints = GetMistyPoints();
+    private static readonly HashSet<(float X, float Z)> MistyPoints = GetMistyPoints(pkNX.WinForms.Properties.Resources.all_fog);
 
-    private static HashSet<(float X, float Y)> GetMistyPoints()
+    private static HashSet<(float X, float Z)> GetMistyPoints(ReadOnlySpan<char> file)
     {
-        const string file = "all_fog.txt"; // Path to the file containing misty points
-        var points = new HashSet<(float X, float Y)>();
-        if (!File.Exists(file))
+        var result = new HashSet<(float X, float Z)>();
+        foreach (var line in file.EnumerateLines())
         {
-            Console.WriteLine("No misty points to consider!");
-            return points;
-        }
+            var split = line.IndexOf(',');
+            if (split < 0)
+                continue; // Skip malformed lines
 
-        foreach (var line in File.ReadLines(file))
-        {
-            var parts = line.Split(',');
-            if (parts.Length != 2 || !float.TryParse(parts[0], out var x) || !float.TryParse(parts[1], out var y))
+            var xStr = line[..split].Trim();
+            var zStr = line[(split + 1)..].Trim();
+            if (!float.TryParse(xStr, out var x) || !float.TryParse(zStr, out var z))
                 continue;
-            points.Add((x, y));
+            result.Add((x, z));
         }
-        return points;
+        return result;
     }
 }

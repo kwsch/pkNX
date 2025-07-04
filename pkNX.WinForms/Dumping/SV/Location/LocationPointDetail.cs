@@ -54,7 +54,7 @@ public record LocationPointDetail(PointData Point)
             weather |= test;
         }
 
-        if (fieldIndex is PaldeaFieldIndex.Kitakami && AreaWeather9Extensions.IsMistyPoint(Point))
+        if (fieldIndex is PaldeaFieldIndex.Kitakami && AreaWeather9Extensions.IsMistyPoint(Point.Position))
             weather |= AreaWeather9.Mist;
 
         foreach (var slot in Slots)

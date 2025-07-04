@@ -13,7 +13,6 @@ public record PaldeaSpawnModel
 
     public PaldeaSpawnModel(IFileInternal rom)
     {
-
         var mlEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_100000.bin"));
         var alEncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_atlantis.bin"));
         var su1EncPoints = FlatBufferConverter.DeserializeFrom<PointDataArray>(rom.GetPackedFile("world/data/encount/point_data/point_data/encount_data_su1.bin"));

@@ -61,6 +61,38 @@ namespace pkNX.WinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1006.15424,-1612.9613
+        ///1007.72,-1640.3346
+        ///1008.38336,-1570.1829
+        ///1012.97833,-1655.6562
+        ///1013.9313,-1611.5126
+        ///1016.8602,-1596.9948
+        ///1017.6084,-1643.785
+        ///1018.128,-1601.9082
+        ///1019.28436,-1634.0833
+        ///1019.9548,-1563.7719
+        ///1020.18616,-1607.5603
+        ///1020.19977,-356.15173
+        ///1020.3805,-355.82635
+        ///1021.68774,-1574.6941
+        ///1023.62354,-346.8742
+        ///1024.876,-352.75525
+        ///1025.9987,-1645.8064
+        ///1026.332,-1621.5361
+        ///1027.4319,-1610.5455
+        ///1027.4749,-349.8164
+        ///1029.4751,-1611.8016
+        ///1029.8304,-1623.7137
+        ///1030.0829,-354.9686
+        ///1031.16 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string all_fog {
+            get {
+                return ResourceManager.GetString("all_fog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon Icon {
