@@ -17,9 +17,6 @@ namespace pkNX.WinForms;
 
 public static class MassOutbreakRipper
 {
-    private const float Tolerance = 30f;
-    private const float TolX = Tolerance, TolY = Tolerance, TolZ = Tolerance;
-
     private static readonly List<PickledOutbreak> Encounters = [];
     private static int EncounterIndex;
     private static Dictionary<string, (string Name, int Index)> NameDict = [];
@@ -377,7 +374,7 @@ public static class MassOutbreakRipper
 
                 if (!scene.TryGetContainsCheck(fieldIndex, area, out var subCol))
                     continue;
-                if (!subCol.ContainsPoint(pt.X, pt.Y, pt.Z, TolX, TolY, TolZ))
+                if (!EncounterDumperSV.IsContainedBy(subCol, pt))
                     continue;
                 if (!EncounterDumperSV.TryGetPlaceName(ref area, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out placeName))
                     continue;
