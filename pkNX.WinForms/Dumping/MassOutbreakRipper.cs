@@ -369,15 +369,17 @@ public static class MassOutbreakRipper
 
             for (var x = 0; x < areaNames.Count; x++)
             {
-                var area = areaNames[x];
-                if (area == areaName)
+                var otherArea = areaNames[x];
+                if (otherArea == areaName)
                     continue;
 
-                if (!scene.TryGetContainsCheck(fieldIndex, area, out var subCol))
+                if (!scene.TryGetContainsCheck(fieldIndex, otherArea, out var subCol))
                     continue;
                 if (!EncounterDumperSV.IsContainedBy(subCol, pt))
                     continue;
-                if (!EncounterDumperSV.TryGetPlaceName(ref area, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out placeName))
+
+                var otherInfo = areas[otherArea];
+                if (!EncounterDumperSV.TryGetPlaceName(ref otherArea, otherInfo, pt, placeNameMap, areas, scene, fieldIndex, out placeName))
                     continue;
                 loc = placeNameMap[placeName].Index;
                 if (!EncounterDumperSV.IsCrossoverAllowed(loc))
