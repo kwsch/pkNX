@@ -13,9 +13,6 @@ public static class EncounterDumperSV
     private const float tolY = 30f;
     private const float tolZ = 30f;
 
-    public static bool IsContainedBy<T>(T collider, LocationPointDetail point) where T : IContainsV3f
-        => collider.ContainsPoint(point.X, point.Y, point.Z, tolX, tolY, tolZ);
-
     public static bool IsContainedBy<T>(T collider, PackedVec3f point) where T : IContainsV3f
         => collider.ContainsPoint(point.X, point.Y, point.Z, tolX, tolY, tolZ);
 

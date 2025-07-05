@@ -15,7 +15,8 @@ public static class EncounterSlotDumper9
         var db = new LocationDatabase();
 
         // Process all field indices
-        foreach (var index in EncounterDumperSV.AllMaps) ProcessAreas(index, scene, db, spawns, config.PlaceNameMap);
+        foreach (var index in EncounterDumperSV.AllMaps)
+            ProcessAreas(index, scene, db, spawns, config.PlaceNameMap);
 
         // Each area and their local / crossover points have been aggregated.
         // Integrate the points' slots into a single list, and consolidate entries with same level ranges to as few objects as possible.
@@ -60,6 +61,7 @@ public static class EncounterSlotDumper9
         var areaNames = scene.AreaNames[(int)fieldIndex];
         var areas = scene.AreaInfos[(int)fieldIndex];
         var types = scene.PaldeaType[(int)fieldIndex];
+        var pd = map.GetPokeData(fieldIndex);
         for (var i = areaNames.Count - 1; i >= 0; i--)
         {
             var areaName = areaNames[i];
@@ -85,7 +87,7 @@ public static class EncounterSlotDumper9
             var type = types[areaName];
             var points = map.GetPoints(fieldIndex, type);
             storage.LoadPoints(points, collider, areaInfo.ActualMinLevel, areaInfo.ActualMaxLevel, areaInfo.AdjustEncLv);
-            storage.GetEncounters(map.GetPokeData(fieldIndex), scene);
+            storage.GetEncounters(pd, scene);
         }
 
         // Add in the locations that each point can be activated, that are not the current area.
@@ -183,7 +185,7 @@ public static class EncounterSlotDumper9
                 foreach (var point in cross.Local)
                 {
                     // If the crossover point is close enough to the current area's collider, add it to the current area's list of crossover points.
-                    if (EncounterDumperSV.IsContainedBy(collider, point))
+                    if (EncounterDumperSV.IsContainedBy(collider, point.Point.Position))
                         storage.Nearby.Add(point);
                 }
             }
