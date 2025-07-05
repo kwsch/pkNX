@@ -23,6 +23,7 @@ public static class MassOutbreakRipper
 
     public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
     {
+        EncounterIndex = 0;
         Encounters.Clear();
 
         var cfg = new TextConfig(Structures.GameVersion.SV);
