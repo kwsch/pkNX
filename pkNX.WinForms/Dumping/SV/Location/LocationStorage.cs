@@ -10,7 +10,7 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
     public readonly AreaInfo AreaInfo = info;
     public readonly string AreaName = areaName;
 
-    public readonly HashSet<ulong> Added = [];
+    public readonly HashSet<UInt128> Added = [];
     public readonly List<PaldeaEncounter> Slots = [];
     public readonly Dictionary<int, LocationStorage> SlotsCrossover = [];
     public readonly List<LocationPointDetail> Local = [];
@@ -143,6 +143,7 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
     {
         foreach (var spawner in Local)
         {
+            var boost = spawner.LevelAdjust;
             foreach (var pd in pokeData.Table)
             {
                 if (!IsAbleToSpawnAt(pd, spawner, AreaName, scene, fieldIndex))
@@ -154,7 +155,6 @@ public class LocationStorage(int loc, PaldeaFieldIndex fieldIndex, string areaNa
                 if (pd.BandPoke != 0) // Add band encount
                     spawner.Add(PaldeaEncounter.GetBand(pd, point));
 
-                var boost = spawner.LevelAdjust;
                 if (boost == 0)
                     continue;
 

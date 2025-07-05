@@ -54,7 +54,7 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
     {
         var form = Form == 0 ? "" : $"-{Form}";
         var sex = Sex == 0 ? "" : $" (sex={Sex})";
-        return $"{species}{form}{sex} Lv. {MinLevel}-{MaxLevel}";
+        return $"{species}{form}{sex} Lv. {MinLevel}-{MaxLevel} {Weather}";
     }
 
     public bool Absorb(PaldeaEncounter other)
@@ -112,9 +112,9 @@ public record PaldeaEncounter(ushort Species, byte Form, byte Sex, byte MinLevel
         return CrossFromLocation.CompareTo(other.CrossFromLocation);
     }
 
-    public ulong GetHash()
+    public UInt128 GetHash()
     {
-        ulong result = Species;
+        UInt128 result = Species;
         result = (result << 16) | CrossFromLocation;
 
         result = (result << 8) | Form;
