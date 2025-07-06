@@ -19,12 +19,41 @@ public static class MassOutbreakRipper
 {
     private static readonly List<PickledOutbreak> Encounters = [];
     private static int EncounterIndex;
+    private static int FolderIndex;
     private static Dictionary<string, (string Name, int Index)> NameDict = [];
+
+    private static Dictionary<DistSpecForm, DistCoordinateSet> PopCoordinates = [];
+
+    private readonly record struct DistSpecForm(int Index, ushort Species, byte Form);
+    private readonly record struct DistPopCoordinate(float X, float Z);
+
+    private readonly record struct DistCoordinateSet
+    {
+        public DistCoordinateSet()
+        {
+            Paldea = [];
+            Kitakami = [];
+            Terarium = [];
+        }
+
+        public List<DistPopCoordinate> Paldea { get; } = [];
+        public List<DistPopCoordinate> Kitakami { get; } = [];
+        public List<DistPopCoordinate> Terarium { get; } = [];
+
+        public List<DistPopCoordinate> GetSet(PaldeaFieldIndex fieldIndex) => fieldIndex switch
+        {
+            PaldeaFieldIndex.Paldea => Paldea,
+            PaldeaFieldIndex.Kitakami => Kitakami,
+            PaldeaFieldIndex.Terarium => Terarium,
+            _ => throw new ArgumentOutOfRangeException(nameof(fieldIndex)),
+        };
+    }
 
     public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
     {
-        EncounterIndex = 0;
+        EncounterIndex = FolderIndex = 0;
         Encounters.Clear();
+        PopCoordinates.Clear();
 
         var cfg = new TextConfig(Structures.GameVersion.SV);
         var place_names = GetCommonText(ROM, "place_name", "English", cfg);
@@ -34,8 +63,16 @@ public static class MassOutbreakRipper
 
         var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Order();
         foreach (var dir in dirs)
+        {
+            var index = Path.GetFileName(dir);
+            if (int.TryParse(index.Split(' ')[0], out var temp))
+                FolderIndex = temp;
+            else
+                FolderIndex++;
             DumpDeliveryOutbreakData(ROM, dir);
+        }
         ExportPickle(dump, Encounters);
+        ExportCoordinates(dump, PopCoordinates);
     }
 
     private sealed record PickledOutbreak
@@ -56,7 +93,7 @@ public static class MassOutbreakRipper
         public required bool IsShiny { get; init; }
     }
 
-    private static void DumpDeliveryOutbreakData(IFileInternal ROM, string path)
+    private static bool DumpDeliveryOutbreakData(IFileInternal ROM, string path)
     {
         var zoneF0 = Path.Combine(path, "zone_main_array_2_0_0");
         var zoneF1 = Path.Combine(path, "zone_su1_array_2_0_0");
@@ -66,7 +103,7 @@ public static class MassOutbreakRipper
         const string v300 = "_3_0_0";
 
         if (!File.Exists(pokedata))
-            return;
+            return false;
 
         if (!File.Exists(zoneF2))
             zoneF2 = zoneF1;
@@ -96,6 +133,7 @@ public static class MassOutbreakRipper
         DumpPretty(ROM, dirDistText, false);
         DumpPretty(ROM, dirDistText, true);
         EncounterIndex = Encounters.Count;
+        return true;
     }
 
     private const ulong LastDistribution2 = 2023120801;
@@ -183,7 +221,34 @@ public static class MassOutbreakRipper
         }
     }
 
-    private static void AddForMap(IEnumerable<OutbreakPointData> points,
+    private static void ExportCoordinates(string dump, Dictionary<DistSpecForm, DistCoordinateSet> popCoordinates)
+    {
+        var dest = Path.Combine(dump, "outbreak_coordinates");
+        Directory.CreateDirectory(dest);
+        foreach (var (sf, coords) in popCoordinates)
+        {
+            var folder = Path.Combine(dest, $"{sf.Index:000}");
+            Directory.CreateDirectory(folder);
+
+            WriteCoordinates(folder, PaldeaFieldIndex.Paldea, coords.Paldea, sf);
+            WriteCoordinates(folder, PaldeaFieldIndex.Kitakami, coords.Kitakami, sf);
+            WriteCoordinates(folder, PaldeaFieldIndex.Terarium, coords.Terarium, sf);
+            continue;
+
+            static void WriteCoordinates(string folder, PaldeaFieldIndex type, IReadOnlyList<DistPopCoordinate> coords, DistSpecForm sf)
+            {
+                if (coords.Count == 0)
+                    return;
+                var fileName = Path.Combine(folder, $"{type} {(PKHeX.Core.Species)sf.Species}_{sf.Form}.txt");
+                var lines = coords
+                    .Select(c => $"{c.X:R},{c.Z:R}")
+                    .Order();
+                File.WriteAllLines(fileName, lines);
+            }
+        }
+    }
+
+    private static void AddForMap(IList<OutbreakPointData> points,
         DeliveryOutbreakArray possible, DeliveryOutbreakPokeDataArray pd,
         PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
         byte baseMet)
@@ -201,11 +266,18 @@ public static class MassOutbreakRipper
                 .ToDictionary(z => z.Key, z => z.Value);
             areaNames = [.. areas.Keys];
         }
-        foreach (var point in points)
+        foreach (var enc in encs)
         {
-            foreach (var enc in encs)
+            var poke = enc.Poke;
+            var species = SpeciesConverterSV.GetNational9((ushort)poke.DevId);
+            var entry = new DistSpecForm(FolderIndex, species, (byte)poke.FormId);
+            if (!PopCoordinates.TryGetValue(entry, out var list))
+                PopCoordinates[entry] = list = new();
+
+            var coordStore = list.GetSet(fieldIndex);
+
+            foreach (var point in points)
             {
-                var poke = enc.Poke;
                 if (!poke.IsLevelRangeCompatible(point.LevelRange))
                     continue;
                 if (!poke.IsEnableCompatible(point.EnableTable))
@@ -214,6 +286,8 @@ public static class MassOutbreakRipper
                     continue;
                 if (!poke.IsCompatibleArea(point.AreaName))
                     continue;
+
+                coordStore.Add(new DistPopCoordinate(point.Position.X, point.Position.Z));
 
                 var min = Math.Max((byte)poke.MinLevel, (byte)point.LevelRange.X);
                 var max = Math.Min((byte)poke.MaxLevel, (byte)point.LevelRange.Y);
