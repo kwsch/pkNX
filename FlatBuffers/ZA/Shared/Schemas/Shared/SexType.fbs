@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+/// Gender Spec
+enum SexType : int {
+    DEFAULT = 0,
+    MALE = 1,
+    FEMALE = 2,
+}

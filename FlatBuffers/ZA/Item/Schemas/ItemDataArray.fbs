@@ -1,0 +1,64 @@
+include "Shared/WazaID.fbs";
+include "Enums/ItemType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ItemData {
+    Id:int (key);
+    ItemType:ItemType;
+    InternalName:string (required);
+    IconName:string (required);
+    Price:int;
+    Pocket:int;
+    SlotMaxNum:int;
+    SortNum:int;
+    PriceMegaShard:int;
+    PriceColorfulScrew:int;
+    CanNotHold:bool;
+    MachineWaza:WazaID;
+    MachineIndex:int;
+    WorkRecvSleep:bool;
+    WorkRecvPoison:bool;
+    WorkRecvBurn:bool;
+    WorkRecvFreeze:bool;
+    WorkRecvParalyze:bool;
+    WorkRecvConfuse:bool;
+    WorkRecvMero:bool;
+    WorkAttack:int;
+    WorkDefense:int;
+    WorkSpAttack:int;
+    WorkSpDefense:int;
+    WorkSpeed:int;
+    WorkAccuracy:int;
+    WorkCritical:int;
+    WorkEffectGuard:int;
+    MintNature:int;
+    WorkRecvPower:int;
+    HealPercentage:int;
+    WorkRevival:int;
+    RevivePercentage:int;
+    ExpPointGain:int;
+    MaxUseLevel:int; // 100 for Rare Candy, otherwise 0
+    WorkFriendly1:int;
+    WorkFriendly2:int;
+    WorkFriendly3:int;
+    WorkEvolutional:bool;
+    WorkFormChange:bool;
+    WorkStatusHp:int;
+    WorkStatusAtk:int;
+    WorkStatusDef:int;
+    WorkStatusSpd:int;
+    WorkStatusSAtk:int;
+    WorkStatusSDef:int;
+    EquipPower:int;
+    AutoHealPriority:int;
+    CanUseInBattle:bool;
+    SwapIntoId:int; // only used for Pebble -> Zygardite
+}
+
+table ItemDataArray (fs_serializer) {
+    Table:[ItemData] (required);
+}
+
+root_type ItemDataArray;

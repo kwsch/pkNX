@@ -1,0 +1,28 @@
+include "Shared/DevID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+struct WazaDamage {
+    WazaPower:uint;
+    Damage:uint;
+}
+
+struct PokemonDamageRatio {
+    TotalPower:uint;
+    Ratio:float;
+}
+
+table MegaPokemonRatio {
+    DevNo:DevID;
+    Ratio:float;
+}
+
+table PlayerDamage (fs_serializer) {
+    Move:[WazaDamage] (required);
+    PokemonRatio:[PokemonDamageRatio] (required);
+    MegaPokemon:[MegaPokemonRatio] (required);
+}
+
+root_type PlayerDamage;

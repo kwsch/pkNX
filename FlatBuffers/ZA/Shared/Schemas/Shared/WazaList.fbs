@@ -1,0 +1,10 @@
+include "../Shared/WazaID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table WazaList {
+    Waza1:WazaID;
+    Waza2:WazaID;
+    Waza3:WazaID;
+    Waza4:WazaID;
+}

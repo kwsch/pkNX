@@ -2,6 +2,13 @@ namespace pkNX.Structures;
 
 public static partial class Legal
 {
+    public const int MaxSpeciesID_9a = 1010;
+    public const int MaxMoveID_9a = (int)Move.MalignantChain;
+    public const int MaxItemID_9a = 2557; // Briar's Book
+    public const int MaxBallID_9a = (int)Ball.LAOrigin;
+    public const int MaxGameID_9a = (int)GameVersion.ZA;
+    public const int MaxAbilityID_9a = 310; // Poison Puppeteer
+
     public const int MaxSpeciesID_9 = 1025;
     public const int MaxMoveID_9 = (int)Move.MalignantChain;
     public const int MaxItemID_9 = 2557; // Briar's Book

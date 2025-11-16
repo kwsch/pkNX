@@ -1,0 +1,36 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table EventControl {
+  Name:string (required);
+  Field01:uint;
+  Field02:bool;
+  Field03:bool;
+  Field04:bool; // unused?
+  Field05:bool;
+  Field06:bool;
+  Field07:bool;
+  Field08:string;
+  Field09:bool; // unused?
+  Field10:bool; // unused?
+  Field11:bool;
+  Field12:string;
+  Field13:bool;
+  Field14:bool;
+  Field15:bool;
+  Field16:bool;
+  Field17:bool;
+  Field18:string;
+  Field19:string;
+  Field20:bool;
+  Field21:bool;
+  Field22:bool;
+  Field23:bool;
+}
+
+table EventControlArray (fs_serializer) {
+  Table:[EventControl] (required);
+}
+
+root_type EventControlArray;

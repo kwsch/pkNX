@@ -1,0 +1,27 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+struct LockonDescRange {
+    Width:float;
+    Top:float;
+    Bottom:float;
+    Near:float;
+    Far:float;
+}
+
+struct LockonDescRangePreset {
+    Enter:LockonDescRange;
+    Change:LockonDescRange;
+    Leave:LockonDescRange;
+}
+
+table LockonDesc (fs_serializer) {
+    Presets:[LockonDescRangePreset] (required);
+    ReticleRange:float;
+    UpdateCycle:ubyte;
+    Target:ulong;
+    UnlockDelay:float;
+}
+
+root_type LockonDesc;

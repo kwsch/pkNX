@@ -25,7 +25,7 @@ public class MoveRandomizer : Randomizer
 
     public override void Execute() => throw new Exception("Shouldn't be called.");
 
-    public static readonly int[] FixedDamageMoves = [49, 82];
+    public static ReadOnlySpan<int> FixedDamageMoves => [49, 82];
 
     public void Initialize(MovesetRandSettings settings, int[] bannedMoves)
     {
@@ -41,8 +41,6 @@ public class MoveRandomizer : Randomizer
 
         var all = Enumerable.Range(1, Config.MaxMoveID - 1);
         var moves = all.Except(banned);
-        if (MoveData[0] is Move8Fake)
-            moves = moves.Where(z => ((Move8Fake)MoveData[z]).CanUseMove);
         RandMove = new GenericRandomizer<int>(moves.ToArray());
     }
 

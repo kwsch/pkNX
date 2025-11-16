@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using pkNX.Containers;
+using System.IO.Compression; // Added for Zlib support
 
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 
@@ -34,17 +35,39 @@ public partial class TrinityPak
 
 public partial class TrinityPakFileData
 {
-    public byte[] GetUncompressedData() => CompressionType switch
-    {  // TODO: What specific ID is zlib?
-        3 => Oodle.Decompress(Data.Span, (long)UncompressedSize)!,  // Oodle
-        0xFF => Data.ToArray(), // Uncompressed
+    public byte[] Decompress() => CompressionType switch
+    {
+        DataCompressionType.None => Data.ToArray(), // Uncompressed
+        DataCompressionType.Zlib => Zlib.Decompress(Data.Span, (int)UncompressedSize),
+        DataCompressionType.Lz4 => LZ4.Decode(Data.Span, (int)UncompressedSize),
+        >= DataCompressionType.OodleKraken and <= DataCompressionType.OodleHydra => Oodle.Decompress(Data.Span, (long)UncompressedSize)!,  // Oodle
         _ => throw new ArgumentException($"Unknown compression type {CompressionType}"),
     };
 
-    public ReadOnlySpan<byte> GetUncompressedDataReadOnly() => CompressionType switch
-    {  // TODO: What specific ID is zlib?
-        3 => Oodle.Decompress(Data.Span, (long)UncompressedSize)!,  // Oodle
-        0xFF => Data.ToArray(), // Uncompressed
-        _ => throw new ArgumentException($"Unknown compression type {CompressionType}"),
+    public void DecompressTo(Span<byte> result)
+    {
+        if (CompressionType == DataCompressionType.None)
+            Data.Span.CopyTo(result); // Uncompressed
+        else if (CompressionType == DataCompressionType.Zlib)
+            Zlib.Decompress(Data.Span, result);
+        else if (CompressionType == DataCompressionType.Lz4)
+            LZ4.Decode(Data.Span, result);
+        else if (CompressionType is >= DataCompressionType.OodleKraken and <= DataCompressionType.OodleHydra)
+            Oodle.TryDecompress(Data.Span, result, out _);
+        else
+            throw new ArgumentException($"Unknown compression type {CompressionType}");
+    }
+
+    public static ReadOnlySpan<byte> Compress(ReadOnlySpan<byte> data, DataCompressionType type, OodleCompressionLevel level = OodleCompressionLevel.Optimal2) => type switch
+    {
+        DataCompressionType.None => data,
+        DataCompressionType.Zlib => Zlib.Compress(data),
+        DataCompressionType.Lz4 => LZ4.Encode(data),
+        DataCompressionType.OodleKraken => Oodle.Compress(data, out _, OodleFormat.Kraken, level),
+        DataCompressionType.OodleLeviathan => Oodle.Compress(data, out _, OodleFormat.Leviathan, level),
+        DataCompressionType.OodleMermaid => Oodle.Compress(data, out _, OodleFormat.Mermaid, level),
+        DataCompressionType.OodleSelkie => Oodle.Compress(data, out _, OodleFormat.Selkie, level),
+        DataCompressionType.OodleHydra => Oodle.Compress(data, out _, OodleFormat.Hydra, level),
+        _ => throw new NotImplementedException($"Compression type {type} is not implemented."),
     };
 }

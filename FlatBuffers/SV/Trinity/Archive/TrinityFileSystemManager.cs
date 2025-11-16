@@ -56,22 +56,27 @@ public sealed class TrinityFileSystemManager : IDisposable, IFileInternal
         return Reader.ReadBytes((int)length);
     }
 
+    public void GetData(ulong offset, ulong length, Span<byte> data)
+    {
+        Reader.BaseStream.Seek((long)offset, SeekOrigin.Begin);
+        _ = Reader.Read(data[..(int)length]);
+    }
+
     public TrinityPak GetPak(int index)
     {
         var data = GetPakData(index);
         return TrinityPak.Serializer.Parse(data, FlatBufferDeserializationOption.GreedyMutable);
     }
 
+    public ulong GetPakHash(int index) => FnvHash.HashFnv1a_64(GetPackPath(index));
+    public ulong GetPakLength(int index) => FileData.FileInfos[index].FileSize;
+    public ulong GetPakOffset(ulong hash) => Meta.GetFileOffset(hash);
+
     public byte[] GetPakData(int index)
     {
-        var path = GetPackPath(index);
-        var hash = FnvHash.HashFnv1a_64(path);
-        var offset = Meta.GetFileOffset(hash);
-        var info = FileData.FileInfos[index];
-        var size = info.FileSize;
-
-        //Debug.WriteLine($"Found {index} at 0x{offset:X12}, Size={info.FileSize:X}, SubFileCount={info.FileCount}");
-
+        var size = GetPakLength(index);
+        var hash = GetPakHash(index);
+        var offset = GetPakOffset(hash);
         return GetData(offset, size);
     }
 
@@ -80,7 +85,7 @@ public sealed class TrinityFileSystemManager : IDisposable, IFileInternal
         var index = FileData.GetSubFileIndex(hash);
         var pak = GetPak((int)index);
         var file = pak.GetFileData(hash);
-        return file.GetUncompressedData();
+        return file.Decompress();
     }
 
     public byte[] GetPackedFile(string path) => GetPackedFile(FnvHash.HashFnv1a_64(path));

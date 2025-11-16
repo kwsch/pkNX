@@ -1,0 +1,21 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table HudInventory {
+    Field00:uint;
+	Items:[uint] (required);
+}
+
+table HudLineup {
+    Name:string (required);
+	Field01:uint;
+	Field02:uint;
+    Inventory:[HudInventory] (required);
+}
+
+table HudLineupArray (fs_serializer) {
+    Table:[HudLineup] (required);
+}
+
+root_type HudLineupArray;

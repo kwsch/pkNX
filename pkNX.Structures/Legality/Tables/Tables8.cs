@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using static pkNX.Structures.Species;
 
 namespace pkNX.Structures;
@@ -32,91 +30,6 @@ public static partial class Legal
 
     public const int MaxBallID_8 = 0x1A; // 26 Beast
     public const int MaxGameID_8 = 45; // Shield
-
-    #region Met Locations
-    public static readonly int[] Met_SWSH_0 =
-    [
-             002, 004, 006, 008,
-             012, 014, 016, 018,
-        020, 022, 024,      028,
-        030, 032, 034, 036,
-        040,      044, 046, 048,
-        052, 054, 056, 058,
-        060,      064, 066, 068,
-        070, 072,      076, 078,
-        080,      084, 086, 088,
-        090, 092, 094, 096, 098,
-             102, 104, 106, 108,
-        110, 112, 114, 116, 118,
-        120, 122, 124, 126, 128,
-        130, 132, 134, 136, 138,
-        140, 142, 144, 146, 148,
-        150, 152, 154, 156, 158,
-        160, 162, 164, 166, 168,
-        170, 172, 174, 176, 178,
-        180, 182, 184, 186, 188,
-        190, 192, 194, 196, 198,
-        200, 202,
-
-                  204, 206, 208,
-        210, 212, 214, 216, 218,
-        220, 222, 224, 226, 228,
-        230, 232, 234, 236, 238,
-        240, 242, 244, 246,
-    ];
-
-    public static readonly int[] Met_SWSH_3 =
-    [
-        30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
-    ];
-
-    public static readonly int[] Met_SWSH_4 =
-    [
-        40001, 40002, 40003,        40005, 40006, 40007, 40008, 40009, 40010,
-        40011, 40012, 40013, 40014,        40016, 40017, 40018, 40019, 40020,
-        40021, 40022,        40024, 40025, 40026, 40027, 40028, 40029, 40030,
-                40032, 40033, 40034, 40035, 40036, 40037, 40038, 40039, 40040,
-        40041, 40042, 40043, 40044, 40045,        40047, 40048, 40049, 40050,
-        40051, 40052, 40053,        40055, 40056, 40057, 40058, 40059, 40060,
-        40061,        40063, 40064, 40065, 40066, 40067, 40068, 40069, 40070,
-        40071, 40072,        40074, 40075, 40076, 40077, 40078, 40079, 40080,
-        40081, 40082, 40083, 40084, 40085, 40086,
-    ];
-
-    public static readonly int[] Met_SWSH_6 = [/* XY */ 60001, 60003, /* ORAS */ 60004];
-
-    public static readonly HashSet<ushort> ValidMet_SWSH =
-    [
-                       006, 008,
-             012, 014, 016, 018,
-        020, 022, 024,      028,
-        030, 032, 034, 036,
-        040,      044, 046, 048,
-        052, 054, 056, 058,
-        060,      064, 066, 068,
-        070, 072,      076, 078,
-        080,      084, 086, 088,
-        090, 092, 094, 096, 098,
-             102, 104, 106, 108,
-        110, 112, 114, 116, 118,
-        120, 122, 124, 126, 128,
-        130, 132, 134, 136, 138,
-        140, 142, 144, 146, 148,
-        150, 152, 154, 156, 158,
-        160,      164, 166, 168,
-        170, 172, 174, 176, 178,
-        180, 182, 184, 186, 188,
-        190, 192, 194, 196, 198,
-        200,
-
-        202, 204, 206, 208, 210,
-        212, 214, 216, 218, 220,
-        222, 224, 226, 228, 230,
-        232, 234, 236, 238, 240,
-        242, 244, 246,
-    ];
-
-    #endregion
 
     #region Inventory Pouch
     public static readonly ushort[] Dynamax_Crystals_SWSH =
@@ -180,20 +93,6 @@ public static partial class Legal
     ];
 
     public static readonly ushort[] Pouch_Items_SWSH = [.. Pouch_Regular_SWSH, .. Pouch_Ball_SWSH, .. Pouch_Battle_SWSH];
-
-    public static readonly ushort[] Pouch_Key_SWSH =
-    [
-        078,
-        628, 629, 631, 632, 638,
-        703,
-        847,
-        943, 944, 945, 946,
-        1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
-        1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
-
-        // DLC 2
-        1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
-    ];
 
     public static readonly ushort[] Pouch_TM_SWSH =
     [
@@ -337,41 +236,6 @@ public static partial class Legal
     ];
 
     #endregion
-
-    public static readonly HashSet<ushort> GalarOriginForms =
-    [
-        (int)Meowth,
-        (int)Ponyta,
-        (int)Rapidash,
-        (int)Slowpoke,
-        (int)Farfetchd,
-        (int)MrMime,
-        (int)Corsola,
-        (int)Zigzagoon,
-        (int)Linoone,
-        (int)Yamask,
-        (int)Darumaka,
-        (int)Darmanitan,
-        (int)Stunfisk,
-    ];
-
-    public static readonly HashSet<ushort> GalarVariantFormEvolutions =
-    [
-        (int)MrMime,
-        (int)Weezing,
-    ];
-
-    public static readonly HashSet<int> GalarForm0Evolutions =
-    [
-        (int)Obstagoon,
-        (int)Perrserker,
-        (int)Cursola,
-        (int)Sirfetchd,
-        (int)MrRime,
-        (int)Runerigus,
-    ];
-
-    public static readonly HashSet<ushort> EvolveToGalarForms = [..GalarVariantFormEvolutions.Concat(GalarOriginForms)];
 
     public static readonly int[] GigantamaxForms =
     [

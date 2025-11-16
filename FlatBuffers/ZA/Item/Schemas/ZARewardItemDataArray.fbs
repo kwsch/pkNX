@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ZARewardItem {
+    ItemID:string (required);
+    Quantity:uint;
+    Weight:uint;
+}
+
+table ZARewardItemData {
+    ID:string (required);
+    MinWinStreak:uint;
+    MaxWinStreak:uint;
+    Field03:byte;
+    RewardItem:[ZARewardItem] (required);
+}
+
+table ZARewardItemDataArray (fs_serializer) {
+    Table:[ZARewardItemData] (required);
+}
+
+root_type ZARewardItemDataArray;

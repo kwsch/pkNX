@@ -48,7 +48,7 @@ public sealed class GameLocation
 
         if (romfs == null)
         {
-            string selectedDir = Path.GetFileName(dir) ?? string.Empty;
+            string selectedDir = Path.GetFileName(dir);
             if (selectedDir.StartsWith("rom"))
                 return (null, GameLoadResult.RomfsSelected);
 
@@ -61,8 +61,8 @@ public sealed class GameLocation
 
         var result = GameLoadResult.Success;
 
-        if (exefs == null) // Add exefs not found result, but don't mark as failure
-            result |= GameLoadResult.ExefsNotFound;
+        if (exefs == null)
+            result = GameLoadResult.ExefsNotFound;
 
         return (new GameLocation(romfs, exefs, game), result);
     }
@@ -73,12 +73,6 @@ public sealed class GameLocation
         return GetGameFromCount(files.Length, romfs, exefs);
     }
 
-    private const int FILECOUNT_XY = 271;
-    private const int FILECOUNT_ORASDEMO = 301;
-    private const int FILECOUNT_ORAS = 299;
-    private const int FILECOUNT_SMDEMO = 239;
-    private const int FILECOUNT_SM = 311;
-    private const int FILECOUNT_USUM = 333;
     private const int FILECOUNT_GG = 27818;
     private const int FILECOUNT_SWSH = 41702;
     private const int FILECOUNT_SWSH_110 = 41951; // Ver. 1.1.0 (Galarian Slowpoke)
@@ -94,82 +88,55 @@ public sealed class GameLocation
     private const int FILECOUNT_SV_130 = 27; // Ver. 1.3.0 (Paradox x2 Bad Egg fix)
     private const int FILECOUNT_SV_201 = 28; // Ver. 2.0.1 (Teal Mask)
     private const int FILECOUNT_SV_300 = 30; // Ver. 3.0.0 (Indigo Disk)
+    private const int FILECOUNT_ZA_100 = 22; // Ver. 1.0.0
+    private const int FILECOUNT_ZA_102 = 21; // Ver. 1.0.2
 
-    private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs)
+    private static ulong GetTitleID(string? exefs)
     {
-        string GetTitleID() => BitConverter.ToUInt64(File.ReadAllBytes(Path.Combine(exefs, "main.npdm")), 0x290).ToString("X16");
-
-        switch (fileCount)
-        {
-            case FILECOUNT_XY: return GameVersion.XY;
-            case FILECOUNT_ORASDEMO: return GameVersion.ORASDEMO;
-            case FILECOUNT_ORAS: return GameVersion.ORAS;
-            case FILECOUNT_SMDEMO: return GameVersion.SMDEMO;
-            case FILECOUNT_SM:
-            {
-                var encdata = Path.Combine(romfs, "a", "0", "8", "2");
-                if (File.Exists(encdata) && new FileInfo(encdata).Length != 0)
-                    return GameVersion.SN;
-                return GameVersion.MN;
-            }
-
-            case FILECOUNT_USUM:
-            {
-                var encdata = Path.Combine(romfs, "a", "0", "8", "2");
-                if (File.Exists(encdata) && new FileInfo(encdata).Length != 0)
-                    return GameVersion.US;
-                return GameVersion.UM;
-            }
-
-            case FILECOUNT_GG:
-            {
-                bool eevee = Directory.Exists(Path.Combine(romfs, "bin", "movies", "EEVEE_GO"));
-                if (eevee)
-                    return GameVersion.GE;
-                return GameVersion.GP;
-            }
-
-            case FILECOUNT_SWSH:
-            case FILECOUNT_SWSH_110:
-            case FILECOUNT_SWSH_120:
-            case FILECOUNT_SWSH_130:
-            case FILECOUNT_SWSH_132:
-            {
-                if (exefs == null)
-                    return GameVersion.SWSH;
-
-                return GetTitleID() switch
-                {
-                    "0100ABF008968000" => GameVersion.SW,
-                    "01008DB008C2C000" => GameVersion.SH,
-                    _ => GameVersion.SWSH, // can't figure out Title ID, default to SWSH so that wild editor prompts for version selection
-                };
-            }
-
-            case FILECOUNT_LA or FILECOUNT_LA_101 or FILECOUNT_LA_110:
-                return GameVersion.PLA;
-
-            case FILECOUNT_SV:
-            case FILECOUNT_SV_101:
-            case FILECOUNT_SV_120:
-            case FILECOUNT_SV_130:
-            case FILECOUNT_SV_201:
-            case FILECOUNT_SV_300:
-            {
-                if (exefs == null)
-                    return GameVersion.SV;
-
-                return GetTitleID() switch
-                {
-                    // todo sv
-                    "0100ABF008968000" => GameVersion.SL,
-                    "01008DB008C2C000" => GameVersion.VL,
-                    _ => GameVersion.SV, // can't figure out Title ID, default to SWSH so that wild editor prompts for version selection
-                };
-            }
-
-            default:
-                return GameVersion.Invalid;
-        }
+        if (exefs is null)
+            return 0;
+        var main = File.ReadAllBytes(Path.Combine(exefs, "main.npdm"));
+        var slice = main.AsSpan(0x290, 8);
+        return System.Buffers.Binary.BinaryPrimitives.ReadUInt64LittleEndian(slice);
     }
+
+    private static GameVersion GetGameFromCount(int fileCount, string romfs, string? exefs) => fileCount switch
+    {
+        FILECOUNT_GG
+            => DetectGen7b(romfs),
+
+        FILECOUNT_SWSH or FILECOUNT_SWSH_110 or FILECOUNT_SWSH_120 or FILECOUNT_SWSH_130 or FILECOUNT_SWSH_132
+            => DetectGen8(exefs),
+
+        FILECOUNT_LA or FILECOUNT_LA_101 or FILECOUNT_LA_110
+            => GameVersion.PLA,
+
+        FILECOUNT_SV or FILECOUNT_SV_101 or FILECOUNT_SV_120 or FILECOUNT_SV_130 or FILECOUNT_SV_201 or FILECOUNT_SV_300
+            => DetectGen9(exefs),
+
+        FILECOUNT_ZA_100 or FILECOUNT_ZA_102
+            => GameVersion.ZA,
+
+        _ => GameVersion.Invalid
+    };
+
+    private static GameVersion DetectGen7b(string romfs)
+    {
+        bool eevee = Directory.Exists(Path.Combine(romfs, "bin", "movies", "EEVEE_GO"));
+        return eevee ? GameVersion.GE : GameVersion.GP;
+    }
+
+    private static GameVersion DetectGen8(string? exefs) => GetTitleID(exefs) switch
+    {
+        0x0100ABF008968000 => GameVersion.SW,
+        0x01008DB008C2C000 => GameVersion.SH,
+        _ => GameVersion.SWSH, // can't figure out Title ID, default to SW/SH
+    };
+
+    private static GameVersion DetectGen9(string? exefs) => GetTitleID(exefs) switch
+    {
+        0x0100ABF008968000 => GameVersion.SL,
+        0x01008DB008C2C000 => GameVersion.VL,
+        _ => GameVersion.SV, // can't figure out Title ID, default to SV
+    };
 }

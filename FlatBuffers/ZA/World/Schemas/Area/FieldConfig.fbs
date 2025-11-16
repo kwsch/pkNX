@@ -1,0 +1,26 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table FieldSpawnerConfig {
+    IsSkipSpawnByDiffYLimitMinEnable:bool;
+    IsSkipSpawnByDiffYLimitMaxEnable:bool;
+    SkipSpawnByDiffYLimitMin:float;
+    SkipSpawnByDiffYLimitMax:float;
+}
+
+table FieldNightVisibleControllerConfig {
+    NightBeginTimeInHour:float;
+    NightEndTimeInHour:float;
+}
+
+table FieldConfig (fs_serializer) {
+    SystemSceneLoadTimeoutSeconds:float;
+    MapChangeTimeoutSeconds:float;
+    UnLoadWaitFrame:int;
+    AllocatableSizeThreshold:int;
+    NightVisibleControllerConfig:FieldNightVisibleControllerConfig (required);
+    SpawnerConfig:FieldSpawnerConfig (required);
+}
+
+root_type FieldConfig;

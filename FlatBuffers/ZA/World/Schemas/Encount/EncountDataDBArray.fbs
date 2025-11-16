@@ -1,0 +1,47 @@
+include "Entity/ParamSet.fbs";
+include "Shared/ActivationCondition.fbs";
+include "Shared/DevID.fbs";
+include "Shared/HoldItem.fbs";
+include "Shared/WazaList.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table ItemDropInfo {
+    ItemTableId:string;
+    DropConditionList:[int] (required);
+    DropProbability:uint;
+    MinCount:uint;
+    MaxCount:uint;
+}
+
+table EncountData {
+    Id:string (required);
+    DevNo:DevID;
+    MinLevel:int;
+    MaxLevel:int;
+    Sex:int;
+    FormNo:int;
+    Rare:int;
+    Tokusei:int;
+    Seikaku:int;
+    TalentScale:int;
+    TalentVNum:int;
+    OyabunProbability:float;
+    OyabunAdditionalLevel:int;
+    ActivationConditionArray:[ActivationCondition]; // not required
+    TalentValue:ParamSet (required);
+    StrengthenValue:ParamSet; // not required
+    Moves:WazaList; // not required
+    Item:HoldItem; // not required
+    ItemDropInfoList:[ItemDropInfo]; // not required
+}
+
+table EncountDataDB {
+    Table:[EncountData] (required);
+}
+
+table EncountDataDBArray (fs_serializer) {
+    Table:[EncountDataDB] (required);
+}
+
+root_type EncountDataDBArray;

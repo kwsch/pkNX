@@ -194,7 +194,7 @@ internal class EditorSWSH : EditorBase
         if (!editor.Modified)
             return;
 
-        chart.Data.CopyTo(nso.DecompressedRO, ofs);
+        chart.Data.CopyTo(nso.DecompressedRO.AsSpan(ofs));
         data = nso.Write();
         FileMitm.WriteAllBytes(path, data);
     }
@@ -249,7 +249,7 @@ internal class EditorSWSH : EditorBase
         var nest_encounts = FlatBufferConverter.DeserializeFrom<EncounterNestArchive>(data_table.GetDataFileName(nest));
 
         var arr = nest_encounts.Table;
-        var cache = new DataCache<EncounterNestTable>(arr);
+        var cache = new DataCache<EncounterNestTable>(arr!);
         var games = new[] { "Sword", "Shield" };
         var names = arr.Select((z, i) => $"{games[z.GameVersion - 1]} - {i / 2}").ToArray();
 
@@ -295,7 +295,7 @@ internal class EditorSWSH : EditorBase
         var nest_drops = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(originalData);
 
         var arr = nest_drops.Table;
-        var cache = new DataCache<NestHoleRewardTable>(arr);
+        var cache = new DataCache<NestHoleRewardTable>(arr!);
         var names = arr.Select(z => $"{z.TableID}").ToArray();
 
         void Randomize()
@@ -325,7 +325,7 @@ internal class EditorSWSH : EditorBase
         var nest_bonus = FlatBufferConverter.DeserializeFrom<NestHoleRewardArchive>(data_table.GetDataFileName(nest));
 
         var arr = nest_bonus.Table;
-        var cache = new DataCache<NestHoleRewardTable>(arr);
+        var cache = new DataCache<NestHoleRewardTable>(arr!);
         var names = arr.Select(z => $"{z.TableID}").ToArray();
 
         void Randomize()
@@ -408,7 +408,7 @@ internal class EditorSWSH : EditorBase
         {
             var table = shop.Single;
             var names = table.Select((z, _) => $"{(SingleShop.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
-            var cache = new DirectCache<SingleShop>(table);
+            var cache = new DirectCache<SingleShop>(table!);
             using var form = new GenericEditor<SingleShop>(cache, names, $"{nameof(SingleShop)} Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
@@ -435,7 +435,7 @@ internal class EditorSWSH : EditorBase
         {
             var table = shop.Multi;
             var names = table.Select((z, _) => $"{(SingleShop.SWSH.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
-            var cache = new DirectCache<MultiShop>(table);
+            var cache = new DirectCache<MultiShop>(table!);
             using var form = new GenericEditor<MultiShop>(cache, names, $"{nameof(MultiShop)} Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)
@@ -485,7 +485,7 @@ internal class EditorSWSH : EditorBase
         var obj = ROM[GameFile.Rentals];
         var data = obj[0];
         var rentals = FlatBufferConverter.DeserializeFrom<RentalArchive>(data);
-        var cache = new DataCache<Rental>(rentals.Table);
+        var cache = new DataCache<Rental>(rentals.Table!);
         var names = rentals.Table.Select((z, i) => $"{i:000} {z.Hash1:X16}").ToArray();
         using var form = new GenericEditor<Rental>(cache, names, "Rental Editor");
         form.ShowDialog();
@@ -536,7 +536,7 @@ internal class EditorSWSH : EditorBase
 
         var gifts = objs.Table;
         var names = Enumerable.Range(0, gifts.Count).Select(z => $"{z:000}").ToArray();
-        var cache = new DirectCache<Structures.FlatBuffers.SWSH.EncounterGift>(gifts);
+        var cache = new DirectCache<Structures.FlatBuffers.SWSH.EncounterGift>(gifts!);
 
         void Randomize()
         {
@@ -729,7 +729,7 @@ internal class EditorSWSH : EditorBase
 
         var table = objs.Table;
         var names = Enumerable.Range(0, table.Count).Select(z => $"{z:000}").ToArray();
-        var cache = new DirectCache<EncounterUnderground>(table);
+        var cache = new DirectCache<EncounterUnderground>(table!);
 
         void Randomize()
         {
@@ -766,7 +766,7 @@ internal class EditorSWSH : EditorBase
         var obj = ROM.GetFile(GameFile.SymbolBehave);
         var data = obj[0];
         var root = FlatBufferConverter.DeserializeFrom<SymbolBehaveRoot>(data);
-        var cache = new DataCache<SymbolBehave>(root.Table);
+        var cache = new DataCache<SymbolBehave>(root.Table!);
         var names = root.Table.Select(z => $"{z.Species}{(z.Form != 0 ? $"-{z.Form}" : "")}").ToArray();
         using var form = new GenericEditor<SymbolBehave>(cache, names, "Symbol Behavior Editor", Randomize);
         form.ShowDialog();

@@ -11,7 +11,7 @@ public class DataCache<T>(IList<T?> cache) : IDataEditor
     where T : class
 {
     public IFileContainer Data { protected get; set; } = null!;
-    public Func<byte[], T> Create { private get; set; } = null!;
+    public Func<Memory<byte>, T> Create { private get; set; } = null!;
     public Func<T, byte[]> Write { protected get; set; } = null!;
 
     public DataCache(IFileContainer f) : this(new T[f.Count]) => Data = f;
@@ -90,10 +90,10 @@ public class TableCache<TTable, TData>
     where TTable : class, IFlatBufferSerializable<TTable>
     where TData : class
 {
-    public IFileContainer File { get; private set; }
-    public TTable Root { get; private set; }
-    public IList<TData> Table { get; private set; }
-    public DataCache<TData> Cache { get; private set; }
+    public IFileContainer File { get; }
+    public TTable Root { get; }
+    public IList<TData> Table { get; }
+    public DataCache<TData> Cache { get; }
 
     public TableCache(IFileContainer f, Func<TTable, IList<TData>> sel)
     {

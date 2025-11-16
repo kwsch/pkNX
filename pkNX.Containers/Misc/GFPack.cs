@@ -39,6 +39,13 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         ReadPack(br);
     }
 
+    public GFPack(ReadOnlySpan<byte> data)
+    {
+        using var ms = new MemoryStream(data.ToArray());
+        using var br = new BinaryReader(ms);
+        ReadPack(br);
+    }
+
     public GFPack(BinaryReader br) => ReadPack(br);
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -221,37 +228,31 @@ public class GFPack : IEnumerable<byte[]>, IFileContainer
         return ms.ToArray();
     }
 
-    private static byte[] Decompress(byte[] encryptedData, int decryptedLength, CompressionType type)
+    private static byte[] Decompress(byte[] encryptedData, int decryptedLength, CompressionType type) => type switch
     {
-        return type switch
-        {
-            CompressionType.None => encryptedData,
-            CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
-            CompressionType.Lz4 => LZ4.Decode(encryptedData, decryptedLength),
-            CompressionType.OodleKraken => Oodle.Decompress(encryptedData, decryptedLength)!,
-            CompressionType.OodleLeviathan => Oodle.Decompress(encryptedData, decryptedLength)!,
-            CompressionType.OodleMermaid => Oodle.Decompress(encryptedData, decryptedLength)!,
-            CompressionType.OodleSelkie => Oodle.Decompress(encryptedData, decryptedLength)!,
-            CompressionType.OodleHydra => Oodle.Decompress(encryptedData, decryptedLength)!,
-            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-        };
-    }
+        CompressionType.None => encryptedData,
+        CompressionType.Zlib => Zlib.Decompress(encryptedData, decryptedLength),
+        CompressionType.Lz4 => LZ4.Decode(encryptedData, decryptedLength),
+        CompressionType.OodleKraken => Oodle.Decompress(encryptedData, decryptedLength)!,
+        CompressionType.OodleLeviathan => Oodle.Decompress(encryptedData, decryptedLength)!,
+        CompressionType.OodleMermaid => Oodle.Decompress(encryptedData, decryptedLength)!,
+        CompressionType.OodleSelkie => Oodle.Decompress(encryptedData, decryptedLength)!,
+        CompressionType.OodleHydra => Oodle.Decompress(encryptedData, decryptedLength)!,
+        _ => throw new ArgumentOutOfRangeException(nameof(type)),
+    };
 
-    private static byte[] Compress(byte[] decryptedData, CompressionType type)
+    private static byte[] Compress(byte[] decryptedData, CompressionType type) => type switch
     {
-        return type switch
-        {
-            CompressionType.None => decryptedData,
-            CompressionType.Zlib => throw new NotSupportedException(nameof(CompressionType.Zlib)), // not implemented
-            CompressionType.Lz4 => LZ4.Encode(decryptedData),
-            CompressionType.OodleKraken => Oodle.Compress(decryptedData, out _, OodleFormat.Kraken).ToArray(),
-            CompressionType.OodleLeviathan => Oodle.Compress(decryptedData, out _, OodleFormat.Leviathan).ToArray(),
-            CompressionType.OodleMermaid => Oodle.Compress(decryptedData, out _, OodleFormat.Mermaid).ToArray(),
-            CompressionType.OodleSelkie => Oodle.Compress(decryptedData, out _, OodleFormat.Selkie).ToArray(),
-            CompressionType.OodleHydra => Oodle.Compress(decryptedData, out _, OodleFormat.Hydra).ToArray(),
-            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-        };
-    }
+        CompressionType.None => decryptedData,
+        CompressionType.Zlib => Zlib.Compress(decryptedData),
+        CompressionType.Lz4 => LZ4.Encode(decryptedData),
+        CompressionType.OodleKraken => Oodle.Compress(decryptedData, out _, OodleFormat.Kraken).ToArray(),
+        CompressionType.OodleLeviathan => Oodle.Compress(decryptedData, out _, OodleFormat.Leviathan).ToArray(),
+        CompressionType.OodleMermaid => Oodle.Compress(decryptedData, out _, OodleFormat.Mermaid).ToArray(),
+        CompressionType.OodleSelkie => Oodle.Compress(decryptedData, out _, OodleFormat.Selkie).ToArray(),
+        CompressionType.OodleHydra => Oodle.Compress(decryptedData, out _, OodleFormat.Hydra).ToArray(),
+        _ => throw new ArgumentOutOfRangeException(nameof(type)),
+    };
 
     public void CancelEdits()
     {
@@ -425,21 +426,21 @@ public class FileHashIndex
     public bool IsMatch(string fileName) => FnvHash.HashFnv1a_64(fileName) == HashFnv1aPathFileName;
 }
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Explicit)]
 public class FileData
 {
     public const int SIZE = 0x18;
 
-    public ushort Level = 9; // quality?
-    public CompressionType Type;
-    public int SizeDecompressed;
-    public int SizeCompressed;
-    public int Padding = 0xCC;
-    public int OffsetPacked;
-    public uint unused;
+    [FieldOffset(0x00)] public ushort Level = 9; // quality?
+    [FieldOffset(0x02)] public CompressionType Type;
+    [FieldOffset(0x04)] public int SizeDecompressed;
+    [FieldOffset(0x08)] public int SizeCompressed;
+    [FieldOffset(0x0C)] public int Padding = 0xCC;
+    [FieldOffset(0x10)] public int OffsetPacked;
+    [FieldOffset(0x14)] public uint unused;
 }
 
-public enum CompressionType : ushort
+public enum CompressionType : byte
 {
     None = 0,
     Zlib = 1,

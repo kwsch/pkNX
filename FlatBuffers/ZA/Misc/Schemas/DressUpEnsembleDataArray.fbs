@@ -1,0 +1,23 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DressUpEnsemble {
+    MagicValue:uint;
+    Condition:[ActivationCondition] (required);
+}
+
+table DressUpEnsembleData {
+    MagicValue:uint;
+    Ensemble:[DressUpEnsemble] (required);
+}
+
+table DressUpEnsembleDataArray (fs_serializer) {
+    Table:[DressUpEnsembleData] (required);
+}
+
+root_type DressUpEnsembleDataArray;

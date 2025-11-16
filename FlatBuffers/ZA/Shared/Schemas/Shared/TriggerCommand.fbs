@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table TriggerCommandElement {
+    Command:int;
+    Param:[string];
+}
+
+table TriggerCommand {
+    Element:[TriggerCommandElement];
+}

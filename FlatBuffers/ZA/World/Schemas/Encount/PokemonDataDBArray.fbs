@@ -1,0 +1,39 @@
+include "Entity/ParamSet.fbs";
+include "Shared/ActivationCondition.fbs";
+include "Shared/DevID.fbs";
+include "Shared/HoldItem.fbs";
+include "Shared/WazaList.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PokemonData {
+    Id:string (required);
+    DevNo:DevID;
+    MinLevel:int;
+    MaxLevel:int;
+    Sex:int;
+    FormNo:int;
+    Rare:int;
+    Tokusei:int;
+    Seikaku:int;
+    TalentScale:int;
+    TalentVNum:int;
+    OyabunProbability:float;
+    OyabunAdditionalLevel:int;
+    ActivationConditionArray:[ActivationCondition]; // not required; null instead of count:0
+    TalentValue:ParamSet (required);
+    Moves:WazaList; // not required
+    Item:HoldItem; // not required
+}
+
+table PokemonDataDB {
+    Table:[PokemonData] (required);
+}
+
+table PokemonDataDBArray (fs_serializer) {
+    Table:[PokemonDataDB] (required);
+}
+
+root_type PokemonDataDBArray;

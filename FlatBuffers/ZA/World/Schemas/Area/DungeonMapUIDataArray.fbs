@@ -1,0 +1,16 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table DungeonMapUIData {
+    Field00:uint;
+    Field01:uint;
+    Field02:string (required);
+    Field03:float;
+  //Field04:[ulong]; // dunno what this is, might be object[]?
+}
+
+table DungeonMapUIDataArray (fs_serializer) {
+    Table:[DungeonMapUIData] (required);
+}
+
+root_type DungeonMapUIDataArray;

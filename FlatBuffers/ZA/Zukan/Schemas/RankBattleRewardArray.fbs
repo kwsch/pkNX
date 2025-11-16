@@ -1,0 +1,39 @@
+include "Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_vector";
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+attribute "fs_nonVirtual";
+attribute "fs_unsafeStructVector";
+
+enum RankedPlacement : byte {
+    Rank1st = 0,
+    Rank2nd = 1,
+    Rank3rd = 2,
+    Rank4th = 3,
+}
+
+struct RankBattleRewardItem {
+    Item:ItemID;
+    Count:ushort;
+}
+
+table RankBattleReward {
+    Rank:RankedPlacement;
+    LotteryWeight:ushort;
+    Money:uint;
+    Item1:RankBattleRewardItem (required);
+    Item2:RankBattleRewardItem (required);
+    Item3:RankBattleRewardItem (required);
+    Item4:RankBattleRewardItem (required);
+    Item5:RankBattleRewardItem (required);
+    Item6:RankBattleRewardItem (required);
+}
+
+table RankBattleRewardArray (fs_serializer) {
+    Table:[RankBattleReward] (required);
+}
+
+root_type RankBattleRewardArray;

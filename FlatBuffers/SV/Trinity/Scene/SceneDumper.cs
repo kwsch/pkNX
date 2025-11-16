@@ -259,8 +259,8 @@ public static class SceneDumper
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinityParticleComponent>(data);
         Write(tw, depth, $"{nameof(props.ParticleFile)}: {props.ParticleFile}");
-        Write(tw, depth, $"{nameof(props.ParticleName)}: {props.ParticleName}");
-        Write(tw, depth, $"{nameof(props.ParticleParent)}: {props.ParticleParent}");
+        Write(tw, depth, $"{nameof(props.ParticleName)}: {props.ParticleName} ({FnvHash.HashFnv1a_64(props.ParticleName):X16})");
+        Write(tw, depth, $"{nameof(props.ParticleParent)}: {props.ParticleParent} ({FnvHash.HashFnv1a_64(props.ParticleParent):X16})");
     }
 
     private static void DumpCollisionComponent(Memory<byte> data, TextWriter tw, int depth)
@@ -321,7 +321,7 @@ public static class SceneDumper
     private static void DumpObjectTemplate(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateData>(data);
-        Write(tw, depth, $"{nameof(props.ObjectTemplateName)}: {props.ObjectTemplateName}");
+        Write(tw, depth, $"{nameof(props.ObjectTemplateName)}: {props.ObjectTemplateName} ({FnvHash.HashFnv1a_64(props.ObjectTemplateName):X16})");
         Write(tw, depth, $"{nameof(props.ObjectTemplatePath)}: {props.ObjectTemplatePath}");
         Write(tw, depth, $"{nameof(props.ObjectTemplateExtra)}: {props.ObjectTemplateExtra}");
         Write(tw, depth, $"{nameof(props.Field03)}: {props.Field03}");
@@ -331,7 +331,7 @@ public static class SceneDumper
     private static void DumpScenePoint(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinityScenePoint>(data);
-        Write(tw, depth, $"{nameof(props.Name)}: {props.Name}");
+        Write(tw, depth, $"{nameof(props.Name)}: {props.Name} ({FnvHash.HashFnv1a_64(props.Name):X16})");
         Write(tw, depth, $"{nameof(props.Position)}: {props.Position}");
         Write(tw, depth, $"{nameof(props.Field02)}: {props.Field02}");
     }
@@ -339,7 +339,7 @@ public static class SceneDumper
     private static void DumpSceneObject(Memory<byte> data, TextWriter tw, int depth)
     {
         var props = FlatBufferConverter.DeserializeFrom<TrinitySceneObject>(data);
-        Write(tw, depth, $"{nameof(props.ObjectName)}: {props.ObjectName}");
+        Write(tw, depth, $"{nameof(props.ObjectName)}: {props.ObjectName} ({FnvHash.HashFnv1a_64(props.ObjectName):X16})");
         Write(tw, depth, $"{nameof(props.ObjectPosition)}:");
         Dump(props.ObjectPosition, tw, depth + 1);
         Write(tw, depth, $"{nameof(props.Field02)}: {props.Field02}");

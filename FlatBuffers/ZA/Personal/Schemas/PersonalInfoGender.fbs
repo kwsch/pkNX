@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_valueStruct";
+
+enum SexGroup : ubyte {
+    BOTH = 0,
+    MALE = 1,
+    FEMALE = 2,
+    UNKNOWN = 3,
+}
+
+struct PersonalInfoGender { // give me a class, not struct.
+    Group:SexGroup = BOTH;
+    Ratio:ubyte; // {rand(100) < value} => gender.
+}

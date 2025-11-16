@@ -1,0 +1,259 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table FacialParameter {
+    AutoBlinkIntervalMin:float;
+    AutoBlinkIntervalMax:float;
+}
+
+table AerialKinesisParameter {
+    Accel:float;
+    Friction:float;
+    SelfSpeedMax:float;
+    BackwardAngle:float;
+    GripAngle:float;
+}
+
+enum Easing : int
+{
+    InSine = 0,
+    OutSine = 1,
+    InOutSin = 2,
+    InQuad = 3,
+    OutQuad = 4,
+    InOutQuad = 5,
+    InCubic = 6,
+    OutCubic = 7,
+    InOutCubic = 8,
+    InQuart = 9,
+    OutQuart = 10,
+    InOutQuart = 11,
+    InQuint = 12,
+    OutQuint = 13,
+    InOutQuint = 14,
+    InExpo = 15,
+    OutExpo = 16,
+    InOutExpo = 17,
+    InCirc = 18,
+    OutCirc = 19,
+    InOutCirc = 20,
+    InBack = 21,
+    OutBack = 22,
+    InOutBack = 23,
+    InElastic = 24,
+    OutElastic = 25,
+    InOutElastic = 26,
+    InBounce = 27,
+    OutBounce = 28,
+    InOutBounce = 29,
+    Linear = 30,
+}
+table TotterParameter {
+    Interval:float;
+    Height:float;
+    DistanceMax:float;
+    BackDistance:float;
+}
+
+table SwimKinesisParameter {
+    SelfSpeedMax:float;
+    Accel:float;
+    Friction:float;
+    MinGripAngle:float;
+    MaxGripAngle:float;
+}
+
+table SquatKinesisParameter {
+    SpeedFixed:float;
+    SlipFriction:float;
+    GripFactor:float;
+}
+
+table SlidingKinesisParameter {
+    Friction:float;
+    SlipFriction:float;
+    InitVelocityRate:float;
+    BreakDecrease:float;
+    BreakIncrease:float;
+}
+
+table SlideDropParameter {
+    ForwardDirFactor:float;
+    BackwardDirFactor:float;
+    UpwardDirFactor:float;
+    BackwardTime:float;
+    LeanFactor:float;
+}
+
+table SlideDropKinesisParameter {
+    ForwardGripFactor:float;
+    BackwardGripFactor:float;
+    Accel:float;
+    Friction:float;
+    SpeedMax:float;
+    CurveAngle:float;
+    SpeedUpInputThreshold:float;
+    SideInputTolerance:float;
+    SideMaxVelocityRate:float;
+    SideFriction:float;
+    SpeedUpRate:float;
+    SpeedDownRate:float;
+    ForwardSideAccel:float;
+    BackwardSideAccel:float;
+}
+
+table SelfieParameter {
+    MaxFactor:float;
+    RotAngleMax:float;
+}
+
+table PlayerUniqueParameter {
+    IdlingIntervalMin:float;
+    IdlingIntervalMax:float;
+    FacialIdlingCountMin:int;
+    FacialIdlingCountMax:int;
+    RunFacialIntervalMin:float;
+    RunFacialIntervalMax:float;
+    RunMouthIntervalMin:float;
+    RunMouthIntervalMax:float;
+    SlideDropLeanAngle:float;
+    SlideDropFwdAngle:float;
+    SquatRate:float;
+    RideChangeCheckHeight:float;
+    RideChangeBottomOffset:float;
+    RideChangeRadiusScale:float;
+    HiddenMargin:float;
+}
+
+table MoveParameter {
+    PitchFactor:float;
+    LeanAngle:float;
+    LeanFactor:float;
+    RotationFactor:float;
+    ReverseSpeedFactor:float;
+    ReverseTurnAngle:float;
+    ReverseFrictionFactor:float;
+    LightLandingHeight:float;
+    HeavyLandingHeight:float;
+    DynamicsResetCount:int;
+    SpinCount:int;
+    SpinMaxSpeed:float;
+    SpinMaxAnimationSpeed:float;
+    SpinInterpolation:float;
+    SlideDropToleranceTime:float;
+    StopToleranceTime:float;
+    TurnStickDiffThreashold:float;
+    SliderModeRate:float;
+    BallThrowFrictionFactor:float;
+    BallThrowBackFrictionFactor:float;
+    UnlandablePushVelocity:float;
+}
+
+table LadderParameter {
+    LowerCorrectRate:float;
+    UpperCorrectRate:float;
+    UpperLaunchAngle:float;
+    LowerLaunchAngle:float;
+    UpperForwardAngle:float;
+    LowerForwardAngle:float;
+}
+
+table InputParameter {
+    StickTolerance:float;
+    SpinThreshold:float;
+}
+
+table GroundParameter {
+    SlideDropThreshold:float;
+    VerticalMargin:float;
+    WallHitAngle:float;
+    WaterDraftLine:float;
+    WaterSurfaceMargin:float;
+    WaterWithstandLine:float;
+    UnderWaterThreshold:float;
+    ShallowWaterThreshold:float;
+    AcceptableRadiusRate:float;
+}
+
+table GroundKinesisParameter {
+    FirstSpeedMax:float;
+    SecondSpeedMax:float;
+    SlowSpeedMax:float;
+    FirstAccel:float;
+    SecondAccel:float;
+    SlowAccel:float;
+    Friction:float;
+    SlipFriction:float;
+    SlipFrictionExp:float;
+    MaxGripFactor:float;
+    MinGripFactor:float;
+    RunStickThreshold:float;
+}
+
+table GravityParameter {
+    Accel:float;
+    SpeedMax:float;
+}
+
+table GlideKinesisParameter {
+    SelfSpeedMax:float;
+    Accel:float;
+    Friction:float;
+    MinGripAngle:float;
+    MaxGripAngle:float;
+    GravityRate:float;
+    FlareSpeedMax:float;
+}
+
+table FloatationParameter {
+    Floatage:float;
+    Dumping:float;
+    SpeedMax:float;
+    SurfaceDumpingRate:float;
+}
+
+table FlightKinesisParameter {
+    Accel:float;
+    PitchMaxUpAngle:float;
+    PitchMaxDownAngle:float;
+    PitchMaxTotalAngle:float;
+    YawAngleSpeed:float;
+    PitchAngleSpeed:float;
+    PitchUpSpeedRate:float;
+    PitchDownSpeedRate:float;
+    PitchStableSpeedRate:float;
+    PitchBaseAngle:float;
+    RollMaxAngle:float;
+    RollFactor:float;
+    UpAccelRate:float;
+    DownAccelRate:float;
+    MaxSpeed:float;
+    MaxDiveSpeed:float;
+    PitchUpSpeedThreshold:float;
+    PitchRateExp:float;
+    ReadyScale:float;
+    FaintThreshold:float;
+    AirRegist:float;
+}
+
+table FieldPlayer (fs_serializer) {
+    Gravity:GravityParameter (required);
+    Input:InputParameter (required);
+    Move:MoveParameter (required);
+    Totter:TotterParameter (required);
+    Ground:GroundParameter (required);
+    SlideDrop:SlideDropParameter (required);
+    Ladder:LadderParameter (required);
+    Facial:FacialParameter (required);
+    Unique:PlayerUniqueParameter (required);
+    GroundKinesis:GroundKinesisParameter (required);
+    AerialKinesis:AerialKinesisParameter (required);
+    SlideDropKinesis:SlideDropKinesisParameter (required);
+    SquatKinesis:SquatKinesisParameter (required);
+    SlidingKinesis:SlidingKinesisParameter (required);
+    Selfie:SelfieParameter (required);
+    Floatation:FloatationParameter (required);
+}
+
+root_type FieldPlayer;

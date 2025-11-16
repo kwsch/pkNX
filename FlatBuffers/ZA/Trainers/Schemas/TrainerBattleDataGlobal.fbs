@@ -1,0 +1,38 @@
+include "Shared/ActivationCondition.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table TrainerBattleDetail {
+    Type:string (required);
+    ActivationConditionArray:[ActivationCondition] (required);
+}
+
+table TrainerBattleData {
+    Type:string (required);
+    TrainerBattleID:string;
+    NPCAssetID:string;
+    Field03:string;
+    Field04:string;
+    Field05:string;
+    Field06:string;
+    Field07:string;
+    Field08:string;
+    Field09:string;
+    Field10:string;
+    Field11:string;
+    Field12:string;
+    Field13:uint;
+    TrainerLoseText:string;
+    Field15:string;
+    Field16:string;
+    Field17:string;
+    Field18:string;
+    Field19:[TrainerBattleDetail] (required);
+}
+
+table TrainerBattleGlobalDBArray (fs_serializer) {
+    Table:[TrainerBattleData] (required);
+}
+
+root_type TrainerBattleGlobalDBArray;

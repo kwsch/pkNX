@@ -1,0 +1,76 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/AppearanceInfo.fbs";
+include "Shared/ZoneInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table AiInfo {
+    ActionId:int;
+    PointName:string;
+}
+
+table PokemonCoolTimeInfo {
+    Condition:int;
+    Time:float;
+}
+
+table RepopProbability {
+    AfterCaptured:int;
+    AfterDefeated:int;
+}
+
+table EncountDataAiInfo {
+    ActionId:int;
+    PointName:string;
+    ActorName:string;
+    CreateIgnoreFlagList:[int];
+    Homerange:float;
+    PopActionId:int;
+}
+
+table EncountDataInfo {
+    EncountDataId:string;
+    Weight:int;
+    MaxCount:int;
+    AdditionalLevel:int;
+    TagList:[string];
+    ShowMapIcon:int;
+    AppearedTimeCondition:int;
+    AppearedWeatherCondition:int;
+    Ai:EncountDataAiInfo;
+    ActivationConditionList:[ActivationCondition];
+    ActivationConditionForUiList:[ActivationCondition];
+    Repop:RepopProbability;
+}
+
+table PokemonAppearanceSpawnerObjectInfo {
+    ObjectName:string (required);
+    CreateScenePath:string (required);
+    DungeonName:string;
+    AdditionalFlagList:[int];
+    BattleAreaId:string;
+    TagList:[string];
+    Zone:ZoneInfo;
+    Ai:AiInfo;
+    Appearance:AppearanceInfo (required);
+}
+
+table PokemonSpawnerData {
+    Id:string (required);
+    AppearanceSpawnerObjectInfoList:[PokemonAppearanceSpawnerObjectInfo] (required);
+    ActivationConditionList:[ActivationCondition] (required);
+    ActivationConditionForUiList:[ActivationCondition];
+    CoolTime:PokemonCoolTimeInfo (required);
+    EncountDataInfoList:[EncountDataInfo] (required);
+}
+
+table PokemonSpawnerDataDB {
+    Table:[PokemonSpawnerData] (required);
+}
+
+table PokemonSpawnerDataDBArray (fs_serializer) {
+    Table:[PokemonSpawnerDataDB] (required);
+}
+
+root_type PokemonSpawnerDataDBArray;

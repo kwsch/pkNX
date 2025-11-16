@@ -13,7 +13,6 @@ public sealed partial class GenericEditor<T> : Form where T : class
     private DataCache<T> Cache;
     public bool Modified { get; set; }
 
-    [Obsolete("Use the constructor overload with callbacks instead")]
     public GenericEditor(DataCache<T> Cache, string[] names, string title, Action? randomizeCallback = null, Action? addEntryCallback = null, bool canSave = true)
         : this(_ => Cache, (_, i) => names[i], title, _ => randomizeCallback?.Invoke(), addEntryCallback, canSave)
     { }

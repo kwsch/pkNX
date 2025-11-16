@@ -1,0 +1,23 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TrinityFileDescriptorSubFileUnknown {
+    Field_00:uint; // TODO
+}
+
+table TrinityFileDescriptorSubFileInfo {
+    Index:ulong;
+    SubInfo:TrinityFileDescriptorSubFileUnknown (required);
+}
+
+table TrinityFileDescriptorInfo {
+    FileSize:ulong;
+    FileCount:ulong;
+}
+
+table TrinityFileDescriptors (fs_serializer:"Progressive") {
+    SubFileHashes:[ulong] (required);
+    FilePaths:[string] (required);
+    SubFileInfos:[TrinityFileDescriptorSubFileInfo] (required);
+    FileInfos:[TrinityFileDescriptorInfo] (required);
+}

@@ -1,22 +1,29 @@
+using System;
 using System.IO;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
 public class Learnset6 : Learnset
 {
-    public Learnset6(byte[] data)
+    public Learnset6(Memory<byte> data) : this(data.Span)
+    {
+    }
+
+    public Learnset6(Span<byte> data)
     {
         if (data.Length < 4 || data.Length % 4 != 0)
         { Count = 0; Levels = Moves = []; return; }
         Count = (data.Length / 4) - 1;
         Moves = new int[Count];
         Levels = new int[Count];
-        using var ms = new MemoryStream(data);
-        using var br = new BinaryReader(ms);
+
+        int ofs = 0;
         for (int i = 0; i < Count; i++)
         {
-            Moves[i] = br.ReadInt16();
-            Levels[i] = br.ReadInt16();
+            Moves[i] = ReadInt16LittleEndian(data.Slice(ofs, 2));
+            Levels[i] = ReadInt16LittleEndian(data.Slice(ofs + 2, 2));
+            ofs += 4;
         }
     }
 
@@ -36,9 +43,9 @@ public class Learnset6 : Learnset
 
     public static Learnset[] GetArray(byte[][] entries)
     {
-        Learnset[] data = new Learnset[entries.Length];
+        var data = new Learnset[entries.Length];
         for (int i = 0; i < data.Length; i++)
-            data[i] = new Learnset6(entries[i]);
+            data[i] = new Learnset6(entries[i].AsSpan());
         return data;
     }
 }

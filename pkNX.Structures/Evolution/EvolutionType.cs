@@ -157,7 +157,7 @@ public static class EvolutionTypeExtensions
         LevelUpKnowMoveEC25 => true,
         LevelUpRecoilDamageMale => true,
         LevelUpRecoilDamageFemale => true,
-        Hisui => false, // todo sv
+        Hisui => false,
 
         UseItemFullMoon => false,
         UseMoveAgileStyle => false,

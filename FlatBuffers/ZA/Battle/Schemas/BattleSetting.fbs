@@ -1,0 +1,57 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_vector";
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+attribute "fs_nonVirtual";
+attribute "fs_unsafeStructVector";
+
+struct StealthRockDamageRatio {
+    DemonType_1:int;
+    DemonType_1_2:int;
+    DemonType_1_4:int;
+    DemonType_1_8:int;
+    DemonType_1_16:int;
+    DemonType_1_32:int;
+    DemonType_2:int;
+    DemonType_4:int;
+    DemonType_8:int;
+    DemonType_16:int;
+    DemonType_32:int;
+}
+
+struct DamagePerTypeAff {
+    PerType_1_8:int;
+    PerType_1_4:int;
+    PerType_1_2:int;
+    PerType_1:int;
+    PerType_2:int;
+    PerType_4:int;
+    PerType_8:int;
+}
+
+table BattleSetting (fs_serializer) {
+    Damage_Per_Mega_Aura:int;
+    Damage_Per_Random_Amplitude:int;
+    Damage_Per_Trainer_Battle:int;
+    Damage_Per_Wild_Battle:int;
+    Damage_Per_Weather_Advantage:int;
+    Damage_Per_Weather_Disadvantage:int;
+    Damage_Per_Critical:int;
+    Damage_Per_Critical_Plus:int;
+    Damage_Per_Type_Match:int;
+    Damage_Per_Type_Match_Plus:int;
+    Damage_Per_Mamoru_Through_Plus:int;
+    Damage_Per_Type_Aff:DamagePerTypeAff;
+    Damage_Per_Type_Aff_Plus:DamagePerTypeAff;
+    Damage_Per_Mega_Type_Aff:DamagePerTypeAff;
+    Damage_Per_Mega_Type_Aff_Plus:DamagePerTypeAff;
+    Reflector_Damage_Cut_Ratio:int;
+    Hikarinokabe_Damage_Cut_Ratio:int;
+    Needle_Guard_Damage_Demon:int;
+    Stealth_Rock_Damage_Demon:StealthRockDamageRatio;
+    Stealth_Rock_Damage_Demon_Plus:StealthRockDamageRatio;
+    Critical_Rank_Ratio:[int] (required);
+}
+
+root_type BattleSetting;

@@ -1,0 +1,33 @@
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ExtensionParam {
+    PokemonPopId:string (required);
+    ItemPopId:string;
+    QuestId:string;
+    WarpParamId:string;
+    ImpactAroundId:string;
+}
+
+table FieldWazaGimmickPrivate {
+    GroupId:string;
+    ObjectName:[string] (required);
+    GimmickId:string;
+    RepopInterval:int;
+    RepopOffset:int;
+    Spawner:bool;
+    Extension:ExtensionParam (required);
+    ActivationConditionParamList:[ActivationConditionParam];
+}
+
+table FieldWazaGimmickPrivateDB {
+    Table:[FieldWazaGimmickPrivate] (required);
+}
+
+table FieldWazaGimmickPrivateDBArray (fs_serializer) {
+    Table:[FieldWazaGimmickPrivateDB] (required);
+}
+
+root_type FieldWazaGimmickPrivateDBArray;

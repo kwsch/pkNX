@@ -1,0 +1,656 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using PKHeX.Core;
+using pkNX.Containers;
+using pkNX.Structures;
+using pkNX.Structures.FlatBuffers;
+using pkNX.Structures.FlatBuffers.SV;
+using static pkNX.Structures.Species;
+using AreaWeather9 = pkNX.Structures.FlatBuffers.AreaWeather9;
+using AreaWeather9Extensions = pkNX.Structures.FlatBuffers.AreaWeather9Extensions;
+
+namespace pkNX.WinForms;
+
+public static class MassOutbreakRipper
+{
+    private static readonly List<PickledOutbreak> Encounters = [];
+    private static int EncounterIndex;
+    private static int FolderIndex;
+    private static Dictionary<string, (string Name, int Index)> NameDict = [];
+
+    private static readonly Dictionary<DistSpecForm, DistCoordinateSet> PopCoordinates = [];
+
+    private readonly record struct DistSpecForm(int Index, ushort Species, byte Form);
+    private readonly record struct DistPopCoordinate(float X, float Z);
+
+    private readonly record struct DistCoordinateSet
+    {
+        public DistCoordinateSet()
+        {
+            Paldea = [];
+            Kitakami = [];
+            Terarium = [];
+        }
+
+        public List<DistPopCoordinate> Paldea { get; } = [];
+        public List<DistPopCoordinate> Kitakami { get; } = [];
+        public List<DistPopCoordinate> Terarium { get; } = [];
+
+        public List<DistPopCoordinate> GetSet(PaldeaFieldIndex fieldIndex) => fieldIndex switch
+        {
+            PaldeaFieldIndex.Paldea => Paldea,
+            PaldeaFieldIndex.Kitakami => Kitakami,
+            PaldeaFieldIndex.Terarium => Terarium,
+            _ => throw new ArgumentOutOfRangeException(nameof(fieldIndex)),
+        };
+    }
+
+    public static void DumpDeliveryOutbreaks(IFileInternal ROM, string path, string dump)
+    {
+        EncounterIndex = FolderIndex = 0;
+        Encounters.Clear();
+        PopCoordinates.Clear();
+
+        var cfg = new TextConfig(Structures.GameVersion.SV);
+        var place_names = GetCommonText(ROM, "place_name", "English", cfg);
+        var data = ROM.GetPackedFile("message/dat/English/common/place_name.tbl");
+        var ahtb = new AHTB(data);
+        NameDict = ahtb.ToIndexedDictionary(place_names);
+
+        var dirs = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Order();
+        foreach (var dir in dirs)
+        {
+            var index = Path.GetFileName(dir);
+            if (int.TryParse(index.Split(' ')[0], out var temp))
+                FolderIndex = temp;
+            else
+                FolderIndex++;
+            DumpDeliveryOutbreakData(ROM, dir);
+        }
+        ExportPickle(dump, Encounters);
+        ExportCoordinates(dump, PopCoordinates);
+    }
+
+    private sealed record PickledOutbreak
+    {
+        public required CachedOutbreak Parent { get; init; }
+        public required ushort Species { get; init; }
+        public required byte Form { get; init; }
+        public byte Gender { get; init; } = 0xFF;
+
+        public required RibbonIndex Ribbon { get; init; }
+        public required byte MetBase { get; init; }
+
+        public required Dictionary<LevelRange, UInt128> MetPermit { get; init; }
+
+        public required bool ForceScaleRange { get; init; }
+        public required byte ScaleMin { get; init; }
+        public required byte ScaleMax { get; init; }
+        public required bool IsShiny { get; init; }
+    }
+
+    private static bool DumpDeliveryOutbreakData(IFileInternal ROM, string path)
+    {
+        var zoneF0 = Path.Combine(path, "zone_main_array_2_0_0");
+        var zoneF1 = Path.Combine(path, "zone_su1_array_2_0_0");
+        var zoneF2 = Path.Combine(path, "zone_su2_array_3_0_0"); // does not exist in 2.0.1
+        var pokedata = Path.Combine(path, "pokedata_array_2_0_0");
+        const string v200 = "_2_0_0";
+        const string v300 = "_3_0_0";
+
+        if (!File.Exists(pokedata))
+            return false;
+
+        if (!File.Exists(zoneF2))
+            zoneF2 = zoneF1;
+
+        // BCAT 3.0.0 onward
+        if (File.Exists(Path.Combine(path, "pokedata_array_3_0_0")))
+        {
+            zoneF0 = zoneF0.Replace(v200, v300);
+            zoneF1 = zoneF1.Replace(v200, v300);
+            pokedata = pokedata.Replace(v200, v300);
+        }
+
+        var dataZoneF0 = GetDistributionContents(zoneF0);
+        var dataZoneF1 = GetDistributionContents(Path.Combine(path, zoneF1));
+        var dataZoneF2 = GetDistributionContents(Path.Combine(path, zoneF2));
+        var dataPokeData = GetDistributionContents(Path.Combine(path, pokedata));
+
+        var tableZoneF0 = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakArray>(dataZoneF0);
+        var tableZoneF1 = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakArray>(dataZoneF1);
+        var tableZoneF2 = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakArray>(dataZoneF2);
+        var tablePokeData = FlatBufferConverter.DeserializeFrom<DeliveryOutbreakPokeDataArray>(dataPokeData);
+
+        var dirDistText = Path.Combine(path, "parse");
+        ExportParse(dirDistText, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
+
+        AddToPickleJar(ROM, tableZoneF0, tableZoneF1, tableZoneF2, tablePokeData);
+        DumpPretty(ROM, dirDistText, false);
+        DumpPretty(ROM, dirDistText, true);
+        EncounterIndex = Encounters.Count;
+        return true;
+    }
+
+    private const ulong LastDistribution2 = 2023120801;
+    private const ulong FirstDistribution = 20230929001; // oddball which didn't use XX for day (instead ###)
+
+    private static void ExportPickle(string dump, IEnumerable<PickledOutbreak> encounters)
+    {
+        var dest = Path.Combine(dump, "encounter_outbreak_paldea.pkl");
+        using var fs = File.Create(dest);
+        using var bw = new BinaryWriter(fs);
+        foreach (var enc in encounters.DistinctBy(x => x))
+        {
+            var ordered = enc.MetPermit
+                .OrderBy(z => z.Key.Min)
+                .ThenBy(z => z.Key.Max)
+                .ThenByDescending(z => z.Key.Weather);
+
+            foreach (var (range, permit) in ordered)
+            {
+                // pre-3.0.0 BCAT
+                if (enc.Parent.Poke.ID is (< LastDistribution2) or FirstDistribution && enc.MetBase == 170)
+                    continue;
+                WriteEncounter(enc, bw, range, permit);
+            }
+        }
+    }
+
+    private static void WriteEncounter(PickledOutbreak enc, BinaryWriter bw, LevelRange range, UInt128 permit)
+    {
+        bw.Write(enc.Species);
+        bw.Write(enc.Form);
+        bw.Write(enc.Gender);
+
+        bw.Write(range.Min);
+        bw.Write(range.Max);
+        bw.Write((byte)enc.Ribbon);
+        bw.Write((byte)range.Weather);
+
+        bw.Write(enc.ForceScaleRange ? (byte)1 : (byte)0);
+        bw.Write(enc.ScaleMin);
+        bw.Write(enc.ScaleMax);
+        bw.Write(enc.IsShiny ? (byte)1 : (byte)0);
+
+        Debug.Assert(permit >> 120 == 0);
+        permit <<= 8; // Shift to make room for the met base.
+        permit |= enc.MetBase;
+        bw.Write((ulong)permit);
+        bw.Write((ulong)(permit >> 64));
+    }
+
+    private static byte ClampAddBoost(byte val, int b) => (byte)Math.Clamp(val + b, 1, 100);
+
+    private static void AddToPickleJar(IFileInternal ROM, DeliveryOutbreakArray f0, DeliveryOutbreakArray f1, DeliveryOutbreakArray f2, DeliveryOutbreakPokeDataArray pd)
+    {
+        var dpF0 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_main.bin");
+        var dpF1 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su1.bin");
+        var dpF2 = ROM.GetPackedFile("world/data/encount/point_data/outbreak_point_data/outbreak_point_su2.bin");
+
+        var pointsF0 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF0).Table;
+        var pointsF1 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF1).Table;
+        var pointsF2 = FlatBufferConverter.DeserializeFrom<OutbreakPointArray>(dpF2).Table;
+
+        var field = new PaldeaFieldModel(ROM);
+        var scene = new PaldeaSceneModel(ROM, field);
+
+        ScanAssertions(pd);
+        AddForMap(pointsF0, f0, pd, scene, NameDict, PaldeaFieldIndex.Paldea, 6);
+        AddForMap(pointsF1, f1, pd, scene, NameDict, PaldeaFieldIndex.Kitakami, 132);
+        if (f1 != f2)
+            AddForMap(pointsF2, f2, pd, scene, NameDict, PaldeaFieldIndex.Terarium, 170);
+    }
+
+    private static void ScanAssertions(params DeliveryOutbreakPokeDataArray[] obs)
+    {
+        // Ensure unused fields are not observed in the data -- if seen, pickle format needs to be updated.
+        foreach (var ob in obs)
+        {
+            foreach (var o in ob.Table)
+            {
+                if (o is { EnableRarePercentage: true, RarePercentage: 100.0f }) // Likely will never be 100%, so if we ever see this, change the check to assert that instead.
+                    throw new Exception($"Elevated shiny rate {o.RarePercentage}%!");
+                if (o.EnableScaleRange)
+                    throw new Exception($"Enforced scale range {o.MinScale}-{o.MaxScale}!");
+            }
+        }
+    }
+
+    private static void ExportCoordinates(string dump, Dictionary<DistSpecForm, DistCoordinateSet> popCoordinates)
+    {
+        var dest = Path.Combine(dump, "outbreak_coordinates");
+        Directory.CreateDirectory(dest);
+        foreach (var (sf, coords) in popCoordinates)
+        {
+            var folder = Path.Combine(dest, $"{sf.Index:000}");
+            Directory.CreateDirectory(folder);
+
+            WriteCoordinates(folder, PaldeaFieldIndex.Paldea, coords.Paldea, sf);
+            WriteCoordinates(folder, PaldeaFieldIndex.Kitakami, coords.Kitakami, sf);
+            WriteCoordinates(folder, PaldeaFieldIndex.Terarium, coords.Terarium, sf);
+            continue;
+
+            static void WriteCoordinates(string folder, PaldeaFieldIndex type, IReadOnlyList<DistPopCoordinate> coords, DistSpecForm sf)
+            {
+                if (coords.Count == 0)
+                    return;
+                var fileName = Path.Combine(folder, $"{type} {(PKHeX.Core.Species)sf.Species}_{sf.Form}.txt");
+                var lines = coords
+                    .Select(c => $"{c.X:R},{c.Z:R}")
+                    .Order();
+                File.WriteAllLines(fileName, lines);
+            }
+        }
+    }
+
+    private static void AddForMap(IList<OutbreakPointData> points,
+        DeliveryOutbreakArray possible, DeliveryOutbreakPokeDataArray pd,
+        PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
+        byte baseMet)
+    {
+        var encs = GetMetaEncounter(possible.Table, pd);
+        foreach (var enc in encs)
+            enc.MetBase = baseMet;
+
+        var areas = scene.AreaInfos[(int)fieldIndex];
+        var areaNames = scene.AreaNames[(int)fieldIndex];
+        var atlantis = scene.PaldeaType[(int)fieldIndex];
+        if (fieldIndex == PaldeaFieldIndex.Kitakami)
+        {
+            areas = areas.Where(z => z.Value.AdjustEncLv != 0)
+                .ToDictionary(z => z.Key, z => z.Value);
+            areaNames = [.. areas.Keys];
+        }
+        foreach (var enc in encs)
+        {
+            var poke = enc.Poke;
+            var species = SpeciesConverterSV.GetNational9((ushort)poke.DevId);
+            var entry = new DistSpecForm(FolderIndex, species, (byte)poke.FormId);
+            if (!PopCoordinates.TryGetValue(entry, out var list))
+                PopCoordinates[entry] = list = new();
+
+            var coordStore = list.GetSet(fieldIndex);
+
+            foreach (var point in points)
+            {
+                if (!poke.IsLevelRangeCompatible(point.LevelRange))
+                    continue;
+                if (!poke.IsEnableCompatible(point.EnableTable))
+                    continue;
+                if (!poke.IsCompatibleArea((byte)point.AreaNo))
+                    continue;
+                if (!poke.IsCompatibleArea(point.AreaName))
+                    continue;
+
+                coordStore.Add(new DistPopCoordinate(point.Position.X, point.Position.Z));
+
+                var min = Math.Max((byte)poke.MinLevel, (byte)point.LevelRange.X);
+                var max = Math.Min((byte)poke.MaxLevel, (byte)point.LevelRange.Y);
+                // Cool, can spawn at this point.
+                // Find all met location IDs we can wander to, then bitflag them into the enc field.
+                var metData = GetMetFlags(scene, placeNameMap, fieldIndex, baseMet, areaNames, areas, point, atlantis);
+                var isMist = fieldIndex == PaldeaFieldIndex.Kitakami && AreaWeather9Extensions.IsMistyPoint(point.Position);
+                var weather = GetWeather(metData, isMist, baseMet);
+                var tuple = new LevelRange(min, max, weather);
+                var set = enc.MetInfo;
+                set.TryGetValue(tuple, out var val);
+                set[tuple] = val | metData.Met;
+                if (metData.Boost != 0)
+                {
+                    min = ClampAddBoost(tuple.Min, metData.Boost);
+                    max = ClampAddBoost(tuple.Max, metData.Boost);
+                    tuple = new LevelRange(min, max, weather);
+                    set.TryGetValue(tuple, out val);
+                    set[tuple] = val | metData.Met;
+                }
+            }
+        }
+
+        ConsolidateMetInfo(encs);
+
+        foreach (var e in encs)
+        {
+            if (e.MetInfo.Count == 0)
+                throw new Exception("No met flags found for encounter!");
+
+            // pre-3.0.0 BCAT
+            if (e.Poke.ID is (< LastDistribution2) or FirstDistribution && e.MetBase == 170)
+                continue;
+        }
+
+        AddToJar(encs);
+    }
+
+    private static AreaWeather9 GetWeather((UInt128 Met, int Boost) metData, bool isMist, byte baseMet)
+    {
+        var value = AreaWeather9.None;
+        for (int i = 0; i < 128; i++)
+        {
+            if (((metData.Met >> i) & 1) != 1)
+                continue;
+
+            var met = baseMet + i;
+            value |= AreaWeather9Extensions.GetWeather((byte)met);
+        }
+        if (isMist)
+            value |= AreaWeather9.Mist;
+        return value;
+    }
+
+    private static void ConsolidateMetInfo(IEnumerable<CachedOutbreak> encs)
+    {
+        foreach (var e in encs)
+        {
+            var ranges = e.MetInfo.ToList();
+            // If the level ranges overlap for any key value pair with the same flags, consolidate them.
+            // For each entry, if a later entry has the same flags, and the level ranges overlap, delete the later entry after merging the level ranges into the first entry.
+            for (int i = 0; i < ranges.Count; i++)
+            {
+                var ((min, max, weather), met) = ranges[i];
+                for (int j = i + 1; j < ranges.Count; j++)
+                {
+                    var (min2, max2, weather2) = ranges[j].Key;
+                    if (weather != weather2)
+                        continue; // Different weather, cannot merge.
+                    var met2 = ranges[j].Value;
+                    if (met != met2)
+                        continue;
+                    if (min2 > max || max2 < min)
+                        continue;
+                    // Overlap, merge.
+                    min = Math.Min(min, min2);
+                    max = Math.Max(max, max2);
+                    ranges.RemoveAt(j);
+                    j--;
+                }
+                ranges[i] = new(new(min, max, weather), met);
+            }
+            e.MetInfo.Clear();
+            foreach (var r in ranges)
+                e.MetInfo[r.Key] = r.Value;
+        }
+    }
+
+    private record struct LevelRange(byte Min, byte Max, AreaWeather9 Weather);
+
+    private static void AddToJar(IEnumerable<CachedOutbreak> encs)
+    {
+        foreach (var enc in encs)
+        {
+            var pk = enc.Poke;
+            ushort species = SpeciesConverterSV.GetNational9((ushort)pk.DevId);
+            byte form = (byte)pk.FormId;
+            if (species is (int)Scatterbug or (int)Spewpa or (int)Vivillon)
+                form = 30;
+
+            var pickled = new PickledOutbreak
+            {
+                Parent = enc,
+                Species = species,
+                Form = form,
+                Gender = GetRemappedGender(pk.Sex),
+                Ribbon = unchecked((RibbonIndex)(pk.AddRibbonPercentage == 0 ? -1 : (int)pk.AddRibbonType - 1)),
+
+                ForceScaleRange = pk.EnableScaleRange,
+                ScaleMin = (byte)pk.MinScale,
+                ScaleMax = (byte)pk.MaxScale,
+                IsShiny = pk.RarePercentage >= 100,
+                MetBase = enc.MetBase,
+                MetPermit = enc.MetInfo,
+            };
+            Encounters.Add(pickled);
+        }
+    }
+
+    private static byte GetRemappedGender(SexType pkSex) => pkSex switch
+    {
+        SexType.DEFAULT => 0xFF,
+        SexType.MALE => 0,
+        SexType.FEMALE => 1,
+        _ => throw new ArgumentOutOfRangeException(nameof(pkSex), pkSex, "Unknown Gender"),
+    };
+
+    private static (UInt128 Met, int Boost) GetMetFlags(PaldeaSceneModel scene, Dictionary<string, (string Name, int Index)> placeNameMap, PaldeaFieldIndex fieldIndex,
+        byte baseMet, List<string> areaNames, Dictionary<string, AreaInfo> areas, OutbreakPointData point, Dictionary<string, PaldeaPointPivot> atlantis)
+    {
+        UInt128 result = 0;
+        int boost = 0;
+        for (var i = areaNames.Count - 1; i >= 0; i--)
+        {
+            var areaName = areaNames[i];
+            var areaInfo = areas[areaName];
+            if (atlantis[areaName] != PaldeaPointPivot.Overworld)
+                continue;
+
+            if (areaInfo.Tag is AreaTag.NG_Encount)
+                continue;
+            if (!scene.TryGetContainsCheck(fieldIndex, areaName, out var collider))
+                continue;
+            var pt = point.Position;
+            if (!collider.ContainsPoint(pt.X, pt.Y, pt.Z))
+                continue;
+            if (!EncounterDumperSV.TryGetPlaceName(ref areaName, areaInfo, pt, placeNameMap, areas, scene, fieldIndex, out var placeName))
+                continue;
+            var loc = placeNameMap[placeName].Index;
+
+            var info = areas[areaName];
+            boost = info.AdjustEncLv;
+            var actual = loc - baseMet;
+            result |= (UInt128)1 << actual;
+
+            for (var x = 0; x < areaNames.Count; x++)
+            {
+                var otherArea = areaNames[x];
+                if (otherArea == areaName)
+                    continue;
+
+                if (!scene.TryGetContainsCheck(fieldIndex, otherArea, out var subCol))
+                    continue;
+                if (!EncounterDumperSV.IsContainedBy(subCol, pt))
+                    continue;
+
+                var otherInfo = areas[otherArea];
+                if (!EncounterDumperSV.TryGetPlaceName(ref otherArea, otherInfo, pt, placeNameMap, areas, scene, fieldIndex, out placeName))
+                    continue;
+                loc = placeNameMap[placeName].Index;
+                if (!EncounterDumperSV.IsCrossoverAllowed(loc))
+                    continue;
+
+                actual = loc - baseMet;
+                result |= (UInt128)1 << actual;
+            }
+
+            break;
+        }
+        return (result, boost);
+    }
+
+    private class CachedOutbreak
+    {
+        public ulong ZoneID { get; init; }
+        public required DeliveryOutbreakPokeData Poke { get; init; }
+
+        public byte MetBase { get; set; }
+        public readonly Dictionary<LevelRange, UInt128> MetInfo = [];
+    }
+
+    private static CachedOutbreak[] GetMetaEncounter(IEnumerable<DeliveryOutbreak> possibleTable, DeliveryOutbreakPokeDataArray pd)
+    {
+        var ret = new List<CachedOutbreak>();
+        var hs = new HashSet<ulong>();
+        foreach (var outbreak in possibleTable)
+        {
+            TryAdd(outbreak.Poke1, outbreak.Poke1LotValue);
+            TryAdd(outbreak.Poke2, outbreak.Poke2LotValue);
+            TryAdd(outbreak.Poke3, outbreak.Poke3LotValue);
+            TryAdd(outbreak.Poke4, outbreak.Poke4LotValue);
+            TryAdd(outbreak.Poke5, outbreak.Poke5LotValue);
+            continue;
+            void TryAdd(ulong ID, short rate)
+            {
+                if (ID == 0 || rate <= 0 || !hs.Add(ID))
+                    return;
+                var poke = pd.Table.First(z => z.ID == ID);
+                ret.Add(new CachedOutbreak { ZoneID = outbreak.ZoneID, Poke = poke });
+            }
+        }
+        return [.. ret];
+    }
+
+    private static byte[] GetDistributionContents(string path) => File.ReadAllBytes(path);
+
+    private static string Humanize(EnableTable enable)
+    {
+        var sb = new StringBuilder();
+        if (enable.Air1) sb.Append(" Air1");
+        if (enable.Air2) sb.Append(" Air2");
+        if (enable.Land) sb.Append(" Land");
+        if (enable.UpWater) sb.Append(" UpWater");
+        if (enable.Underwater) sb.Append(" Underwater");
+        if (sb.Length == 0)
+            return "Enable: Unrestricted";
+        return "Enable:" + sb;
+    }
+
+    private static string Humanize(VersionTable? ver) => ver switch
+    {
+        { A: true, B: true } => "Version: Both",
+        { A: true } => "Version: Scarlet",
+        { B: true } => "Version: Violet",
+        _ => "Version: None",
+    };
+
+    private static void ExportParse(string dir, DeliveryOutbreakArray tableZoneF0, DeliveryOutbreakArray tableZoneF1, DeliveryOutbreakArray tableZoneF2, DeliveryOutbreakPokeDataArray tablePokeData)
+    {
+        var dumpZ0 = TableUtil.GetTable(tableZoneF0.Table);
+        var dumpZ1 = TableUtil.GetTable(tableZoneF1.Table);
+        var dumpZ2 = TableUtil.GetTable(tableZoneF2.Table);
+        var dumpPD = TableUtil.GetTable(tablePokeData.Table);
+        var dump = new[]
+        {
+            ("zone_main", dumpZ0),
+            ("zone_su1", dumpZ1),
+            ("zone_su2", dumpZ2),
+            ("pokedata", dumpPD),
+        };
+
+        Directory.CreateDirectory(dir);
+        foreach (var (name, data) in dump)
+        {
+            if (name == "zone_su2" && dumpZ1 == dumpZ2)
+                continue;
+            var path2 = Path.Combine(dir, $"{name}.txt");
+            File.WriteAllText(path2, data);
+        }
+
+        DumpJson(tableZoneF0, dir, "zone_main");
+        DumpJson(tableZoneF1, dir, "zone_su1");
+        if (dumpZ1 != dumpZ2)
+            DumpJson(tableZoneF2, dir, "zone_su2");
+        DumpJson(tablePokeData, dir, "pokedata");
+    }
+
+    private static void DumpJson(object flat, string dir, string name)
+    {
+        var opt = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+        var json = System.Text.Json.JsonSerializer.Serialize(flat, opt);
+
+        var fileName = Path.ChangeExtension(name, ".json");
+        File.WriteAllText(Path.Combine(dir, fileName), json);
+    }
+
+    private static string[] GetCommonText(IFileInternal ROM, string name, string lang, TextConfig cfg)
+    {
+        var data = ROM.GetPackedFile($"message/dat/{lang}/common/{name}.dat");
+        return new TextFile(data, cfg).Lines;
+    }
+
+    private static void DumpPretty(IFileInternal ROM, string dir, bool locations)
+    {
+        string ident = $"{Encounters[EncounterIndex].Parent.Poke.ID}"[..8]; // yyyyMMdd, remove 2 digit index at the end
+        string fileName = locations ? $"pretty_{ident}_with_locations.txt" : $"pretty_{ident}.txt";
+        using var sw = File.CreateText(Path.Combine(dir, fileName));
+
+        foreach (var enc in Encounters)
+        {
+            if (EncounterIndex > Encounters.IndexOf(enc))
+                continue;
+            var parent = enc.Parent;
+
+            // pre-3.0.0 BCAT
+            if (parent.Poke.ID is (< LastDistribution2) or FirstDistribution && parent.MetBase == 170)
+                continue;
+
+            WriteParent(ROM, sw, parent);
+            WriteLocationList(sw, parent.MetInfo, parent.MetBase, locations);
+            sw.WriteLine();
+        }
+    }
+
+    private static void WriteLocationList(TextWriter sw, Dictionary<LevelRange, UInt128> metFlags, byte baseMet, bool locations)
+    {
+        string map = baseMet switch
+        {
+            132 => "Kitakami",
+            170 => "Blueberry Academy",
+            _ => "Paldea", // 6
+        };
+
+        sw.WriteLine($"Location: {map}");
+
+        // detailed list of zones
+        if (locations)
+        {
+            foreach ((var range, UInt128 flags) in metFlags.OrderBy(z => z.Key.Min).ThenBy(z => z.Key.Max))
+            {
+                for (int i = 0; i < 128; i++)
+                {
+                    if (((flags >> i) & 1) != 1)
+                        continue;
+
+                    var met = baseMet + i;
+                    var location = NameDict.First(z => z.Value.Index == met);
+                    sw.WriteLine($"\tLv. {range.Min}-{range.Max} @ {location}");
+                }
+            }
+        }
+    }
+
+    private static void WriteParent(IFileInternal ROM, StreamWriter sw, CachedOutbreak parent)
+    {
+        const string lang = "English";
+        var cfg = new TextConfig(Structures.GameVersion.SV);
+        var enc = parent.Poke;
+
+        var species = GetCommonText(ROM, "monsname", lang, cfg);
+        var ribbons = GetCommonText(ROM, "ribbon", lang, cfg);
+        var gender = enc.Sex is SexType.MALE ? "Male" : "Female";
+
+        var formName = TeraRaidRipper.GetFormName(ROM, (ushort)enc.DevId, (byte)enc.FormId);
+        var form = formName switch
+        {
+            not "" when enc.FormId is 0 => $" ({formName})",
+            not "" => $"-{enc.FormId} ({formName})",
+            _ => string.Empty,
+        };
+        var shiny = enc.EnableRarePercentage ? $"{enc.RarePercentage}%" : "Standard";
+
+        sw.WriteLine($"ID: {enc.ID}");
+        sw.WriteLine($"{species[(int)enc.DevId]}{form}");
+        sw.WriteLine(Humanize(enc.Enable!.Value));
+        sw.WriteLine(Humanize(enc.Version));
+        sw.WriteLine($"Base Level Range: {enc.MinLevel}-{enc.MaxLevel}");
+        if (enc.Sex is not SexType.DEFAULT)
+            sw.WriteLine($"Gender: {gender}");
+        if (enc.EnableScaleRange)
+            sw.WriteLine($"Scale: {enc.MinScale}-{enc.MaxScale}");
+        sw.WriteLine($"Shiny Rate: {shiny}");
+        if (enc.AddRibbonPercentage != 0)
+            sw.WriteLine($"Ribbon/Mark: {ribbons[(int)enc.AddRibbonType - 1]} ({enc.AddRibbonPercentage}%)");
+    }
+}

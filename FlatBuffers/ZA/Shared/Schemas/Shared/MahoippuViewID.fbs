@@ -1,0 +1,11 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum MahoippuViewID : int {
+    STRAWBERRY = 0,
+    BERRY = 1,
+    HEART = 2,
+    STAR = 3,
+    CLOVER = 4,
+    FLOWER = 5,
+    RIBBON = 6,
+}

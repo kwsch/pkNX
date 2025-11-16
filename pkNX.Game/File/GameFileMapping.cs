@@ -66,6 +66,7 @@ public class GameFileMapping
         SW or SH or SWSH => FilesSWSH,
         PLA => FilesPLA,
         SL or VL or SV => FilesSV,
+        ZA => FilesZA,
         _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
 
@@ -434,5 +435,17 @@ public class GameFileMapping
         // new(EncounterTableGift                  , SingleFile, "bin", "pokemon", "data", "poke_add.bin"),
         // new(EncounterTableTrade                 , SingleFile, "bin", "script_event_data", "field_trade.bin"), // Incorrect?
     ];
+    #endregion
+    #region Gen9a
+
+    /// <summary>
+    /// Scarlet &amp; Violet
+    /// </summary>
+    private static readonly GameFileReference[] FilesZA =
+    [
+        new(DataTrpfd, SingleFile, "arc", "data.trpfd"),
+        new(DataTrpfs, SingleFile, "arc", "data.trpfs"),
+    ];
+
     #endregion
 }

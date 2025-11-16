@@ -1,0 +1,35 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+struct TimerBallData {
+    Count:uint;
+    Ratio:float;
+}
+
+table CaptureBallData (fs_serializer) {
+    Poke:float;
+    Great:float;
+    Ultra:float;
+    Net:float;
+    Repeat:float;
+    Timer:[TimerBallData];
+    Nest:float;
+    Luxury:float;
+    Heal:float;
+    Dive:float;
+    Quick:float;
+    Dusk:float;
+    Premier:float;
+    Beast:float;
+    Dream:float;
+    Fast:float;
+    Friend:float;
+    Heavy:[float];
+    Moon:float;
+    Love:float;
+    Lure:float;
+    Level:[float];
+}
+
+root_type CaptureBallData;

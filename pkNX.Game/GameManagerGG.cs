@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using pkNX.Containers;
@@ -20,8 +21,7 @@ public class GameManagerGG(GameLocation rom, int language) : GameManager(rom, la
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
-        if (basePath is null)
-            throw new InvalidDataException("Invalid RomFS path.");
+        ArgumentNullException.ThrowIfNull(basePath);
         // unlike SWSH, LGPE has a unique opening movie in romfs to differentiate between versions
         bool eevee = Directory.Exists(Path.Combine(PathRomFS, "bin", "movies", "EEVEE_GO"));
         ActualGame = eevee ? GameVersion.GE : GameVersion.GP;
@@ -55,12 +55,12 @@ public class GameManagerGG(GameLocation rom, int language) : GameManager(rom, la
             PersonalData = new PersonalTable7GG(personal[0]),
             MegaEvolutionData = new DataCache<MegaEvolutionSet[]>(GetFilteredFolder(GameFile.MegaEvolutions))
             {
-                Create = MegaEvolutionSet.ReadArray,
+                Create = z => MegaEvolutionSet.ReadArray(z.Span),
                 Write = MegaEvolutionSet.WriteArray,
             },
             EvolutionData = new DataCache<EvolutionSet>(GetFilteredFolder(GameFile.Evolutions))
             {
-                Create = data => new EvolutionSet7(data),
+                Create = data => new EvolutionSet7(data.Span),
                 Write = evo => evo.Write(),
             },
         };

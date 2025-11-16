@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum WazaType : int {
+    DEFAULT = 0,
+    MANUAL = 1,
+}

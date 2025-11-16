@@ -1,11 +1,12 @@
+using System;
 using System.Linq;
 
 namespace pkNX.Structures;
 
-public abstract class EncounterStatic(byte[] data)
+public abstract class EncounterStatic(Memory<byte> raw)
 {
-    protected readonly byte[] Data = data;
-    public virtual byte[] Write() => (byte[])Data.Clone();
+    protected Span<byte> Data => raw.Span;
+    public virtual byte[] Write() => Data.ToArray();
 
     public abstract Species Species { get; set; }
     public virtual int HeldItem { get; set; }

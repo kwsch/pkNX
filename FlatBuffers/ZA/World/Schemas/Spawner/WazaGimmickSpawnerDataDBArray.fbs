@@ -1,0 +1,45 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/AppearanceInfo.fbs";
+include "Shared/CoolTimeInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table SpawnWazaGimmickInfo {
+    PrivateId:string;
+    Weight:int;
+    MaxCount:int;
+    ActivationConditionList:[ActivationCondition];
+}
+
+table WazaGimmickAiInfo {
+    ActionId:int;
+    PointName:string;
+}
+
+table WazaGimmickAppearanceSpawnerObjectInfo {
+    ObjectName:string;
+    CreateScenePath:string;
+    AdditionalFlagList:[int];
+    TagList:[string];
+    Ai:WazaGimmickAiInfo;
+    Appearance:AppearanceInfo;
+}
+
+table WazaGimmickSpawnerData {
+    Id:string (required);
+    AppearanceSpawnerObjectInfoList:[WazaGimmickAppearanceSpawnerObjectInfo];
+    ActivationConditionList:[ActivationCondition];
+    CoolTime:CoolTimeInfo;
+    SpawnWazaGimmickInfoList:[SpawnWazaGimmickInfo];
+}
+
+table WazaGimmickSpawnerDataDB {
+    Table:[WazaGimmickSpawnerData] (required);
+}
+
+table WazaGimmickSpawnerDataDBArray (fs_serializer) {
+    Table:[WazaGimmickSpawnerDataDB] (required);
+}
+
+root_type WazaGimmickSpawnerDataDBArray;

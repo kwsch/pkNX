@@ -1,0 +1,21 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table HairMakeData {
+    Value:uint;
+    Resource:string (required);
+    Type:uint;
+    Bool03:bool;
+    Color:string;
+    Name:string;
+    SortOrder:uint;
+    Pattern1:int;
+    Pattern2:int;
+}
+
+table HairMakeDataArray (fs_serializer) {
+    Table:[HairMakeData] (required);
+}
+
+root_type HairMakeDataArray;

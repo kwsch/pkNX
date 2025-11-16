@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table ZoneInfo {
+    ZoneId:string;
+    VariationId:string;
+}

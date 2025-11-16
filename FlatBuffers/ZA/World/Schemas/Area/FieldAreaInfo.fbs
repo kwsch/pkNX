@@ -1,0 +1,37 @@
+include "AreaType.fbs";
+include "Math/PackedVec3f.fbs";
+include "FieldShadowInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table FieldAreaInfo {
+    AreaName:string (required);
+    ScenePath:string;
+    AreaCategory:string (required);
+    IsSafety:bool;
+    IsInteriorCamera:bool;
+    IsTimerSuspend:bool;
+    IsImportantArea:bool;
+    IsRoom:bool;
+    CanRide:bool;
+    ProhibitReadyBallThrow:bool;
+    ProhibitPartnerPutout:bool;
+    IsOptimizeWaterLight:bool;
+    DefaultStartPosition:PackedVec3f;
+    DefaultStartYaw:float;
+    Music:string;
+    SoundEffect:string;
+    LightFile_p1:string;
+    LightFile_p2:string;
+    LightFile_p3:string;
+    WeatherTable:string;
+    AreaType:AreaType;
+    ShadowPresetName:string;
+    ShadowInfo:FieldShadowInfo;
+    MainAreaName:string;
+    SubAreaName:string;
+    LocationName:string;
+    FastTravelFlagId:string;
+    SubAreaReachedFlgId:string;
+    MapId:string;
+}

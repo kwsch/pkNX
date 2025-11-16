@@ -1,0 +1,34 @@
+include "../Shared/DevID.fbs";
+include "../Shared/SexType.fbs";
+include "../Shared/ItemID.fbs";
+include "../Shared/SeikakuType.fbs";
+include "../Shared/TokuseiType.fbs";
+include "../Shared/TalentType.fbs";
+include "../Shared/RareType.fbs";
+include "../Shared/SizeType.fbs";
+include "../Shared/BallID.fbs";
+
+include "../PokeData/WazaSetBattle.fbs";
+include "../Entity/ParamSet.fbs";
+include "../Shared/WazaType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table PokeDataBattle {
+    DevId:DevID;
+    FormId:short;
+    Sex:SexType;
+    Item:ItemID;
+    Level:int;
+    BallId:BallID;
+    Waza1:WazaSetBattle (required);
+    Waza2:WazaSetBattle (required);
+    Waza3:WazaSetBattle (required);
+    Waza4:WazaSetBattle (required);
+    Seikaku:SeikakuType;
+    Tokusei:TokuseiType;
+    TalentValue:ParamSet (required);
+    EffortValue:ParamSet (required);
+    RareType:RareType;
+    ScaleValue:short;
+}

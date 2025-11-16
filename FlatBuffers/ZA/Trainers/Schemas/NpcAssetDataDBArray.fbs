@@ -1,0 +1,22 @@
+include "Shared/ActivationCondition.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table NpcInfo {
+    ObjectTemplateId:int;
+    Name:string;
+    Gender:uint;
+    ActivationConditionArray:[ActivationCondition];
+}
+
+table NpcAssetData {
+    AssetId:string (required);
+    NpcInfoList:[NpcInfo] (required);
+}
+
+table NpcAssetDataDBArray (fs_serializer) {
+    Table:[NpcAssetData] (required);
+}
+
+root_type NpcAssetDataDBArray;

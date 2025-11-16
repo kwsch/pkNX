@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+struct FieldShadowInfo {
+    ShadowClipHeightOffset:float;
+    ShadowClipHeightMinOffset:float;
+    ShadowClipFadeWidth:float;
+}

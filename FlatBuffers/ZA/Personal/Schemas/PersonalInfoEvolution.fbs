@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_valueStruct";
+
+struct PersonalInfoEvolution { // give me a class, not struct.
+    Level:ushort;
+    Method:ushort;
+    Argument:ushort;
+    Reserved3:ushort;
+    Reserved4:ushort;
+    Reserved5:ushort;
+    SpeciesInternal:ushort;
+    Form:ushort;
+}

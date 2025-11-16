@@ -1,0 +1,12 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TrinityParticleComponent (fs_serializer) {
+    ParticleFile:string (required);
+    Field_01:string (required);
+    Field_02:bool;
+    ParticleName:string (required);
+    ParticleParent:string (required);
+}
+
+root_type TrinityParticleComponent;

@@ -1,0 +1,34 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+// same as ActivationConditionParam
+table ExpressionLeaf {
+  ConditionName:string;
+  Op:int;
+  Arguments:[string];
+}
+
+enum ExpressionBranchOperand: int {
+  And = 0,
+  Or = 1
+}
+
+union ExpressionNode {
+  ExpressionLeaf,
+  ExpressionBranch
+}
+
+table ExpressionBranch {
+  Operand:ExpressionBranchOperand;
+  LeftCondition:ExpressionNode;
+  Left:ExpressionNode;
+  RightCondition:ExpressionNode;
+  Right:ExpressionNode;
+}
+
+table LogicExpression (fs_serializer) {
+  Root:ExpressionNode;
+}
+
+root_type LogicExpression;

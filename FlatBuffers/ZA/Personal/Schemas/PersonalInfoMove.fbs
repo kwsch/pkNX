@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_valueStruct";
+
+struct PersonalInfoMove { // give me a class, not struct.
+    Move:ushort;
+    Level:byte;
+    LevelPlus:byte;
+}

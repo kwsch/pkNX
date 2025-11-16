@@ -4,9 +4,9 @@ using Util = pkNX.Randomization.Util;
 
 namespace pkNX.Game;
 
-public class TypeChartEditor(byte[] data)
+public class TypeChartEditor(Memory<byte> Raw)
 {
-    public byte[] Data = data;
+    public Span<byte> Data => Raw.Span;
     public int Width => (int)Math.Sqrt(Data.Length);
     public int Height => (int)Math.Sqrt(Data.Length);
 
@@ -20,18 +20,15 @@ public class TypeChartEditor(byte[] data)
         }
     }
 
-    private static byte GetEffectiveness(int rv)
+    private static byte GetEffectiveness(int rv) => rv switch
     {
-        return rv switch
-        {
-            <  2 => (byte)TypeEffectiveness.Immune,  // 2%
-            < 19 => (byte)TypeEffectiveness.NotVery, // 17%
-            < 36 => (byte)TypeEffectiveness.Super,   // 17%
-            _ => (byte)TypeEffectiveness.Normal,
-        };
-    }
+        <  2 => (byte)TypeEffectiveness.Immune,  // 2%
+        < 19 => (byte)TypeEffectiveness.NotVery, // 17%
+        < 36 => (byte)TypeEffectiveness.Super,   // 17%
+        _ => (byte)TypeEffectiveness.Normal,
+    };
 
-    private static readonly uint[] Colors =
+    private static ReadOnlySpan<uint> Colors =>
     [
         0xFF000000,
         0, // unused
@@ -42,7 +39,7 @@ public class TypeChartEditor(byte[] data)
         0xFF008000,
     ];
 
-    public static byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, byte[] vals, out int width, out int height)
+    public static byte[] GetTypeChartImageData(int itemsize, int itemsPerRow, ReadOnlySpan<byte> vals, out int width, out int height)
     {
         width = itemsize * itemsPerRow;
         height = itemsize * vals.Length / itemsPerRow;

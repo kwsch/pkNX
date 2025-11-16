@@ -1,0 +1,29 @@
+include "Shared/ActivationConditionElement.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table Medal {
+  Name:string;
+  Requirement:[ActivationConditionElement];
+}
+
+table Title {
+  Index:uint;
+  Name:string (required);
+  Text:string (required);
+  Count:string;
+  Complete:string;
+  Type:uint;
+  Requirement:[ActivationConditionElement] (required);
+  Bronze:Medal;
+  Silver:Medal;
+  Gold:Medal;
+}
+
+table TitleArray (fs_serializer) {
+  Table:[Title] (required);
+}
+
+root_type TitleArray;

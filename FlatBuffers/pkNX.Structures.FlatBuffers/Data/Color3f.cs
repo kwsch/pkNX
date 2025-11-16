@@ -5,5 +5,5 @@ namespace pkNX.Structures.FlatBuffers;
 [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
 public partial struct Color3f(float r = 1.0f, float g = 1.0f, float b = 1.0f)
 {
-    public override string ToString() => $"{{ R: {R}, G: {G}, B: {B} }}";
+    public readonly override string ToString() => $"{{ R: {R}, G: {G}, B: {B} }}";
 }

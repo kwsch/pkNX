@@ -1,0 +1,49 @@
+include "Shared/AppearanceInfo.fbs";
+include "Shared/CoolTimeInfo.fbs";
+include "Shared/ZoneInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table TableInfoActivationConditionParam {
+    Condition:string;
+    Op:int;
+    Param:[string];
+}
+
+table TableInfoActivationConditionElement {
+    Param:[TableInfoActivationConditionParam] (required);
+}
+
+table TableInfoActivationCondition {
+    Element:[TableInfoActivationConditionElement] (required);
+}
+
+table TableInfo {
+    TableId:string;
+    ActivationCondition:[TableInfoActivationCondition] (required);
+}
+
+table AppearanceSpawnerObjectInfo {
+    ObjectName:string (required);
+    CreateScenePath:string;
+    Zone:ZoneInfo;
+    Appearance:AppearanceInfo;
+}
+
+table SpawnerData {
+    Id:string (required);
+    CoolTime:CoolTimeInfo;
+    TableInfoList:[TableInfo] (required);
+    AppearanceSpawnerObjectInfoList:[AppearanceSpawnerObjectInfo];
+}
+
+table SpawnerDataDB {
+    Table:[SpawnerData] (required);
+}
+
+table SpawnerDataDBArray (fs_serializer) {
+    Table:[SpawnerDataDB] (required);
+}
+
+root_type SpawnerDataDBArray;

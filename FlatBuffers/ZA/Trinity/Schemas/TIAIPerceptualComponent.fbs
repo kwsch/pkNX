@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TIAIPerceptualComponent (fs_serializer) {
+    Value:byte; // not a bool
+}
+
+root_type TIAIPerceptualComponent;

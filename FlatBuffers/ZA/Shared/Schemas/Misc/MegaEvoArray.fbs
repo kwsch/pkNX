@@ -1,0 +1,21 @@
+include "../Shared/DevID.fbs";
+include "../Shared/ItemID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table MegaEvo {
+  Species:DevID;
+  Item:ItemID;
+  FromForm:uint;
+  ToForm:uint;
+  Type:string (required);
+  Short:string (required);
+}
+
+table MegaEvoArray (fs_serializer) {
+  Table:[MegaEvo] (required);
+}
+
+root_type MegaEvoArray;

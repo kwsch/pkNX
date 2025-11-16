@@ -1,0 +1,9 @@
+include "../Shared/ActivationConditionElement.fbs";
+include "../Shared/TriggerCommand.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table ActivationCondition {
+    Element:[ActivationConditionElement];
+    Triggers:[TriggerCommand];
+}

@@ -115,7 +115,7 @@ public partial class WPFTextEditor
         TextFiles = textFiles;
 
         InitializeComponent();
-        var settings = ProgramSettings.LoadSettings();
+        var settings = Program.Settings;
         CHK_ShowHashes.IsChecked = settings.DisplayAdvanced;
 
         CB_Entry.SelectedIndex = 0;
@@ -294,7 +294,7 @@ public partial class WPFTextEditor
         var tbl = new AHTB(tblFile.Open());
 
         // The table has 1 more entry than the dat to show when the table ends
-        if (tbl.Entries.Length != lines.Length + 1)
+        if (tbl.Entries.Count != lines.Length + 1)
         {
             var result = WinFormsUtil.Warn(MessageBoxButton.YesNo, "Data corruption detected!", "The number of labels in the table does not match the number of lines in the text file.", "Do you wish to restore the original file?");
             if (result != MessageBoxResult.Yes)
@@ -308,7 +308,7 @@ public partial class WPFTextEditor
             flags = file.Flags;
             tbl = new AHTB(tblFile.Open()); // Reopen the original file
 
-            Debug.Assert(tbl.Entries.Length == lines.Length + 1);
+            Debug.Assert(tbl.Entries.Count == lines.Length + 1);
         }
 
         for (int i = 0; i < tbl.Count; ++i)

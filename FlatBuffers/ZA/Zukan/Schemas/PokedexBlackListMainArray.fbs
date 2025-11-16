@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PokedexBlackListMain {
+    DevNo:short;
+    FormNo:short;
+}
+
+table PokedexBlackListMainArray (fs_serializer) {
+    Table:[PokedexBlackListMain] (required);
+}
+
+root_type PokedexBlackListMainArray;

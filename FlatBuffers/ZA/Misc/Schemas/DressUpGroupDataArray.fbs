@@ -1,0 +1,15 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DressUpGroupData {
+    Name:string (required);
+    Value:uint;
+    Group:string (required);
+}
+
+table DressUpGroupDataArray (fs_serializer) {
+    Table:[DressUpGroupData] (required);
+}
+
+root_type DressUpGroupDataArray;

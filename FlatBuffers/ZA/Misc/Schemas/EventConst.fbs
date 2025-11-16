@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table EventConst {
+    Name:string (required);
+    Value:string (required);
+}
+
+table EventConstArray (fs_serializer) {
+    Table:[EventConst] (required);
+}
+
+root_type EventConstArray;

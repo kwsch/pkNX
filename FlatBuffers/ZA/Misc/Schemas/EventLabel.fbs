@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table EventLabel {
+    Name:string (required);
+}
+
+table EventLabelArray (fs_serializer) {
+    Table:[EventLabel] (required);
+}
+
+root_type EventLabelArray;

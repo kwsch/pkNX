@@ -15,7 +15,7 @@ public class TextManager(GameVersion game, TextConfig? config = null)
 
     public void ClearCache() => Cache.Clear();
 
-    internal string[] GetStrings(byte[] data, bool remap = false)
+    internal string[] GetStrings(ReadOnlySpan<byte> data, bool remap = false)
     {
         var txt = new TextFile(data, Config, remap);
         return txt.Lines;
@@ -30,9 +30,9 @@ public class TextManager(GameVersion game, TextConfig? config = null)
         if (info == null)
             throw new ArgumentException($"Unknown {nameof(TextName)} provided.", file.ToString());
 
-        byte[] data;
+        ReadOnlySpan<byte> data;
         if (textFile is FolderContainer c)
-            data = c.GetFileData(info.FileName) ?? throw new ArgumentException($"File not found: {info.FileName}", nameof(textFile));
+            data = c.GetFileData(info.FileName);
         else
             data = textFile[info.Index];
 

@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using static pkNX.Structures.GameVersion;
 
 namespace pkNX.Structures;
@@ -9,67 +7,6 @@ namespace pkNX.Structures;
 /// </summary>
 public static class GameUtil
 {
-    /// <summary>
-    /// List of possible <see cref="GameVersion"/> values that are stored in PKM data.
-    /// </summary>
-    /// <remarks>Ordered roughly by most recent games first.</remarks>
-    public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z is < RB and > 0).Reverse().ToArray();
-
-    /// <summary>
-    /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
-    /// </summary>
-    /// <param name="game">Game to check</param>
-    public static bool IsValidSavedVersion(this GameVersion game) => game is > 0 and <= RB;
-
-    /// <summary>Determines the Version Grouping of an input Version ID</summary>
-    /// <param name="Version">Version of which to determine the group</param>
-    /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-    public static GameVersion GetMetLocationVersionGroup(GameVersion Version) => Version switch
-    {
-        // Side games
-        CXD => CXD,
-        GO => GO,
-
-        // VC Transfers
-        RD or BU or YW or GN or GD or SI or C => USUM,
-
-        // Gen2 -- PK2
-        GS or GSC => GSC,
-
-        // Gen3
-        R or S => RS,
-        E => E,
-        FR or LG => FR,
-
-        // Gen4
-        D or P => DP,
-        Pt => Pt,
-        HG or SS => HGSS,
-
-        // Gen5
-        B or W => BW,
-        B2 or W2 => B2W2,
-
-        // Gen6
-        X or Y => XY,
-        OR or AS => ORAS,
-
-        // Gen7
-        SN or MN => SM,
-        US or UM => USUM,
-        GP or GE => GG,
-
-        // Gen8
-        SW or SH => SWSH,
-        BD or SP => BDSP,
-        PLA => PLA,
-
-        // Gen9
-        SL or VL => SV,
-
-        _ => Invalid,
-    };
-
     /// <summary>
     /// Gets a Version ID from the end of that Generation
     /// </summary>
@@ -135,6 +72,9 @@ public static class GameUtil
                 return Legal.MaxSpeciesID_8;
             return Legal.MaxSpeciesID_8a;
         }
+
+        if (game is ZA)
+            return Legal.MaxSpeciesID_9a;
 
         if (Gen9.Contains(game))
         {
@@ -203,15 +143,10 @@ public static class GameUtil
             Gen8 => SWSH.Contains(g2) || PLA.Contains(g2),
 
             SV => g2 is SL or VL,
-            Gen9 => SV.Contains(g2),
+            ZA => g2 is ZA,
+            Gen9 => SV.Contains(g2) || ZA.Contains(g2),
 
             _ => false,
         };
     }
-
-    /// <summary>
-    /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
-    /// </summary>
-    /// <param name="generation">Generation to look within</param>
-    public static GameVersion[] GetVersionsInGeneration(int generation) => GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
 }

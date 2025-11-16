@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TrinityFileSystemMetadata (fs_serializer:"Progressive") {
+    FileHashes:[ulong] (required);
+    FileOffsets:[ulong] (required);
+}
+
+root_type TrinityFileSystemMetadata;

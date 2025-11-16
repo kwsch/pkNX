@@ -1,0 +1,43 @@
+include "../Shared/DevID.fbs";
+include "../Shared/SexType.fbs";
+include "../Shared/ItemID.fbs";
+include "../Shared/SeikakuType.fbs";
+include "../Shared/TokuseiType.fbs";
+include "../Shared/TalentType.fbs";
+include "../Shared/RareType.fbs";
+include "../Shared/SizeType.fbs";
+include "../Shared/BallID.fbs";
+include "../Shared/RibbonType.fbs";
+
+include "../Entity/ParamSet.fbs";
+include "../PokeData/WazaSet.fbs";
+include "../Shared/WazaType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table PokeDataDLCGift {
+    DevId:DevID = DEV_NULL;
+    FormId:short;
+    Level:int;
+    Sex:SexType;
+    Tokusei:TokuseiType;
+    RareType:RareType;
+    ScaleType:SizeType;
+    ScaleValue:short;
+    TalentType:TalentType;
+    TalentVnum:byte;
+    TalentValue:ParamSet;
+    EffortValue:ParamSet;
+    Item:ItemID = ITEMID_NONE;
+    Seikaku:SeikakuType;
+    SeikakuHosei:SeikakuType;
+    WazaType:WazaType;
+    Waza1:WazaSet;
+    Waza2:WazaSet;
+    Waza3:WazaSet;
+    Waza4:WazaSet;
+    BallId:BallID;
+    UseNickName:bool;
+    NicknameLabel:ulong;
+    ParentSex:SexType;
+}

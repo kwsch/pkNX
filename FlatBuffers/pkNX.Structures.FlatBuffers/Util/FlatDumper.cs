@@ -10,7 +10,7 @@ public static class FlatDumper
         return GetTable(data, sel);
     }
 
-    public static string GetTable<T1, T2>(byte[] data, Func<T1, IList<T2>> sel) where T1 : class, IFlatBufferSerializable<T1> where T2 : notnull
+    public static string GetTable<T1, T2>(Memory<byte> data, Func<T1, IList<T2>> sel) where T1 : class, IFlatBufferSerializable<T1> where T2 : notnull
     {
         var obj = FlatBufferConverter.DeserializeFrom<T1>(data);
         var table = sel(obj);

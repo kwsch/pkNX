@@ -23,26 +23,30 @@ public static class FormsIconHelper
     ];
 
     private static readonly Typeface[] Typefaces = typeof(IconHelper).Assembly.LoadTypefaces("fonts", FontTitles);
+    private static readonly Dictionary<int, FontFamily> FontForStyle = [];
 
     internal static FontFamily? FontFor(IconChar iconChar)
     {
-        if (IconHelper.Orphans.Contains(iconChar)) return null;
+        if (IconHelper.Orphans.Contains(iconChar))
+            return null;
         var typeFace = Typefaces.Find(iconChar.UniCode(), out _, out _);
         return typeFace?.FontFamily;
     }
 
     internal static FontFamily? FontFamilyFor(this IconChar iconChar, IconFont iconFont)
     {
-        if (iconFont == IconFont.Auto) return FontFor(iconChar);
-        var key = (int)iconFont;
-        if (FontForStyle.TryGetValue(key, out var fontFamily)) return fontFamily;
+        if (iconFont == IconFont.Auto)
+            return FontFor(iconChar);
 
-        int id = Array.FindIndex(FontTitles, f =>
-            f.IndexOf(iconFont.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0);
+        var key = (int)iconFont;
+        if (FontForStyle.TryGetValue(key, out var fontFamily))
+            return fontFamily;
+
+        var name = iconFont.ToString();
+        int id = Array.FindIndex(FontTitles, f => f.Contains(name, StringComparison.InvariantCultureIgnoreCase));
 
         fontFamily = Typefaces[id].FontFamily;
         FontForStyle.Add(key, fontFamily);
         return fontFamily;
     }
-    private static readonly Dictionary<int, FontFamily> FontForStyle = [];
 }

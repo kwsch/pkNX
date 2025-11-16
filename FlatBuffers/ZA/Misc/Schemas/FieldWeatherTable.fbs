@@ -1,0 +1,100 @@
+include "FieldWeatherType.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+enum FieldClimateType : int
+{
+    None = -1,
+    Normal = 0,
+    Cold = 1,
+    Hot = 2,
+}
+
+enum StringForStruct : int
+{
+    NONE = -1,
+    weather_table_main = 0,
+    desert = 1,
+    snowy = 2,
+    room = 3,
+}
+
+struct WeatherTimeZone {
+    From:float;
+    To:float;
+}
+
+table WeatherSoundParam {
+    SoundStateEventName:string;
+    SoundRTPCValue:float;
+}
+
+table WeatherSoundTable {
+    Sunny:WeatherSoundParam;
+    Cloudy:WeatherSoundParam;
+    Rain:WeatherSoundParam;
+    Storm:WeatherSoundParam;
+    Mist:WeatherSoundParam;
+    ClearSunny:WeatherSoundParam;
+    Rainbow:WeatherSoundParam;
+}
+
+struct WeatherReplace {
+    OrgWeather:FieldWeatherType;
+    ReplaceWeather:FieldWeatherType;
+    ValidTimeZone:[WeatherTimeZone:3];
+}
+
+struct FieldWeatherDefine {
+    Type:FieldWeatherType;
+    Prob:int;
+}
+
+struct FieldWeatherDefineSub {
+    MainWeather:FieldWeatherType;
+    SubWeather:[FieldWeatherDefine:9];
+}
+
+struct FieldWeatherSpecialTransition {
+    Type:FieldWeatherType;
+    TransitionFrom:FieldWeatherType;
+    TransitionTo:FieldWeatherType;
+    MinDuration:int;
+    MaxDuration:int;
+}
+
+struct FieldWeatherStructSub {
+    Tag:StringForStruct;
+    Climate:FieldClimateType;
+    MinDuration:int;
+    MaxDuration:int;
+    OutdoorWeatherTable:StringForStruct;
+    Weather:[FieldWeatherDefineSub:11];
+    SpecialTransition:[FieldWeatherSpecialTransition:4];
+}
+
+struct FieldWeatherStructSubList {
+    List:[FieldWeatherStructSub:8];
+}
+
+struct FieldWeatherStructMain {
+    Tag:StringForStruct;
+    Climate:FieldClimateType;
+    MinDuration:int;
+    MaxDuration:int;
+    Weather:[FieldWeatherDefine:9];
+    SpecialTransition:[FieldWeatherSpecialTransition:4];
+    Replace:[WeatherReplace:4];
+}
+
+table FieldWeatherTable (fs_serializer) {
+    TransitionSpan:float;
+    TransitionSpanForFix:float;
+    Main:FieldWeatherStructMain;
+    Sub:FieldWeatherStructSubList;
+    Sound:WeatherSoundTable;
+}
+
+root_type FieldWeatherTable;

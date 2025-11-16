@@ -131,7 +131,7 @@ public class TextFile
         {
             // rebuild LineInfo
             var lines = new TextLine[value.Length];
-            int bytesUsed = sizeof(uint) + value.Length * 8; // SectionLength + LineOffsets
+            int bytesUsed = sizeof(uint) + (value.Length * 8); // SectionLength + LineOffsets
             for (int i = 0; i < lines.Length; i++)
             {
                 lines[i] = new TextLine { Offset = bytesUsed, Length = (ushort)(value[i].Length / 2) };

@@ -65,8 +65,7 @@ public static class EditUtil
     private static string GetSettingsFileName(GameVersion game)
     {
         var path = Path.GetDirectoryName(Application.StartupPath);
-        if (path is null)
-            throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
         return Path.Combine(path, $"randsetting{game}.xml");
     }
 }

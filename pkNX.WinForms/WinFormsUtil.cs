@@ -11,28 +11,28 @@ public static class WinFormsUtil
     /// </summary>
     /// <param name="lines">User-friendly message about the error.</param>
     /// <returns>The <see cref="MessageBoxResult"/> associated with the dialog.</returns>
-    internal static MessageBoxResult Error(params string[] lines)
+    internal static MessageBoxResult Error(params ReadOnlySpan<string?> lines)
     {
         SystemSounds.Hand.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    internal static MessageBoxResult Alert(params string[] lines)
+    internal static MessageBoxResult Alert(params ReadOnlySpan<string?> lines)
     {
         SystemSounds.Asterisk.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    internal static MessageBoxResult Warn(MessageBoxButton btn, params string[] lines)
+    internal static MessageBoxResult Warn(MessageBoxButton btn, params ReadOnlySpan<string?> lines)
     {
         SystemSounds.Hand.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Warning", btn, MessageBoxImage.Warning);
     }
 
-    internal static MessageBoxResult Prompt(MessageBoxButton btn, params string[] lines)
+    internal static MessageBoxResult Prompt(MessageBoxButton btn, params ReadOnlySpan<string?> lines)
     {
         SystemSounds.Question.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);

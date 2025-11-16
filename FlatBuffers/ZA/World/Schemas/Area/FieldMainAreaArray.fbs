@@ -1,0 +1,16 @@
+include "FieldAreaInfo.fbs";
+include "AreaLayer.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table FieldMainAreaArray (fs_serializer) {
+    Table:[FieldMainArea] (required);
+}
+
+table FieldMainArea {
+    AreaInfo:FieldAreaInfo (required);
+    Layer:AreaLayer;
+}
+
+root_type FieldMainAreaArray;

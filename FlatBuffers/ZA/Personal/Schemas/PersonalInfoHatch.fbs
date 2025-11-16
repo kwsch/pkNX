@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_valueStruct";
+
+struct PersonalInfoHatch { // give me a class, not struct.
+    SpeciesInternal:ushort;
+    Form:ushort;
+    RegionalFlags:ushort;
+    EverstoneForm:ushort;
+}

@@ -20,7 +20,7 @@ public static class UIStaticSources
 
     public static void SetupForGame(GameManager ROM)
     {
-        if (ROM.Game == GameVersion.SV)
+        if (ROM.Game is GameVersion.SV or GameVersion.SL or GameVersion.VL or GameVersion.ZA)
             return; // SV doesn't support these file mappings yet
 
         SpeciesList = ROM.GetStrings(TextName.SpeciesNames);

@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\pkNX.Containers\pkNX.Containers.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -61,11 +62,7 @@ public class NSO
         return LZ4.Decode(data, h.DecompressedSize);
     }
 
-    public static byte[] Hash(byte[] data)
-    {
-        using var method = SHA256.Create();
-        return method.ComputeHash(data);
-    }
+    public static byte[] Hash(ReadOnlySpan<byte> data) => SHA256.HashData(data);
 
     private void Decompress()
     {

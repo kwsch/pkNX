@@ -62,8 +62,6 @@ public partial class MainWindow
         set => SetValue(CategoriesProperty, value);
     }
 
-    public ProgramSettings Settings { get; }
-
     private new int Language
     {
         get => CB_Lang.SelectedIndex;
@@ -71,6 +69,8 @@ public partial class MainWindow
     }
 
     private EditorBase? Editor;
+
+    private static ProgramSettings Settings => Program.Settings;
 
     public MainWindow()
     {
@@ -82,12 +82,11 @@ public partial class MainWindow
         SpriteName.AllowShinySprite = true;
         SpriteBuilderUtil.SpriterPreference = SpriteBuilderPreference.ForceSprites;
 
-        Settings = ProgramSettings.LoadSettings();
         CB_Lang.SelectedIndex = Settings.Language;
         Menu_DisplayAdvanced.IsChecked = Settings.DisplayAdvanced;
 
         if (!string.IsNullOrWhiteSpace(Settings.GamePath) && Directory.Exists(Settings.GamePath))
-            OpenPath(Settings.GamePath, Settings.GameOverride);
+            OpenPath(Settings.GamePath);
 
         Drop += (s, e) =>
         {
@@ -307,7 +306,6 @@ public partial class MainWindow
         EditUtil.SaveSettings(Editor.Game);
         Settings.Language = CB_Lang.SelectedIndex;
         Settings.GamePath = (string)L_Path.Content;
-        Settings.GameOverride = Editor.Game;
         await ProgramSettings.SaveSettings(Settings);
     }
 

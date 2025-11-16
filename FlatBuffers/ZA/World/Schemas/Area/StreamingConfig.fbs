@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table StreamingConfig {
+    GridRealizeOffset:float;
+    GridUnrealizeOffset:float;
+    OverrideSensorRealizeOffset:float;
+    OverrideSensorUnrealizeOffset:float;
+    ConditionalRealizeOffset:float;
+    ConditionalUnrealizeOffset:float;
+}

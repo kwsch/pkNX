@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table MedalRateDefeatBonus {
+    NumTrainersDefeated:uint;
+    Multiplier:float;
+}
+
+table MedalRateDefeatBonusArray (fs_serializer) {
+    Table:[MedalRateDefeatBonus] (required);
+}
+
+root_type MedalRateDefeatBonusArray;

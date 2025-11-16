@@ -1,0 +1,42 @@
+include "PokeData/PokeDataBattle.fbs";
+include "Shared/BattleType.fbs";
+include "Shared/DataType.fbs";
+include "Shared/ZARank.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table TrDataMain {
+    TrId:string (required);
+    TrType:ulong;
+    TrType2:ulong;
+    ZARank:ZARank;
+    MoneyRate:ubyte;
+    MegEvolution:bool;
+    LastHandMega:bool;
+    Poke1:PokeDataBattle (required);
+    Poke2:PokeDataBattle (required);
+    Poke3:PokeDataBattle (required);
+    Poke4:PokeDataBattle (required);
+    Poke5:PokeDataBattle (required);
+    Poke6:PokeDataBattle (required);
+    AiBasic:bool;
+    AiHigh:bool;
+    AiExpert:bool;
+    AiDouble:bool;
+    AiRaid:bool;
+    AiWeak:bool;
+    AiItem:bool;
+    AiChange:bool;
+    ViewHorizontalAngle:float;
+    ViewVerticalAngle:float;
+    ViewRange:float;
+    HearingRange:float;
+}
+
+table TrDataMainArray (fs_serializer) {
+    Table:[TrDataMain] (required);
+}
+
+root_type TrDataMainArray;

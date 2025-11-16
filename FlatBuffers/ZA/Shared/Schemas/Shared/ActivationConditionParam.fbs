@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table ActivationConditionParam {
+    Condition:string (required);
+    Op:int;
+    Param:[string]; // not required; null instead of count:0
+}

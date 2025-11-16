@@ -1,0 +1,30 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PokemonDropItemTableData {
+    Id:string (required);
+    ItemLotteryDataList:[ItemLotteryData];
+}
+
+table ItemLotteryData {
+    ItemId:string (required);
+    Weight:int;
+    MaxCount:int;
+    Type:int;
+    ActivationConditionArray:[ActivationCondition];
+}
+
+table PokemonDropItemTableDataDB {
+    Data:[PokemonDropItemTableData] (required);
+}
+
+table PokemonDropItemTableDataDBArray (fs_serializer) {
+    Table:[PokemonDropItemTableDataDB] (required);
+}
+
+root_type PokemonDropItemTableDataDBArray;

@@ -22,7 +22,7 @@ public static class FileMitm
         return File.ReadAllBytes(path);
     }
 
-    public static void WriteAllBytes(string path, byte[] data)
+    public static void WriteAllBytes(string path, ReadOnlySpan<byte> data)
     {
         if (string.IsNullOrWhiteSpace(path))
             throw new FileNotFoundException("Invalid filename.");

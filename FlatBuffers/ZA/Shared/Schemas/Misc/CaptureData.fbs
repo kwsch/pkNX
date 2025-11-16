@@ -1,0 +1,40 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table CaptureSick {
+    Koori:float;
+    Nemuri:float;
+    Doku:float;
+    Yakedo:float;
+    Mahi:float;
+}
+
+table CaptureBackStrike {
+    Cowardice:float;
+    NotCowardice:float;
+}
+
+table CaptureAiState {
+    Normal:float;
+    NotAware:float;
+    Eating:float;
+    Sleeping:float;
+    Resting:float;
+}
+
+table CaptureData (fs_serializer) {
+    Sick:CaptureSick;
+    Rare:float;
+    BackStrike:CaptureBackStrike;
+    Cowardice:CaptureAiState;
+    NotCowardice:CaptureAiState;
+    Chance:float;
+    Oyabun:float;
+    OyabunChance:float;
+    Coef:float;
+    backStrikeAngle:int;
+    backStrikeHeight:int;
+}
+
+root_type CaptureData;

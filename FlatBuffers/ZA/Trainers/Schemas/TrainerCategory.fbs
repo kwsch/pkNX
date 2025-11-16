@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum TrainerCategory : byte {
+    NORMAL = 0,
+    GYM_LEADER = 1,
+}

@@ -113,6 +113,7 @@ public abstract class GameManager
         SW or SH or SWSH => new GameManagerSWSH(loc, language),
         PLA              => new GameManagerPLA(loc, language),
         SL or VL or SV   => new GameManagerSV(loc, language),
+        ZA               => new GameManager9a(loc, language),
         _ => throw new ArgumentException(nameof(loc.Game)),
     };
 }

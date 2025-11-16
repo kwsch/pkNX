@@ -1,0 +1,50 @@
+include "Math/PackedVec3f.fbs";
+include "Geometry/SRT.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table SubScene (fs_serializer) {
+    Field_00:string (required);
+    Field_01:string (required);
+}
+
+table TrinityCollisionEventTriggerComponent (fs_serializer) {
+    Field_00:string (required);
+    Field_01:string (required);
+    Field_02:byte; // unknown
+    Field_03:uint; // unknown
+    Field_04:string (required);
+    Field_05:string (required);
+}
+
+table TrinityObjectSwitcher (fs_serializer) {
+    Field_00:string (required);
+    Field_01:string (required);
+}
+
+table TrinityScriptComponent (fs_serializer) {
+    ScriptFileName:string (required);
+    ScriptFileNameHash:string (required);
+    Field_02:uint;
+    Field_03:uint;
+    Field_04:uint;
+    ScriptFileClass:string (required);
+}
+
+table TrinityScene07 {
+}
+
+table TrinitySceneObject (fs_serializer) {
+    Name:string (required);
+    Position:SRT (required);
+    Field_02:bool;
+    ApplySRT:bool;
+    Field_04:string (required);
+    Field_05:bool;
+    Field_06:byte;
+    Field_07:[TrinityScene07] (required);
+    Field_08:[string];
+}
+
+root_type TrinitySceneObject;

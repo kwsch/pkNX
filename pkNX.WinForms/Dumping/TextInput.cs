@@ -15,14 +15,14 @@ public partial class TextInput : Form
         InitializeComponent();
     }
 
-    private void Input_TextChanged(object sender, System.EventArgs e)
+    private void Input_TextChanged(object sender, EventArgs e)
     {
         Result = Input.Text;
         if (Validator != null)
             B_Export.ForeColor = Validator(Result) ? Color.Green : Color.Red;
     }
 
-    private void B_Export_Click(object sender, System.EventArgs e)
+    private void B_Export_Click(object sender, EventArgs e)
     {
         DialogResult = DialogResult.OK;
         Close();

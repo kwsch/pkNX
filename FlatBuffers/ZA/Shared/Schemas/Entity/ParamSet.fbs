@@ -1,0 +1,11 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ParamSet {
+    HP:int;
+    ATK:int;
+    DEF:int;
+    SPA:int;
+    SPD:int;
+    SPE:int;
+}

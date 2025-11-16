@@ -1,0 +1,8 @@
+include "../Shared/WazaID.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table WazaSetBattle {
+    WazaId:WazaID;
+    IsPlusWaza:bool;
+}

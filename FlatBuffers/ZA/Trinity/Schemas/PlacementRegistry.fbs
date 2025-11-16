@@ -1,0 +1,64 @@
+include "LogicExpression.fbs";
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PlacementLogic {
+  Name:string;
+  Expression:LogicExpression;
+}
+
+table PlacementSpawner {
+  Name:string;
+  Scene:string;
+  Arguments:[PlacementLogic];
+}
+
+table PlacementPosition {
+  Name:string;
+  Position:PackedVec3f;
+  Rotation:PackedVec3f;
+  Arguments:[string];
+}
+
+table PlacementObjectTemplate {
+  Name:string;
+  Path:string;
+}
+
+table PlacementObject {
+  Name:string;
+  Type:string;
+  File:string;
+}
+
+table PlacementSpawnerArray {
+  Table:[PlacementSpawner] (required);
+}
+
+table PlacementPositionArray {
+  Table:[PlacementPosition] (required);
+}
+
+table PlacementObjectTemplateArray {
+  Table:[PlacementObjectTemplate] (required);
+}
+
+table PlacementObjectArray {
+  Table:[PlacementObject] (required);
+}
+
+union PlacementEntry {
+  PlacementObjectArray,
+  PlacementObjectTemplateArray,
+  PlacementPositionArray,
+  PlacementSpawnerArray
+}
+
+table PlacementRegistry (fs_serializer) {
+  Entry:PlacementEntry (required);
+}
+
+root_type PlacementRegistry;

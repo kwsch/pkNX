@@ -1,0 +1,30 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_valueStruct";
+
+enum SpeciesClassificationMajor : ubyte {
+    None = 0,
+    Legend = 1,
+    SubLegend = 2,
+    Mythical = 3,
+}
+
+enum SpeciesClassificationMinor : uint {
+    None = 0,
+    UltraBeast = 1,
+    ParadoxPast = 2,
+    ParadoxFuture = 4,
+    SpecialBattleForm = 8,
+}
+
+struct PersonalInfoDetail { // give me a class, not struct.
+    SpeciesInternal   : ushort;
+    Form              : ushort;
+    SpeciesNational   : ushort;
+    Color             : ubyte ;
+    BodyType          : ubyte ;
+    Height            : ushort;
+    Weight            : ushort;
+    DebutVersion      : ubyte ;
+    SpeciesClassMajor : ubyte ;
+    SpeciesClassMinor : uint  ;
+}

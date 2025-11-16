@@ -1,29 +1,21 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
-public class Item8(int id, byte[] data)
+public class Item8(int id, Memory<byte> Raw)
 {
+    public Span<byte> Data => Raw.Span;
+
     private const int SIZE = 0x30;
     public readonly int ItemID = id;
-    public readonly byte[] Data = data;
 
-    public uint Price
-    {
-        get => BitConverter.ToUInt32(Data, 0x00);
-        set => BitConverter.GetBytes(value).CopyTo(Data, 0x00);
-    }
-
-    public uint PriceWatts
-    {
-        get => BitConverter.ToUInt32(Data, 0x04);
-        set => BitConverter.GetBytes(value).CopyTo(Data, 0x04);
-    }
-
+    public uint Price { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public uint PriceWatts { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt32LittleEndian(Data[0x04..], value); }
     public uint PriceAlternate // BP, Dynite Ore
     {
-        get => BitConverter.ToUInt32(Data, 0x08);
-        set => BitConverter.GetBytes(value).CopyTo(Data, 0x08);
+        get => ReadUInt16LittleEndian(Data[(0x08)..]);
+        set => WriteUInt32LittleEndian(Data[(0x08)..], value);
     }
 
     public PouchID Pouch
@@ -40,8 +32,8 @@ public class Item8(int id, byte[] data)
 
     public int ItemSprite
     {
-        get => BitConverter.ToInt16(Data, 0x1A);
-        set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A);
+        get => BitConverter.ToUInt16(Data.Slice(0x1A, 2));
+        set => BitConverter.GetBytes((ushort)value).CopyTo(Data.Slice(0x1A, 2));
     }
 
     public GroupIndexType GroupType
@@ -86,40 +78,47 @@ public class Item8(int id, byte[] data)
         set => Data[0x22] = value;
     }
 
-    public static Item8[] GetArray(byte[] bin)
+    public static Item8[] GetArray(ReadOnlySpan<byte> bin)
     {
-        int numEntries = BitConverter.ToUInt16(bin, 0);
-        int maxEntryIndex = BitConverter.ToUInt16(bin, 4);
-        int entriesStart = (int)BitConverter.ToUInt32(bin, 0x40);
+        int numEntries = ReadUInt16LittleEndian(bin);
+        int maxEntryIndex = ReadUInt16LittleEndian(bin[4..]);
+        int entriesStart = ReadInt32LittleEndian(bin[0x40..]);
         var result = new Item8[numEntries];
         for (var i = 0; i < result.Length; i++)
         {
-            var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException();  }
-            result[i] = new Item8(i, bin.Slice(entriesStart + (entryIndex * SIZE), SIZE));
+            var entryIndex = ReadUInt16LittleEndian(bin[(0x44 + (2 * i))..]);
+            if (entryIndex >= maxEntryIndex)
+                throw new IndexOutOfRangeException();
+
+            var ofs = entriesStart + (entryIndex * SIZE);
+            result[i] = new Item8(i, bin.Slice(ofs, SIZE).ToArray());
         }
 
         return result;
     }
 
-    public static byte[] SetArray(Item8[] array, byte[] bin)
+    public static byte[] SetArray(ReadOnlySpan<Item8> array, ReadOnlySpan<byte> bin)
     {
-        bin = (byte[])bin.Clone();
-        if (array.Length != BitConverter.ToInt16(bin, 0))
+        int numEntries = ReadUInt16LittleEndian(bin);
+        if (array.Length != numEntries)
             throw new ArgumentException("Incompatible sizes");
 
-        int maxEntryIndex = BitConverter.ToUInt16(bin, 4);
-        int entriesStart = (int)BitConverter.ToUInt32(bin, 0x40);
+        var result = bin.ToArray();
+        int maxEntryIndex = ReadUInt16LittleEndian(bin[4..]);
+        int entriesStart = ReadInt32LittleEndian(bin[0x40..]);
         for (int i = 0; i < array.Length; i++)
         {
-            var entryIndex = BitConverter.ToUInt16(bin, 0x44 + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException(); }
+            var entryIndex = ReadUInt16LittleEndian(bin[(0x44 + (2 * i))..]);
+            if (entryIndex >= maxEntryIndex)
+                throw new IndexOutOfRangeException();
 
             var data = array[i].Data;
-            data.CopyTo(bin, entriesStart + (entryIndex * SIZE));
+            var ofs = entriesStart + (entryIndex * SIZE);
+            var span = result.AsSpan(ofs, SIZE);
+            data.CopyTo(span);
         }
 
-        return bin;
+        return result;
     }
 
     public enum PouchID : byte

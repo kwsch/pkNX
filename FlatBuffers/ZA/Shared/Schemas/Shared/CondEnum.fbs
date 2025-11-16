@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum CondEnum : int {
+    NONE = 0,
+    SYSTEM_FLAG = 1,
+    SCENARIO = 2,
+    GYMBADGENUM = 3,
+}

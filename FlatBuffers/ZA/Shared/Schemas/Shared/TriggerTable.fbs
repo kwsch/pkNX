@@ -1,0 +1,21 @@
+include "../Shared/ActivationCondition.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table TriggerCondition {
+    Condition:uint;
+    Param:[string];
+    Activators:[ActivationCondition];
+}
+
+table Trigger {
+    Start:TriggerCondition;
+}
+
+table TriggerTable (fs_serializer) {
+    Table:[Trigger];
+}
+
+root_type TriggerTable;

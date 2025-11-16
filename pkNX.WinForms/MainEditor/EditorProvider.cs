@@ -96,6 +96,7 @@ public abstract class EditorBase
         GameManagerSWSH swsh => new EditorSWSH(swsh),
         GameManagerPLA pla => new EditorPLA(pla),
         GameManagerSV sv => new EditorSV(sv),
+        GameManager9a za => new Editor9a(za),
         _ => null,
     };
 

@@ -7,6 +7,10 @@ namespace pkNX.WinForms;
 
 internal static class Program
 {
+    public static ProgramSettings Settings { get; }
+
+    static Program() => Settings = ProgramSettings.LoadSettings();
+
     /// <summary>
     /// The main entry point for the application.
     /// </summary>

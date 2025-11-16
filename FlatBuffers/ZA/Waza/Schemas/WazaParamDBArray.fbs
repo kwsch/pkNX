@@ -1,0 +1,51 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table WazaParam {
+    WazaId:int;
+    ChargeFrame:int;
+    AttackLoopFrame:int;
+    SpawnOrigin:int;
+    SpawnLocator:string;
+    SpawnOffsetX:float;
+    SpawnOffsetY:float;
+    SpawnOffsetZ:float;
+    ShotDirection:int;
+    CorrectTargetType:int;
+    ImpactMotionSpeed:float;
+    PlayWazaMoveType:int;
+    WazaRangeMin:float;
+    WazaRangeMax:float;
+    HeightTolerance:float;
+    EffectiveRange:float;
+    MinShootNum:int;
+    MaxShootNum:int;
+    HitPer:int;
+    WazaRecastTime:float;
+    EffectTime:float;
+    EffectValue:int;
+    AddMegaPowerValue:float;
+    PlayedMotionSpeed:float;
+    OverwriteBulletId1:int;
+    ReplaceBulletId1:int;
+    OverwriteBulletId2:int;
+    ReplaceBulletId2:int;
+    OverwriteBulletId3:int;
+    ReplaceBulletId3:int;
+    OverwriteBulletId4:int;
+    ReplaceBulletId4:int;
+    OverwriteBulletId5:int;
+    ReplaceBulletId5:int;
+    BulletCorrectScale:float;
+}
+
+table WazaParamDB {
+    Table:[WazaParam] (required);
+}
+
+table WazaParamDBArray (fs_serializer) {
+    Table:[WazaParamDB] (required);
+}
+
+root_type WazaParamDBArray;

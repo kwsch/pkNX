@@ -380,8 +380,8 @@ public class PersonalRandomizer : Randomizer
             t[i] = Rand.Next(100) < Settings.LearnTypeTutorPercent;
 
         // Make sure Rayquaza can learn Dragon Ascent.
-        if (!Game.XY && species == (int)Species.Rayquaza)
-            t[7] = true;
+        //if (!Game.XY && species == (int)Species.Rayquaza)
+        //    t[7] = true;
 
         z.TypeTutors = t;
     }

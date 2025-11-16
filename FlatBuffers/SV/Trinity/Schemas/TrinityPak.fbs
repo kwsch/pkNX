@@ -1,9 +1,10 @@
 namespace pkNX.Structures.FlatBuffers.SV.Trinity;
 attribute "fs_serializer";
 
-enum CompressionType : ushort
+enum DataCompressionType : byte
 {
-    None = 0,
+    None = -1,
+    Invalid = 0,
     Zlib = 1,
     Lz4 = 2,
     OodleKraken = 3,
@@ -15,8 +16,8 @@ enum CompressionType : ushort
 
 table TrinityPakFileData {
     Field_00:uint;
-    CompressionType:ubyte;
-    Field_02:ubyte;
+    CompressionType:DataCompressionType;
+    CompressionLevel:ubyte;
     UncompressedSize:ulong;
     Data:[ubyte] (required);
 }

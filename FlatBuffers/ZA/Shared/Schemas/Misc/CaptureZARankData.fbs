@@ -1,0 +1,32 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+attribute "fs_valueStruct";
+attribute "fs_nonVirtual";
+
+table CaptureZARankData (fs_serializer) {
+    LevelThreshold:ZARankLevelThreshold (required);
+    ZRank:ZARankArray (required);
+    YRank:ZARankArray (required);
+    XRank:ZARankArray (required);
+    WRank:ZARankArray (required);
+    VRank:ZARankArray (required);
+    GRank:ZARankArray (required);
+    FRank:ZARankArray (required);
+    ERank:ZARankArray (required);
+    DRank:ZARankArray (required);
+    CRank:ZARankArray (required);
+    BRank:ZARankArray (required);
+    ARank:ZARankArray (required);
+    InfRank:ZARankArray (required);
+}
+
+struct ZARankLevelThreshold {
+    Level:[int:10] (fs_nonVirtual);
+}
+
+struct ZARankArray {
+    Ratio:[float:10] (fs_nonVirtual);
+}
+
+root_type CaptureZARankData;

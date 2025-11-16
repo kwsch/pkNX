@@ -1,0 +1,19 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum FieldWeatherType : int
+{
+    None = -1,
+    Sunny = 0,
+    Cloudy = 1,
+    Rain = 2,
+    Storm = 3,
+    Snow = 4,
+    SnowStorm = 5,
+    DiamondDust = 6,
+    SandStorm = 7,
+    Mist = 8,
+    ClearSunny = 9,
+    Rainbow = 10,
+    Count = 11,
+    RainToSunny = 12,
+}

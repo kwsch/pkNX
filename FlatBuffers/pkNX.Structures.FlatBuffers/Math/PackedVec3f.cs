@@ -26,6 +26,7 @@ public partial struct PackedVec3f : IEquatable<PackedVec3f>
     public readonly float Dot(PackedVec3f other) => (X * other.X) + (Y * other.Y) + (Z * other.Z);
     public readonly PackedVec3f Cross(PackedVec3f other) => new((Y * other.Z) - (Z * other.Y), (Z * other.X) - (X * other.Z), (X * other.Y) - (Y * other.X));
     public readonly float DistanceTo(PackedVec3f other) => (this - other).Magnitude();
+    public readonly float DistanceTo(float x, float z) => new PackedVec3f(x, 0, z).DistanceTo(new PackedVec3f(X, 0, Z));
     public readonly float DistanceToSqr(PackedVec3f other) => (this - other).MagnitudeSqr();
     public readonly PackedVec3f Lerp(PackedVec3f other, float t) => this + ((other - this) * t);
 
@@ -38,6 +39,7 @@ public partial struct PackedVec3f : IEquatable<PackedVec3f>
 
     public readonly override string ToString() => $"V3f({X}, {Y}, {Z})";
     public readonly string ToTriple() => $"({X}, {Y}, {Z})";
+    public readonly string ToShortString() => $"({X:F2}, {Y:F2}, {Z:F2})";
 
     public readonly bool Equals(PackedVec3f other)
     {

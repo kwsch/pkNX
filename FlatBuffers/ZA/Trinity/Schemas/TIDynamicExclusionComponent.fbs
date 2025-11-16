@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TIDynamicExclusionComponent (fs_serializer) {
+    Field_00:byte;
+}
+
+root_type TIDynamicExclusionComponent;

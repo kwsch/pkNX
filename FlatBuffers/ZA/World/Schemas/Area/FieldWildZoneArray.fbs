@@ -1,0 +1,17 @@
+include "FieldAreaInfo.fbs";
+include "AreaLayer.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table FieldWildZoneArray (fs_serializer) {
+    Table:[FieldWildZone] (required);
+}
+
+table FieldWildZone {
+    AreaInfo:FieldAreaInfo (required);
+    Layer:AreaLayer;
+    ZoneID:string (required);
+}
+
+root_type FieldWildZoneArray;

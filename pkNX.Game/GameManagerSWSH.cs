@@ -23,8 +23,7 @@ public class GameManagerSWSH(GameLocation rom, int language) : GameManager(rom, 
     protected override void SetMitm()
     {
         var basePath = Path.GetDirectoryName(ROM.RomFS);
-        if (basePath is null)
-            throw new InvalidDataException("Invalid ROMFS path.");
+        ArgumentNullException.ThrowIfNull(basePath);
         var tid = ROM.ExeFS != null ? TitleID : "0100ABF008968000"; // no way to differentiate without exefs, so default to Sword
         var redirect = Path.Combine(basePath, tid);
         FileMitm.SetRedirect(basePath, redirect);
@@ -49,12 +48,12 @@ public class GameManagerSWSH(GameLocation rom, int language) : GameManager(rom, 
         {
             MoveData = new DataCache<IMove>(move)
             {
-                Create = bytes => (IMove)FlatBufferConverter.DeserializeFrom<Waza>(bytes),
+                Create = FlatBufferConverter.DeserializeFrom<Waza>,
                 Write = z => ((Waza)z).SerializeFrom(),
             },
             LevelUpData = new DataCache<Learnset>(Learn)
             {
-                Create = z => new Learnset8(z),
+                Create = z => new Learnset8(z.Span),
                 Write = z => z.Write(),
             },
 
@@ -62,7 +61,7 @@ public class GameManagerSWSH(GameLocation rom, int language) : GameManager(rom, 
             PersonalData = new PersonalTable8SWSH(personal[0]),
             EvolutionData = new DataCache<EvolutionSet>(GetFilteredFolder(GameFile.Evolutions))
             {
-                Create = data => new EvolutionSet8(data),
+                Create = data => new EvolutionSet8(data.Span),
                 Write = evo => evo.Write(),
             },
         };

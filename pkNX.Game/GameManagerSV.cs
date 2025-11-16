@@ -5,7 +5,7 @@ using pkNX.Structures.FlatBuffers.SV.Trinity;
 
 namespace pkNX.Game;
 
-public class GameManagerSV : GameManager, IFileInternal, IDisposable
+public sealed class GameManagerSV : GameManager, IFileInternal, IDisposable
 {
     private readonly TrinityFileSystemManager Manager;
     private string PathNPDM => Path.Combine(PathExeFS, "main.npdm");
@@ -29,7 +29,7 @@ public class GameManagerSV : GameManager, IFileInternal, IDisposable
     /// <summary>
     /// Generally useful game data that can be used by multiple editors.
     /// </summary>
-    public GameData Data { get; protected set; } = null!;
+    public GameData Data { get; private set; } = null!;
 
     protected override void SetMitm()
     {

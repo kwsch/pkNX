@@ -317,7 +317,7 @@ internal class EditorGG : EditorBase
         if (!editor.Modified)
             return;
 
-        chart.Data.CopyTo(nso.DecompressedRO, ofs);
+        chart.Data.CopyTo(nso.DecompressedRO.AsSpan(ofs));
         data = nso.Write();
         FileMitm.WriteAllBytes(path, data);
     }
@@ -336,7 +336,7 @@ internal class EditorGG : EditorBase
         {
             var table = shop.Single;
             var names = table.Select((z, _) => $"{(SingleShop.LGPE.TryGetValue(z.Hash, out var shopName) ? shopName : z.Hash.ToString("X"))}").ToArray();
-            var cache = new DirectCache<SingleShop>(table);
+            var cache = new DirectCache<SingleShop>(table!);
             using var form = new GenericEditor<SingleShop>(cache, names, $"{nameof(SingleShop)} Editor", Randomize);
             form.ShowDialog();
             if (!form.Modified)

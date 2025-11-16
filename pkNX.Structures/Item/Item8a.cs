@@ -1,22 +1,23 @@
 using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
-public class Item8a(int id, byte[] data)
+public class Item8a(int id, Memory<byte> Raw)
 {
+    public Span<byte> Data => Raw.Span;
     private const int SIZE = 0x3C;
     public readonly int ItemID = id;
-    public readonly byte[] Data = data;
 
     private const string Battle = "Battle";
     private const string Field = "Field";
     private const string Mart = "Mart";
     private const string Heal = "Heal";
 
-    public uint Price { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
-    public uint PriceWatts { get => BitConverter.ToUInt32(Data, 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, 0x04); }
-    public uint MeritPrice { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
+    public uint Price { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public uint PriceWatts { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt32LittleEndian(Data[0x04..], value); }
+    public uint MeritPrice { get => ReadUInt16LittleEndian(Data[(0x08)..]); set => WriteUInt32LittleEndian(Data[(0x08)..], value); }
     public byte BattleEffect { get => Data[0x0C]; set => Data[0x0C] = value; }
     public byte BattleArg { get => Data[0x0D]; set => Data[0x0D] = value; }
     public byte BerryValue { get => Data[0x0F]; set => Data[0x0F] = value; }
@@ -41,9 +42,9 @@ public class Item8a(int id, byte[] data)
     public byte Unk_0x17 { get => Data[0x17]; set => Data[0x17] = value; }
     public byte SortIndex { get => Data[0x18]; set => Data[0x18] = value; }
     // 0x19 align
-    public short ItemSprite { get => BitConverter.ToInt16(Data, 0x1A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A); }
-    public ushort MaxQuantity { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
-    public ushort Percentage { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E); }
+    public short ItemSprite { get => ReadInt16LittleEndian(Data[0x1A..]); set => WriteInt16LittleEndian(Data[0x1A..], value); }
+    public ushort MaxQuantity { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
+    public ushort Percentage { get => ReadUInt16LittleEndian(Data[(0x1E)..]); set => WriteUInt32LittleEndian(Data[(0x1E)..], value); }
     public ItemClass8a ItemGroup { get => (ItemClass8a)Data[0x20]; set => Data[0x20] = (byte)value; }
     public byte Variant   { get => Data[0x21]; set => Data[0x21] = value; }
     // 22 unused
@@ -74,40 +75,47 @@ public class Item8a(int id, byte[] data)
     public sbyte StatChangeAmount { get => (sbyte)Data[0x3A]; set => Data[0x3A] = (byte)value; }
     // 0x1B unused
 
-    public static Item8a[] GetArray(byte[] bin)
+    public static Item8a[] GetArray(ReadOnlySpan<byte> bin)
     {
-        int numEntries = BitConverter.ToUInt16(bin, 0);
-        int maxEntryIndex = BitConverter.ToUInt16(bin, 4);
-        int entriesStart = (int)BitConverter.ToUInt32(bin, 0x48);
+        int numEntries = ReadUInt16LittleEndian(bin);
+        int maxEntryIndex = ReadUInt16LittleEndian(bin[4..]);
+        int entriesStart = ReadInt32LittleEndian(bin[0x48..]);
         var result = new Item8a[numEntries];
         for (var i = 0; i < result.Length; i++)
         {
-            var entryIndex = BitConverter.ToUInt16(bin, 0x4C + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException(); }
-            result[i] = new Item8a(i, bin.Slice(entriesStart + (entryIndex * SIZE), SIZE));
+            var entryIndex = ReadUInt16LittleEndian(bin[(0x4C + (2 * i))..]);
+            if (entryIndex >= maxEntryIndex)
+                throw new IndexOutOfRangeException();
+
+            var ofs = entriesStart + (entryIndex * SIZE);
+            result[i] = new Item8a(i, bin.Slice(ofs, SIZE).ToArray());
         }
 
         return result;
     }
 
-    public static byte[] SetArray(Item8a[] array, byte[] bin)
+    public static byte[] SetArray(Item8a[] array, ReadOnlySpan<byte> bin)
     {
-        bin = (byte[])bin.Clone();
-        if (array.Length != BitConverter.ToInt16(bin, 0))
+        int numEntries = ReadUInt16LittleEndian(bin);
+        if (array.Length != numEntries)
             throw new ArgumentException("Incompatible sizes");
 
-        int maxEntryIndex = BitConverter.ToUInt16(bin, 4);
-        int entriesStart = (int)BitConverter.ToUInt32(bin, 0x48);
+        var result = bin.ToArray();
+        int maxEntryIndex = ReadUInt16LittleEndian(bin[4..]);
+        int entriesStart = ReadInt32LittleEndian(bin[0x48..]);
         for (int i = 0; i < array.Length; i++)
         {
-            var entryIndex = BitConverter.ToUInt16(bin, 0x4C + (2 * i));
-            if (entryIndex >= maxEntryIndex) { throw new IndexOutOfRangeException(); }
+            var entryIndex = ReadUInt16LittleEndian(bin[(0x4C + (2 * i))..]);
+            if (entryIndex >= maxEntryIndex)
+                throw new IndexOutOfRangeException();
 
             var data = array[i].Data;
-            data.CopyTo(bin, entriesStart + (entryIndex * SIZE));
+            var ofs = entriesStart + (entryIndex * SIZE);
+            var span = result.AsSpan(ofs, SIZE);
+            data.CopyTo(span);
         }
 
-        return bin;
+        return result;
     }
 
     [Category(Field)] public bool Revive { get => ((Boost0 >> 0) & 1) == 0; set => Boost0 = (byte)((Boost0 & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }

@@ -94,24 +94,38 @@ public static class HavokCollision
         ofs = variantField.Type.AlignUp(ofs + variantField.Offset);
         Debug.Assert(variantField.Type.FormatType == FormatType.Pointer);
 
+
         var meshItem = item[ReadInt32LittleEndian(data[(int)ofs..])];
         ofs = meshItem.Offset;
-        Debug.Assert(meshItem.Type.Name == "hknpCompressedMeshShape");
-        Debug.Assert(meshItem.Type.Fields.Count == 5);
-        Debug.Assert(meshItem.Type.Fields[0].Name == "data");
 
-        var dataField = meshItem.Type.Fields[0];
-        ofs = dataField.Type.AlignUp(ofs + dataField.Offset);
-        Debug.Assert(dataField.Type.FormatType == FormatType.Pointer);
+        var simdTreeField = new HavokField();
+        if (meshItem.Type.Name == "hknpCompressedMeshShape")
+        {
+            Debug.Assert(meshItem.Type.Name == "hknpCompressedMeshShape");
+            Debug.Assert(meshItem.Type.Fields.Count == 5);
+            Debug.Assert(meshItem.Type.Fields[0].Name == "data");
 
-        var dataItem = item[ReadInt32LittleEndian(data[(int)ofs..])];
-        ofs = dataItem.Offset;
-        Debug.Assert(dataItem.Type.Name == "hknpCompressedMeshShapeData");
-        Debug.Assert(dataItem.Type.Fields.Count == 4);
-        Debug.Assert(dataItem.Type.Fields[1].Name == "simdTree");
+            var dataField = meshItem.Type.Fields[0];
+            ofs = dataField.Type.AlignUp(ofs + dataField.Offset);
+            Debug.Assert(dataField.Type.FormatType == FormatType.Pointer);
 
-        var simdTreeField = dataItem.Type.Fields[1];
-        ofs = simdTreeField.Type.AlignUp(ofs + simdTreeField.Offset);
+            var dataItem = item[ReadInt32LittleEndian(data[(int)ofs..])];
+            ofs = dataItem.Offset;
+            Debug.Assert(dataItem.Type.Name == "hknpCompressedMeshShapeData");
+            Debug.Assert(dataItem.Type.Fields.Count == 4);
+            Debug.Assert(dataItem.Type.Fields[1].Name == "simdTree");
+            simdTreeField = dataItem.Type.Fields[1];
+            ofs = simdTreeField.Type.AlignUp(ofs + simdTreeField.Offset);
+        }
+        else
+        {
+            Debug.Assert(meshItem.Type.Name == "hknpMeshShape");
+            Debug.Assert(meshItem.Type.Fields.Count == 5);
+            Debug.Assert(meshItem.Type.Fields[2].Name == "topLevelTree");
+            simdTreeField = meshItem.Type.Fields[2];
+            ofs = simdTreeField.Type.AlignUp(ofs + simdTreeField.Offset);
+        }
+
         Debug.Assert(simdTreeField.Type.Name == "hkcdSimdTree");
         Debug.Assert(simdTreeField.Type.FormatType == FormatType.Record);
         Debug.Assert(simdTreeField.Type.Fields.Count == 2);
@@ -457,6 +471,11 @@ public static class HavokCollision
             }
 
             BoundingBoxRectangles = new Rectangle3D[NumBoundingBoxes];
+            ReloadBoundingBoxRectangles();
+        }
+
+        private void ReloadBoundingBoxRectangles()
+        {
             var n = 0;
             foreach (var node in Nodes)
             {
@@ -474,10 +493,116 @@ public static class HavokCollision
             }
         }
 
+        public void Scale(float x, float y, float z)
+        {
+            // Non-uniform scale about the origin. Ensure min <= max per axis after scaling.
+            foreach (var node in Nodes)
+            {
+                for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
+                {
+                    if (!node.IsBound(i))
+                        continue;
+
+                    var lx = node.LoX[i] * x; var hx = node.HiX[i] * x;
+                    if (lx <= hx) { node.LoX[i] = lx; node.HiX[i] = hx; } else { node.LoX[i] = hx; node.HiX[i] = lx; }
+
+                    var ly = node.LoY[i] * y; var hy = node.HiY[i] * y;
+                    if (ly <= hy) { node.LoY[i] = ly; node.HiY[i] = hy; } else { node.LoY[i] = hy; node.HiY[i] = ly; }
+
+                    var lz = node.LoZ[i] * z; var hz = node.HiZ[i] * z;
+                    if (lz <= hz) { node.LoZ[i] = lz; node.HiZ[i] = hz; } else { node.LoZ[i] = hz; node.HiZ[i] = lz; }
+                }
+            }
+            ReloadBoundingBoxRectangles();
+        }
+
+        /// <summary>
+        /// Rotate the AABB tree about the origin by Euler angles (X=Pitch, Y=Yaw, Z=Roll) in radians.
+        /// </summary>
+        /// <param name="x">X angle in radians</param>
+        /// <param name="y">Y angle in radians</param>
+        /// <param name="z">Z angle in radians</param>
+        public void Rotate(float x, float y, float z)
+        {
+            var rot = Quaternion.CreateFromYawPitchRoll(y, x, z);
+            var rMat = Matrix4x4.CreateFromQuaternion(rot);
+
+            // Absolute value of rotation matrix for extents transform
+            var m11 = MathF.Abs(rMat.M11); var m12 = MathF.Abs(rMat.M12); var m13 = MathF.Abs(rMat.M13);
+            var m21 = MathF.Abs(rMat.M21); var m22 = MathF.Abs(rMat.M22); var m23 = MathF.Abs(rMat.M23);
+            var m31 = MathF.Abs(rMat.M31); var m32 = MathF.Abs(rMat.M32); var m33 = MathF.Abs(rMat.M33);
+
+            foreach (var node in Nodes)
+            {
+                for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
+                {
+                    if (!node.IsBound(i))
+                        continue;
+
+                    var min = new Vector3(node.LoX[i], node.LoY[i], node.LoZ[i]);
+                    var max = new Vector3(node.HiX[i], node.HiY[i], node.HiZ[i]);
+
+                    var center = (min + max) * 0.5f;
+                    var extents = (max - min) * 0.5f;
+
+                    var rc = Vector3.Transform(center, rot);
+                    var e = new Vector3(
+                        (m11 * extents.X) + (m12 * extents.Y) + (m13 * extents.Z),
+                        (m21 * extents.X) + (m22 * extents.Y) + (m23 * extents.Z),
+                        (m31 * extents.X) + (m32 * extents.Y) + (m33 * extents.Z));
+
+                    var newMin = rc - e;
+                    var newMax = rc + e;
+
+                    node.LoX[i] = newMin.X;
+                    node.LoY[i] = newMin.Y;
+                    node.LoZ[i] = newMin.Z;
+
+                    node.HiX[i] = newMax.X;
+                    node.HiY[i] = newMax.Y;
+                    node.HiZ[i] = newMax.Z;
+                }
+            }
+
+            ReloadBoundingBoxRectangles();
+        }
+
+        /// <summary>
+        /// Translate the AABB tree by the given amounts.
+        /// </summary>
+        /// <param name="x">Amount to translate via X axis.</param>
+        /// <param name="y">Amount to translate via Y axis.</param>
+        /// <param name="z">Amount to translate via Z axis.</param>
+        public void Translate(float x, float y, float z)
+        {
+            // Update the collider nodes
+            foreach (var node in Nodes)
+            {
+                for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
+                {
+                    if (!node.IsBound(i))
+                        continue;
+
+                    node.LoX[i] += x;
+                    node.LoY[i] += y;
+                    node.LoZ[i] += z;
+
+                    node.HiX[i] += x;
+                    node.HiY[i] += y;
+                    node.HiZ[i] += z;
+                }
+            }
+            ReloadBoundingBoxRectangles();
+        }
+
         // Official logic for area-containment checks for y intersection between y+1 and y-10000.0
         public bool ContainsPoint(float x, float y, float z) => ContainsPointInNode(1, x, y - 10000, y + 1, z);
         public bool ContainsPoint(float x, float y, float z, float toleranceX, float toleranceY, float toleranceZ)
             => ContainsPointInNode(1, x, y - 10000, y + 1, z, toleranceX, toleranceY, toleranceZ);
+
+        public bool ContainsPointDirect(float x, float y, float z) => ContainsPointInNode(1, x, y, y, z);
+        public bool ContainsPointDirect(float x, float y, float z, float toleranceX, float toleranceY, float toleranceZ)
+            => ContainsPointInNode(1, x, y, y, z, toleranceX, toleranceY, toleranceZ);
 
         private bool ContainsPointInNode(int nodeIndex, float x, float ly, float hy, float z, float tx = 0f, float ty = 0f, float tz = 0f)
         {
@@ -491,14 +616,69 @@ public static class HavokCollision
                     continue;
                 if (node.LoZ[i] > node.HiZ[i] || !(node.LoZ[i] - tz <= z) || !(node.HiZ[i] + tz >= z))
                     continue;
-                if (node.LoY[i] > node.HiY[i] || !(node.LoY[i] - ty <= hy) || !(node.HiY[i] + ty >= ly))
-                    continue;
+                //if (node.LoY[i] < node.HiY[i] && (!(node.LoY[i] - ty <= hy) || !(node.HiY[i] + ty >= ly)))
+                //    continue;
                 if (node.IsLeaf)
                     return true;
                 if (ContainsPointInNode((int)node.Data[i], x, ly, hy, z, tx, ty, tz))
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Attempts to find the floor Y beneath the given point by raycasting downward (y+1 to y-10000).
+        /// Returns true and outputs the highest LoY that is <= y when an intersecting leaf is found.
+        /// </summary>
+        public bool TryGetFloorY(float x, float y, float z, out float floorY)
+        {
+            var ly = y - 10000f;
+            var hy = y + 1f;
+            return TryFindFloorYInNode(1, x, ly, hy, z, out floorY);
+        }
+
+        private bool TryFindFloorYInNode(int nodeIndex, float x, float ly, float hy, float z, out float floorY)
+        {
+            floorY = float.NegativeInfinity;
+            if (nodeIndex == 0)
+                return false;
+
+            var node = Nodes[nodeIndex];
+            var found = false;
+            for (var i = 0; i < hkcdSimdTreeNode.NodeCount; i++)
+            {
+                // X / Z slab tests
+                if (node.LoX[i] > node.HiX[i] || !(node.LoX[i] <= x) || !(node.HiX[i] >= x))
+                    continue;
+                if (node.LoZ[i] > node.HiZ[i] || !(node.LoZ[i] <= z) || !(node.HiZ[i] >= z))
+                    continue;
+                // Y overlap with ray range
+                if (node.LoY[i] > node.HiY[i] || node.LoY[i] > hy || node.HiY[i] < ly)
+                    continue;
+
+                if (node.IsLeaf)
+                {
+                    var candidate = node.LoY[i];
+                    var y0 = hy - 1f; // original y
+                    if (candidate <= y0 && candidate > floorY)
+                    {
+                        floorY = candidate;
+                        found = true;
+                    }
+                }
+                else
+                {
+                    if (TryFindFloorYInNode((int)node.Data[i], x, ly, hy, z, out var childY))
+                    {
+                        if (childY > floorY)
+                        {
+                            floorY = childY;
+                        }
+                        found = true;
+                    }
+                }
+            }
+            return found;
         }
 
         public bool ContainedBy(IContainsV3f other) => other.ContainsPoint(BoundingBoxRectangles[0].X, BoundingBoxRectangles[0].Y, BoundingBoxRectangles[0].Z);
@@ -602,7 +782,7 @@ public static class HavokCollision
         public int IntValue;
         public HavokTypeObject TypeValue;
 
-        public bool IsType => Name.StartsWith('t');
+        public readonly bool IsType => Name.StartsWith('t');
     }
 
     private struct HavokField

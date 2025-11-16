@@ -1,0 +1,55 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PersonalWazaParam {
+    WazaID:uint;
+    ExtentionType:ubyte;
+    Type:ubyte;
+    Category:ubyte;
+    DamageType:ubyte;
+    Power:ubyte;
+    CriticalRank:ubyte;
+    HpRecoverRatio:byte;
+    ShrinkPer:ubyte;
+    SickParam_SickID:ushort;
+    SickParam_Per:ubyte;
+    SickParam_SickCont:ubyte;
+    SickParam_SickTurnMin:ubyte;
+    SickParam_SickTurnMax:ubyte;
+    RankEffect_0_Type:ubyte;
+    RankEffect_0_Value:byte;
+    RankEffect_0_Per:ubyte;
+    RankEffect_1_Type:ubyte;
+    RankEffect_1_Value:byte;
+    RankEffect_1_Per:ubyte;
+    RankEffect_2_Type:ubyte;
+    RankEffect_2_Value:byte;
+    RankEffect_2_Per:ubyte;
+    DamageRecoverRatio:byte;
+    DamageDrainRatio:byte;
+    IsGuard:bool;
+    IsAvoidByFloat:bool;
+    IsTouch:bool;
+    IsCut:bool;
+    IsWind:bool;
+    CanThroughMigawari:bool;
+    CanMeltFrozen:bool;
+    IsHpRecover:bool;
+    IsKaihukuHuuziEnable:bool;
+    IsYubiWoHuruPermit:bool;
+    IsSick:bool;
+    IsMamoruEnable:bool;
+    CantKill:bool;
+    ValueEffectRatio:byte;
+}
+
+table PersonalWazaParamDB {
+    Table:[PersonalWazaParam] (required);
+}
+
+table PersonalWazaParamDBArray (fs_serializer) {
+    Table:[PersonalWazaParamDB] (required);
+}
+
+root_type PersonalWazaParamDBArray;

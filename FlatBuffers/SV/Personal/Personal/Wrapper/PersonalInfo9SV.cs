@@ -1,7 +1,7 @@
 namespace pkNX.Structures.FlatBuffers.SV;
 
 /// <summary>
-/// Personal Info class with values from the <see cref="GameVersion.PLA"/> games.
+/// Personal Info class with values from the <see cref="GameVersion.SV"/> games.
 /// </summary>
 public sealed class PersonalInfo9SV(PersonalInfo fb) : IPersonalInfo
 {

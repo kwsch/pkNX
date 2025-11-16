@@ -1,0 +1,12 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum AreaLayer : int {
+    Scene = 0,
+    MainArea = 1,
+    SubArea = 2,
+    Location1 = 3,
+    Location2 = 4,
+    Location3 = 5,
+    BattleZone = 6,
+    WildZone = 7,
+}

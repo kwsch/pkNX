@@ -1,0 +1,33 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ShopLineupArray (fs_serializer) {
+    Table:[ShopLineup] (required);
+}
+
+table ShopLineup {
+    Name:string (required);
+    Inventory:[ShopInventory] (required);
+}
+
+table ShopInventory {
+    Item:uint;
+    DisplayIndex:uint;
+    Conditions:[ShopInventoryCondition] (required);
+}
+
+table ShopInventoryCondition {
+    Table:[ShopInventoryConditionHolder] (required);
+}
+
+table ShopInventoryConditionHolder {
+    Table:[ShopInventoryAppearConditionsHolder] (required);
+}
+
+table ShopInventoryAppearConditionsHolder {
+    Condition:string;
+    Comparison:uint;
+    Arguments:[string];
+}
+
+root_type ShopLineupArray;

@@ -1,0 +1,27 @@
+include "Shared/ActivationCondition.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ItemLotteryData {
+    ItemId:string (required);
+    Weight:int;
+    MaxCount:int;
+    Type:int;
+    ActivationConditionArray:[ActivationCondition];
+}
+
+table ItemTableData {
+    Id:string (required);
+    ItemLotteryDataList:[ItemLotteryData] (required);
+}
+
+table ItemTableDataDB {
+    Data:[ItemTableData] (required);
+}
+
+table ItemTableDataDBArray (fs_serializer) {
+    Table:[ItemTableDataDB] (required);
+}
+
+root_type ItemTableDataDBArray;

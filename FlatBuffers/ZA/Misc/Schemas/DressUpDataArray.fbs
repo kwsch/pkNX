@@ -1,0 +1,25 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DressUpData {
+    MagicValue:uint;
+    Name:string (required);
+    Field02:uint;
+    Field03:string (required);
+    Field04:uint;
+    Field05:uint;
+    Color1:string (required); // color
+    Color2:string (required); // color
+    Flag08:bool;
+    Field09:uint;
+    Field10:uint;
+    Field11:string; // not required
+    Flag12:bool;
+}
+
+table DressUpDataArray (fs_serializer) {
+    Table:[DressUpData] (required);
+}
+
+root_type DressUpDataArray;

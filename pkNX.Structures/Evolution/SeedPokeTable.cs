@@ -9,11 +9,11 @@ public sealed class SeedPokeTable
 {
     private readonly ushort[] Table;
 
-    public SeedPokeTable(byte[] data)
+    public SeedPokeTable(ReadOnlySpan<byte> data)
     {
         Table = new ushort[data.Length/2];
         for (int i = 0; i < Table.Length; i++)
-            Table[i] = BitConverter.ToUInt16(data, i * 2);
+            Table[i] = BitConverter.ToUInt16(data.Slice(i * 2, 2));
     }
 
     public ushort this[int index] => Table[index];

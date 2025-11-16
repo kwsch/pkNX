@@ -1,11 +1,13 @@
+using System;
+
 namespace pkNX.Structures;
 
-public abstract class Move3DS(byte[] data) : IMove
+public abstract class Move3DS(Memory<byte> raw) : IMove
 {
-    protected readonly byte[] Data = data;
+    protected Span<byte> Data => raw.Span;
     protected abstract int SIZE { get; }
 
-    public byte[] Write() => Data;
+    public byte[] Write() => Data.ToArray();
 
     public abstract int Type { get; set; }
     public abstract int Quality { get; set; }

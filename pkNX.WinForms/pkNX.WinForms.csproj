@@ -18,6 +18,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlatBuffers\ZA\Battle\pkNX.Structures.FlatBuffers.ZA.Battle.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Item\pkNX.Structures.FlatBuffers.ZA.Item.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Misc\pkNX.Structures.FlatBuffers.ZA.Misc.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Personal\pkNX.Structures.FlatBuffers.ZA.Personal.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Shared\pkNX.Structures.FlatBuffers.ZA.Shared.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Trainers\pkNX.Structures.FlatBuffers.ZA.Trainers.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Trinity\pkNX.Structures.FlatBuffers.ZA.Trinity.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Waza\pkNX.Structures.FlatBuffers.ZA.Waza.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\World\pkNX.Structures.FlatBuffers.ZA.World.csproj" />
+    <ProjectReference Include="..\FlatBuffers\ZA\Zukan\pkNX.Structures.FlatBuffers.ZA.Zukan.csproj" />
     <ProjectReference Include="..\pkNX.Containers\pkNX.Containers.csproj" />
     <ProjectReference Include="..\pkNX.Game\pkNX.Game.csproj" />
     <ProjectReference Include="..\pkNX.Randomization\pkNX.Randomization.csproj" />
@@ -48,7 +58,7 @@
 
   <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
-    <PackageReference Include="PKHeX.Core" Version="25.6.9" />
+    <PackageReference Include="PKHeX.Core" Version="25.9.25" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,11 +71,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dumping\Gen9a\Dumper9a.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Subforms\Gen9a\MapViewer9a.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,9 @@
+include "../Math/math.fbs";
+
+namespace pkNX.Structures.FlatBuffers;
+
+table SRT {
+    Scale:PackedVec3f (required);
+    Rotation:PackedVec3f (required);
+    Translation:PackedVec3f (required);
+}

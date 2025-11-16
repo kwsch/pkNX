@@ -27,10 +27,10 @@ public class FormRandomizer(IPersonalTable t)
         return (Species)species switch
         {
             Pikachu or Slowbro when generation >= 8 => GetValidForm(species, generation, t),
-            Unown or Deerling or Sawsbuck => 31, // pure random -- todo sv see if this behavior changed
+            Unown or Deerling or Sawsbuck => 31, // pure random
             Greninja when !mega => 0, // treat Ash-Greninja as a Mega
-            Scatterbug or Spewpa or Vivillon => 30, // save file specific -- todo sv see if this behavior changed
-            Zygarde when generation >= 7 => Util.Random.Next(4), // skip Complete Forme
+            Scatterbug or Spewpa or Vivillon => 30, // save file specific
+            Zygarde when generation >= 7 => Util.Random.Next(4), // skip Complete Form
             Minior => Util.Random.Next(7), // skip Core Forms
 
             _ when !mega && Legal.BattleMegas.Contains(species) => 0,

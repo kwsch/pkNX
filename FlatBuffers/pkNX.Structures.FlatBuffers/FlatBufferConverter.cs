@@ -6,7 +6,7 @@ namespace pkNX.Structures.FlatBuffers;
 
 public static class FlatBufferConverter
 {
-    public static T[] DeserializeFrom<T>(string[] files)
+    public static T[] DeserializeFrom<T>(ReadOnlySpan<string> files)
         where T : class, IFlatBufferSerializable<T>
     {
         var result = new T[files.Length];
@@ -19,7 +19,6 @@ public static class FlatBufferConverter
     }
 
     public static T DeserializeFrom<T>(string path) where T : class, IFlatBufferSerializable<T> => DeserializeFrom<T>(path, GreedyMutable);
-    public static T DeserializeFrom<T>(byte[] data) where T : class, IFlatBufferSerializable<T> => DeserializeFrom<T>(data, GreedyMutable);
     public static T DeserializeFrom<T>(Memory<byte> data) where T : class, IFlatBufferSerializable<T> => DeserializeFrom<T>(data, GreedyMutable);
 
     public static T DeserializeFrom<T>(string path, FlatBufferDeserializationOption opt)
@@ -28,16 +27,6 @@ public static class FlatBufferConverter
         var data = File.ReadAllBytes(path);
         return DeserializeFrom<T>(data, opt);
     }
-
-    public static T DeserializeFrom<T>(byte[] data, FlatBufferDeserializationOption opt)
-        where T : class, IFlatBufferSerializable<T> => opt switch
-        {
-            Lazy => T.LazySerializer.Parse(data),
-            Progressive => T.ProgressiveSerializer.Parse(data),
-            Greedy => T.GreedySerializer.Parse(data),
-            GreedyMutable => T.GreedyMutableSerializer.Parse(data),
-            _ => throw new ArgumentOutOfRangeException(nameof(opt), opt, null),
-        };
 
     public static T DeserializeFrom<T>(Memory<byte> data, FlatBufferDeserializationOption opt)
         where T : class, IFlatBufferSerializable<T> => opt switch

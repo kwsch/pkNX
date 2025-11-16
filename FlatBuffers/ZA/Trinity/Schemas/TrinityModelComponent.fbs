@@ -1,0 +1,30 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TrinityModelComponent (fs_serializer) {
+    Field_00:string (required);
+    Field_01:string (required);
+    Field_02:string (required);
+    Field_03:string (required);
+    Field_04:ubyte; // unknown
+    Field_05:float;
+    Field_06:float;
+    Field_07:float;
+    Field_08:ubyte; // unknown
+    Field_09:ubyte; // unknown
+    Field_10:ubyte; // unknown
+    Field_11:ubyte; // unknown
+    Field_12:ubyte; // unknown
+    Field_13:ubyte; // unknown
+    Field_14:ubyte; // unknown
+    Field_15:ubyte; // unknown
+    Field_16:ubyte; // unknown
+    Field_17:ubyte; // unknown
+    Field_18:ubyte; // unknown
+    Field_19:string (required);
+    Field_20:string (required);
+    Field_21:bool;
+    Field_22:string (required);
+}
+
+root_type TrinityModelComponent;

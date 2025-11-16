@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table TitleCount {
+  Index:string (required);
+  Type1:uint;
+  Type2:int;
+  Type3:uint;
+  Flag4:bool;
+}
+
+table TitleCountArray (fs_serializer) {
+  Table:[TitleCount] (required);
+}
+
+root_type TitleCountArray;

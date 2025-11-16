@@ -20,15 +20,6 @@ public static partial class Legal
 
     public static int[] GetRandomItemList(GameVersion game)
     {
-        if (GameVersion.XY.Contains(game))
-            return Items_HeldXY.Concat(Items_Ball).Where(i => i != 0).ToArray();
-
-        if (GameVersion.ORAS.Contains(game) || game == GameVersion.ORASDEMO)
-            return Items_HeldAO.Concat(Items_Ball).Where(i => i != 0).ToArray();
-
-        if (GameVersion.SM.Contains(game) || GameVersion.USUM.Contains(game))
-            return HeldItemsBuy_SM.Select(i => (int)i).Concat(Items_Ball).Where(i => i != 0).ToArray();
-
         if (GameVersion.GG.Contains(game))
             return HeldItems_GG.Select(i => (int)i).Where(i => i != 0).ToArray();
 

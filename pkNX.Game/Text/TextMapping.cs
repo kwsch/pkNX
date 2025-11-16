@@ -18,6 +18,7 @@ public static class TextMapping
         SW or SH or SWSH => MapSWSH,
         PLA => MapPLA,
         SL or VL or SV => MapSV,
+        ZA => MapZA,
         _ => throw new System.ArgumentOutOfRangeException($"No text mapping for {game}"),
     };
 
@@ -195,6 +196,32 @@ public static class TextMapping
     ];
 
     private static readonly TextReference[] MapSV =
+    [
+        new("iteminfo.dat", ItemFlavor),
+        new("itemname.dat", ItemNames),
+        new("monsname.dat", SpeciesNames),
+        new("place_name_indirect.dat", metlist_00000),
+        new("place_name_spe.dat", metlist_30000),
+        new("place_name_out.dat", metlist_40000),
+        new("place_name_per.dat", metlist_60000),
+        new("seikaku.dat", Natures),
+        new("tokusei.dat", AbilityNames),
+        new("tokuseiinfo.dat", AbilityFlavor),
+        new("trname.dat", TrainerNames),
+        new("trtype.dat", TrainerClasses),
+        new("trmsg.dat", TrainerText),
+        new("typename.dat", TypeNames),
+        new("wazainfo.dat", MoveFlavor),
+        new("wazaname.dat", MoveNames),
+        new("zkn_form.dat", Forms),
+        new("zkn_type.dat", SpeciesClassifications),
+        new("zukan_comment_A.dat", PokedexEntry1),
+        new("zukan_comment_B.dat", PokedexEntry2),
+        new("ribbon.dat", RibbonMark),
+        new("poke_memory_feeling.dat", MemoryFeelings),
+    ];
+
+    private static readonly TextReference[] MapZA =
     [
         new("iteminfo.dat", ItemFlavor),
         new("itemname.dat", ItemNames),

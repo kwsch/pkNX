@@ -35,6 +35,20 @@ public static class TableUtil
         return string.Join(Environment.NewLine, list);
     }
 
+    public static string GetNamedTable<T>(IList<T> arr, IList<string> names, Func<T, int> index, string? name = null) where T : notnull
+    {
+        var list = GetTableRaw(arr).ToArray();
+
+        // slap in name to column header
+        list[0] = $"Index{sep}{name ?? typeof(T).Name}{sep}{list[0]}";
+
+        // slap in row name to row
+        for (int i = 1; i < list.Length; i++)
+            list[i] = $"{i - 1}{sep}{names[index(arr[i - 1])]}{sep}{list[i]}";
+
+        return string.Join(Environment.NewLine, list);
+    }
+
     public static string GetNamedTypeTable<T>(IList<T> arr, IList<string> names, string? name = null) where T : notnull
     {
         var t = arr[0].GetType();
@@ -111,6 +125,6 @@ public static class TableUtil
     private static IEnumerable<object> JoinEnumerator(IEnumerator x)
     {
         while (x.MoveNext())
-            yield return x.Current;
+            yield return x.Current!;
     }
 }

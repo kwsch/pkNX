@@ -1,0 +1,20 @@
+include "FieldAreaInfo.fbs";
+include "AreaLayer.fbs";
+include "CacheOption.fbs";
+include "StreamingConfig.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table FieldSceneAreaArray (fs_serializer) {
+    Table:[FieldSceneArea] (required);
+}
+
+table FieldSceneArea {
+    AreaInfo:FieldAreaInfo (required);
+    Layer:AreaLayer;
+    AreaCacheOption:CacheOption;
+    AreaStreamingConfig:StreamingConfig;
+}
+
+root_type FieldSceneAreaArray;

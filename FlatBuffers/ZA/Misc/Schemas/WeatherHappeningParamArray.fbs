@@ -1,0 +1,38 @@
+include "FieldWeatherType.fbs";
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+struct TimeZone {
+    From:int;
+    To:int;
+}
+
+table WeatherHappeningParam {
+    Name:string;
+    TemplatePath:string;
+    SceneName:string;
+    PrevWeather0:FieldWeatherType;
+    PrevWeather1:FieldWeatherType;
+    PrevWeather2:FieldWeatherType;
+    CurWeather0:FieldWeatherType;
+    CurWeather1:FieldWeatherType;
+    CurWeather2:FieldWeatherType;
+    TimeZone0:TimeZone;
+    TimeZone1:TimeZone;
+    TimeZone2:TimeZone;
+    Prob:int;
+    MinDuration:int;
+    MaxDuration:int;
+    FollowCamera:bool;
+    Offset:PackedVec3f;
+    FollowSun:bool;
+}
+
+table WeatherHappeningParamArray (fs_serializer) {
+    Table:[WeatherHappeningParam] (required);
+}
+
+root_type WeatherHappeningParamArray;

@@ -1,0 +1,7 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum BattleType : int {
+    SINGLE = 0,
+    DOUBLE = 1,
+    MULTI = 2,
+}

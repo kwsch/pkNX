@@ -1,0 +1,5 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table CoolTimeInfo {
+    Time:float;
+}

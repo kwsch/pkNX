@@ -1,0 +1,29 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TrinitySceneObjectTemplateData (fs_serializer) {
+    ObjectTemplateName:string (required);
+    ObjectTemplateExtra:string (required);
+    ObjectTemplatePath:string (required);
+    Field_03:ubyte;
+    Type:string (required);
+    Data:[ubyte] (required);
+}
+
+table TrinitySceneObjectTemplateEntry {
+    Type:string (required);
+    Data:[ubyte] (required);
+    SubObjects:[TrinitySceneObjectTemplateEntry] (required); // Recursive !
+}
+
+table TrinitySceneObjectTemplate (fs_serializer) {
+    ObjectTemplateName:string (required);
+    ObjectTemplateExtra:string;
+    Field_02:uint;
+    Field_03:uint;
+    Objects:[TrinitySceneObjectTemplateEntry] (required);
+    Field_05:[string] (required);
+    Field_06:ubyte;
+}
+
+root_type TrinitySceneObjectTemplate;

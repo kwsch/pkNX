@@ -1,0 +1,88 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+enum CheckCategory : int
+{
+    TurnCheck = 0,
+    PokemonCheck = 1,
+    FirstDamage = 2,
+    HpCheck = 3,
+    WazaCheck = 4,
+    TurnEndCheck = 5,
+    WazaAdvantageCheck = 6,
+    WazaNoneCheck = 7,
+    WazaCriticalCheck = 8,
+    WeatherCheck = 9,
+    StartCheck = 10,
+    SelectActionCheck = 11,
+    PokemonIDCheck = 12,
+    UseItem = 13,
+    ChengeGem = 14,
+    TurnEndAndGemStartCheck = 15,
+    TurnEndAndPokemonDownCheck = 16,
+    TurnEndAndHpCheck = 17,
+    TurnEndAndWazaAdvantageCheck = 18,
+    TurnEndAndTurnCount = 19,
+    WazaDisadvantageCheck = 20,
+    WazaAdvantageAttackCheck = 21,
+}
+
+enum TalkRankEffect : uint
+{
+    None = 0,
+    Attack = 1,
+    Defence = 2,
+    SpAttack = 3,
+    SpDefence = 4,
+    Agility = 5,
+    Hit = 6,
+    Avoid = 7,
+    CriticalRaito = 8,
+    Multi5 = 9,
+    Attack_SpAttack = 11,
+    Defence_SpDefence = 12,
+    Attack2 = 13,
+    SpAttack2 = 14,
+}
+
+table TalkData {
+    EventName:string (required);
+    Category:CheckCategory;
+    ValueA:int;
+    ValueB:int;
+    ValueC:int;
+    RankEffect:TalkRankEffect;
+}
+
+table TrainerEnv {
+    TrEnvId:string (required);
+    TalkData1:TalkData (required);
+    TalkData2:TalkData (required);
+    TalkData3:TalkData (required);
+    TalkData4:TalkData (required);
+    TalkData5:TalkData (required);
+    TalkData6:TalkData (required);
+    TalkData7:TalkData (required);
+    TalkData8:TalkData (required);
+    TalkData9:TalkData (required);
+    TalkData10:TalkData (required);
+    TalkData11:TalkData;
+    TalkData12:TalkData;
+    TalkData13:TalkData;
+    TalkData14:TalkData;
+    TalkData15:TalkData;
+    IntroTml:string (required);
+    ThrowTml:string (required);
+    CameraObjectName:string (required);
+    LoseTml:string (required);
+    IntroObjectName:string (required);
+    LoseObjectName:string (required);
+    BgmEventName:string (required);
+}
+
+table TrainerEnvArray (fs_serializer) {
+    Table:[TrainerEnv] (required);
+}
+
+root_type TrainerEnvArray;

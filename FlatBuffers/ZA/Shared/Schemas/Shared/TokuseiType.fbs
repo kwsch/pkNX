@@ -1,0 +1,9 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum TokuseiType : int {
+    RANDOM_12 = 0,
+    RANDOM_123 = 1,
+    SET_1 = 2,
+    SET_2 = 3,
+    SET_3 = 4,
+}

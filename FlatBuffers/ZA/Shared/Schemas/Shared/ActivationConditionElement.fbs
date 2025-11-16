@@ -1,0 +1,7 @@
+include "../Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table ActivationConditionElement {
+    Param:[ActivationConditionParam];
+}

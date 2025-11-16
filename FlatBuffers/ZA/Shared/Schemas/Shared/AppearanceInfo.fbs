@@ -1,0 +1,6 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+table AppearanceInfo {
+    MinCount:int;
+    MaxCount:int;
+}

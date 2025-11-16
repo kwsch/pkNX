@@ -1,0 +1,8 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum DataType : int {
+    NORMAL = 0,
+    ITEM = 1,
+    WAZA = 2,
+    MULTI = 3,
+}

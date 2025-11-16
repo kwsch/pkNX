@@ -30,33 +30,66 @@ public static class Oodle
     /// <summary>
     /// Oodle64 Compression Method
     /// </summary>
-    [DllImport(OodleLibraryPath)]
+    [DllImport(OodleLibraryPath, CallingConvention = CallingConvention.Cdecl)]
     private static extern long OodleLZ_Compress(OodleFormat format, ref byte buffer, long bufferSize, ref byte result, OodleCompressionLevel level,
         long opts = 0, long context = 0, long unused = 0, long scratch = 0, long scratch_size = 0);
 
     /// <summary>
-    /// Decompresses a span of Oodle Compressed bytes (Requires Oodle DLL)
+    /// Decompresses compressed data into a newly allocated array. Returns null on failure.
     /// </summary>
     /// <param name="input">Input Compressed Data</param>
     /// <param name="decompressedLength">Decompressed Size</param>
     /// <returns>Resulting Array if success, otherwise null.</returns>
     public static byte[]? Decompress(ReadOnlySpan<byte> input, long decompressedLength)
     {
-        var result = new byte[decompressedLength];
-        return Decompress(input, result);
-    }
+        if (decompressedLength is < 0 or > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(decompressedLength));
+        if (decompressedLength == 0)
+            return [];
 
-    private static byte[]? Decompress(ReadOnlySpan<byte> input, byte[] result)
-    {
-        var dest = result.AsSpan();
-        long decodedSize = OodleLZ_Decompress(ref MemoryMarshal.GetReference(input), input.Length, ref MemoryMarshal.GetReference(dest), result.Length);
-        if (decodedSize == 0)
-            return null; // failed
-        return result;
+        var result = new byte[(int)decompressedLength];
+        return DecompressInternal(input, result) ? result : null;
     }
 
     /// <summary>
-    /// Compresses a span of bytes to Oodle Compressed bytes (Requires Oodle DLL)
+    /// Try to decompress into a caller-provided destination buffer.
+    /// </summary>
+    /// <param name="input">Compressed data.</param>
+    /// <param name="destination">Destination buffer (must be large enough).</param>
+    /// <param name="bytesWritten">Actual decompressed size on success.</param>
+    public static bool TryDecompress(ReadOnlySpan<byte> input, Span<byte> destination, out int bytesWritten)
+    {
+        bytesWritten = 0;
+
+        if (destination.Length == 0)
+            return input.Length == 0;
+
+        if (input.Length == 0)
+            return false;
+
+        ref byte src = ref MemoryMarshal.GetReference(input);
+        ref byte dst = ref MemoryMarshal.GetReference(destination);
+
+        long decoded = OodleLZ_Decompress(
+            ref src,
+            input.Length,
+            ref dst,
+            destination.Length,
+            OodleFuzzSafe.Yes,
+            OodleCheckCrc.No,
+            OodleVerbosity.None,
+            0, 0, 0, 0, 0, 0,
+            OodleThreadPhase.Unthreaded);
+
+        if (decoded <= 0 || decoded > destination.Length)
+            return false;
+
+        bytesWritten = (int)decoded;
+        return true;
+    }
+
+    /// <summary>
+    /// Compresses data and returns a Span over the allocated buffer (aligned length).
     /// </summary>
     /// <param name="input">Input Decompressed Data</param>
     /// <param name="compressedSize">Actual Compressed Data size</param>
@@ -66,31 +99,123 @@ public static class Oodle
     public static Span<byte> Compress(ReadOnlySpan<byte> input, out int compressedSize,
         OodleFormat format = OodleFormat.Kraken, OodleCompressionLevel level = OodleCompressionLevel.Optimal2)
     {
-        var maxSize = GetCompressedBufferSizeNeeded(input.Length);
-        var result = new byte[maxSize].AsSpan();
-        return Compress(input, result, out compressedSize, format, level);
+        if (input.Length == 0)
+        {
+            compressedSize = 0;
+            return Span<byte>.Empty;
+        }
+
+        int maxSize = GetMaxCompressedSize(input.Length);
+        var buffer = new byte[maxSize];
+        var span = buffer.AsSpan();
+        return CompressInternal(input, span, out compressedSize, format, level);
     }
 
-    private static Span<byte> Compress(ReadOnlySpan<byte> input, Span<byte> result, out int compressedSize, OodleFormat format, OodleCompressionLevel level)
+    /// <summary>
+    /// Try to compress into a caller-provided destination buffer.
+    /// </summary>
+    /// <param name="input">Uncompressed data.</param>
+    /// <param name="destination">Destination buffer (size must be at least GetMaxCompressedSize(input.Length)).</param>
+    /// <param name="compressedSize">Exact compressed byte size (without alignment padding).</param>
+    /// <param name="format">Format.</param>
+    /// <param name="level">Compression level.</param>
+    /// <param name="compressedSlice">Slice (including alignment padding) on success.</param>
+    /// <returns>True on success.</returns>
+    public static bool TryCompress(ReadOnlySpan<byte> input, Span<byte> destination, out int compressedSize,
+        out Span<byte> compressedSlice,
+        OodleFormat format = OodleFormat.Kraken,
+        OodleCompressionLevel level = OodleCompressionLevel.Optimal2)
     {
-        var encodedSize = OodleLZ_Compress(format, ref MemoryMarshal.GetReference(input), input.Length, ref MemoryMarshal.GetReference(result), level);
+        compressedSize = 0;
+        compressedSlice = default;
 
-        // Oodle's compressed result leaves data after the "compressed length" return index.
-        // Return an aligned span (ensuring length is a multiple of 4).
-        // Retaining these unused bytes matches the behavior observed in New Pokémon Snap DRPF files.
-        compressedSize = (int)encodedSize;
-        var align = (compressedSize + 3) & ~3;
-        return result[..align];
+        if (input.Length == 0)
+        {
+            compressedSlice = destination[..0];
+            return true;
+        }
+
+        if (destination.Length < GetMaxCompressedSize(input.Length))
+            return false;
+
+        ref byte src = ref MemoryMarshal.GetReference(input);
+        ref byte dst = ref MemoryMarshal.GetReference(destination);
+
+        long encoded = OodleLZ_Compress(format, ref src, input.Length, ref dst, level);
+        if (encoded <= 0 || encoded > destination.Length)
+            return false;
+
+        compressedSize = (int)encoded;
+        int aligned = Align4(compressedSize);
+        if (aligned > destination.Length)
+            return false;
+
+        compressedSlice = destination[..aligned];
+        return true;
     }
+
+    private static bool DecompressInternal(ReadOnlySpan<byte> input, Span<byte> destination)
+    {
+        if (destination.Length == 0)
+            return input.Length == 0;
+
+        if (input.Length == 0)
+            return false;
+
+        ref byte src = ref MemoryMarshal.GetReference(input);
+        ref byte dst = ref MemoryMarshal.GetReference(destination);
+
+        long decoded = OodleLZ_Decompress(
+            ref src,
+            input.Length,
+            ref dst,
+            destination.Length,
+            OodleFuzzSafe.Yes,
+            OodleCheckCrc.No,
+            OodleVerbosity.None,
+            0, 0, 0, 0, 0, 0,
+            OodleThreadPhase.Unthreaded);
+
+        return decoded > 0 && decoded <= destination.Length;
+    }
+
+    private static Span<byte> CompressInternal(ReadOnlySpan<byte> input, Span<byte> destination, out int compressedSize,
+        OodleFormat format, OodleCompressionLevel level)
+    {
+        if (input.Length == 0)
+        {
+            compressedSize = 0;
+            return destination[..0];
+        }
+
+        ref byte src = ref MemoryMarshal.GetReference(input);
+        ref byte dst = ref MemoryMarshal.GetReference(destination);
+
+        long encoded = OodleLZ_Compress(format, ref src, input.Length, ref dst, level);
+        if (encoded <= 0)
+        {
+            compressedSize = 0;
+            return Span<byte>.Empty;
+        }
+
+        compressedSize = (int)encoded;
+        int aligned = Align4(compressedSize);
+        return destination[..aligned];
+    }
+
+    private static int Align4(int value) => (value + 3) & ~3;
 
     /// <summary>
     /// Gets the dimension required to compress the data.
     /// </summary>
-    /// <param name="inputSize"></param>
-    /// <returns></returns>
-    private static long GetCompressedBufferSizeNeeded(long inputSize)
+    public static int GetMaxCompressedSize(int inputSize)
     {
-        return inputSize + (274 * ((inputSize + 0x3FFFF) / 0x40000));
+        if (inputSize < 0)
+            throw new ArgumentOutOfRangeException(nameof(inputSize));
+        long val = inputSize + (274L * ((inputSize + 0x3FFFFL) / 0x40000L));
+        if (val > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(inputSize), "Computed size exceeds supported range.");
+        return (int)val;
     }
 }
 

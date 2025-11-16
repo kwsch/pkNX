@@ -1,0 +1,35 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/AppearanceInfo.fbs";
+include "Shared/CoolTimeInfo.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table RandomPopItemTableInfo {
+    TableId:string (required);
+    TableInfoActivationConditionArray:[ActivationCondition];
+}
+
+table AppearanceSpawnerObjectInfo {
+    ObjectName:string (required);
+    CreateScenePath:string;
+    AppearanceInfoData:AppearanceInfo;
+}
+
+table RandomPopItemSpawnerData {
+    Id:string (required);
+    AppearanceSpawnerObjectInfoList:[AppearanceSpawnerObjectInfo] (required);
+    CoolTime:CoolTimeInfo;
+    ActivationConditionArray:[ActivationCondition] (required);
+    TableInfoList:[RandomPopItemTableInfo] (required);
+}
+
+table RandomPopItemSpawnerDataDB {
+    Table:[RandomPopItemSpawnerData] (required);
+}
+
+table RandomPopItemSpawnerDataDBArray (fs_serializer) {
+    Table:[RandomPopItemSpawnerDataDB] (required);
+}
+
+root_type RandomPopItemSpawnerDataDBArray;

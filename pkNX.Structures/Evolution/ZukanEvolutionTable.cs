@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
@@ -9,17 +10,17 @@ public sealed class ZukanEvolutionTable
     private const int SIZE = 0x14;
     private readonly ushort[][] Table;
 
-    public ZukanEvolutionTable(byte[] data)
+    public ZukanEvolutionTable(ReadOnlySpan<byte> data)
     {
         if (data.Length % SIZE != 0)
-            throw new ArgumentException(nameof(data) + " length should be a multiple of " + SIZE);
+            throw new ArgumentException($"{nameof(data)} length should be a multiple of {SIZE}");
 
         Table = new ushort[data.Length / SIZE][];
         for (int i = 0; i < Table.Length; i++)
         {
-            var evos = new ushort[(SIZE / 2) - 1];
+            var evos = Table[i] = new ushort[(SIZE / 2) - 1];
             for (int j = 0; j < evos.Length; j++)
-                evos[i] = BitConverter.ToUInt16(data, (i * SIZE) + (j * 2));
+                evos[i] = ReadUInt16LittleEndian(data.Slice((i * SIZE) + (j * 2), 2));
         }
     }
 

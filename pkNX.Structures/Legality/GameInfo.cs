@@ -16,14 +16,11 @@ public class GameInfo
     public ushort[] HeldItems { get; private set; } = [];
     public int MaxAbilityID { get; private set; }
 
-    public bool XY { get; private set; }
-    public bool AO { get; private set; }
-    public bool SM { get; private set; }
-    public bool USUM { get; private set; }
     public bool GG { get; private set; }
     public bool SWSH { get; private set; }
     public bool PLA { get; private set; }
     public bool SV { get; private set; }
+    public bool ZA { get; private set; }
 
     public GameInfo(GameVersion game)
     {
@@ -34,12 +31,6 @@ public class GameInfo
 
     private Action GetInitMethod(GameVersion game) => game switch
     {
-        GameVersion.XY => LoadXY,
-        GameVersion.ORASDEMO => LoadAO,
-        GameVersion.ORAS => LoadAO,
-        GameVersion.SMDEMO => LoadSM,
-        GameVersion.SM => LoadSM,
-        GameVersion.USUM => LoadUSUM,
         GameVersion.GP => LoadGG,
         GameVersion.GE => LoadGG,
         GameVersion.GG => LoadGG,
@@ -48,48 +39,9 @@ public class GameInfo
         GameVersion.SWSH => LoadSWSH,
         GameVersion.PLA => LoadPLA,
         GameVersion.SV => LoadSV,
+        GameVersion.ZA => LoadZA,
         _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
-
-    private void LoadXY()
-    {
-        XY = true;
-        MaxSpeciesID = Legal.MaxSpeciesID_6;
-        MaxMoveID = Legal.MaxMoveID_6_XY;
-        MaxItemID = Legal.MaxItemID_6_XY;
-        HeldItems = Legal.HeldItem_XY;
-        MaxAbilityID = Legal.MaxAbilityID_6_XY;
-    }
-
-    private void LoadAO()
-    {
-        AO = true;
-        MaxSpeciesID = Legal.MaxSpeciesID_6;
-        MaxMoveID = Legal.MaxMoveID_6_AO;
-        MaxItemID = Legal.MaxItemID_6_AO;
-        HeldItems = Legal.HeldItem_AO;
-        MaxAbilityID = Legal.MaxAbilityID_6_AO;
-    }
-
-    private void LoadSM()
-    {
-        SM = true;
-        MaxSpeciesID = Legal.MaxSpeciesID_7_SM;
-        MaxMoveID = Legal.MaxMoveID_7_SM;
-        MaxItemID = Legal.MaxItemID_7_SM;
-        HeldItems = Legal.HeldItems_SM;
-        MaxAbilityID = Legal.MaxAbilityID_7_SM;
-    }
-
-    private void LoadUSUM()
-    {
-        USUM = true;
-        MaxSpeciesID = Legal.MaxSpeciesID_7_USUM;
-        MaxMoveID = Legal.MaxMoveID_7_USUM;
-        MaxItemID = Legal.MaxItemID_7_USUM;
-        HeldItems = Legal.HeldItems_USUM;
-        MaxAbilityID = Legal.MaxAbilityID_7_USUM;
-    }
 
     private void LoadGG()
     {
@@ -129,5 +81,15 @@ public class GameInfo
         MaxItemID = Legal.MaxItemID_9;
         HeldItems = Legal.HeldItems_SV;
         MaxAbilityID = Legal.MaxAbilityID_9;
+    }
+
+    private void LoadZA()
+    {
+        ZA = true;
+        MaxSpeciesID = Legal.MaxSpeciesID_9a;
+        MaxMoveID = Legal.MaxMoveID_9a;
+        MaxItemID = Legal.MaxItemID_9a;
+        HeldItems = Legal.HeldItems_SV;
+        MaxAbilityID = Legal.MaxAbilityID_9a;
     }
 }

@@ -1,0 +1,12 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table TIModelDitherFadeComponent (fs_serializer) {
+    Field_00:byte; //unknown
+    Field_01:float;
+    Field_02:float;
+    Field_03:float;
+    Field_04:float;
+}
+
+root_type TIModelDitherFadeComponent;

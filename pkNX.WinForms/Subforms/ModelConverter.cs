@@ -160,7 +160,7 @@ public partial class ModelConverter : Form
 
         BasePath = $"bin/pokemon/pm{SpeciesId:0000}/{FileName}/";
 
-        var pack = new GFPack(PokemonModelDir.GetFileData(selectedFile) ?? []);
+        var pack = new GFPack(PokemonModelDir.GetFileData(selectedFile));
 
         PLAModel.Config = FlatBufferConverter.DeserializeFrom<PokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.trpokecfg"));
         Debug.Assert((int)PLAModel.Config.SizeIndex <= 3, "Here's one!");
@@ -177,7 +177,7 @@ public partial class ModelConverter : Form
 
         BasePath = $"bin/pokemon/{FileName}/";
 
-        var pack = new GFPack(SWSHPokemonModelDir.GetFileData($"{FileName}.gfpak") ?? []);
+        var pack = new GFPack(SWSHPokemonModelDir.GetFileData($"{FileName}.gfpak"));
 
         SWSHModel.Config = FlatBufferConverter.DeserializeFrom<GFBPokeConfig>(pack.GetDataFullPath(BasePath + $"{FileName}.gfbpokecfg"));
 

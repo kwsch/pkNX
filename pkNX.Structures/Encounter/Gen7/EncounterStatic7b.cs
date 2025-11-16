@@ -1,20 +1,15 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace pkNX.Structures;
 
-public sealed class EncounterStatic7b(byte[] data) : EncounterStatic(data)
+public sealed class EncounterStatic7b(Memory<byte> raw) : EncounterStatic(raw)
 {
     public const int SIZE = 0x40;
     public EncounterStatic7b() : this(new byte[SIZE]) { }
 
-    public ulong Hash => BitConverter.ToUInt64(Data, 0);
-
-    public override Species Species
-    {
-        get => (Species)BitConverter.ToUInt16(Data, 0x08);
-        set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
-    }
-
+    public ulong Hash { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
+    public override Species Species { get => (Species)ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], (ushort)value); }
     public override int Form { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public override int Level { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
 
@@ -33,47 +28,39 @@ public sealed class EncounterStatic7b(byte[] data) : EncounterStatic(data)
     public override Nature Nature { get => (Nature)Data[0x0E]; set => Data[0x0E] = (byte)value; } // 25 = random (sets the nature rand to 1)
     public override int Ability { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
 
-    public uint[] Ptrs // 0x10-0x1F -- are these text line references?
-    {
-        get =>
-        [
-            BitConverter.ToUInt32(Data, 0x10),
-            BitConverter.ToUInt32(Data, 0x14),
-            BitConverter.ToUInt32(Data, 0x18),
-            BitConverter.ToUInt32(Data, 0x1C),
-        ];
-        set { }
-    }
+    // 0x10-0x1F -- are these text line references?
+    public uint Ptr0 { get => ReadUInt32LittleEndian(Data[0x10..]); set => WriteUInt32LittleEndian(Data[0x10..], value); }
+    public uint Ptr1 { get => ReadUInt32LittleEndian(Data[0x14..]); set => WriteUInt32LittleEndian(Data[0x14..], value); }
+    public uint Ptr2 { get => ReadUInt32LittleEndian(Data[0x18..]); set => WriteUInt32LittleEndian(Data[0x18..], value); }
+    public uint Ptr3 { get => ReadUInt32LittleEndian(Data[0x1C..]); set => WriteUInt32LittleEndian(Data[0x1C..], value); }
+
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0x20..]); set => WriteUInt16LittleEndian(Data[0x20..], value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[0x22..]); set => WriteUInt16LittleEndian(Data[0x22..], value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[0x24..]); set => WriteUInt16LittleEndian(Data[0x24..], value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0x26..]); set => WriteUInt16LittleEndian(Data[0x26..], value); }
 
     public override int[] RelearnMoves // 0x20-0x27 -- these are actually just moves
     {
         get =>
         [
-            BitConverter.ToUInt16(Data, 0x20),
-            BitConverter.ToUInt16(Data, 0x22),
-            BitConverter.ToUInt16(Data, 0x24),
-            BitConverter.ToUInt16(Data, 0x26),
+            RelearnMove1,
+            RelearnMove2,
+            RelearnMove3,
+            RelearnMove4
         ];
         set
         {
             if (value.Length != 4)
                 return;
-            for (int i = 0; i < 4; i++)
-                BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, 0x20 + (i * 2));
+            RelearnMove1 = (ushort)value[0];
+            RelearnMove2 = (ushort)value[1];
+            RelearnMove3 = (ushort)value[2];
+            RelearnMove4 = (ushort)value[3];
         }
     }
 
-    public int V1
-    {
-        get => BitConverter.ToInt16(Data, 0x28);
-        set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x28);
-    }
-
-    public int V2
-    {
-        get => BitConverter.ToInt16(Data, 0x2A);
-        set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x2A);
-    }
+    public ushort V1 { get => ReadUInt16LittleEndian(Data[0x28..]); set => WriteUInt16LittleEndian(Data[0x28..], value); }
+    public ushort V2 { get => ReadUInt16LittleEndian(Data[0x2A..]); set => WriteUInt16LittleEndian(Data[0x2A..], value); }
 
     // 0x2C-0x31
     public override int IV_HP  { get => (sbyte)Data[0x2C]; set => Data[0x2C] = (byte)value; }

@@ -51,14 +51,22 @@ public class FolderContainer : IFileContainer
             AddFile(f);
     }
 
-    public byte[]? GetFileData(string file)
+    public bool TryGetFileData(string file, out ReadOnlySpan<byte> data)
     {
+        data = [];
         var index = GetFileIndex(file);
         if (index < 0)
-            return null;
+            return false;
         string path = Paths[index];
-        var data = Data[index] ??= FileMitm.ReadAllBytes(path);
-        return (byte[])data.Clone();
+        data = Data[index] ??= FileMitm.ReadAllBytes(path);
+        return true;
+    }
+
+    public ReadOnlySpan<byte> GetFileData(string file)
+    {
+        if (TryGetFileData(file, out var data))
+            return data;
+        throw new ArgumentException($"File not found: {file}", nameof(file));
     }
 
     public byte[] GetFileData(int index)

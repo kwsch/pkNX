@@ -1,0 +1,10 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table OyabunSetting (fs_serializer) {
+    MaxTalentValueCount:byte;
+    StrengthenValue:short;
+}
+
+root_type OyabunSetting;

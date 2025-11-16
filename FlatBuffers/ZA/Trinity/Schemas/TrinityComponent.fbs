@@ -1,0 +1,57 @@
+include "Math/Vec4f.fbs";
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+table Sphere {
+    Transform:PackedVec3f (required);
+    Radius:float;
+}
+
+table Box {
+    // Just a box. No TrcolFilePath.
+    Transform:PackedVec3f (required);
+    Size:PackedVec3f (required);
+    Rotation:PackedVec3f (required);
+}
+
+table Capsule {
+    Transform:PackedVec3f (required);
+    Radius:float;
+    Height:float;
+    Rotation:PackedVec3f (required);
+}
+
+table Havok {
+    TrcolFilePath:string (required);
+    Transform:PackedVec3f (required);
+    Rotation:PackedVec3f (required);
+    Scale:PackedVec3f (required);
+}
+
+union CollisionUnion {Sphere, Box, Capsule, Havok}
+
+table CollisionComponent (fs_serializer) {
+    Shape:CollisionUnion (required);
+    // field 01 is the object ptr for ^
+    Field_02:uint; //unknown
+    Field_03:bool;
+    Field_04:bool; //unknown
+    Field_05:bool; //unknown
+    Field_06:uint;
+    Field_07:bool; //unknown
+    Field_08:Vec4f (required);
+    Field_09:string (required);
+    Field_0A:bool;
+    Field_0B:bool;
+    Field_0C:bool;
+}
+
+union ComponentUnion {CollisionComponent}
+
+table TrinityComponent (fs_serializer) {
+    Component:ComponentUnion (required);
+}
+
+root_type TrinityComponent;

@@ -1,0 +1,14 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+enum ItemType : int {
+    ITEMTYPE_0 = 0,
+    ITEMTYPE_1 = 1,
+    ITEMTYPE_2 = 2,
+    ITEMTYPE_3 = 3,
+    ITEMTYPE_4 = 4,
+    ITEMTYPE_5 = 5,
+    ITEMTYPE_6 = 6,
+    ITEMTYPE_7 = 7,
+    ITEMTYPE_8 = 8,
+    ITEMTYPE_9 = 9,
+}

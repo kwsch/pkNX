@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using Application = System.Windows.Forms.Application;
 using Clipboard = System.Windows.Forms.Clipboard;
 using DataFormats = System.Windows.Forms.DataFormats;
 using DragDropEffects = System.Windows.Forms.DragDropEffects;
@@ -17,8 +16,7 @@ namespace pkNX.WinForms;
 
 public partial class Main : Form
 {
-    public static readonly string ProgramSettingsPath = Path.Combine(Application.StartupPath, "settings.json");
-    public ProgramSettings Settings { get; }
+    public static ProgramSettings Settings => Program.Settings;
 
     private int Language
     {
@@ -36,10 +34,9 @@ public partial class Main : Form
 
         FLP_Controls.Controls.Clear();
 
-        Settings = SettingsSerializer.GetSettings<ProgramSettings>(ProgramSettingsPath).Result;
         CB_Lang.SelectedIndex = Settings.Language;
         if (!string.IsNullOrWhiteSpace(Settings.GamePath) && Directory.Exists(Settings.GamePath))
-            OpenPath(Settings.GamePath, Settings.GameOverride);
+            OpenPath(Settings.GamePath);
 
         DragDrop += (s, e) =>
         {
@@ -87,8 +84,7 @@ public partial class Main : Form
         EditUtil.SaveSettings(Editor.Game);
         Settings.Language = CB_Lang.SelectedIndex;
         Settings.GamePath = TB_Path.Text;
-        Settings.GameOverride = Editor.Game;
-        await SettingsSerializer.SaveSettings(Settings, ProgramSettingsPath);
+        await ProgramSettings.SaveSettings(Program.Settings);
     }
 
     private void Menu_Exit_Click(object sender, EventArgs e)

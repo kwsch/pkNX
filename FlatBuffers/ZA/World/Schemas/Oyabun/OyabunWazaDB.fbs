@@ -1,0 +1,19 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table FormTable {
+    FormNo:ushort;
+    WazaNo:ushort;
+}
+
+table OyabunWaza {
+    DevNo:ushort;
+    FormTableList:[FormTable] (required);
+}
+
+table OyabunWazaDB (fs_serializer) {
+    Table:[OyabunWaza] (required);
+}
+
+root_type OyabunWazaDB;

@@ -1,0 +1,79 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+enum FieldDataType : int
+{
+    Area = 0,
+    ShadowPreset = 1,
+    JumpPoint = 2,
+    EnvironmentTable = 3,
+    TimePreset = 4,
+    TimeZone = 5,
+    WeatherTable = 6,
+    WindTable = 7,
+    Config = 8,
+    EncountData = 9,
+    PokemonSpawner = 10,
+    WazaGimmickPrivateTable = 11,
+    WazaGimmickPublicTable = 12,
+    AreaCategory = 13,
+    WazaGimmickPokemonSpawner = 14,
+    TrafficNpcSpawner = 17,
+    NpcGroupData = 18,
+    NpcObjectTemplateData = 19,
+    RandomPopItemSpawner = 20,
+    SceneSection = 21,
+    MapReplace = 22,
+    GroundEffectConfig = 23,
+    GroundEffect = 24,
+    ZoneData = 25,
+    ItemTableData = 26,
+    ItemSpawner = 27,
+    BattleArea = 28,
+    WazaGimmickItemSpawner = 29,
+    EggHatchData = 30,
+    DistantViewEffectConfig = 31,
+    DistantViewEffect = 32,
+    WeatherHappening = 33,
+    WeatherScheduleTable = 34,
+    WazagimmickSpawner = 35,
+    ItemBallObjectTemplateData = 37,
+    WazaAttribute = 38,
+    Vignette = 39,
+    NpcAssetData = 40,
+    PlacementNpcSpawner = 41,
+    SpawnerTransformData = 42,
+    ItemTypeData = 43,
+    GetMedalCountData = 44,
+    OyabunSettingData = 45,
+    BattleZoneLotteryData = 46,
+    ImapBakeSceneData = 47,
+    ImapOverrideBakeSceneData = 48,
+    ImapOverrideBakeAshibaGimmickData = 49,
+    ZaTrainerSpawner = 50,
+    ZaTrainerData = 51,
+    NpcPokemonGroupData = 52,
+    ZaTrainerTableData = 53,
+    LightOverrideFlagWorkData = 54,
+    SpawnPointGroundCheck = 55,
+    SpawnPointNearCheck = 56,
+    OyabunWazaData = 57,
+    AreaConfig = 58,
+}
+
+table FieldDataInfo {
+    Type:FieldDataType;
+    Category:string;
+    BasePath:string;
+}
+
+table FieldDataConfig {
+    Info:FieldDataInfo (required);
+}
+
+table FieldDataConfigArray (fs_serializer) {
+    Table:[FieldDataConfig] (required);
+}
+
+root_type FieldDataConfigArray;

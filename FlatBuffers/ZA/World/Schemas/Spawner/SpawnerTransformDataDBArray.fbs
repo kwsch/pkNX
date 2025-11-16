@@ -1,0 +1,21 @@
+include "Math/PackedVec3f.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table SpawnerTransformData {
+    Name:string;
+    Position:PackedVec3f;
+    Rotation:PackedVec3f;
+    AttachTransformEnable:bool;
+}
+
+table SpawnerTransformDataDB {
+    Table:[SpawnerTransformData] (required);
+}
+
+table SpawnerTransformDataDBArray (fs_serializer) {
+    Table:[SpawnerTransformDataDB] (required);
+}
+
+root_type SpawnerTransformDataDBArray;

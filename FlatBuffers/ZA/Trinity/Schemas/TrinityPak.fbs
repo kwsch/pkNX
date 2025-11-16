@@ -1,0 +1,28 @@
+namespace pkNX.Structures.FlatBuffers.ZA.Trinity;
+attribute "fs_serializer";
+
+enum DataCompressionType : byte
+{
+    None = -1,
+    Invalid = 0,
+    Zlib = 1,
+    Lz4 = 2,
+    OodleKraken = 3,
+    OodleLeviathan = 4,
+    OodleMermaid = 5,
+    OodleSelkie = 6,
+    OodleHydra = 7,
+}
+
+table TrinityPakFileData {
+    Field_00:uint;
+    CompressionType:DataCompressionType;
+    CompressionLevel:ubyte;
+    UncompressedSize:ulong;
+    Data:[ubyte] (required);
+}
+
+table TrinityPak (fs_serializer:"Lazy") {
+    Hashes:[ulong] (required);
+    Files:[TrinityPakFileData] (required);
+}
