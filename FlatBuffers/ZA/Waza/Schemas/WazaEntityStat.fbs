@@ -3,12 +3,12 @@ attribute "fs_valueStruct";
 
 struct WazaEntityStat (fs_valueStruct) {
     Stat1:byte;
-    Stat2:byte;
-    Stat3:byte;
     Stat1Stage:byte;
-    Stat2Stage:byte;
-    Stat3Stage:byte;
     Stat1Percent:ubyte;
+    Stat2:byte;
+    Stat2Stage:byte;
     Stat2Percent:ubyte;
+    Stat3:byte;
+    Stat3Stage:byte;
     Stat3Percent:ubyte;
 }
