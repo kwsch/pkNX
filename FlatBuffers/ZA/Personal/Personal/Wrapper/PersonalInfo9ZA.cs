@@ -53,10 +53,27 @@ public sealed class PersonalInfo9ZA(PersonalInfo fb) : IPersonalInfo
 
     public ushort Form { get => FB.Info.Form; set => FB.Info.Form = value; }
 
-    public ushort DexIndex
+    public int DexGroup
     {
-        get => FB.Dex;
-        set => FB.Dex = value;
+        get => FB.Dex?.Group ?? 0;
+        set
+        {
+            if (value == 0)
+                FB.Dex = null;
+            else
+                (FB.Dex ??= new PersonalInfoDex()).Group = (byte)value;
+        }
+    }
+    public int DexIndex
+    {
+        get => FB.Dex?.Index ?? 0;
+        set
+        {
+            if (value == 0)
+                FB.Dex = null;
+            else
+                (FB.Dex ??= new PersonalInfoDex()).Index = (byte)value;
+        }
     }
 
     public int Item1 { get => 0; set { } }
@@ -98,7 +115,7 @@ public sealed class PersonalInfo9ZA(PersonalInfo fb) : IPersonalInfo
         bw.Write(FB.Info.Color);
         bw.Write(FB.IsPresentInGame);
 
-        bw.Write((byte)0);
+        bw.Write((byte)DexGroup);
         bw.Write((ushort)DexIndex);
         bw.Write(FB.Info.Height);
         bw.Write(FB.Info.Weight);
@@ -144,5 +161,12 @@ public sealed class PersonalInfo9ZA(PersonalInfo fb) : IPersonalInfo
         404, 369, 417, 430, 164, 528, 231, 191, 390, 399,
         174, 605, 200, 018, 269, 056, 377, 127, 118, 441,
         527, 411, 526, 394, 059, 087, 370,
+        // ZA DLC
+                                           004, 263, 886,
+        047, 491, 490, 488, 885, 006, 318, 325, 466, 246,
+        259, 206, 305, 706, 102, 443, 138, 402, 509, 451,
+        409, 458, 299, 814, 530, 815, 480, 524, 207, 330,
+        252, 660, 799, 813, 013, 130, 161, 503, 333, 410,
+        080, 669, 143, 090, 329, 800, 796, 307, 308, 338,
     ];
 }

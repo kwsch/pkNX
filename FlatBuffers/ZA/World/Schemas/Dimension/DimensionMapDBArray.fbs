@@ -1,0 +1,26 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table StartPointItem {
+  ObjectName:string (required);
+}
+
+table DimensionMap {
+  MapId:string;
+  MapSize:int;
+  TaskRandomPopItemLimit:int;
+  WildTypeCount:int;
+  BattleTypeCount:int;
+  StartPointItems:[StartPointItem] (required);
+}
+
+table DimensionMapDB {
+  Table:[DimensionMap] (required);
+}
+
+table DimensionMapDBArray (fs_serializer) {
+  Table:[DimensionMapDB] (required);
+}
+
+root_type DimensionMapDBArray;

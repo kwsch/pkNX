@@ -121,7 +121,7 @@ public class GameDumper9a(GameManager9a rom)
     {
         var textConfig = new TextConfig(GameVersion.ZA);
         ReadOnlySpan<string> groups = ["ik_messagedat"];
-        ReadOnlySpan<string> types = ["script", "common"];
+        ReadOnlySpan<string> types = ["script", "common", "sk"];
         foreach (var group in groups)
         {
             foreach (var type in types)
@@ -512,6 +512,7 @@ public class GameDumper9a(GameManager9a rom)
 
     public void DumpMisc()
     {
+        Dump<ItemTableArray, ItemTable>("world/ik_data/battle/plib_item_conversion/plib_item_conversion_array.bfbs", z => z.Table);
         Dump<RankBattleRewardArray, RankBattleReward>("world/ik_data/rank_battle/reward/reward_array.bfbs", z => z.Table);
         Dump<PokedexBlackListMainArray, PokedexBlackListMain>("world/ik_data/ui/pokedex/black_list_main/black_list_main_array.bfbs", z => z.Table);
 
@@ -520,6 +521,7 @@ public class GameDumper9a(GameManager9a rom)
         DumpJson<CaptureZARankData>("world/ik_data/capture/capture_zarank_data/capture_zarank_data.bin");
 
         Dump<ZARewardItemDataArray, ZARewardItemData>("ik_event/bin/za_reward_item_data/za_reward_item_data.bin", z => z.Table);
+        Dump<NpcAssetDataDBArray, NpcAssetData>("world/ik_data/field/npc/npc_asset_data/npc_asset_data/npc_asset_data.bfbs", z => z.Table);
         Dump<TrainerBattleGlobalDBArray, TrainerBattleData>("ik_event/bin/event_trainer_battle_data/trainer_btl_data_global.bin", z => z.Table);
         Dump<ShopLineupArray, ShopLineup>("world/exl/shop/shop_item_lineup/shop_item_lineup.bin", z => z.Table);
         Dump<ItemTableDataDBArray, ItemTableDataDB>("world/ik_data/field/random_pop_item/random_pop_item_table/random_pop_item_table_data/random_pop_item_table_data_array.bfbs", z => z.Table);
@@ -538,6 +540,27 @@ public class GameDumper9a(GameManager9a rom)
         Dump<WeatherHappeningParamArray, WeatherHappeningParam>("world/ik_data/field/weather/weather_happening/weather_happening_array.bin", z => z.Table);
 
         DumpDressUp();
+
+        const string pst = "world/ik_data/field/spawner_transform_data/placement_npc_spawner_transform/placement_npc_spawner_transform/placement_npc_spawner_transform_array.bfbs";
+        var spawnerT = Dump<SpawnerTransformDataDBArray, SpawnerTransformDataDB>(pst, z => z.Table);
+        for (var i = 0; i < spawnerT.Table.Count; i++)
+        {
+            var table = spawnerT.Table[i];
+            var lines = TableUtil.GetTable(table.Table);
+            var path = GetRawPath(pst);
+            var fileName = Path.ChangeExtension(path, $".{i:00}.txt");
+            File.WriteAllText(fileName, lines);
+        }
+
+        DumpJson<ConditionRareDBArray>("param_ai/data/ai/trigger/condition_rare/condition_rare_array.bin");
+
+        Dump<DonutFlavorArray, DonutFlavor>("world/exl/donut/flavor/flavor.bin", z => z.Table);
+        Dump<DonutRecipeArray, DonutRecipe>("world/exl/donut/donut_recipe/donut_recipe.bin", z => z.Table);
+        Dump<BerryDetailArray, BerryDetail>("world/exl/donut/berry/berry.bin", z => z.Table);
+        Dump<DonutDetailArray, DonutDetail>("world/exl/donut/donut/donut.bin", z => z.Table);
+        Dump<DonutFlavorLotteryArray, DonutFlavorLottery>("world/exl/donut/flavor_lottery/flavor_lottery.bin", z => z.Table);
+        Dump<DonutFlavorParameterArray, DonutFlavorParameter>("world/exl/donut/flavor_parameter/flavor_parameter.bin", z => z.Table);
+        Dump<DonutOneWordArray, DonutOneWord>("world/exl/donut/oneword/oneword.bin", z => z.Table);
     }
 
     private void DumpDressUp()
@@ -965,10 +988,18 @@ public class GameDumper9a(GameManager9a rom)
         var alphaMoves = Dump<OyabunWazaDB, OyabunWaza>(alphaMovesPath, z => z.Table)
             .Table;
 
+        // Only acknowledge the first set of entries.
         foreach (var alpha in alphaMoves)
         {
             foreach (var form in alpha.FormTableList)
-                pt[SpeciesConverterZA.GetNational9(alpha.DevNo), (byte)form.FormNo].AlphaMove = form.WazaNo;
+            {
+                var pi = pt[SpeciesConverterZA.GetNational9(alpha.DevNo), (byte)form.FormNo];
+                if (pi.AlphaMove == 0)
+                    pi.AlphaMove = form.WazaNo;
+                // don't throw an exception if already non-zero -- Raichu's mega forms were incorrectly configured as 1/2 rather than 2/3.
+                // The Alpha Move search returns on first match.
+                // the only clash is Raichu-1, which needs to stay as Iron Tail (not Play Rough).
+            }
         }
 
         var bin = pt.Write();
@@ -998,6 +1029,54 @@ public class GameDumper9a(GameManager9a rom)
 
         foreach (var lang in LanguageEnglishNames)
             RipPersonal(pt, lang);
+    }
+
+    public void DumpDimension()
+    {
+        const string dimWild = "world/ik_data/field/dimension/dimension_wild_pokemon/dimension_wild_pokemon/dimension_wild_pokemon_array.bfbs";
+        Dump<DimensionWildPokemonDBArray, DimensionWildPokemonDB>(dimWild, z => z.Table);
+        DumpSel<DimensionWildPokemonDBArray, DimensionWildPokemon>(dimWild, z => z.Table.SelectMany(x => x.Table), "x");
+
+        const string dimSpecialLottery = "world/ik_data/field/dimension/dimension_special_lottery/dimension_special_lottery/dimension_special_lottery_array.bfbs";
+        Dump<DimensionSpecialLotteryDBArray, DimensionSpecialLotteryDB>(dimSpecialLottery, z => z.Table);
+
+        const string dimItem = "world/ik_data/field/dimension/dimension_gimmick_item/dimension_gimmick_item/dimension_gimmick_item_array.bfbs";
+        Dump<DimensionGimmickItemDBArray, DimensionGimmickItemDB>(dimItem, z => z.Table);
+
+        const string dimUniqueLottery = "world/ik_data/field/dimension/dimension_unique_lottery/dimension_unique_lottery/dimension_unique_lottery_array.bfbs";
+        Dump<DimensionUniqueLotteryDBArray, DimensionUniqueLotteryDB>(dimUniqueLottery, z => z.Table);
+
+        const string dimZoneLottery = "world/ik_data/field/dimension/dimension_zone_lottery/dimension_zone_lottery/dimension_zone_lottery_array.bfbs";
+        Dump<DimensionZoneLotteryDBArray, DimensionZoneLotteryDB>(dimZoneLottery, z => z.Table);
+
+        const string dimBossLottery = "world/ik_data/field/dimension/dimension_boss_lottery/dimension_boss_lottery/dimension_boss_lottery_array.bfbs";
+        Dump<DimensionBossLotteryDBArray, DimensionBossLotteryDB>(dimBossLottery, z => z.Table);
+
+        const string dimGateSpawner = "world/ik_data/field/dimension/dimension_gate_spawner/dimension_gate_spawner/dimension_gate_spawner_array.bfbs";
+        Dump<DimensionGateSpawnerDBArray, DimensionGateSpawnerDB>(dimGateSpawner, z => z.Table);
+
+        const string dimGateArray = "world/ik_data/field/dimension/dimension_gate_object/dimension_gate_object/dimension_gate_object_array.bfbs";
+        Dump<DimensionGateObjectDBArray, DimensionGateObjectDB>(dimGateArray, z => z.Table);
+
+        const string dimProgress = "world/ik_data/field/dimension/dimension_progress/dimension_progress/dimension_progress_array.bfbs";
+        Dump<DimensionProgressDBArray, DimensionProgressDB>(dimProgress, z => z.Table);
+
+        const string dimMapArray = "world/ik_data/field/dimension/dimension_map/dimension_map/dimension_map_array.bfbs";
+        Dump<DimensionMapDBArray, DimensionMapDB>(dimMapArray, z => z.Table);
+
+        const string dimRankArray = "world/ik_data/field/dimension/dimension_rank/dimension_rank/dimension_rank_array.bfbs";
+        Dump<DimensionRankDBArray, DimensionRankDB>(dimRankArray, z => z.Table);
+
+        const string dimConfig = "world/ik_data/field/dimension/dimension_config/dimension_config/dimension_config.bfbs";
+        DumpJson<DimensionConfigDB>(dimConfig);
+
+        const string wazaConfig = "world/ik_data/field/wazagimmick_item_spawner/wazagimmick_item_spawner/wazagimmick_item_spawner.bfbs";
+        Dump<WazagimmickItemSpawnerDB, WazagimmickItemSpawner>(wazaConfig, z => z.Table);
+
+        const string itemTable = "world/ik_data/field/wazagimmick_item_table/wazagimmick_item_table/wazagimmick_item_table_array.bfbs";
+        Dump<WazagimmickItemTableDBArray, WazagimmickItemTableDB>(itemTable, z => z.Table);
+
+        DumpDimensionGates();
     }
 
     private void RipPersonal(PersonalTable9ZA pt, string lang)
@@ -1035,16 +1114,16 @@ public class GameDumper9a(GameManager9a rom)
         File.WriteAllLines(GetPath(lang, "MovePerPokemon.txt"), moveLines);
 
         var dexOrder = pt.Table
-            .Where(z => z.FB.Dex != 0 && z.FB.IsPresentInGame)
-            .OrderBy(z => z.FB.Dex)
+            .Where(z => z.FB.Dex != null && z.FB.IsPresentInGame)
+            .OrderBy(z => z.FB.Dex!.Index)
             .GroupBy(z => z.FB.Info.SpeciesNational)
             .Select(z => z.First());
 
-        var pc = dexOrder.Select(z => $"{z.FB.Dex:000}\t{specNames[z.FB.Info.SpeciesInternal]}");
+        var pc = dexOrder.Select(z => $"{z.FB.Dex!.Index:000}\t{specNames[z.FB.Info.SpeciesInternal]}");
         File.WriteAllText(GetPath(lang, "dex.txt"), string.Join(Environment.NewLine, pc));
 
         var foreign = pt.Table
-            .Where(z => z.FB.Dex == 0 && z.IsPresentInGame)
+            .Where(z => z.FB.Dex == null && z.IsPresentInGame)
             .GroupBy(z => z.FB.Info.SpeciesNational)
             .Select(z => z.First());
 
@@ -1065,7 +1144,6 @@ public class GameDumper9a(GameManager9a rom)
             tmNames[i] = $"TM{i + 1:000}\t{moveNames[tms[i]]}";
         File.WriteAllText(GetPath(lang, "tm.txt"), string.Join(Environment.NewLine, tmNames));
     }
-
 
     private static byte[][] SerializeU16Pickle(PersonalTable9ZA pt, Func<PersonalInfo, IList<ushort>> sel)
     {
@@ -1106,14 +1184,18 @@ public class GameDumper9a(GameManager9a rom)
             return Write(e.FB.Info.SpeciesNational, e.FB.Evolutions);
         }
 
-        static byte[] Write(int species, IEnumerable<PersonalInfoEvolution> evos)
+        static byte[] Write(int species, IList<PersonalInfoEvolution> evos)
         {
             using var ms = new MemoryStream();
             using var bw = new BinaryWriter(ms);
 
-            var list = evos.ToArray();
-            if (species == (int)Species.Crabrawler)
-                Array.Reverse(list); // put the levelup evo last.
+            var list = evos;
+            if (species is (int)Species.Crabrawler or (int)Species.Feebas)
+            {
+                var tmp = evos.ToArray();
+                Array.Reverse(tmp); // put the levelup evo last.
+                list = tmp;
+            }
 
             foreach (var m in list) // just in case
             {
@@ -1227,7 +1309,8 @@ public class GameDumper9a(GameManager9a rom)
         var classes = Get<TrainerTypeArray>(trt);
         var npcs = Get<NpcAssetDataDBArray>(npc).Table;
         var trBtlData = Get<TrainerBattleGlobalDBArray>(btl).Table;
-        List<(string TrainerBattleID, string NPCAssetID)> trBtls = trBtlData.Select(z => (z.TrainerBattleID, z.NPCAssetID)).ToList()!;
+        List<(string TrainerBattleID1, string NPCAssetID1)> trBtls1 = trBtlData.Select(z => (z.TrainerBattleID1, z.NPCAssetID1)).ToList()!;
+        List<(string TrainerBattleID2, string NPCAssetID2)> trBtls2 = trBtlData.Select(z => (z.TrainerBattleID2, z.NPCAssetID2)).ToList()!;
 
         // pretty
         List<string> result = [];
@@ -1276,6 +1359,7 @@ public class GameDumper9a(GameManager9a rom)
                 var gender = pk.Sex is 0 ? string.Empty : pk.Sex is SexType.MALE ? " (♂)" : " (♀)";
 
                 var level = $" (Lv. {pk.Level})";
+                var alpha = pk.IsOybn ? " (Alpha)" : string.Empty;
                 var item = pk.Item is 0 ? string.Empty : $" (Held Item: {items[(int)pk.Item]})";
                 var rare = pk.RareType is RareType.RARE ? " ★" : string.Empty;
                 var move1 = PrettyDumpUtil.GetMoveText(pk.Waza1, moves);
@@ -1306,7 +1390,7 @@ public class GameDumper9a(GameManager9a rom)
                 var eff = pk.EffortValue;
                 ReadOnlySpan<int> evs = [eff.HP, eff.ATK, eff.DEF, eff.SPA, eff.SPD, eff.SPE];
                 var textEVs = evs.ContainsAnyExcept(0) ? $" (EVs: {PrettyDumpUtil.GetEVSpread(evs)})" : string.Empty;
-                var line = $"- {name}{form}{gender}{rare}{level}{item}{ability}{nature}{ball}{moveOutput}{textIVs}{textEVs}";
+                var line = $"- {name}{form}{gender}{rare}{level}{alpha}{item}{ability}{nature}{ball}{moveOutput}{textIVs}{textEVs}";
                 result.Add(line);
             }
 
@@ -1327,7 +1411,7 @@ public class GameDumper9a(GameManager9a rom)
             var format = ((flags >> 7) & 0b11);
             var display = format switch
             {
-                0 when name is "Corbeau" or "Philippe" => "{1} of the {0}", // no clue how they differentiate these two from Grunts, hardcode it
+                0 when type is "Rust Syndicate" && name is "Corbeau" or "Philippe" => "{1} of the {0}", // no clue how they differentiate these two from Grunts, hardcode it
                 0 => "{0} {1}",
                 1 when article => "{1} of the {0}",
                 1 => "{1} of {0}",
@@ -1338,6 +1422,10 @@ public class GameDumper9a(GameManager9a rom)
             // edge case for the longest trainer name in history
             if (name is "representative")
                 display = display.Insert(0, "The ");
+
+            // no unique name
+            if (type is "Alpha Trainer" or "Hyperspace Trainer")
+                return type;
 
             return string.Format(display, type, name);
         }
@@ -1361,21 +1449,51 @@ public class GameDumper9a(GameManager9a rom)
                 return $"{rivalF}/{rivalM}";
             }
 
-            var (trainerBattleId, npcAssetId) = trBtls.FirstOrDefault(z => z.TrainerBattleID == id);
-            if (trainerBattleId is null)
+            // no unique name
+            if (id.StartsWith("dim_rank_"))
+                return string.Empty;
+
+            var (trainerBattleId1, npcAssetId1) = trBtls1.FirstOrDefault(z => z.TrainerBattleID1 == id);
+            var (trainerBattleId2, npcAssetId2) = trBtls2.FirstOrDefault(z => z.TrainerBattleID2 == id);
+            var btlToCheck = trainerBattleId2 is null ? trainerBattleId1 : trainerBattleId2;
+            var npcToCheck = npcAssetId2 is null ? npcAssetId1 : npcAssetId2;
+
+            if (btlToCheck is null || id is "Ev_sub_123_010" || id.Contains("Ev_sub_124"))
             {
+                // not in trname
+                if (id is "Ev_sub_145_010_multi")
+                    return "Marcia";
+
                 var fallback = GetFallbackTrainerName(id);
                 return ahtbNames.GetString(FnvHash.HashFnv1a_64(fallback), trNames);
             }
 
             // special name format
-            if (npcAssetId.Contains("rest_trainer"))
+            if (npcToCheck.Contains("rest_trainer"))
             {
-                var restName = ahtbNames.GetString(FnvHash.HashFnv1a_64(npcAssetId.Replace("_trainer", "")), trNames);
+                var restName = ahtbNames.GetString(FnvHash.HashFnv1a_64(npcToCheck.Replace("_trainer", "")), trNames);
                 return restName;
             }
 
-            var target = npcs.FirstOrDefault(z => z.AssetId == npcAssetId)!;
+            if (npcToCheck.StartsWith("2on2_"))
+                npcToCheck = npcToCheck[5..];
+
+            var target = npcs.FirstOrDefault(z => z.AssetId == npcToCheck)!;
+
+            if (target is null)
+            {
+                var startQuest = npcToCheck.Length is 15 ? 8 : 7;
+                var startSub = npcToCheck.Length is 15 ? 12 : 11;
+                var questID = int.Parse(npcToCheck[startQuest..(startQuest + 3)]);
+                var subID = int.Parse(npcToCheck[startSub..(startSub + 3)]);
+
+                // this is off-by-two for some reason?
+                if (questID == 180)
+                    subID += 2;
+
+                target = npcs.FirstOrDefault(z => z.AssetId == $"npc_sub{questID}_{subID:0000}")!;
+            }
+
             var name = target.NpcInfoList.Where(z => !string.IsNullOrWhiteSpace(z.Name)).ToArray()[0].Name;
             return ahtbNames.GetString(FnvHash.HashFnv1a_64(name), trNames);
         }
@@ -1394,6 +1512,26 @@ public class GameDumper9a(GameManager9a rom)
             "Ev_m09_2400_multi_02" => "executive05", // Griselle
             "Ev_sub_103_multi" => "alias01", // Andi
             "Ev_sub_114_multi" => "battleg", // Josée
+
+            // DLC
+            "Ev_d02_0010" or "Ev_sub_161_010_multi" => "friend_01", // Naveen
+            "Ev_d00_2100_multi" or "Ev_d04_1100" or "Ev_sub_164_010_multi" => "friend_02", // Lida
+            "Ev_d01_3100" or "Ev_d02_2200" or "Ev_d03_1300" or "Ev_d04_2100" or "Ev_d05_1200" or "Ev_d06_1020" or "Ev_d07_1000" or "Ev_d07_1100" or "Ev_d07_2000" or "Ev_sub_162_010_multi" or "Ev_sub_203_010_multi_02" => "xyleader3_01", // Korrina
+            "Ev_d05_0100" => "boss03", // Corbeau
+          //"Ev_sub_145_010_multi" => "sub_145", // Marcia
+            "Ev_sub_148_020_client" => "sub_148", // Dixan
+            "Ev_sub_165_010_multi" or "Ev_sub_203_010_multi_01" => "detective", // Emma
+            "Ev_sub_166_010_multi" => "executive02", // Gwynn
+            "Ev_sub_167_010_multi" => "executive04", // Lebanne
+            "Ev_sub_168_010_multi" => "secretary", // Vinnie
+            "Ev_sub_169_010_multi" => "boss04", // Jacinthe
+            "Ev_sub_170_010_multi" => "executive03", // Philippe
+
+            // Some DLC Side Missions with NPCs from past Side Missions are, annoyingly, not mapped as such in the NPC db array
+            "Ev_sub_123_010" => "sub_002", // Trevelle
+            _ when id.Contains("megax") => "sub_001", // Tracie
+            _ when id.Contains("megay") => "sub_072", // Griddella
+
             _ => throw new ArgumentOutOfRangeException(nameof(id), id, null),
         };
     }
@@ -1511,6 +1649,8 @@ public class GameDumper9a(GameManager9a rom)
             ("rnd_", true),
             ("TITLE_", true),
             ("itd_", true),
+            ("donut", true),
+            ("dim_", true),
 
             ("rso_", false), // royale card spawn
             ("t1_", false),
@@ -1559,7 +1699,7 @@ public class GameDumper9a(GameManager9a rom)
             ..FromFile<EventLabelArray>("ik_event/bin/flag/temp_flag.bin").Table.Select(z => z.Name),
             ..FromFile<EventLabelArray>("ik_event/bin/flag/temp_work.bin").Table.Select(z => z.Name),
 
-            ..FromFile<EventLabelArray>("ik_event/bin/title/title.bin").Table.Select(z => z.Name),
+            ..FromFile<TitleArray>("ik_event/bin/title/title.bin").Table.Select(z => z.Name),
 
             // works to grab first field of object as string, even though this isn't the right schema to parse as
             ..FromFile<EventLabelArray>("ik_event/bin/momiji_count/momiji_count.bin").Table.Select(z => z.Name),
@@ -1838,7 +1978,7 @@ public class GameDumper9a(GameManager9a rom)
 
         var names = GetCommonText("monsname", lang, cfg);
         var natures = GetCommonText("seikaku", lang, cfg);
-        ReadOnlySpan<string> Trades = ["sub_addpoke_araichu", "sub_tradepoke_riolu", "sub_addpoke_gyadon", "sub_tradepoke_heracros"];
+        ReadOnlySpan<string> Trades = ["sub_addpoke_araichu", "sub_tradepoke_riolu", "sub_addpoke_gyadon", "sub_tradepoke_heracros", "sub_tradepoke_poligon2"];
 
         foreach (var enc in pokemon.Table)
         {
@@ -1963,6 +2103,7 @@ public class GameDumper9a(GameManager9a rom)
         var outPath = GetPath("spawner");
         var dumper = new SpawnRipper9a(rom, "English", outPath);
         dumper.ExportRippedMaps();
+        dumper.ExportHyperspacePickle();
     }
 
     private void DumpEncountPretty(EncountDataDBArray pokemon, PokemonDropItemTableDataDBArray drops)
@@ -2098,13 +2239,19 @@ public class GameDumper9a(GameManager9a rom)
                         {
                             foreach (var slot in encDropData.Where(z => z.ItemTableId == i.Id))
                             {
+                                float totalWeight = 0;
+                                foreach (var dropped in i.ItemLotteryDataList!)
+                                    totalWeight += dropped.Weight;
+
                                 foreach (var dropped in i.ItemLotteryDataList!)
                                 {
                                     var itemID = int.TryParse(dropped.ItemId, out var id);
                                     var weight = dropped.Weight;
                                     var maxCount = dropped.MaxCount;
                                     var type = dropped.Type;
-                                    result.Add($"- {weight}% {items[id]} (×{maxCount})");
+                                    float rate = (float)(Math.Round((weight / totalWeight) * 100f, 2));
+                                    var countDisplay = maxCount == 1 ? $"×{maxCount}" : $"×1-{maxCount}";
+                                    result.Add($"- {rate:00.00}% {items[id]} ({countDisplay})");
                                 }
                             }
                         }
@@ -2200,10 +2347,13 @@ public class GameDumper9a(GameManager9a rom)
             result.Add(names[415]); // Riolouie (Riolu)
             result.Add(names[416]); // Spicy (Slowpoke)
             result.Add(names[417]); // Floffy (Raichu)
+            result.Add(names[496]); // Alias (Porygon)
+
             result.Add(names[293]); // Tracie
             result.Add(names[306]); // Bond
             result.Add(names[310]); // Quille
             result.Add(names[362]); // Griddella
+            result.Add(names[431]); // Trian
 
             File.WriteAllLines(GetPath("pkhex", "trades", $"text_tradeza_{l}.txt"), result);
         }
@@ -2444,7 +2594,7 @@ public class GameDumper9a(GameManager9a rom)
 
     private IEnumerable<string> GetTriggerFileList()
     {
-        for (int i = 0; i <= 9; i++)
+        for (int i = 0; i <= 10; i++)
         {
             const string main = "ik_event/bin/trigger/main/trigger_main_{0:00}.bin";
             var file = string.Format(main, i);
@@ -2458,6 +2608,106 @@ public class GameDumper9a(GameManager9a rom)
             if (rom.HasFile(file))
                 yield return file;
         }
+
+        yield return "ik_event/bin/trigger/map/trigger_map_t2.bin";
+        yield return "ik_event/bin/trigger/global/trigger_global.bin";
+        yield return "ik_event/bin/trigger/trainer_battle/trigger_trainer_battle_global.bin";
+        yield return "ik_event/bin/trigger/wild_battle/trigger_wild_battle_global.bin";
+        yield return "ik_event/bin/trigger/last_battle/trigger_last_battle_global.bin";
+        yield return "ik_event/bin/trigger/boss_battle/trigger_boss_battle_global.bin";
+        yield return "ik_event/bin/trigger/athletic_time_attack/trigger_athletic_time_attack.bin";
+    }
+
+    public void DumpDonutData()
+    {
+        var textConfig = new TextConfig(GameVersion.ZA);
+
+        foreach (var language in LanguageEnglishNames)
+        {
+            var code = GetLanguageCode(language);
+
+            // Get Donut Names
+            // Skip index 0, only keep 203 entries
+            var donuts = GetText("donut_name", language).AsSpan(1, 203);
+            foreach (ref var name in donuts)
+            {
+                // remove string format. don't care for now.
+                name = name.Replace("[VAR 01D9(0001)][VAR 0133(0000)] ", ""); // english
+                name = name.Replace("[VAR 0133(0000)]", ""); // otherwise, before & after
+                name = name.Replace("[VAR 01D9(0001)]", "");
+
+            }
+            WriteText("donutName", code, donuts.ToArray());
+
+            // Get Flavor Names
+            var flavors = GetText("donut_flavor", language).AsSpan(205, 290);
+            // Need to skip over the unused entries.
+            // Skip 3,4,5 and 147-152
+            var flavorNames = new List<string>();
+            for (int i = 0; i < flavors.Length; i++)
+            {
+                if (i is 3 or 4 or 5 or >= 147 and <= 152)
+                    continue;
+                flavorNames.Add(flavors[i]);
+            }
+            WriteText("donutFlavor", code, flavorNames);
+        }
+
+        return;
+
+        void WriteText(string name, string code, IEnumerable<string> lines)
+        {
+            var path = GetPath("pkhex", "donut");
+            Directory.CreateDirectory(path);
+            var fileName = $"text_{name}_{code}.txt";
+            File.WriteAllText(Path.Combine(path, fileName), string.Join('\n', lines));
+        }
+
+        string[] GetText(string name, string lang)
+        {
+            var data = rom.GetPackedFile($"{message}/dat/{lang}/sk/{name}.dat");
+            return new TextFile(data, textConfig).Lines;
+        }
+    }
+
+    public void DumpDimensionGates()
+    {
+        var files = new[]
+        {
+            "world/ik_scene/field/area/t1/sub_scene/t1_gimmick/t1_dim_gate_spawner/t1_dim_gate_spawner_blue_/t1_dim_gate_spawner_blue_0.trscn",
+            "world/ik_scene/field/area/t1/sub_scene/t1_gimmick/t1_dim_gate_spawner/t1_dim_gate_spawner_jaune_/t1_dim_gate_spawner_jaune_0.trscn",
+            "world/ik_scene/field/area/t1/sub_scene/t1_gimmick/t1_dim_gate_spawner/t1_dim_gate_spawner_rose_/t1_dim_gate_spawner_rose_0.trscn",
+            "world/ik_scene/field/area/t1/sub_scene/t1_gimmick/t1_dim_gate_spawner/t1_dim_gate_spawner_rouge_/t1_dim_gate_spawner_rouge_0.trscn",
+            "world/ik_scene/field/area/t1/sub_scene/t1_gimmick/t1_dim_gate_spawner/t1_dim_gate_spawner_veil_/t1_dim_gate_spawner_veil_0.trscn",
+            "world/ik_scene/field/area/t1_i011/sub_scene/t1_i011_gimmick/t1_i011_dim_gate_spawner_/t1_i011_dim_gate_spawner_0.trscn",
+            "world/ik_scene/field/area/t1_i012_1/sub_scene/t1_i012_1_gimmick/t1_i012_1_dim_gate_spawner_/t1_i012_1_dim_gate_spawner_0.trscn",
+            "world/ik_scene/field/area/t1_i012_2/sub_scene/t1_i012_2_gimmick/t1_i012_2_dim_gate_spawner_/t1_i012_2_dim_gate_spawner_0.trscn",
+            "world/ik_scene/field/area/t1_i014_1/sub_scene/t1_i014_1_gimmick/t1_i014_1_dim_gate_spawner_/t1_i014_1_dim_gate_spawner_0.trscn",
+            "world/ik_scene/field/area/t2/sub_scene/t2_gimmick/t2_dim_gate_spawner_/t2_dim_gate_spawner_0.trscn",
+            "world/ik_scene/field/area/t3/sub_scene/t3_gimmick/t3_dim_gate_spawner_/t3_dim_gate_spawner_0.trscn",
+        };
+
+        List<string> Result = [];
+        foreach (var t in files)
+        {
+            var data = rom.GetPackedFile(t);
+            var obj = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplate>(data);
+            Result.Add(obj.ObjectTemplateName);
+
+            foreach (var o in obj.Objects.Where(z => z.Type is "trinity_ObjectTemplate"))
+            {
+                var sceneObject = FlatBufferConverter.DeserializeFrom<TrinitySceneObjectTemplateData>(o.Data);
+                var scenePoint = FlatBufferConverter.DeserializeFrom<TrinityScenePoint>(sceneObject.Data);
+                var dim = sceneObject.ObjectTemplateName;
+                var pos = scenePoint.Position;
+
+                Result.Add($"{dim}\t{pos.X}\t{pos.Y}\t{pos.Z}");
+            }
+
+            Result.Add("");
+        }
+
+        File.WriteAllLines(GetPath("dim_gate", "dim_gate.txt"), Result);
     }
 }
 

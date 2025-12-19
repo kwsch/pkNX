@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionConfig {
+  SpecialLotteryForceWinChainCount:int;
+  GateObjectStreamingActivateDistance:float;
+  GateObjectStreamingDeactivateDistance:float;
+  DummyZoneAreaId:string;
+  DummyZoneExtensionLevel:int;
+  BonusLotteryRandomThresholdDistance:float;
+}
+
+table DimensionConfigDB (fs_serializer) {
+  Table:DimensionConfig (required);
+}
+
+root_type DimensionConfigDB;

@@ -80,11 +80,11 @@ public sealed record EncounterSlot9a(ushort Species, byte Form, byte LevelMin, b
         File.WriteAllBytes(path, mini);
     }
 
-    public static void AddSlots(List<EncounterSlot9a> list, EncountData slot, EncountDataInfo enc)
+    public static void AddSlots(List<EncounterSlot9a> list, EncountData slot, EncountDataInfo enc, bool hyperspaceBoost = false)
     {
         var species = SpeciesConverterZA.GetNational9((ushort)slot.DevNo);
         var form = (byte)slot.FormNo;
-        const int boost = 0; // enc.AdditionalLevel; // field is unused; assumed to be similar to Kitakami post-game level boost, but there is none applicable in Z-A.
+        int boost = !hyperspaceBoost ? 0 : enc.AdditionalLevel; // level boost used in hyperspace, applicable in Z-A.
         var minLevel = (byte)(slot.MinLevel + boost);
         var maxLevel = (byte)(slot.MaxLevel + boost);
         var gender = (sbyte)slot.Sex;

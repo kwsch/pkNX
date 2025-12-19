@@ -1,0 +1,32 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table PokeTypeItem {
+  PokeType:int;
+  LotteryWeight:int;
+}
+
+table MapItem {
+  MapId:string;
+  LotteryWeight:int;
+}
+
+table DimensionRank {
+  Rank:int;
+  ExtensionLevel:int;
+  EstimateLevel:int;
+  LimitReductionSpeed:float;
+  MapItems:[MapItem] (required);
+  BattlePokeTypeItems:[PokeTypeItem] (required);
+}
+
+table DimensionRankDB {
+  Table:[DimensionRank] (required);
+}
+
+table DimensionRankDBArray (fs_serializer) {
+  Table:[DimensionRankDB] (required);
+}
+
+root_type DimensionRankDBArray;

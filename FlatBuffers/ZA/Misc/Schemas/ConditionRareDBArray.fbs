@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table ConditionRareDB {
+    Table:[ConditionRare] (required);
+}
+
+table ConditionRareDBArray (fs_serializer) {
+    Table:[ConditionRareDB] (required);
+}
+
+table ConditionRare {
+    Version:float;
+    TriggerID:int;
+    ComparisonOperatorType:int;
+}
+root_type ConditionRareDBArray;

@@ -23,10 +23,12 @@ The following games are supported:
 * Sword / Shield
 * Legends: Arceus
 * Scarlet / Violet **(Only for dumping data, not to edit files!)**
+* Legends: Z-A **(Only for dumping data, not to edit files!)**
 
 pkNX operates under the assumption that your dumped ROM includes the latest available update data for the following games:
 * Sword / Shield (Ver. 1.3.2)
-* Scarlet / Violet (Ver. 3.0.1)
+* Scarlet / Violet (Ver. 4.0.0)
+* Legends: Z-A (Ver. 2.0.0)
 
 ## Features
 

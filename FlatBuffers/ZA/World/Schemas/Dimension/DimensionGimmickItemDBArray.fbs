@@ -1,0 +1,23 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table RankItem {
+  Rank:int;
+  ItemTableId:string (required);
+}
+
+table DimensionGimmickItem {
+  GimmickId:string;
+  RankItems:[RankItem] (required);
+}
+
+table DimensionGimmickItemDB {
+  Table:[DimensionGimmickItem] (required);
+}
+
+table DimensionGimmickItemDBArray (fs_serializer) {
+  Table:[DimensionGimmickItemDB] (required);
+}
+
+root_type DimensionGimmickItemDBArray;

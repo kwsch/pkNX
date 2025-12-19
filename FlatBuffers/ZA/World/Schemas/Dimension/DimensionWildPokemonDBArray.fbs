@@ -1,0 +1,34 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionWildSpawnerItem {
+    SpawnerDataId:string (required);
+    LotteryWeight:int;
+}
+
+table DimensionWildPatternItem {
+    PatternNo:int;
+    LotteryWeight:int;
+    SpawnerItems:[DimensionWildSpawnerItem];
+}
+
+table DimensionWildRankItem {
+    Rank:int;
+    PatternItems:[DimensionWildPatternItem];
+}
+
+table DimensionWildPokemon {
+    PokeType:int;
+    RankItems:[DimensionWildRankItem] (required);
+}
+
+table DimensionWildPokemonDB {
+    Table:[DimensionWildPokemon] (required);
+}
+
+table DimensionWildPokemonDBArray (fs_serializer) {
+    Table:[DimensionWildPokemonDB] (required);
+}
+
+root_type DimensionWildPokemonDBArray;

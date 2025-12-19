@@ -31,4 +31,5 @@ table PokeDataBattle {
     EffortValue:ParamSet (required);
     RareType:RareType;
     ScaleValue:short;
+    IsOybn:bool;
 }

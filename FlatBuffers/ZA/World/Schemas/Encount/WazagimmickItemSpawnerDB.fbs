@@ -1,0 +1,26 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table ItemTableInfo {
+    TableId:string;
+    Condition:[ActivationCondition];
+}
+
+table WazagimmickItemSpawner {
+    Id:string;
+    ObjectNameList:[string] (required);
+    MinCount:int;
+    MaxCount:int;
+    ItemTableInfoList:[ItemTableInfo] (required);
+}
+
+table WazagimmickItemSpawnerDB (fs_serializer) {
+    Table:[WazagimmickItemSpawner] (required);
+}
+
+root_type WazagimmickItemSpawnerDB;

@@ -1,0 +1,40 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionZoneEventItem {
+  EventId:string;
+  EventKind:int;
+  LotteryWeight:int;
+  EstimateLevel:int;
+  Condition:[ActivationCondition];
+}
+
+table DimensionZoneRankItem {
+  Rank:int;
+  WildLotteryWeight:int;
+  BattleLotteryWeight:int;
+  EventLotteryWeight:int;
+  WildSceneNames:[string];
+  BattleSceneNames:[string];
+  EventItems:[DimensionZoneEventItem];
+}
+
+table DimensionZoneLottery {
+  MapId:string;
+  RankItems:[DimensionZoneRankItem] (required);
+}
+
+table DimensionZoneLotteryDB {
+  Table:[DimensionZoneLottery] (required);
+}
+
+table DimensionZoneLotteryDBArray (fs_serializer) {
+  Table:[DimensionZoneLotteryDB] (required);
+}
+
+root_type DimensionZoneLotteryDBArray;

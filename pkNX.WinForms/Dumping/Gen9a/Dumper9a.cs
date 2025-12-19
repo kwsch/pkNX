@@ -99,6 +99,12 @@ public partial class Dumper9a : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
+    private void B_DumpDimension_Click(object sender, EventArgs e)
+    {
+        Dumper.DumpDimension();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
     private void B_DumpScrubbed_Click(object sender, EventArgs e)
     {
         Dumper.DumpScrubbedInfo();
@@ -188,6 +194,12 @@ public partial class Dumper9a : Form
     private void B_Triggers_Click(object sender, EventArgs e)
     {
         Dumper.DumpEventTriggers();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_DonutLocalization_Click(object sender, EventArgs e)
+    {
+        Dumper.DumpDonutData();
         System.Media.SystemSounds.Asterisk.Play();
     }
 }

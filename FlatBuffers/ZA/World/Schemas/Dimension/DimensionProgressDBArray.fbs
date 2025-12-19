@@ -1,0 +1,40 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionProgressRankItem {
+  Rank:int;
+  LotteryWeight:int;
+  MinCount:int;
+  MaxCount:int;
+}
+
+table DimensionProgress {
+  ProgressId:string;
+  WildMinCount:int;
+  WildMaxCount:int;
+  BattleMinCount:int;
+  BattleMaxCount:int;
+  EventMinCount:int;
+  EventMaxCount:int;
+  AreaGateMinCount:int;
+  AreaGateMaxCount:int;
+  TotalGateMinCount:int;
+  TotalGateMaxCount:int;
+  RankItems:[DimensionProgressRankItem] (required);
+  Condition:[ActivationCondition];
+}
+
+table DimensionProgressDB {
+  Table:[DimensionProgress] (required);
+}
+
+table DimensionProgressDBArray (fs_serializer) {
+  Table:[DimensionProgressDB] (required);
+}
+
+root_type DimensionProgressDBArray;

@@ -17,6 +17,7 @@ table FieldAreaInfo {
     ProhibitReadyBallThrow:bool;
     ProhibitPartnerPutout:bool;
     IsOptimizeWaterLight:bool;
+    CanEvolveToPoke0867:bool; // Runerigus, inserted in 2.0.0
     DefaultStartPosition:PackedVec3f;
     DefaultStartYaw:float;
     Music:string;

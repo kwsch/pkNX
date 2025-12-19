@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using pkNX.Structures;
 
 namespace pkNX.WinForms;
 
@@ -19,6 +20,7 @@ public sealed class SpawnRipper9a
     public readonly LumioseMap Overworld;
     public const byte LocationLabs = 234;
     public const byte LocationSewer = 235;
+    public const ushort LocationHyperspace = 273;
 
     public readonly SpawnNameResolver Resolver;
     public readonly SpawnGlobalInfo Shared;
@@ -59,7 +61,6 @@ public sealed class SpawnRipper9a
         RippedMaps.Add(SimulateScene(SceneInfo9a.ScenePathsT2, "t2", _ => LocationLabs));
         RippedMaps.Add(SimulateScene(SceneInfo9a.ScenePathsT3, "t3", _ => LocationSewer));
     }
-
 
     public void DumpSceneToPickle(List<SimulatedAreaSet> rip)
     {
@@ -106,7 +107,7 @@ public sealed class SpawnRipper9a
             foreach (var obj in spawn.Table)
             {
                 foreach (var sub in obj.AppearanceSpawnerObjectInfoList)
-                    result.Add(sub.ObjectName, obj);
+                    result.TryAdd(sub.ObjectName, obj);
             }
         }
         return result;
@@ -136,6 +137,79 @@ public sealed class SpawnRipper9a
     public string GetLocationName(int locationIndex) => Resolver.LocationNames[locationIndex];
     public bool TryGetSpawner(string name, [NotNullWhen(true)] out PokemonSpawnerData? spawnerData) => RipInfo.SpawnerInfo.TryGetValue(name, out spawnerData);
     public bool TryGetEncounter(string id, [NotNullWhen(true)] out EncountData? slot) => Shared.Encounters.TryGetValue(id, out slot);
+
+    public void ExportHyperspacePickle()
+    {
+        var list = new List<EncounterSlot9a>();
+        var locationTable = new EncounterArea9a[] { new() { Location = LocationHyperspace, Slots = list } };
+
+        // Random set of spawns can appear at any spawner. All we care about is the encounters within that set.
+        AddRandomSpawns(list);
+
+        // Special Distortion boss spawners come with a pack of encounters to act as nuisance. We need them.
+        // ect_zdm40X_sp0Y_Z
+        // bosses are the special spawn with fixed IVs. Don't need them.
+        var band = Shared.Encounters.Select(z => z.Value)
+            .Where(z => IsHyperspaceBandSp(z.Id));
+
+        foreach (var enc in band)
+        {
+            // Need to get the spawner that has this encounter, for the relevant level boost.
+            if (!RipInfo.TryGetSpawnerFromEncounter(enc.Id, out var spawner))
+            {
+                System.Diagnostics.Debug.WriteLine($"Could not find spawner for hyperspace band encounter {enc.Id} - {(Species)enc.DevNo}");
+                continue;
+            }
+            AddSpawner(list, spawner);
+        }
+
+        foreach (var set in locationTable)
+            set.CondenseList();
+
+        var path = Path.Combine(_outDir, "encounter_hyperspace_za.pkl");
+        EncounterSlot9a.WritePickle(locationTable, path);
+
+        // Write a concatenated array of slots for visual pattern inspection.
+        EncounterSlot9a.WritePickleWithoutLocations(locationTable.SelectMany(z => z.Slots), path);
+    }
+
+    private static bool IsHyperspaceBandSp(string name) => name.StartsWith("ect_zdm40") && !name.EndsWith("_sp");
+
+    private void AddRandomSpawns(List<EncounterSlot9a> list)
+    {
+        foreach (var set in Shared.HyperspaceSpawnSets)
+        {
+            foreach (var info in RipInfo.SpawnerInfo)
+            {
+                if (info.Value.Id != set)
+                    continue;
+                AddSpawner(list, info.Value);
+                break;
+            }
+        }
+    }
+
+    private void AddSpawner(List<EncounterSlot9a> list, PokemonSpawnerData spawner)
+    {
+        foreach (var info in spawner.AppearanceSpawnerObjectInfoList)
+        {
+            var appearInfo = info.Appearance;
+            if (appearInfo.MinCount == 0)
+                continue;
+
+            var encounters = spawner.EncountDataInfoList;
+            // don't care about randomness of the list of encounters. just add them.
+
+            foreach (var enc in encounters)
+            {
+                if (enc.EncountDataId is not { } id)
+                    continue;
+                if (!TryGetEncounter(id, out var slot))
+                    continue;
+                EncounterSlot9a.AddSlots(list, slot, enc, hyperspaceBoost: true);
+            }
+        }
+    }
 }
 
 public record PointDump

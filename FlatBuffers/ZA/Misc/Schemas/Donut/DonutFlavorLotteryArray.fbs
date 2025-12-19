@@ -1,0 +1,16 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DonutFlavorLottery {
+  Count:uint;
+  Lv1:uint;
+  Lv2:uint;
+  Lv3:uint;
+}
+
+table DonutFlavorLotteryArray (fs_serializer) {
+  Table:[DonutFlavorLottery] (required);
+}
+
+root_type DonutFlavorLotteryArray;

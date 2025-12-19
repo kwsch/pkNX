@@ -1,0 +1,36 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionUniqueLottery {
+  UniqueLotteryId:string;
+  UseLimit:bool;
+  Rank:int;
+  EstimateLevel:int;
+  MapId:string;
+  StartPointObjectName:string;
+  PatternSceneName:string;
+  ZoneType:int;
+  WildPokeType_0:int;
+  WildPokePatternNo_0:int;
+  WildPokeType_1:int;
+  WildPokePatternNo_1:int;
+  WildPokeType_2:int;
+  WildPokePatternNo_2:int;
+  GateSpawnerId:string;
+  Condition:[ActivationCondition];
+}
+
+table DimensionUniqueLotteryDB {
+  Table:[DimensionUniqueLottery] (required);
+}
+
+table DimensionUniqueLotteryDBArray (fs_serializer) {
+  Table:[DimensionUniqueLotteryDB] (required);
+}
+
+root_type DimensionUniqueLotteryDBArray;
