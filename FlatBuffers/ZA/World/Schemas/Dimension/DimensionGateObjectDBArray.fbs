@@ -1,0 +1,18 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionGateObject {
+  GateObjectType:int;
+  ObjectTemplatePath:string;
+}
+
+table DimensionGateObjectDB {
+  Table:[DimensionGateObject] (required);
+}
+
+table DimensionGateObjectDBArray (fs_serializer) {
+  Table:[DimensionGateObjectDB] (required);
+}
+
+root_type DimensionGateObjectDBArray;

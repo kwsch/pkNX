@@ -1,0 +1,33 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionBossLottery {
+  BossLotteryId:string;
+  BattleId:string;
+  Rank:int;
+  EstimateLevel:int;
+  ExtensionLevel:int;
+  IsRematch:bool;
+  DevNo:int;
+  FormNo:int;
+  GateObjectType:int;
+  GateSpawnerId:string;
+  StartPointObjectName:string;
+  Condition:[ActivationCondition];
+  ReturnGateCondition:[ActivationCondition];
+}
+
+table DimensionBossLotteryDB {
+  Table:[DimensionBossLottery] (required);
+}
+
+table DimensionBossLotteryDBArray (fs_serializer) {
+  Table:[DimensionBossLotteryDB] (required);
+}
+
+root_type DimensionBossLotteryDBArray;

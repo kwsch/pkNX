@@ -1,0 +1,26 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DonutFlavor {
+  Flavor:string (required); // power granted
+  FlavorName:int;
+  UniqueEffect:int;
+  BoostArg:int; // type to boost, or which variant of the flavor
+  Field04:int;
+  Category2:int; // does this prevent multiple in same category?
+  IsBattleStatBoost:bool;
+  Level:int;
+  LevelVariance:int; // mostly matches level, besides shiny power (3) and legends (1)
+  IsSpecial:bool;
+  Name:string (required);
+  Info:string (required);
+  PrefixAdj:string (required); // based on the primary power
+  Detail:string (required);
+}
+
+table DonutFlavorArray (fs_serializer) {
+  Table:[DonutFlavor] (required);
+}
+
+root_type DonutFlavorArray;

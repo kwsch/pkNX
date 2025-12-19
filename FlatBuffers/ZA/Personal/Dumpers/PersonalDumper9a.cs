@@ -54,6 +54,8 @@ public class PersonalDumper9a
         if (form != 0)
             name += $"-{form}";
         name += $" #{entry.DexIndex:000}";
+        // if (entry.DexIndex != 0) // every group is 0, don't bother emitting. The game does -232 to check >=1 for Hyperspace Dex.
+        //     name += $" [{entry.DexGroup}]";
         AddDump(lines, entry, index, name, speciesInternal, form);
     }
 
@@ -366,6 +368,20 @@ public static class Plib9
         { 0094, 2403 }, // Unremarkable Teacup
         { 0095, 2404 }, // Masterpiece Teacup
         { 0096, 2402 }, // Syrupy Apple
+        { 0097, 0000 },
+        { 0098, 0000 },
+        { 0099, 0000 },
+        { 0100, 0000 },
+        { 0101, 0000 },
+        { 0102, 0765 }, // Prison Bottle
+        { 0103, 0000 },
+        { 0104, 0000 },
+        { 0105, 0000 },
+        { 0106, 0000 },
+        { 0107, 0000 },
+        { 0108, 0000 },
+        { 0109, 0000 },
+        { 0110, 0000 },
         { 0111, 0537 }, // Prism Scale
         { 0112, 0325 }, // Reaper Cloth
         { 0113, 0252 }, // Upgrade
@@ -375,5 +391,8 @@ public static class Plib9
         { 0117, 0321 }, // Protector
         { 0118, 0235 }, // Dragon Scale
         { 0119, 2482 }, // Metal Alloy
+        { 0121, 0847 }, // Zygarde Cube
+        { 0120, 0000 },
+        { 1691, 1691 }, // Black Augurite -- yeah, they gave up having unique indexes
     };
 }

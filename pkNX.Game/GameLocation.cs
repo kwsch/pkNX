@@ -90,6 +90,7 @@ public sealed class GameLocation
     private const int FILECOUNT_SV_300 = 30; // Ver. 3.0.0 (Indigo Disk)
     private const int FILECOUNT_ZA_100 = 22; // Ver. 1.0.0
     private const int FILECOUNT_ZA_102 = 21; // Ver. 1.0.2
+    private const int FILECOUNT_ZA_200 = 22; // Ver. 2.0.0 (Mega Dimension)
 
     private static ulong GetTitleID(string? exefs)
     {
@@ -114,7 +115,7 @@ public sealed class GameLocation
         FILECOUNT_SV or FILECOUNT_SV_101 or FILECOUNT_SV_120 or FILECOUNT_SV_130 or FILECOUNT_SV_201 or FILECOUNT_SV_300
             => DetectGen9(exefs),
 
-        FILECOUNT_ZA_100 or FILECOUNT_ZA_102
+        FILECOUNT_ZA_100 or FILECOUNT_ZA_102 or FILECOUNT_ZA_200
             => GameVersion.ZA,
 
         _ => GameVersion.Invalid

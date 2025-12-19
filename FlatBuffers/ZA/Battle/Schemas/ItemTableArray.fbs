@@ -1,0 +1,13 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+attribute "fs_serializer";
+
+table ItemTable {
+    ItemID:int;
+    PlibID:int;
+}
+
+table ItemTableArray (fs_serializer) {
+    Table:[ItemTable] (required);
+}
+
+root_type ItemTableArray;

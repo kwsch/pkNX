@@ -1,0 +1,26 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+// special donut recipe
+table DonutRecipe {
+  Index:uint;
+  SweetMin:uint;
+  SweetMax:uint;
+  SpicyMin:uint;
+  SpicyMax:uint;
+  SourMin:uint;
+  SourMax:uint;
+  BitterMin:uint;
+  BitterMax:uint;
+  FreshMin:uint;
+  FreshMax:uint;
+  DonutName:uint;
+  RecipeName:string (required);
+}
+
+table DonutRecipeArray (fs_serializer) {
+  Table:[DonutRecipe] (required);
+}
+
+root_type DonutRecipeArray;

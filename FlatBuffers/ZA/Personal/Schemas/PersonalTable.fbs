@@ -11,10 +11,8 @@ attribute "fs_serializer";
 table PersonalInfo {
     Info:PersonalInfoDetail (required);
     IsPresentInGame:bool;
-    Dex:ushort; // No need to group. Changed from SV.
-    // Dex:PersonalInfoDex; // not required
-    // KitakamiDex:ushort;  // NOT USED IN DATA
-    // BlueberryDex:ushort; // NOT USED IN DATA
+    // Dex:ushort; // base game was just a ushort; extended to 2+1 struct in Mega Dimension DLC
+    Dex:PersonalInfoDex; // not required
     Type1:ubyte;
     Type2:ubyte;
     Ability1:ushort;
@@ -38,6 +36,11 @@ table PersonalInfo {
     EggMoves:[ushort] (required);
     ReminderMoves:[ushort] (required);
     Learnset:[PersonalInfoMove] (required);
+}
+
+struct PersonalInfoDex { // give me a class, not struct.
+    Index:ushort;
+    Group:ubyte;
 }
 
 table PersonalTable (fs_serializer) {

@@ -73,6 +73,8 @@ public enum EvolutionType : byte
 
     Hisui = 61,
 
+    UseMoveBarbBarrage = 62, // ZA
+
     UseItemFullMoon = 90, // Ursaluna
     UseMoveAgileStyle = 91, // Wyrdeer
     UseMoveStrongStyle = 92, // Overqwil
@@ -158,6 +160,7 @@ public static class EvolutionTypeExtensions
         LevelUpRecoilDamageMale => true,
         LevelUpRecoilDamageFemale => true,
         Hisui => false,
+        UseMoveBarbBarrage => false,
 
         UseItemFullMoon => false,
         UseMoveAgileStyle => false,
@@ -237,6 +240,7 @@ public static class EvolutionTypeExtensions
         [LevelUpKnowMoveECElse] = Moves, // Dudunsparce 0
         [LevelUpKnowMoveEC25] = Moves, // Dudunsparce 1
         [Hisui] = NoArg,
+        [UseMoveBarbBarrage] = NoArg,
     };
 
     public static EvolutionTypeArgumentType GetArgType(this EvolutionType t) => ArgType[t];

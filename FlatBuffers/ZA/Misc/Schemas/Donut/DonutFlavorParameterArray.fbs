@@ -1,0 +1,16 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DonutFlavorParameter {
+  Index:uint;
+  Lv1:float;
+  Lv2:float;
+  Lv3:float;
+}
+
+table DonutFlavorParameterArray (fs_serializer) {
+  Table:[DonutFlavorParameter] (required);
+}
+
+root_type DonutFlavorParameterArray;

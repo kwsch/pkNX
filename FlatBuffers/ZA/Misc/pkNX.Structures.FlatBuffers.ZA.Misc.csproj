@@ -1,5 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <Content Remove="Schemas\WeatherHappeningParamArray.fbs" />
-  </ItemGroup>
-</Project>
+<Project Sdk="Microsoft.NET.Sdk" />

@@ -1,0 +1,23 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionGateSpawner {
+  GateSpawnerId:string;
+  IsDynamicCondition:bool;
+  Condition:[ActivationCondition];
+}
+
+table DimensionGateSpawnerDB {
+  Table:[DimensionGateSpawner] (required);
+}
+
+table DimensionGateSpawnerDBArray (fs_serializer) {
+  Table:[DimensionGateSpawnerDB] (required);
+}
+
+root_type DimensionGateSpawnerDBArray;

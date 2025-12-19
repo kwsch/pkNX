@@ -1,0 +1,22 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table BerryDetail {
+  ItemID:uint;
+  DonutIndex:uint;
+  IsHyperspace:bool;
+  Spicy:uint;
+  Fresh:uint;
+  Sweet:uint;
+  Bitter:uint;
+  Sour:uint;
+  LevelBoost:uint;
+  Calories:uint;
+}
+
+table BerryDetailArray (fs_serializer) {
+  Table:[BerryDetail] (required);
+}
+
+root_type BerryDetailArray;

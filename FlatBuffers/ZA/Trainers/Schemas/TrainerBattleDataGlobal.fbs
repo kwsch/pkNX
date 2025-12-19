@@ -10,10 +10,10 @@ table TrainerBattleDetail {
 
 table TrainerBattleData {
     Type:string (required);
-    TrainerBattleID:string;
-    NPCAssetID:string;
-    Field03:string;
-    Field04:string;
+    TrainerBattleID1:string;
+    NPCAssetID1:string;
+    TrainerBattleID2:string;
+    NPCAssetID2:string;
     Field05:string;
     Field06:string;
     Field07:string;
@@ -28,7 +28,8 @@ table TrainerBattleData {
     Field16:string;
     Field17:string;
     Field18:string;
-    Field19:[TrainerBattleDetail] (required);
+    Field19:string; // one field was inserted in 2.0.0, not sure which but it was after Field13
+    Field20:[TrainerBattleDetail] (required);
 }
 
 table TrainerBattleGlobalDBArray (fs_serializer) {

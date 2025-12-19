@@ -1,0 +1,17 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DonutDetail {
+  Index:uint;
+  FlavorDominant:uint;
+  BerryBase:uint;
+  Name:string (required);
+  Info:string (required);
+}
+
+table DonutDetailArray (fs_serializer) {
+  Table:[DonutDetail] (required);
+}
+
+root_type DonutDetailArray;

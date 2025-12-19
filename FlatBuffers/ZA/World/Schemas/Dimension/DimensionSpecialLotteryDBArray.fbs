@@ -1,0 +1,23 @@
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table DimensionSpecialLottery {
+  SpecialLotteryId:string (required);
+  Rank:int;
+  ZoneType:int;
+  MapId:string (required);
+  PatternSceneName:string; // not required
+  LotteryTableType:int;
+  LotteryWeight:int;
+}
+
+table DimensionSpecialLotteryDB {
+  Table:[DimensionSpecialLottery] (required);
+}
+
+table DimensionSpecialLotteryDBArray (fs_serializer) {
+  Table:[DimensionSpecialLotteryDB] (required);
+}
+
+root_type DimensionSpecialLotteryDBArray;

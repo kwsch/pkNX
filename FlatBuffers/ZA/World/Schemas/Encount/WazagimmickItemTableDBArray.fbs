@@ -1,0 +1,30 @@
+include "Shared/ActivationCondition.fbs";
+include "Shared/ActivationConditionElement.fbs";
+include "Shared/ActivationConditionParam.fbs";
+
+namespace pkNX.Structures.FlatBuffers.ZA;
+
+attribute "fs_serializer";
+
+table ItemTableItemLotteryData {
+    ItemId:string (required);
+    Weight:int;
+    MaxCount:int;
+    Type:int;
+    Condition:[ActivationCondition];
+}
+
+table WazagimmickItemTable {
+    Id:string (required);
+    ItemLotteryDataList:[ItemTableItemLotteryData] (required);
+}
+
+table WazagimmickItemTableDB {
+    Table:[WazagimmickItemTable] (required);
+}
+
+table WazagimmickItemTableDBArray (fs_serializer) {
+    Table:[WazagimmickItemTableDB] (required);
+}
+
+root_type WazagimmickItemTableDBArray;

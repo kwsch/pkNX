@@ -51,13 +51,15 @@ namespace pkNX.WinForms
             B_Misc = new System.Windows.Forms.Button();
             B_Scrubbed = new System.Windows.Forms.Button();
             B_DumpTriggers = new System.Windows.Forms.Button();
+            B_DumpConfig = new System.Windows.Forms.Button();
             Tab_PKHeX = new System.Windows.Forms.TabPage();
             flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             B_Locations = new System.Windows.Forms.Button();
+            B_DonutText = new System.Windows.Forms.Button();
             Tab_Future = new System.Windows.Forms.TabPage();
             flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             B_OpenFolder = new System.Windows.Forms.Button();
-            B_DumpConfig = new System.Windows.Forms.Button();
+            B_Dimension = new System.Windows.Forms.Button();
             TC_Options.SuspendLayout();
             Tab_General.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -235,6 +237,7 @@ namespace pkNX.WinForms
             flowLayoutPanel3.Controls.Add(B_Scrubbed);
             flowLayoutPanel3.Controls.Add(B_DumpTriggers);
             flowLayoutPanel3.Controls.Add(B_DumpConfig);
+            flowLayoutPanel3.Controls.Add(B_Dimension);
             flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             flowLayoutPanel3.Location = new System.Drawing.Point(4, 3);
             flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -341,6 +344,17 @@ namespace pkNX.WinForms
             B_DumpTriggers.UseVisualStyleBackColor = true;
             B_DumpTriggers.Click += B_Triggers_Click;
             // 
+            // B_DumpConfig
+            // 
+            B_DumpConfig.Location = new System.Drawing.Point(4, 234);
+            B_DumpConfig.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DumpConfig.Name = "B_DumpConfig";
+            B_DumpConfig.Size = new System.Drawing.Size(144, 71);
+            B_DumpConfig.TabIndex = 28;
+            B_DumpConfig.Text = "Config";
+            B_DumpConfig.UseVisualStyleBackColor = true;
+            B_DumpConfig.Click += B_DumpConfig_Click;
+            // 
             // Tab_PKHeX
             // 
             Tab_PKHeX.Controls.Add(flowLayoutPanel2);
@@ -355,6 +369,7 @@ namespace pkNX.WinForms
             // flowLayoutPanel2
             // 
             flowLayoutPanel2.Controls.Add(B_Locations);
+            flowLayoutPanel2.Controls.Add(B_DonutText);
             flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -372,6 +387,17 @@ namespace pkNX.WinForms
             B_Locations.Text = "Locations";
             B_Locations.UseVisualStyleBackColor = true;
             B_Locations.Click += B_Locations_Click;
+            // 
+            // B_DonutText
+            // 
+            B_DonutText.Location = new System.Drawing.Point(156, 3);
+            B_DonutText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DonutText.Name = "B_DonutText";
+            B_DonutText.Size = new System.Drawing.Size(144, 71);
+            B_DonutText.TabIndex = 22;
+            B_DonutText.Text = "Donut Text";
+            B_DonutText.UseVisualStyleBackColor = true;
+            B_DonutText.Click += B_DonutLocalization_Click;
             // 
             // Tab_Future
             // 
@@ -405,16 +431,16 @@ namespace pkNX.WinForms
             B_OpenFolder.UseVisualStyleBackColor = true;
             B_OpenFolder.Click += B_OpenFolder_Click;
             // 
-            // B_DumpConfig
+            // B_Dimension
             // 
-            B_DumpConfig.Location = new System.Drawing.Point(4, 234);
-            B_DumpConfig.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_DumpConfig.Name = "B_DumpConfig";
-            B_DumpConfig.Size = new System.Drawing.Size(144, 71);
-            B_DumpConfig.TabIndex = 28;
-            B_DumpConfig.Text = "Config";
-            B_DumpConfig.UseVisualStyleBackColor = true;
-            B_DumpConfig.Click += B_DumpConfig_Click;
+            B_Dimension.Location = new System.Drawing.Point(156, 234);
+            B_Dimension.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Dimension.Name = "B_Dimension";
+            B_Dimension.Size = new System.Drawing.Size(144, 71);
+            B_Dimension.TabIndex = 29;
+            B_Dimension.Text = "Dimension";
+            B_Dimension.UseVisualStyleBackColor = true;
+            B_Dimension.Click += B_DumpDimension_Click;
             // 
             // Dumper9a
             // 
@@ -471,5 +497,7 @@ namespace pkNX.WinForms
         private System.Windows.Forms.Button B_Scrubbed;
         private System.Windows.Forms.Button B_DumpTriggers;
         private System.Windows.Forms.Button B_DumpConfig;
+        private System.Windows.Forms.Button B_DonutText;
+        private System.Windows.Forms.Button B_Dimension;
     }
 }
