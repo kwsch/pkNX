@@ -43,9 +43,9 @@ pkNX also provides some utility to extract from supported container types, e.g. 
 
 ## Building
 
-pkNX is a Windows Forms application which requires [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0).
+pkNX is a Windows Forms application which requires [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-The executable can be built with any compiler that supports C# 13.
+The executable can be built with any compiler that supports C# 14.
 
 ## Dependencies
 
