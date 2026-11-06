@@ -1,0 +1,41 @@
+namespace pkNX.Structures.FlatBuffers.SV.Trinity;
+attribute "fs_serializer";
+
+table VersionInfo {
+    Version:uint;
+}
+
+table SpeciesInfo {
+    SpeciesInternal:ushort;
+    Form:ushort;
+    Gender:ubyte;
+}
+
+table AnimationInfo {
+    Form:ushort;
+    Path:string;
+}
+
+table LocatorInfo {
+    Form:ushort;
+    Index:ubyte;
+    Path:string;
+}
+
+table CatalogEntry {
+    Info:SpeciesInfo (required);
+    ModelPath:string (required);
+    MaterialTablePath:string (required);
+    ConfigPath:string (required);
+    Animations:[AnimationInfo] (required);
+    Locators:[LocatorInfo] (required);
+    IconPath:string (required);
+    Field07:uint; // nonzero for Arceus, Minior, Squawkabilly, and Ogerpon
+}
+
+table TrinityPocketMonsterCatalog (fs_serializer) {
+    Version:VersionInfo (required);
+    Table:[CatalogEntry] (required);
+}
+
+root_type TrinityPocketMonsterCatalog;
